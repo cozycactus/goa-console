@@ -17,6 +17,8 @@ Qty,Value,Footprint,MPN,References
 1,MUTE amber,LED_THT:LED_D3.0mm,,D4
 1,Line in TRS,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J1
 1,Insert TRS switched,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J2
+1,VCA module socket,Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical,,J3
+1,VCA control in,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,,J4
 1,VCA bypass,Jumper:SolderJumper-2_P1.3mm_Bridged_RoundedPad1.0x1.5mm,,JP1
 1,Aux1/2 source,Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm,,JP2
 1,Aux3/4 source,Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm,,JP3
@@ -32,7 +34,7 @@ Qty,Value,Footprint,MPN,References
 1,470K,Resistor_SMD:R_0805_2012Metric,,R14
 2,1K,Resistor_SMD:R_0805_2012Metric,,R15 R39
 5,4K7,Resistor_SMD:R_0805_2012Metric,,R16 R17 R19 R34 R43
-2,100K,Resistor_SMD:R_0805_2012Metric,,R18 R33
+3,100K,Resistor_SMD:R_0805_2012Metric,,R18 R33 R44
 7,22K,Resistor_SMD:R_0805_2012Metric,,R20 R21 R22 R23 R24 R25 R32
 6,4K7 1%,Resistor_SMD:R_0805_2012Metric,,R26 R27 R28 R29 R30 R31
 1,2K2,Resistor_SMD:R_0805_2012Metric,,R38
