@@ -355,7 +355,40 @@ the other way round, which would have given a reverse-log law.
 - Panel stack height. The fader body and lever set the PCB-to-panel distance; choose pot
   shaft length, PVA height and LED spacers or light pipes to match.
 
----
+### 13.2 PCB first placement (October 2026)
+
+`channel_strip.kicad_pcb`, made by `tools/place_strip.py` (KiCad 10 pcbnew, run with KiCad's
+bundled Python) from the netlist. Footprints are linked to their schematic symbols, so
+"Update PCB from Schematic" works; schematic UUIDs are now deterministic, so regenerating the
+schematic keeps the link. Placement only: no tracks or pours yet.
+
+Board 38 × 480 mm (40 mm strip pitch, 1 mm clearance per side), two layers. y = 0 is the rear
+edge. Control column at x = 19 mm.
+
+| y (mm) | Panel feature | Notes |
+|--------|---------------|-------|
+| 0 | Rear edge: J1 line in, J2 insert | NRJ6HF noses through the rear apron, centres at x = 10 and 28 |
+| 27–61 | — | input receiver + insert electronics |
+| 62–80 | — | power entry, rail decoupling, net tie, spade tab |
+| 84 | OL LED | |
+| 100–200 | Aux 1–6 | 20 mm pitch; aux resistors and jumpers in the left band, OL detector in the right |
+| 222 | Pan | pan buffers, post-fader and pan coupling caps in the right band |
+| 236–288 | Bus headers CN1/CN2 | **bottom side**, so the ribbon runs under the boards; routing 4K7s between them on top |
+| 297 | L-R, 1-2, 3-4 | 12 mm pitch, right next to the headers: short virtual-earth traces |
+| 314 | PFL + LED | |
+| 331 | MUTE + LED | PFL and soft-mute electronics in the left band below |
+| 346–478 | Fader, slot centre 412 | ground end (pin 1) to the front; post-amp and VCA socket in the right band |
+
+DRC (`kicad-cli pcb drc --schematic-parity`): no courtyard overlaps, 0 schematic parity issues.
+253 unconnected items (nothing routed) and silkscreen overlaps from the packed reference
+designators remain; they go away with routing and silk tidying.
+
+Still to decide or do in KiCad:
+- Mounting: the board hangs from the panel on the pot nuts, switch bodies and the fader's
+  M3 screws; add 2–4 M3 standoff holes if the panel height needs them.
+- Tall parts on the top side: 220 µF/25 V radials (D10, about 16 mm high) and 47 µF (D8). Either
+  the PCB-to-panel gap allows them or they lie down / move to the bottom side.
+- Routing, AGND and LGND pours joined at the spade (section 13), silk clean-up.
 
 ---
 

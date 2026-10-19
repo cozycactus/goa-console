@@ -2,7 +2,7 @@
 A design is a list of blocks of parts; each part lists its pins and the net on each pin.
 Each pin gets a net label (or a GNDA/GNDD power symbol, or a no-connect flag); blocks are laid out
 in rows. Writes the .kicad_sch (KiCad 7 file format) and <name>_intended.json for tools/verify.py."""
-import copy, uuid, os, json
+import copy, uuid, os, json, collections
 from kiutils.schematic import Schematic
 from kiutils.symbol import SymbolLib
 from kiutils.items.common import Position, Property, Effects, Font, PageSettings, TitleBlock, Justify
@@ -17,6 +17,7 @@ LIBDIR = os.path.join(LIBDIR, '')
 PROJDIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 PROJLIB = 'goa-console'          # project symbol library: goa-console.kicad_sym
 U = lambda: str(uuid.uuid4())
+NS = uuid.UUID('6a1f3c52-9d0e-4b7a-8f21-5c3e0d9b7a44')   # stable UUIDs: same design -> same file, PCB link survives regeneration
 
 SYM = {  # key: (lib, symbol)
  'R': ('Device', 'R'), 'C': ('Device', 'C'), 'CP': ('Device', 'C_Polarized'),
@@ -97,7 +98,10 @@ LBL = {'R': (0, 'left'), 'L': (180, 'right'), 'T': (90, 'left'), 'B': (270, 'rig
 def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', date='2026-10-19'):
     """Write the schematic. paper='auto' sizes a User page to fit."""
     sch = Schematic.create_new()
-    sch.version = 20230121; sch.generator = 'eeschema'; sch.uuid = U()
+    K = lambda *a: str(uuid.uuid5(NS, project + '/' + '/'.join(map(str, a))))
+    seq = collections.Counter()
+    def S(kind): seq[kind] += 1; return K(kind, seq[kind])
+    sch.version = 20230121; sch.generator = 'eeschema'; sch.uuid = K('root')
     sch.titleBlock = TitleBlock(title=title, date=date, revision=revision, company='', comments=comments)
     sch.sheetInstances = [HierarchicalSheetInstance(instancePath='/', page='1')]
     root = '/' + sch.uuid
@@ -109,7 +113,7 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
     y = Y0
     pwr_n = 0
     for btitle, parts in blocks:
-        sch.texts.append(Text(text=btitle, position=Position(X0, y - 8.89, 0), effects=Effects(font=Font(height=2.0, width=2.0), justify=Justify(horizontally='left')), uuid=U()))
+        sch.texts.append(Text(text=btitle, position=Position(X0, y - 8.89, 0), effects=Effects(font=Font(height=2.0, width=2.0), justify=Justify(horizontally='left')), uuid=S('txt')))
         for i, pt in enumerate(parts):
             if pt['key'] == 'HDR':
                 cx = grid(X0 + 20 + (i % perrow) * 60); cy = grid(y + 20)
@@ -127,8 +131,8 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
             if pt['mpn']: props.append(Property(key='MPN', value=pt['mpn'], id=4, position=Position(cx, cy, 0), effects=Effects(font=Font(height=1.27, width=1.27), hide=True)))
             pp = pins_of(ls, pt['unit'])
             ss = SchematicSymbol(libraryNickname=lib, entryName=name, position=Position(cx, cy, 0), unit=pt['unit'],
-                                 inBom=not is_pwr, onBoard=not is_pwr, uuid=U(), properties=props,
-                                 pins={n: U() for n in pp},
+                                 inBom=(not is_pwr) and ls.inBom is not False, onBoard=not is_pwr, uuid=K('sym', pt['ref'], pt['unit']), properties=props,
+                                 pins={n: K('pin', pt['ref'], pt['unit'], n) for n in pp},
                                  instances=[SymbolProjectInstance(name=project, paths=[SymbolProjectPath(sheetInstancePath=root, reference=pt['ref'], unit=pt['unit'])])])
             if pt.get('dnp'): ss.dnp = True
             sch.schematicSymbols.append(ss)
@@ -136,22 +140,22 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
                 if pn not in pp: raise SystemExit(f"{pt['ref']} unit {pt['unit']} has no pin {pn}")
                 px, py = pp[pn]; ax, ay = round(cx + px, 2), round(cy - py, 2)
                 if net == 'NC':
-                    sch.noConnects.append(NoConnect(position=Position(ax, ay), uuid=U()))
+                    sch.noConnects.append(NoConnect(position=Position(ax, ay), uuid=K('nc', pt['ref'], pt['unit'], pn)))
                 elif net in POWER_SYMBOL_NETS:
                     pwr_n += 1; gs = used.setdefault(('power', net), None)
                     if gs is None: used[('power', net)] = gs = libsym(net); sch.libSymbols.append(gs)
                     sch.schematicSymbols.append(SchematicSymbol(libraryNickname='power', entryName=net, position=Position(ax, ay, PWR_ANG[outward(px, py)]), unit=1,
-                        inBom=True, onBoard=True, uuid=U(),
+                        inBom=True, onBoard=True, uuid=K('pwr', pt['ref'], pt['unit'], pn),
                         properties=[Property(key='Reference', value=f'#PWR{pwr_n:03d}', id=0, position=Position(ax, ay + 5, 0), effects=Effects(font=Font(height=1.27, width=1.27), hide=True)),
                                     Property(key='Value', value=net, id=1, position=Position(ax, ay + 4.5, 0), effects=Effects(font=Font(height=1.0, width=1.0), hide=True)),
                                     Property(key='Footprint', value='', id=2, position=Position(ax, ay, 0), effects=Effects(font=Font(height=1.27, width=1.27), hide=True)),
                                     Property(key='Datasheet', value='', id=3, position=Position(ax, ay, 0), effects=Effects(font=Font(height=1.27, width=1.27), hide=True))],
-                        pins={'1': U()},
+                        pins={'1': K('pwrpin', pt['ref'], pt['unit'], pn)},
                         instances=[SymbolProjectInstance(name=project, paths=[SymbolProjectPath(sheetInstancePath=root, reference=f'#PWR{pwr_n:03d}', unit=1)])]))
                 else:
                     ang, just = LBL[outward(px, py)]
                     eff = Effects(font=Font(height=1.0, width=1.0), justify=Justify(horizontally=just, vertically='bottom'))
-                    sch.labels.append(LocalLabel(text=net, position=Position(ax, ay, ang), effects=eff, uuid=U()))
+                    sch.labels.append(LocalLabel(text=net, position=Position(ax, ay, ang), effects=eff, uuid=K('lbl', pt['ref'], pt['unit'], pn)))
         rows = max(1, (len(parts) + perrow - 1) // perrow)
         y += rows * CELLH + (30 if any(p['key'] == 'HDR' for p in parts) else 0) + 16
 

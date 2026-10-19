@@ -16,6 +16,12 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
   Both generators use the shared builder `tools/schgen.py`. Same loop with `master` in place of
   `channel_strip` (`tools/gen_master.py master.kicad_sch`). Exports: master.net/.pdf/_BOM.csv.
 - `goa-console.kicad_sym` + `sym-lib-table` — project symbols (DRV134).
+- `channel_strip.kicad_pcb` — strip PCB, first placement only (38 × 480 mm, no tracks), made by
+  `tools/place_strip.py`; run with KiCad's Python:
+  `/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3 tools/place_strip.py channel_strip.net channel_strip.kicad_pcb`
+  then `$KC pcb drc --schematic-parity --severity-all channel_strip.kicad_pcb`. Re-running the
+  script overwrites hand edits: once routing starts, change the board in KiCad instead.
+  Schematic UUIDs are deterministic (schgen.py), so the footprint-symbol link survives regeneration.
 - `tools/verify.py` — checks KiCad's exported netlist against `channel_strip_intended.json`.
   Regenerate + verify loop:
   ```
@@ -97,7 +103,8 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
    proposed parts; consider splitting the master into hierarchical sheets for readability.
 3. Test jig: specified (test_jig_spec.md). Next: schematics for master stub and load board
    (move gen_master.py's circuit functions into a shared module first).
-4. PCB layout of the strip (2-layer, AGND/LGND pours joined at the spade).
+4. PCB layout of the strip: first placement done (strip spec 13.2). Next: mounting holes, tall-cap
+   decision vs panel height, routing, AGND/LGND pours joined at the spade.
 
 ## Reference material
 Delta DLX/Theatre schematics, Mackie 1604-VLZ block diagram and API 500 spec were used;
