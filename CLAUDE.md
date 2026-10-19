@@ -39,6 +39,8 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
   `sim/master_mix.cir` — mix path model (single-pole OPA1612); `sim/aux_master.cir` — aux
   summing-amp stability; `sim/mute.cir` — power-on mute control; `sim/meter.cir` — meter rectifier/ballistics (precision peak
   detector; the Delta-style one read −20 dB as −11.7 dB).
+- `test_jig_spec.md` — test jig v0.1: 4 real strips + master stub (A/D/22R-tie jumpers) + load board
+  (dummy channels for 24-channel noise gain); 11 tests with targets.
 - `console_architecture.md` — whole-console architecture, v3.1. Authoritative.
 - `channel_strip_schematic_spec.md` — strip component-level spec, v3.1. Authoritative.
 - `channel_strip_BOM.csv`, `channel_strip.net`, `channel_strip.pdf` — exports.
@@ -93,8 +95,8 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
    Delta-style series-J112 PFL switcher, 20-LED meters, sub AFL. Datasheet checks and meter sim done.
    Master schematic generated and checked. Open: review the
    proposed parts; consider splitting the master into hierarchical sheets for readability.
-3. Test jig: 4 strip stubs + master stub; compare bus configs A (plain), D (ground cancel),
-   B/C (balanced) for noise, hum, crosstalk, PSRR, switching clicks.
+3. Test jig: specified (test_jig_spec.md). Next: schematics for master stub and load board
+   (move gen_master.py's circuit functions into a shared module first).
 4. PCB layout of the strip (2-layer, AGND/LGND pours joined at the spade).
 
 ## Reference material

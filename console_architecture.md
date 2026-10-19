@@ -330,6 +330,8 @@ Line in (TRS) → differential receiver → insert send (75 Ω)
 
 ## 9. Test Plan (before ordering 24 boards)
 
+Detailed jig, tests and targets: `test_jig_spec.md`.
+
 Build 4 channel stubs and 1 master stub. Compare:
 
 | Config | Bus |
