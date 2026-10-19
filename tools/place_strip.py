@@ -36,17 +36,22 @@ for i, ref in enumerate(['RV2', 'RV3', 'RV4', 'RV5', 'RV6', 'RV7']):   # aux 1-6
     FIX[ref] = (COL - 7.5, 100 + 20 * i - 2.5, 0, 'F')
 FIX['RV8'] = (COL - 7.5, 222 - 2.5, 0, 'F')                          # pan
 
-# ---------------------------------------------------------------- zones: name -> ((x0, y0, x1, y1), refs in placement order)
+# ---------------------------------------------------------------- zones: name -> ((x0, y0, x1, y1), refs in placement order, side)
+# Radial electrolytics (D6.3/D8/D10, 11-16 mm tall) go on the bottom side, so the PCB-to-panel gap is set by
+# the fader, not by capacitors. Their leads are soldered on top, so no top-side zone overlaps a bottom one.
 ZONES = {
- 'input receiver + insert': ((1, 27, 37, 61), ['U1', 'C20', 'C21', 'R6', 'R7', 'C7', 'R8', 'R9', 'R10', 'C8', 'C9',
-                                              'R11', 'R12', 'R13', 'C10', 'C11']),
- 'power entry':            ((1, 62, 37, 80), ['C1', 'C3', 'C5', 'C6', 'R1', 'R2', 'R3', 'R4', 'R5', 'C2', 'C4', 'NT1', 'CN4']),
- 'overload detector':      ((24.5, 88, 37, 130), ['U4', 'C26', 'R39', 'D1', 'C12', 'R14', 'R40', 'R41', 'R15']),
- 'aux sends':              ((1, 88, 10.2, 232), ['JP2', 'JP3', 'JP4', 'R20', 'R21', 'R22', 'R23', 'R24', 'R25']),
- 'pan + post coupling':    ((24.5, 132, 37, 233), ['U2', 'C22', 'C23', 'U3', 'C24', 'C25', 'C16', 'R36', 'C17', 'R37', 'C15', 'R35']),
- 'routing resistors':      ((12, 237, 25.5, 288), ['R26', 'R27', 'R28', 'R29', 'R30', 'R31']),
- 'PFL + soft mute':        ((1, 338, 10.6, 470), ['R32', 'R33', 'R34', 'R16', 'Q1', 'R17', 'Q2', 'R42', 'C28', 'R43']),
- 'fader post-amp + VCA option': ((27.4, 338, 37, 470), ['C13', 'JP1', 'R18', 'R19', 'C14', 'R38', 'J3', 'J4', 'R44']),
+ 'input receiver + insert':    ((1, 27, 37, 47), ['U1', 'C20', 'C21', 'R6', 'R7', 'C7', 'R8', 'R9', 'R10', 'C8', 'C9',
+                                                  'R11', 'R12', 'R13'], 'F'),
+ 'insert coupling caps (bottom)': ((1, 48, 37, 61), ['C10', 'C11'], 'B'),
+ 'rail reservoir caps (bottom)':  ((1, 62, 37, 72.6), ['C1', 'C3', 'C5', 'C6'], 'B'),
+ 'power entry':                ((1, 72.8, 37, 81.6), ['R1', 'R2', 'R3', 'R4', 'R5', 'C2', 'C4', 'NT1', 'CN4'], 'F'),
+ 'overload detector':          ((24.5, 88, 37, 130), ['U4', 'C26', 'R39', 'D1', 'C12', 'R14', 'R40', 'R41', 'R15'], 'F'),
+ 'aux sends':                  ((1, 88, 10.2, 232), ['JP2', 'JP3', 'JP4', 'R20', 'R21', 'R22', 'R23', 'R24', 'R25'], 'F'),
+ 'pan buffers':                ((24.5, 132, 37, 180), ['U2', 'C22', 'C23', 'U3', 'C24', 'C25', 'R36', 'R37', 'R35'], 'F'),
+ 'post + pan coupling caps (bottom)': ((24.5, 181, 37, 233), ['C15', 'C16', 'C17'], 'B'),
+ 'routing resistors':          ((12, 237, 25.5, 288), ['R26', 'R27', 'R28', 'R29', 'R30', 'R31'], 'F'),
+ 'PFL + soft mute':            ((1, 338, 10.6, 470), ['R32', 'R33', 'R34', 'R16', 'Q1', 'R17', 'Q2', 'R42', 'C28', 'R43'], 'F'),
+ 'fader post-amp + VCA option': ((27.4, 338, 37, 470), ['C13', 'JP1', 'R18', 'R19', 'C14', 'R38', 'J3', 'J4', 'R44'], 'F'),
 }
 GAP = 0.6
 
@@ -66,7 +71,7 @@ for n in nets[1:]:
     for nd in n[1:]:
         if isinstance(nd, list) and nd[0] == 'node': padnet[(field(nd, 'ref'), field(nd, 'pin'))] = name
 
-placed = set(FIX) | {r for _, (_, refs) in ZONES.items() for r in refs}
+placed = set(FIX) | {r for _, (_, refs, _) in ZONES.items() for r in refs}
 missing = sorted(set(parts) - placed); extra = sorted(placed - set(parts))
 if missing or extra: raise SystemExit(f'placement table out of date: unplaced {missing}, unknown {extra}')
 
@@ -123,11 +128,12 @@ for ref, (x, y, rot, side) in FIX.items():
     if side == 'B': flip(fp)
 
 report = []
-for zname, ((x0, y0, x1, y1), refs) in ZONES.items():
+for zname, ((x0, y0, x1, y1), refs, side) in ZONES.items():
     edge_rect(x0, y0, x1, y1, pcbnew.Dwgs_User, 0.05); note(zname, x0 + 0.3, y0 + 1.2, size=1.0)
     cx, cy, rowh = x0, y0 + 2.0, 0.0                     # leave room for the zone label
     for ref in refs:
         fp = load(ref); fp.SetPosition(pcbnew.VECTOR2I_MM(0, 0))
+        if side == 'B': flip(fp)
         l, t, r, b = courtyard_bbox(fp); w, h = r - l, b - t
         if cx + w > x1 and cx > x0: cx, cy, rowh = x0, cy + rowh + GAP, 0.0
         if cx + w > x1 + 0.01: report.append(f'{zname}: {ref} is {w:.1f} mm wide, zone only {x1 - x0:.1f}')
