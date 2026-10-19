@@ -352,8 +352,27 @@ the other way round, which would have given a reverse-log law.
   the switch is latched in must be confirmed with a meter. The schematic assumes 1–2 / 4–5
   closed when latched (PFL on, mute on, routed). If it is the other way, mirror the
   footprint or swap pins 1↔3 and 4↔6 in `tools/gen.py`.
-- Panel stack height. The fader body and lever set the PCB-to-panel distance; choose pot
-  shaft length, PVA height and LED spacers or light pipes to match.
+- Panel stack height: fixed in section 13.3.
+
+### 13.3 Panel stack (October 2026)
+
+Heights above the PCB top surface, from the datasheets (Bourns PTB100 drawing, Alpha
+RD901F-40 drawing SLH-211-414, C&K PVA datasheet A-170/A-171):
+
+| Part | Datasheet heights | Arrangement |
+|------|-------------------|-------------|
+| Panel | — | **underside 11.5 mm above the PCB**, 1.5 mm aluminium (top at 13.0) |
+| PVA2 switch | body 11.0; H1 actuator 17.54 overall, cap snaps on the top 3.9 mm | **H1** (as in the MPN) + **PV cap** (ø7.4 × 9.7, ordered separately). Cap bottom 13.6 at rest (0.6 above the panel, top 10.3 mm proud), 12.1 latched, 11.2 fully pressed: panel hole **ø8.0** so the cap can sink through. H3 would leave the cap floating 3.6 mm above the panel. |
+| Pots RD901F-40, L = 15 | body face 10.0; M7×0.75 bushing to 15.0; shaft to 25.0 | **1.5 mm M7 spacer washer** between body and panel; M7 nut (2.0 mm, no washer) flush with the bushing end; 12 mm of shaft for the knob. Panel hole ø7.2. |
+| Fader PTB0143 | body top 8.0; lever 10.0 above body (top at 18.0) | **3.5 mm spacer** between body and panel, M3 × 8 screws into the body. Lever stands **5.0 mm above the panel**: choose a knob that grips a flat metal lever with 5 mm engagement, or get a longer lever from Bourns (not found as a standard part). |
+| 3 mm LEDs (OL, PFL, MUTE) | T-1 LED ≈ 5.3 mm tall | **7.6 mm LED spacer**, dome flush with the panel top; panel hole ø3.1. |
+| NRJ6HF jacks | nose ø11.2, body top ≈ 12 (estimated) | Taller than the gap: the top panel starts in front of them (y ≈ 27 mm); the rear apron covers the jack zone. |
+| Standoffs | — | 6 × M3, 11.5 mm (or 11 mm + 0.5 mm washer), unplated holes H1–H6 so audio ground never meets the chassis. |
+
+Parts too tall for the gap moved to the bottom side: the nine radial electrolytics, the
+ground spade CN4 (faston + wire), and the VCA module socket J3 with its control header J4
+(a module on a socket would stand 12–13 mm). Remaining top-side parts are SMD, the 1N4148
+(DO-35, lying), the pots, switches, LEDs, fader and jacks.
 
 ### 13.2 PCB first placement (October 2026)
 
@@ -386,13 +405,10 @@ DRC (`kicad-cli pcb drc --schematic-parity`): no courtyard overlaps, 0 schematic
 designators remain; they go away with routing and silk tidying.
 
 Still to decide or do in KiCad:
-- Mounting: the board hangs from the panel on the pot nuts, switch bodies and the fader's
-  M3 screws; add 2–4 M3 standoff holes if the panel height needs them.
-- All nine radial electrolytics (C1, C3, C5, C6, C10, C11, C15, C16, C17; D6.3–D10, 11–16 mm tall)
-  are on the **bottom side**, so the PCB-to-panel gap is set by the fader and panel parts, not
-  by capacitors. Their leads are soldered on the top side, so no top-side part sits over them.
-  Remaining tall top-side items to check against the gap: PVA2 switches (H1 = 17.5 mm overall,
-  H4 = 15 mm), NRJ6HF jacks, and the VCA module on its 1×6 socket if fitted.
+- Mounting: six M3 standoff holes H1–H6 (section 13.3) at (34, 84.5), (5.5, 160), (19, 232.4),
+  (34, 305.5), (5.5, 474.5), (32.5, 474.5); plus the pot nuts and the fader's M3 screws.
+- All nine radial electrolytics (C1, C3, C5, C6, C10, C11, C15, C16, C17; D6.3–D10, 11–16 mm tall),
+  the spade tab CN4 and the VCA socket J3/J4 are on the **bottom side** (section 13.3).
 - Routing, AGND and LGND pours joined at the spade (section 13), silk clean-up.
 
 ---

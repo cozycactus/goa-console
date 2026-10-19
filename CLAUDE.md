@@ -103,8 +103,10 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
    proposed parts; consider splitting the master into hierarchical sheets for readability.
 3. Test jig: specified (test_jig_spec.md). Next: schematics for master stub and load board
    (move gen_master.py's circuit functions into a shared module first).
-4. PCB layout of the strip: first placement done (strip spec 13.2), electrolytics on the bottom.
-   Next: fix the panel stack height, mounting holes, routing, AGND/LGND pours joined at the spade.
+4. PCB layout of the strip: first placement done (strip spec 13.2); panel stack fixed (13.3: panel
+   underside 11.5 mm, PVA2 H1 + PV caps, pot 1.5 mm spacer washers, fader 3.5 mm spacer, 7.6 mm
+   LED spacers, 6 × M3 standoffs). Open: fader knob for a 5 mm lever stub. Next: routing,
+   AGND/LGND pours joined at the spade.
 
 ## Reference material
 Delta DLX/Theatre schematics, Mackie 1604-VLZ block diagram and API 500 spec were used;
