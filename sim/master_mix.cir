@@ -1,0 +1,99 @@
+* Master stereo mix path (one side), v1 draft - see master_section_spec.md
+* 24 channels routed. Channel 1 carries the test signal; the other 23 sit at their strip ground.
+* All strips share one ground node GS = master ground + VG (ground-difference test source).
+.param vsig=0.775 vgnd=0 cbus=1n f=1
+.subckt OPA inp inn out
+* single-pole op-amp: A0 = 120 dB, GBW = 40 MHz (OPA1612)
+G1 0 n1 inp inn 1
+R1 n1 0 1e6
+C1 n1 0 3.98n
+E1 out 0 n1 0 1
+.ends
+VG gs 0 DC 0 AC {vgnd}
+* channel 1 pan buffer output and 4K7 summing resistor
+VS1 c1 gs DC 0 AC {vsig}
+RS1 c1 bus 4.7k
+* channels 2..24: 23 x 4K7 in parallel, driven from strip ground
+RSN gs bus {4.7k/23}
+* ground cancel: 24 x 10R from strip grounds to pin 26. No tie to master ground at the master:
+* any tie pulls GC away from the strip grounds and the error is multiplied by the bus noise gain.
+RGC gs gc {10/24}
+RGM gc 0 1e9
+CBUS bus 0 {cbus}
+* GCANCEL buffer (U9A) feeds every re-inverter; summing-amp + inputs stay on the raw line.
+* RLD = the other 12 re-inverters (mix R, 4 subs, 6 aux, PFL), 2K2+2K2 each.
+XGB gc gcb gcb OPA
+RLD gcb 0 {4.4k/12}
+* U1A summing amp, referenced to ground cancel
+XU1A gc bus s1 OPA
+RF1 s1 bus 4.7k
+CF1 s1 bus 100p
+* U1B ground-cancel differential re-inverter, unity, 0.1 % 2K2
+R21 s1 dn 2.2k
+R22 dn mix 2.2k
+R23 gcb dp 2.2k
+R24 dp 0 2.2k
+XU1B dp dn mix OPA
+* master insert, send = tip, return normalled to send (as the strip)
+R25 mix send 75
+RNORM send retraw 0.01
+C26 retraw ret 47u
+R26 ret 0 47k
+XU2A ret buf buf OPA
+C27 buf pre 220u
+R27 pre 0 47k
+* master fader 10K log (fraction f of travel position modelled as attenuation f)
+RFA pre wip {10k*(1-f)+1}
+RFB wip 0 {10k*f+1}
+C28 wip fpin 2.2u
+R28 fpin 0 100k
+* fader post-amp +10 dB (4K7 / 2K2, 100p), as the strip
+XU3A fpin fn fpost OPA
+R29 fpost fn 4.7k
+C29 fpost fn 100p
+R30 fn 0 2.2k
+C30 fpost post 220u
+R31 post 0 47k
+* balanced line driver (THAT1646): +6 dB differential
+EOUT outp outn post 0 2
+ROUT outn 0 1g
+.control
+set noaskquit
+* 1) gain structure, 0 dBu on channel 1, fader at top
+ac lin 1 1k 1k
+print db(v(s1)/0.775) ph(v(s1))*180/pi db(v(mix)/0.775) ph(v(mix))*180/pi db(v(post)/0.775) db((v(outp)-v(outn))/0.775)
+* 2) fader at the "0" mark (-10 dB)
+alterparam f=0.316
+reset
+ac lin 1 1k 1k
+print db(v(post)/0.775) db((v(outp)-v(outn))/0.775)
+* 3) ground-cancel rejection: no signal, 1 V ground difference between strips and master
+alterparam f=1
+alterparam vsig=0
+alterparam vgnd=1
+reset
+ac dec 5 10 100k
+let gc_on = db(v(mix))
+print gc_on[0] gc_on[10] gc_on[20]
+* same, ground cancel defeated (summing and re-inverter referenced to master ground)
+alter RGM 1e-6
+ac dec 5 10 100k
+let gc_off = db(v(mix))
+print gc_off[0] gc_off[10] gc_off[20]
+alter RGM 1e9
+* 4) stability: response at the sum output with bus capacitance 1 nF and 10 nF
+alterparam vsig=0.775
+alterparam vgnd=0
+reset
+ac dec 20 1k 20meg
+let r1n = db(v(s1)/0.775)
+meas ac peak1n max r1n
+meas ac f3_1n when r1n=-3 fall=1
+alterparam cbus=10n
+reset
+ac dec 20 1k 20meg
+let r10n = db(v(s1)/0.775)
+meas ac peak10n max r10n
+meas ac f3_10n when r10n=-3 fall=1
+.endc
+.end

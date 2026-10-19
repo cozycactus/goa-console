@@ -1,0 +1,113 @@
+* Main meter detector, one side: precision full-wave rectifier (U1, U2), precision peak detector (U3),
+* average detector (33K / 2u2, Delta), PEAK/AVG jumper, JFET-input follower (U4) driving the comparators.
+* v1 used the Delta's diode-compensated peak detector (75R / 10u): its cap sat ~0.2 V high, so -20 dB
+* read -11.7 dB. Replaced by U3 with the diode inside the loop. Gain trim: RG. Target: 0 dBu sine -> 0.649 V.
+.param amp=1.0961 freq=1k rg=20k burst=0 duty=0.5 shape=0
+.model D1N4148 D(IS=2.52n RS=0.568 N=1.752 CJO=4p M=0.4 TT=20n BV=100)
+.model DCL D(IS=1e-15 N=0.05)
+.subckt OPA inp inn out gbw=3meg
+* single-pole op-amp, output clamped near +-15 V; default GBW 3 MHz (TL072)
+G1 0 n1 inp inn 1
+R1 n1 0 1e6
+C1 n1 0 {1/(6.2832*gbw)}
+DP n1 vp DCL
+VP vp 0 15
+DN vn n1 DCL
+VN vn 0 -15
+E1 out 0 n1 0 1
+.ends
+* test source: sine (shape=0), or a positive-going pulse train of given duty (shape=1), optional burst gate
+VS src 0 DC 0 SIN(0 {amp} {freq})
+VPUL pul 0 PULSE({-amp*duty} {amp*(1-duty)} 0 1u 1u {duty/freq} {1/freq})
+BSEL sel 0 V = {shape} > 0.5 ? V(pul) : V(src)
+* burst gate: 1 between 1.0 s and 1.0 s + burst, if burst > 0
+BIN in 0 V = {burst} > 0 ? ( (time > 1.0 && time < 1.0 + {burst}) ? V(sel) : 0 ) : V(sel)
+* U1: inverting precision half-wave: hw = -v for v > 0, 0 for v < 0
+R1 in n1 10k
+R2 n1 hw 10k
+XU1 0 n1 u1o OPA
+DA hw u1o D1N4148
+DB u1o n1 D1N4148
+* U2: summer, x2 = -(v + 2 hw) * rg/20k = +|v| * rg/20k
+R3 in n2 20k
+R4 hw n2 10k
+RG x2 n2 {rg}
+XU2 0 n2 x2 OPA
+* U3: precision peak detector. D4 inside the loop; feedback taken from the U4 follower (not the cap),
+* so when D4 is off the D5 clamp current comes from U4 and does not discharge C1.
+XU3 x2 n4 u3o OPA
+D4 u3o pk1 D1N4148
+R7 pk1 pk 1k
+C1 pk 0 1u
+R8 pk pkr 330k
+R9 pkr 0 220k
+R11 det n4 10k
+D5 n4 u3o D1N4148
+* average detector: |v| -> 33K -> 2u2 (Delta R303 / C302)
+R10 x2 av 33k
+C2 av 0 2.2u
+* PEAK/AVG jumper and U4 follower (JFET input, so 20 comparator inputs don't load the detector)
+.param mode=0
+BJ jsel 0 V = {mode} > 0.5 ? V(av) : V(pk)
+XU4 jsel det det OPA
+* 20 LM2901 inputs: 0.5 uA typical bias, all on the follower output
+IB det 0 0.5u
+.control
+set noaskquit
+* 1) level linearity, 1 kHz sine: -20, -10, 0, +10, +18 dBu
+echo "level_dBu  peak_V  avg_V  det_V(peak mode)"
+foreach l -20 -10 0 10 18
+  let a = 1.0961*10^($l/20)
+  alterparam amp = $&a
+  reset
+  tran 20u 1.5 1.2
+  meas tran vpk avg v(pk) from=1.4 to=1.5
+  meas tran vav avg v(av) from=1.4 to=1.5
+  meas tran vdt avg v(det) from=1.4 to=1.5
+  echo "$l $&vpk $&vav $&vdt"
+end
+* 2) frequency response of the reading at 0 dBu
+alterparam amp=1.0961
+echo "freq  peak_V  avg_V"
+foreach f 50 1k 10k 20k
+  alterparam freq=$f
+  reset
+  tran 20u 1.5 1.2
+  meas tran vpk avg v(pk) from=1.4 to=1.5
+  meas tran vav avg v(av) from=1.4 to=1.5
+  echo "$f $&vpk $&vav"
+end
+alterparam freq=1k
+* 3) 10 ms and 5 ms bursts of 0 dBu 1 kHz from silence: peak reading at the end of the burst
+echo "burst_s  peak_V_at_end  avg_V_at_end"
+foreach b 0.005 0.01 0.1
+  alterparam burst=$b
+  reset
+  tran 20u 1.25 0.9
+  let te = 1.0 + $b
+  meas tran vpk find v(pk) at=$&te
+  meas tran vav find v(av) at=$&te
+  echo "$b $&vpk $&vav"
+end
+* 4) release: 0.5 s burst, then silence; time for the peak reading to fall 20 dB
+alterparam burst=0.5
+reset
+tran 50u 4 0.9
+meas tran vtop find v(pk) at=1.5
+meas tran v1s find v(pk) at=2.5
+meas tran v2s find v(pk) at=3.5
+let d1 = 20*log10(v1s/vtop)
+let d2 = 20*log10(v2s/vtop)
+echo "release: peak $&vtop V at end of burst; $&d1 dB after 1 s, $&d2 dB after 2 s"
+alterparam burst=0
+* 5) asymmetric pulse, 10 % duty (synth pulse wave), same 0 dBu peak-to-peak-equivalent amplitude
+alterparam shape=1
+alterparam duty=0.1
+alterparam amp=2.192
+reset
+tran 20u 1.5 1.2
+meas tran vpk avg v(pk) from=1.4 to=1.5
+meas tran vav avg v(av) from=1.4 to=1.5
+echo "pulse 10% duty, 4.38 V p-p: peak $&vpk V  avg $&vav V  (+1.97 V, -0.22 V; same p-p as a 0 dBu sine)"
+.endc
+.end

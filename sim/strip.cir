@@ -1,0 +1,84 @@
+* Channel strip signal path, v3.0 values, 0 dBu in (0.775 V rms on tip)
+.param f=1 vg=-16
+VIN int 0 AC 0.775
+VRING inr 0 0
+* differential receiver (tip -> +, ring -> -)
+R6 inr un 10k
+R7 un recv 10k
+C7 un recv 33p
+R8 int up 10k
+R9 up 0 10k
+E1 recv 0 up un 1e6
+* insert, normalled (send drives return)
+R11 recv send 75
+Rnorm send retraw 0.01
+C10 retraw ret 47u
+R12 ret 0 47k
+E2 buf1 0 ret buf1 1e6
+C11 buf1 pre 220u
+R13 pre 0 47k
+Rauxpre pre 0 5k
+* soft mute
+R16 pre m1 4.7k
+J1 m1 g 0 JMOD
+R17 m1 m2 4.7k
+J2 m2 g 0 JMOD
+VG g 0 DC {vg}
+E3 mo 0 m2 mo 1e6
+* fader (10K) and +10 dB post-amp
+Rtop mo wip {10k*(1-f)+0.01}
+Rbot wip 0 {10k*f+0.01}
+C13 wip fp 2.2u
+R18 fp 0 100k
+E4 fpost 0 fp n2 1e6
+R19 fpost n2 4.7k
+C14 fpost n2 100p
+R38 n2 0 2.2k
+C15 fpost post 220u
+R35 post 0 47k
+Rauxpost post 0 2.5k
+* pan centre, buffers
+RPA1 post pl 5k
+RPA2 pl 0 5k
+RPB1 post pr 5k
+RPB2 pr 0 5k
+E5 pbl 0 pl pbl 1e6
+C16 pbl panl 220u
+R36 panl 0 47k
+E6 pbr 0 pr pbr 1e6
+C17 pbr panr 220u
+R37 panr 0 47k
+* routing: L/R assigned to bus, subs grounded
+R26 panl busl 4.7k
+R27 panr busr 4.7k
+R28 panl 0 4.7k
+R29 panr 0 4.7k
+R30 panl 0 4.7k
+R31 panr 0 4.7k
+* master summing amps (inverting, 4K7 feedback) - stand-in for the master section
+EL mixl 0 0 busl 1e6
+RFL busl mixl 4.7k
+ER mixr 0 0 busr 1e6
+RFR busr mixr 4.7k
+.model JMOD NJF(VTO=-2.5 BETA=6m LAMBDA=0.01)
+.control
+set noaskquit
+ac lin 1 1k 1k
+print db(v(recv)/0.775) db(v(pre)/0.775) db(v(mo)/0.775) db(v(post)/0.775) db(v(panl)/0.775) db(v(mixl)/0.775) ph(v(mixl))*180/pi
+alterparam vg=0
+reset
+ac lin 1 1k 1k
+print db(v(mo)/0.775) db(v(mixl)/0.775)
+alterparam vg=-16
+alterparam f=0.316
+reset
+ac lin 1 1k 1k
+print db(v(mixl)/0.775)
+alterparam f=1
+reset
+ac dec 10 0.1 200k
+meas ac lf3 when vdb(mixl)=vdb(mixl)[40]-3 rise=1
+let gain=db(v(mixl)/0.775)
+print gain[0] gain[10] gain[20] gain[30] gain[40] gain[50] gain[60] 
+.endc
+.end

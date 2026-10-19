@@ -1,0 +1,34 @@
+* Aux master summing amp stability: 22K bus, Rf 22K || 100 pF (47 pF peaks 3 dB, 68 pF 1.2 dB, with a 10 nF bus and a 10 MHz part), 24 channels on the bus.
+* Single-pole op-amp; GBW swept because the OPA1656 figure is still to be confirmed.
+.param gbw=10meg cbus=1n cf=100p
+.subckt OPA inp inn out gbw=10meg
+G1 0 n1 inp inn 1
+R1 n1 0 1e6
+C1 n1 0 {1e6/(2*3.14159265*gbw*1e6)}
+E1 out 0 n1 0 1
+.ends
+VS1 c1 0 DC 0 AC 0.775
+RS1 c1 bus 22k
+RSN 0 bus {22k/23}
+CBUS bus 0 {cbus}
+XU inp bus s1 OPA gbw={gbw}
+VGC inp 0 0
+RF s1 bus 22k
+CF s1 bus {cf}
+.control
+set noaskquit
+foreach g 10meg 50meg
+  foreach c 1n 10n
+    alterparam gbw=$g
+    alterparam cbus=$c
+    reset
+    ac dec 40 1k 50meg
+    let r = db(v(s1)/0.775)
+    meas ac at20k find r at=20k
+    meas ac pk max r
+    meas ac f3 when r=-3 fall=1
+    echo "gbw=$g cbus=$c"
+  end
+end
+.endc
+.end
