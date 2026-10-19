@@ -392,17 +392,26 @@ edge. Control column at x = 19 mm.
 | 62–72 | — | rail reservoir caps C1, C3, C5, C6 (**bottom**) |
 | 73–81 | — | power entry resistors, decoupling, net tie, spade tab |
 | 84 | OL LED | |
-| 100–200 | Aux 1–6 | 20 mm pitch; aux resistors and jumpers in the left band, OL detector in the right |
+| 84–90 | — | ground spade CN4 (bottom, x = 19) and net tie NT1 (top, x = 26.5): the strip's AGND-LGND star point |
+| 100–200 | Aux 1–6 | 20 mm pitch; aux source jumpers in the left band, OL detector in the right |
 | 222 | Pan | pan buffers in the right band (132–180); post and pan coupling caps C15–C17 below them on the **bottom** (181–233) |
-| 236–288 | Bus headers CN1/CN2 | **bottom side**, so the ribbon runs under the boards; routing 4K7s between them on top |
+| 236–288 | Bus headers CN1/CN2 | **bottom side**, so the ribbon runs under the boards; between them on top: the aux 22K (R20–R25) and routing 4K7 (R26–R31) bus resistors (spec 13: virtual-earth ends short) |
 | 297 | L-R, 1-2, 3-4 | 12 mm pitch, right next to the headers: short virtual-earth traces |
 | 314 | PFL + LED | |
 | 331 | MUTE + LED | PFL and soft-mute electronics in the left band below |
 | 346–478 | Fader, slot centre 412 | ground end (pin 1) to the front; post-amp and VCA socket in the right band |
 
-DRC (`kicad-cli pcb drc --schematic-parity`): no courtyard overlaps, 0 schematic parity issues.
-253 unconnected items (nothing routed) and silkscreen overlaps from the packed reference
-designators remain; they go away with routing and silk tidying.
+Ground pours (`tools/pour_strip.py`, run after the placement script):
+- B.Cu: AGND (GNDA) over the whole board.
+- F.Cu: two LGND (GNDD) islands — one over the reservoir caps, power entry and OL detector
+  (holding NT1 beside the spade), one over the PFL/MUTE rows — linked by one GNDD track on the
+  bottom along the right edge (x = 37 mm). AGND fills the rest of the top layer.
+- 369 GNDA stitching vias on a 4 mm grid, only where no courtyard, pad or LGND island is near;
+  top-side GNDA SMD pads inside an LGND island get a short track to their own via.
+
+DRC (`kicad-cli pcb drc --schematic-parity`): no clearance or courtyard violations, 0 schematic
+parity issues, GNDA and GNDD fully connected. 178 unconnected signal items remain, plus
+silkscreen overlaps from the packed reference designators.
 
 Still to decide or do in KiCad:
 - Mounting: six M3 standoff holes H1–H6 (section 13.3) at (34, 84.5), (5.5, 160), (19, 232.4),

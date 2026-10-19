@@ -19,7 +19,8 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
 - `channel_strip.kicad_pcb` — strip PCB, first placement only (38 × 480 mm, no tracks), made by
   `tools/place_strip.py`; run with KiCad's Python:
   `/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3 tools/place_strip.py channel_strip.net channel_strip.kicad_pcb`
-  then `$KC pcb drc --schematic-parity --severity-all channel_strip.kicad_pcb`. Re-running the
+  then `tools/pour_strip.py channel_strip.kicad_pcb` (same Python: GNDA/GNDD pours, stitching
+  vias, fill), then `$KC pcb drc --schematic-parity --severity-all channel_strip.kicad_pcb`. Re-running the
   script overwrites hand edits: once routing starts, change the board in KiCad instead.
   Schematic UUIDs are deterministic (schgen.py), so the footprint-symbol link survives regeneration.
 - `tools/verify.py` — checks KiCad's exported netlist against `channel_strip_intended.json`.
@@ -105,8 +106,8 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
    (move gen_master.py's circuit functions into a shared module first).
 4. PCB layout of the strip: first placement done (strip spec 13.2); panel stack fixed (13.3: panel
    underside 11.5 mm, PVA2 H1 + PV caps, pot 1.5 mm spacer washers, fader 3.5 mm spacer, 7.6 mm
-   LED spacers, 6 × M3 standoffs). Open: fader knob for a 5 mm lever stub. Next: routing,
-   AGND/LGND pours joined at the spade.
+   LED spacers, 6 × M3 standoffs). Ground pours done (13.2). Open: fader knob for a 5 mm lever
+   stub; one bus header or two (CN1+CN2 in parallel need 34 cross-links). Next: bus nets, then the rest.
 
 ## Reference material
 Delta DLX/Theatre schematics, Mackie 1604-VLZ block diagram and API 500 spec were used;

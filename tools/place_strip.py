@@ -31,7 +31,8 @@ FIX = {
  'SW3': (12 - 2.5, 314 - 3.0, 0, 'F'), 'D3': (28 - 1.27, 314, 0, 'F'),   # PFL + LED
  'SW4': (12 - 2.5, 331 - 3.0, 0, 'F'), 'D4': (28 - 1.27, 331, 0, 'F'),   # MUTE + LED
  'RV1': (COL - 1.9, 475.75, 270, 'F'),                              # fader: slot centre at y = 412, pin 1 (ground) to the front
- 'CN4': (COL, 89.9, 0, 'B'),             # ground spade on the bottom (faston + wire too tall under the panel), between OL LED and aux 1
+ 'CN4': (COL, 89.9, 0, 'B'),
+ 'NT1': (26.5, 86.5, 0, 'F'),            # AGND-LGND net tie, next to the spade (star point of the strip)             # ground spade on the bottom (faston + wire too tall under the panel), between OL LED and aux 1
 }
 # M3 standoff holes for the panel (11.5 mm standoffs), unplated so audio ground never touches the chassis
 HOLES = [(34, 84.5), (5.5, 160), (19, 232.4), (34, 305.5), (5.5, 474.5), (32.5, 474.5)]
@@ -47,12 +48,13 @@ ZONES = {
                                                   'R11', 'R12', 'R13'], 'F'),
  'insert coupling caps (bottom)': ((1, 48, 37, 61), ['C10', 'C11'], 'B'),
  'rail reservoir caps (bottom)':  ((1, 62, 37, 72.6), ['C1', 'C3', 'C5', 'C6'], 'B'),
- 'power entry':                ((1, 72.8, 37, 81.6), ['R1', 'R2', 'R3', 'R4', 'R5', 'C2', 'C4', 'NT1'], 'F'),
+ 'power entry':                ((1, 72.8, 37, 81.6), ['R1', 'R2', 'R3', 'R4', 'R5', 'C2', 'C4'], 'F'),
  'overload detector':          ((24.5, 88, 37, 130), ['U4', 'C26', 'R39', 'D1', 'C12', 'R14', 'R40', 'R41', 'R15'], 'F'),
- 'aux sends':                  ((1, 88, 10.2, 232), ['JP2', 'JP3', 'JP4', 'R20', 'R21', 'R22', 'R23', 'R24', 'R25'], 'F'),
+ 'aux source jumpers':         ((1, 88, 10.2, 232), ['JP2', 'JP3', 'JP4'], 'F'),
  'pan buffers':                ((24.5, 132, 37, 180), ['U2', 'C22', 'C23', 'U3', 'C24', 'C25', 'R36', 'R37', 'R35'], 'F'),
  'post + pan coupling caps (bottom)': ((24.5, 181, 37, 233), ['C15', 'C16', 'C17'], 'B'),
- 'routing resistors':          ((12, 237, 25.5, 288), ['R26', 'R27', 'R28', 'R29', 'R30', 'R31'], 'F'),
+ 'bus resistors (aux 22K, routing 4K7)': ((12, 237, 25.5, 288), ['R20', 'R21', 'R22', 'R23', 'R24', 'R25',
+                                                         'R26', 'R27', 'R28', 'R29', 'R30', 'R31'], 'F'),   # bus ends are virtual earth: keep short (spec 13)
  'PFL + soft mute':            ((1, 338, 10.6, 470), ['R32', 'R33', 'R34', 'R16', 'Q1', 'R17', 'Q2', 'R42', 'C28', 'R43'], 'F'),
  'fader post-amp':             ((27.4, 338, 37, 418), ['C13', 'JP1', 'R18', 'R19', 'C14', 'R38', 'R44'], 'F'),
  'VCA module socket (bottom)': ((27.4, 420, 37, 468), ['J3', 'J4'], 'B'),   # module would stand 12-13 mm tall on top
