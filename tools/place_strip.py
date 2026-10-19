@@ -26,7 +26,7 @@ FIX = {
  # NRJ6HF, nose to the rear edge: body face (local x 16.95) on y = 0, nose centres at x = 10 and 28
  'J1': (10 - 7.23, 16.95, 90, 'F'), 'J2': (28 - 7.23, 16.95, 90, 'F'),
  'D2': (COL - 1.27, 84, 0, 'F'),                                   # OL LED, 3 mm
- 'CN1': (7.72, 242, 0, 'B'), 'CN2': (32.72, 242, 0, 'B'),          # bus headers on the bottom: ribbon runs under the boards
+ 'CN1': (COL + 1.27, 242, 0, 'B'),       # one bus header, centred, on the bottom: the daisy-chained ribbon runs under the boards
  'SW5': (7 - 2.5, 297 - 3.0, 0, 'F'), 'SW6': (COL - 2.5, 297 - 3.0, 0, 'F'), 'SW7': (31 - 2.5, 297 - 3.0, 0, 'F'),   # L-R, 1-2, 3-4
  'SW3': (12 - 2.5, 314 - 3.0, 0, 'F'), 'D3': (28 - 1.27, 314, 0, 'F'),   # PFL + LED
  'SW4': (12 - 2.5, 331 - 3.0, 0, 'F'), 'D4': (28 - 1.27, 331, 0, 'F'),   # MUTE + LED
@@ -53,8 +53,10 @@ ZONES = {
  'aux source jumpers':         ((1, 88, 10.2, 232), ['JP2', 'JP3', 'JP4'], 'F'),
  'pan buffers':                ((24.5, 132, 37, 180), ['U2', 'C22', 'C23', 'U3', 'C24', 'C25', 'R36', 'R37', 'R35'], 'F'),
  'post + pan coupling caps (bottom)': ((24.5, 181, 37, 233), ['C15', 'C16', 'C17'], 'B'),
- 'bus resistors (aux 22K, routing 4K7)': ((12, 237, 25.5, 288), ['R20', 'R21', 'R22', 'R23', 'R24', 'R25',
-                                                         'R26', 'R27', 'R28', 'R29', 'R30', 'R31'], 'F'),   # bus ends are virtual earth: keep short (spec 13)
+ # bus resistors beside the header, each on the side of its header pin (even pins left, odd right) or its switch;
+ # bus ends are virtual earth: keep them short (spec 13)
+ 'bus resistors L':            ((1, 237, 13.8, 288), ['R20', 'R23', 'R25', 'R26', 'R27', 'R28'], 'F'),
+ 'bus resistors R':            ((24.2, 237, 37, 288), ['R21', 'R22', 'R24', 'R29', 'R30', 'R31'], 'F'),
  'PFL + soft mute':            ((1, 338, 10.6, 470), ['R32', 'R33', 'R34', 'R16', 'Q1', 'R17', 'Q2', 'R42', 'C28', 'R43'], 'F'),
  'fader post-amp':             ((27.4, 338, 37, 418), ['C13', 'JP1', 'R18', 'R19', 'C14', 'R38', 'R44'], 'F'),
  'VCA module socket (bottom)': ((27.4, 420, 37, 468), ['J3', 'J4'], 'B'),   # module would stand 12-13 mm tall on top
@@ -154,7 +156,7 @@ for i, (x, y) in enumerate(HOLES, 1):
     board.Add(h); h.SetPosition(pcbnew.VECTOR2I_MM(x, y))
 
 # panel-grid notes
-for y, txt in ((5, 'REAR APRON: jack noses'), (84, 'OL'), (222, 'PAN'), (262, 'BUS HEADERS (bottom side)'),
+for y, txt in ((5, 'REAR APRON: jack noses'), (84, 'OL'), (222, 'PAN'), (262, 'BUS HEADER (bottom side)'),
                (297, 'L-R  1-2  3-4'), (314, 'PFL'), (331, 'MUTE'), (412, 'FADER 100 mm')):
     note(txt, W + 3, y, size=2.0)
 pcbnew.SaveBoard(OUT, board)

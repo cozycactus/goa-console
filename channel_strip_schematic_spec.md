@@ -74,7 +74,11 @@ J1 line in (TRS)
 - Bus even pins 2–16: AGND.
 
 ### 2.4 Bus headers
-- CN1, CN2: 34-pin shrouded keyed box headers, wired in parallel (daisy-chain in/out).
+- CN1: one 34-pin shrouded keyed box header per strip, as the Delta (ED3344C CN2 "MOTHERLOOM").
+  The motherloom is one ribbon per wing with a crimped IDC socket at every strip position
+  (daisy-chained), so a strip needs no second header. Spare pins 1, 3, 5, 7, 19, 28 (PFL−)
+  and 34 (+48 V) are not connected on the strip. (Decided October 2026; replaced CN1 + CN2 in
+  parallel, which cost 34 cross-links on the PCB.)
 
 | Pin | Signal | Driven on this strip by |
 |-----|--------|-------------------------|
@@ -288,7 +292,7 @@ Linear 10K pan pot, level of one side:
 | 1 | LM393 | SOIC-8 or DIP-8 |
 | 2 | J112 | TO-92 |
 | 2 | TRS jack, switched, isolated | J1 input, J2 insert |
-| 2 | 34-pin shrouded box header | CN1, CN2 |
+| 1 | 34-pin shrouded box header | CN1 |
 | 1 | 6.3 mm spade/faston tab | CN4 ground |
 | 1 | 100 mm fader, 10K audio taper | |
 | 6 | 10K log pot | Aux 1–6 (VR5 footprint also fits dual-gang) |
@@ -395,7 +399,7 @@ edge. Control column at x = 19 mm.
 | 84–90 | — | ground spade CN4 (bottom, x = 19) and net tie NT1 (top, x = 26.5): the strip's AGND-LGND star point |
 | 100–200 | Aux 1–6 | 20 mm pitch; aux source jumpers in the left band, OL detector in the right |
 | 222 | Pan | pan buffers in the right band (132–180); post and pan coupling caps C15–C17 below them on the **bottom** (181–233) |
-| 236–288 | Bus headers CN1/CN2 | **bottom side**, so the ribbon runs under the boards; between them on top: the aux 22K (R20–R25) and routing 4K7 (R26–R31) bus resistors (spec 13: virtual-earth ends short) |
+| 236–288 | Bus header CN1 | one header, centred, **bottom side**, so the ribbon runs under the boards; either side on top: the aux 22K (R20–R25, each on the side of its header pin) and routing 4K7 (R26–R31) bus resistors (spec 13: virtual-earth ends short) |
 | 297 | L-R, 1-2, 3-4 | 12 mm pitch, right next to the headers: short virtual-earth traces |
 | 314 | PFL + LED | |
 | 331 | MUTE + LED | PFL and soft-mute electronics in the left band below |
@@ -409,9 +413,16 @@ Ground pours (`tools/pour_strip.py`, run after the placement script):
 - 369 GNDA stitching vias on a 4 mm grid, only where no courtyard, pad or LGND island is near;
   top-side GNDA SMD pads inside an LGND island get a short track to their own via.
 
-DRC (`kicad-cli pcb drc --schematic-parity`): no clearance or courtyard violations, 0 schematic
-parity issues, GNDA and GNDD fully connected. 178 unconnected signal items remain, plus
-silkscreen overlaps from the packed reference designators.
+Ribbon nets routed (`tools/route_strip.py`, a two-layer grid router: A* on 0.1 mm, 0.2 mm
+clearance, line-of-sight smoothing; run between placement and pours): MIX L/R, SUB 1–4,
+AUX 1–6, PFL, PFLDET, GCANCEL (0.3 mm) and ±VBUS (0.6 mm; 0.3 mm between paired header pins).
+Bottom-layer use is limited to short jumpers across the header's pin columns.
+
+DRC (`kicad-cli pcb drc --schematic-parity`): no clearance, short or courtyard violations,
+0 schematic parity issues; the ribbon nets, GNDA and GNDD are fully connected. 131 unconnected
+items remain (the other signal nets), 4 starved-thermal warnings on the routing switches' GNDA
+pins (bus tracks crowd their top-side spokes; they still reach the bottom pour), and silkscreen
+overlaps from the packed reference designators.
 
 Still to decide or do in KiCad:
 - Mounting: six M3 standoff holes H1–H6 (section 13.3) at (34, 84.5), (5.5, 160), (19, 232.4),

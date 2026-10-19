@@ -19,8 +19,9 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
 - `channel_strip.kicad_pcb` — strip PCB, first placement only (38 × 480 mm, no tracks), made by
   `tools/place_strip.py`; run with KiCad's Python:
   `/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3 tools/place_strip.py channel_strip.net channel_strip.kicad_pcb`
-  then `tools/pour_strip.py channel_strip.kicad_pcb` (same Python: GNDA/GNDD pours, stitching
-  vias, fill), then `$KC pcb drc --schematic-parity --severity-all channel_strip.kicad_pcb`. Re-running the
+  then `tools/route_strip.py channel_strip.kicad_pcb [NET ...]` (grid router; no NET = the ribbon
+  nets), then `tools/pour_strip.py channel_strip.kicad_pcb` (same Python: GNDA/GNDD pours, stitching
+  vias avoiding tracks, fill), then `$KC pcb drc --schematic-parity --severity-all channel_strip.kicad_pcb`. Re-running the
   script overwrites hand edits: once routing starts, change the board in KiCad instead.
   Schematic UUIDs are deterministic (schgen.py), so the footprint-symbol link survives regeneration.
 - `tools/verify.py` — checks KiCad's exported netlist against `channel_strip_intended.json`.
@@ -53,6 +54,8 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
 - `channel_strip_BOM.csv`, `channel_strip.net`, `channel_strip.pdf` — exports.
 
 ## Decisions made (do not silently change)
+- One 34-pin header per strip on a daisy-chained ribbon with crimped sockets (decided 2026-10-19;
+  CN2 dropped).
 - Bus = real Delta motherloom pinout (read from Delta ED3344C): GRP1-4 = SUB1-4 on pins 15/13/11/9,
   MIX R 17, MIX L 18, AUX6..1 on 20-25 (AUX1=24, AUX2=25), GND CANCEL 26, PFL 27, PFL DET 29,
   -V 30-31, +V 32-33, +48 V pin 34 not connected. Spares: 1,3,5,7,19. Even pins 2-16 = GND.
@@ -107,7 +110,8 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
 4. PCB layout of the strip: first placement done (strip spec 13.2); panel stack fixed (13.3: panel
    underside 11.5 mm, PVA2 H1 + PV caps, pot 1.5 mm spacer washers, fader 3.5 mm spacer, 7.6 mm
    LED spacers, 6 × M3 standoffs). Ground pours done (13.2). Open: fader knob for a 5 mm lever
-   stub; one bus header or two (CN1+CN2 in parallel need 34 cross-links). Next: bus nets, then the rest.
+   stub. Ribbon nets routed (13.2). Next: the remaining signal nets (route_strip.py with net names,
+   or by hand in KiCad), silk tidy.
 
 ## Reference material
 Delta DLX/Theatre schematics, Mackie 1604-VLZ block diagram and API 500 spec were used;

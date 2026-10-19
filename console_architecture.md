@@ -129,7 +129,8 @@ stereo-input sheet. Note AUX 1/AUX 2 are on 24/25, not in numeric order.
   routing switches.
 - **Feed the bus from the middle**: put the master in the centre (12 strips each side), or
   bring both ribbon ends into the master. This halves worst-case cable length.
-- Cable: 34-way flat ribbon, 28 AWG. Two shrouded, keyed 34-pin headers per strip.
+- Cable: 34-way flat ribbon, 28 AWG, one per wing, with a crimped IDC socket at each strip
+  position (daisy chain). One shrouded, keyed 34-pin header per strip, as the Delta.
 
 ### 2.4 Bus noise budget (calculated, 20 Hz–20 kHz unweighted)
 Unity gain per channel (Rf = R), output noise of the summing amp:

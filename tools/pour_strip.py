@@ -6,7 +6,7 @@ Strip spec section 13: AGND pour on the bottom, separate LGND (GNDD) pour, joine
   overload detector (it holds NT1, the AGND-LGND tie next to the spade); one over the PFL/MUTE rows.
 - F.Cu: GNDA everywhere else (priority 0), tied to the bottom pour by stitching vias on a grid,
   placed only where no footprint courtyard, pad or hole is near.
-Run it on a freshly placed board (place_strip.py output); it refuses a board that already has tracks."""
+Run it after place_strip.py and route_strip.py; it refuses a board that already has its pour vias."""
 import sys
 import pcbnew
 
@@ -26,11 +26,10 @@ VIA_PITCH, VIA_DRILL, VIA_DIA = 4.0, 0.4, 0.8
 KEEP = 0.6                                    # via keep-away from courtyards and pads
 
 for z in list(board.Zones()): board.Remove(z)
-try:                                                 # KiCad 10 SWIG cannot always iterate tracks; the script
-    old = [t for t in board.GetTracks()]             # is meant to run on a freshly placed board (place_strip.py)
-except TypeError:
-    old = []
-if old: raise SystemExit('board already has tracks/vias: re-run place_strip.py first')
+try: existing = list(board.GetTracks())            # routed tracks (route_strip.py) stay; stitching vias avoid them
+except TypeError: existing = []                      # (an empty board's track list cannot be iterated in KiCad 10)
+if any(t.GetNetname() in ('GNDA', 'GNDD') and t.IsLocked() for t in existing):
+    raise SystemExit('board already has pour vias: re-run place_strip.py and route_strip.py first')
 
 def zone(net, layer, pts, prio):
     z = pcbnew.ZONE(board); z.SetLayer(layer); z.SetNet(board.FindNet(net))
@@ -53,6 +52,9 @@ def inside(poly, x, y):
         (x1, y1), (x2, y2) = poly[i], poly[(i + 1) % n]
         if (y1 > y) != (y2 > y) and x < (x2 - x1) * (y - y1) / (y2 - y1) + x1: c = not c
     return c
+def TOMM_W(t):
+    try: return pcbnew.ToMM(t.GetWidth())
+    except TypeError: return pcbnew.ToMM(t.GetWidth(pcbnew.F_Cu))
 boxes = []
 for fp in board.GetFootprints():
     fp.BuildCourtyardCaches()
@@ -63,6 +65,11 @@ for fp in board.GetFootprints():
     for pad in fp.Pads():
         bb = pad.GetBoundingBox()
         boxes.append((pcbnew.ToMM(bb.GetLeft()), pcbnew.ToMM(bb.GetTop()), pcbnew.ToMM(bb.GetRight()), pcbnew.ToMM(bb.GetBottom())))
+for t in existing:                                   # routed tracks and vias as keep-outs for the stitching vias
+    hw = (TOMM_W(t) / 2) if True else 0
+    a, b = t.GetStart(), t.GetEnd()
+    boxes.append((min(pcbnew.ToMM(a.x), pcbnew.ToMM(b.x)) - hw, min(pcbnew.ToMM(a.y), pcbnew.ToMM(b.y)) - hw,
+                  max(pcbnew.ToMM(a.x), pcbnew.ToMM(b.x)) + hw, max(pcbnew.ToMM(a.y), pcbnew.ToMM(b.y)) + hw))
 def clear(x, y):
     r = VIA_DIA / 2 + KEEP
     if x < 2 or x > W - 2 or y < 2 or y > L - 2: return False

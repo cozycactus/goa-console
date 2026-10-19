@@ -27,12 +27,12 @@ P(b,'U4','CMP','LM393',{8:'+VL',4:'GNDD'},unit=3); P(b,'C26','C','100n',{1:'+VL'
 for i,n in enumerate(['+VA','-VA','+VL','-VL','GNDA','GNDD']):
     P(b,f'#FLG0{i+1}','FLAG','PWR_FLAG',{1:n})
 
-hdr = {1:'SPARE1',3:'SPARE3',5:'SPARE5',7:'SPARE7',19:'SPARE19',9:'SUB4',11:'SUB3',13:'SUB2',15:'SUB1',
+hdr = {1:'NC',3:'NC',5:'NC',7:'NC',19:'NC',9:'SUB4',11:'SUB3',13:'SUB2',15:'SUB1',
        17:'MIXR',18:'MIXL',20:'AUX6',21:'AUX5',22:'AUX4',23:'AUX3',24:'AUX1',25:'AUX2',26:'GCANCEL',
-       27:'PFL',28:'PFLN',29:'PFLDET',30:'-VBUS',31:'-VBUS',32:'+VBUS',33:'+VBUS',34:'P48V_NC'}
+       27:'PFL',28:'NC',29:'PFLDET',30:'-VBUS',31:'-VBUS',32:'+VBUS',33:'+VBUS',34:'NC'}
 hdr.update({k:'GNDA' for k in range(2,17,2)})
-b = block('MOTHERLOOM  (Delta pinout, CN1 = in, CN2 = out, wired in parallel)')
-P(b,'CN1','HDR','Bus IN 2x17',hdr); P(b,'CN2','HDR','Bus OUT 2x17',hdr)
+b = block('MOTHERLOOM  (Delta pinout; one header, crimped socket on a daisy-chained ribbon)')
+P(b,'CN1','HDR','Bus 2x17',hdr)
 
 b = block('LINE INPUT - ground-compensated differential receiver')
 P(b,'J1','JACKSW','Line in TRS',{'T':'IN_T','R':'IN_R','S':'GNDA','TN':'NC','RN':'NC'})

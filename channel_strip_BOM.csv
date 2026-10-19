@@ -8,8 +8,7 @@ Qty,Value,Footprint,MPN,References
 4,220u NP 25V,Capacitor_THT:CP_Radial_D10.0mm_P5.00mm,,C11 C15 C16 C17
 1,1u,Capacitor_SMD:C_0805_2012Metric,,C12
 1,2.2u,Capacitor_SMD:C_1206_3216Metric,,C13
-1,Bus IN 2x17,Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical,,CN1
-1,Bus OUT 2x17,Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical,,CN2
+1,Bus 2x17,Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical,,CN1
 1,Ground spade 6.3mm,goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm,Keystone 1287-ST,CN4
 1,1N4148,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,,D1
 1,OL red,LED_THT:LED_D3.0mm,,D2
@@ -19,11 +18,6 @@ Qty,Value,Footprint,MPN,References
 1,Insert TRS switched,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J2
 1,VCA module socket,Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical,,J3
 1,VCA control in,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,,J4
-1,VCA bypass,Jumper:SolderJumper-2_P1.3mm_Bridged_RoundedPad1.0x1.5mm,,JP1
-1,Aux1/2 source,Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm,,JP2
-1,Aux3/4 source,Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm,,JP3
-1,Aux5/6 source,Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm,,JP4
-1,AGND-LGND star,NetTie:NetTie-2_SMD_Pad0.5mm,,NT1
 2,J112,Package_TO_SOT_SMD:SOT-23,,Q1 Q2
 4,10R,Resistor_SMD:R_0805_2012Metric,,R1 R2 R3 R4
 1,10R GND cancel,Resistor_SMD:R_0805_2012Metric,,R5

@@ -15,7 +15,7 @@ crosstalk, PSRR, distortion and switching clicks on real hardware.
 | Channel strip | 4 | Real strip PCBs from `channel_strip.kicad_sch`, fully populated. The jig tests the boards that will be built, not stand-ins. |
 | Master stub | 1 | Bus side of the master only (section 2). |
 | Load board | 1 | Dummy channels that raise the bus noise gain to the full 24-channel value (section 3). |
-| Ribbon | 2 | 34-way, 28 AWG flat cable: one 0.6 m (a 12-strip wing, ~0.5 m, plus slack), one 3 m (worst case and the hum-pickup tests). |
+| Ribbon | 2 | 34-way, 28 AWG flat cable with 6 crimped IDC sockets (4 strips, master stub, load board): one 0.6 m (a 12-strip wing, ~0.5 m, plus slack), one 3 m (worst case and the hum-pickup tests). |
 | Ground bar | 1 | M4 copper bar with a lug per board, as the console's star point. |
 | Supply | 1 | ±17 V bench or the console PSU, ≥ 1 A per rail. |
 
@@ -26,7 +26,8 @@ and panel stack height (strip spec 13.1), soft-mute depth and click, OL and PFL 
 
 A cut-down master built from the same circuits (master spec sections 2, 3, 12, 13, 18):
 
-- Two 34-pin headers wired in parallel (ribbon in, ribbon on to the load board).
+- One 34-pin header, like every board on the jig: a single ribbon with crimped sockets for
+  the four strips, the master stub and the load board.
 - MIX L and MIX R: summing amp (OPA1612, 4K7 ∥ 100 pF, ferrite) + re-inverter (2K2 0.1 %).
 - SUB 1: same as MIX (for routing and SUB-to-MIX crosstalk).
 - AUX 1: OPA1656 summing amp (22K ∥ 100 pF) + re-inverter (for the 22K bus and its crosstalk).
