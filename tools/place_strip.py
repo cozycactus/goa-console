@@ -51,14 +51,14 @@ ZONES = {
  'power entry':                ((1, 72.8, 37, 81.6), ['R1', 'R2', 'R3', 'R4', 'R5', 'C2', 'C4'], 'F'),
  'overload detector':          ((24.5, 88, 37, 130), ['U4', 'C26', 'R39', 'D1', 'C12', 'R14', 'R40', 'R41', 'R15'], 'F'),
  'aux source jumpers':         ((1, 88, 10.2, 232), ['JP2', 'JP3', 'JP4'], 'F'),
- 'pan buffers':                ((24.5, 132, 37, 180), ['U2', 'C22', 'C23', 'U3', 'C24', 'C25', 'R36', 'R37', 'R35'], 'F'),
+ 'pan buffers':                ((24.5, 132, 37, 180), ['U3', 'C24', 'C25', 'R36', 'R37', 'R35'], 'F'),
  'post + pan coupling caps (bottom)': ((24.5, 181, 37, 233), ['C15', 'C16', 'C17'], 'B'),
  # bus resistors beside the header, each on the side of its header pin (even pins left, odd right) or its switch;
  # bus ends are virtual earth: keep them short (spec 13)
  'bus resistors L':            ((1, 237, 13.8, 288), ['R20', 'R23', 'R25', 'R26', 'R27', 'R28'], 'F'),
  'bus resistors R':            ((24.2, 237, 37, 288), ['R21', 'R22', 'R24', 'R29', 'R30', 'R31'], 'F'),
  'PFL + soft mute':            ((1, 338, 10.6, 470), ['R32', 'R33', 'R34', 'R16', 'Q1', 'R17', 'Q2', 'R42', 'C28', 'R43'], 'F'),
- 'fader post-amp':             ((27.4, 338, 37, 418), ['C13', 'JP1', 'R18', 'R19', 'C14', 'R38', 'R44'], 'F'),
+ 'fader post-amp':             ((27.4, 338, 37, 418), ['U2', 'C22', 'C23', 'R19', 'C14', 'R38', 'C13', 'JP1', 'R18', 'R44'], 'F'),   # U2A loop local; U2B pan-buffer input comes from the low-Z pan wiper
  'VCA module socket (bottom)': ((27.4, 420, 37, 468), ['J3', 'J4'], 'B'),   # module would stand 12-13 mm tall on top
 }
 GAP = 0.6

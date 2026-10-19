@@ -405,24 +405,34 @@ edge. Control column at x = 19 mm.
 | 331 | MUTE + LED | PFL and soft-mute electronics in the left band below |
 | 346–478 | Fader, slot centre 412 | ground end (pin 1) to the front; post-amp and VCA socket in the right band |
 
-Ground pours (`tools/pour_strip.py`, run after the placement script):
-- B.Cu: AGND (GNDA) over the whole board.
-- F.Cu: two LGND (GNDD) islands — one over the reservoir caps, power entry and OL detector
-  (holding NT1 beside the spade), one over the PFL/MUTE rows — linked by one GNDD track on the
-  bottom along the right edge (x = 37 mm). AGND fills the rest of the top layer.
-- 369 GNDA stitching vias on a 4 mm grid, only where no courtyard, pad or LGND island is near;
-  top-side GNDA SMD pads inside an LGND island get a short track to their own via.
+Routing and pours are rebuilt from the netlist by `tools/build_strip_pcb.sh` (placement, then
+four routing blocks, each followed by fresh ground pours and a DRC):
 
-Ribbon nets routed (`tools/route_strip.py`, a two-layer grid router: A* on 0.1 mm, 0.2 mm
-clearance, line-of-sight smoothing; run between placement and pours): MIX L/R, SUB 1–4,
-AUX 1–6, PFL, PFLDET, GCANCEL (0.3 mm) and ±VBUS (0.6 mm; 0.3 mm between paired header pins).
-Bottom-layer use is limited to short jumpers across the header's pin columns.
+| Block | Nets | Width |
+|-------|------|-------|
+| ribbon | MIX L/R, SUB 1–4, AUX 1–6, PFL, PFLDET, GCANCEL, ±VBUS | 0.3 mm; ±VBUS 0.6 mm |
+| rails | GNDD (LGND tracks), ±VA, ±VL | 0.5 mm |
+| audio | the 42 audio nets, shortest first | 0.3 mm (0.2 mm where a pin is crowded) |
+| logic | OL detector, PFL/MUTE switching and LEDs, MGATE, VCA_CTRL | 0.3 mm |
 
-DRC (`kicad-cli pcb drc --schematic-parity`): no clearance, short or courtyard violations,
-0 schematic parity issues; the ribbon nets, GNDA and GNDD are fully connected. 131 unconnected
-items remain (the other signal nets), 4 starved-thermal warnings on the routing switches' GNDA
-pins (bus tracks crowd their top-side spokes; they still reach the bottom pour), and silkscreen
-overlaps from the packed reference designators.
+- Router: `tools/route_strip.py`, A* on a 0.1 mm grid over both layers, 0.2 mm clearance,
+  line-of-sight smoothing, no stacked or adjacent vias, B.Cu costed higher so the bottom AGND
+  pour stays largely whole.
+- Pours: `tools/pour_strip.py` — B.Cu AGND over the whole board; F.Cu LGND island over the power
+  entry and reservoir caps (holding NT1 beside the spade) and over the PFL/MUTE rows; F.Cu AGND
+  elsewhere; every top-side GNDA SMD pad gets its own via to the bottom pour; stitching vias on a
+  4 mm grid wherever copper, courtyards and islands allow.
+- Placement change made for routing: U2 and its decoupling sit with the fader post-amp
+  (U2A's feedback loop local); its other half, the left pan buffer, takes its input from the pan
+  wiper.
+
+Result (October 2026): every signal net routed; DRC shows no clearance, short, hole or courtyard
+violations and 0 schematic-parity issues. **Left for hand finishing:** 5 GNDA connections (pads
+Q2.2, C9.2 and R44.2 (DNP) sit in small top-pour fragments with no room for an escape via, plus
+two small pour fragments), one dangling track stub, 9 starved-thermal warnings on GNDA pins, and
+silkscreen overlaps. The top AGND pour is cut into strips by the long runs in the middle of the
+board (aux wipers, rails, PRE/POST, MUTEOUT); it should be reviewed, and some long runs moved
+or shortened by hand.
 
 Still to decide or do in KiCad:
 - Mounting: six M3 standoff holes H1–H6 (section 13.3) at (34, 84.5), (5.5, 160), (19, 232.4),

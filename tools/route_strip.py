@@ -5,7 +5,8 @@ Run after place_strip.py and before pour_strip.py, with KiCad's bundled Python:
 A* on a 0.1 mm grid, 8-connected, both copper layers. Obstacles are every pad, hole and track of
 other nets, inflated by clearance + half the track width, plus the board edge. Vias only where both
 layers have room. B.Cu costs more, so the bottom AGND pour stays as whole as possible. Each net is
-routed as a minimum spanning tree over its pads. Tracks are locked so later scripts can tell them apart."""
+routed as a minimum spanning tree over its pads. Tracks are left unlocked (pour_strip.py only strips its own,
+locked, ground items)."""
 import sys, heapq, math
 import pcbnew
 
@@ -17,7 +18,7 @@ NX, NY = int(round(W / G)) + 1, int(round(L / G)) + 1
 CLR, EDGE = 0.2, 0.5                       # copper clearance, copper-to-edge
 VIA_D, VIA_DRILL = 0.8, 0.4
 COST_B, COST_VIA = 1.6, 25.0
-WIDTH = {'+VBUS': 0.6, '-VBUS': 0.6}
+WIDTH = {'+VBUS': 0.6, '-VBUS': 0.6, '+VA': 0.5, '-VA': 0.5, '+VL': 0.5, '-VL': 0.5, 'GNDD': 0.5}
 DEFAULT_W = 0.3
 # order matters: the nets that must cross the header's pin columns go first
 RIBBON = ['MIXR', 'MIXL', 'SUB1', 'SUB2', 'SUB3', 'SUB4', 'AUX1', 'AUX2', 'AUX3', 'AUX4', 'AUX5', 'AUX6',
@@ -171,29 +172,62 @@ def smooth(net, pts, w):
         out.append(pts[j]); k = j
     return out
 
+def cleanup(net, path, w):
+    """Drop there-and-back layer changes, and short excursions (< 1.5 mm between the two vias) whose cells
+    are also free on the original layer, so no two vias end up on top of or next to each other."""
+    g = grid_for(CLR + w / 2 + G / 2); me = nid(net)
+    ok = lambda li, i: gget(g[li], i) in (FREE, me)
+    p = list(path); changed = True
+    while changed:
+        changed = False
+        for a in range(len(p) - 1):
+            if p[a][0] == p[a + 1][0]: continue           # a -> a+1 is a layer change at one cell
+            b = a + 1
+            while b < len(p) - 1 and p[b][0] == p[b + 1][0]: b += 1
+            if b >= len(p) - 1: break                       # no second change after this one
+            ca, cb = p[a][1], p[b][1]
+            dist = math.hypot((ca % NX - cb % NX) * G, (ca // NX - cb // NX) * G)
+            run = p[a + 1:b + 1]; li0 = p[a][0]
+            if dist < 1.5 and all(ok(li0, c[1]) for c in run):
+                p = p[:a + 1] + [(li0, c[1]) for c in run[1:]] + p[b + 2:]
+                changed = True; break
+    return p
+
 def emit(net, path, w):
     ni = board.FindNet(net); segs = 0
+    path = cleanup(net, path, w)
     pts = smooth(net, [(c[0], (c[1] % NX) * G, (c[1] // NX) * G) for c in path], w)
     k = 0
     while k < len(pts) - 1:
         li, x0, y0 = pts[k]
-        if pts[k + 1][0] != li:                       # layer change: via
+        if pts[k + 1][0] != li:                       # layer change: via (or reuse a same-net via close by)
+            near = [(vx, vy) for vn, vx, vy in vias_placed if vn == net and math.hypot(vx - x0, vy - y0) < 0.9]
+            if near:
+                vx, vy = near[0]
+                if (vx, vy) != (x0, y0):
+                    for l2 in (0, 1):
+                        t = pcbnew.PCB_TRACK(board); t.SetStart(pcbnew.VECTOR2I_MM(x0, y0)); t.SetEnd(pcbnew.VECTOR2I_MM(vx, vy))
+                        t.SetWidth(MM(w)); t.SetLayer(LAYERS[l2]); t.SetNet(ni); board.Add(t)
+                        add_shape(net, l2, 'seg', (x0, y0, vx, vy, w / 2))
+                k += 1; continue
+            vias_placed.append((net, x0, y0))
             v = pcbnew.PCB_VIA(board); v.SetPosition(pcbnew.VECTOR2I_MM(x0, y0)); v.SetDrill(MM(VIA_DRILL))
             try: v.SetWidth(MM(VIA_D))
             except TypeError: v.SetWidth(pcbnew.F_Cu, MM(VIA_D))
-            v.SetNet(ni); v.SetLocked(True); board.Add(v)
+            v.SetNet(ni); board.Add(v)
             for l2 in (0, 1): add_shape(net, l2, 'seg', (x0, y0, x0, y0, VIA_D / 2))
             k += 1; continue
         j = k + 1
         x1, y1 = pts[j][1], pts[j][2]
         t = pcbnew.PCB_TRACK(board); t.SetStart(pcbnew.VECTOR2I_MM(x0, y0)); t.SetEnd(pcbnew.VECTOR2I_MM(x1, y1))
-        t.SetWidth(MM(w)); t.SetLayer(LAYERS[li]); t.SetNet(ni); t.SetLocked(True); board.Add(t)
+        t.SetWidth(MM(w)); t.SetLayer(LAYERS[li]); t.SetNet(ni); board.Add(t)
         add_shape(net, li, 'seg', (x0, y0, x1, y1, w / 2)); segs += 1
         k = j
     return segs
 
 # ---------------------------------------------------------------- route each net as an MST over its pads
 report = []
+vias_placed = []
 for short in nets:
     net = full_name.get(short, short)
     pads = pads_of.get(short, [])
@@ -204,8 +238,9 @@ for short in nets:
     while todo:                                          # Prim: nearest unconnected pad to the tree
         a, b = min(((a, b) for a in done for b in todo), key=lambda ab: math.dist(centre(ab[0]), centre(ab[1])))
         path = route(net, pad_cells(*a), pad_cells(*b), w); wu = w
-        if path is None and w > DEFAULT_W:              # e.g. paired rail pins on the header: no room for 0.6 mm
-            wu = DEFAULT_W; path = route(net, pad_cells(*a), pad_cells(*b), wu)
+        for fallback in (DEFAULT_W, 0.2):               # e.g. paired rail pins on the header, a crowded SOIC pin
+            if path is None and wu > fallback:
+                wu = fallback; path = route(net, pad_cells(*a), pad_cells(*b), wu)
         if path is None: report.append(f'{net}: no path {a[0].GetParentFootprint().GetReference()}.{a[0].GetNumber()} -> {b[0].GetParentFootprint().GetReference()}.{b[0].GetNumber()}')
         else: total += emit(net, path, wu)
         done.append(b); todo.remove(b)

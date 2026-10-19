@@ -16,12 +16,14 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
   Both generators use the shared builder `tools/schgen.py`. Same loop with `master` in place of
   `channel_strip` (`tools/gen_master.py master.kicad_sch`). Exports: master.net/.pdf/_BOM.csv.
 - `goa-console.kicad_sym` + `sym-lib-table` — project symbols (DRV134).
-- `channel_strip.kicad_pcb` — strip PCB, first placement only (38 × 480 mm, no tracks), made by
+- `channel_strip.kicad_pcb` — strip PCB, 38 × 480 mm, routed. Whole board rebuilt by
+  `tools/build_strip_pcb.sh` (place, route ribbon/rails/audio/logic blocks, re-pour + DRC per block,
+  ~10 min; overwrites hand edits). Single steps: made by
   `tools/place_strip.py`; run with KiCad's Python:
   `/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3 tools/place_strip.py channel_strip.net channel_strip.kicad_pcb`
   then `tools/route_strip.py channel_strip.kicad_pcb [NET ...]` (grid router; no NET = the ribbon
-  nets), then `tools/pour_strip.py channel_strip.kicad_pcb` (same Python: GNDA/GNDD pours, stitching
-  vias avoiding tracks, fill), then `$KC pcb drc --schematic-parity --severity-all channel_strip.kicad_pcb`. Re-running the
+  nets), then `tools/pour_strip.py channel_strip.kicad_pcb` (same Python: strips old pours, then
+  GNDA/GNDD pours, escape and stitching vias avoiding tracks, fill), then `$KC pcb drc --schematic-parity --severity-all channel_strip.kicad_pcb`. Re-running the
   script overwrites hand edits: once routing starts, change the board in KiCad instead.
   Schematic UUIDs are deterministic (schgen.py), so the footprint-symbol link survives regeneration.
 - `tools/verify.py` — checks KiCad's exported netlist against `channel_strip_intended.json`.
@@ -110,8 +112,8 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
 4. PCB layout of the strip: first placement done (strip spec 13.2); panel stack fixed (13.3: panel
    underside 11.5 mm, PVA2 H1 + PV caps, pot 1.5 mm spacer washers, fader 3.5 mm spacer, 7.6 mm
    LED spacers, 6 × M3 standoffs). Ground pours done (13.2). Open: fader knob for a 5 mm lever
-   stub. Ribbon nets routed (13.2). Next: the remaining signal nets (route_strip.py with net names,
-   or by hand in KiCad), silk tidy.
+   stub. All signal nets routed by script (13.2). Left by hand in KiCad: 5 GNDA pad-to-pour links,
+   a dangling stub, top-pour review (cut into strips by long runs), silk tidy.
 
 ## Reference material
 Delta DLX/Theatre schematics, Mackie 1604-VLZ block diagram and API 500 spec were used;
