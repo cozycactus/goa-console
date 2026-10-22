@@ -57,6 +57,10 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
   `strip_panel_study.md` — 12U vs 15U, one vs two pot columns.
 - `channel_strip.kicad_pcb` — old v3.1 placement (38 × 480 mm, 103 parts), kept for reference; don't rebuild it
   from the v4.0 netlist.
+- 3D model: `tools/export_3d.py` (KiCad Python) exports the placed strip + jack board to `render/strip.json`;
+  `tools/console_3d.py` (Blender 5.2, headless: `Blender -b --factory-startup --python tools/console_3d.py -- render`)
+  builds `render/goa_console.blend` (24 strip instances, group/master panels from master_panel_study.md, 9° tub)
+  and six PNG views. .blend and PNGs are gitignored (regenerate in ~40 s).
 - `tools/verify.py` — checks KiCad's exported netlist against `channel_strip_intended.json`.
   Regenerate + verify loop:
   ```

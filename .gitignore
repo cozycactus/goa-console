@@ -4,3 +4,6 @@ fp-info-cache
 *.kicad_prl
 .venv/
 __pycache__/
+render/*.blend
+render/*.blend1
+render/*.png
