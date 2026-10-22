@@ -324,7 +324,8 @@ Line in (TRS) → differential receiver → insert send (75 Ω)
 ## 8. Mechanical
 
 - Strip: 8 HP × 12U Eurorack-style panel (40.3 × 514 mm), custom frame with rails only at the panel
-  ends; jacks on the panel (`strip_panel_study.md`). 24 strips ≈ 975 mm plus master.
+  ends; jacks on the panel, on a small jack board ~24 mm deep with a 10-way ribbon to the main board
+  (`strip_panel_study.md`). 24 strips ≈ 975 mm plus master.
 - Master in the centre (bus fed from the middle).
 - 100 mm faders. Channel I/O on the panel (no rear apron). Isolated jacks.
 - One spade ground terminal per strip.

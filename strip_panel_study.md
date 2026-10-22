@@ -2,7 +2,7 @@
 
 Question: does the v4.0 channel (15 pots, 13 switches, 4 LEDs, 3 jacks, 100 mm fader) fit an 8 HP
 Eurorack-style panel at 12U or 15U, with one or two pot columns? Result and the placement built from
-it: `tools/place_strip.py` → `channel_strip_v4.kicad_pcb`.
+it: `tools/place_strip.py` → `channel_strip_v4.kicad_pcb` (main board) + `jack_board.kicad_pcb`.
 
 ## Fixed dimensions
 
@@ -32,13 +32,13 @@ for two rows, fader 130 mm, 11 mm end rails.
 | **One pot column** | ≈ 545 mm (15 pots × 20 = 300 in the column alone) | **does not fit** (31 mm over) | fits, ≈ 97 mm spare | ≈ 620 mm |
 | **Two pot columns** | ≈ 466 mm (as placed: board 444 + rails 22) | **fits, ≈ 48 mm spare** | fits, ≈ 176 mm spare (wasted) | 444 mm |
 
-Two-column rows (as placed, board y from the board's top end = panel y − 11):
+Two-column rows (as placed; y = panel y − 11; jack board y 0–43, main board y 44–444):
 
 | Board y | Left (x 10) | Right (x 28) |
 |---------|-------------|--------------|
-| 12 | LINE IN jack | INSERT jack |
-| 32 | DIRECT OUT jack | Ø switch |
-| 54 | GAIN | OL LED |
+| 12 | LINE IN jack (jack board) | INSERT jack (jack board) |
+| 32 | DIRECT OUT jack (jack board) | (link header CN5, bottom of the jack board) |
+| 50 / 54 / 61 | GAIN (54) | Ø switch (50), OL LED (61) |
 | 76 | HF | HPF switch |
 | 98 | HI-MID gain | HI-MID freq (dual) |
 | 120 | LO-MID gain | LO-MID freq (dual) |
@@ -66,12 +66,14 @@ more panel per channel.
 
 ## Placement result (KiCad 10.0.7)
 
-- 180 footprints + 6 M3 holes on 38 × 444 mm; zero tracks, vias and zones.
-- DRC with `--schematic-parity`: 0 parity issues; no courtyard, clearance or placement errors.
+- Main board: 176 footprints + 6 M3 holes on 38 × 400 mm (y 44–444). Jack board: J1, J2, J5, C8, C9,
+  CN5 + 2 M3 holes on 38 × 43 mm (y 0–43). Zero tracks, vias and zones on both.
+- DRC with `--schematic-parity`, both boards: 0 parity issues; no courtyard, clearance or placement errors.
   Remaining: 6 hole-clearance and 6 solder-mask items **inside KiCad's NJ6FD-V footprint** (its SN
   pad sits close to its own locating peg; library footprint, not placement), silkscreen warnings,
-  376 unconnected items (placement only).
-- Bottom side: 12 radial electrolytics, the bus header CN1, the spade CN4, the VCA socket J3/J4.
+  unrouted connections (372 main, 17 jack board).
+- Bottom side of the main board: 12 radial electrolytics, the bus header CN1, the link header CN3,
+  the spade CN4, the VCA socket J3/J4. Bottom of the jack board: CN5, C8, C9.
 
 ## Jack depth: the jacks can't sit on the main board (found 2026-10-22, after placement)
 
@@ -91,12 +93,13 @@ Options:
 | B | Panel-mount 1/4" jacks with solder lugs, wired to a header | Main board as A | About 72 jacks × 3–5 wires to hand-wire; slim isolated panel jacks with switching contacts are scarce |
 | C | 3.5 mm TRS jacks (Thonkiconn class) directly on the main board | Jack footprints only | Eurorack-native and buildable at the 11.5 mm gap (height to confirm), but 1/4" synth outputs then need adapters |
 
-Recommendation: **A**. Confirm the 24 mm figure with Neutrik's DXF/STEP, or with a sample, before
-drawing the jack board.
+Recommendation: **A**. Ruslan chose A on 2026-10-22, and it's implemented: `jack_board.kicad_sch` and
+`jack_board.kicad_pcb`, link pinout in strip spec §16.4. Confirm the 24 mm figure with Neutrik's
+DXF/STEP, or with a sample, before ordering: it sets the jack-board standoffs.
 
 ## Open checks
 
-1. Jack depth: choose A, B or C, then confirm the NJ6FD-V drawing.
+1. NJ6FD-V body height from Neutrik's drawing or a sample (sets the jack-board depth and standoffs).
 2. Knob diameter ≤ 14 mm in the two-column rows.
 3. Routing LEDs still need a 4PDT switch (spec v4.0 §13). Candidates found, datasheets not yet
    checked: C&K PHB4UEETS1A (PHB series, push-push, 1 A / 15 V; the 2-pole PHB is 7.4 × 26 × 10 mm,

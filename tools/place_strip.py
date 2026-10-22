@@ -1,10 +1,13 @@
-"""Component placement for the channel-strip PCB, v4.0 (KiCad 10 pcbnew API). Placement only: no copper.
-Run with KiCad's bundled Python, into a separate file:
-  /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3 \
-      tools/place_strip.py channel_strip.net channel_strip_v4.kicad_pcb
+"""Component placement for the channel-strip PCBs, v4.0 (KiCad 10 pcbnew API). Placement only: no copper.
+Two boards, each from its own netlist; the layout is picked from the parts (CN5 = jack board):
+  KPY=/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3
+  $KPY tools/place_strip.py channel_strip.net channel_strip_v4.kicad_pcb     # main board, 38 x 400 mm
+  $KPY tools/place_strip.py jack_board.net jack_board.kicad_pcb              # jack board, 38 x 43 mm
 Panel: 8 HP x 12U Eurorack-style (40.3 x 514 mm), two pot columns, jacks on the panel (study:
-strip_panel_study.md). Board 38 x 444 mm under the panel, starting 11 mm below the panel's top edge
-(end rail). y = 0 is the board's top end (jacks), y grows towards the fader.
+strip_panel_study.md). y = 0 is 11 mm below the panel's top edge (end rail) and grows towards the fader;
+both boards use these coordinates, so the two files overlay on the panel. The jack board (y 0-43) sits
+~24 mm under the panel (a 1/4" plug goes ~30 mm deep); the main board (y 44-444) at 11.5 mm. A 10-way
+IDC ribbon joins CN5 (jack board, bottom) to CN3 (main board, bottom).
 Panel parts sit at fixed coordinates. Every other part is packed into a named zone at the first position
 where its courtyard clears every courtyard on its side and every through-hole pad on either side (THT
 pads go through the board), so top and bottom parts can share an area without colliding.
@@ -26,7 +29,8 @@ PROJ = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 KLIB = '/Applications/KiCad/KiCad.app/Contents/SharedSupport/footprints/'
 if not os.path.isdir(KLIB): KLIB = '/usr/share/kicad/footprints/'
 
-W, L = 38.0, 444.0            # board: 40 mm strip pitch; 444 mm under a 514 mm (12U) panel
+W = 38.0                      # board width: 40 mm strip pitch
+JACK_Y1, MAIN_Y0, MAIN_Y1 = 43.0, 44.0, 444.0   # jack board y 0-43, main board y 44-444 (514 mm 12U panel)
 XL, XR, XC = 10.0, 28.0, 19.0 # pot columns and centre line (panel x = board x + 1.15)
 GAP, STEP = 0.3, 0.5          # packer clearance between courtyards / pads, search step
 
@@ -41,10 +45,19 @@ sw  = lambda x, y: (x - 2.5, y - 3.0, 0, 'F')          # PVA2: actuator centre a
 led = lambda x, y: (x - 1.27, y, 0, 'F')               # 3 mm LED: centre at (1.27, 0)
 jack = lambda x, y: (x, y - 5.72, 0, 'F')              # NJ6FD-V: nose centre at (0, 5.72) from the tip pin
 
-ROWS = {}  # panel features for the notes column
+# ================================================================ jack board
+JACK_FIX = {'J1': jack(XL, 12), 'J2': jack(XR, 12), 'J5': jack(XL, 32)}              # line in, insert / direct out
+# M3 standoffs to the panel, length = jack body height (~24 mm); the jack caps hold the board too
+JACK_HOLES = [(23, 27), (23, 37)]
+JACK_ZONES = [
+ ('link header (bottom)', (25, 21, 37, 43), ['CN5'], 'B'),
+ ('input RF caps (bottom, at J1)', (1, 1, 19, 22), ['C8', 'C9'], 'B'),
+]
+JACK_NOTES = ((12, 'LINE IN | INSERT'), (32, 'DIRECT OUT | link CN5 (bottom)'))
+
+# ================================================================ main board
 FIX = {
- 'J1': jack(XL, 12), 'J2': jack(XR, 12), 'J5': jack(XL, 32), 'SW15': sw(XR, 32),        # line in, insert / direct out, Ø
- 'RV9': pot(XL, 54), 'D2': led(XR, 54),                                                   # gain, OL
+ 'SW15': sw(XR, 50), 'RV9': pot(XL, 54), 'D2': led(XR, 61),                               # Ø, gain, OL
  'RV10': pot(XL, 76), 'SW11': sw(XR, 76),                                                 # HF, HPF
  'RV11': pot(XL, 98), 'RV12': pot(XR, 98, dual=True, right=True),                         # HI-MID gain, freq
  'RV13': pot(XL, 120), 'RV14': pot(XR, 120, dual=True, right=True),                       # LO-MID gain, freq
@@ -62,20 +75,21 @@ FIX = {
  'NT1': (5.0, 351.0, 0, 'F'),            # AGND-LGND net tie beside the spade (no courtyard: keep it clear by hand)
 }
 # M3 standoff holes (11.5 mm), unplated so audio ground never meets the chassis
-HOLES = [(XC, 65), (XC, 154), (XC, 221), (5, 330), (5, 425), (34, 425)]
+HOLES = [(XC, 67), (XC, 154), (XC, 221), (5, 330), (5, 425), (34, 425)]
 
 # ---------------------------------------------------------------- zones: (x0, y0, x1, y1), refs, side
 # Bottom side: radial electrolytics (too tall for the 11.5 mm panel gap), VCA socket. Placed first.
 ZONES = [
+ ('jack-board link (bottom)', (12, 44, 37, 120), ['CN3'], 'B'),     # pins between the columns
  ('rail reservoir caps (bottom)', (1, 360, 37, 444), ['C1', 'C3', 'C5', 'C6'], 'B'),
- ('gain-out coupling (bottom)',  (1, 38, 37, 75), ['C38'], 'B'),
+ ('gain-out coupling (bottom)',  (1, 45, 37, 80), ['C38'], 'B'),
  ('insert / EQ coupling (bottom)', (1, 75, 37, 160), ['C51', 'C10', 'C11'], 'B'),
  ('post / pan / direct-out coupling (bottom)', (1, 160, 37, 300), ['C15', 'C16', 'C17', 'C52'], 'B'),
  ('VCA module socket (bottom)', (1, 380, 37, 444), ['J3', 'J4'], 'B'),
  # Top side, roughly in signal order
- ('input receiver + gain', (1, 1, 37, 72), ['U1', 'C20', 'C21', 'R6', 'R7', 'C7', 'R8', 'R9', 'R10', 'C8', 'C9',
-                                            'R45', 'R46', 'C37', 'R47'], 'F'),
- ('OL detector', (1, 36, 37, 100), ['U4', 'C26', 'R39', 'D1', 'C12', 'R14', 'R40', 'R41', 'R15'], 'F'),
+ ('input receiver + gain', (1, 45, 37, 100), ['U1', 'C20', 'C21', 'R6', 'R7', 'C7', 'R8', 'R9', 'R10',
+                                              'R45', 'R46', 'C37', 'R47'], 'F'),
+ ('OL detector', (1, 45, 37, 100), ['U4', 'C26', 'R39', 'D1', 'C12', 'R14', 'R40', 'R41', 'R15'], 'F'),
  ('HPF', (1, 60, 37, 100), ['U5', 'C29', 'C30', 'C39', 'C40', 'R48', 'R49'], 'F'),
  ('EQ', (1, 82, 37, 162), ['U6', 'C31', 'C32', 'U7', 'C33', 'C34', 'C48', 'C49', 'R50', 'R51', 'C41', 'C42', 'R52',
                            'C43', 'R53', 'R54', 'R55', 'C44', 'R56', 'R57', 'C45', 'R58', 'R59', 'C46', 'R60', 'R61',
@@ -91,6 +105,10 @@ ZONES = [
  ('power entry', (1, 340, 37, 380), ['R1', 'R2', 'R3', 'R4', 'R5', 'C2', 'C4'], 'F'),
  ('fader post-amp', (27, 340, 37, 444), ['U2', 'C22', 'C23', 'R19', 'C14', 'R38', 'C13', 'JP1', 'R18', 'R44'], 'F'),
 ]
+NOTES = ((50, 'GAIN | PHASE, OL'), (76, 'HF | HPF'), (98, 'HI-MID gain | freq'), (120, 'LO-MID gain | freq'),
+         (142, 'LF | EQ'), (166, 'AUX 1 | 2'), (188, 'AUX 3 | 4'), (210, 'AUX 5 | 6'), (230, 'PRE 1-2  3-4  5-6'),
+         (252, 'PAN | PAN, DIR'), (274, 'L-R  1-2  3-4'), (292, 'PFL | ON'), (305, 'BUS HEADER (bottom, right)'),
+         (372, 'FADER 100 mm'), (55, 'LINK CN3 (bottom) to the jack board'))
 
 # ---------------------------------------------------------------- netlist
 tree = sexp(open(NET).read())
@@ -108,6 +126,11 @@ for n in nets[1:]:
     for nd in n[1:]:
         if isinstance(nd, list) and nd[0] == 'node': padnet[(field(nd, 'ref'), field(nd, 'pin'))] = name
 
+if 'CN5' in parts:      # jack board
+    BOARD, FIX, HOLES, ZONES, NOTES = (0, 0, W, JACK_Y1), JACK_FIX, JACK_HOLES, JACK_ZONES, JACK_NOTES
+    HOLE_VALUE = 'M3 standoff = jack body height (~24 mm)'
+else:
+    BOARD, HOLE_VALUE = (0, MAIN_Y0, W, MAIN_Y1), 'M3 standoff 11.5 mm'
 placed = set(FIX) | {r for _, _, refs, _ in ZONES for r in refs}
 missing = sorted(set(parts) - placed); extra = sorted(placed - set(parts))
 if missing or extra: raise SystemExit(f'placement table out of date: unplaced {missing}, unknown {extra}')
@@ -129,7 +152,7 @@ def note(text, x, y, layer=pcbnew.Cmts_User, size=1.5):
     t.SetLayer(layer); t.SetTextSize(pcbnew.VECTOR2I_MM(size, size)); t.SetHorizJustify(pcbnew.GR_TEXT_H_ALIGN_LEFT)
     board.Add(t)
 
-edge_rect(0, 0, W, L)
+edge_rect(*BOARD)
 
 def load(ref):
     p = parts[ref]; lib, name = p['fp'].split(':', 1)
@@ -177,7 +200,7 @@ for ref, (x, y, rot, side) in FIX.items():
     register(fp, side)
 for i, (x, y) in enumerate(HOLES, 1):
     h = pcbnew.FootprintLoad(os.path.join(KLIB, 'MountingHole.pretty'), 'MountingHole_3.2mm_M3')
-    h.SetFPID(pcbnew.LIB_ID('MountingHole', 'MountingHole_3.2mm_M3')); h.SetReference(f'H{i}'); h.SetValue('M3 standoff 11.5 mm')
+    h.SetFPID(pcbnew.LIB_ID('MountingHole', 'MountingHole_3.2mm_M3')); h.SetReference(f'H{i}'); h.SetValue(HOLE_VALUE)
     h.SetBoardOnly(True); h.SetExcludedFromBOM(True); h.SetExcludedFromPosFiles(True)
     board.Add(h); h.SetPosition(pcbnew.VECTOR2I_MM(x, y))
     c = courtyard(h); occ['F'].append(c); occ['B'].append(c)
@@ -185,7 +208,8 @@ for i, (x, y) in enumerate(HOLES, 1):
 def fits(fp, side, x0, y0, x1, y1):
     other = 'B' if side == 'F' else 'F'
     c = courtyard(fp)
-    if c[0] < max(x0, 0.3) or c[1] < max(y0, 0.3) or c[2] > min(x1, W - 0.3) or c[3] > min(y1, L - 0.3): return False
+    if (c[0] < max(x0, BOARD[0] + 0.3) or c[1] < max(y0, BOARD[1] + 0.3) or c[2] > min(x1, BOARD[2] - 0.3)
+            or c[3] > min(y1, BOARD[3] - 0.3)): return False
     if overlaps(c, occ[side]): return False
     pads = tht_pads(fp)
     return not (pads and any(overlaps(p, occ[other]) for p in pads))
@@ -214,14 +238,11 @@ for zname, (x0, y0, x1, y1), refs, side in ZONES:
         if done: register(fp, side)
         else:
             report.append(f'{zname}: no room for {ref}')
-            fp.SetPosition(pcbnew.VECTOR2I_MM(W + 10, y0))       # parked off-board so DRC flags it
+            fp.SetPosition(pcbnew.VECTOR2I_MM(BOARD[2] + 10, y0))   # parked off-board so DRC flags it
 
 # panel-feature notes (board y)
-for y, txt in ((12, 'LINE IN | INSERT'), (32, 'DIRECT OUT | PHASE'), (54, 'GAIN | OL'), (76, 'HF | HPF'),
-               (98, 'HI-MID gain | freq'), (120, 'LO-MID gain | freq'), (142, 'LF | EQ'), (166, 'AUX 1 | 2'),
-               (188, 'AUX 3 | 4'), (210, 'AUX 5 | 6'), (230, 'PRE 1-2  3-4  5-6'), (252, 'PAN | PAN, DIR'),
-               (274, 'L-R  1-2  3-4'), (292, 'PFL | ON'), (305, 'BUS HEADER (bottom, right)'), (372, 'FADER 100 mm')):
+for y, txt in NOTES:
     note(txt, W + 3, y, size=2.0)
 pcbnew.SaveBoard(OUT, board)
-print(f'placed {len(parts)} footprints + {len(HOLES)} holes on {W:.0f} x {L:.0f} mm; nets {len(netinfo)}')
+print(f'placed {len(parts)} footprints + {len(HOLES)} holes on {BOARD[2] - BOARD[0]:.0f} x {BOARD[3] - BOARD[1]:.0f} mm; nets {len(netinfo)}')
 for r in report: print('  WARNING', r)

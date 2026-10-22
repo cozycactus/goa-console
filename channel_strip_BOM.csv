@@ -3,11 +3,11 @@ Qty,Value,Footprint,MPN,References
 18,100n,Capacitor_SMD:C_0805_2012Metric,,C2 C4 C20 C21 C22 C23 C24 C25 C26 C28 C29 C30 C31 C32 C33 C34 C35 C36
 2,47u 25V,Capacitor_THT:CP_Radial_D6.3mm_P2.50mm,,C5 C6
 2,33p C0G,Capacitor_SMD:C_0805_2012Metric,,C7 C41
-3,100p C0G,Capacitor_SMD:C_0805_2012Metric,,C8 C9 C14
 4,47u NP 25V,Capacitor_THT:CP_Radial_D8.0mm_P3.50mm,,C10 C38 C51 C52
 4,220u NP 25V,Capacitor_THT:CP_Radial_D10.0mm_P5.00mm,,C11 C15 C16 C17
 1,1u,Capacitor_SMD:C_0805_2012Metric,,C12
 1,2.2u,Capacitor_SMD:C_1206_3216Metric,,C13
+1,100p C0G,Capacitor_SMD:C_0805_2012Metric,,C14
 1,22p C0G,Capacitor_SMD:C_0805_2012Metric,,C37
 2,47n C0G,Capacitor_SMD:C_1206_3216Metric,,C39 C40
 2,4n7 C0G,Capacitor_SMD:C_1206_3216Metric,,C42 C43
@@ -19,17 +19,15 @@ Qty,Value,Footprint,MPN,References
 1,2.2u film,Capacitor_THT:C_Rect_L7.2mm_W8.5mm_P5.00mm_FKP2_FKP2_MKS2_MKP2,,C49
 1,100n C0G,Capacitor_SMD:C_1206_3216Metric,,C50
 1,Bus 2x17,Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical,,CN1
+1,Jack board link 2x5,Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical,Wurth 61201021621 (2x5 box header),CN3
 1,Ground spade 6.3mm,goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm,Keystone 1287-ST,CN4
 1,1N4148,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,,D1
 1,OL red,LED_THT:LED_D3.0mm,,D2
 1,PFL red,LED_THT:LED_D3.0mm,,D3
 1,ON green,LED_THT:LED_D3.0mm,,D4
 1,EQ green,LED_THT:LED_D3.0mm,,D5
-1,Line in TRS,Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical,Neutrik NJ6FD-V,J1
-1,Insert TRS switched,Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical,Neutrik NJ6FD-V,J2
 1,VCA module socket,Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical,,J3
 1,VCA control in,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,,J4
-1,Direct out TRS,Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical,Neutrik NJ6FD-V,J5
 2,J112,Package_TO_SOT_SMD:SOT-23,,Q1 Q2
 4,10R,Resistor_SMD:R_0805_2012Metric,,R1 R2 R3 R4
 1,10R GND cancel,Resistor_SMD:R_0805_2012Metric,,R5

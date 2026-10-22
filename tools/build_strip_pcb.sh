@@ -1,17 +1,23 @@
 #!/bin/bash
 # Build component placement only. No routing, vias or copper pours.
-# usage: tools/build_strip_pcb.sh [output.kicad_pcb]
+# usage: tools/build_strip_pcb.sh [main.kicad_pcb [jack.kicad_pcb]]
+# Defaults: channel_strip_v4.kicad_pcb (main board) and jack_board.kicad_pcb (jack board).
+# channel_strip.kicad_pcb is the old v3.1 board; don't rebuild it from the v4.0 netlist.
 # Overwrites existing unrouted placement; refuses to overwrite a board containing routing/zones.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 KPY=/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3
-if [ "$#" -gt 1 ]; then
-  echo "usage: $0 [output.kicad_pcb]" >&2
+if [ "$#" -gt 2 ]; then
+  echo "usage: $0 [main.kicad_pcb [jack.kicad_pcb]]" >&2
   exit 2
 fi
-PCB=${1:-channel_strip_v4.kicad_pcb}  # v4.0 placement; channel_strip.kicad_pcb is the old v3.1 board
-case "$PCB" in
-  *.kicad_pcb) ;;
-  *) echo "Output must end in .kicad_pcb; routing blocks are no longer supported." >&2; exit 2 ;;
-esac
-"$KPY" tools/place_strip.py channel_strip.net "$PCB"
+MAIN=${1:-channel_strip_v4.kicad_pcb}
+JACK=${2:-jack_board.kicad_pcb}
+for PCB in "$MAIN" "$JACK"; do
+  case "$PCB" in
+    *.kicad_pcb) ;;
+    *) echo "Output must end in .kicad_pcb; routing blocks are no longer supported." >&2; exit 2 ;;
+  esac
+done
+"$KPY" tools/place_strip.py channel_strip.net "$MAIN"
+"$KPY" tools/place_strip.py jack_board.net "$JACK"

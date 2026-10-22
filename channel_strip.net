@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/channel_strip.kicad_sch")
-		(date "2026-10-22T17:45:13")
+		(date "2026-10-22T18:50:41")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -418,114 +418,6 @@
 				(tstamps "/")
 			)
 			(tstamps "ff359295-3776-58d6-bf0d-799428eb9736")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C8")
-			(value "100p C0G")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
-			(fields
-				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Device")
-				(part "C")
-				(description "Unpolarized capacitor")
-			)
-			(property
-				(name "Sheetname")
-				(value "channel_strip")
-			)
-			(property
-				(name "Sheetfile")
-				(value "channel_strip.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "cap capacitor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "C_*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "ecbcf5dc-ce19-56d9-87a4-080f3bd91646")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C9")
-			(value "100p C0G")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
-			(fields
-				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Device")
-				(part "C")
-				(description "Unpolarized capacitor")
-			)
-			(property
-				(name "Sheetname")
-				(value "channel_strip")
-			)
-			(property
-				(name "Sheetfile")
-				(value "channel_strip.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "cap capacitor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "C_*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "a1ae658f-7cc3-56aa-8816-f9848037564c")
 			(units
 				(unit
 					(name "A")
@@ -2851,6 +2743,90 @@
 			)
 		)
 		(comp
+			(ref "CN3")
+			(value "Jack board link 2x5")
+			(footprint "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical")
+			(fields
+				(field
+					(name "MPN") "Wurth 61201021621 (2x5 box header)")
+				(field
+					(name "Footprint") "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Connector_Generic")
+				(part "Conn_02x05_Odd_Even")
+				(description "Generic connector, double row, 02x05, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(property
+				(name "MPN")
+				(value "Wurth 61201021621 (2x5 box header)")
+			)
+			(property
+				(name "Sheetname")
+				(value "channel_strip")
+			)
+			(property
+				(name "Sheetfile")
+				(value "channel_strip.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "connector")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "Connector*:*_2x??_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "eda68cca-d004-5923-8a1f-c27355bd36db")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "10")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "CN4")
 			(value "Ground spade 6.3mm")
 			(footprint "goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm")
@@ -3178,144 +3154,6 @@
 			)
 		)
 		(comp
-			(ref "J1")
-			(value "Line in TRS")
-			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
-			(fields
-				(field
-					(name "MPN") "Neutrik NJ6FD-V")
-				(field
-					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Connector_Audio")
-				(part "AudioJack3_SwitchTR")
-				(description "Audio Jack, 3 Poles (Stereo / TRS), Switched TR Poles (Normalling)")
-			)
-			(property
-				(name "MPN")
-				(value "Neutrik NJ6FD-V")
-			)
-			(property
-				(name "Sheetname")
-				(value "channel_strip")
-			)
-			(property
-				(name "Sheetfile")
-				(value "channel_strip.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "audio jack receptacle stereo headphones phones TRS connector")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Jack*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "328bc40c-875a-5e04-9366-3381a501bcb4")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "S")
-						)
-						(pin
-							(num "R")
-						)
-						(pin
-							(num "RN")
-						)
-						(pin
-							(num "T")
-						)
-						(pin
-							(num "TN")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "J2")
-			(value "Insert TRS switched")
-			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
-			(fields
-				(field
-					(name "MPN") "Neutrik NJ6FD-V")
-				(field
-					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Connector_Audio")
-				(part "AudioJack3_SwitchTR")
-				(description "Audio Jack, 3 Poles (Stereo / TRS), Switched TR Poles (Normalling)")
-			)
-			(property
-				(name "MPN")
-				(value "Neutrik NJ6FD-V")
-			)
-			(property
-				(name "Sheetname")
-				(value "channel_strip")
-			)
-			(property
-				(name "Sheetfile")
-				(value "channel_strip.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "audio jack receptacle stereo headphones phones TRS connector")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Jack*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "8e4157dd-cb77-5cfe-ac60-04ad163341f1")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "S")
-						)
-						(pin
-							(num "R")
-						)
-						(pin
-							(num "RN")
-						)
-						(pin
-							(num "T")
-						)
-						(pin
-							(num "TN")
-						)
-					)
-				)
-			)
-		)
-		(comp
 			(ref "J3")
 			(value "VCA module socket")
 			(footprint "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical")
@@ -3436,75 +3274,6 @@
 						)
 						(pin
 							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "J5")
-			(value "Direct out TRS")
-			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
-			(fields
-				(field
-					(name "MPN") "Neutrik NJ6FD-V")
-				(field
-					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Connector_Audio")
-				(part "AudioJack3_SwitchTR")
-				(description "Audio Jack, 3 Poles (Stereo / TRS), Switched TR Poles (Normalling)")
-			)
-			(property
-				(name "MPN")
-				(value "Neutrik NJ6FD-V")
-			)
-			(property
-				(name "Sheetname")
-				(value "channel_strip")
-			)
-			(property
-				(name "Sheetfile")
-				(value "channel_strip.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "audio jack receptacle stereo headphones phones TRS connector")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Jack*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "98f794ca-9e95-580d-9e57-7850edd2b4af")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "S")
-						)
-						(pin
-							(num "R")
-						)
-						(pin
-							(num "RN")
-						)
-						(pin
-							(num "T")
-						)
-						(pin
-							(num "TN")
 						)
 					)
 				)
@@ -10139,7 +9908,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "941120a3-8e8d-52d9-bfac-fbd861994c35" "76278c9b-c944-567e-847a-572160dbf90a"
+			(tstamps "76278c9b-c944-567e-847a-572160dbf90a" "941120a3-8e8d-52d9-bfac-fbd861994c35"
 				"329516ff-a7c9-5657-8647-09a08fa79626"
 			)
 			(units
@@ -10391,7 +10160,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "e05befa0-d2c7-52e0-aca7-9b4ebe5bf593" "c0f57f49-f6f0-572a-b754-be76018c9727"
+			(tstamps "c0f57f49-f6f0-572a-b754-be76018c9727" "e05befa0-d2c7-52e0-aca7-9b4ebe5bf593"
 				"94de0a28-36eb-57b2-a84a-9161c6570cda"
 			)
 			(units
@@ -10559,7 +10328,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "ca09e22e-1b4f-53c8-96b4-53f462701bff" "60249f84-abaf-58f5-be0e-2d51a491be43"
+			(tstamps "60249f84-abaf-58f5-be0e-2d51a491be43" "ca09e22e-1b4f-53c8-96b4-53f462701bff"
 				"518310c2-229a-507b-8fe9-90f03ab903eb"
 			)
 			(units
@@ -10643,7 +10412,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "89b05938-7319-5732-a47f-83181454fde0" "67758aef-a2eb-567f-9289-75f19cae1bba"
+			(tstamps "67758aef-a2eb-567f-9289-75f19cae1bba" "89b05938-7319-5732-a47f-83181454fde0"
 				"2c9e6307-8546-5c77-b29c-fa41acbe9f39"
 			)
 			(units
@@ -10835,55 +10604,6 @@
 			)
 		)
 		(libpart
-			(lib "Connector_Audio")
-			(part "AudioJack3_SwitchTR")
-			(description "Audio Jack, 3 Poles (Stereo / TRS), Switched TR Poles (Normalling)")
-			(footprints
-				(fp "Jack*")
-			)
-			(fields
-				(field
-					(name "Reference") "J")
-				(field
-					(name "Value") "AudioJack3_SwitchTR")
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Audio Jack, 3 Poles (Stereo / TRS), Switched TR Poles (Normalling)")
-			)
-			(pins
-				(pin
-					(num "R")
-					(name "")
-					(type "passive")
-				)
-				(pin
-					(num "RN")
-					(name "")
-					(type "passive")
-				)
-				(pin
-					(num "S")
-					(name "")
-					(type "passive")
-				)
-				(pin
-					(num "T")
-					(name "")
-					(type "passive")
-				)
-				(pin
-					(num "TN")
-					(name "")
-					(type "passive")
-				)
-			)
-		)
-		(libpart
 			(lib "Connector_Generic")
 			(part "Conn_01x01")
 			(description "Generic connector, single row, 01x01, script generated (kicad-library-utils/schlib/autogen/connector/)")
@@ -10996,6 +10716,80 @@
 				(pin
 					(num "6")
 					(name "Pin_6")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Connector_Generic")
+			(part "Conn_02x05_Odd_Even")
+			(description "Generic connector, double row, 02x05, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(footprints
+				(fp "Connector*:*_2x??_*")
+			)
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "Conn_02x05_Odd_Even")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Generic connector, double row, 02x05, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "Pin_1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "Pin_2")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "Pin_3")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "Pin_4")
+					(type "passive")
+				)
+				(pin
+					(num "5")
+					(name "Pin_5")
+					(type "passive")
+				)
+				(pin
+					(num "6")
+					(name "Pin_6")
+					(type "passive")
+				)
+				(pin
+					(num "7")
+					(name "Pin_7")
+					(type "passive")
+				)
+				(pin
+					(num "8")
+					(name "Pin_8")
+					(type "passive")
+				)
+				(pin
+					(num "9")
+					(name "Pin_9")
+					(type "passive")
+				)
+				(pin
+					(num "10")
+					(name "Pin_10")
 					(type "passive")
 				)
 			)
@@ -11690,10 +11484,6 @@
 			(uri "${KICAD10_SYMBOL_DIR}/Comparator.kicad_sym")
 		)
 		(library
-			(logical "Connector_Audio")
-			(uri "${KICAD10_SYMBOL_DIR}/Connector_Audio.kicad_sym")
-		)
-		(library
 			(logical "Connector_Generic")
 			(uri "${KICAD10_SYMBOL_DIR}/Connector_Generic.kicad_sym")
 		)
@@ -12366,8 +12156,9 @@
 			(name "/DO_R")
 			(class "Default")
 			(node
-				(ref "J5")
-				(pin "R")
+				(ref "CN3")
+				(pin "9")
+				(pinfunction "Pin_9_9")
 				(pintype "passive")
 			)
 			(node
@@ -12386,8 +12177,9 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J5")
-				(pin "T")
+				(ref "CN3")
+				(pin "8")
+				(pinfunction "Pin_8_8")
 				(pintype "passive")
 			)
 			(node
@@ -13384,13 +13176,9 @@
 			(name "/IN_R")
 			(class "Default")
 			(node
-				(ref "C9")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "J1")
-				(pin "R")
+				(ref "CN3")
+				(pin "2")
+				(pinfunction "Pin_2_2")
 				(pintype "passive")
 			)
 			(node
@@ -13411,13 +13199,9 @@
 			(name "/IN_T")
 			(class "Default")
 			(node
-				(ref "C8")
+				(ref "CN3")
 				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "J1")
-				(pin "T")
+				(pinfunction "Pin_1_1")
 				(pintype "passive")
 			)
 			(node
@@ -14145,8 +13929,9 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J2")
-				(pin "R")
+				(ref "CN3")
+				(pin "6")
+				(pinfunction "Pin_6_6")
 				(pintype "passive")
 			)
 		)
@@ -14251,13 +14036,9 @@
 			(name "/SEND")
 			(class "Default")
 			(node
-				(ref "J2")
-				(pin "RN")
-				(pintype "passive")
-			)
-			(node
-				(ref "J2")
-				(pin "T")
+				(ref "CN3")
+				(pin "4")
+				(pinfunction "Pin_4_4")
 				(pintype "passive")
 			)
 			(node
@@ -14735,16 +14516,6 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C8")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "C9")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
 				(ref "CN1")
 				(pin "10")
 				(pinfunction "Pin_10_10")
@@ -14793,19 +14564,33 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "CN3")
+				(pin "10")
+				(pinfunction "Pin_10_10")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN3")
+				(pin "3")
+				(pinfunction "Pin_3_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN3")
+				(pin "5")
+				(pinfunction "Pin_5_5")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN3")
+				(pin "7")
+				(pinfunction "Pin_7_7")
+				(pintype "passive")
+			)
+			(node
 				(ref "CN4")
 				(pin "1")
 				(pinfunction "Pin_1_1")
-				(pintype "passive")
-			)
-			(node
-				(ref "J1")
-				(pin "S")
-				(pintype "passive")
-			)
-			(node
-				(ref "J2")
-				(pin "S")
 				(pintype "passive")
 			)
 			(node
@@ -14818,11 +14603,6 @@
 				(ref "J4")
 				(pin "2")
 				(pinfunction "Pin_2_2")
-				(pintype "passive")
-			)
-			(node
-				(ref "J5")
-				(pin "S")
 				(pintype "passive")
 			)
 			(node
@@ -15220,56 +15000,6 @@
 		)
 		(net
 			(code "139")
-			(name "unconnected-(J1-PadRN)")
-			(class "Default")
-			(node
-				(ref "J1")
-				(pin "RN")
-				(pintype "passive+no_connect")
-			)
-		)
-		(net
-			(code "140")
-			(name "unconnected-(J1-PadTN)")
-			(class "Default")
-			(node
-				(ref "J1")
-				(pin "TN")
-				(pintype "passive+no_connect")
-			)
-		)
-		(net
-			(code "141")
-			(name "unconnected-(J2-PadTN)")
-			(class "Default")
-			(node
-				(ref "J2")
-				(pin "TN")
-				(pintype "passive+no_connect")
-			)
-		)
-		(net
-			(code "142")
-			(name "unconnected-(J5-PadRN)")
-			(class "Default")
-			(node
-				(ref "J5")
-				(pin "RN")
-				(pintype "passive+no_connect")
-			)
-		)
-		(net
-			(code "143")
-			(name "unconnected-(J5-PadTN)")
-			(class "Default")
-			(node
-				(ref "J5")
-				(pin "TN")
-				(pintype "passive+no_connect")
-			)
-		)
-		(net
-			(code "144")
 			(name "unconnected-(SW3B-C-Pad6)")
 			(class "Default")
 			(node
@@ -15280,7 +15010,7 @@
 			)
 		)
 		(net
-			(code "145")
+			(code "140")
 			(name "unconnected-(SW4B-C-Pad6)")
 			(class "Default")
 			(node
@@ -15291,7 +15021,7 @@
 			)
 		)
 		(net
-			(code "146")
+			(code "141")
 			(name "unconnected-(SW8B-A-Pad4)")
 			(class "Default")
 			(node
@@ -15302,7 +15032,7 @@
 			)
 		)
 		(net
-			(code "147")
+			(code "142")
 			(name "unconnected-(SW8B-B-Pad5)")
 			(class "Default")
 			(node
@@ -15313,7 +15043,7 @@
 			)
 		)
 		(net
-			(code "148")
+			(code "143")
 			(name "unconnected-(SW8B-C-Pad6)")
 			(class "Default")
 			(node
@@ -15324,7 +15054,7 @@
 			)
 		)
 		(net
-			(code "149")
+			(code "144")
 			(name "unconnected-(SW9B-A-Pad4)")
 			(class "Default")
 			(node
@@ -15335,7 +15065,7 @@
 			)
 		)
 		(net
-			(code "150")
+			(code "145")
 			(name "unconnected-(SW9B-B-Pad5)")
 			(class "Default")
 			(node
@@ -15346,7 +15076,7 @@
 			)
 		)
 		(net
-			(code "151")
+			(code "146")
 			(name "unconnected-(SW9B-C-Pad6)")
 			(class "Default")
 			(node
@@ -15357,7 +15087,7 @@
 			)
 		)
 		(net
-			(code "152")
+			(code "147")
 			(name "unconnected-(SW10B-A-Pad4)")
 			(class "Default")
 			(node
@@ -15368,7 +15098,7 @@
 			)
 		)
 		(net
-			(code "153")
+			(code "148")
 			(name "unconnected-(SW10B-B-Pad5)")
 			(class "Default")
 			(node
@@ -15379,7 +15109,7 @@
 			)
 		)
 		(net
-			(code "154")
+			(code "149")
 			(name "unconnected-(SW10B-C-Pad6)")
 			(class "Default")
 			(node
@@ -15390,7 +15120,7 @@
 			)
 		)
 		(net
-			(code "155")
+			(code "150")
 			(name "unconnected-(SW11A-A-Pad1)")
 			(class "Default")
 			(node
@@ -15401,7 +15131,7 @@
 			)
 		)
 		(net
-			(code "156")
+			(code "151")
 			(name "unconnected-(SW11B-A-Pad4)")
 			(class "Default")
 			(node
@@ -15412,7 +15142,7 @@
 			)
 		)
 		(net
-			(code "157")
+			(code "152")
 			(name "unconnected-(SW11B-B-Pad5)")
 			(class "Default")
 			(node
@@ -15423,7 +15153,7 @@
 			)
 		)
 		(net
-			(code "158")
+			(code "153")
 			(name "unconnected-(SW11B-C-Pad6)")
 			(class "Default")
 			(node
@@ -15434,7 +15164,7 @@
 			)
 		)
 		(net
-			(code "159")
+			(code "154")
 			(name "unconnected-(SW12B-C-Pad6)")
 			(class "Default")
 			(node
@@ -15445,7 +15175,7 @@
 			)
 		)
 		(net
-			(code "160")
+			(code "155")
 			(name "unconnected-(SW13B-C-Pad6)")
 			(class "Default")
 			(node
@@ -15456,7 +15186,7 @@
 			)
 		)
 		(net
-			(code "161")
+			(code "156")
 			(name "unconnected-(U4-Pad7)")
 			(class "Default")
 			(node

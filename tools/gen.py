@@ -1,20 +1,29 @@
-"""Generate the channel-strip schematic from its netlist (the P(...) calls below).
-Builder and part maps are in schgen.py."""
-import sys
+"""Generate the channel-strip schematic from its netlist (the P(...) calls below), and the jack-board
+schematic (jack_board.kicad_sch, written next to it). Builder and part maps are in schgen.py."""
+import os, sys
+import schgen
 from schgen import block, P, build, FADER_FP, CAP_FP, SYM, FP
 
-SYM.update({'CONN6': ('Connector_Generic', 'Conn_01x06'), 'CONN2': ('Connector_Generic', 'Conn_01x02')})
+SYM.update({'CONN6': ('Connector_Generic', 'Conn_01x06'), 'CONN2': ('Connector_Generic', 'Conn_01x02'),
+            'LINK': ('Connector_Generic', 'Conn_02x05_Odd_Even')})
 FP.update({'CONN6': 'Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical',
-           'CONN2': 'Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical'})
+           'CONN2': 'Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical',
+           'LINK': 'Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical'})
+LINK_MPN = 'Wurth 61201021621 (2x5 box header)'
 C0G = 'Capacitor_SMD:C_1206_3216Metric'                                     # C0G up to 100n
 FILM_S = 'Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2'     # 150n film
 FILM_L = 'Capacitor_THT:C_Rect_L7.2mm_W8.5mm_P5.00mm_FKP2_FKP2_MKS2_MKP2'     # 2.2u film (KiCad's spelling)
 POTB = 'Alpha RD901F-40-15R1-B10K-0CD (centre detent)'
-# front-panel jacks (Eurorack-style 12U panel, no rear apron): vertical, all-plastic (PA shell, POM cap) = isolated
+# front-panel jacks (Eurorack-style 12U panel, no rear apron): vertical, all-plastic (PA shell, POM cap) = isolated.
+# A 1/4" plug goes ~30 mm deep, so the jacks sit on their own board ~24 mm under the panel (the main board is at
+# 11.5 mm), joined to the main board by a 10-way IDC ribbon: CN3 (main board, bottom side) <-> CN5 (jack board).
 JACK_V = 'Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical'; JACK_V_MPN = 'Neutrik NJ6FD-V'
+# ribbon conductor = pin number: each pair adjacent, grounds between input, send, return and direct out
+LINK = {1: 'IN_T', 2: 'IN_R', 3: 'GNDA', 4: 'SEND', 5: 'GNDA', 6: 'RET_RAW', 7: 'GNDA', 8: 'DO_T', 9: 'DO_R', 10: 'GNDA'}
 POT2C = 'Alpha RD902F-40 C100K dual (reverse log) - availability to confirm'
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else 'channel_strip.kicad_sch'
+JB_OUT = os.path.join(os.path.dirname(OUT), 'jack_board.kicad_sch')
 
 # ---------------------------------------------------------------- netlist
 b = block('POWER ENTRY, LOGIC SUPPLY, GROUNDS, DECOUPLING')
@@ -43,8 +52,7 @@ b = block('MOTHERLOOM  (Delta pinout; one header, crimped socket on a daisy-chai
 P(b,'CN1','HDR','Bus 2x17',hdr)
 
 b = block('LINE INPUT - ground-compensated receiver (inverting), Ø switch  SW15: latched = phase reversed')
-P(b,'J1','JACKSW','Line in TRS',{'T':'IN_T','R':'IN_R','S':'GNDA','TN':'NC','RN':'NC'},fp=JACK_V,mpn=JACK_V_MPN)
-P(b,'C8','C','100p C0G',{1:'IN_T',2:'GNDA'}); P(b,'C9','C','100p C0G',{1:'IN_R',2:'GNDA'})
+P(b,'CN3','LINK','Jack board link 2x5',LINK,mpn=LINK_MPN)   # J1/J2/J5 and the RF caps C8/C9 are on the jack board
 P(b,'R10','R','1M',{1:'IN_T',2:'GNDA'})
 P(b,'SW15','SW','Phase',{2:'INV_IN',3:'IN_T',1:'IN_R'},unit=1)     # normal: tip to the inverting leg
 P(b,'SW15','SW','Phase',{5:'NINV_IN',6:'IN_R',4:'IN_T'},unit=2)
@@ -106,7 +114,6 @@ P(b,'C51','C','47u NP 25V',{1:'EQSEL',2:'EQOUT'},fp=CAP_FP['47u']); P(b,'R68','R
 
 b = block('INSERT (send = tip, return = ring, ring normalled to send) + return buffer')
 P(b,'R11','R','75R',{1:'INS_SRC',2:'SEND'})
-P(b,'J2','JACKSW','Insert TRS switched',{'T':'SEND','RN':'SEND','R':'RET_RAW','TN':'NC','S':'GNDA'},fp=JACK_V,mpn=JACK_V_MPN)
 P(b,'C10','C','47u NP 25V',{1:'RET_RAW',2:'RET'},fp=CAP_FP['47u']); P(b,'R12','R','47K',{1:'RET',2:'GNDA'})
 P(b,'U7','OPA','OPA1612',{5:'RET',6:'BUF1',7:'BUF1'},unit=2)
 P(b,'C11','C','220u NP 25V',{1:'PRESRC',2:'PRE'},fp=CAP_FP['220u']); P(b,'R13','R','47K',{1:'PRE',2:'GNDA'})
@@ -164,7 +171,6 @@ P(b,'R70','R','100K',{1:'DIRSRC',2:'GNDA'})
 P(b,'U8','OPA','OPA1612',{3:'DIRSRC',2:'DOUT',1:'DOUT'},unit=1)
 P(b,'R71','R','75R',{1:'DOUT',2:'DO1'}); P(b,'C52','C','47u NP 25V',{1:'DO1',2:'DO_T'},fp=CAP_FP['47u'])
 P(b,'R72','R','47K',{1:'DO_T',2:'GNDA'}); P(b,'R73','R','75R',{1:'DO_R',2:'GNDA'})
-P(b,'J5','JACKSW','Direct out TRS',{'T':'DO_T','R':'DO_R','S':'GNDA','TN':'NC','RN':'NC'},fp=JACK_V,mpn=JACK_V_MPN)
 P(b,'U8','OPA','OPA1612',{5:'GNDA',6:'U8B_O',7:'U8B_O'},unit=2)   # spare half, tied off
 
 b = block('PAN + PAN BUFFERS (AC-coupled outputs)')
@@ -189,3 +195,16 @@ for sw,rl,rr,sl,sr,bl,br,nm in [('SW5','R26','R27','PANL','PANR','MIXL','MIXR','
 build(OUT, 'channel_strip', 'Channel strip - goa console (Delta Theatre input without the mic stage)',
       {1: 'Generated from channel_strip_schematic_spec.md v4.0', 2: 'Nets joined by labels; tidy wiring in Eeschema as needed'},
       paper='auto', revision='4.0')
+
+# ---------------------------------------------------------------- jack board (its own PCB; same net names)
+schgen.blocks.clear()
+b = block('JACK BOARD  (3 x NJ6FD-V ~24 mm under the panel; 10-way IDC ribbon to CN3 on the main board)')
+P(b,'J1','JACKSW','Line in TRS',{'T':'IN_T','R':'IN_R','S':'GNDA','TN':'NC','RN':'NC'},fp=JACK_V,mpn=JACK_V_MPN)
+P(b,'C8','C','100p C0G',{1:'IN_T',2:'GNDA'}); P(b,'C9','C','100p C0G',{1:'IN_R',2:'GNDA'})   # RF shunt at the jack
+P(b,'J2','JACKSW','Insert TRS switched',{'T':'SEND','RN':'SEND','R':'RET_RAW','TN':'NC','S':'GNDA'},fp=JACK_V,mpn=JACK_V_MPN)
+P(b,'J5','JACKSW','Direct out TRS',{'T':'DO_T','R':'DO_R','S':'GNDA','TN':'NC','RN':'NC'},fp=JACK_V,mpn=JACK_V_MPN)
+P(b,'CN5','LINK','Main board link 2x5',LINK,mpn=LINK_MPN)
+P(b,'#FLG01','FLAG','PWR_FLAG',{1:'GNDA'})
+build(JB_OUT, 'jack_board', 'Jack board - goa console channel strip (line in, insert, direct out)',
+      {1: 'Generated by tools/gen.py together with channel_strip.kicad_sch (link pinout: LINK)',
+       2: 'Spec: channel_strip_schematic_spec.md 16.4'}, paper='A4', revision='4.0')

@@ -20,7 +20,7 @@ Decided 2026-10-22 (reverses the earlier "no EQ, no trim"):
 - **ON** switch with green LED replaces MUTE/amber (SW4, D4); same J112 soft mute.
 - **PRE switch per aux pair** on the panel (SW8–SW10); the solder jumpers JP2–JP4 now choose
   the pre source: pre-fader (default) or pre-EQ.
-- **Direct out** (J5, U8A); the **DIR** switch (SW13) turns the aux 6 pot into its level.
+- **Direct out** (J5 on the jack board, U8A); the **DIR** switch (SW13) turns the aux 6 pot into its level.
 - **PAN switch** (SW14): off sends the unpanned post-fader signal to the subgroups.
 - Four more OPA1612 (U5–U8): seven in all.
 
@@ -103,8 +103,8 @@ CN1: one 34-pin shrouded keyed header per strip, crimped IDC socket on a daisy-c
 ## 3. Line input and Ø (U1A, SW15)
 
 ```
-J1 tip  ─┬─ C8 100 pF, R10 1M to AGND
-J1 ring ─┴─ C9 100 pF to AGND
+J1 tip  ─┬─ C8 100 pF to AGND (jack board) ── ribbon pin 1 ── IN_T: R10 1M to AGND
+J1 ring ─┴─ C9 100 pF to AGND (jack board) ── ribbon pin 2 ── IN_R
 SW15 pole A: INV_IN  = tip (unlatched) or ring (latched, Ø)   ── R6 10K ── U1A (−) ── R7 10K ── RECV
 SW15 pole B: NINV_IN = ring (unlatched) or tip (latched, Ø)   ── R8 10K ── U1A (+) ── R9 10K ── AGND
 C7 33 pF across R7
@@ -323,7 +323,7 @@ AI scope: component placement only. Ruslan routes copper and pours grounds in Ki
 
 | Ref | Part | Footprint | Notes |
 |-----|------|-----------|-------|
-| J1, J2, J5 | Neutrik NJ6FD-V | `Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical` | On the panel (no rear apron in the 12U frame; three right-angle jacks don't fit the 38 mm edge). All plastic, isolated; panel hole 12 mm, panel 1.2–1.5 mm. **Too deep for the 11.5 mm gap** (~24 mm behind the panel): needs a jack board or other jacks, see `strip_panel_study.md`. |
+| J1, J2, J5 | Neutrik NJ6FD-V | `Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical` | On the panel, **on the jack board** (§16.4): a 1/4" plug goes ~30 mm deep, too deep for the main board's 11.5 mm gap. All plastic, isolated; panel hole 12 mm, panel 1.2–1.5 mm. |
 | RV1 | Bourns PTB0143-2010BPA103 | `goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm` | 100 mm, A10K; pin 1 (ground end) to the operator. |
 | RV2–RV7 | Alpha RD901F-40, A10K | `Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical` | Pin 1 = AGND (A-law runs from pin 1). |
 | RV9–RV11, RV13, RV15 | Alpha RD901F-40-15R1-B10K-0CD | same | 10K linear, centre detent (Alpha spec SP26020021). |
@@ -350,20 +350,50 @@ Study: `strip_panel_study.md`. Chosen: **8 HP × 12U** Eurorack-style panel (40.
 custom frame with rails only at the two ends, **two pot columns** (x = 10 / 28), jacks on the
 panel. One column would need ≈ 545 mm (15U).
 
-`channel_strip_v4.kicad_pcb` (from `tools/place_strip.py`, placement only): 180 footprints and 6 M3
-holes on 38 × 444 mm, 0 schematic-parity issues, no courtyard or clearance errors. The remaining
-DRC items are inside KiCad's NJ6FD-V footprint, silkscreen, and unrouted connections.
-`channel_strip.kicad_pcb` is the old v3.1 placement, kept unchanged.
+Two boards per channel, placed by `tools/place_strip.py` in one coordinate frame (y = 0 is 11 mm below
+the panel's top edge), placement only:
+
+| Board | File | Size | Depth under the panel | Parts |
+|-------|------|------|-----------------------|-------|
+| Main | `channel_strip_v4.kicad_pcb` | 38 × 400 mm, y 44–444 | 11.5 mm | 176 + 6 M3 holes (11.5 mm standoffs) |
+| Jack | `jack_board.kicad_pcb` | 38 × 43 mm, y 0–43 | ≈ 24 mm (the NJ6FD-V body) | 6 + 2 M3 holes |
+
+DRC with `--schematic-parity`, both boards: 0 parity issues, no courtyard or clearance errors.
+Left: 6 hole-clearance + 6 solder-mask items inside KiCad's NJ6FD-V footprint (jack board),
+silkscreen, unrouted connections. The Ø switch moved from the jack row to the main board, right
+of the gain pot (above the OL LED). `channel_strip.kicad_pcb` is the old v3.1 placement, kept unchanged.
+
+### 16.4 Jack board and link
+
+The three jacks, plus the input RF caps C8/C9 at J1, are on a separate 38 × 43 mm board
+(`jack_board.kicad_sch`, written by `tools/gen.py` with the main schematic). It sits about 24 mm
+under the panel, set by the jack body: confirm against Neutrik's drawing or a sample before ordering.
+The jack caps hold it on the panel, plus two M3 standoffs of the jack-body height. CN5 (jack board) and
+CN3 (main board) are both on the bottom side, so the ribbon runs behind both boards. CN3 sits
+between the pot columns at y ≈ 77; the ribbon is about 80 mm long.
+
+| Pin | Net | | Pin | Net |
+|-----|-----|-|-----|-----|
+| 1 | IN_T (J1 tip) | | 2 | IN_R (J1 ring) |
+| 3 | GNDA | | 4 | SEND (J2 tip, and RN normal) |
+| 5 | GNDA | | 6 | RET_RAW (J2 ring) |
+| 7 | GNDA | | 8 | DO_T (J5 tip) |
+| 9 | DO_R (J5 ring) | | 10 | GNDA |
+
+Each pair is adjacent, and ground conductors sit between input, send, return and direct out. The
+sleeves go to AGND only through the ribbon. CN3/CN5: Würth 61201021621 2 × 5 box header. Cable:
+10-way 1.27 mm flat ribbon with two IDC sockets (not on the BOMs).
 
 ---
 
 ## 17. Status (v4.0, 2026-10-22)
 
 - Schematic generated by `tools/gen.py` (User-size sheet, label-connected).
-- `tools/verify.py`: 542 pin entries, 0 mismatches, 0 stray pins, no single-pin nets.
-- `tools/check_fp.py`: 180 parts, every symbol pin on a footprint pad.
-- KiCad 10.0.7 ERC, `--severity-all`: 0 violations.
-- `tools/sim_netlist.py` simulates the exported netlist itself (25 checks, all pass): levels
+- `tools/verify.py`: main 533 pin entries, jack board 30; 0 mismatches, 0 stray pins, no single-pin nets.
+- `tools/check_fp.py`: 176 + 6 parts, every symbol pin on a footprint pad.
+- KiCad 10.0.7 ERC, `--severity-all`: 0 violations on both schematics.
+- `tools/sim_netlist.py` simulates the two exported netlists joined through the ribbon (CN3↔CN5), so
+  the source drives J1 and the direct out is read at J5 (25 checks, all pass): levels
   (PRE 0 dBu, POST +9.9 dBu, MIX +3.8 dBu), gain range, Ø, HPF corner, every EQ band at both
   ends, EQ bypass, mute depth, direct out, DIR muting aux 6, PRE/post aux, PAN on/off, PFL.
   It found one real error during development: the new HI-MID nets had the same names as the mute
@@ -372,7 +402,7 @@ DRC items are inside KiCad's NJ6FD-V footprint, silkscreen, and unrouted connect
   (results in `delta_clone_comparison.md` §6). `sim/strip.cir` is the v3.1 path.
 
 **Open:** routing LEDs (a 4PDT switch); C-law dual and centre-detent pot availability;
-PVA2 latched-throw sense; jacks too deep for the 11.5 mm gap (jack board proposed); silkscreen tidy.
+PVA2 latched-throw sense; NJ6FD-V body height (sets the jack-board depth and standoffs); silkscreen tidy.
 
 *Document version 4.0 — October 2026*
 *Sources: Soundcraft Delta ED3344A/B/C, ED3151, ED2911A/B, ED2915A, ED2780*

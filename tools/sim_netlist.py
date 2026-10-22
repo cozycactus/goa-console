@@ -1,5 +1,7 @@
 """Simulate the channel strip straight from KiCad's exported netlist, so the schematic (not a hand-written
-deck) is what gets checked. usage: python3 tools/sim_netlist.py channel_strip.net
+deck) is what gets checked. usage: python3 tools/sim_netlist.py channel_strip.net jack_board.net
+The jack board's nets get a JB_ prefix (its ground too) and join the main board only through the ribbon
+(CN5 pin n to CN3 pin n), so the source drives J1 and the direct out is read at J5: the link is tested as well.
 Each test sets pot positions and switch states, writes an ngspice deck, runs an AC analysis and prints the
 result next to the expected value from sim/strip_v4.cir. Exits non-zero if any check fails.
 Models: op-amps single-pole 40 MHz (power unit ignored); J112 as in sim/strip.cir; comparator, LEDs, 1N4148
@@ -10,14 +12,18 @@ import os, re, sys, math, subprocess, tempfile
 sys.path.insert(0, os.path.dirname(__file__))
 from verify import sexp, field
 
-NET = sys.argv[1]
-tree = sexp(open(NET).read())
-comps = {field(c, 'ref'): c for c in next(x for x in tree[1:] if isinstance(x, list) and x[0] == 'components')[1:]}
-pins = {}
-for n in next(x for x in tree[1:] if isinstance(x, list) and x[0] == 'nets')[1:]:
-    name = field(n, 'name').lstrip('/')
-    for nd in n[1:]:
-        if isinstance(nd, list) and nd[0] == 'node': pins[(field(nd, 'ref'), field(nd, 'pin'))] = name
+if len(sys.argv) != 3: raise SystemExit(__doc__)
+NET, JNET = sys.argv[1], sys.argv[2]
+comps, pins = {}, {}
+for path, prefix in ((NET, ''), (JNET, 'JB_')):
+    tree = sexp(open(path).read())
+    for c in next(x for x in tree[1:] if isinstance(x, list) and x[0] == 'components')[1:]:
+        if field(c, 'ref') in comps: raise SystemExit(f"{field(c, 'ref')} is on both boards")
+        comps[field(c, 'ref')] = c
+    for n in next(x for x in tree[1:] if isinstance(x, list) and x[0] == 'nets')[1:]:
+        name = prefix + field(n, 'name').lstrip('/')
+        for nd in n[1:]:
+            if isinstance(nd, list) and nd[0] == 'node': pins[(field(nd, 'ref'), field(nd, 'pin'))] = name
 
 def node(ref, pin):
     n = pins.get((ref, str(pin)), f'nc_{ref}_{pin}')
@@ -44,7 +50,8 @@ def deck(pos, sw, extra=''):
     L = ['* generated from ' + NET, '.subckt OPA inp inn out', 'G1 0 n1 inp inn 1', 'R1 n1 0 1e6', 'C1 n1 0 3.98n',
          'E1 out 0 n1 0 1', '.ends', '.model JMOD NJF(VTO=-2.5 BETA=6m LAMBDA=0.01)',
          'VPVA PVA 0 DC 16.5', 'VMVA MVA 0 DC -16.5', 'VPVL PVL 0 DC 16.5', 'VMVL MVL 0 DC -16.5',
-         'VSRC src 0 DC 0 AC 0.7746', 'RST src IN_T 50', 'RSR IN_R 0 50']
+         f"VSRC src {node('J1','S')} DC 0 AC 0.7746", f"RST src {node('J1','T')} 50", f"RSR {node('J1','R')} {node('J1','S')} 50"]
+    L += [f'RLINK{p} {node("CN3", p)} {node("CN5", p)} 0.01' for p in range(1, 11)]     # the ribbon
     k = 0
     for ref, c in comps.items():
         if ref.startswith('#') or any(isinstance(x, list) and x[0] == 'property' and field(x, 'name') == 'dnp' for x in c[1:]): continue
@@ -132,8 +139,8 @@ r = run({**TOP, 'RV10': 1, 'RV11': 1, 'RV13': 1, 'RV15': 1}, {**ON, 'SW12': Fals
 check('EQ out (all bands at full boost): max deviation', max(abs(r.get('gmax', 99)), abs(r.get('gmin', 99))), 0, 0.5)
 r = run(TOP, {**ON, 'SW4': False}, AC1K, [dbu('POST'), 'print x_POST'])
 check('ON unlatched (muted): POST', r.get('x_post'), -100, -70)
-r = run({**TOP, 'RV7': 1.0}, {**ON, 'SW13': True, 'SW10': True}, AC1K, [dbu('DO_T'), dbu('AUX6_O'), 'print x_DO_T', 'print x_AUX6_O'])
-check('DIR + PRE 5-6, aux 6 at top: direct out', r.get('x_do_t'), -0.5, 0.5)
+r = run({**TOP, 'RV7': 1.0}, {**ON, 'SW13': True, 'SW10': True}, AC1K, [dbu(node('J5','T')), dbu('AUX6_O'), f"print x_{node('J5','T')}", 'print x_AUX6_O'])
+check('DIR + PRE 5-6, aux 6 at top: direct out at J5', r.get('x_' + node('J5','T').lower()), -0.5, 0.5)
 check('DIR: aux 6 bus silent', r.get('x_aux6_o'), -400, -60)
 r = run({**TOP, 'RV2': 1.0}, {**ON, 'SW8': True}, AC1K, [dbu('AUX1_O'), 'print x_AUX1_O'])
 check('PRE 1-2 + aux 1 at top: aux 1 bus out (pre-fader)', r.get('x_aux1_o'), -0.5, 0.5)
