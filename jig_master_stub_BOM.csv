@@ -1,0 +1,56 @@
+Qty,Value,Footprint,MPN,References
+2,470u 25V,Capacitor_THT:CP_Radial_D10.0mm_P5.00mm,,C1 C2
+2,47u 25V,Capacitor_THT:CP_Radial_D8.0mm_P3.50mm,,C3 C4
+16,100n,Capacitor_SMD:C_0805_2012Metric,,C5 C6 C8 C9 C11 C12 C14 C15 C16 C17 C19 C20 C22 C23 C29 C30
+6,100p C0G,Capacitor_SMD:C_0805_2012Metric,,C7 C10 C13 C18 C21 C24
+2,10u NP 25V,Capacitor_THT:CP_Radial_D5.0mm_P2.00mm,,C25 C26
+2,1u,Capacitor_SMD:C_1206_3216Metric,,C27 C28
+1,Ground spade 6.3mm (to the ground bar),goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm,Keystone 1287-ST,CN1
+1,Bus 2x17 (ribbon),Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical,,CN2
+2,SS54,Diode_SMD:D_SMC,SS54,D1 D2
+1,PFL ACTIVE red,LED_THT:LED_D3.0mm,,D3
+2,MF-RX160/72,goa-console:Fuse_Bourns_MF-RX160-72_Radial_P5.08mm,Bourns MF-RX160/72,F1 F2
+6,Ferrite 220R@100MHz,Inductor_SMD:L_0805_2012Metric,220R@100MHz 0805,FB1 FB2 FB3 FB4 FB5 FB6
+1,Bench supply +V / 0 V / -V,TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal,Phoenix MKDS 1,5/3-5,08,J1
+1,MIX L out,Connector_Coaxial:BNC_Amphenol_B6252HB-NPP3G-50_Horizontal,Amphenol B6252HB-NPP3G-50,J2
+1,MIX R out,Connector_Coaxial:BNC_Amphenol_B6252HB-NPP3G-50_Horizontal,Amphenol B6252HB-NPP3G-50,J3
+1,SUB 1 out,Connector_Coaxial:BNC_Amphenol_B6252HB-NPP3G-50_Horizontal,Amphenol B6252HB-NPP3G-50,J4
+1,AUX 1 out,Connector_Coaxial:BNC_Amphenol_B6252HB-NPP3G-50_Horizontal,Amphenol B6252HB-NPP3G-50,J5
+1,AUX 2 out,Connector_Coaxial:BNC_Amphenol_B6252HB-NPP3G-50_Horizontal,Amphenol B6252HB-NPP3G-50,J6
+1,PFL MIX out,Connector_Coaxial:BNC_Amphenol_B6252HB-NPP3G-50_Horizontal,Amphenol B6252HB-NPP3G-50,J7
+1,MIX L balanced out,Connector_Audio:Jack_XLR_Neutrik_NC3MAH_Horizontal,Neutrik NC3MAH,J8
+1,GC REF (1-2 D, 2-3 A),Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical,2.54 mm header + shunt,JP1
+1,GC TIE (fit = 22R tie),Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,2.54 mm header + shunt,JP2
+2,1R,Resistor_SMD:R_0805_2012Metric,,R1 R2
+2,10R,Resistor_SMD:R_0805_2012Metric,,R3 R4
+1,22R,Resistor_SMD:R_0805_2012Metric,,R5
+3,4K7 1%,Resistor_SMD:R_0805_2012Metric,,R6 R11 R16
+24,2K2 0.1%,Resistor_SMD:R_0805_2012Metric,,R7 R8 R9 R10 R12 R13 R14 R15 R17 R18 R19 R20 R22 R23 R24 R25 R27 R28 R29 R30 R32 R33 R34 R35
+3,22K 1%,Resistor_SMD:R_0805_2012Metric,,R21 R26 R31
+6,100R,Resistor_SMD:R_0805_2012Metric,,R36 R37 R38 R39 R40 R41
+2,10K,Resistor_SMD:R_0805_2012Metric,,R42 R44
+1,220K,Resistor_SMD:R_0805_2012Metric,,R43
+1,3K3,Resistor_SMD:R_0805_2012Metric,,R45
+1,GCANCEL,TestPoint:TestPoint_Keystone_5010-5014_Multipurpose,Keystone 5010,TP1
+1,GCREF_BUF,TestPoint:TestPoint_Keystone_5010-5014_Multipurpose,Keystone 5010,TP2
+1,SUM_ML,TestPoint:TestPoint_Keystone_5010-5014_Multipurpose,Keystone 5010,TP3
+1,MIX_L,TestPoint:TestPoint_Keystone_5010-5014_Multipurpose,Keystone 5010,TP4
+1,SUM_MR,TestPoint:TestPoint_Keystone_5010-5014_Multipurpose,Keystone 5010,TP5
+1,MIX_R,TestPoint:TestPoint_Keystone_5010-5014_Multipurpose,Keystone 5010,TP6
+1,SUM_S1,TestPoint:TestPoint_Keystone_5010-5014_Multipurpose,Keystone 5010,TP7
+1,SUB_1,TestPoint:TestPoint_Keystone_5010-5014_Multipurpose,Keystone 5010,TP8
+1,SUM_A1,TestPoint:TestPoint_Keystone_5010-5014_Multipurpose,Keystone 5010,TP9
+1,AUX_1,TestPoint:TestPoint_Keystone_5010-5014_Multipurpose,Keystone 5010,TP10
+1,SUM_A2,TestPoint:TestPoint_Keystone_5010-5014_Multipurpose,Keystone 5010,TP11
+1,AUX_2,TestPoint:TestPoint_Keystone_5010-5014_Multipurpose,Keystone 5010,TP12
+1,SUM_P,TestPoint:TestPoint_Keystone_5010-5014_Multipurpose,Keystone 5010,TP13
+1,PFL_MIX,TestPoint:TestPoint_Keystone_5010-5014_Multipurpose,Keystone 5010,TP14
+1,+VA,TestPoint:TestPoint_Keystone_5010-5014_Multipurpose,Keystone 5010,TP15
+1,-VA,TestPoint:TestPoint_Keystone_5010-5014_Multipurpose,Keystone 5010,TP16
+1,+VBUS_R,TestPoint:TestPoint_Keystone_5010-5014_Multipurpose,Keystone 5010,TP17
+1,-VBUS_R,TestPoint:TestPoint_Keystone_5010-5014_Multipurpose,Keystone 5010,TP18
+2,GNDA,TestPoint:TestPoint_Keystone_5010-5014_Multipurpose,Keystone 5010,TP19 TP20
+4,OPA1612,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,,U1 U2 U3 U4
+3,OPA1656,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,TI OPA1656ID,U5 U6 U7
+1,DRV134,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,TI DRV134UA,U8
+1,LM393,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,,U9
