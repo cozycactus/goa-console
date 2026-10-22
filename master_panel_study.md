@@ -60,3 +60,23 @@ Before placement:
   four schematics: 0 mismatches, every pin on a pad, ERC 0; the link pinouts match pin for pin
   (master spec header).
 - **Wings.** Which groups sit on which wing (two per wing).
+
+**Placement, 2026-10-22** (placement only; `tools/place_group.py`, `tools/place_master.py`, engine `placer.py`).
+Every module uses the strip's frame: y = 0 is 11 mm below the panel top, fader slot centre at y 372, bus header
+pins at y 305–346 with pin 1 at the bottom end, ground spade at (5, 358), so the wing ribbons run straight and the
+faders line up across the console.
+- Group (8 HP, 38 × 378 mm main board + 38 × 65 mm jack board). Jack board: SUB OUT | INSERT, AUX OUT | link,
+  RETURN L | R. Panel: RETURN level + PFL (y 84); AUX n master + AFL (y 166, the strips' aux 1|2 row); SUB pan + to
+  MIX (y 252, the strips' pan row); RETURN to MIX / 1-2 / 3-4 (y 274, the strips' routing row); SUB AFL (y 292,
+  the strips' PFL row). The switches that carry a bus sit within ~7 cm of the header. Bus-select jumpers JP1–JP8
+  (top side, under the header, silk SUB / AUX 1–4).
+- Master (16 HP, 78.6 × 331.5 mm main board + 78.6 × 111.5 mm jack board). Jack board: MAIN L / MAIN R / MONO
+  XLRs (NC3MAV) in a column, nine NJ6FD-V in two columns (inserts, C/ROOM outs, EXT ins, AUX 5/6 outs, PHONES),
+  2×20 link along the bottom edge. Panel: AUX 5 | AUX 6 | C/ROOM (y 134); AFL 5 | AFL 6 | PHONES | SOLO (y 156);
+  POWER | EXT | PFL ACTIVE (y 178); dual master fader on the strips' slot line between the two 20-LED meters (5 mm
+  pitch, −20 dB at the bottom, +18 dB at the top of the fader travel). Left- and right-wing bus headers at the strips'
+  header height. Balanced outputs and mute relays sit towards the jack-board link; summers, re-inverters and
+  inserts between the wing headers; the power entry (terminal, reservoirs, wing PTCs) on the bottom side there;
+  the LM2901 ladders beside their LED columns.
+- DRC: 0 violations and 0 parity issues on both main boards; the jack boards show only the NJ6FD-V footprint's
+  own hole-clearance / mask items, as on the strip. Unconnected items are expected (routing is Ruslan's).

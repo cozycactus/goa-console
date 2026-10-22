@@ -1,10 +1,13 @@
 """Placement engine for the goa-console boards (KiCad 10 pcbnew API). Placement only: no copper.
 place(net, out, layout) builds a board from a KiCad netlist and a layout:
   board  (x0, y0, x1, y1) outline;  fix {ref: (x, y, rot, 'F'|'B')} at fixed coordinates;
-  holes  [(x, y)] M3 mounting holes, hole_value their value;  zones [(name, (x0, y0, x1, y1), [refs], side)];
+  holes  [(x, y)] M3 mounting holes, hole_value their value;  zones [(name, (x0, y0, x1, y1), [refs], side[, gap])],
+         gap = courtyard spacing in that zone (default GAP; more leaves room for the silk references);
   near   {ref: IC} parts placed beside the IC's pin on a shared non-ground net;  notes [(y, text)] beside the board;
   labels [(x, y, text, size)] silkscreen text on the top side (the reference pass keeps clear of them);
   grounds  nets ignored when matching a near part to its IC's pin (default GNDA, GNDD).
+  silk_text_off  footprint silk texts moved to the Fab layer, e.g. ('K',): DO-35's cathode letter sits outside
+         the courtyard, over the next part's pads (KiCad 10 doesn't save a hidden footprint text).
 Fixed parts go first. Every other part is packed into its zone at the first position where its courtyard
 clears every courtyard on its side and every through-hole pad on either side (THT pads go through the board),
 so top and bottom parts can share an area. Then the silkscreen references are placed. Each footprint is linked
@@ -19,6 +22,26 @@ KLIB = '/Applications/KiCad/KiCad.app/Contents/SharedSupport/footprints/'
 if not os.path.isdir(KLIB): KLIB = '/usr/share/kicad/footprints/'
 GAP, STEP = 0.3, 0.5          # packer clearance between courtyards / pads, search step
 
+# ---------------------------------------------------------------- 8 HP module frame, shared by strip, group and master
+# y = 0 is 11 mm below the panel's top edge; panel x = board x + 1.15. Every module puts its fader, bus header and
+# ground spade at the same coordinates, so the daisy-chained ribbon and the faders line up across the console.
+W8 = 38.0                     # board width of an 8 HP module (40.64 mm pitch)
+XL, XR, XC = 10.0, 28.0, 19.0 # pot columns and centre line
+FADER = (XC - 1.9, 372 + 63.75, 270, 'F')   # PTB0143/4: slot centre (19, 372), 100 mm travel
+BUS = (31.46, 345.64, 180, 'B')             # 2x17 bus header, bottom side, pins x 31.46 / 34, y 305-346
+SPADE, NETTIE = (5.0, 358.0, 0, 'B'), (5.0, 351.0, 0, 'F')
+FADER_HOLES = [(5, 330), (5, 425), (34, 425)]
+
+def pot(x, y, dual=False, right=False):
+    """RD901F/RD902F with the shaft at (x, y): shaft at (7.5, 2.5) from pin 1. Single pots in the right column turn
+    180 deg (body to the board edge); dual pots stay at 0 deg on the right (their second gang would hang off the
+    edge) and turn 180 deg on the left."""
+    rot = 180 if (right and not dual) or (dual and not right) else 0
+    return (x + 7.5, y + 2.5, 180, 'F') if rot == 180 else (x - 7.5, y - 2.5, 0, 'F')
+sw = lambda x, y: (x - 2.5, y - 3.0, 0, 'F')          # PVA2: actuator centre at (2.5, 3.0) from pin 1
+led = lambda x, y: (x - 1.27, y, 0, 'F')               # 3 mm LED: centre at (1.27, 0)
+jack = lambda x, y: (x, y - 5.72, 0, 'F')              # NJ6FD-V: nose centre at (0, 5.72) from the tip pin
+
 def place(NET, OUT, L):
     # Preserve any later manual routing. Rebuild into a separate file once routing has started.
     if os.path.exists(OUT):
@@ -31,6 +54,7 @@ def place(NET, OUT, L):
     HOLE_VALUE, NEAR, NOTES = L.get('hole_value', 'M3'), L.get('near', {}), L.get('notes', ())
     LABELS = L.get('labels', ())
     GROUNDS = set(L.get('grounds', ('GNDA', 'GNDD')))   # nets ignored when matching a NEAR part to its IC pin
+    SILK_OFF = set(L.get('silk_text_off', ()))
     W = BOARD[2]
     # ---------------------------------------------------------------- netlist
     tree = sexp(open(NET).read())
@@ -48,9 +72,11 @@ def place(NET, OUT, L):
         for nd in n[1:]:
             if isinstance(nd, list) and nd[0] == 'node': padnet[(field(nd, 'ref'), field(nd, 'pin'))] = name
 
-    placed = set(FIX) | {r for _, _, refs, _ in ZONES for r in refs}
+    every = list(FIX) + [r for z in ZONES for r in z[2]]
+    placed = set(every); twice = sorted({r for r in every if every.count(r) > 1})
     missing = sorted(set(parts) - placed); extra = sorted(placed - set(parts))
-    if missing or extra: raise SystemExit(f'placement table out of date: unplaced {missing}, unknown {extra}')
+    if missing or extra or twice:
+        raise SystemExit(f'placement table out of date: unplaced {missing}, unknown {extra}, twice {twice}')
 
     # ---------------------------------------------------------------- board
     board = pcbnew.CreateEmptyBoard()
@@ -82,6 +108,10 @@ def place(NET, OUT, L):
         if p['mpn']:
             fp.SetField('MPN', p['mpn']); fp.GetField('MPN').SetVisible(False)
         fp.SetDNP(p['dnp']); fp.SetExcludedFromBOM(p['nobom'])
+        for g in fp.GraphicalItems():               # loaded unflipped: silk texts are on F.SilkS
+            t = g.Cast()
+            if SILK_OFF and isinstance(t, pcbnew.PCB_TEXT) and t.GetLayer() == pcbnew.F_SilkS and t.GetText() in SILK_OFF:
+                t.SetLayer(pcbnew.F_Fab)
         board.Add(fp)
         for pad in fp.Pads():
             n = padnet.get((ref, pad.GetNumber()))
@@ -128,14 +158,14 @@ def place(NET, OUT, L):
         board.Add(h); h.SetPosition(pcbnew.VECTOR2I_MM(x, y))
         c = courtyard(h); occ['F'].append(c); occ['B'].append(c)
 
-    def fits(fp, side, x0, y0, x1, y1):
+    def fits(fp, side, x0, y0, x1, y1, g=GAP):
         other = 'B' if side == 'F' else 'F'
         c = courtyard(fp)
         if (c[0] < max(x0, BOARD[0] + 0.3) or c[1] < max(y0, BOARD[1] + 0.3) or c[2] > min(x1, BOARD[2] - 0.3)
                 or c[3] > min(y1, BOARD[3] - 0.3)): return False
-        if overlaps(c, occ[side]): return False
+        if overlaps(c, occ[side], g): return False
         pads = tht_pads(fp)
-        return not (pads and any(overlaps(p, occ[other]) for p in pads))
+        return not (pads and any(overlaps(p, occ[other], g) for p in pads))
 
     # Parts in NEAR (decoupling caps, integrator parts) go as close as the courtyards allow to their IC's pin on a
     # shared non-ground net, searched within NEAR_R of it; anything else, or a part with no room there, takes the
@@ -150,7 +180,9 @@ def place(NET, OUT, L):
                 return mm(p.GetPosition().x), mm(p.GetPosition().y)
 
     report = []
-    for zname, (x0, y0, x1, y1), refs, side in ZONES:
+    for z in ZONES:
+        zname, (x0, y0, x1, y1), refs, side = z[:4]
+        zgap = z[4] if len(z) > 4 else GAP
         edge_rect(x0, y0, x1, y1, pcbnew.Dwgs_User if side == 'F' else pcbnew.Cmts_User, 0.05)
         for ref in refs:
             fp = load(ref)
@@ -171,7 +203,7 @@ def place(NET, OUT, L):
                 for d, rot, px, py in sorted(cands):
                     fp.SetOrientationDegrees(rot if side == 'F' else 180 - rot)
                     fp.SetPosition(pcbnew.VECTOR2I_MM(px, py))
-                    if fits(fp, side, x0, y0, x1, y1):
+                    if fits(fp, side, x0, y0, x1, y1, zgap):
                         done = True; break
             for rot in (0, 90) if not done else ():
                 fp.SetOrientationDegrees(rot if side == 'F' else 180 - rot)
@@ -182,7 +214,7 @@ def place(NET, OUT, L):
                     x = x0
                     while x + (r - l) <= x1:
                         fp.SetPosition(pcbnew.VECTOR2I_MM(x - l, y - t))
-                        if fits(fp, side, x0, y0, x1, y1):
+                        if fits(fp, side, x0, y0, x1, y1, zgap):
                             done = True; break
                         x += STEP
                     if not done: y += STEP

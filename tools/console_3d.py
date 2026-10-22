@@ -1,11 +1,12 @@
-"""Build the goa console in Blender from the placed boards (render/strip.json from tools/export_3d.py).
+"""Build the goa console in Blender from the placed boards (render/strip.json, group.json, master.json from
+tools/export_3d.py).
   /Applications/Blender.app/Contents/MacOS/Blender -b --factory-startup --python tools/console_3d.py -- render
 Writes render/goa_console.blend (scenes 'console' and 'strip bench') and renders console.png, console_plan.png
 (orthographic, square to the panel), closeup_strips.png, closeup_master.png, strip_side.png (orthographic
-elevation of one strip: panel / main board / jack board stack) and strip_under.png.
-The channel strip is exact: every footprint at its placed position and side, the panel features (pot shafts,
-switches, LEDs, jacks, fader) on their panel coordinates, the jack board 24 mm under the panel. The group and
-master modules are not placed yet: their panels follow master_panel_study.md (controls only).
+elevation of one strip: panel / main board / jack board stack), strip_under.png and master_under.png.
+Strip, group and master are exact: every footprint at its placed position and side, the panel features (pot
+shafts, switches, LEDs, jacks, XLRs, faders, meters) on their panel coordinates, each jack board 24 mm under its
+panel. Each module is a collection, instanced along the console (24 strips, 4 groups, 1 master).
 Board coordinates are mm, y down; Blender X = x, Y = -y, Z up, in metres. Main board top at z = 0, panel
 underside at 11.5, jack board top at -12.5. The console sits 9 degrees tilted (fader end lower) in a tub with
 walnut cheeks; panel finish and cap colours are placeholders, not decisions."""
@@ -14,7 +15,6 @@ from mathutils import Vector
 
 ARGV = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else ['render']
 OUTDIR = os.path.abspath(ARGV[0])
-DATA = json.load(open(os.path.join(OUTDIR, 'strip.json')))
 S = 0.001
 PANEL_Z0, PANEL_Z1, JB_Z = 11.5, 13.0, -12.5
 HP = 5.08; PITCH = 8 * HP                      # 40.64 mm per 8 HP module
@@ -93,9 +93,10 @@ def knob(c, name, x, y, colour, big=False):
 def switch_cap(c, name, x, y, colour):
     box(name + ' cap', x - 3.7, y - 3.7, PANEL_Z1 + 0.5, x + 3.7, y + 3.7, PANEL_Z1 + 6.0, CAP[colour], c)
 
-def led(c, name, x, y, colour):
-    cyl(name + ' bezel', x, y, PANEL_Z1, PANEL_Z1 + 0.8, 2.3, M['alu'], c)
-    cyl(name + ' lens', x, y, PANEL_Z1, PANEL_Z1 + 2.2, 1.5, LED[colour], c, 16)
+def led(c, name, x, y, colour, big=False):
+    k = 5 / 3 if big else 1.0
+    cyl(name + ' bezel', x, y, PANEL_Z1, PANEL_Z1 + 0.8, 2.3 * k, M['alu'], c)
+    cyl(name + ' lens', x, y, PANEL_Z1, PANEL_Z1 + 2.2, 1.5 * k, LED[colour], c, 16)
 
 def jack_nut(c, name, x, y):
     cyl(name + ' nut', x, y, PANEL_Z1, PANEL_Z1 + 3.0, 7.2, M['jack'], c, 6)
@@ -129,20 +130,44 @@ def panel(c, name, x0, width, label=None):
 def legend(c, s, x, y, size=2.0):
     text('legend ' + s + f' {x:.0f} {y:.0f}', s, x, y, PANEL_Z1 + 0.02, size, M['legend'], c)
 
-# ---------------------------------------------------------------- the channel strip (exact)
-POTS = {'RV9': ('GAIN', 'red'), 'RV10': ('HF', 'white'), 'RV11': ('HI-MID', 'white'), 'RV12': ('FREQ', 'dblue'),
-        'RV13': ('LO-MID', 'white'), 'RV14': ('FREQ', 'dblue'), 'RV15': ('LF', 'white'), 'RV2': ('AUX 1', 'yellow'),
-        'RV3': ('AUX 2', 'yellow'), 'RV4': ('AUX 3', 'green'), 'RV5': ('AUX 4', 'green'), 'RV6': ('AUX 5', 'orange'),
-        'RV7': ('AUX 6', 'orange'), 'RV8': ('PAN', 'grey')}
-SWS = {'SW15': ('Ø', 'grey'), 'SW11': ('HPF', 'grey'), 'SW12': ('EQ', 'grey'), 'SW8': ('PRE', 'yellow'),
-       'SW9': ('PRE', 'green'), 'SW10': ('PRE', 'orange'), 'SW14': ('PAN', 'grey'), 'SW13': ('DIR', 'orange'),
-       'SW5': ('L-R', 'white'), 'SW6': ('1-2', 'white'), 'SW7': ('3-4', 'white'), 'SW3': ('PFL', 'red'), 'SW4': ('ON', 'green')}
-LEDS = {'D2': ('OL', 'red'), 'D3': (None, 'off'), 'D4': (None, 'green'), 'D5': (None, 'green'), 'D6': (None, 'yellow'),
-        'D7': ('', 'off'), 'D8': ('', 'off')}
-JACKS = {'J1': 'LINE IN', 'J2': 'INSERT', 'J5': 'DIRECT'}
-ELKO_H = {'6.3': 11.0, '8.0': 11.5, '10.0': 16.0, '16.0': 25.0, '5.0': 11.0}
+# ---------------------------------------------------------------- modules from their placed boards
+# panel names and cap colours per module: {ref: (legend, colour)}; jacks and XLRs: {ref: (legend, None)}
+STRIP = {'RV9': ('GAIN', 'red'), 'RV10': ('HF', 'white'), 'RV11': ('HI-MID', 'white'), 'RV12': ('FREQ', 'dblue'),
+         'RV13': ('LO-MID', 'white'), 'RV14': ('FREQ', 'dblue'), 'RV15': ('LF', 'white'), 'RV2': ('AUX 1', 'yellow'),
+         'RV3': ('AUX 2', 'yellow'), 'RV4': ('AUX 3', 'green'), 'RV5': ('AUX 4', 'green'), 'RV6': ('AUX 5', 'orange'),
+         'RV7': ('AUX 6', 'orange'), 'RV8': ('PAN', 'grey'),
+         'SW15': ('Ø', 'grey'), 'SW11': ('HPF', 'grey'), 'SW12': ('EQ', 'grey'), 'SW8': ('PRE', 'yellow'),
+         'SW9': ('PRE', 'green'), 'SW10': ('PRE', 'orange'), 'SW14': ('PAN', 'grey'), 'SW13': ('DIR', 'orange'),
+         'SW5': ('L-R', 'white'), 'SW6': ('1-2', 'white'), 'SW7': ('3-4', 'white'), 'SW3': ('PFL', 'red'), 'SW4': ('ON', 'green'),
+         'D2': ('OL', 'red'), 'D3': (None, 'off'), 'D4': (None, 'green'), 'D5': (None, 'green'), 'D6': (None, 'yellow'),
+         'D7': (None, 'off'), 'D8': (None, 'off'),
+         'J1': ('LINE IN', None), 'J2': ('INSERT', None), 'J5': ('DIRECT', None), 'RV1': ('', 'white')}
+GROUP = {'RV4': ('RETURN', 'blue'), 'RV3': ('AUX', 'yellow'), 'RV2': ('SUB PAN', 'grey'),
+         'SW7': ('PFL', 'red'), 'SW3': ('AFL', 'red'), 'SW1': ('MIX', 'white'), 'SW4': ('MIX', 'white'),
+         'SW5': ('1-2', 'white'), 'SW6': ('3-4', 'white'), 'SW2': ('AFL', 'red'),
+         'D1': (None, 'off'), 'D2': (None, 'off'), 'D3': (None, 'off'),
+         'J2': ('SUB OUT', None), 'J1': ('INSERT', None), 'J3': ('AUX OUT', None), 'J4': ('RET L', None),
+         'J5': ('RET R', None), 'RV1': ('SUB', 'white')}
+MASTER = {'RV2': ('AUX 5', 'orange'), 'RV3': ('AUX 6', 'orange'), 'RV5': ('C/ROOM', 'white'), 'RV6': ('PHONES', 'white'),
+          'RV4': ('SOLO', 'red'), 'SW1': ('AFL', 'red'), 'SW2': ('AFL', 'red'), 'SW3': ('EXT', 'grey'),
+          'D12': (None, 'off'), 'D13': (None, 'off'), 'D3': ('POWER', 'green'), 'D15': ('PFL', 'off'),
+          'J1': ('INS L', None), 'J2': ('INS R', None), 'J10': ('C/R L', None), 'J11': ('C/R R', None),
+          'J8': ('EXT L', None), 'J9': ('EXT R', None), 'J6': ('AUX 5', None), 'J7': ('AUX 6', None),
+          'J12': ('PHONES', None), 'J3': ('MAIN L', None), 'J4': ('MAIN R', None), 'J5': ('MONO', None), 'RV1': ('MIX', 'red')}
+ELKO_H = {'5.0': 11.0, '6.3': 11.0, '8.0': 11.5, '10.0': 16.0, '12.5': 20.0, '16.0': 25.0}
+M.update(relay=mat('relay case', (0.78, 0.76, 0.7), rough=0.5), term=mat('terminal green', (0.05, 0.35, 0.12), rough=0.5),
+         trim=mat('trimmer blue', (0.05, 0.15, 0.6), rough=0.4), ptc=mat('PTC yellow', (0.75, 0.55, 0.05), rough=0.5),
+         diode=mat('glass diode', (0.7, 0.3, 0.1), rough=0.2))
 
-def part_3d(c, p, z_top, z_bot):
+def led_state(p, names):
+    """(legend, colour) of an LED: from the names, or a meter LED from its value ('green -20 dB' ... 'red +18 dB')."""
+    if p['ref'] in names: return names[p['ref']]
+    v = p['value'].split()
+    if len(v) == 3 and v[2] == 'dB':
+        return None, (v[0] if int(v[1]) <= 4 else 'off')          # a static picture: lit up to +4 dB
+    return None, 'off'
+
+def part_3d(c, p, z_top, z_bot, names):
     """One placed footprint as a simple solid. z_top: board top surface; z_bot: bottom surface."""
     fp, ref = p['fp'], p['ref']
     l, t, r, b = p['box']; sx = 0.25 if (r - l) > 2 else 0.0
@@ -152,11 +177,22 @@ def part_3d(c, p, z_top, z_bot):
         z0, z1 = (z_top, z_top + h) if up else (z_bot - h, z_bot)
         return box(ref, l + inset, t + inset, z0, r - inset, b - inset, z1, m, c)
     cx, cy = (l + r) / 2, (t + b) / 2
-    if 'MountingHole' in fp:
+    name, colour = names.get(ref, ('', 'grey'))
+    if 'MountingHole_4.3mm_M4' in fp:                                    # ground stud: M4 bolt and nut
+        cyl(ref + ' nut', p['x'], p['y'], z_top, z_top + 3.2, 3.6, M['alu'], c, 6)
+        cyl(ref + ' bolt', p['x'], p['y'], z_bot - 12, z_top + 4.5, 2.0, M['alu'], c, 16)
+    elif 'MountingHole' in fp:
         cyl(ref + ' standoff', p['x'], p['y'], z_top, PANEL_Z0, 2.75, M['alu'], c, 6)
     elif 'Resistor_SMD' in fp: slab(0.55, M['res'], 0.35)
     elif 'Capacitor_SMD' in fp: slab(0.9, M['cap'], 0.35)
+    elif 'Inductor_SMD' in fp: slab(0.9, M['hdr'], 0.35)
     elif 'SOIC' in fp or 'SOT-23' in fp or 'D_SMA' in fp or 'D_SMC' in fp or 'SOD' in fp: slab(1.5 if 'SOIC' in fp else 1.1, M['chip'], 0.6)
+    elif 'TO-263' in fp: slab(4.5, M['chip'], 0.8)
+    elif 'Relay' in fp: slab(5.2, M['relay'], 0.4)
+    elif 'DO-35' in fp: slab(1.9, M['diode'], 1.2)
+    elif 'Fuse_Bourns' in fp: slab(12.0, M['ptc'], 0.5)
+    elif 'TerminalBlock' in fp: slab(10.0, M['term'], 0.3)
+    elif 'Potentiometer_Bourns_3296' in fp: slab(10.0, M['trim'], 0.3)
     elif 'CP_Radial' in fp:
         d = fp.split('_D')[1].split('mm')[0]; h = ELKO_H.get(d, 12.0); rr = float(d) / 2
         z0, z1 = (z_top, z_top + h) if up else (z_bot - h, z_bot)
@@ -170,104 +206,76 @@ def part_3d(c, p, z_top, z_bot):
         fx, fy = p['feature']; z1 = z_top + (11.5 if dual else 6.5)
         cyl(ref + ' bushing', fx, fy, z1, PANEL_Z0, 3.5, M['alu'], c)
         cyl(ref + ' shaft', fx, fy, PANEL_Z0, PANEL_Z1 + 3, 3.0, M['alu'], c)
-        name, colour = POTS.get(ref, ('', 'grey'))
-        knob(c, ref, fx, fy, colour); legend(c, name, fx, fy - 9.6)
+        knob(c, ref, fx, fy, colour or 'grey', big=name == 'C/ROOM'); legend(c, name, fx, fy - 9.6)
     elif 'PVA2' in fp:
         slab(9.0, M['sw'], 0.5)
         fx, fy = p['feature']
         cyl(ref + ' actuator', fx, fy, z_top + 9, PANEL_Z1 + 0.6, 1.6, M['sw'], c, 12)
-        name, colour = SWS.get(ref, ('', 'grey'))
-        switch_cap(c, ref, fx, fy, colour); legend(c, name, fx, fy - 5.6, 1.7)
-    elif 'LED_D3.0mm' in fp:
-        fx, fy = p['feature']
-        cyl(ref + ' spacer', fx, fy, z_top, z_top + 7.6, 2.0, M['hdr'], c, 12)
-        name, colour = LEDS.get(ref, (None, 'off')); led(c, ref, fx, fy, colour)
-        if name: legend(c, name, fx, fy - 3.8, 1.6)
+        switch_cap(c, ref, fx, fy, colour or 'grey'); legend(c, name, fx, fy - 5.6, 1.7)
+    elif 'LED_D3.0mm' in fp or 'LED_D5.0mm' in fp:
+        fx, fy = p['feature']; big = 'D5.0' in fp
+        cyl(ref + ' spacer', fx, fy, z_top, z_top + 7.6, 3.0 if big else 2.0, M['hdr'], c, 12)
+        name, colour = led_state(p, names); led(c, ref, fx, fy, colour, big)
+        if name: legend(c, name, fx, fy - (5.0 if big else 3.8), 1.6)
     elif 'PTB014' in fp:
-        slab(9.5, M['pot'], 0.4)
-        fader(c, ref, 19.0, 322.0, 422.0, 0.75)
+        dual = 'Dual' in fp; slab(9.5, M['pot'], 0.4)
+        fx, fy = p['feature']
+        fader(c, ref, fx, fy - 50.0, fy + 50.0, 0.75, colour or 'grey', dual)
+        if name: legend(c, name, fx, fy + 60.0, 2.4 if dual else 2.0)
     elif 'NJ6FD-V' in fp:
         fx, fy = p['feature']
         box(ref + ' body', fx - 6.4, fy - 7.5, z_top, fx + 6.4, fy + 7.5, PANEL_Z0, M['jack'], c)
-        jack_nut(c, ref, fx, fy); legend(c, JACKS.get(ref, ''), fx, fy - 9.8, 1.8)
+        jack_nut(c, ref, fx, fy); legend(c, name, fx, fy - 9.8, 1.8)
+    elif 'NC3MAV' in fp:
+        fx, fy = p['feature']
+        cyl(ref + ' body', fx, fy, z_top, PANEL_Z0, 11.0, M['jack'], c)
+        xlr(c, ref, fx, fy); legend(c, name, fx, fy - 14.5, 1.8)
     elif 'NetTie' in fp or 'SolderJumper' in fp: pass
     else: slab(1.0, M['chip'])
 
-strip = coll('channel strip (exact)')
-for bd in DATA:
-    jackboard = bd['y0'] < 10
-    zt = JB_Z if jackboard else 0.0
-    box('jack board PCB' if jackboard else 'main board PCB', bd['x0'], bd['y0'], zt - 1.6, bd['x1'], bd['y1'], zt, M['pcb'], strip)
-    for p in bd['parts']: part_3d(strip, p, zt, zt - 1.6)
-panel(strip, 'strip', -1.15, 40.3)
+def module(title, key, names, width, label=None):
+    """A module from render/<key>.json: main board at z 0, jack board (starts at y 0) 24 mm under the panel."""
+    c = coll(title)
+    for bd in json.load(open(os.path.join(OUTDIR, key + '.json'))):
+        jackboard = bd['y0'] < 10
+        zt = JB_Z if jackboard else 0.0
+        box(('jack board PCB' if jackboard else 'main board PCB') + ' ' + key, bd['x0'], bd['y0'], zt - 1.6, bd['x1'], bd['y1'], zt, M['pcb'], c)
+        for p in bd['parts']: part_3d(c, p, zt, zt - 1.6, names)
+    panel(c, key, -1.15, width, label)
+    return c
 
-# ---------------------------------------------------------------- group and master modules (panels from the study)
-def group_module(c, x0, n):
-    panel(c, f'group {n}', x0, 40.3, f'GROUP {n}')
-    X = lambda v: x0 + 1.15 + v
-    for (x, y, s) in ((10, 12, 'SUB OUT'), (28, 12, 'INSERT'), (10, 32, 'AUX OUT'), (28, 32, 'RET L'), (10, 52, 'RET R')):
-        cyl(f'g{n} {s} body', X(x), y, -12.5, PANEL_Z0, 6.4, M['jack'], c); jack_nut(c, f'g{n} {s}', X(x), y); legend(c, s, X(x), y - 9.8, 1.8)
-    for (x, y, s, col) in ((10, 82, 'RETURN', 'blue'), (28, 82, f'AUX {n}', ['yellow', 'yellow', 'green', 'green'][n - 1]), (10, 104, 'SUB PAN', 'grey')):
-        knob(c, f'g{n} {s}', X(x), y, col); legend(c, s, X(x), y - 9.6)
-    for i, (s, col) in enumerate((('MIX', 'white'), ('1-2', 'white'), ('3-4', 'white'), ('PFL', 'red'), ('AFL', 'red'), ('AFL', 'red'), ('MIX', 'white'))):
-        x, y = (6, 17, 28)[i % 3], 128 + 22 * (i // 3)
-        switch_cap(c, f'g{n} sw{i}', X(x), y, col); legend(c, s, X(x), y - 5.6, 1.7)
-    for (x, y) in ((12, 191), (23, 191), (34, 191)): led(c, f'g{n} led {x}', X(x - 1), y, 'off')
-    legend(c, 'RET', X(6), 120.0, 1.4); legend(c, 'SUB', X(6), 164.0, 1.4)
-    fader(c, f'g{n} fader', X(19), 322, 422, 0.72)
-
-def master_module(c, x0):
-    w = 81.28 - 0.34
-    panel(c, 'master', x0, w, 'MASTER')
-    X = lambda v: x0 + 1.15 + v
-    for k, s in enumerate(('MAIN L', 'MAIN R', 'MONO')):
-        y = 18 + 30 * k; cyl(f'm xlr {s} body', X(19), y, -12.5, PANEL_Z0, 11, M['alu'], c); xlr(c, f'm {s}', X(19), y); legend(c, s, X(19), y - 14.5, 1.8)
-    for k, (s1, s2) in enumerate((('INS L', 'INS R'), ('EXT L', 'EXT R'), ('C/R L', 'C/R R'), ('AUX 5', 'AUX 6'))):
-        y = 12 + 20 * k
-        for x, s in ((50, s1), (68, s2)):
-            cyl(f'm {s} body', X(x), y, -12.5, PANEL_Z0, 6.4, M['jack'], c); jack_nut(c, f'm {s}', X(x), y); legend(c, s, X(x), y - 9.8, 1.8)
-    cyl('m phones body', X(59), 96, -12.5, PANEL_Z0, 6.4, M['jack'], c); jack_nut(c, 'm phones', X(59), 96); legend(c, 'PHONES', X(59), 86.2, 1.8)
-    for (x, y, s, col) in ((50, 126, 'C/ROOM', 'white'), (68, 126, 'PHONES', 'white'), (50, 150, 'SOLO', 'red'),
-                           (10, 126, 'AUX 5', 'orange'), (28, 126, 'AUX 6', 'orange')):
-        knob(c, f'm {s}', X(x), y, col, big=s == 'C/ROOM'); legend(c, s, X(x), y - 9.6)
-    for (x, y, s, col) in ((68, 150, 'EXT', 'grey'), (10, 150, 'AFL', 'red'), (28, 150, 'AFL', 'red')):
-        switch_cap(c, f'm {s} {x}', X(x), y, col); legend(c, s, X(x), y - 5.6, 1.7)
-    led(c, 'm pfl active', X(50), 170, 'red'); legend(c, 'PFL', X(50), 165.5, 1.5)
-    led(c, 'm power', X(68), 170, 'green'); legend(c, 'POWER', X(68), 165.5, 1.5)
-    colours = ['green'] * 11 + ['amber'] * 5 + ['red'] * 4
-    for side, x in (('L', 24.5), ('R', 54.5)):
-        for k in range(20):
-            y = 410 - 5.0 * k
-            on = k < 13
-            led(c, f'm meter {side} {k}', X(x), y, colours[k] if on else 'off')
-        legend(c, side, X(x), 300.0, 2.0)
-    fader(c, 'm master', X(39.5), 322, 422, 0.75, 'red', dual=True)
-    legend(c, 'MIX', X(39.5), 432.0, 2.4)
+strip = module('channel strip', 'strip', STRIP, 8 * HP - 0.34)
+group = module('group module', 'group', GROUP, 8 * HP - 0.34)
+master = module('master module', 'master', MASTER, 16 * HP - 0.34, 'MASTER')
+for side, x in (('L', 18.0), ('R', 60.6)):                       # meter legends: channel letter, dB scale outboard
+    legend(master, side, x, 318.5, 2.4)
+    for v in (18, 12, 6, 0, -6, -12, -20):
+        legend(master, f'{v:+d}' if v else '0', x + (-6.0 if side == 'L' else 6.2), 422.0 - 5.0 * (v + 20) / 2, 1.5)
 
 # ---------------------------------------------------------------- console: 12 strips | 2 groups | master | 2 groups | 12 strips
 console = coll('console')
 root = bpy.data.objects.new('console root', None); console.objects.link(root)
 modules = coll('modules', console)
 order = ['S'] * 12 + ['G1', 'G2', 'M', 'G3', 'G4'] + ['S'] * 12
-x = 0.0
-strip_x, master_x = [], 0.0
+def instance(name, src, x):
+    e = bpy.data.objects.new(name, None); e.instance_type = 'COLLECTION'; e.instance_collection = src
+    e.location = (x * S, 0, 0); modules.objects.link(e); e.parent = root
+x, n = 0.0, 0
+strip_x, group_x, master_x = [], [], 0.0
 for item in order:
     if item == 'S':
-        strip_x.append(x); x += PITCH
+        n += 1; strip_x.append(x); instance(f'strip {n}', strip, x)
+        text(f'strip number {n}', str(n), x + 19.0, 494.0, PANEL_Z1 + 0.03, 3.0, M['legend'], modules).parent = root
+        x += PITCH
     elif item == 'M':
-        mc = coll('master module', modules); master_module(mc, x); master_x = x
-        for o in mc.objects: o.parent = root
-        x += 2 * PITCH
+        master_x = x; instance('master', master, x); x += 2 * PITCH
     else:
-        gc = coll(f'group {item[1]}', modules); group_module(gc, x, int(item[1]))
-        for o in gc.objects: o.parent = root
+        group_x.append(x); instance(f'group {item[1]}', group, x)
+        text(f'group label {item[1]}', f'GROUP {item[1]}', x + 19.0, 494.0, PANEL_Z1 + 0.03, 3.0, M['legend'], modules).parent = root
         x += PITCH
 width = x
-for i, sx in enumerate(strip_x):
-    e = bpy.data.objects.new(f'strip {i + 1}', None); e.instance_type = 'COLLECTION'; e.instance_collection = strip
-    e.location = (sx * S, 0, 0); modules.objects.link(e); e.parent = root
-    text(f'strip number {i + 1}', str(i + 1), sx + 19.0, 494.0, PANEL_Z1 + 0.03, 3.0, M['legend'], modules).parent = root
-bpy.context.view_layer.layer_collection.children[strip.name].exclude = True   # the source; the instances render
+for src in (strip, group, master):                 # the sources; the instances render
+    bpy.context.view_layer.layer_collection.children[src.name].exclude = True
 # tub in module coordinates: panel-end rails, floor; walnut front arm-rest and back trim
 frame = coll('frame', console)
 TUB = -45.0                                       # tub floor: side-B parts reach z -27 (16 mm elko), jack board -14
@@ -355,17 +363,28 @@ light(bench, 'under', 'AREA', sm + Vector((-0.4, 0.1, -0.5)), sm, 6, 0.8)
 light(bench, 'fill', 'AREA', sm + Vector((0.6, 0.2, 0.2)), sm, 5, 0.8)
 bcam = camera(bench, 'bench camera')
 
+# and the master module on its own bench, for the view from underneath (main board + jack board)
+mbench = bpy.data.scenes.new('master bench'); mbench.collection.children.link(master)
+mbench.unit_settings.system = 'METRIC'; mbench.unit_settings.length_unit = 'MILLIMETERS'
+setup(mbench)
+mm_ = Vector((0.039, -0.25, 0.0))
+light(mbench, 'key', 'AREA', mm_ + Vector((-0.5, -0.3, 0.6)), mm_, 14, 0.6)
+light(mbench, 'under', 'AREA', mm_ + Vector((-0.3, 0.2, -0.6)), mm_, 9, 0.8)
+light(mbench, 'fill', 'AREA', mm_ + Vector((0.6, 0.2, -0.2)), mm_, 6, 0.8)
+mcam = camera(mbench, 'master bench camera')
+
 n = root.matrix_world.to_3x3() @ Vector((0, 0, 1))
 shot(scene, cam, 'console.png', mid + Vector((-0.75, -1.45, 1.0)), mid + Vector((0.0, -0.03, -0.05)), lens=36)
 shot(scene, cam, 'console_plan.png', W(width / 2, 252, PANEL_Z1) + n * 2.0, None, ortho=1.36, res=(3200, 1480),
      rot=(math.radians(TILT), 0, 0))
 c = W(strip_x[1] + 20, 150, PANEL_Z1)
 shot(scene, cam, 'closeup_strips.png', c + Vector((-0.20, -0.36, 0.22)), c, lens=50)
-c = W(master_x + 40.6, 200, PANEL_Z1)
-shot(scene, cam, 'closeup_master.png', c + Vector((0.10, -0.50, 0.42)), c, lens=42)
+c = W(master_x + 39.3, 235, PANEL_Z1)
+shot(scene, cam, 'closeup_master.png', c + Vector((0.06, -0.46, 0.42)), c, lens=34)
 shot(bench, bcam, 'strip_side.png', (-1.0, -0.252, 0.0), None, ortho=0.56, res=(2400, 440),
      rot=(math.radians(90), 0, math.radians(-90)))
 shot(bench, bcam, 'strip_under.png', (-0.16, 0.07, -0.14), (0.019, -0.11, 0.0), lens=30)
+shot(mbench, mcam, 'master_under.png', (-0.17, 0.09, -0.21), (0.039, -0.17, -0.005), lens=30)
 
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(OUTDIR, 'goa_console.blend'))
 print('saved', os.path.join(OUTDIR, 'goa_console.blend'), 'width', round(width, 1), 'mm')

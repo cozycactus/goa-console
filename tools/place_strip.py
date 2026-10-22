@@ -11,22 +11,9 @@ IDC ribbon joins CN5 (jack board, bottom) to CN3 (main board, bottom).
 Panel parts sit at fixed coordinates; the rest is packed by zone (engine: placer.py)."""
 import os, sys
 sys.path.insert(0, os.path.dirname(__file__))
-from placer import place
+from placer import place, W8 as W, XL, XR, XC, pot, sw, led, jack, FADER, BUS, SPADE, NETTIE
 
-W = 38.0                      # board width: 40 mm strip pitch
 JACK_Y1, MAIN_Y0, MAIN_Y1 = 43.0, 44.0, 444.0   # jack board y 0-43, main board y 44-444 (514 mm 12U panel)
-XL, XR, XC = 10.0, 28.0, 19.0 # pot columns and centre line (panel x = board x + 1.15)
-
-# ---------------------------------------------------------------- feature positions -> footprint origins
-def pot(x, y, dual=False, right=False):
-    # RD901F/RD902F: shaft at (7.5, 2.5) from pin 1. Single pots in the right column turn 180 deg (body to the
-    # board edge); dual pots stay at 0 deg on the right (their second gang would hang off the edge) and turn
-    # 180 deg on the left.
-    rot = 180 if (right and not dual) or (dual and not right) else 0
-    return (x + 7.5, y + 2.5, 180, 'F') if rot == 180 else (x - 7.5, y - 2.5, 0, 'F')
-sw  = lambda x, y: (x - 2.5, y - 3.0, 0, 'F')          # PVA2: actuator centre at (2.5, 3.0) from pin 1
-led = lambda x, y: (x - 1.27, y, 0, 'F')               # 3 mm LED: centre at (1.27, 0)
-jack = lambda x, y: (x, y - 5.72, 0, 'F')              # NJ6FD-V: nose centre at (0, 5.72) from the tip pin
 
 # ================================================================ jack board
 JACK_FIX = {'J1': jack(XL, 12), 'J2': jack(XR, 12), 'J5': jack(XL, 32),              # line in, insert / direct out
@@ -54,11 +41,11 @@ FIX = {
  'SW5': sw(6, 274), 'SW6': sw(17, 274), 'SW7': sw(28, 274),                               # L-R, 1-2, 3-4
  'D6': led(6, 283), 'D7': led(17, 283), 'D8': led(28, 283),                               # routing LEDs
  'SW3': sw(6, 292), 'D3': led(14.2, 292), 'SW4': sw(24, 292), 'D4': led(32.2, 292),       # PFL, ON
- 'RV1': (XC - 1.9, 372 + 63.75, 270, 'F'),                                                # fader, slot centre y = 372
- 'CN1': (31.46, 345.64, 180, 'B'),       # bus header, bottom side, pins at x = 31.46 / 34, y = 305..346; pin 1 at the
+ 'RV1': FADER,                           # fader, slot centre y = 372
+ 'CN1': BUS,                             # bus header, bottom side, pins at x = 31.46 / 34, y = 305..346; pin 1 at the
                                          # bottom end so its silk arrow points inboard, not off the edge
- 'CN4': (5.0, 358.0, 0, 'B'),            # ground spade, bottom side, left of the fader body
- 'NT1': (5.0, 351.0, 0, 'F'),            # AGND-LGND net tie beside the spade (no courtyard: keep it clear by hand)
+ 'CN4': SPADE,                           # ground spade, bottom side, left of the fader body
+ 'NT1': NETTIE,                          # AGND-LGND net tie beside the spade (no courtyard: keep it clear by hand)
 }
 # M3 standoff holes (11.5 mm), unplated so audio ground never meets the chassis
 HOLES = [(XC, 67), (XC, 154), (XC, 221), (5, 330), (5, 425), (34, 425)]

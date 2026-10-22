@@ -225,6 +225,18 @@ def spares(b):
                 P(b, r, DUAL[part][0], part, {p: g, n: f'{r}_SPARE{u}', o: f'{r}_SPARE{u}'}, unit=u)
         units.clear()
 
+def parts_sidecar(out):
+    """Functional blocks (creation order) and decoupling pairs beside a schematic, as <name>_parts.json, for the
+    placement layouts (KiCad's Python can't import the generators). Call before build()."""
+    import json, os
+    blocks = []
+    for t, ps in schgen.blocks:
+        order = {}
+        for i, p in enumerate(ps): order.setdefault(p['ref'], i)
+        blocks.append([t, sorted({p['ref'] for p in ps if not p['ref'].startswith('#')}, key=order.get)])
+    with open(os.path.splitext(os.path.abspath(out))[0] + '_parts.json', 'w') as f:
+        json.dump({'blocks': blocks, 'near': dict(decoupling)}, f, indent=1)
+
 def reset():
     """Start a new schematic: empty block list, references from 1, no half-used packages."""
     global jackboard

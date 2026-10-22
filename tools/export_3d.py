@@ -1,12 +1,16 @@
-"""Export placed boards to JSON for tools/console_3d.py (Blender). Run with KiCad's Python:
+"""Export placed boards to JSON for tools/console_3d.py (Blender), one file per module. Run with KiCad's Python:
   $KPY tools/export_3d.py channel_strip_v4.kicad_pcb jack_board.kicad_pcb > render/strip.json
+  $KPY tools/export_3d.py group.kicad_pcb group_jack_board.kicad_pcb > render/group.json
+  $KPY tools/export_3d.py master.kicad_pcb master_jack_board.kicad_pcb > render/master.json
 Per footprint: ref, footprint, value, position, rotation, side, courtyard box, and for panel parts the board
-position of the panel feature (pot shaft, PVA2 actuator, LED, jack nose, fader slot centre)."""
+position of the panel feature (pot shaft, PVA2 actuator, LED, jack nose, XLR barrel, fader slot centre)."""
 import json, math, sys
 import pcbnew
 
 FEATURE = {'Potentiometer_Alpha_RD901F': (7.5, 2.5), 'Potentiometer_Alpha_RD902F': (7.5, 2.5),
-           'SW_Push_2P2T_Toggle_CK_PVA2': (2.5, 3.0), 'LED_D3.0mm': (1.27, 0.0), 'NJ6FD-V': (0.0, 5.72)}
+           'SW_Push_2P2T_Toggle_CK_PVA2': (2.5, 3.0), 'LED_D3.0mm': (1.27, 0.0), 'LED_D5.0mm': (1.27, 0.0),
+           'NJ6FD-V': (0.0, 5.72), 'NC3MAV': (3.81, 0.0),
+           'Potentiometer_Bourns_PTB014': (-63.75, -1.9)}     # slot centre: 63.75 mm from pin 1 along the travel
 
 def to_board(fp, lx, ly):                 # KiCad: y down, orientation counter-clockwise on screen
     a = math.radians(fp.GetOrientationDegrees()); p = fp.GetPosition()
