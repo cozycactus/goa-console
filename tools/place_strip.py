@@ -95,8 +95,12 @@ ZONES = [
  ('OL detector', (1, 45, 37, 100), ['U4', 'C26', 'R39', 'D1', 'C12', 'R14', 'R40', 'R41', 'R15'], 'F'),
  ('HPF', (1, 60, 37, 100), ['U5', 'C29', 'C30', 'C39', 'C40', 'R48', 'R49'], 'F'),
  ('EQ', (1, 82, 37, 162), ['U6', 'C31', 'C32', 'U7', 'C33', 'C34', 'C48', 'C49', 'R50', 'R51', 'C41', 'C42', 'R52',
-                           'C43', 'R53', 'R54', 'R55', 'C44', 'R56', 'R57', 'C45', 'R58', 'R59', 'C46', 'R60', 'R61',
-                           'C47', 'R62', 'R63', 'R64', 'C50', 'R65', 'R66', 'R67', 'R68', 'R69'], 'F'),
+                           'C43', 'R53', 'R54', 'R55', 'R58', 'R59',
+                           'R62', 'R63', 'R64', 'C50', 'R65', 'R66', 'R67', 'R68', 'R69'], 'F'),
+ ('EQ mid tuning (KHN)', (1, 82, 37, 200), ['U12', 'C63', 'C64', 'C44', 'R56', 'U13', 'C65', 'C66', 'C45', 'R57',
+                                          'U14', 'C67', 'C68', 'C46', 'R60', 'C47', 'R61',
+                                          'R81', 'R82', 'R83', 'R84', 'R85', 'R86', 'R87', 'R88', 'R89',
+                                          'R90', 'R91', 'R92', 'R93', 'R94', 'R95', 'R96', 'R97', 'R98'], 'F'),
  ('insert + position jumpers', (1, 120, 37, 175), ['R11', 'R12', 'R13', 'JP5', 'JP6', 'JP7'], 'F'),
  ('aux / PRE jumpers / direct out', (1, 150, 37, 270), ['JP2', 'JP3', 'JP4', 'U8', 'C35', 'C36', 'R70', 'R71',
                                                         'R72', 'R73'], 'F'),
@@ -220,16 +224,18 @@ def fits(fp, side, x0, y0, x1, y1):
     pads = tht_pads(fp)
     return not (pads and any(overlaps(p, occ[other]) for p in pads))
 
-# Decoupling caps go as close as the courtyards allow to their IC's supply pin (the IC's pad on the cap's
-# non-ground net), searched within NEAR_R of it; anything else, or a cap with no room there, takes the
-# zone's first free spot from the top left.
-DECOUPLE = {'C20': 'U1', 'C21': 'U1', 'C22': 'U2', 'C23': 'U2', 'C24': 'U3', 'C25': 'U3', 'C26': 'U4',
+# Decoupling caps, and the integrator caps / input resistors of the KHN mid bands (virtual-earth nodes), go as
+# close as the courtyards allow to their IC's pin on a shared non-ground net, searched within NEAR_R of it;
+# anything else, or a part with no room there, takes the zone's first free spot from the top left.
+NEAR = {'C20': 'U1', 'C21': 'U1', 'C22': 'U2', 'C23': 'U2', 'C24': 'U3', 'C25': 'U3', 'C26': 'U4',
             'C29': 'U5', 'C30': 'U5', 'C31': 'U6', 'C32': 'U6', 'C33': 'U7', 'C34': 'U7', 'C35': 'U8', 'C36': 'U8',
             'C53': 'U9', 'C54': 'U9', 'C55': 'U9', 'C56': 'U10', 'C57': 'U10', 'C58': 'U10',
-            'C59': 'U11', 'C60': 'U11', 'C61': 'U11'}
+            'C59': 'U11', 'C60': 'U11', 'C61': 'U11',
+            'C63': 'U12', 'C64': 'U12', 'C65': 'U13', 'C66': 'U13', 'C67': 'U14', 'C68': 'U14',
+            'C44': 'U12', 'R56': 'U12', 'C45': 'U13', 'R57': 'U13', 'C46': 'U14', 'R60': 'U14', 'C47': 'U14', 'R61': 'U14'}
 NEAR_R = 12.0
 def supply_pin(ref, fp):
-    ic = board.FindFootprintByReference(DECOUPLE.get(ref, ''))
+    ic = board.FindFootprintByReference(NEAR.get(ref, ''))
     if ic is None: return None
     nets = {padnet.get((ref, p.GetNumber())) for p in fp.Pads()} - {'GNDA', 'GNDD', None}
     for p in ic.Pads():
@@ -286,7 +292,7 @@ for zname, (x0, y0, x1, y1), refs, side in ZONES:
 # keeps ${REFERENCE}). Big parts try their own body first.
 SILK_H, SILK_T, SILK_GAP, MASK_GAP, EDGE_GAP, REACH = 0.8, 0.12, 0.15, 0.1, 0.5, 5.0
 F = pcbnew.FromMM
-fps = [f for f in board.GetFootprints() if f.GetReference()[:1] != 'H']
+fps = list(board.GetFootprints())           # mounting holes too: their labels must clear the parts
 CELL = 5.0
 grid = {'F': {}, 'B': {}}      # side -> cell -> [(bbox, shape, clearance, owner)]
 def add_obstacle(side, item, shape, clearance, owner):

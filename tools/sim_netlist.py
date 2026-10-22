@@ -39,12 +39,12 @@ def value(text):
     return float(m.group(1) + ('.' + m.group(3) if m.group(3) else '')) * mult
 
 def law(taper, th):
-    a = lambda x: (10 ** (2 * x) - 1) / 99                      # log (A): 10 % at mid travel
+    a = lambda x: 0.30 * x if x <= 0.5 else 0.15 + 1.70 * (x - 0.5)   # Alpha A: two slopes, 15 % at mid travel
     return {'A': a(th), 'B': th, 'C': 1 - a(1 - th)}[taper]
 
 TAPER = {'RV1': 'A', 'RV2': 'A', 'RV3': 'A', 'RV4': 'A', 'RV5': 'A', 'RV6': 'A', 'RV7': 'A',
-         'RV8': 'B', 'RV9': 'B', 'RV10': 'B', 'RV11': 'B', 'RV12': 'C', 'RV13': 'B', 'RV14': 'C', 'RV15': 'B'}
-POTR = {'RV12': 100e3, 'RV14': 100e3}
+         'RV8': 'B', 'RV9': 'B', 'RV10': 'B', 'RV11': 'B', 'RV12': 'A', 'RV13': 'B', 'RV14': 'A', 'RV15': 'B'}
+POTR = {}                                     # pot values other than 10K
 DG_RON = 25                                   # DG413 on-resistance, typical (Vishay, +/-15 V)
 libname = lambda c: field(next(x for x in c[1:] if isinstance(x, list) and x[0] == 'libsource'), 'part')
 
@@ -152,6 +152,11 @@ for ref, at, lo, hi, label in (('RV12', 10.5e3, 13.5, 15.5, 'HI-MID CW, freq CW,
     r = run({**TOP, gain: 1, ref: 1.0, ('RV14' if ref == 'RV12' else 'RV12'): 0.5}, ON,
             f'ac lin 1 {at} {at}', [dbu('PRE'), 'print x_PRE'])
     check(label, r.get('x_pre'), lo, hi)
+for ref, gain, at, label in (('RV12', 'RV11', 2.2e3, 'HI-MID CW, freq at mid rotation (law), at 2.2 kHz'),
+                              ('RV14', 'RV13', 480, 'LO-MID CW, freq at mid rotation (law), at 480 Hz')):
+    r = run({**TOP, gain: 1, ref: 0.5, ('RV14' if ref == 'RV12' else 'RV12'): 0.5}, ON,
+            f'ac lin 1 {at} {at}', [dbu('PRE'), 'print x_PRE'])
+    check(label, r.get('x_pre'), 13.5, 15.5)
 r = run({**TOP, 'RV10': 1, 'RV11': 1, 'RV13': 1, 'RV15': 1}, {**ON, 'SW12': False}, 'ac dec 20 20 20k',
         ['let g = db(v(PRE)/0.7746)', 'meas ac gmax max g', 'meas ac gmin min g'])
 check('EQ out (all bands at full boost): max deviation', max(abs(r.get('gmax', 99)), abs(r.get('gmin', 99))), 0, 0.5)

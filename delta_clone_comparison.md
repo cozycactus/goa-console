@@ -63,6 +63,10 @@ Line in (TRS) ─ line stage: diff amp IC2A + gain pot VR1 in its feedback, Ø s
 6. **PAN switch.** Add (Delta) or keep always-panned.
 7. **Direct out.** Add (Delta: aux 6 doubles as its level via DIR), or leave out.
 
+**Later change (2026-10-22, after sign-off):** the HI-MID / LO-MID frequency pots (100K C-law duals) are
+not stocked, so those two bands now use a KHN state-variable band-pass with the Wien's exact response,
+tuned by a stocked A10K dual. Boost/cut, Q and ranges are as the Delta's. See strip spec §6.2.
+
 ## 4. Panel and board impact
 
 | | Now | Delta clone |

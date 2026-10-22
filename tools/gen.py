@@ -22,7 +22,7 @@ POTB = 'Alpha RD901F-40-15R1-B10K-0CD (centre detent)'
 JACK_V = 'Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical'; JACK_V_MPN = 'Neutrik NJ6FD-V'
 # ribbon conductor = pin number: each pair adjacent, grounds between input, send, return and direct out
 LINK = {1: 'IN_T', 2: 'IN_R', 3: 'GNDA', 4: 'SEND', 5: 'GNDA', 6: 'RET_RAW', 7: 'GNDA', 8: 'DO_T', 9: 'DO_R', 10: 'GNDA'}
-POT2C = 'Alpha RD902F-40 C100K dual (reverse log) - availability to confirm'
+POT2A = 'Alpha RD902F-40-15R1-A10K (dual, log)'
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else 'channel_strip.kicad_sch'
 JB_OUT = os.path.join(os.path.dirname(OUT), 'jack_board.kicad_sch')
@@ -39,7 +39,8 @@ P(b,'NT1','NT','AGND-LGND star',{1:'GNDA',2:'GNDD'})
 P(b,'CN4','TAB','Ground spade 6.3mm',{1:'GNDA'})
 P(b,'R5','R','10R GND cancel',{1:'GNDA',2:'GCANCEL'})
 for i,(ref,cp,cn) in enumerate([('U1','C20','C21'),('U2','C22','C23'),('U3','C24','C25'),('U5','C29','C30'),
-                                  ('U6','C31','C32'),('U7','C33','C34'),('U8','C35','C36')]):
+                                  ('U6','C31','C32'),('U7','C33','C34'),('U8','C35','C36'),
+                                  ('U12','C63','C64'),('U13','C65','C66'),('U14','C67','C68')]):
     P(b,ref,'OPA','OPA1612',{8:'+VA',4:'-VA'},unit=3)
     P(b,cp,'C','100n',{1:'+VA',2:'GNDA'}); P(b,cn,'C','100n',{1:'GNDA',2:'-VA'})
 P(b,'U4','CMP','LM393',{8:'+VL',4:'GNDD'},unit=3); P(b,'C26','C','100n',{1:'+VL',2:'GNDD'})
@@ -91,15 +92,35 @@ P(b,'C43','C','4n7 C0G',{1:'EQ_T1',2:'EQ_T2'},fp=C0G); P(b,'R53','R','6K8',{1:'E
 P(b,'R54','R','22K',{1:'EQ_O3',2:'EQ_M4'}); P(b,'R55','R','22K',{1:'EQ_O4',2:'EQ_M4'})
 P(b,'U6','OPA','OPA1612',{3:'EQ_MP',2:'EQ_M4',1:'EQ_O4'},unit=1)
 P(b,'RV11','POT','HI-MID gain 10K lin CD',{3:'EQ_O4',2:'EQ_WHM',1:'EQ_O3'},mpn=POTB)
-P(b,'C44','C','3n3 C0G',{1:'EQ_WHM',2:'EQ_M1'},fp=C0G); P(b,'R56','R','6K8',{1:'EQ_M1',2:'EQ_M2'})
-P(b,'RV12','POT2','HI-MID freq 100K C dual',{3:'EQ_M2',2:'EQ_MP',1:'EQ_MP',6:'EQ_MP',5:'EQ_M3',4:'EQ_M3'},mpn=POT2C)
-P(b,'R57','R','6K8',{1:'EQ_M3',2:'GNDA'}); P(b,'C45','C','1n5 C0G',{1:'EQ_MP',2:'GNDA'},fp=C0G)
 P(b,'R58','R','22K',{1:'EQ_O4',2:'EQ_L4'}); P(b,'R59','R','22K',{1:'EQ_O5',2:'EQ_L4'})
 P(b,'U6','OPA','OPA1612',{5:'EQ_LP',6:'EQ_L4',7:'EQ_O5'},unit=2)
 P(b,'RV13','POT','LO-MID gain 10K lin CD',{3:'EQ_O5',2:'EQ_WLM',1:'EQ_O4'},mpn=POTB)
-P(b,'C46','C','15n C0G',{1:'EQ_WLM',2:'EQ_L1'},fp=C0G); P(b,'R60','R','6K8',{1:'EQ_L1',2:'EQ_L2'})
-P(b,'RV14','POT2','LO-MID freq 100K C dual',{3:'EQ_L2',2:'EQ_LP',1:'EQ_LP',6:'EQ_LP',5:'EQ_L3',4:'EQ_L3'},mpn=POT2C)
-P(b,'R61','R','6K8',{1:'EQ_L3',2:'GNDA'}); P(b,'C47','C','6n8 C0G',{1:'EQ_LP',2:'GNDA'},fp=C0G)
+
+# Mid bands: the Delta's Wien band-pass (needs a 100K C-law dual, not stocked) replaced by a KHN state-variable
+# band-pass with the same response (peak 0.407, Q 0.275, in phase) into U6A/U6B's + input, tuned by a stocked
+# A10K dual: each gang a divider from the driving op-amp (pin 3) to 430R (pin 1), 13K wiper-to-top, wiper -> 4K7
+# -> integrator. CW = higher frequency, within 0.3 octave of a log sweep. sim/mid_tuning.py, strip spec 6.2.
+b = block('EQ MID TUNING  KHN band-pass per mid band: summer (10K x3, BP via 2K2/10K), two integrators, A10K dual')
+for (nm, wip, bp, sm, sp, hp, lp, d1, d2, r1, r2, i1, i2, pot, ci1, ci2, c1v, c2v, rb1, rb2, rs, us, ui1, ui2) in (
+        ('HI-MID', 'EQ_WHM', 'EQ_MP', 'EQ_MSM', 'EQ_MSP', 'EQ_MHP', 'EQ_MLP', 'EQ_MD1', 'EQ_MD2', 'EQ_MR1', 'EQ_MR2',
+         'EQ_MI1', 'EQ_MI2', 'RV12', 'C44', 'C45', '2n2 C0G', '4n7 C0G', 'R56', 'R57',
+         ('R81', 'R82', 'R83', 'R84', 'R85', 'R86', 'R87', 'R88', 'R89'), ('U12', 1), ('U12', 2), ('U13', 1)),
+        ('LO-MID', 'EQ_WLM', 'EQ_LP', 'EQ_LSM', 'EQ_LSP', 'EQ_LHP', 'EQ_LLP', 'EQ_LD1', 'EQ_LD2', 'EQ_LR1', 'EQ_LR2',
+         'EQ_LI1', 'EQ_LI2', 'RV14', 'C46', 'C47', '10n C0G', '22n C0G', 'R60', 'R61',
+         ('R90', 'R91', 'R92', 'R93', 'R94', 'R95', 'R96', 'R97', 'R98'), ('U13', 2), ('U14', 1), ('U14', 2))):
+    rin, rlp, rfb, r4, r5, r0a, r0b, rta, rtb = rs
+    P(b,rin,'R','10K 1%',{1:wip,2:sm}); P(b,rlp,'R','10K 1%',{1:lp,2:sm}); P(b,rfb,'R','10K 1%',{1:hp,2:sm})
+    P(b,r4,'R','2K2 1%',{1:bp,2:sp}); P(b,r5,'R','10K 1%',{1:sp,2:'GNDA'})
+    pp = {1: (3, 2, 1), 2: (5, 6, 7)}
+    P(b,us[0],'OPA','OPA1612',dict(zip(pp[us[1]], (sp, sm, hp))),unit=us[1])            # summer: HP out
+    # integrator 1 (HP -> BP) through gang A, integrator 2 (BP -> LP) through gang B
+    P(b,pot,'POT2',f'{nm} freq 10K A dual',{3:hp,2:d1,1:r1,6:bp,5:d2,4:r2},mpn=POT2A)
+    P(b,r0a,'R','430R 1%',{1:r1,2:'GNDA'}); P(b,r0b,'R','430R 1%',{1:r2,2:'GNDA'})
+    P(b,rta,'R','13K 1%',{1:hp,2:d1}); P(b,rtb,'R','13K 1%',{1:bp,2:d2})
+    P(b,rb1,'R','4K7 1%',{1:d1,2:i1}); P(b,rb2,'R','4K7 1%',{1:d2,2:i2})
+    P(b,ci1,'C',c1v,{1:bp,2:i1},fp=C0G); P(b,ci2,'C',c2v,{1:lp,2:i2},fp=C0G)
+    P(b,ui1[0],'OPA','OPA1612',dict(zip(pp[ui1[1]], ('GNDA', i1, bp))),unit=ui1[1])
+    P(b,ui2[0],'OPA','OPA1612',dict(zip(pp[ui2[1]], ('GNDA', i2, lp))),unit=ui2[1])
 P(b,'R66','R','22K',{1:'EQ_O5',2:'EQ_F4'}); P(b,'R67','R','22K',{1:'EQ_O6',2:'EQ_F4'})
 P(b,'U7','OPA','OPA1612',{3:'EQ_FP',2:'EQ_F4',1:'EQ_O6'},unit=1)
 P(b,'R62','R','3K3',{1:'EQ_O5',2:'EQ_F1'}); P(b,'R63','R','3K3',{1:'EQ_F2',2:'EQ_O6'})

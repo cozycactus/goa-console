@@ -156,22 +156,66 @@ stage's input and output; **clockwise boosts** on every band (as the ED3151 CW a
 | Band | Stage | Circuit (values as the Delta) | Pots |
 |------|-------|-------------------------------|------|
 | HF shelf | U5B | R50 33K in, R51 33K ∥ C41 33 pF feedback; wiper ─ C42 4n7 ─ T1 (R52 5K6 to AGND) ─ C43 4n7 ─ R53 6K8 ─ virtual earth | RV10 gain: pin 3 = EQIN, pin 1 = U5B out |
-| HI-MID | U6A | R54 22K in, R55 22K feedback; (+) input from the wiper through a Wien band-pass: C44 3n3 + R56 6K8 + RV12A in series, C45 1n5 ∥ (RV12B + R57 6K8) to AGND | RV11 gain: pin 3 = U6A out; RV12 frequency: 100K C-law dual, each gang a rheostat |
-| LO-MID | U6B | R58/R59 22K; C46 15n + R60 6K8 + RV14A; C47 6n8 ∥ (RV14B + R61 6K8) | RV13 gain: pin 3 = U6B out; RV14 frequency |
+| HI-MID | U6A | R54 22K in, R55 22K feedback; (+) input = band-pass of the gain-pot wiper. Delta: Wien network with a 100K C-law dual. **Here: KHN state-variable band-pass, same response (§6.2), U12A/U12B/U13A** | RV11 gain: pin 3 = U6A out; RV12 frequency: **10K A-law dual** |
+| LO-MID | U6B | R58/R59 22K; (+) input as HI-MID, KHN on U13B/U14A/U14B | RV13 gain: pin 3 = U6B out; RV14 frequency: 10K A-law dual |
 | LF bell | U7A | R66/R67 22K; (+) input: wiper ─ R64 1K5 ─ C49 2µ2 ─ (C50 100 nF ∥ R65 5K1 to AGND) | RV15 gain between R62 3K3 (from U6B) and R63 3K3 (to U7A out), C48 150 nF across it |
 
-- Frequency pots RV12, RV14: wiper tied to pin 1 (and 4); rheostat between wiper and pin 3 (6),
-  so resistance falls clockwise and, with the C (reverse-log) law, frequency rises
-  logarithmically.
 - The Delta's R32/R36 meet the stage-input line on ED3344A without a junction dot. They cross
   rather than connect, and run from the rheostat to ground. Simulation confirms the reading.
-- Simulated (`sim/delta_eq.cir`; whole schematic in `tools/sim_netlist.py`):
+- Simulated with the Delta's Wien mid bands (`sim/delta_eq.cir`); the KHN mid bands give the same
+  response (§6.2), and the whole schematic is checked by `tools/sim_netlist.py`:
   HF ±11.5 dB at 12 kHz; HI-MID ±14.6 dB, 670 Hz–10.5 kHz, Q 1.44; LO-MID ±14.7 dB,
   148 Hz–2.3 kHz, Q 1.44; LF ±14.3 dB at 54 Hz, Q 0.88; flat within 0.16 dB and in phase with
   all pots centred.
 - Capacitors: C0G 1206 up to 100 nF; C48 150 nF and C49 2.2 µF polyester film (MKS2).
 - Op-amps OPA1612. EQ noise is resistor thermal noise (op-amp choice changes it by 0.2 dB);
   the Delta impedances are kept (halving them would buy 2.4 dB).
+
+### 6.2 Mid-band tuning: KHN band-pass with an A-law dual (2026-10-22)
+
+**Why.** The Delta tunes each mid band with a 100K C-law (reverse-log) dual used as two rheostats in
+a Wien band-pass. That pot isn't stocked as a dual anywhere mainstream (Tayda: single only; Bourns
+PTD90: linear and audio only). An A-law dual can't simply replace it. Each gang is a rheostat with
+f ∝ 1/R, so an A pot either sweeps backwards (CW = lower) or, using its other segment, crams the whole
+range into the last part of the rotation. A passive T-network can invert the series arm, but not the
+grounded shunt arm.
+
+**What.** Each mid band's Wien network is replaced by a KHN state-variable band-pass. It is tuned by
+pot dividers feeding its two integrators, so f ∝ the divider's transfer conductance, which an A-law
+segment makes rise roughly exponentially clockwise. The KHN is set to the Wien's own transfer
+function: peak gain 0.407, Q 0.275, in phase. So U6A/U6B and the gain pots work exactly as before.
+
+```
+gain-pot wiper ── R81 10K ──┐
+LP ── R82 10K ──────────────┼── U12A (−)   U12A (+) ── R84 2K2 ── BP ;  (+) ── R85 10K ── AGND
+HP (U12A out) ── R83 10K ───┘                       summer: HP = −in − LP + 2.46·BP
+HP ── RV12A pin 3 ; pin 1 ── R86 430R ── AGND ; R88 13K pin 3 → wiper ; wiper ── R56 4K7 ── U12B (−), C44 2n2 to BP
+BP ── RV12B pin 6 ; pin 4 ── R87 430R ── AGND ; R89 13K pin 6 → wiper ; wiper ── R57 4K7 ── U13A (−), C45 4n7 to LP
+BP (U12B out) ── U6A (+)                                                  LO-MID: R90–R98, C46 10n / C47 22n, U13B/U14A/U14B
+```
+- Summer gains 1 (input), 1 (LP) and 0.82 × 3 = 2.46 (BP). Q of the band-pass comes from the
+  integrator capacitor ratio (C1/C2 ≈ 0.46). No internal node exceeds the input; at full boost every
+  KHN node stays at least 7.8 dB below the stage output, which clips first.
+- Divider: 430R / 13K / 4K7 around a 10K pot, fitted to Alpha's catalogue A taper (two slopes, 15 % at
+  mid-rotation). The sweep stays within 0.28 octave of a straight log line; the Delta's C-law network
+  is 0.31. The top of the range is exact whatever the pot's tolerance, because the wiper sits on the
+  driven end; ±20 % on the pot moves the bottom by about ±12 % (the Delta's rheostat: ±18 %).
+- A10K rather than A100K: the same divider at 100K impedance was 8.6 dB (HI-MID) and 5.7 dB (LO-MID)
+  noisier than the Delta network; at 10K the difference is 1.3 and 0.6 dB. Alpha RD902F-40-15R1-A10K,
+  same footprint as before.
+- Cost: three more OPA1612 (U12–U14), 18 resistors, C63–C68 decoupling. The Wien parts' references
+  C44–C47 and R56/R57/R60/R61 are reused for the integrator capacitors and 4K7 inputs.
+
+`sim/mid_tuning.py` (both versions in the same U6A stage, Alpha 15 % tapers, OPA1612 with noise):
+
+| | Delta Wien, C100K | KHN, A10K | Ideal log |
+|---|---|---|---|
+| HI-MID f0 at 0 / ¼ / ½ / ¾ / full rotation | 676 / 1122 / 3273 / 5012 / 10471 Hz | 684 / 1567 / 2213 / 4786 / 10471 Hz | 670 / 1333 / 2652 / 5277 / 10500 |
+| HI-MID boost / cut, Q | ±14.4 … 14.7 dB, 1.40 … 1.44 | ±14.6 … 14.7 dB, 1.45 … 1.46 | |
+| LO-MID f0 at 0 / ½ / full | 150 / 724 / 2317 Hz | 148 / 479 / 2291 Hz | 148 / 586 / 2320 |
+| LO-MID boost / cut, Q | ±14.5 … 14.7 dB, 1.41 … 1.45 | ±14.6 dB, 1.42 … 1.44 | |
+| Flat (gain pots centred) | 0.00 dB | 0.00 dB | |
+| Stage output noise, flat, 20 Hz–20 kHz (HI / LO) | −101.8 / −104.5 dBu | −100.5 / −103.9 dBu | |
 
 ### 6.1 EQ IN (SW12, D5)
 ```
@@ -334,14 +378,17 @@ directly; no debounce RC, because the DG413 inputs have no hysteresis.
 | U7 | OPA1612 | EQ LF | insert return buffer |
 | U8 | OPA1612 | direct out | spare, tied off |
 | U9–U11 | DG413 | routing switches L-R, 1-2, 3-4 (two SPDT each) | |
+| U12 | OPA1612 | HI-MID KHN summer | HI-MID integrator 1 (BP) |
+| U13 | OPA1612 | HI-MID integrator 2 (LP) | LO-MID KHN summer |
+| U14 | OPA1612 | LO-MID integrator 1 (BP) | LO-MID integrator 2 (LP) |
 | Q1, Q2 | J112 | soft mute | |
 
 ---
 
 ## 15. Bill of materials
 
-`channel_strip_BOM.csv` (main board, exported from the schematic): 192 parts per channel, of which three
-are the DNP VCA-option parts (J3, J4, R44), so 189 fitted; `jack_board_BOM.csv`: 6. Panel parts per channel:
+`channel_strip_BOM.csv` (main board, exported from the schematic): 219 parts per channel, of which three
+are the DNP VCA-option parts (J3, J4, R44), so 216 fitted; `jack_board_BOM.csv`: 6. Panel parts per channel:
 15 pots (fader, 6 aux, pan, gain, 4 EQ gain, 2 dual EQ frequency), 13 switches, 7 LEDs (OL, PFL, ON, EQ,
 3 routing), 3 jacks, 1 bus header.
 
@@ -366,14 +413,14 @@ AI scope: component placement only. Ruslan routes copper and pours grounds in Ki
 | RV2–RV7 | Alpha RD901F-40, A10K | `Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical` | Pin 1 = AGND (A-law runs from pin 1). |
 | RV9–RV11, RV13, RV15 | Alpha RD901F-40-15R1-B10K-0CD | same | 10K linear, centre detent (Alpha spec SP26020021). In stock 2026-10-22 as Alpha 9 mm vertical linear "centre notch" 10K (Cedist / Amplified Parts R-VAV-B10K-CN), but with a 1/4" (6.35 mm) shaft: knobs must match. |
 | RV8 | Alpha RD902F-40, B10K, centre detent | `Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical` | Confirm a detent version is stocked. |
-| RV12, RV14 | Alpha RD902F-40 dual, **100K C (reverse log)** | same | **Not stocked as a dual** (checked 2026-10-22): Tayda has the single C100K only; Bourns PTD90 duals are linear or audio only; a GroupDIY builder found only eBay lots. An A100K dual can't substitute: each gang is a rheostat (f ∝ 1/R), so it either sweeps the wrong way (CW = lower) or crams the range at one end. Needs a source decision (open). |
+| RV12, RV14 | Alpha RD902F-40-15R1-A10K dual (log) | same | Stocked (Tayda). Replaces the Delta's 100K C-law dual, which isn't stocked; works with the KHN mid-band tuning (§6.2). |
 | SW3–SW15 | C&K PVA2 EE H1 1.7N V2 | `Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2` | DPDT push-push, 32 V / 100 mA; PV caps. Datasheet (rev. 02/2025, p. 3): common 0 is the middle pin; released 0–1, pressed/latched 0–2; terminals moulded "2 0 1" on the body. **Fit each switch with its moulded "2" pins in the square-pad column (pads 1 and 4)**, so latched = 2–1 / 5–4 as drawn. The footprint is symmetric under 180°, so a switch fitted the other way round works inverted. Check one sample with a meter. |
 | D2–D8 | 3 mm LEDs | `LED_THT:LED_D3.0mm` | 7.6 mm spacers. D6–D8 (routing, yellow) at y 283, centred under SW5–SW7. |
 | CN4 | Keystone 1287-ST | `goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm` | |
 
 **Check on samples before ordering boards:** PVA2 orientation by continuity (moulded "2" in the
 pad 1/4 column gives 2–1 / 5–4 when latched); the fader pad pattern against a 1:1 print; knob fit
-on the 6.35 mm centre-notch pots; a source for the C100K duals (RV12, RV14).
+on the 6.35 mm centre-notch pots.
 
 ### 16.2 Panel stack (unchanged from v3.1)
 
@@ -393,7 +440,7 @@ the panel's top edge), placement only:
 
 | Board | File | Size | Depth under the panel | Parts |
 |-------|------|------|-----------------------|-------|
-| Main | `channel_strip_v4.kicad_pcb` | 38 × 400 mm, y 44–444 | 11.5 mm | 200 + 6 M3 holes (11.5 mm standoffs) |
+| Main | `channel_strip_v4.kicad_pcb` | 38 × 400 mm, y 44–444 | 11.5 mm | 227 + 6 M3 holes (11.5 mm standoffs) |
 | Jack | `jack_board.kicad_pcb` | 38 × 43 mm, y 0–43 | ≈ 24 mm (the NJ6FD-V body) | 6 + 2 M3 holes |
 
 DRC with `--schematic-parity`, both boards: 0 parity issues. The main board has no violations at all;
@@ -432,20 +479,21 @@ sleeves go to AGND only through the ribbon. CN3/CN5: Würth 61201021621 2 × 5 b
 ## 17. Status (v4.0, 2026-10-22)
 
 - Schematic generated by `tools/gen.py` (User-size sheet, label-connected).
-- `tools/verify.py`: main 625 pin entries, jack board 30; 0 mismatches, 0 stray pins, no single-pin nets.
-- `tools/check_fp.py`: 200 + 6 parts, every symbol pin on a footprint pad.
+- `tools/verify.py`: main 697 pin entries, jack board 30; 0 mismatches, 0 stray pins, no single-pin nets.
+- `tools/check_fp.py`: 227 + 6 parts, every symbol pin on a footprint pad.
 - KiCad 10.0.7 ERC, `--severity-all`: 0 violations on both schematics.
 - `tools/sim_netlist.py` simulates the two exported netlists joined through the ribbon (CN3↔CN5), so
-  the source drives J1 and the direct out is read at J5 (28 checks, all pass): levels
+  the source drives J1 and the direct out is read at J5 (30 checks, all pass): levels
   (PRE 0 dBu, POST +9.9 dBu, MIX +3.8 dBu), gain range, Ø, HPF corner, every EQ band at both
   ends, EQ bypass, mute depth, direct out, DIR muting aux 6, PRE/post aux, PAN on/off, PFL,
-  routing through the DG413s (state taken from the PVA2 logic; Ron 25 Ω): SUB 4, MIX L/R off.
+  routing through the DG413s (state taken from the PVA2 logic; Ron 25 Ω): SUB 4, MIX L/R off;
+  the KHN mid bands at both ends and at mid-rotation (A law: Alpha two-slope 15 %).
   It found one real error during development: the new HI-MID nets had the same names as the mute
   nets (M1/M2), so the generator merged them. Fixed by prefixing the EQ nets with `EQ_`.
 - Hand-written decks: `sim/gain_stage.cir`, `sim/delta_eq.cir`, `sim/strip_v4.cir`
-  (results in `delta_clone_comparison.md` §6), `sim/routing_switch.cir` (§13). `sim/strip.cir` is the v3.1 path.
+  (results in `delta_clone_comparison.md` §6), `sim/routing_switch.cir` (§13), `sim/mid_tuning.py` (§6.2). `sim/strip.cir` is the v3.1 path.
 
-**Open:** a source for the 100K C-law dual pots (RV12, RV14); pan dual B10K with centre detent (RV8) not yet found;
+**Open:** pan dual B10K with centre detent (RV8) not yet found;
 NJ6FD-V body height (sets the jack-board depth and standoffs). PVA2 sense: settled from the datasheet,
 with an assembly rule (§16.1).
 

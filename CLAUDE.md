@@ -67,6 +67,7 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
   power-on mute, subgroups, aux masters, stereo returns, monitoring/PFL/meters, power entry.
   `sim/master_mix.cir` — mix path model (single-pole OPA1612); `sim/aux_master.cir` — aux
   summing-amp stability; `sim/routing_switch.cir` — strip DG413 routing switch (level, THD, bus C, click);
+  `sim/mid_tuning.py` — Delta Wien vs KHN mid-band tuning (law, boost, Q, noise; `python3 sim/mid_tuning.py 10e3`);
   `sim/mute.cir` — power-on mute control; `sim/meter.cir` — meter rectifier/ballistics (precision peak
   detector; the Delta-style one read −20 dB as −11.7 dB).
 - `test_jig_spec.md` — test jig v0.1: 4 real strips + master stub (A/D/22R-tie jumpers) + load board
@@ -80,6 +81,11 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
 ## Decisions made (do not silently change)
 - Strip panel (2026-10-22): 8 HP × 12U Eurorack-style, two pot columns, jacks on the panel (Neutrik
   NJ6FD-V); custom frame with rails only at the panel ends.
+- Mid-band tuning (2026-10-22): the Delta's Wien band-pass with a 100K C-law dual (not stocked) is
+  replaced by a KHN state-variable band-pass with the same response (peak 0.407, Q 0.275), tuned by a
+  stocked Alpha A10K dual as dividers (430R / 13K wiper-to-top / 4K7) into the two integrators.
+  CW = higher frequency, within 0.28 oct of a log sweep. U12–U14 OPA1612. A10K, not A100K: 100K was
+  5.7–8.6 dB noisier. Spec 6.2.
 - Routing (2026-10-22): the PVA2 routing switches carry logic only. Pole A drives a DG413 (U9–U11, at the
   bus header) that moves each 4K7's bus end between the bus (D side) and AGND; pole B drives a yellow
   routing LED. VL = +5VL from +VA via 4K7 + BZX84C5V1. Replaces the 4PDT idea (no vertical part exists).
@@ -120,19 +126,21 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
   strip VCA option.
 
 ## Verified so far
-- Strip v4.0 with jack board and DG413 routing (2026-10-22): netlists main 625 / jack 30 pin entries,
-  0 mismatches; check_fp 200 + 6 parts, 0 problems; ERC 0 on both; tools/sim_netlist.py 28/28 through
-  the ribbon (levels, gain, Ø, HPF, every EQ band, bypass, mute, direct out at J5, aux pre/post, PAN, PFL,
-  routing via the DG413s incl. off = silent);
+- Strip v4.0 with jack board, DG413 routing and KHN mid bands (2026-10-22): netlists main 697 / jack 30
+  pin entries, 0 mismatches; check_fp 227 + 6 parts, 0 problems; ERC 0 on both; tools/sim_netlist.py 30/30
+  through the ribbon (levels, gain, Ø, HPF, every EQ band incl. mid-rotation, bypass, mute, direct out at J5,
+  aux pre/post, PAN, PFL, routing via the DG413s incl. off = silent);
   with ribbon conductor 6 removed, 23 checks fail, so the link is really exercised.
+- Mid tuning sim (`sim/mid_tuning.py`): KHN + A10K vs Delta Wien + C100K, both in the U6A stage: same range
+  (684 Hz–10.47 kHz / 148 Hz–2.29 kHz), ±14.6 dB, Q 1.42–1.46 (Delta 1.40–1.45); noise 1.3 / 0.6 dB higher.
 - Routing switch sim (`sim/routing_switch.cir`, Vishay DG413): level −0.05 dB (Ron 25 Ω), THD −124 dB at
   +20 dBu (−67 dB if the switch were at the source end), no summing-amp peaking up to 2.2 nF of bus
   capacitance, switching click −55 dBu peak in the 20 kHz band, crosstalk from an unassigned strip −111 dB at 20 kHz.
-- Strip v4.0 placement (KiCad 10.0.7, 2026-10-22): main 200 footprints + 6 holes, jack board 6 + 2 holes;
+- Strip v4.0 placement (KiCad 10.0.7, 2026-10-22): main 227 footprints + 6 holes, jack board 6 + 2 holes;
   0 tracks/vias/zones, 0 schematic-parity issues. Main board: 0 violations, including silkscreen (refs
   0.8 mm, placed by place_strip.py). Jack board: only 6 hole-clearance + 6 solder-mask items inside
-  KiCad's NJ6FD-V footprint. Unconnected items 449 main, 17 jack (expected). Decoupling caps beside
-  their ICs' supply pins.
+  KiCad's NJ6FD-V footprint. Unconnected items 499 main, 17 jack (expected). Decoupling caps and the
+  KHN integrator parts beside their ICs' pins (place_strip.py NEAR).
 - Strip placement check (v3.1 board, KiCad 10.0.7, 2026-10-20): 109 footprints including six mounting
   holes, 0 tracks/vias/zones, 0 schematic-parity issues; no clearance, courtyard, hole or
   outline errors. DRC reports 219 expected unconnected items and 157 silkscreen warnings.
@@ -153,15 +161,15 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
   latched 0–2, middle pin common; fit moulded "2" in the pad 1/4 column (spec 16.1). Still to confirm with
   real parts: fader pad pattern (1:1 print), panel stack height, knob fit (centre-notch pots in stock have
   6.35 mm shafts). Fader/aux pots now pin 1 = GNDA (A taper).
-- **100K C-law dual (RV12/RV14, EQ frequency) not stocked** anywhere mainstream (Tayda single only,
-  Bourns PTD90 linear/audio only); an A100K can't substitute (rheostat, f ∝ 1/R). Source decision open.
+- 100K C-law dual (Delta EQ frequency pot) isn't stocked anywhere mainstream: solved by the KHN mid-band
+  tuning with a stocked A10K dual (Decisions, spec 6.2).
 - Pin 28 (PFL−) reading from the Delta drawing is uncertain.
 - Input buffer/receiver question settled: differential receiver fitted (pseudo-balanced cables recommended).
 
 ## Next steps
 0. Delta clone: spec v4.0, schematics and placement (main board + jack board) done (2026-10-22).
    Open: NJ6FD-V body height from Neutrik's drawing/sample (sets jack-board depth and standoffs);
-   C-law dual 100K source (not stocked; see Not done); pan B10K dual with detent; custom 12U frame with
+   pan B10K dual with detent; custom 12U frame with
    end rails only. Routing is Ruslan's.
 1. Confirm panel parts against samples (see spec 13.1 checklist).
 2. Master section: every function is specified (spec v0.5). Ruslan decided: DRV134
