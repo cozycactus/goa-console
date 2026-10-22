@@ -3,7 +3,8 @@ place(net, out, layout) builds a board from a KiCad netlist and a layout:
   board  (x0, y0, x1, y1) outline;  fix {ref: (x, y, rot, 'F'|'B')} at fixed coordinates;
   holes  [(x, y)] M3 mounting holes, hole_value their value;  zones [(name, (x0, y0, x1, y1), [refs], side)];
   near   {ref: IC} parts placed beside the IC's pin on a shared non-ground net;  notes [(y, text)] beside the board;
-  labels [(x, y, text, size)] silkscreen text on the top side (the reference pass keeps clear of them).
+  labels [(x, y, text, size)] silkscreen text on the top side (the reference pass keeps clear of them);
+  grounds  nets ignored when matching a near part to its IC's pin (default GNDA, GNDD).
 Fixed parts go first. Every other part is packed into its zone at the first position where its courtyard
 clears every courtyard on its side and every through-hole pad on either side (THT pads go through the board),
 so top and bottom parts can share an area. Then the silkscreen references are placed. Each footprint is linked
@@ -29,6 +30,7 @@ def place(NET, OUT, L):
     BOARD, FIX, HOLES, ZONES = L['board'], L['fix'], L.get('holes', []), L['zones']
     HOLE_VALUE, NEAR, NOTES = L.get('hole_value', 'M3'), L.get('near', {}), L.get('notes', ())
     LABELS = L.get('labels', ())
+    GROUNDS = set(L.get('grounds', ('GNDA', 'GNDD')))   # nets ignored when matching a NEAR part to its IC pin
     W = BOARD[2]
     # ---------------------------------------------------------------- netlist
     tree = sexp(open(NET).read())
@@ -142,7 +144,7 @@ def place(NET, OUT, L):
     def supply_pin(ref, fp):
         ic = board.FindFootprintByReference(NEAR.get(ref, ''))
         if ic is None: return None
-        nets = {padnet.get((ref, p.GetNumber())) for p in fp.Pads()} - {'GNDA', 'GNDD', None}
+        nets = {padnet.get((ref, p.GetNumber())) for p in fp.Pads()} - GROUNDS - {None}
         for p in ic.Pads():
             if padnet.get((ic.GetReference(), p.GetNumber())) in nets:
                 return mm(p.GetPosition().x), mm(p.GetPosition().y)
@@ -216,6 +218,7 @@ def place(NET, OUT, L):
                     add_obstacle(side, p, p.GetEffectiveShape(cu), MASK_GAP, f)
     crt = {'F': [(courtyard(f), f) for f in board.GetFootprints() if not f.IsFlipped()],
            'B': [(courtyard(f), f) for f in board.GetFootprints() if f.IsFlipped()]}
+    crt['F'] += [(bbox(t.GetBoundingBox()), None) for t in label_items]   # refs keep off whole labels, not just strokes
 
     def ref_clear(f, side, strict):
         ref = f.Reference(); silk = ref.GetLayer()
