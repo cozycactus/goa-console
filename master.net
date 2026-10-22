@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/master.kicad_sch")
-		(date "2026-10-22T17:09:36")
+		(date "2026-10-22T20:06:38")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -23126,13 +23126,13 @@
 		)
 		(comp
 			(ref "F1")
-			(value "MF-R075")
-			(footprint "goa-console:Fuse_Bourns_MF-R075_Radial_P5.08mm")
+			(value "MF-RX160/72")
+			(footprint "goa-console:Fuse_Bourns_MF-RX160-72_Radial_P5.08mm")
 			(fields
 				(field
-					(name "MPN") "Bourns MF-R075")
+					(name "MPN") "Bourns MF-RX160/72")
 				(field
-					(name "Footprint") "goa-console:Fuse_Bourns_MF-R075_Radial_P5.08mm")
+					(name "Footprint") "goa-console:Fuse_Bourns_MF-RX160-72_Radial_P5.08mm")
 				(field
 					(name "Datasheet")
 				)
@@ -23147,7 +23147,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Bourns MF-R075")
+				(value "Bourns MF-RX160/72")
 			)
 			(property
 				(name "Sheetname")
@@ -23186,13 +23186,13 @@
 		)
 		(comp
 			(ref "F2")
-			(value "MF-R075")
-			(footprint "goa-console:Fuse_Bourns_MF-R075_Radial_P5.08mm")
+			(value "MF-RX160/72")
+			(footprint "goa-console:Fuse_Bourns_MF-RX160-72_Radial_P5.08mm")
 			(fields
 				(field
-					(name "MPN") "Bourns MF-R075")
+					(name "MPN") "Bourns MF-RX160/72")
 				(field
-					(name "Footprint") "goa-console:Fuse_Bourns_MF-R075_Radial_P5.08mm")
+					(name "Footprint") "goa-console:Fuse_Bourns_MF-RX160-72_Radial_P5.08mm")
 				(field
 					(name "Datasheet")
 				)
@@ -23207,7 +23207,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Bourns MF-R075")
+				(value "Bourns MF-RX160/72")
 			)
 			(property
 				(name "Sheetname")
@@ -23246,13 +23246,13 @@
 		)
 		(comp
 			(ref "F3")
-			(value "MF-R075")
-			(footprint "goa-console:Fuse_Bourns_MF-R075_Radial_P5.08mm")
+			(value "MF-RX160/72")
+			(footprint "goa-console:Fuse_Bourns_MF-RX160-72_Radial_P5.08mm")
 			(fields
 				(field
-					(name "MPN") "Bourns MF-R075")
+					(name "MPN") "Bourns MF-RX160/72")
 				(field
-					(name "Footprint") "goa-console:Fuse_Bourns_MF-R075_Radial_P5.08mm")
+					(name "Footprint") "goa-console:Fuse_Bourns_MF-RX160-72_Radial_P5.08mm")
 				(field
 					(name "Datasheet")
 				)
@@ -23267,7 +23267,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Bourns MF-R075")
+				(value "Bourns MF-RX160/72")
 			)
 			(property
 				(name "Sheetname")
@@ -23306,13 +23306,13 @@
 		)
 		(comp
 			(ref "F4")
-			(value "MF-R075")
-			(footprint "goa-console:Fuse_Bourns_MF-R075_Radial_P5.08mm")
+			(value "MF-RX160/72")
+			(footprint "goa-console:Fuse_Bourns_MF-RX160-72_Radial_P5.08mm")
 			(fields
 				(field
-					(name "MPN") "Bourns MF-R075")
+					(name "MPN") "Bourns MF-RX160/72")
 				(field
-					(name "Footprint") "goa-console:Fuse_Bourns_MF-R075_Radial_P5.08mm")
+					(name "Footprint") "goa-console:Fuse_Bourns_MF-RX160-72_Radial_P5.08mm")
 				(field
 					(name "Datasheet")
 				)
@@ -23327,7 +23327,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Bourns MF-R075")
+				(value "Bourns MF-RX160/72")
 			)
 			(property
 				(name "Sheetname")
@@ -24146,13 +24146,13 @@
 		)
 		(comp
 			(ref "J1")
-			(value "PSU in")
-			(footprint "Connector_Audio:Jack_XLR_Neutrik_NC5MAH_Horizontal")
+			(value "PSU in (NC7MD-LX)")
+			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-7-5.08_1x07_P5.08mm_Horizontal")
 			(fields
 				(field
-					(name "MPN") "Neutrik NC5MAH")
+					(name "MPN") "Phoenix MKDS 1,5/7-5,08 (wired to a Neutrik NC7MD-LX inlet)")
 				(field
-					(name "Footprint") "Connector_Audio:Jack_XLR_Neutrik_NC5MAH_Horizontal")
+					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-7-5.08_1x07_P5.08mm_Horizontal")
 				(field
 					(name "Datasheet")
 				)
@@ -24161,13 +24161,13 @@
 				)
 			)
 			(libsource
-				(lib "Connector_Audio")
-				(part "XLR5")
-				(description "XLR Connector, Male or Female, 5 Pins")
+				(lib "Connector")
+				(part "Screw_Terminal_01x07")
+				(description "Generic screw terminal, single row, 01x07, script generated (kicad-library-utils/schlib/autogen/connector/)")
 			)
 			(property
 				(name "MPN")
-				(value "Neutrik NC5MAH")
+				(value "Phoenix MKDS 1,5/7-5,08 (wired to a Neutrik NC7MD-LX inlet)")
 			)
 			(property
 				(name "Sheetname")
@@ -24179,11 +24179,11 @@
 			)
 			(property
 				(name "ki_keywords")
-				(value "xlr connector")
+				(value "screw terminal")
 			)
 			(property
 				(name "ki_fp_filters")
-				(value "Jack*XLR*")
+				(value "TerminalBlock*:*")
 			)
 			(sheetpath
 				(names "/")
@@ -24204,10 +24204,16 @@
 							(num "3")
 						)
 						(pin
+							(num "4")
+						)
+						(pin
 							(num "5")
 						)
 						(pin
-							(num "4")
+							(num "6")
+						)
+						(pin
+							(num "7")
 						)
 					)
 				)
@@ -55415,7 +55421,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "60502326-e865-55f5-b89b-7ca0d91fbaed" "30676a6c-4b97-5673-87d6-ab3cc0f8fd28"
+			(tstamps "30676a6c-4b97-5673-87d6-ab3cc0f8fd28" "60502326-e865-55f5-b89b-7ca0d91fbaed"
 				"0eb907df-3fb5-5338-8995-609288b48c7c"
 			)
 			(units
@@ -55499,7 +55505,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "e7573d9c-8c41-5fcb-a3c6-bc490f77aeef" "7cdc8c84-97d2-5896-89c3-1bcfe47b54e2"
+			(tstamps "7cdc8c84-97d2-5896-89c3-1bcfe47b54e2" "e7573d9c-8c41-5fcb-a3c6-bc490f77aeef"
 				"2906cd3d-61c7-5d90-8c6f-c36c17c8ec9f"
 			)
 			(units
@@ -55583,7 +55589,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "66b310ad-c041-5987-883e-e0db60508376" "df730602-8a38-5c5e-941f-4f6403eb2fef"
+			(tstamps "df730602-8a38-5c5e-941f-4f6403eb2fef" "66b310ad-c041-5987-883e-e0db60508376"
 				"11430998-e761-55f4-9b4c-1d37dae7ce09"
 			)
 			(units
@@ -55835,7 +55841,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "7ca84145-b7b4-5a68-84a2-33932b9e5119" "8132b2fb-8d30-5056-8a94-e800de3fc8ed"
+			(tstamps "8132b2fb-8d30-5056-8a94-e800de3fc8ed" "7ca84145-b7b4-5a68-84a2-33932b9e5119"
 				"44d68712-3dac-5a23-9300-96e1ef71b8c9"
 			)
 			(units
@@ -56567,7 +56573,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "d9612d83-2766-5e1c-9864-1a306ebf1e4d" "f078749c-e940-588c-956c-a2ebcadb25f9"
+			(tstamps "f078749c-e940-588c-956c-a2ebcadb25f9" "d9612d83-2766-5e1c-9864-1a306ebf1e4d"
 				"6a4a9239-64f8-573e-83c2-822f0e0f9202"
 			)
 			(units
@@ -56897,7 +56903,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "d978d042-8f51-5dc2-96f2-2209e3431594" "fcab5c55-2e7e-55e9-8fa8-ea7c846a4ebf"
+			(tstamps "fcab5c55-2e7e-55e9-8fa8-ea7c846a4ebf" "d978d042-8f51-5dc2-96f2-2209e3431594"
 				"820c87a4-8fe7-587f-a6c3-8d0f1527bc9b"
 			)
 			(units
@@ -56981,7 +56987,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "b3517bc9-ed34-56b8-af2d-42959ae4f8fb" "31ca9043-dba9-538d-a7f2-61c10872f49e"
+			(tstamps "31ca9043-dba9-538d-a7f2-61c10872f49e" "b3517bc9-ed34-56b8-af2d-42959ae4f8fb"
 				"1157c472-b07d-58f4-9d73-9d256d19fce6"
 			)
 			(units
@@ -57227,7 +57233,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "222c390d-961a-5ff3-b9cf-45dd9b430592" "67d6e2b9-0534-56da-963d-cf0efddba6cc"
+			(tstamps "67d6e2b9-0534-56da-963d-cf0efddba6cc" "222c390d-961a-5ff3-b9cf-45dd9b430592"
 				"1aaf8e37-bac4-58b4-ae88-31772a06338c"
 			)
 			(units
@@ -57557,7 +57563,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "e6dc8412-9d2b-5015-b700-bdee18fc60b3" "8721edc1-119b-5671-b958-9f833789849c"
+			(tstamps "8721edc1-119b-5671-b958-9f833789849c" "e6dc8412-9d2b-5015-b700-bdee18fc60b3"
 				"7c17e1dc-d4ec-507b-93af-304a926c0ce3"
 			)
 			(units
@@ -58655,7 +58661,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "809be764-cb00-526b-af45-706fe6ed7a27" "249715c6-2804-546b-9e4d-8bd0b2156bf6"
+			(tstamps "249715c6-2804-546b-9e4d-8bd0b2156bf6" "809be764-cb00-526b-af45-706fe6ed7a27"
 				"12026b6d-8c19-5947-b971-42a59189d4d6"
 			)
 			(units
@@ -58985,7 +58991,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "dd12762f-3ce3-5e9c-a613-f0d1ae34f470" "5d7dbfd0-1d76-59da-98b4-54ace885d850"
+			(tstamps "5d7dbfd0-1d76-59da-98b4-54ace885d850" "dd12762f-3ce3-5e9c-a613-f0d1ae34f470"
 				"2ea6c34d-af1c-57ec-84cb-3f970c0a120e"
 			)
 			(units
@@ -59153,7 +59159,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "97573013-a61b-5886-b623-01fb068b0401" "7aed7b60-e479-5a21-a18c-5c72d33c2e7b"
+			(tstamps "7aed7b60-e479-5a21-a18c-5c72d33c2e7b" "97573013-a61b-5886-b623-01fb068b0401"
 				"71183bc9-6f8d-5fce-9637-285058d2a685"
 			)
 			(units
@@ -59237,7 +59243,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "e6c9b6cb-5e42-5e0d-be56-40d6cf060b89" "d20940f7-b69f-5749-a129-9aa63860060c"
+			(tstamps "d20940f7-b69f-5749-a129-9aa63860060c" "e6c9b6cb-5e42-5e0d-be56-40d6cf060b89"
 				"a4debc64-1ad7-5db8-aa50-d79f4e0aca46"
 			)
 			(units
@@ -59321,7 +59327,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "8ff7d6a5-7356-57b1-b3f9-497631cb7a32" "e59d045d-9b86-5abf-bfc7-a1d635b41350"
+			(tstamps "e59d045d-9b86-5abf-bfc7-a1d635b41350" "8ff7d6a5-7356-57b1-b3f9-497631cb7a32"
 				"65c333c7-320f-5c42-aa14-26cb9ec419bb"
 			)
 			(units
@@ -59573,7 +59579,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "b69aed3b-2434-516c-b431-699a29ed7b14" "454071a8-62dc-520e-9288-e70c93cd5db7"
+			(tstamps "454071a8-62dc-520e-9288-e70c93cd5db7" "b69aed3b-2434-516c-b431-699a29ed7b14"
 				"09f03b75-fb3a-588e-a12d-8d13331a21e2"
 			)
 			(units
@@ -60461,7 +60467,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "a822bcc5-9ce4-58be-8030-84c8e63e4b7c" "3b5a1804-48c3-5c9c-bd0c-1f17bce62909"
+			(tstamps "3b5a1804-48c3-5c9c-bd0c-1f17bce62909" "a822bcc5-9ce4-58be-8030-84c8e63e4b7c"
 				"31b5abad-68f9-5c78-8234-ab0ea04ea1cb"
 			)
 			(units
@@ -60658,8 +60664,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "a85d3a37-6974-5c51-b9fe-7bd134a4e688" "eb438365-4ff4-5ae5-a237-6608143dcc77"
-				"8faedb0d-a6db-5ca2-9fff-264e70580548" "91780145-5fe7-5d2b-b796-964441db7af8"
+			(tstamps "91780145-5fe7-5d2b-b796-964441db7af8" "eb438365-4ff4-5ae5-a237-6608143dcc77"
+				"8faedb0d-a6db-5ca2-9fff-264e70580548" "a85d3a37-6974-5c51-b9fe-7bd134a4e688"
 				"3e5f36f8-2c8c-530b-856b-0658b4da6914"
 			)
 			(units
@@ -60771,8 +60777,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "8fe3d1f8-e681-5542-9d89-1eb4af82f41e" "b53d3bce-37c0-5ad0-8bd1-71f18e3317e2"
-				"fa102831-a844-5740-a363-0e543baba3eb" "833c5d26-d1a3-5b41-91c9-1f3cec5a9af9"
+			(tstamps "8fe3d1f8-e681-5542-9d89-1eb4af82f41e" "fa102831-a844-5740-a363-0e543baba3eb"
+				"b53d3bce-37c0-5ad0-8bd1-71f18e3317e2" "833c5d26-d1a3-5b41-91c9-1f3cec5a9af9"
 				"3790acf9-857c-5b37-a0be-141ed848fdff"
 			)
 			(units
@@ -60884,8 +60890,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "f7fb5061-1c86-5f9e-be32-d76a9d4647e3" "622e9d4f-d589-5b57-9414-a669a1642cf7"
-				"980fc5de-fe47-57c6-9332-02ec041c60b6" "acc31b1b-58be-55b1-a202-8daf8b1e9b70"
+			(tstamps "622e9d4f-d589-5b57-9414-a669a1642cf7" "acc31b1b-58be-55b1-a202-8daf8b1e9b70"
+				"f7fb5061-1c86-5f9e-be32-d76a9d4647e3" "980fc5de-fe47-57c6-9332-02ec041c60b6"
 				"3b915922-0c73-5cb8-9512-026710f09cf5"
 			)
 			(units
@@ -60997,8 +61003,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "b5bf15d3-e756-5c1e-bb82-87b32edf0ebd" "9df3e192-95fc-595f-a949-5d4526d74be8"
-				"e174e270-7929-510e-9708-05867e6f882f" "bc2b1219-e40e-51b6-845a-839c5c6ece62"
+			(tstamps "9df3e192-95fc-595f-a949-5d4526d74be8" "bc2b1219-e40e-51b6-845a-839c5c6ece62"
+				"e174e270-7929-510e-9708-05867e6f882f" "b5bf15d3-e756-5c1e-bb82-87b32edf0ebd"
 				"79ce3ff9-6227-5c68-865d-1f5294985c49"
 			)
 			(units
@@ -61194,7 +61200,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "51b67ff3-62e1-5263-b58b-23e63c6826f9" "c5cc57c0-daf4-53ec-8665-be5f099d1d4e"
+			(tstamps "c5cc57c0-daf4-53ec-8665-be5f099d1d4e" "51b67ff3-62e1-5263-b58b-23e63c6826f9"
 				"408e51ec-8970-5756-ae6f-a57a0aa5403e"
 			)
 			(units
@@ -61278,7 +61284,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "9d40b8a3-d352-5f92-95ce-b743a347412f" "5ab8f925-3893-5f3a-8089-73c0cc301bd0"
+			(tstamps "5ab8f925-3893-5f3a-8089-73c0cc301bd0" "9d40b8a3-d352-5f92-95ce-b743a347412f"
 				"5dc47569-6d82-56ce-bf62-dc0d62e9262b" "e558a6e7-4978-58a5-849c-e13c8f4e40e6"
 				"1b3020c5-63da-5219-a531-a752f26a6f0e"
 			)
@@ -61391,8 +61397,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "fecd20ea-325e-5b48-b671-01714290d4cc" "cc924adc-9684-54e5-b676-141e8afec6a9"
-				"a1d4c095-417f-5b58-ae60-a144d72ae0a6" "d2f3d297-05fc-550c-a5b8-046315d4f8d5"
+			(tstamps "cc924adc-9684-54e5-b676-141e8afec6a9" "a1d4c095-417f-5b58-ae60-a144d72ae0a6"
+				"fecd20ea-325e-5b48-b671-01714290d4cc" "d2f3d297-05fc-550c-a5b8-046315d4f8d5"
 				"50b6053c-add7-510c-aec4-88b17455ee46"
 			)
 			(units
@@ -61504,8 +61510,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "16ea9c4e-e2cc-5a3b-942f-c94354d7aacb" "1f2817cb-a0e9-57bb-b4fc-bb72ec8bf805"
-				"16bdca12-bf9d-5a4a-86ab-1eebef38e208" "9e8caae8-d71d-511a-85bb-96a63ac5de0e"
+			(tstamps "16ea9c4e-e2cc-5a3b-942f-c94354d7aacb" "9e8caae8-d71d-511a-85bb-96a63ac5de0e"
+				"1f2817cb-a0e9-57bb-b4fc-bb72ec8bf805" "16bdca12-bf9d-5a4a-86ab-1eebef38e208"
 				"107559d3-694d-5571-97d7-c5039d4ab617"
 			)
 			(units
@@ -61617,8 +61623,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "499e4b39-a53b-5ffe-b3dc-eda61a26a48a" "a2669bf1-0b7b-5500-b1d6-fdb49d987abc"
-				"8aefe910-597a-59cc-86d5-1d6d3744dc4f" "7cd296c2-ca4a-595d-81ad-8b06dcc17cd6"
+			(tstamps "a2669bf1-0b7b-5500-b1d6-fdb49d987abc" "8aefe910-597a-59cc-86d5-1d6d3744dc4f"
+				"499e4b39-a53b-5ffe-b3dc-eda61a26a48a" "7cd296c2-ca4a-595d-81ad-8b06dcc17cd6"
 				"499d0522-c01f-595f-ae75-0f3904471c71"
 			)
 			(units
@@ -61730,8 +61736,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "77b68f53-1cb1-5294-bd18-c8c35460de98" "95f6fda1-f253-5b4e-92e7-cf10ad093a4d"
-				"fc116e62-bc80-509d-acc2-c7c7e4073078" "4af6d937-b1a8-59c4-92ee-13ae2ef9ffb1"
+			(tstamps "fc116e62-bc80-509d-acc2-c7c7e4073078" "77b68f53-1cb1-5294-bd18-c8c35460de98"
+				"95f6fda1-f253-5b4e-92e7-cf10ad093a4d" "4af6d937-b1a8-59c4-92ee-13ae2ef9ffb1"
 				"4842cc91-a6d5-5d19-9fe6-40a28d2e2fcc"
 			)
 			(units
@@ -62232,6 +62238,65 @@
 			)
 		)
 		(libpart
+			(lib "Connector")
+			(part "Screw_Terminal_01x07")
+			(description "Generic screw terminal, single row, 01x07, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(footprints
+				(fp "TerminalBlock*:*")
+			)
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "Screw_Terminal_01x07")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Generic screw terminal, single row, 01x07, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "Pin_1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "Pin_2")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "Pin_3")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "Pin_4")
+					(type "passive")
+				)
+				(pin
+					(num "5")
+					(name "Pin_5")
+					(type "passive")
+				)
+				(pin
+					(num "6")
+					(name "Pin_6")
+					(type "passive")
+				)
+				(pin
+					(num "7")
+					(name "Pin_7")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
 			(lib "Connector_Audio")
 			(part "AudioJack3")
 			(description "Audio Jack, 3 Poles (Stereo / TRS)")
@@ -62354,55 +62419,6 @@
 				(pin
 					(num "3")
 					(name "")
-					(type "passive")
-				)
-			)
-		)
-		(libpart
-			(lib "Connector_Audio")
-			(part "XLR5")
-			(description "XLR Connector, Male or Female, 5 Pins")
-			(footprints
-				(fp "Jack*XLR*")
-			)
-			(fields
-				(field
-					(name "Reference") "J")
-				(field
-					(name "Value") "XLR5")
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "XLR Connector, Male or Female, 5 Pins")
-			)
-			(pins
-				(pin
-					(num "1")
-					(name "P1")
-					(type "passive")
-				)
-				(pin
-					(num "2")
-					(name "P2")
-					(type "passive")
-				)
-				(pin
-					(num "3")
-					(name "P3")
-					(type "passive")
-				)
-				(pin
-					(num "4")
-					(name "P3")
-					(type "passive")
-				)
-				(pin
-					(num "5")
-					(name "P5")
 					(type "passive")
 				)
 			)
@@ -63546,6 +63562,10 @@
 			(uri "${KICAD10_SYMBOL_DIR}/Comparator.kicad_sym")
 		)
 		(library
+			(logical "Connector")
+			(uri "${KICAD10_SYMBOL_DIR}/Connector.kicad_sym")
+		)
+		(library
 			(logical "Connector_Audio")
 			(uri "${KICAD10_SYMBOL_DIR}/Connector_Audio.kicad_sym")
 		)
@@ -64219,7 +64239,13 @@
 			(node
 				(ref "J1")
 				(pin "2")
-				(pinfunction "P2_2")
+				(pinfunction "Pin_2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "3")
+				(pinfunction "Pin_3_3")
 				(pintype "passive")
 			)
 			(node
@@ -65417,8 +65443,14 @@
 			)
 			(node
 				(ref "J1")
-				(pin "3")
-				(pinfunction "P3_3")
+				(pin "6")
+				(pinfunction "Pin_6_6")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "7")
+				(pinfunction "Pin_7_7")
 				(pintype "passive")
 			)
 			(node
@@ -67772,8 +67804,8 @@
 			(class "Default")
 			(node
 				(ref "J1")
-				(pin "5")
-				(pinfunction "P5_5")
+				(pin "1")
+				(pinfunction "Pin_1_1")
 				(pintype "passive")
 			)
 			(node
@@ -80988,14 +81020,14 @@
 			)
 			(node
 				(ref "J1")
-				(pin "1")
-				(pinfunction "P1_1")
+				(pin "4")
+				(pinfunction "Pin_4_4")
 				(pintype "passive")
 			)
 			(node
 				(ref "J1")
-				(pin "4")
-				(pinfunction "P3_4")
+				(pin "5")
+				(pinfunction "Pin_5_5")
 				(pintype "passive")
 			)
 			(node

@@ -185,9 +185,16 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
 
 ### 3.3 PSU
 - External linear PSU, outside the console chassis.
-- Target ±V at 2 A minimum per rail.
-- Regulators rated at least 3 A: e.g. LM338 for +V, and an LM337 boosted with an external
-  pass transistor for −V (a plain 7816/7916 at 1.5 A is not enough margin).
+- Target ±17 V at **4 A per rail** (2026-10-22, strip v4.0). The console draws about 2.65 / 2.23 A
+  typical and up to 3.8 A on +V: master spec §27.
+- Regulators rated at least 4 A per rail. +V: an LM338 (5 A). −V: the LM337 is a 1.5 A part, so
+  boost it with an external PNP pass transistor, or use a discrete series regulator. Heatsinks for
+  about 20 W per rail (24 V unregulated in, 17 V out, 3 A).
+- Transformer and rectifier sized for 4 A DC per rail. A capacitor-input filter needs the
+  secondary rated at about 1.6 × the DC current: about 6.5 A RMS per winding, so ≈ 2 × 18 V,
+  roughly 230 VA.
+- Link to the console: 7-pin XLR (Neutrik NC7MD-LX on the console, 5 A per contact): pin 1 earth,
+  2–3 +V, 4–5 0 V, 6–7 −V. That's two contacts per rail; 1.0 mm² (18 AWG) per pin.
 - Soft start; power-on mute handled in the master (section 4.1).
 
 ### 3.4 Grounding — three domains, one star point
@@ -196,7 +203,7 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
   own supply (+VM/−VM via 10 Ω and 47 µF) and its own "LOGIC GROUND" (ED3344B). Copy this.
 - **Chassis ground:** enclosure and connector shells.
 - All three meet only at the star point at the PSU / main ground bar.
-- Use **isolated jacks** (e.g. Neutrik NRJ6HF or plastic-bodied types) so jack sleeves
+- Use **isolated jacks** (e.g. Neutrik NJ6FD-V or other plastic-bodied types) so jack sleeves
   don't short audio ground to the metal panel at every jack.
 - Ground-cancel line (pin 26) per section 2.2.
 

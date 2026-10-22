@@ -533,10 +533,12 @@ scale badly (below).
 
 - Rails: ±17 V from the external linear PSU (architecture 3.3). The master sits in the centre
   of the console and feeds both ribbon wings, so all power enters at the master.
-- Connector: 5-pin XLR male on the master (Neutrik NC5MAH, horizontal PCB): +V, −V, 0 V on two
-  pins, chassis/mains earth. Neutrik: 3 A per contact, rated voltage < 50 V, hard-gold contacts.
-  Peak rail current was about 1.4 A with the v3.1 strips. With strip v4.0 it is about 2.65 A typical and
-  3.2–3.8 A worst case on +V, which is over the 3 A contact rating: see §27 (7-pin XLR proposed).
+- Connector (2026-10-22): 7-pin XLR male, **Neutrik NC7MD-LX** on the rear panel (solder cups, 5 A
+  per contact, < 50 V, wire up to 1.0 mm²). Wired with 18 AWG, one wire per pin, to J (Phoenix
+  MKDS 1,5/7-5,08, 17.5 A) on the master PCB. Pin 1 = chassis/mains earth (mates first), 2–3 = +V,
+  4–5 = 0 V, 6–7 = −V: two contacts per rail, so 10 A per rail against ≈ 2.65 A typical and
+  3.8 A worst case on +V (§27). Neutrik makes no 7-pole horizontal-PCB receptacle (only 3–5 poles),
+  hence the panel part and wires. The 5-pin NC5MAH (3 A per contact) is too small with strip v4.0.
 - Reverse-polarity protection: a Schottky (SB540, 5 A) from each rail to 0 V, reverse-biased in
   normal use. A wrongly wired lead then puts the PSU into current limit instead of reversing
   every op-amp.
@@ -545,10 +547,13 @@ scale badly (below).
 
 - Two 34-pin headers on the master, one per wing (12 strips each), carrying the buses and
   power on pins 30–33.
-- Each wing gets its own PTC fuse per rail (Bourns MF-R075, 0.75 A hold), to protect the 28 AWG
-  ribbon conductors from a shorted strip. **Too small for strip v4.0**: a wing draws about 1.0 A
-  typical on +V, and up to 1.5 A in the worst case (§27). Proposed: MF-R160 (1.6 A hold, 3.2 A trip),
-  not yet in the schematic.
+- Each wing gets its own PTC fuse per rail, **Bourns MF-RX160/72** (1.6 A hold, 3.2 A trip, 72 V,
+  40 A max). It protects the 28 AWG ribbon conductors (two per rail, 0.5 A each typical) from a
+  shorted strip. A wing draws about 1.0 A typical on +V, up to 1.5 A worst case (§27). 72 V rather
+  than the 30 V MF-R160: −V (pins 30–31) sits next to +V (32–33), so a bent pin or crimp fault
+  shorts 34 V across the pair, and the first PTC to trip takes almost all of it. Initial resistance
+  0.09–0.14 Ω: about 0.1–0.2 V drop at 1 A. Footprint from the Bourns drawing (`tools/footprints.py`).
+  Was MF-R075 (0.75 A hold), sized for the v3.1 strips.
 - Master local branches, each with its own series element and reservoir:
 
   | Branch | Feeds | Series | Reservoir |
@@ -592,15 +597,15 @@ Strip v4.0 (2026-10-22): 10 × OPA1612 (with the KHN mid bands), DG413 logic sup
 first written. With the OPA1612 at its 4.5 mA maximum the console reaches about 3.2 A on +V. With
 every LED on every strip lit as well, it reaches 3.8 A.
 
-**Consequences (proposed, not yet in the schematic or `gen_master.py`):**
+**Consequences (applied 2026-10-22):**
 
-| Item | Now | Needed | Proposal |
-|------|-----|--------|----------|
-| Wing PTC per rail | MF-R075, 0.75 A hold | ≥ 1.5 A hold | Bourns MF-R160 (1.6 A hold, 3.2 A trip); new footprint in `tools/footprints.py` |
-| Power inlet | 5-pin XLR, one 3 A contact per rail | ≥ 3.8 A per rail | 7-pin XLR (Neutrik NC7MAH): two contacts per rail, two for 0 V, one earth (6 A per rail) |
-| PSU regulators | ≥ 3 A | ≥ 4 A per rail | LM338-class (5 A) or a pass transistor; heatsink for about 20 W per rail at 24 V in |
-| PSU transformer | 2.5 A DC per rail | 3.5–4 A DC per rail | size for 4 A DC per rail |
-| Strip R1/R2 (10 Ω, 0805) | 0.8 V drop, 55–80 mW | — | fine at 0805 (125 mW); 1206 for margin, or 4R7 for less drop |
+| Item | Was | Now |
+|------|-----|-----|
+| Wing PTC per rail | MF-R075, 0.75 A hold, 60 V | Bourns MF-RX160/72: 1.6 A hold, 3.2 A trip, 72 V (§25) |
+| Power inlet | 5-pin XLR NC5MAH on the PCB, one 3 A contact per rail | 7-pin XLR NC7MD-LX on the panel, two 5 A contacts per rail, wired to a 7-way terminal (§24) |
+| PSU regulators | ≥ 3 A | ≥ 4 A per rail (architecture 3.3) |
+| PSU transformer | 2.5 A DC per rail | 4 A DC per rail (architecture 3.3) |
+| Strip R1/R2 (10 Ω, 0805) | — | unchanged: 0.8 V drop, 55–80 mW (0805 is 125 mW); 1206 if margin is wanted |
 
 Reducing the strip current instead: OPA1678 (about 2 mA/ch) in the six KHN positions would save about
 10 mA per strip (0.25 A per rail). The EQ is resistor-noise dominated, but simulate the noise before
@@ -621,13 +626,15 @@ choosing.
   section 5). The bus compressor needs another VCA.
 - Datasheet checks done October 2026: OPA1656, OPA1612, LME49600, DRV134, G6K-2F-Y, Neutrik
   NC5MAH (figures in sections 7, 8, 13, 21, 24, 27). TI lists OPA1612, OPA1656, LME49600,
-  DRV134 and DRV135 as ACTIVE.
+  DRV134 and DRV135 as ACTIVE. Power entry re-checked for strip v4.0 (2026-10-22): Bourns MF-R and
+  MF-RX/72 tables (MF-RX160/72), Neutrik NC7MD-LX via distributors (5 A per contact); §24, 25, 27.
 - Meter detector simulated and redesigned (section 22).
 - Schematic: `master.kicad_sch`, generated by `tools/gen_master.py` from this spec (October 2026):
-  1059 parts, netlist 2985 pins / 0 mismatches, every pin on a pad, ERC 0 violations.
+  1062 parts, netlist 2993 pins / 0 mismatches, every pin on a pad, ERC 0 violations
+  (2026-10-22, with the 7-way power inlet and MF-RX160/72).
   Mute control values are simulated (section 8, `sim/mute.cir`).
 - The EXT LED in section 19 is not possible as written (both EXT switch poles carry audio); left out.
-- PVA2 switching sense (affects every switch here too; see strip spec 13.1).
+- PVA2 switching sense: settled from the C&K datasheet with a fitting rule (strip spec 16.1); applies here too.
 - Schematic generator for the master (like `tools/gen.py`).
 
 *Document version 0.6 — October 2026 (mute control simulated and fixed; master schematic generated)*

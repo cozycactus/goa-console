@@ -55,9 +55,9 @@ Qty,Value,Footprint,MPN,References
 2,red +14 dB,LED_THT:LED_D3.0mm,,D59 D87
 2,red +16 dB,LED_THT:LED_D3.0mm,,D60 D88
 2,red +18 dB,LED_THT:LED_D3.0mm,,D61 D89
-4,MF-R075,goa-console:Fuse_Bourns_MF-R075_Radial_P5.08mm,Bourns MF-R075,F1 F2 F3 F4
+4,MF-RX160/72,goa-console:Fuse_Bourns_MF-RX160-72_Radial_P5.08mm,Bourns MF-RX160/72,F1 F2 F3 F4
 13,Ferrite 220R@100MHz,Inductor_SMD:L_0805_2012Metric,220R@100MHz 0805,FB1 FB2 FB3 FB4 FB5 FB6 FB7 FB8 FB9 FB10 FB11 FB12 FB13
-1,PSU in,Connector_Audio:Jack_XLR_Neutrik_NC5MAH_Horizontal,Neutrik NC5MAH,J1
+1,PSU in (NC7MD-LX),TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-7-5.08_1x07_P5.08mm_Horizontal,Phoenix MKDS 1,5/7-5,08 (wired to a Neutrik NC7MD-LX inlet),J1
 1,MIX L insert,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J2
 1,MIX R insert,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J3
 1,MAIN L out,Connector_Audio:Jack_XLR_Neutrik_NC3MAH_Horizontal,Neutrik NC3MAH,J4

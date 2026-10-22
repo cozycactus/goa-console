@@ -12,7 +12,7 @@ SYM.update({
  'OPA1656': ('Amplifier_Operational', 'OPA1656ID'), 'TL072': ('Amplifier_Operational', 'TL072'),
  'LM2901': ('Comparator', 'LM2901'), 'LME49600': ('Amplifier_Audio', 'LME49600'),
  'DRV134': ('goa-console', 'DRV134'), 'RELAY': ('Relay', 'G6K-2'),
- 'XLR3': ('Connector_Audio', 'XLR3'), 'XLR5': ('Connector_Audio', 'XLR5'),
+ 'XLR3': ('Connector_Audio', 'XLR3'), 'PWRIN': ('Connector', 'Screw_Terminal_01x07'),
  'FB': ('Device', 'FerriteBead'), 'PTC': ('Device', 'Polyfuse'), 'DS': ('Device', 'D_Schottky'),
  'DZ': ('Device', 'D_Zener'), 'NPN': ('Transistor_BJT', 'MMBT3904'), 'PNP': ('Transistor_BJT', 'MMBT3906'),
  'TRIM': ('Device', 'R_Potentiometer_Trim'), 'HDR5': ('Connector_Generic', 'Conn_01x05'),
@@ -21,13 +21,15 @@ FP.update({
  'OPA1656': 'Package_SO:SOIC-8_3.9x4.9mm_P1.27mm', 'TL072': 'Package_SO:SOIC-8_3.9x4.9mm_P1.27mm',
  'LM2901': 'Package_SO:SOIC-14_3.9x8.7mm_P1.27mm', 'DRV134': 'Package_SO:SOIC-8_3.9x4.9mm_P1.27mm',
  'RELAY': 'Relay_SMD:Relay_DPDT_Omron_G6K-2F-Y', 'XLR3': 'Connector_Audio:Jack_XLR_Neutrik_NC3MAH_Horizontal',
- 'XLR5': 'Connector_Audio:Jack_XLR_Neutrik_NC5MAH_Horizontal', 'FB': 'Inductor_SMD:L_0805_2012Metric',
- 'PTC': 'goa-console:Fuse_Bourns_MF-R075_Radial_P5.08mm', 'DS': 'Diode_SMD:D_SMC',
+ 'PWRIN': 'TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-7-5.08_1x07_P5.08mm_Horizontal',
+ 'FB': 'Inductor_SMD:L_0805_2012Metric',
+ 'PTC': 'goa-console:Fuse_Bourns_MF-RX160-72_Radial_P5.08mm', 'DS': 'Diode_SMD:D_SMC',
  'DZ': 'Diode_SMD:D_SOD-123', 'TRIM': 'Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical',
  'HDR5': 'Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical', 'JACK': FP['JACKSW'],
 })
 MPN.update({'DRV134': 'TI DRV134UA', 'RELAY': 'Omron G6K-2F-Y DC12', 'XLR3': 'Neutrik NC3MAH',
-            'XLR5': 'Neutrik NC5MAH', 'PTC': 'Bourns MF-R075', 'DS': 'SS54', 'FB': '220R@100MHz 0805',
+            'PWRIN': 'Phoenix MKDS 1,5/7-5,08 (wired to a Neutrik NC7MD-LX inlet)', 'PTC': 'Bourns MF-RX160/72',
+            'DS': 'SS54', 'FB': '220R@100MHz 0805',
             'LME49600': 'TI LME49600TS', 'OPA1656': 'TI OPA1656ID', 'JACK': 'Neutrik NRJ6HF'})
 FADER2_FP = 'goa-console:Potentiometer_Bourns_PTB0144_Slide_100mm_Dual'
 POT2A_MPN = 'Alpha RD902F-40 A10K'
@@ -147,15 +149,17 @@ def jfet_switch(b, src, dst, ctrl, name):                   # [19] series J112, 
     R(b, '47K', g, s); D(b, g, ctrl)
 
 # ================================================================ PART 5: power entry, grounding  [24-26]
-b = block('POWER ENTRY  (5-pin XLR from external +-17 V PSU; reverse-polarity Schottkys; star point)')
-P(b, ref('J'), 'XLR5', 'PSU in', {1: 'GNDA', 2: '+VBUS', 3: '-VBUS', 4: 'GNDA', 5: 'CHASSIS'})
+b = block('POWER ENTRY  (7-pin XLR NC7MD-LX on the rear panel, two 5 A contacts per rail, 18 AWG to this terminal; +-17 V PSU)')
+# terminal = XLR pin: 1 earth (pin 1 mates first), 2-3 +V, 4-5 0 V, 6-7 -V; up to ~3.8 A per rail (spec 27)
+P(b, ref('J'), 'PWRIN', 'PSU in (NC7MD-LX)', {1: 'CHASSIS', 2: '+VBUS', 3: '+VBUS', 4: 'GNDA', 5: 'GNDA',
+                                              6: '-VBUS', 7: '-VBUS'})
 P(b, ref('D'), 'DS', 'SS54', {1: '+VBUS', 2: 'GNDA'}); P(b, ref('D'), 'DS', 'SS54', {1: 'GNDA', 2: '-VBUS'})
 P(b, ref('CN'), 'TAB', 'Ground bar M4 (star point)', {1: 'GNDA'}, fp='MountingHole:MountingHole_4.3mm_M4_Pad', mpn='')
 for n in ('GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'):
     P(b, ref('NT'), 'NT', f'Star GNDA-{n}', {1: 'GNDA', 2: n})
-b = block('DISTRIBUTION  (PTC per wing per rail; local branches VA audio, VP phones, VM meters, VL logic)')
+b = block('DISTRIBUTION  (PTC per wing per rail, 1.6 A hold, 72 V; local branches VA audio, VP phones, VM meters, VL logic)')
 for w in 'LR':
-    P(b, ref('F'), 'PTC', 'MF-R075', {1: '+VBUS', 2: f'+VBUS_{w}'}); P(b, ref('F'), 'PTC', 'MF-R075', {1: '-VBUS', 2: f'-VBUS_{w}'})
+    P(b, ref('F'), 'PTC', 'MF-RX160/72', {1: '+VBUS', 2: f'+VBUS_{w}'}); P(b, ref('F'), 'PTC', 'MF-RX160/72', {1: '-VBUS', 2: f'-VBUS_{w}'})
 for rail, rv, cv, g in (('VA', '1R', '470u 25V', 'GNDA'), ('VP', '2R2', '1000u 25V', 'GNDA'),
                         ('VM', '10R', '47u 25V', 'GNDM'), ('VL', '10R', '47u 25V', 'GNDD')):
     R(b, rv, '+VBUS', '+' + rail); CP(b, cv, '+' + rail, g)

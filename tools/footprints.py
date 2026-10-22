@@ -67,15 +67,17 @@ footprint('Potentiometer_Bourns_PTB0144_Slide_100mm_Dual',
           'Bourns PTB series slide potentiometer, 100 mm travel, dual gang (pins 4/5/6 = 1\'/2\'/3\'), https://www.bourns.com/docs/Product-Datasheets/ptb.pdf',
           'fader slide potentiometer 100mm dual Bourns PTB', b, (xc, by0 - 1.5), (xc, by1 + 1.5))
 
-# ---- Bourns MF-R075 radial PTC (60 V, 0.75 A hold). https://www.bourns.com/docs/Product-Datasheets/mfr.pdf:
-# lead spacing C = 5.1 nom (MF-R005..R400: 5.08 +0.6/-0.2), lead 0.51 dia, body A 11.7 max wide, E 3.1 max thick.
-b = pad(1, 0, 0, 1.6, 0.8, 'rect') + pad(2, 5.08, 0, 1.6, 0.8)
-b += rect('F.Fab', 2.54 - 5.85, -1.55, 2.54 + 5.85, 1.55, 0.1)
-b += rect('F.SilkS', 2.54 - 5.97, -1.67, 2.54 + 5.97, 1.67, 0.12)
-b += rect('F.CrtYd', 2.54 - 6.2, -1.9, 2.54 + 6.2, 1.9, 0.05)
-footprint('Fuse_Bourns_MF-R075_Radial_P5.08mm',
-          'Bourns MF-R075 radial PTC resettable fuse, 60 V, 0.75 A hold, lead spacing 5.08 mm, https://www.bourns.com/docs/Product-Datasheets/mfr.pdf',
-          'PTC polyfuse resettable Bourns MF-R', b, (2.54, -2.8), (2.54, 2.8))
+# ---- Bourns MF-RX160/72 radial PTC (72 V, 1.6 A hold, 3.2 A trip, 40 A max): master wing fuses.
+# https://www.bourns.com/docs/product-datasheets/mf-rx72.pdf, product dimensions: A 13.94 max (width),
+# B 19.94 max (height), C 5.1 +-0.7 lead spacing, E 3.1 max thick, style 2 (kinked), lead 0.81 dia.
+# 72 V because a +V-to-−V short on a wing puts up to 34 V across one PTC (MF-R160 is 30 V).
+b = pad(1, 0, 0, 2.0, 1.1, 'rect') + pad(2, 5.08, 0, 2.0, 1.1)
+b += rect('F.Fab', 2.54 - 6.97, -1.55, 2.54 + 6.97, 1.55, 0.1)
+b += rect('F.SilkS', 2.54 - 7.09, -1.67, 2.54 + 7.09, 1.67, 0.12)
+b += rect('F.CrtYd', 2.54 - 7.35, -1.9, 2.54 + 7.35, 1.9, 0.05)
+footprint('Fuse_Bourns_MF-RX160-72_Radial_P5.08mm',
+          'Bourns MF-RX160/72 radial PTC resettable fuse, 72 V, 1.6 A hold, lead spacing 5.1 mm, https://www.bourns.com/docs/product-datasheets/mf-rx72.pdf',
+          'PTC polyfuse resettable Bourns MF-RX', b, (2.54, -3.0), (2.54, 3.0))
 
 # ---- Keystone 1287-ST: 0.250" (6.35 mm) quick-fit male PCB tab, Sturdi-Mount
 # https://www.keyelco.com/userAssets/file/K75p65.pdf (catalog p.65): two legs 0.200" (5.08) apart,
