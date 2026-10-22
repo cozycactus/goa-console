@@ -1,0 +1,51 @@
+Qty,Value,Footprint,MPN,References
+2,220u 25V,Capacitor_THT:CP_Radial_D10.0mm_P5.00mm,,C1 C2
+2,47u 25V,Capacitor_THT:CP_Radial_D8.0mm_P3.50mm,,C3 C4
+14,100n,Capacitor_SMD:C_0805_2012Metric,,C5 C6 C8 C9 C13 C14 C21 C22 C25 C26 C37 C38 C45 C46
+7,100p C0G,Capacitor_SMD:C_0805_2012Metric,,C7 C15 C27 C34 C35 C39 C40
+4,47u NP 25V,Capacitor_THT:CP_Radial_D8.0mm_P3.50mm,,C10 C28 C42 C43
+6,220u NP 25V,Capacitor_THT:CP_Radial_D10.0mm_P5.00mm,,C11 C16 C23 C24 C47 C49
+4,2.2u,Capacitor_SMD:C_1206_3216Metric,,C12 C29 C44 C48
+4,10u NP 25V,Capacitor_THT:CP_Radial_D5.0mm_P2.00mm,,C17 C18 C30 C31
+4,1u,Capacitor_SMD:C_1206_3216Metric,,C19 C20 C32 C33
+2,33p C0G,Capacitor_SMD:C_0805_2012Metric,,C36 C41
+1,Ground spade 6.3mm,goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm,Keystone 1287-ST,CN1
+1,Bus 2x17,Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical,,CN2
+1,Sub AFL red,LED_THT:LED_D3.0mm,,D1
+1,Aux AFL red,LED_THT:LED_D3.0mm,,D2
+1,Return PFL red,LED_THT:LED_D3.0mm,,D3
+2,Ferrite 220R@100MHz,Inductor_SMD:L_0805_2012Metric,220R@100MHz 0805,FB1 FB2
+1,SUB insert,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J1
+1,Sub out TRS,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J2
+1,Aux out TRS,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J3
+1,Return L in,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J4
+1,Return R in,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J5
+4,10R,Resistor_SMD:R_0805_2012Metric,,R1 R2 R3 R4
+1,10R GND cancel,Resistor_SMD:R_0805_2012Metric,,R5
+9,4K7 1%,Resistor_SMD:R_0805_2012Metric,,R6 R20 R21 R56 R57 R58 R59 R60 R61
+8,2K2 0.1%,Resistor_SMD:R_0805_2012Metric,,R7 R8 R9 R10 R26 R27 R28 R29
+1,75R,Resistor_SMD:R_0805_2012Metric,,R11
+9,47K,Resistor_SMD:R_0805_2012Metric,,R12 R13 R17 R18 R19 R46 R47 R51 R55
+7,100K,Resistor_SMD:R_0805_2012Metric,,R14 R23 R30 R34 R48 R52 R64
+7,4K7,Resistor_SMD:R_0805_2012Metric,,R15 R24 R31 R35 R49 R53 R65
+1,2K2,Resistor_SMD:R_0805_2012Metric,,R16
+2,22K,Resistor_SMD:R_0805_2012Metric,,R22 R33
+1,22K 1%,Resistor_SMD:R_0805_2012Metric,,R25
+3,DNF (2K2 = +10 dB),Resistor_SMD:R_0805_2012Metric,,R32 R50 R54
+2,1M,Resistor_SMD:R_0805_2012Metric,,R36 R41
+8,10K 0.1%,Resistor_SMD:R_0805_2012Metric,,R37 R38 R39 R40 R42 R43 R44 R45
+2,43K,Resistor_SMD:R_0805_2012Metric,,R62 R63
+1,Sub fader 10K log 100mm,goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm,Bourns PTB0143-2010BPA103,RV1
+1,Sub pan 10K dual,Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical,Alpha RD902F-40 B10K centre detent,RV2
+1,Aux master 10K log,Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,Alpha RD901F-40 A10K,RV3
+1,Return level 10K log dual,Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical,Alpha RD902F-40 A10K,RV4
+1,Sub to MIX,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW1
+1,Sub AFL,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW2
+1,Aux AFL,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW3
+1,Return MIX,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW4
+1,Return 1-2,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW5
+1,Return 3-4,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW6
+1,Return PFL,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW7
+6,OPA1612,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,,U1 U2 U3 U5 U8 U9
+2,DRV134,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,TI DRV134UA,U4 U7
+1,OPA1656,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,TI OPA1656ID,U6

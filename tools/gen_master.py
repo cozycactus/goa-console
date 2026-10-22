@@ -1,4 +1,6 @@
-"""Generate the master-section schematic from master_section_spec.md v0.5.
+"""Generate the master module schematic from master_section_spec.md (16 HP, master_panel_study.md M1):
+power entry and both wing headers, MIX L/R, master fader, mono, main outputs, power-on mute, aux masters
+5-6, monitoring, PFL and meters. Subgroups, aux masters 1-4 and returns are on the group modules (gen_group.py).
 Same builder as the strip (schgen.py). The parts, reference allocation and circuit blocks are in
 master_lib.py (shared with gen_jig.py); this file is the master's netlist."""
 import sys
@@ -74,26 +76,10 @@ R(b, '4K7', '+VL', 'MUTE_GO'); R(b, '4K7', 'MUTE_GO', 'RLY_B')
 D(b, 'RLY_B', 'RLY_BX'); R(b, '2K2', 'RLY_BX', 'RAIL_OK'); D(b, 'GNDD', 'RLY_B')      # fast release, base clamp
 P(b, ref('Q'), 'NPN', 'MMBT3904', {1: 'RLY_B', 2: 'GNDD', 3: 'RLY_DRV'})
 
-# ================================================================ PART 2: subgroups, aux masters  [12-13]
-SUBPIN = {1: 'SUB1', 2: 'SUB2', 3: 'SUB3', 4: 'SUB4'}
-for n in range(1, 5):
-    s = f'S{n}'
-    b = block(f'SUBGROUP {n}: sum, re-invert, insert, fader + post-amp, DRV134 out, pan to MIX, AFL')
-    summer(b, SUBPIN[n], s + '_SUM', '4K7', '100p')
-    reinv(b, s + '_SUM', s + '_MIX')
-    insert(b, s + '_MIX', s + '_PRE', s)
-    P(b, ref('RV'), 'POT', f'Sub {n} fader 10K log 100mm', {1: 'GNDA', 3: s + '_PRE', 2: s + '_W'}, fp=FADER_FP, mpn='Bourns PTB0143-2010BPA103')
-    post_amp(b, s + '_W', s + '_POST', s)
-    drv134(b, s + '_POST', s + '_OP', s + '_ON')
-    P(b, ref('J'), 'JACK', f'Sub {n} out TRS', {'T': s + '_OP', 'R': s + '_ON', 'S': 'GNDA'})
-    P(b, ref('RV'), 'POT2', f'Sub {n} pan 10K dual', {1: s + '_POST', 3: 'GNDA', 2: s + '_PWL', 4: 'GNDA', 6: s + '_POST', 5: s + '_PWR'})
-    amp(b, s + '_PWL', s + '_PBL', s + '_PBL'); amp(b, s + '_PWR', s + '_PBR', s + '_PBR')
-    C(b, '220u NP 25V', s + '_PBL', s + '_PANL'); R(b, '47K', s + '_PANL', 'GNDA')
-    C(b, '220u NP 25V', s + '_PBR', s + '_PANR'); R(b, '47K', s + '_PANR', 'GNDA')
-    routing(b, s + '_PANL', s + '_PANR', 'MIXL', 'MIXR', f'Sub {n} to MIX')
-    R(b, '22K', s + '_POST', s + '_AFLJ'); afl(b, s + '_AFLJ', f'Sub {n} AFL')
-
-for n in range(1, 7):
+# ================================================================ PART 2: aux masters 5-6  [13]
+# Subgroups 1-4, aux masters 1-4 and stereo returns 1-4 are on the four group modules (tools/gen_group.py,
+# master_panel_study.md M1); they sit on the ribbon like strips and sum their own buses.
+for n in range(5, 7):
     a = f'A{n}'
     b = block(f'AUX MASTER {n}: OPA1656 sum (22K || 100p) + re-invert, level, buffer, DRV134 out, AFL')
     summer(b, f'AUX{n}', a + '_SUM', '22K', '100p', 'OPA1656')
@@ -104,22 +90,6 @@ for n in range(1, 7):
     drv134(b, a + '_OUT', a + '_OP', a + '_ON')
     P(b, ref('J'), 'JACK', f'Aux {n} out TRS', {'T': a + '_OP', 'R': a + '_ON', 'S': 'GNDA'})
     R(b, '22K', a + '_OUT', a + '_AFLJ'); afl(b, a + '_AFLJ', f'Aux {n} AFL')
-
-# ================================================================ PART 3: stereo returns  [16]
-for n in range(1, 5):
-    r = f'RT{n}'
-    b = block(f'STEREO RETURN {n}: receivers (R normalled to L), level, buffers, MIX / 1-2 / 3-4, PFL')
-    stereo_in(b, f'Return {n}', r + '_L', r + '_R')
-    for sd in 'LR':
-        C(b, '47u NP 25V', f'{r}_{sd}', f'{r}_PRE{sd}'); R(b, '47K', f'{r}_PRE{sd}', 'GNDA')
-    P(b, ref('RV'), 'POT2', f'Return {n} level 10K log dual', {1: 'GNDA', 3: r + '_PREL', 2: r + '_WL', 4: 'GNDA', 6: r + '_PRER', 5: r + '_WR'}, mpn=POT2A_MPN)
-    for sd in 'LR':
-        level_buffer(b, f'{r}_W{sd}', f'{r}_B{sd}', f'{r}{sd}')
-        C(b, '220u NP 25V', f'{r}_B{sd}', f'{r}_RTN{sd}'); R(b, '47K', f'{r}_RTN{sd}', 'GNDA')
-    for busl, busr, nm in (('MIXL', 'MIXR', 'MIX'), ('SUB1', 'SUB2', '1-2'), ('SUB3', 'SUB4', '3-4')):
-        routing(b, r + '_RTNL', r + '_RTNR', busl, busr, f'Return {n} {nm}')
-    R(b, '43K', r + '_PREL', r + '_PFLJ'); R(b, '43K', r + '_PRER', r + '_PFLJ')
-    afl(b, r + '_PFLJ', f'Return {n} PFL')
 
 # ================================================================ PART 4: monitoring  [17-22]
 b = block('EXT INPUT (2-track / DAW) and MIX / EXT monitor select  (SW latched = EXT)')

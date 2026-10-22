@@ -7,6 +7,15 @@ Written to the same rules as `channel_strip_schematic_spec.md`; whole-console co
 `console_architecture.md` section 4. Part 2 starts at section 12, Part 3 at 16, Part 4 at 17,
 Part 5 at 24. Open items are in section 29.
 
+**Modules (2026-10-22, `master_panel_study.md` M1).** The master section is built as five boards on the
+ribbon. Four identical 8 HP **group modules** (`group.kicad_sch`, `tools/gen_group.py`) each carry one
+subgroup (§12), one aux master (aux 1–4, §13) and one stereo return (§16). Solder jumpers pick which
+SUB and AUX bus a group sums, and each group buffers GCANCEL locally for its re-inverters. Groups have
+strip-style power and grounds (10 Ω + 220 µF, spade, 10 Ω to GCANCEL). The 16 HP **master module**
+(`master.kicad_sch`, `tools/gen_master.py`) carries everything else: power entry and both wing
+headers, MIX L/R, master fader, mono, main outputs, power-on mute, aux masters 5–6, monitoring, PFL and
+meters.
+
 Delta references: ED2780 sheet 2 (MIX SUM AMPS, MIX INSERT, FADER POST AMPS, BALANCED
 OUTPUT AMPS, mono "GC O/P AMP") and sheet 1 (monitor-select differential receivers on MIX
 L+/L−, master ground-cancel resistor).
@@ -215,6 +224,8 @@ top of this, as in the architecture's section 2.4.
 
 # Part 2 — Subgroups and aux masters
 
+(On the group modules, except aux masters 5–6, which are on the master module.)
+
 Delta references: ED2778A (group output: group sum amp, group insert, group fader, post amp,
 "GND-CANCEL OUTPUT AMP", SUB switch into the monitor pan and on to MIX L/R, PFL) and ED2779A
 (aux masters: GROUNDCANCEL on the summing amp's reference input, master level, buffer,
@@ -340,6 +351,8 @@ which stay at 22K so the strip aux pot wipers aren't loaded (architecture sectio
 ---
 
 # Part 3 — Stereo returns
+
+(On the group modules: return n on group n.)
 
 ## 16. Stereo returns ×4
 
@@ -590,6 +603,13 @@ scale badly (below).
 | Panel LEDs (AFL, PFL, power, rude solo) | 60 | — |
 | **Master** | **≈ 0.61 A** | **≈ 0.50 A** |
 | 24 strips v4.0 at ≈ 85 / 72 mA | ≈ 2.04 A | ≈ 1.73 A |
+
+With the M1 split, the subgroups, aux masters 1–4 and returns move to the four group modules. Each
+draws about 61 mA per rail from the ribbon (6 OPA1612, 1 OPA1656, 2 DRV134) plus up to 3 LEDs. The
+master module's op-amps and drivers drop to about 174 mA per rail. The console total is unchanged
+(same circuits). Two groups per wing: about 1.16 A per wing on +V typical, inside the MF-RX160/72's
+1.6 A hold. Only the absolute worst case (every LED lit, op-amps at maximum current) reaches about
+1.7 A.
 | **Console** | **≈ 2.65 A** | **≈ 2.23 A** |
 
 Strip v4.0 (2026-10-22): 10 × OPA1612 (with the KHN mid bands), DG413 logic supply 2.4 mA, LEDs on

@@ -47,7 +47,16 @@ Details to settle with M1:
 - The power entry stays on the master, feeding both wings. The group modules draw from the ribbon
   like strips: about 60 mA each, already inside the §27 budget, since the circuits only move.
 
-## 4. Next
+## 4. Decision and status
 
-Ruslan to choose M1–M3. With M1: split the master generator into group and master modules,
-regenerate and verify both, then placement as for the strip.
+**M1, chosen 2026-10-22.** `tools/gen_group.py` → `group.kicad_sch`: 155 parts, 452 pins, 0
+mismatches, every pin on a pad, ERC 0. `tools/gen_master.py` → `master.kicad_sch` (now the master
+module): 528 parts, 1525 pins, 0 mismatches, ERC 0. The circuits are unchanged from the one-board
+master, moved through `master_lib.py`.
+
+Before placement:
+- **Jack and XLR depth.** As on the strip, ¼" jacks and XLRs need about 25 mm behind a panel parallel
+  to the board. The group (5 jacks) and the master (9 jacks, 3 XLRs) need jack boards, as the strip
+  has. The XLRs become vertical types (Neutrik NC3MAV); the current footprints are horizontal
+  (NRJ6HF, NC3MAH).
+- **Wings.** Which groups sit on which wing (two per wing).
