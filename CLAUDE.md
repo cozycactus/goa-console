@@ -64,10 +64,14 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
 - `channel_strip.kicad_pcb` — old v3.1 placement (38 × 480 mm, 103 parts), kept for reference; don't rebuild it
   from the v4.0 netlist.
 - 3D model: `tools/export_3d.py` (KiCad Python) exports each module's placed boards to `render/strip.json`,
-  `group.json`, `master.json`; `tools/console_3d.py` (Blender 5.2, headless:
-  `Blender -b --factory-startup --python tools/console_3d.py -- render`) builds `render/goa_console.blend`
-  (24 strips + 4 groups + master as instanced collections from the placed boards, 9° tub) and seven PNG views.
-  .blend and PNGs are gitignored (regenerate in ~45 s).
+  `group.json`, `master.json` (positions, panel features, which footprints have a KiCad 3D model, pins of the rest);
+  `tools/console_3d.py` (Blender 5.2, headless:
+  `Blender -b --factory-startup --python tools/console_3d.py -- render [norender]`) builds `render/goa_console.blend`:
+  every board is KiCad's own GLB export (`kicad-cli pcb export glb`: KiCad's STEP models, pads, mask, silk; cached in
+  render/glb/, re-exported when a .kicad_pcb is newer); the parts KiCad has no model for (Alpha pots, PVA2, NJ6FD-V,
+  NC3MAV, PTB faders, MF-RX PTCs, 1287-ST tabs, standoffs, M4 stud) are built from their footprints and the spec 16.2
+  panel stack; the panel layer is a separate collection per module (hide it to see the boards). 24 strips + 4 groups
+  + master as instanced collections, 9° tub, nine PNG views incl. internals.png. .blend, PNGs and GLBs are gitignored.
 - `tools/verify.py` — checks KiCad's exported netlist against `channel_strip_intended.json`.
   Regenerate + verify loop:
   ```

@@ -7,3 +7,4 @@ __pycache__/
 render/*.blend
 render/*.blend1
 render/*.png
+render/glb/
