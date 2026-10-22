@@ -77,6 +77,7 @@ faders line up across the console.
   pitch, −20 dB at the bottom, +18 dB at the top of the fader travel). Left- and right-wing bus headers at the strips'
   header height. Balanced outputs and mute relays sit towards the jack-board link; summers, re-inverters and
   inserts between the wing headers; the power entry (terminal, reservoirs, wing PTCs) on the bottom side there;
-  the LM2901 ladders beside their LED columns.
+  the LM2901 ladders beside their LED columns. Both post-amps share one OPA1612 (U5) across the strip under the
+  fader's wiper end, the 2.2 µF couplers at the wiper pins, each feedback network within 14 mm of its pins.
 - DRC: 0 violations and 0 parity issues on both main boards; the jack boards show only the NJ6FD-V footprint's
   own hole-clearance / mask items, as on the strip. Unconnected items are expected (routing is Ruslan's).

@@ -11,6 +11,7 @@ Zones follow gen_master.py's blocks (master_parts.json)."""
 import json, os, re, sys
 sys.path.insert(0, os.path.dirname(__file__))
 from placer import place, PROJ, XL, XR, pot, sw, led, jack, BUS
+from verify import sexp, field
 
 W = 78.6                                      # 16 HP board: 2 x 40.64 mm pitch
 H8 = 40.64                                    # second 8 HP half: columns at XL + H8, XR + H8
@@ -47,8 +48,6 @@ for u, cs in (('U7', 'C34 C35 C36 C37 K1'), ('U8', 'C38 C39 C40 C41 K2'), ('U9',
               ('K4', 'R118 D20'), ('K5', 'R120 D21'),
               ('U1', 'FB1 R10 C11'), ('U3', 'FB2 R18 C18'), ('U12', 'FB3 R54 C53'), ('U14', 'FB4 R65 C62'),
               ('U18', 'FB5 R88 C83'), ('U25', 'C112 C113 C114 C115 R122'), ('U26', 'C118 C119 C120 C121 R126'),
-              # post-amps: R in U5 beside the fader wiper; L shares U4 (MIX R insert buffer), so its network stays there
-              ('RV1', 'C23 C26'), ('C26', 'U5'), ('U5', 'R30 C27 C28 R31 C29 R32 R33'), ('U4', 'R26 R27 C24 R28 R29'),
               # LM2901 ladders beside the first LED each package drives
               ('D28', 'U29'), ('D32', 'U30'), ('D36', 'U31'), ('D42', 'U32'), ('D46', 'U33'),
               ('D56', 'U36'), ('D60', 'U37'), ('D64', 'U38'), ('D70', 'U39'), ('D74', 'U40')):
@@ -68,31 +67,46 @@ FIX = {
 }
 for k, (l, r) in enumerate(zip(mL, mR)):      # D28..D49 / D56..D77 in ladder order: -20 dB at the bottom, +18 dB at the top
     FIX[l] = led(18.0, 422.0 - 5.0 * k); FIX[r] = led(60.6, 422.0 - 5.0 * k)
-HOLES = [(44, 134), (5, 215), (73.6, 215), (26, 318), (52.6, 318), (26, 430), (52.6, 430)]
+HOLES = [(44, 134), (5, 215), (73.6, 215), (26, 318), (52.6, 318), (24, 436), (54.4, 436)]
 
-RADIAL = {f'C{n}' for n in (1, 2, 3, 4, 5, 6, 7, 8, 14, 15, 19, 22, 25, 30, 34, 35, 38, 39, 42, 43, 54, 56, 57, 63, 67, 68,
-                            79, 80, 84, 91, 92, 95, 96, 100, 101, 105, 106, 114, 115, 120, 121)}
-TALL = RADIAL | {'C48', 'F1', 'F2', 'F3', 'F4', 'J1', 'RV7', 'RV8', 'CN4'}    # bottom side (11.5 mm panel gap)
+net = sexp(open(os.path.join(PROJ, 'master.net')).read())
+comps = next(c for c in net[1:] if isinstance(c, list) and c[0] == 'components')
+FPN = {field(c, 'ref'): field(c, 'footprint') for c in comps[1:]}
+VAL = {field(c, 'ref'): field(c, 'value') for c in comps[1:]}
+TALL = {r for r, f in FPN.items() if any(k in f for k in ('CP_Radial', 'C_Rect', 'Fuse_', 'TerminalBlock',
+                                                         'Potentiometer_Bourns_3296', 'PinHeader'))}  # bottom: 11.5 mm gap
+dia = lambda r: float(FPN[r].split('_D')[1].split('mm')[0]) if 'CP_Radial' in FPN[r] else 0.0
+num = lambda r: int(re.sub(r'\D', '', r))
 def take(*names, only=None, drop=()):
     out = [r for n in names for r in B[n] if r not in FIX and r not in TALL and r not in drop]
     return [r for r in out if r in only] if only else out
+def tall(*names): return sorted(TALL & {r for n in names for r in B[n]}, key=num)
+# post-amps: both in one OPA1612 (gen_master.py new_package), across the 5.9 mm strip under the fader's wiper end:
+# pins 1-3 (L) face the L wiper, 5-7 (R) the R wiper; the 2.2u wiper couplers at the fader pins
+FADER_BLOCK = take('MASTER FADER')
+COUPLE = [r for r in FADER_BLOCK if VAL[r] == '2.2u']
+POST_U = [r for r in FADER_BLOCK if r.startswith('U')]
+FIX[POST_U[0]] = (XF, 440.75, 0, 'F')
+POST = COUPLE + [r for r in FADER_BLOCK if r not in COUPLE + POST_U]
+NEAR.update({c: 'RV1' for c in COUPLE})
+NEAR.update({r: POST_U[0] for r in POST if r not in COUPLE and r not in NEAR})
 SUMMER5 = ['U12', 'C51', 'C52', 'FB3', 'R54', 'C53', 'R55', 'R56', 'R57', 'R58']
 SUMMER6 = ['U14', 'C60', 'C61', 'FB4', 'R65', 'C62', 'R66', 'R67', 'R68', 'R69']
 SUMMERP = ['U18', 'C81', 'C82', 'FB5', 'R88', 'C83', 'R89', 'R90', 'R91', 'R92']
 OUTS = ['U7', 'C36', 'C37', 'K1', 'R39', 'D4', 'U8', 'C40', 'C41', 'K2', 'R40', 'D5', 'U9', 'C44', 'C45', 'K3', 'R41', 'D6',
         'U22', 'C102', 'C103', 'K4', 'R118', 'D20', 'U23', 'C107', 'C108', 'K5', 'R120', 'D21',
         'U13', 'C58', 'C59', 'U16', 'C69', 'C70']
-POST_L, POST_R = ['R26', 'R27', 'C24', 'R28', 'R29'], ['R30', 'C27', 'C28', 'R31', 'C29', 'R32', 'R33']
 ic_first = lambda refs: sorted(refs, key=lambda r: not r.startswith(('U', 'K')))    # ICs before their NEAR parts
 ZONES = [
  # bottom side: electrolytics, PTCs, terminal, trimmers
  ('balanced-out, monitor and aux coupling caps (bottom)', (0.3, MAIN_Y0, W - 0.3, 236),
-  sorted(TALL & set(B['MAIN OUTPUTS'] + B['AUX MASTER 5'] + B['AUX MASTER 6'] + B['EXT INPUT'] + B['PFL / AFL'] +
-                    B['PFL SWITCHER'] + B['CONTROL ROOM'] + B['HEADPHONES'] + B['POWER-ON MUTE']), key=lambda r: int(r[1:])), 'B'),
- ('power entry: terminal, reservoirs, wing PTCs (bottom)', (11, 228, 68, 305),
-  ['J1', 'C3', 'C4', 'C1', 'C2', 'F1', 'F2', 'F3', 'F4', 'C5', 'C6', 'C7', 'C8'], 'B'),
- ('mix coupling (bottom)', (11, 296, 68, 444), ['C14', 'C15', 'C19', 'C22', 'C25', 'C30'], 'B'),
- ('meter trims + remote meter header (bottom)', (0.3, 300, W - 0.3, 444), ['RV7', 'RV8', 'CN4'], 'B'),
+  tall('MAIN OUTPUTS', 'AUX MASTER 5', 'AUX MASTER 6', 'EXT INPUT', 'PFL / AFL', 'PFL SWITCHER', 'CONTROL ROOM',
+       'HEADPHONES', 'POWER-ON MUTE'), 'B'),
+ ('power entry: terminal, reservoirs, wing PTCs (bottom)', (11, 228, 68, 305),         # terminal, big caps, PTCs, rest
+  sorted(tall('POWER ENTRY', 'DISTRIBUTION'), key=lambda r: (0 if r[0] == 'J' else 1 if dia(r) >= 10 else
+                                                             2 if r[0] == 'F' else 3, -dia(r), num(r))), 'B'),
+ ('mix coupling (bottom)', (11, 296, 68, 444), tall('MIX L', 'MIX R', 'MASTER FADER'), 'B'),
+ ('meter trims + remote meter header (bottom)', (0.3, 300, W - 0.3, 444), tall('METER L', 'METER R', 'REMOTE METER HEADER'), 'B'),
  # top side
  ('balanced outputs + mute relays (towards the jack-board link)', (0.3, MAIN_Y0, W - 0.3, 236), ic_first(OUTS), 'F'),
  ('monitoring: EXT, PFL switcher, C/ROOM, phones', (36, MAIN_Y0, W - 0.3, 236),
@@ -100,10 +114,10 @@ ZONES = [
  ('aux 5-6 level buffers, AFL; solo level', (0.3, MAIN_Y0, 40, 236),
   ic_first(take('AUX MASTER 5', 'AUX MASTER 6', 'PFL / AFL', drop=OUTS + SUMMER5 + SUMMER6 + SUMMERP)), 'F'),
  ('PFL detect, power-on mute', (0.3, 160, W - 0.3, 240), ic_first(take('PFL DETECT', 'POWER-ON MUTE')), 'F'),
- ('GC buffer, summers, re-inverters, insert returns, mono, L post-amp (between the wing headers)', (11, 236, 68, 306),
-  ic_first(take('GROUND CANCEL BUFFER', 'MIX L', 'MIX R', 'MONO') + SUMMER5 + SUMMER6 + SUMMERP) + POST_L, 'F'),
+ ('GC buffer, summers, re-inverters, insert returns, mono (between the wing headers)', (11, 236, 68, 306),
+  ic_first(take('GROUND CANCEL BUFFER', 'MIX L', 'MIX R', 'MONO') + SUMMER5 + SUMMER6 + SUMMERP), 'F'),
  ('power distribution, star ground', (11, 190, 68, 306), take('POWER ENTRY', 'DISTRIBUTION'), 'F'),
- ('R post-amp + fader coupling (at the wiper)', (19, 300, 60, 444), ['C23', 'C26', 'U5'] + POST_R, 'F', 0.6),
+ ('post-amps L + R around U5 and wiper coupling (fader wiper end)', (19, 424.5, 60, 444), POST, 'F'),
  ('meter L', (0.3, 300, 31.2, 444), ic_first(take('METER L')), 'F', 0.8),
  ('meter R', (47.4, 300, W - 0.3, 444), ic_first(take('METER R')), 'F', 0.8),
 ]

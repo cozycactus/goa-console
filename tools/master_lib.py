@@ -58,6 +58,13 @@ def unit_of(part, rail, b):
             cr = ref('C'); decoupling[cr] = r; P(b, cr, 'C', '100n', {1: a, 2: c})
     return free[key].pop(0)
 
+class new_package:
+    """with new_package(): amp() calls inside start a fresh package, so a pair that belongs together on the board
+    (the two fader post-amps) shares one; the free units held back meanwhile are used first afterwards."""
+    def __init__(self, part='OPA1612', rail='VA'): self.key = (part, rail)
+    def __enter__(self): self.held = free.pop(self.key, [])
+    def __exit__(self, *exc): free[self.key] = self.held + free.get(self.key, [])
+
 PINS = {1: (3, 2, 1), 2: (5, 6, 7)}                    # op-amp unit: (+, -, out)
 CPINS = {1: (5, 4, 2), 2: (7, 6, 1), 3: (11, 10, 13), 4: (9, 8, 14)}   # LM2901 unit: (+, -, out)
 def amp(b, inp, inn, out, part='OPA1612', rail='VA'):

@@ -183,7 +183,8 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
   holes, 0 tracks/vias/zones, 0 schematic-parity issues; no clearance, courtyard, hole or
   outline errors. DRC reports 219 expected unconnected items and 157 silkscreen warnings.
 - KiCad 10.0.7 ERC, --severity-all: 0 errors, 0 warnings (2026-10-19).
-- Master module (M1 split + jack board, 2026-10-22): 1521 pins / 0 mismatches, check_fp 517 / 0, ERC 0; master jack
+- Master module (M1 split + jack board, 2026-10-22; post-amps regrouped into U5 the same day): 1521 pins /
+  0 mismatches, check_fp 517 / 0, ERC 0; master jack
   board 85 pins / 13 parts, 0 / 0 / ERC 0. Group: 447 pins / 151 parts; group jack board 38 pins / 6 parts; all 0 / 0 /
   ERC 0. Link pinouts match pin for pin between main and jack boards (checked from the netlists).
 - Group / master placement (KiCad 10.0.7, 2026-10-22): group 151 footprints + 6 holes, master 517 + 7, jack boards
@@ -228,9 +229,9 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
    end rails only. Routing is Ruslan's.
 1. Confirm panel parts against samples (see spec 13.1 checklist).
 2. Master section: M1 modules and their jack boards generated and placed (group ×4 + master, 2026-10-22,
-   master_panel_study.md §4). Routing is Ruslan's. Placement notes: the master's L post-amp is U4B (shares U4 with
-   the MIX R insert buffer), so its network sits by U4, not at the fader wiper; a gate swap would put both
-   post-amps in U5 beside the fader. The phones jack sits on the master jack board (rear row of jacks).
+   master_panel_study.md §4). Routing is Ruslan's. Both fader post-amps share U5 (gen_master.py `new_package()`,
+   2026-10-22; U4B now runs the mono sum), placed under the fader's wiper end with their networks within 14 mm.
+   The phones jack sits on the master jack board (rear row of jacks).
    Every function is specified (spec v0.5). Ruslan decided: DRV134
    outputs, no master-end GCANCEL tie. Proposed in the spec, not yet reviewed: GCANCEL
    buffer, OPA1656 on aux/PFL sums, mute relays on main and control-room outputs,
