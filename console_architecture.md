@@ -172,9 +172,14 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
 - Heavy audio ground does **not** use the ribbon: each strip has a ¼" spade terminal
   (Delta CN4) wired to the ground bus bar.
 - Local decoupling on every strip: 10 Ω series + 220 µF/25 V + 100 nF per rail.
-- Estimated load: ~30 mA per strip, ~0.75 A per rail for 24 strips. With two 28 AWG
-  conductors per rail (about 0.1 Ω/m) and feeding from the middle, the DC drop is well
-  under 0.1 V; the 10 Ω local resistors and 220 µF caps take care of transients.
+- Load (strip v4.0, 2026-10-22): about 85 mA (+V) and 72 mA (−V) per strip, typical: 10 × OPA1612
+  at 3.6 mA per channel, the DG413 logic supply, and the panel LEDs (ON, EQ, routing; 3.1 mA each).
+  The worst case is about 127 / 90 mA, with OPA1612 at 4.5 mA/ch and every LED lit including OL.
+  That's about 2.0 / 1.7 A for 24 strips (v3.1 was 30 mA per strip). Per 12-strip wing, about 1.0 A
+  on +V, so 0.5 A per ribbon conductor: within a 28 AWG conductor's and an IDC contact's ~1 A.
+  The DC drop along a 0.5 m wing fed from the master end is about 0.03 V. The strips' 10 Ω
+  series resistors drop about 0.8 V; the strip rails sit near 16.2 V. The 10 Ω and 220 µF
+  take care of transients. Consequences for the master power entry: master spec §27.
 - If the test jig shows supply noise coupling into the bus, fall back to separate
   18–20 AWG power wiring and leave pins 30–33 unused.
 

@@ -535,7 +535,8 @@ scale badly (below).
   of the console and feeds both ribbon wings, so all power enters at the master.
 - Connector: 5-pin XLR male on the master (Neutrik NC5MAH, horizontal PCB): +V, −V, 0 V on two
   pins, chassis/mains earth. Neutrik: 3 A per contact, rated voltage < 50 V, hard-gold contacts.
-  Peak rail current is about 1.4 A and the rail-to-rail voltage 34 V, so it is within rating.
+  Peak rail current was about 1.4 A with the v3.1 strips. With strip v4.0 it is about 2.65 A typical and
+  3.2–3.8 A worst case on +V, which is over the 3 A contact rating: see §27 (7-pin XLR proposed).
 - Reverse-polarity protection: a Schottky (SB540, 5 A) from each rail to 0 V, reverse-biased in
   normal use. A wrongly wired lead then puts the PSU into current limit instead of reversing
   every op-amp.
@@ -544,8 +545,10 @@ scale badly (below).
 
 - Two 34-pin headers on the master, one per wing (12 strips each), carrying the buses and
   power on pins 30–33.
-- Each wing gets its own PTC fuse per rail (Bourns MF-R075, 0.75 A hold). A wing draws about
-  0.4 A per rail; the fuse protects the 28 AWG ribbon conductors from a shorted strip.
+- Each wing gets its own PTC fuse per rail (Bourns MF-R075, 0.75 A hold), to protect the 28 AWG
+  ribbon conductors from a shorted strip. **Too small for strip v4.0**: a wing draws about 1.0 A
+  typical on +V, and up to 1.5 A in the worst case (§27). Proposed: MF-R160 (1.6 A hold, 3.2 A trip),
+  not yet in the schematic.
 - Master local branches, each with its own series element and reservoir:
 
   | Branch | Feeds | Series | Reservoir |
@@ -581,13 +584,27 @@ scale badly (below).
 | 5 relay coils (9.1 mA each) | 46 | — |
 | Panel LEDs (AFL, PFL, power, rude solo) | 60 | — |
 | **Master** | **≈ 0.61 A** | **≈ 0.50 A** |
-| 24 strips at ≈ 33 / 23 mA | ≈ 0.79 A | ≈ 0.54 A |
-| **Console** | **≈ 1.4 A** | **≈ 1.0 A** |
+| 24 strips v4.0 at ≈ 85 / 72 mA | ≈ 2.04 A | ≈ 1.73 A |
+| **Console** | **≈ 2.65 A** | **≈ 2.23 A** |
 
-With the OPA1612 at its 4.5 mA maximum the console rises to about 1.5 A. The architecture's
-2 A minimum per rail leaves about 30 % margin on +V. Keep the regulators
-at ≥ 3 A as specified (architecture 3.3); the PSU transformer should be sized for 2.5 A DC per
-rail.
+Strip v4.0 (2026-10-22): 10 × OPA1612 (with the KHN mid bands), DG413 logic supply 2.4 mA, LEDs on
++VL (ON, EQ and routing lit: about 9 mA). The strips were 33 / 23 mA in v3.1, when this budget was
+first written. With the OPA1612 at its 4.5 mA maximum the console reaches about 3.2 A on +V. With
+every LED on every strip lit as well, it reaches 3.8 A.
+
+**Consequences (proposed, not yet in the schematic or `gen_master.py`):**
+
+| Item | Now | Needed | Proposal |
+|------|-----|--------|----------|
+| Wing PTC per rail | MF-R075, 0.75 A hold | ≥ 1.5 A hold | Bourns MF-R160 (1.6 A hold, 3.2 A trip); new footprint in `tools/footprints.py` |
+| Power inlet | 5-pin XLR, one 3 A contact per rail | ≥ 3.8 A per rail | 7-pin XLR (Neutrik NC7MAH): two contacts per rail, two for 0 V, one earth (6 A per rail) |
+| PSU regulators | ≥ 3 A | ≥ 4 A per rail | LM338-class (5 A) or a pass transistor; heatsink for about 20 W per rail at 24 V in |
+| PSU transformer | 2.5 A DC per rail | 3.5–4 A DC per rail | size for 4 A DC per rail |
+| Strip R1/R2 (10 Ω, 0805) | 0.8 V drop, 55–80 mW | — | fine at 0805 (125 mW); 1206 for margin, or 4R7 for less drop |
+
+Reducing the strip current instead: OPA1678 (about 2 mA/ch) in the six KHN positions would save about
+10 mA per strip (0.25 A per rail). The EQ is resistor-noise dominated, but simulate the noise before
+choosing.
 
 ## 28. Power-on sequencing
 

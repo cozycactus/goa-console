@@ -1,8 +1,8 @@
-# Test Jig — Specification, v0.1 (draft)
+# Test Jig — Specification, v0.2 (draft)
 ## Bus and grounding tests before ordering 24 strips
 
 Implements `console_architecture.md` section 9 with the designs as they now stand
-(strip spec v3.1, master spec v0.6). Goal: confirm the Delta-style unbalanced bus with ground
+(strip spec v4.0 with its jack board, master spec v0.6). Goal: confirm the Delta-style unbalanced bus with ground
 cancel (config **D**) against the same bus without it (config **A**), and measure noise, hum,
 crosstalk, PSRR, distortion and switching clicks on real hardware.
 
@@ -12,15 +12,16 @@ crosstalk, PSRR, distortion and switching clicks on real hardware.
 
 | Item | Qty | What it is |
 |------|-----|------------|
-| Channel strip | 4 | Real strip PCBs from `channel_strip.kicad_sch`, fully populated. The jig tests the boards that will be built, not stand-ins. |
+| Channel strip | 4 | Real strip main boards (`channel_strip.kicad_sch`) with their jack boards (`jack_board.kicad_sch`) on the 10-way link, fully populated. The jig tests the boards that will be built, not stand-ins. Panels optional: the controls work without them. |
 | Master stub | 1 | Bus side of the master only (section 2). |
 | Load board | 1 | Dummy channels that raise the bus noise gain to the full 24-channel value (section 3). |
 | Ribbon | 2 | 34-way, 28 AWG flat cable with 6 crimped IDC sockets (4 strips, master stub, load board): one 0.6 m (a 12-strip wing, ~0.5 m, plus slack), one 3 m (worst case and the hum-pickup tests). |
 | Ground bar | 1 | M4 copper bar with a lug per board, as the console's star point. |
-| Supply | 1 | ±17 V bench or the console PSU, ≥ 1 A per rail. |
+| Supply | 1 | ±17 V bench or the console PSU, ≥ 1 A per rail (4 strips draw about 0.35 A from +V, 0.3 A from −V; master stub and load board about 0.15 A). |
 
-The four strips also settle the strip-level open items: PVA2 switching sense, fader pad pattern
-and panel stack height (strip spec 13.1), soft-mute depth and click, OL and PFL detect.
+The four strips also settle the strip-level open items (strip spec 16.1, 17): PVA2 orientation
+(moulded "2" in the pad 1/4 column, by continuity), fader pad pattern, panel stack height,
+NJ6FD-V body height (sets the jack-board standoffs), knob fit, and the function checks in 4.1.
 
 ## 2. Master stub
 
@@ -53,6 +54,9 @@ Brings the bus noise gain up to what 24 routed channels give (1 + N), without 24
   1, 3, 4, 12 (DIP switch or jumpers): any N from 0 to 20 extra channels.
 - Per AUX 1 / PFL: 20 × 22K 1 % in the same groups.
 - Switch at the bus end of each group, off grounds the group (as the routing switches do).
+- Bus capacitance: the strips' DG413 routing switches put about 44 pF each on MIX / SUB buses
+  (35 pF on, 9 pF off), about 1.1 nF with 24 strips and the ribbon. Per MIX / SUB 1 bus, a jumper
+  adds 1 nF C0G to AGND, so tests 1, 8 and 10 can run with the full-console bus capacitance.
 
 With the four strips routed, N runs from 4 to 24, so the measured noise can be compared
 directly with the table in architecture section 2.4 (−100.4 dBu expected at N = 24, OPA1612,
@@ -73,10 +77,33 @@ Levels in dBu, 20 Hz–20 kHz unweighted unless stated. Record every result in c
 | 5 | Crosstalk | One strip, 0 dBu, routed only to AUX 1 (pin 24); measure on MIX L, MIX R, SUB 1, AUX 2 (the ungrounded neighbours 17–25). 1 kHz, 10 kHz, 20 kHz. | ≤ −80 dB at 10 kHz between adjacent buses. |
 | 6 | PSRR, power on the ribbon | 100 mV ripple at 100 Hz, 1 kHz, 10 kHz injected on +V, then −V (series transformer or a modulated supply). Measure at MIX L. | Ripple at output ≤ −100 dBu at 100 Hz. If not, try separate 18–20 AWG power wiring (architecture 3.2). |
 | 7 | THD+N, all channels | All four strips driven at 0 dBu, routed L-R, faders at "0", N = 20 on the load board. | ≤ 0.005 % at 1 kHz at MIX L; no rise with N. |
-| 8 | Switching clicks | 1 kHz at 0 dBu and silence: toggle every routing, MUTE and PFL switch; record MIX L and PFL. Also DC at each switch's bus side. | No audible click; transient < −60 dBu at MIX L; DC < 1 mV. |
-| 9 | Soft mute | MUTE with 1 kHz at +10 dBu. | Depth ≥ 80 dB (simulation 86 dB), no click. |
+| 8 | Switching clicks | 1 kHz at 0 dBu and silence: toggle every routing (DG413), ON and PFL switch; record MIX L and PFL, raw and through a 20 kHz low-pass. Also DC at each DG413's bus pin. | No audible click. DG413 charge injection: sim −55 dBu peak in the 20 kHz band (`sim/routing_switch.cir`), target ≤ −50 dBu; DC < 1 mV. |
+| 9 | Soft mute | ON switch off with 1 kHz at +10 dBu. | Depth ≥ 70 dB (netlist sim 76 dB at POST), no click. |
 | 10 | Stability | Square wave 1 kHz and 10 kHz at MIX L with the 3 m ribbon, N = 20. | No ringing or oscillation; overshoot < 10 %. |
 | 11 | Balanced output | DRV134 on MIX L: level, both legs, then one leg grounded. | +6 dB differential and single-ended; no change in THD. |
+
+### 4.1 Strip function checks (each of the four strips)
+
+Targets from `tools/sim_netlist.py` (the exported netlists, 30 checks) and `sim/mid_tuning.py`.
+1 kHz, 0 dBu at the line input unless stated.
+
+| Check | Target |
+|-------|--------|
+| PRE level, gain at the detent; POST with the fader at the top | 0 dBu ± 0.3; +9.9 dBu |
+| Gain pot CCW / CW | −14.9 / +14.8 dB |
+| Ø: phase at PRE | 180° |
+| HPF in: −3 dB | 86 Hz |
+| HF at 12 kHz, CW / CCW | +11.4 / −11.7 dB |
+| HI-MID boost at 670 Hz (freq CCW), 2.2 kHz (mid), 10.5 kHz (CW) | ≈ +14.5 dB each; peak frequency within ±15 % of 684 / 2213 / 10471 Hz |
+| LO-MID boost at 148 Hz, 480 Hz, 2.31 kHz | ≈ +14.5 dB each; peak within ±15 % of 148 / 479 / 2291 Hz |
+| LF at 54 Hz, CW / CCW | +14.3 / −14.4 dB |
+| EQ IN off, all bands at full boost | flat within 0.5 dB |
+| Insert: nothing plugged (normal), send/return through a cable | 0 dB change |
+| Direct out (DIR + PRE 5-6, aux 6 at the top) | 0 dBu at J5 tip; aux 6 bus silent |
+| Routing: L-R, 1-2, 3-4 on and off (DG413) | +3.8 dBu on the bus with pan at centre; off: below −80 dB; LED follows the switch |
+| PFL: bus level, PFL DET, LED | 0 dBu; master PFL logic switches |
+| OL LED | lights at about +18 dBu at PRE |
+| Supply current per strip (typical) | about 85 mA +V, 72 mA −V; more than 110 / 90 mA means a fault |
 
 ## 5. Decisions the jig settles
 
@@ -85,7 +112,9 @@ Levels in dBu, 20 Hz–20 kHz unweighted unless stated. Record every result in c
   different strips and come back as a separate design study.
 - **Master-end tie.** Test 3 confirms the "no tie" decision against hardware.
 - **Power on the ribbon.** Test 6 decides between ribbon power and separate wiring.
-- **PVA2 switching sense, fader footprint, panel height** — from the strips themselves.
+- **PVA2 orientation, fader footprint, panel height, jack-board depth** — from the strips themselves.
+- **Ribbon power at the v4.0 strip current** (about 85 mA per strip on +V): test 6 at N = 20, plus the
+  measured drop along the 0.6 m ribbon with the load board drawing a 12-strip wing's current.
 
 ## 6. Not in the jig
 
@@ -96,7 +125,11 @@ Levels in dBu, 20 Hz–20 kHz unweighted unless stated. Record every result in c
 
 - Schematics for the master stub and the load board. Both can come from the existing
   generators: the master stub reuses `gen_master.py`'s circuit functions (they would need
-  moving into a shared module), the load board is a few dozen resistors and switches.
-- PCB layout of the strip (CLAUDE.md step 4) comes first, since the jig needs real strips.
+  moving into a shared module), the load board is a few dozen resistors, switches and the
+  bus-capacitance jumpers.
+- The strips need routed boards: placement is done (`channel_strip_v4.kicad_pcb`,
+  `jack_board.kicad_pcb`); copper routing is Ruslan's.
+- For the ribbon-current test, the load board could also carry a switchable dummy load
+  (about 1 A per rail) to emulate a 12-strip wing.
 
-*Document version 0.1 — October 2026*
+*Document version 0.2 — October 2026 (strip v4.0: jack board, DG413 routing, KHN mid bands)*

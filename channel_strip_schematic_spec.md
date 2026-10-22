@@ -493,7 +493,8 @@ sleeves go to AGND only through the ribbon. CN3/CN5: Würth 61201021621 2 × 5 b
 - Hand-written decks: `sim/gain_stage.cir`, `sim/delta_eq.cir`, `sim/strip_v4.cir`
   (results in `delta_clone_comparison.md` §6), `sim/routing_switch.cir` (§13), `sim/mid_tuning.py` (§6.2). `sim/strip.cir` is the v3.1 path.
 
-**Open:** pan dual B10K with centre detent (RV8) not yet found;
+**Open:** pan dual B10K with centre detent (RV8): none found from Alpha; the stocked B10K dual has no detent,
+ALPS RK097121TD57 has one but a different footprint. Supply current ~85 / 72 mA per strip (master spec §27);
 NJ6FD-V body height (sets the jack-board depth and standoffs). PVA2 sense: settled from the datasheet,
 with an assembly rule (§16.1).
 
