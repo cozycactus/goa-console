@@ -184,7 +184,8 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
   18–20 AWG power wiring and leave pins 30–33 unused.
 
 ### 3.3 PSU
-- External linear PSU, outside the console chassis.
+- External PSU, outside the console chassis. Options (linear, SMPS + LDO, SMPS + LC, a used
+  Soundcraft CPS275) are compared in `psu_spec.md`; not yet chosen.
 - Target ±17 V at **4 A per rail** (2026-10-22, strip v4.0). The console draws about 2.65 / 2.23 A
   typical and up to 3.8 A on +V: master spec §27.
 - Regulators rated at least 4 A per rail. +V: an LM338 (5 A). −V: the LM337 is a 1.5 A part, so

@@ -78,6 +78,8 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
   `sim/mid_tuning.py` — Delta Wien vs KHN mid-band tuning (law, boost, Q, noise; `python3 sim/mid_tuning.py 10e3`);
   `sim/mute.cir` — power-on mute control; `sim/meter.cir` — meter rectifier/ballistics (precision peak
   detector; the Delta-style one read −20 dB as −11.7 dB).
+- `psu_spec.md` — external PSU study v0.1 (±17 V, 4 A per rail): linear vs SMPS + LDO vs SMPS + LC vs used
+  Soundcraft CPS275; recommends SMPS + LC + LDO; waiting for Ruslan's choice.
 - `test_jig_spec.md` — test jig v0.2 (strip v4.0): 4 real strips with jack boards + master stub (A/D/22R-tie
   jumpers) + load board (dummy channels for 24-channel noise gain, 1 nF bus-capacitance jumpers); 11 bus
   tests and a per-strip function checklist with targets.
@@ -178,8 +180,9 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
   6.35 mm shafts). Fader/aux pots now pin 1 = GNDA (A taper).
 - 100K C-law dual (Delta EQ frequency pot) isn't stocked anywhere mainstream: solved by the KHN mid-band
   tuning with a stocked A10K dual (Decisions, spec 6.2).
-- External PSU (architecture 3.3) still to design/build for 4 A per rail (regulators ≥ 4 A, transformer
-  4 A DC per rail, NC7 cable plug).
+- External PSU: study in `psu_spec.md` (4 A per rail; crowbar per rail needed: a shorted pass element
+  would exceed the OPA1612's ±20 V). Ruslan to choose A (linear), B (SMPS + LC + LDO, recommended),
+  C (SMPS + LC) or D (used CPS275).
 - Pan RV8: no Alpha B10K dual with a centre detent found; options are the stocked Alpha B10K dual with no
   detent, or an ALPS RK097121TD57 (9 mm dual, centre detent; different footprint).
 - Pin 28 (PFL−) reading from the Delta drawing is uncertain.
