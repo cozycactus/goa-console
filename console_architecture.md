@@ -43,7 +43,8 @@ schematic set (ED2911, ED2915, ED2776, ED2778, ED2779, ED2780, ED3151, ED3344).
 
 - Delta-style IDC ribbon motherloom, daisy-chained strip to strip. No backplane PCB.
 - **Delta-compatible bus pinout**: a real Delta module could in principle sit on the same ribbon.
-- One identical PCB per channel strip. No mic preamp, no EQ.
+- One identical PCB per channel strip: a Delta Theatre input without the mic stage (line gain, HPF,
+  4-band EQ, direct out); see `delta_clone_comparison.md`.
 - Insert point on every channel for external processing (EQ, compressor, effects).
 - All sources are synths at line level.
 - Rails: ±16 V or ±17 V (decide with the PSU design; see section 3).
@@ -286,7 +287,7 @@ the NE5532 versus about 80 dB for the OPA1612.
 - External monitor input
 
 ### Excluded
-- Mic preamps, phantom, trim, HPF, EQ, direct outs
+- Mic preamps, phantom (trim, HPF, EQ and direct outs added back on 2026-10-22, Delta clone)
 - Talkback, oscillator, tape I/O
 - SIP (PFL only), per-channel meters, monitor dim
 - Per-channel dynamics (use inserts)

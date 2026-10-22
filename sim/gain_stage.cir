@@ -1,0 +1,71 @@
+* Channel line input + gain, -15 to +15 dB, 0 dB at the centre detent.  (strip spec v4.0 draft)
+* Chosen: (1) the existing ground-compensated receiver, unity, 4 x 10K 0.1 %, inputs swapped so it inverts
+*         (2) inverting gain stage: 10K linear centre-detent pot, ends via 2K2 to the stage input and output,
+*             wiper to the virtual earth. G = (2K2 + theta*10K) / (2K2 + (1-theta)*10K); two inversions = in phase.
+* Rejected: the Delta ED3344A topology (diff amp, gain pot divider + buffer in the feedback), recalculated for
+*         the same range (Rin 10K, Rf 1K78, RB 430R, RS 1K37): same range, but noise gain 6.6 at 0 dB.
+* Noise: OPA1612 as resistors (en 1.1 nV/rtHz = 73R in series with +in; in 1.7 pA/rtHz = 5.7M to ground).
+.param theta=0.5
+.subckt OPA inp inn out
+RENX inp ip 73
+RINP ip 0 5.7meg
+RINN inn 0 5.7meg
+G1 0 n1 ip inn 1
+R1 n1 0 1e6 noisy=0
+C1 n1 0 3.98n
+E1 out 0 n1 0 1
+.ends
+VT src 0 DC 0 AC 1
+RST src tip 50
+RSR ring 0 50
+* ---- chosen: receiver (inverting: tip -> inverting leg) + gain stage
+R6 tip rn 10k
+R7 rn recv 10k
+R8 ring rp 10k
+R9 rp 0 10k
+XU1A rp rn recv OPA
+RE1 recv a 2.2k
+RPA a vg {10k*(1-theta)+0.01}
+RPB vg c {10k*theta+0.01}
+RE2 c out 2.2k
+CF out vg 22p
+XU1B 0 vg out OPA
+* ---- rejected: Delta topology, recalculated
+RD19 ring dn 10k
+RD20 tip dp 10k
+RD22 dp 0 1.78k
+RD21 dbuf dn 1.78k
+XD2A dp dn dout OPA
+RDPT dout dw {10k*theta+0.01}
+RDPB dw db {10k*(1-theta)+0.01}
+RDRB db 0 430
+RDRS dw 0 1.37k
+XD2B dw dbuf dbuf OPA
+.control
+set noaskquit
+echo "theta  chosen_dB  delta_topology_dB"
+foreach t 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1
+  alterparam theta = $t
+  reset
+  ac lin 1 1k 1k
+  let g = db(v(out))
+  let gd = db(v(dout))
+  let ph = ph(v(out))*180/pi
+  echo "$t $&g $&gd  (phase $&ph deg)"
+  destroy all
+end
+echo "noise 20 Hz - 20 kHz, 50R source:"
+foreach t 0 0.5 1
+  alterparam theta = $t
+  reset
+  noise v(out) VT dec 20 20 20k
+  let n1 = 20*log10(onoise_total/0.7746)
+  echo "theta=$t: chosen $&n1 dBu"
+  destroy all
+  noise v(dout) VT dec 20 20 20k
+  let n2 = 20*log10(onoise_total/0.7746)
+  echo "theta=$t: Delta topology $&n2 dBu"
+  destroy all
+end
+.endc
+.end

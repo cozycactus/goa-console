@@ -10,7 +10,10 @@ Keep footprint pads and the net-tie's internal copper. See `AGENTS.md`.
 ## What this is
 A Soundcraft-Delta-style console for mixing hardware synths (goa trance).
 Line level only. One identical PCB per channel, joined by a 34-way IDC ribbon "motherloom".
-No mic pres, no EQ, no trim on the strip — processing goes through the insert.
+Channel = a Soundcraft Delta Theatre input without the mic stage (decided 2026-10-22): line gain,
+Ø, HPF, 4-band EQ, post-EQ insert, ON, PFL, aux 1-6 with PRE switches, pan + PAN switch, routing,
+direct out. Spec in progress: `delta_clone_comparison.md`; the strip spec/schematic are the old
+no-EQ channel until v4.0.
 
 ## Files
 - `channel_strip.kicad_sch` / `.kicad_pro` — channel strip schematic (KiCad 7 file format, opens in KiCad 10; A1, label-connected).
@@ -55,14 +58,18 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
   detector; the Delta-style one read −20 dB as −11.7 dB).
 - `test_jig_spec.md` — test jig v0.1: 4 real strips + master stub (A/D/22R-tie jumpers) + load board
   (dummy channels for 24-channel noise gain); 11 tests with targets.
-- `delta_clone_comparison.md` — v0.1, for sign-off: the strip as a Delta Theatre input without the
-  mic stage (trim, Ø, HPF, 4-band EQ, post-EQ insert, PRE switches, direct out), stage by stage
-  against the current strip, with 7 open decisions. Not yet applied to spec or schematic.
+- `delta_clone_comparison.md` — the strip as a Delta Theatre input without the mic stage, stage by
+  stage against the old strip; 7 decisions signed off 2026-10-22 (§3). Not yet in spec or schematic.
 - `console_architecture.md` — whole-console architecture, v3.1. Authoritative.
 - `channel_strip_schematic_spec.md` — strip component-level spec, v3.1. Authoritative.
 - `channel_strip_BOM.csv`, `channel_strip.net`, `channel_strip.pdf` — exports.
 
 ## Decisions made (do not silently change)
+- Delta clone without mic stage (2026-10-22), replacing "no EQ, no trim": line gain −15 to +15 dB
+  (centre detent 0 dB), Ø switch, switched HPF and 4-band EQ as the Delta (OPA1612), EQ IN, insert
+  post-EQ (jumper for pre-EQ), ON switch with green LED (replaces MUTE), PAN switch, routing LEDs,
+  PRE switch per aux pair (jumper: pre-fader / pre-EQ), direct out (aux 6 doubles as its level via
+  DIR). Internal level stays 0 dBu; 4K7 summing stays.
 - One 34-pin header per strip on a daisy-chained ribbon with crimped sockets (decided 2026-10-19;
   CN2 dropped).
 - Bus = real Delta motherloom pinout (read from Delta ED3344C): GRP1-4 = SUB1-4 on pins 15/13/11/9,
@@ -101,6 +108,10 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
 - Power-on mute (`sim/mute.cir`): closes 2.8 s after power-up, opens ~2 ms after either rail drops
   below ~14 V, full re-arm after any fault longer than ~10 ms.
 - ngspice: 0 dBu in → PRE 0 dBu, POST +9.9 dBu, pan centre −6 dB, mute ≈ 86 dB, LF −3 dB 1.1 Hz.
+- Delta-clone sims (2026-10-22, `sim/gain_stage.cir`, `sim/delta_eq.cir`, `sim/strip_v4.cir`): gain −15…+14.8 dB,
+  0 dB at the detent; HPF (unity Butterworth) −3 dB 87 Hz; EQ HF ±11.5 dB @12k, HI-MID ±14.6 dB 670 Hz–10.5 kHz,
+  LO-MID ±14.7 dB 148 Hz–2.3 kHz (Q 1.44), LF ±14.3 dB @54 Hz; flat ±0.16 dB, in phase; 0 dBu in → PRE 0 dBu.
+  PRE noise −105.2 dBu EQ bypassed, −97.2 dBu EQ in (resistor noise; op-amp choice irrelevant).
 - Bus noise (OPA1612, 24 ch routed): −97.6 dBu with 10K, −100.4 dBu with 4K7 (20 Hz–20 kHz).
 
 ## Not done / open
@@ -111,8 +122,9 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
 - Input buffer/receiver question settled: differential receiver fitted (pseudo-balanced cables recommended).
 
 ## Next steps
-0. Delta clone: Ruslan to sign off `delta_clone_comparison.md` §3; it reverses the recorded
-   "no EQ, no trim" decision. Then sims, strip spec v4.0, gen.py, panel-height study, placement.
+0. Delta clone (signed off 2026-10-22): sims done (`delta_clone_comparison.md` §6). Next: strip spec v4.0,
+   gen.py, panel-height study, placement. Input = our receiver + separate gain stage (Delta line
+   topology rejected: 4.7 dB noisier); HPF unity-gain (Delta's has +3 dB); EQ as drawn.
 1. Confirm panel parts against samples (see spec 13.1 checklist).
 2. Master section: every function is specified (spec v0.5). Ruslan decided: DRV134
    outputs, no master-end GCANCEL tie. Proposed in the spec, not yet reviewed: GCANCEL

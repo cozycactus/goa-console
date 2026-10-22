@@ -1,0 +1,181 @@
+* Channel strip v4.0 draft: Delta Theatre input without the mic stage, 0 dBu internal level.
+* receiver (unity, inverting) -> gain stage (-15..+15 dB, inverting) -> HPF (unity Butterworth, switchable)
+* -> Delta 4-band EQ (sim/delta_eq.cir values) -> EQ IN switch -> insert (normalled) -> buffer -> PRE
+* -> soft mute -> fader -> +10 dB post-amp -> POST -> pan centre -> pan buffers -> 4K7 -> mix summing amp.
+* OPA1612 noise as resistors: en 1.1 nV/rtHz = 73R in series with +in; in 1.7 pA/rtHz = 5.7M to ground.
+.param theta=0.5 hpf=0 eq=1 f=1 vg=-16 hf=0.5 hm=0.5 lm=0.5 lf=0.5 rhm=10k rlm=10k
+.param p=10k
+.subckt OPA inp inn out
+RENX inp ip 73
+RINP ip 0 5.7meg
+RINN inn 0 5.7meg
+G1 0 n1 ip inn 1
+R1 n1 0 1e6 noisy=0
+C1 n1 0 3.98n
+E1 out 0 n1 0 1
+.ends
+.model JMOD NJF(VTO=-2.5 BETA=6m LAMBDA=0.01)
+VIN src 0 DC 0 AC 0.775
+RST src tip 50
+RSR ring 0 50
+* ---- receiver, inverting (tip to the inverting leg), 4 x 10K 0.1 %
+R6 tip rn 10k
+R7 rn recv 10k
+C7 rn recv 33p
+R8 ring rp 10k
+R9 rp 0 10k
+XU1A rp rn recv OPA
+* ---- gain stage: 10K B centre-detent pot, 2K2 end resistors, wiper to the virtual earth
+RE1 recv ga 2.2k
+RPA ga vg1 {10k*(1-theta)+0.01}
+RPB vg1 gc {10k*theta+0.01}
+RE2 gc gout 2.2k
+CF gout vg1 22p
+XU1B 0 vg1 gout OPA
+C40 gout hin 47u
+R45 hin 0 47k
+* ---- HPF: unity-gain Sallen-Key Butterworth, 47n / 47n, 27K (to output) / 56K (to ground); switch shorts the caps
+C12 hin h1 47n
+C13 h1 hp 47n
+RHPF hin hp {hpf > 0.5 ? 1e12 : 0.01}
+R27 h1 hout 27k
+R26 hp 0 56k
+XU3A hp hout hout OPA
+* ---- Delta EQ (ED3344A / ED3151), OPA1612
+R29 hout v3 33k
+R31 o3 v3 33k
+C16 o3 v3 33p
+XU3B 0 v3 o3 OPA
+RHFA hout whf {p*hf+0.01}
+RHFB whf o3 {p*(1-hf)+0.01}
+C51 whf t1 4.7n
+R87 t1 0 5.6k
+C15 t1 t2 4.7n
+R30 t2 v3 6.8k
+RHMA o3 whm {p*hm+0.01}
+RHMB whm o4 {p*(1-hm)+0.01}
+C17 whm m1 3.3n
+R34 m1 m2 6.8k
+RVR2A m2 mp {rhm}
+RVR2B mp m3 {rhm}
+R32 m3 0 6.8k
+C18 mp 0 1.5n
+R33 o3 m4 22k
+R35 o4 m4 22k
+XU4A mp m4 o4 OPA
+RLMA o4 wlm {p*lm+0.01}
+RLMB wlm o5 {p*(1-lm)+0.01}
+C19 wlm l1 15n
+R38 l1 l2 6.8k
+RVR3A l2 lp {rlm}
+RVR3B lp l3 {rlm}
+R36 l3 0 6.8k
+C20 lp 0 6.8n
+R37 o4 l4 22k
+R39 o5 l4 22k
+XU4B lp l4 o5 OPA
+R7E o5 f1 3.3k
+RLFA f1 wlf {p*lf+0.01}
+RLFB wlf f2 {p*(1-lf)+0.01}
+C1E f1 f2 150n
+R8E f2 o6 3.3k
+R42 wlf f3 1.5k
+C50 f3 fp 2.2u
+C21 fp 0 100n
+R41 fp 0 5.1k
+R40 o5 f4 22k
+R43 o6 f4 22k
+XU5A fp f4 o6 OPA
+* ---- EQ IN switch: EQ output (eq=1) or EQ input (bypass)
+RSWA o6 eqsel {eq > 0.5 ? 0.01 : 1e12}
+RSWB hout eqsel {eq > 0.5 ? 1e12 : 0.01}
+C22 eqsel eqout 47u
+R44 eqout 0 47k
+* ---- insert (normalled), return buffer, PRE
+R11 eqout send 75
+RNORM send retraw 0.01
+C10 retraw ret 47u
+R12 ret 0 47k
+XU2 ret buf1 buf1 OPA
+C11 buf1 pre 220u
+R13 pre 0 47k
+RAUXPRE pre 0 5k
+* ---- soft mute, fader, +10 dB post-amp, POST
+R16 pre m10 4.7k
+J1 m10 g 0 JMOD
+R17 m10 m20 4.7k
+J2 m20 g 0 JMOD
+VG g 0 DC {vg}
+XU3 m20 mo mo OPA
+RTOP mo wip {10k*(1-f)+0.01}
+RBOT wip 0 {10k*f+0.01}
+C13F wip fpin 2.2u
+R18 fpin 0 100k
+XU4 fpin n2 fpost OPA
+R19 fpost n2 4.7k
+C14F fpost n2 100p
+R38F n2 0 2.2k
+C15F fpost post 220u
+R35F post 0 47k
+RAUXPOST post 0 2.5k
+* ---- pan centre, buffers, routing L-R, mix summing amp (4K7 / 4K7)
+RPA1 post pl 5k
+RPA2 pl 0 5k
+XU5 pl pbl pbl OPA
+C16P pbl panl 220u
+R36P panl 0 47k
+RR26 panl busl 4.7k
+RR28 panl 0 4.7k
+RR30 panl 0 4.7k
+XUM 0 busl mixl OPA
+RFL busl mixl 4.7k
+.control
+set noaskquit
+* 1) levels at 1 kHz, 0 dBu in, gain centre, HPF out, EQ in and flat, fader at the top
+ac lin 1 1k 1k
+let d = 0.7746
+echo "LEVELS (dBu, 0 dBu in, gain at centre, EQ in flat, fader at top):"
+let l1 = db(v(recv)/d)
+let l2 = db(v(gout)/d)
+let l3 = db(v(hout)/d)
+let l4 = db(v(eqout)/d)
+let l5 = db(v(pre)/d)
+let l6 = db(v(post)/d)
+let l7 = db(v(mixl)/d)
+let ph = ph(v(pre))*180/pi
+echo "  RECV $&l1  GAIN $&l2  HPF $&l3  EQOUT $&l4  PRE $&l5 (phase $&ph deg)  POST $&l6  MIXL $&l7"
+destroy all
+* 2) frequency response, flat path, fader at top: LF -3 dB and 20 kHz
+ac dec 40 0.5 100k
+let g = db(v(post)/0.7746) - 9.92
+meas ac lf3 when g=-3 rise=1
+meas ac at20 find g at=20
+meas ac at20k find g at=20k
+echo "RESPONSE (EQ flat, HPF out), relative to 1 kHz: -3 dB at $&lf3 Hz, $&at20 dB at 20 Hz, $&at20k dB at 20 kHz"
+destroy all
+alterparam hpf=1
+reset
+ac dec 40 5 100k
+let g = db(v(hout)/v(hin))
+meas ac fhp when g=-3 rise=1
+meas ac pk max g
+meas ac at50 find g at=50
+echo "HPF (unity Butterworth 27K/56K, 47n): -3 dB at $&fhp Hz, $&at50 dB at 50 Hz, max $&pk dB"
+destroy all
+alterparam hpf=0
+* 3) noise at PRE and POST (fader at "0", i.e. -10 dB, so POST = PRE level), 20 Hz - 20 kHz, 50R source
+alterparam f=0.316
+foreach e 1 0
+  alterparam eq=$e
+  reset
+  noise v(pre) VIN dec 20 20 20k
+  let npre = 20*log10(onoise_total/0.7746)
+  echo "NOISE eq=$e, gain centre: PRE $&npre dBu"
+  destroy all
+  noise v(post) VIN dec 20 20 20k
+  let npost = 20*log10(onoise_total/0.7746)
+  echo "NOISE eq=$e, gain centre: POST (fader at 0 mark) $&npost dBu"
+  destroy all
+end
+.endc
+.end

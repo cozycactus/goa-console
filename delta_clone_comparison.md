@@ -1,8 +1,8 @@
-# Delta channel clone (without the mic stage) — comparison for sign-off, v0.1
+# Delta channel clone (without the mic stage) — comparison, v0.2 (signed off)
 
 Goal agreed on 2026-10-22: the channel strip becomes a Soundcraft Delta input channel without the
 mic stage. This document lists every stage of the Delta Theatre input next to the current strip,
-with a proposal for each. Nothing in the spec or schematic changes until Ruslan signs it off.
+with a proposal for each. **Ruslan signed off all seven decisions in §3 as proposed on 2026-10-22.**
 
 **Sources** (`ref/Sndcft_DeltaDLX_Schems.pdf`): ED3344A (input, HPF, 4-band EQ, insert; PDF p.15),
 ED3344B (ON/mute logic, peak detector; p.16), ED3344C (mute, fader, pan, aux, routing, direct out;
@@ -27,12 +27,12 @@ Line in (TRS) ─ line stage: diff amp IC2A + gain pot VR1 in its feedback, Ø s
 
 | Stage | Delta (Theatre input) | Our strip now | Proposal |
 |---|---|---|---|
-| Input | XLR mic stage (2SB737 pair, IC1A) **or** line: TRS through 15K + 4K7 per leg into a diff amp (IC2A), 3K3 feedback via the gain pot divider and buffer IC2B | Ground-compensated diff receiver, fixed unity, 10K 0.1 % | **Delta line stage without the mic stage:** diff amp with gain pot in the loop, OPA1612, 0.1 % resistors. Input impedance ≈ 20K per leg. |
-| Gain (trim) | VR1 5K reverse-log, in the line stage's feedback. Line range ≈ −15.5 dB to +6.7 dB (or to +15.6 dB with R24 shorted by SW1-B; mic/line switch wiring not fully traced) | none | **Add.** Range to set by us (decision 2); confirm in simulation. |
+| Input | XLR mic stage (2SB737 pair, IC1A) **or** line: TRS through 15K + 4K7 per leg into a diff amp (IC2A), 3K3 feedback via the gain pot divider and buffer IC2B | Ground-compensated diff receiver, fixed unity, 10K 0.1 % | **Keep our receiver** (unity, 4 × 10K 0.1 %, inputs swapped so it inverts) **plus a separate gain stage** (below). The Delta line topology, recalculated for −15…+15 dB, was simulated and rejected: noise gain 6.6 at 0 dB, 4.7 dB noisier (§6). |
+| Gain (trim) | VR1 5K reverse-log, in the line stage's feedback. Line range ≈ −15.5 dB to +6.7 dB (or to +15.6 dB with R24 shorted by SW1-B; mic/line switch wiring not fully traced) | none | **Add:** inverting stage, 10K B centre-detent pot with 2K2 at each end, wiper to the virtual earth. −15.0 … +14.8 dB, 0 dB at the detent, dB-symmetric law (≈ 2.5 dB per 10 % of rotation). Two inversions: in phase. |
 | Phase | SW2 Ø: swaps the diff amp's inputs | none | **Add** (one PVA2, no extra electronics). |
 | Meter-bridge out | CN7 via 100R, after the gain stage | none | Leave out (no meter bridge planned). |
-| HPF | Sallen-Key 2-pole: C12/C13 47n, R27 33K, R26 39K, IC3A gain 1 + 4K3/10K. Simulated: **−3 dB at 92 Hz, 12 dB/oct, no peaking, +3.1 dB passband**. HPF switch on the LH board bypasses the capacitors; the stage stays in the path. | none | **Add as drawn.** |
-| EQ | 4 bands, TL072 (IC3B, IC4A, IC4B, IC5A): HF shelf 12 kHz (C51/C15 4n7, R87 5K6, R30 6K8); HI-MID 600 Hz–10 kHz (VR2 100K C-law dual, C17 3n3, C18 1n5, R32/R34 6K8, R33/R35 22K); LO-MID 150 Hz–2.4 kHz (VR3 100K C dual, C19 15n, C20 6n8, R36/R38 6K8, R37/R39 22K); LF shelf 60 Hz (C50 2µ2, C21 100n, R41 5K1, R42 1K5, R40/R43 22K). Gain pots on the LH board: 4 × 10K B centre-detent in a chain with R7/R8 3K3 and C1 150n. | none | **Add as drawn**, OPA1612 or NE5532 (decision 4). Boost/cut range and curves to confirm in ngspice before the schematic. |
+| HPF | Sallen-Key 2-pole: C12/C13 47n, R27 33K, R26 39K, IC3A gain 1 + 4K3/10K. Simulated: **−3 dB at 91 Hz, 12 dB/oct, no peaking, +3.1 dB passband**. HPF switch on the LH board bypasses the capacitors; the stage stays in the path. | none | **Add, unity gain** to keep 0 dBu (decision 3): same 47n caps, 27K (to output) / 56K (to ground), Butterworth. Simulated −3 dB at 87 Hz, −10 dB at 50 Hz, no peaking. Switch shorts the caps, as the Delta. |
+| EQ | 4 bands, TL072 (IC3B, IC4A, IC4B, IC5A): HF shelf (C51/C15 4n7, R87 5K6, R30 6K8, R29/R31 33K); HI-MID 600 Hz–10 kHz (VR2 100K C-law dual, Wien band-pass C17 3n3 / C18 1n5, R32/R34 6K8, R33/R35 22K); LO-MID 150 Hz–2.4 kHz (VR3, C19 15n / C20 6n8, R36/R38 6K8, R37/R39 22K); LF bell (C50 2µ2, C21 100n, R41 5K1, R42 1K5, R40/R43 22K). Gain pots (LH board ED3151): 4 × 10K B centre-detent chained EQ_IN–IC3B–IC4A–IC4B–R7 3K3–VR4 (C1 150n across)–R8 3K3–IC5A. | none | **Add as drawn**, OPA1612. Simulated (§6): ±11.5 dB HF at 12 kHz; HI-MID ±14.6 dB 670 Hz–10.5 kHz Q 1.44; LO-MID ±14.7 dB 148 Hz–2.3 kHz Q 1.44; LF ±14.3 dB at 54 Hz Q 0.88; flat within 0.16 dB, in phase. |
 | EQ in/out | SW3: EQ output or bypass; green EQ LED | — | **Add** (switch + LED). |
 | Insert | TRS, 75R send, ring normalled; **post-EQ** by default (links LK1–LK6 for pre-EQ) | TRS, 75R, normalled; right after the receiver (pre-everything) | **Delta position: post-EQ**, solder jumper for pre-EQ. |
 | Overload / peak | Discrete peak detector (TR12), red PEAK LED, taken post-insert | LM393 comparator, +18 dBu, red OL LED, post-insert | Keep ours (simulated, threshold known); same tap point. |
@@ -48,7 +48,7 @@ Line in (TRS) ─ line stage: diff amp IC2A + gain pot VR1 in its feedback, Ø s
 | Internal level | −2 dBu nominal after the HPF | 0 dBu | Decision 3. |
 | Power | 10R + 220 µF per rail, logic 10R + 47 µF | same | No change. |
 
-## 3. Decisions to sign off
+## 3. Decisions (all accepted as proposed, 2026-10-22)
 
 1. **Reverse the recorded "no EQ, no trim" decision.** CLAUDE.md and `console_architecture.md` §6
    (Excluded: trim, HPF, EQ, direct outs) change accordingly.
@@ -77,9 +77,47 @@ Rough column height with two pot columns at 8 HP (EQ and aux pots in pairs), 12 
 100 mm fader: about 480–520 mm. That is at the limit of an 8 HP × 12U panel (514 mm) and
 comfortable in 15U (642 mm). A placement study decides it, after the decisions above.
 
-## 5. Next, after sign-off
+## 5. Notes from transcribing the Delta EQ
 
-1. ngspice: line gain stage with the chosen range; the EQ at full boost and cut per band
-   (confirm ranges and curves against the Delta values); whole chain level and noise.
-2. Strip spec v4.0 and `tools/gen.py`; ERC, netlist check.
-3. Panel-height study and new placement (placement only).
+- Flexi CN8 (ED3344A) = CN3 (ED3151): 1 LF wiper, 2 IC5A out, 3 IC4B out, 4 LMF wiper, 5 IC4A out,
+  6 HMF wiper, 7 IC3B out, 8 HF wiper, 9 ground, 10 EQ in, 11/12 +48 V (not used), 13/14 HPF switch.
+- R32 and R36 (6K8) run from the frequency rheostats to ground. On ED3344A their top ends meet the
+  stage-input line without a junction dot: they cross, they don't connect. Read as connected, the
+  mid bands give only +4 / −1 dB.
+- All four gain pots boost clockwise, matching the CW arrows on ED3151.
+- The LF band is a bell (Q 0.88 at 54 Hz), not a shelf, despite the "60 Hz" legend; it still gives
+  +7.6 dB at 20 Hz at full boost.
+
+## 6. Simulation results (October 2026)
+
+Decks: `sim/gain_stage.cir` (input + gain, and the rejected Delta topology), `sim/delta_eq.cir`
+(Delta HPF + EQ as drawn), `sim/strip_v4.cir` (whole v4 channel). Op-amps single-pole 40 MHz;
+OPA1612 noise modelled as resistors (1.1 nV/√Hz, 1.7 pA/√Hz). Noise 20 Hz–20 kHz unweighted,
+50 Ω source.
+
+| Check | Result |
+|---|---|
+| Gain law | −15.0 / −11.0 / −7.8 / −5.0 / −2.5 / **−0.1** / +2.3 / +4.9 / +7.6 / +10.8 / +14.8 dB at 0 … 100 % rotation; in phase |
+| Input + gain noise at the output, 0 dB / +15 dB | −105.2 / −91.4 dBu (Delta topology: −100.4 / −85.9; old unity receiver −106.5) |
+| Levels, 0 dBu in, gain at detent, EQ flat | RECV, GAIN, HPF, EQ out, PRE all 0.0 dBu; POST +9.9 dBu with the fader at the top; mix bus out +3.8 dBu (pan centre) |
+| Response, EQ flat, HPF out | −3 dB at 1.0 Hz; −0.07 dB at 20 Hz; −0.24 dB at 20 kHz |
+| HPF in (unity Butterworth) | −3 dB at 87 Hz, −10.1 dB at 50 Hz, no peaking |
+| EQ bands at full boost / cut | HF ±11.5 dB at 12 kHz (±13.5 at 20 kHz); HI-MID ±14.6 dB, 670 Hz–10.5 kHz, Q 1.44 at both ends; LO-MID ±14.7 dB, 148 Hz–2.3 kHz, Q 1.44; LF ±14.3 dB at 54 Hz, Q 0.88 |
+| PRE noise, gain at detent | **EQ in, flat: −97.2 dBu**; EQ bypassed: −105.2 dBu |
+| POST noise, fader at the "0" mark | EQ in: −96.9 dBu; EQ bypassed: −102.7 dBu |
+
+**EQ noise.** The EQ in circuit adds about 8 dB. It is resistor thermal noise (33K/22K stages,
+6K8–106K networks, 10K pots), not the op-amp: OPA1656 instead of OPA1612 changes it by 0.2 dB at
+any frequency setting, so OPA1612 stays. Scaling all EQ impedances down (curves unchanged)
+gives −99.5 dBu at ½ (5K gain pots, 50K frequency pots) and −100.8 dBu at ⅓ (3K3 / 33K pots).
+**Recommendation: keep the Delta values.** The gain is 2–4 dB for harder-to-get pots, and EQ IN
+bypass gives the full 8 dB back on channels that don't use the EQ. With all 24 channels routed and
+EQ in, channel noise at the mix bus is about −83 dBu, below the output noise of most analogue synths.
+
+**Headroom.** Internal nodes clip at about +21 dBu (OPA1612 on ±17 V). At the gain detent, with
+an EQ band at +15 dB, a +6 dBu input clips at the boosted frequency; use the trim.
+
+## 7. Next
+
+1. Strip spec v4.0 and `tools/gen.py` (new stages, panel parts, footprints); ERC, netlist check.
+2. Panel-height study and new placement (placement only).

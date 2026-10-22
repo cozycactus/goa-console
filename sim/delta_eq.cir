@@ -1,0 +1,170 @@
+* Delta Theatre input HPF + 4-band EQ, transcribed from ED3344A (RH board) and ED3151 (LH board, gain pots).
+* Flexi CN8 (RH) = CN3 (LH): 1 LF wiper, 2 IC5A out, 3 IC4B out, 4 LMF wiper, 5 IC4A out, 6 HMF wiper,
+*   7 IC3B out, 8 HF wiper, 9 ground, 10 EQ in, 13/14 HPF switch (shorts C12+C13 when the HPF is off).
+* Gain pots VR1-VR4 10K B (centre detent), chained: EQ_IN -VR1- IC3B -VR2- IC4A -VR3- IC4B -R7 3K3-
+*   VR4 (C1 150n across) -R8 3K3- IC5A.  Frequency pots VR2, VR3: 100K C-law dual, each gang a rheostat.
+* Pot position params hf hm lm lf: wiper position from the stage-input end (0) to the stage-output end (1).
+* Frequency params rhm, rlm: rheostat value of each gang (ohms).  hpf: 1 = filter in, 0 = bypassed.
+* Op-amps: single-pole, 40 MHz GBW (OPA1612, decided for the clone; the Delta used TL072).
+.param hf=0.5 hm=0.5 lm=0.5 lf=0.5 rhm=10k rlm=10k hpf=1
+.param p=10k
+.subckt OPA inp inn out
+G1 0 n1 inp inn 1
+R1 n1 0 1e6
+C1 n1 0 3.98n
+E1 out 0 n1 0 1
+.ends
+VIN in 0 AC 1
+* ---------------- HPF (IC3A): Sallen-Key, C12/C13 47n, R27 33K, R26 39K, gain 1 + 4K3/10K
+R25 in 0 47k
+C12 in h1 47n
+C13 h1 hp 47n
+RHPF in hp {hpf > 0.5 ? 1e12 : 0.01}
+R27 h1 hout 33k
+R26 hp 0 39k
+XU3A hp hn hout OPA
+R85 hout hn 4.3k
+R84 hn 0 10k
+C14 hout eqin 47u
+R28 eqin 0 47k
+* ---------------- HF stage (IC3B): R29/R31 33K, C16 33p; T network C51 - (R87 to gnd) - C15 - R30 to the virtual earth
+R29 eqin v3 33k
+R31 o3 v3 33k
+C16 o3 v3 33p
+XU3B 0 v3 o3 OPA
+RHFA eqin whf {p*hf+0.01}
+RHFB whf o3 {p*(1-hf)+0.01}
+C51 whf t1 4.7n
+R87 t1 0 5.6k
+C15 t1 t2 4.7n
+R30 t2 v3 6.8k
+* ---------------- HI-MID stage (IC4A): unity inverting R33/R35 22K; + input from the gain-pot wiper through a
+*   Wien band-pass: series C17 3n3 + R34 6K8 + VR2-A, shunt C18 1n5 || (VR2-B + R32 6K8) to ground.
+*   (R32's top meets the IC3B-out line on the drawing without a junction dot: they cross, not connect.)
+RHMA o3 whm {p*hm+0.01}
+RHMB whm o4 {p*(1-hm)+0.01}
+C17 whm m1 3.3n
+R34 m1 m2 6.8k
+RVR2A m2 mp {rhm}
+RVR2B mp m3 {rhm}
+R32 m3 0 6.8k
+C18 mp 0 1.5n
+R33 o3 m4 22k
+R35 o4 m4 22k
+XU4A mp m4 o4 OPA
+* ---------------- LO-MID stage (IC4B): same, C19 15n / C20 6n8, R38 / R36 6K8
+RLMA o4 wlm {p*lm+0.01}
+RLMB wlm o5 {p*(1-lm)+0.01}
+C19 wlm l1 15n
+R38 l1 l2 6.8k
+RVR3A l2 lp {rlm}
+RVR3B lp l3 {rlm}
+R36 l3 0 6.8k
+C20 lp 0 6.8n
+R37 o4 l4 22k
+R39 o5 l4 22k
+XU4B lp l4 o5 OPA
+* ---------------- LF stage (IC5A): unity inverting R40/R43 22K; + input: wiper - R42 1K5 - C50 2u2 - (C21 100n || R41 5K1)
+R7 o5 f1 3.3k
+RLFA f1 wlf {p*lf+0.01}
+RLFB wlf f2 {p*(1-lf)+0.01}
+C1 f1 f2 150n
+R8 f2 o6 3.3k
+R42 wlf f3 1.5k
+C50 f3 fp 2.2u
+C21 fp 0 100n
+R41 fp 0 5.1k
+R40 o5 f4 22k
+R43 o6 f4 22k
+XU5A fp f4 o6 OPA
+C22 o6 eqout 47u
+R44 eqout 0 47k
+.control
+set noaskquit
+alterparam hpf=0
+* 1) all gain pots centred: flatness of the EQ alone
+reset
+ac dec 40 10 40k
+let g = db(v(eqout)/v(eqin))
+meas ac flatmax max g from=20 to=20k
+meas ac flatmin min g from=20 to=20k
+meas ac ph1k find vp(eqout) at=1k
+echo "FLAT: max $&flatmax dB, min $&flatmin dB, phase at 1 kHz $&ph1k rad"
+destroy all
+* 2) HF at full boost and cut (shelf): gain at 12 kHz and 20 kHz, half-gain frequency
+foreach pos 0 1
+  alterparam hf=$pos
+  reset
+  ac dec 80 10 40k
+  let g = db(v(eqout)/v(eqin))
+  meas ac g12 find g at=12k
+  meas ac g20 find g at=20k
+  let half = g20/2
+  meas ac fhalf when g=$&half cross=1
+  echo "HF at $pos: $&g12 dB at 12 kHz, $&g20 dB at 20 kHz, half of that at $&fhalf Hz"
+  destroy all
+end
+alterparam hf=0.5
+* 3) bells at full boost and full cut: LF (fixed), HI-MID and LO-MID at both ends of the frequency pot (1R = pot end)
+foreach pos 1 0
+  alterparam lf=$pos
+  reset
+  ac dec 200 5 40k
+  let g = db(v(eqout)/v(eqin))
+  meas ac pkx max g
+  meas ac pkn min g
+  let pk = pkx
+  let thr = pk - 3
+  if $pos = 0
+    let pk = pkn
+    let thr = pk + 3
+  end
+  meas ac fl when g=$&thr cross=1
+  meas ac fh when g=$&thr cross=last
+  let fc = sqrt(fl*fh)
+  let q = fc/(fh - fl)
+  echo "LF at $pos: $&pk dB, centre $&fc Hz, 3 dB points $&fl - $&fh Hz, Q $&q"
+  destroy all
+end
+alterparam lf=0.5
+foreach band hm lm
+  foreach r 1 100k
+    foreach pos 1 0
+      alterparam $band=$pos
+      alterparam rhm=$r
+      alterparam rlm=$r
+      reset
+      ac dec 200 10 40k
+      let g = db(v(eqout)/v(eqin))
+      meas ac pkx max g
+      meas ac pkn min g
+      let pk = pkx
+      let thr = pk - 3
+      if $pos = 0
+        let pk = pkn
+        let thr = pk + 3
+      end
+      meas ac fl when g=$&thr cross=1
+      meas ac fh when g=$&thr cross=last
+      let fc = sqrt(fl*fh)
+      let q = fc/(fh - fl)
+      echo "$band at $pos, rheostat $r: $&pk dB, centre $&fc Hz, 3 dB points $&fl - $&fh Hz, Q $&q"
+      destroy all
+    end
+  end
+  alterparam $band=0.5
+end
+alterparam rhm=10k
+alterparam rlm=10k
+* 4) HPF in, EQ flat: corner of the whole section
+alterparam hpf=1
+reset
+ac dec 80 5 40k
+let g = db(v(eqout)/v(in))
+meas ac pass find g at=5k
+let thr = pass - 3
+meas ac fhpf when g=$&thr rise=1
+meas ac at50 find g at=50
+echo "HPF in, EQ flat: passband $&pass dB, -3 dB at $&fhpf Hz, at 50 Hz $&at50 dB"
+.endc
+.end
