@@ -55,6 +55,9 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
   detector; the Delta-style one read −20 dB as −11.7 dB).
 - `test_jig_spec.md` — test jig v0.1: 4 real strips + master stub (A/D/22R-tie jumpers) + load board
   (dummy channels for 24-channel noise gain); 11 tests with targets.
+- `delta_clone_comparison.md` — v0.1, for sign-off: the strip as a Delta Theatre input without the
+  mic stage (trim, Ø, HPF, 4-band EQ, post-EQ insert, PRE switches, direct out), stage by stage
+  against the current strip, with 7 open decisions. Not yet applied to spec or schematic.
 - `console_architecture.md` — whole-console architecture, v3.1. Authoritative.
 - `channel_strip_schematic_spec.md` — strip component-level spec, v3.1. Authoritative.
 - `channel_strip_BOM.csv`, `channel_strip.net`, `channel_strip.pdf` — exports.
@@ -108,6 +111,8 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
 - Input buffer/receiver question settled: differential receiver fitted (pseudo-balanced cables recommended).
 
 ## Next steps
+0. Delta clone: Ruslan to sign off `delta_clone_comparison.md` §3; it reverses the recorded
+   "no EQ, no trim" decision. Then sims, strip spec v4.0, gen.py, panel-height study, placement.
 1. Confirm panel parts against samples (see spec 13.1 checklist).
 2. Master section: every function is specified (spec v0.5). Ruslan decided: DRV134
    outputs, no master-end GCANCEL tie. Proposed in the spec, not yet reviewed: GCANCEL
