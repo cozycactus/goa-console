@@ -44,6 +44,7 @@ def ref(prefix): cnt[prefix] += 1; return f'{prefix}{cnt[prefix]}'
 GND_OF = {'VA': 'GNDA', 'VP': 'GNDA', 'VM': 'GNDM', 'VL': 'GNDD'}
 DUAL = {'OPA1612': ('OPA', 2), 'OPA1656': ('OPA1656', 2), 'TL072': ('TL072', 2), 'LM393': ('CMP', 2), 'LM2901': ('LM2901', 4)}
 free = {}
+decoupling = {}                 # cap ref -> IC ref, for placement beside the IC
 def unit_of(part, rail, b):
     """Next free unit of a multi-unit IC on the given rail; a new package brings power and decoupling."""
     key = (part, rail)
@@ -53,7 +54,8 @@ def unit_of(part, rail, b):
         g = GND_OF[rail]
         if part == 'LM2901': P(b, r, k, part, {3: '+' + rail, 12: '-' + rail}, unit=5)
         else: P(b, r, k, part, {8: '+' + rail, 4: '-' + rail}, unit=3)
-        P(b, ref('C'), 'C', '100n', {1: '+' + rail, 2: g}); P(b, ref('C'), 'C', '100n', {1: g, 2: '-' + rail})
+        for a, c in (('+' + rail, g), (g, '-' + rail)):
+            cr = ref('C'); decoupling[cr] = r; P(b, cr, 'C', '100n', {1: a, 2: c})
     return free[key].pop(0)
 
 PINS = {1: (3, 2, 1), 2: (5, 6, 7)}                    # op-amp unit: (+, -, out)
@@ -163,4 +165,4 @@ def spares(b):
 
 def reset():
     """Start a new schematic: empty block list, references from 1, no half-used packages."""
-    schgen.blocks.clear(); cnt.clear(); free.clear()
+    schgen.blocks.clear(); cnt.clear(); free.clear(); decoupling.clear()

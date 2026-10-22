@@ -1,0 +1,75 @@
+{
+ "blocks": [
+  [
+   "RIBBON  34-pin header like a strip; own ground spade; 10R ground cancel to pin 26 (strip-like ground)",
+   [
+    "CN1",
+    "CN2",
+    "R1"
+   ]
+  ],
+  [
+   "DUMMY CHANNELS  per bus, groups of 1 / 3 / 4 / 12 channels as one equivalent resistor (same noise and noise gain); slide switch at the bus end: on = bus, off = AGND (as the routing switches)",
+   [
+    "R2",
+    "SW1",
+    "R3",
+    "SW2",
+    "R4",
+    "SW3",
+    "R5",
+    "SW4",
+    "R6",
+    "SW5",
+    "R7",
+    "SW6",
+    "R8",
+    "SW7",
+    "R9",
+    "SW8",
+    "R10",
+    "SW9",
+    "R11",
+    "SW10",
+    "R12",
+    "SW11",
+    "R13",
+    "SW12",
+    "R14",
+    "SW13",
+    "R15",
+    "SW14",
+    "R16",
+    "SW15",
+    "R17",
+    "SW16",
+    "R18",
+    "SW17",
+    "R19",
+    "SW18",
+    "R20",
+    "SW19",
+    "R21",
+    "SW20"
+   ]
+  ],
+  [
+   "BUS CAPACITANCE  1 nF C0G per MIX / SUB 1 bus on a jumper: the 24 strips' DG413 switches + ribbon (~1.1 nF)",
+   [
+    "JP1",
+    "C1",
+    "JP2",
+    "C2",
+    "JP3",
+    "C3"
+   ]
+  ],
+  [
+   "DUMMY WING LOAD  terminal for external power resistors (about 17 R / 20 W per rail = one 12-strip wing, 1 A)",
+   [
+    "J1"
+   ]
+  ]
+ ],
+ "near": {}
+}

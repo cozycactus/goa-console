@@ -8,31 +8,14 @@ strip_panel_study.md). y = 0 is 11 mm below the panel's top edge (end rail) and 
 both boards use these coordinates, so the two files overlay on the panel. The jack board (y 0-43) sits
 ~24 mm under the panel (a 1/4" plug goes ~30 mm deep); the main board (y 44-444) at 11.5 mm. A 10-way
 IDC ribbon joins CN5 (jack board, bottom) to CN3 (main board, bottom).
-Panel parts sit at fixed coordinates. Every other part is packed into a named zone at the first position
-where its courtyard clears every courtyard on its side and every through-hole pad on either side (THT
-pads go through the board), so top and bottom parts can share an area without colliding.
-Each footprint is linked to its schematic symbol, so "Update PCB from Schematic" works later."""
-import math, os, sys
-import pcbnew
+Panel parts sit at fixed coordinates; the rest is packed by zone (engine: placer.py)."""
+import os, sys
 sys.path.insert(0, os.path.dirname(__file__))
-from verify import sexp, field
-
-NET, OUT = sys.argv[1], sys.argv[2]
-# Preserve any later manual routing. Rebuild into a separate file once routing has started.
-if os.path.exists(OUT):
-    old = sexp(open(OUT).read())
-    copper = [item[0] for item in old[1:] if isinstance(item, list) and
-              item and item[0] in ('segment', 'arc', 'via', 'zone')]
-    if copper:
-        raise SystemExit(f'{OUT}: contains routing or zones; choose a separate placement output')
-PROJ = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-KLIB = '/Applications/KiCad/KiCad.app/Contents/SharedSupport/footprints/'
-if not os.path.isdir(KLIB): KLIB = '/usr/share/kicad/footprints/'
+from placer import place
 
 W = 38.0                      # board width: 40 mm strip pitch
 JACK_Y1, MAIN_Y0, MAIN_Y1 = 43.0, 44.0, 444.0   # jack board y 0-43, main board y 44-444 (514 mm 12U panel)
 XL, XR, XC = 10.0, 28.0, 19.0 # pot columns and centre line (panel x = board x + 1.15)
-GAP, STEP = 0.3, 0.5          # packer clearance between courtyards / pads, search step
 
 # ---------------------------------------------------------------- feature positions -> footprint origins
 def pot(x, y, dual=False, right=False):
@@ -120,248 +103,18 @@ NOTES = ((50, 'GAIN | PHASE, OL'), (76, 'HF | HPF'), (98, 'HI-MID gain | freq'),
          (252, 'PAN | PAN, DIR'), (274, 'L-R  1-2  3-4 (LEDs y 283)'), (292, 'PFL | ON'), (305, 'BUS HEADER (bottom, right)'),
          (372, 'FADER 100 mm'), (55, 'LINK CN3 (bottom) to the jack board'))
 
-# ---------------------------------------------------------------- netlist
-tree = sexp(open(NET).read())
-comps = next(c for c in tree[1:] if isinstance(c, list) and c[0] == 'components')
-nets = next(c for c in tree[1:] if isinstance(c, list) and c[0] == 'nets')
-parts = {}
-for c in comps[1:]:
-    ts = next((x for x in c[1:] if isinstance(x, list) and x[0] == 'tstamps'), None)
-    props = {field(x, 'name'): field(x, 'value') for x in c[1:] if isinstance(x, list) and x[0] == 'property'}
-    parts[field(c, 'ref')] = dict(value=field(c, 'value'), fp=field(c, 'footprint'), uuid=ts[1] if ts else None,
-                                  mpn=props.get('MPN'), dnp='dnp' in props, nobom='exclude_from_bom' in props)
-padnet = {}
-for n in nets[1:]:
-    name = field(n, 'name')
-    for nd in n[1:]:
-        if isinstance(nd, list) and nd[0] == 'node': padnet[(field(nd, 'ref'), field(nd, 'pin'))] = name
-
-if 'CN5' in parts:      # jack board
-    BOARD, FIX, HOLES, ZONES, NOTES = (0, 0, W, JACK_Y1), JACK_FIX, JACK_HOLES, JACK_ZONES, JACK_NOTES
-    HOLE_VALUE = 'M3 standoff = jack body height (~24 mm)'
-else:
-    BOARD, HOLE_VALUE = (0, MAIN_Y0, W, MAIN_Y1), 'M3 standoff 11.5 mm'
-placed = set(FIX) | {r for _, _, refs, _ in ZONES for r in refs}
-missing = sorted(set(parts) - placed); extra = sorted(placed - set(parts))
-if missing or extra: raise SystemExit(f'placement table out of date: unplaced {missing}, unknown {extra}')
-
-# ---------------------------------------------------------------- board
-board = pcbnew.CreateEmptyBoard()
-board.SetCopperLayerCount(2)
-netinfo = {}
-for name in sorted(set(padnet.values())):
-    ni = pcbnew.NETINFO_ITEM(board, name); board.Add(ni); netinfo[name] = ni
-
-def edge_rect(x0, y0, x1, y1, layer=pcbnew.Edge_Cuts, width=0.1):
-    s = pcbnew.PCB_SHAPE(board); s.SetShape(pcbnew.SHAPE_T_RECT)
-    s.SetStart(pcbnew.VECTOR2I_MM(x0, y0)); s.SetEnd(pcbnew.VECTOR2I_MM(x1, y1))
-    s.SetLayer(layer); s.SetWidth(pcbnew.FromMM(width)); board.Add(s)
-
-def note(text, x, y, layer=pcbnew.Cmts_User, size=1.5):
-    t = pcbnew.PCB_TEXT(board); t.SetText(text); t.SetPosition(pcbnew.VECTOR2I_MM(x, y))
-    t.SetLayer(layer); t.SetTextSize(pcbnew.VECTOR2I_MM(size, size)); t.SetHorizJustify(pcbnew.GR_TEXT_H_ALIGN_LEFT)
-    board.Add(t)
-
-edge_rect(*BOARD)
-
-def load(ref):
-    p = parts[ref]; lib, name = p['fp'].split(':', 1)
-    path = os.path.join(PROJ, lib + '.pretty') if lib == 'goa-console' else os.path.join(KLIB, lib + '.pretty')
-    fp = pcbnew.FootprintLoad(path, name)
-    if fp is None: raise SystemExit(f'{ref}: footprint {p["fp"]} not found')
-    fp.SetFPID(pcbnew.LIB_ID(lib, name))
-    fp.SetReference(ref); fp.SetValue(p['value'])
-    if p['uuid']: fp.SetPath(pcbnew.KIID_PATH('/' + p['uuid']))
-    if p['mpn']:
-        fp.SetField('MPN', p['mpn']); fp.GetField('MPN').SetVisible(False)
-    fp.SetDNP(p['dnp']); fp.SetExcludedFromBOM(p['nobom'])
-    board.Add(fp)
-    for pad in fp.Pads():
-        n = padnet.get((ref, pad.GetNumber()))
-        if n: pad.SetNet(netinfo[n])
-    return fp
-
-mm = pcbnew.ToMM
-def bbox(bb): return (mm(bb.GetLeft()), mm(bb.GetTop()), mm(bb.GetRight()), mm(bb.GetBottom()))
-def courtyard(fp):
-    side = pcbnew.B_CrtYd if fp.IsFlipped() else pcbnew.F_CrtYd
-    fp.BuildCourtyardCaches()
-    poly = fp.GetCourtyard(side)
-    return bbox(poly.BBox() if poly.OutlineCount() else fp.GetBoundingBox(False))
-def tht_pads(fp):
-    return [bbox(p.GetBoundingBox()) for p in fp.Pads()
-            if p.GetAttribute() in (pcbnew.PAD_ATTRIB_PTH, pcbnew.PAD_ATTRIB_NPTH)]
-def flip(fp):
-    try: fp.Flip(fp.GetPosition(), pcbnew.FLIP_DIRECTION_LEFT_RIGHT)
-    except (AttributeError, TypeError): fp.Flip(fp.GetPosition(), False)
-
-occ = {'F': [], 'B': []}       # courtyards per side, plus THT pads of parts on the other side
-def overlaps(r, rects, g=GAP):
-    return any(r[0] < q[2] + g and q[0] < r[2] + g and r[1] < q[3] + g and q[1] < r[3] + g for q in rects)
-def register(fp, side):
-    other = 'B' if side == 'F' else 'F'
-    occ[side].append(courtyard(fp))
-    occ[other].extend(tht_pads(fp))
-
-for ref, (x, y, rot, side) in FIX.items():
-    fp = load(ref)
-    fp.SetOrientationDegrees(rot); fp.SetPosition(pcbnew.VECTOR2I_MM(x, y))
-    if side == 'B': flip(fp)
-    register(fp, side)
-for i, (x, y) in enumerate(HOLES, 1):
-    h = pcbnew.FootprintLoad(os.path.join(KLIB, 'MountingHole.pretty'), 'MountingHole_3.2mm_M3')
-    h.SetFPID(pcbnew.LIB_ID('MountingHole', 'MountingHole_3.2mm_M3')); h.SetReference(f'H{i}'); h.SetValue(HOLE_VALUE)
-    h.SetBoardOnly(True); h.SetExcludedFromBOM(True); h.SetExcludedFromPosFiles(True)
-    board.Add(h); h.SetPosition(pcbnew.VECTOR2I_MM(x, y))
-    c = courtyard(h); occ['F'].append(c); occ['B'].append(c)
-
-def fits(fp, side, x0, y0, x1, y1):
-    other = 'B' if side == 'F' else 'F'
-    c = courtyard(fp)
-    if (c[0] < max(x0, BOARD[0] + 0.3) or c[1] < max(y0, BOARD[1] + 0.3) or c[2] > min(x1, BOARD[2] - 0.3)
-            or c[3] > min(y1, BOARD[3] - 0.3)): return False
-    if overlaps(c, occ[side]): return False
-    pads = tht_pads(fp)
-    return not (pads and any(overlaps(p, occ[other]) for p in pads))
-
-# Decoupling caps, and the integrator caps / input resistors of the KHN mid bands (virtual-earth nodes), go as
-# close as the courtyards allow to their IC's pin on a shared non-ground net, searched within NEAR_R of it;
-# anything else, or a part with no room there, takes the zone's first free spot from the top left.
 NEAR = {'C20': 'U1', 'C21': 'U1', 'C22': 'U2', 'C23': 'U2', 'C24': 'U3', 'C25': 'U3', 'C26': 'U4',
-            'C29': 'U5', 'C30': 'U5', 'C31': 'U6', 'C32': 'U6', 'C33': 'U7', 'C34': 'U7', 'C35': 'U8', 'C36': 'U8',
-            'C53': 'U9', 'C54': 'U9', 'C55': 'U9', 'C56': 'U10', 'C57': 'U10', 'C58': 'U10',
-            'C59': 'U11', 'C60': 'U11', 'C61': 'U11',
-            'C63': 'U12', 'C64': 'U12', 'C65': 'U13', 'C66': 'U13', 'C67': 'U14', 'C68': 'U14',
-            'C44': 'U12', 'R56': 'U12', 'C45': 'U13', 'R57': 'U13', 'C46': 'U14', 'R60': 'U14', 'C47': 'U14', 'R61': 'U14'}
-NEAR_R = 12.0
-def supply_pin(ref, fp):
-    ic = board.FindFootprintByReference(NEAR.get(ref, ''))
-    if ic is None: return None
-    nets = {padnet.get((ref, p.GetNumber())) for p in fp.Pads()} - {'GNDA', 'GNDD', None}
-    for p in ic.Pads():
-        if padnet.get((ic.GetReference(), p.GetNumber())) in nets:
-            return mm(p.GetPosition().x), mm(p.GetPosition().y)
+        'C29': 'U5', 'C30': 'U5', 'C31': 'U6', 'C32': 'U6', 'C33': 'U7', 'C34': 'U7', 'C35': 'U8', 'C36': 'U8',
+        'C53': 'U9', 'C54': 'U9', 'C55': 'U9', 'C56': 'U10', 'C57': 'U10', 'C58': 'U10',
+        'C59': 'U11', 'C60': 'U11', 'C61': 'U11',
+        'C63': 'U12', 'C64': 'U12', 'C65': 'U13', 'C66': 'U13', 'C67': 'U14', 'C68': 'U14',
+        'C44': 'U12', 'R56': 'U12', 'C45': 'U13', 'R57': 'U13', 'C46': 'U14', 'R60': 'U14', 'C47': 'U14', 'R61': 'U14'}
 
-report = []
-for zname, (x0, y0, x1, y1), refs, side in ZONES:
-    edge_rect(x0, y0, x1, y1, pcbnew.Dwgs_User if side == 'F' else pcbnew.Cmts_User, 0.05)
-    for ref in refs:
-        fp = load(ref)
-        if side == 'B': flip(fp)
-        done = False
-        tgt = supply_pin(ref, fp)
-        if tgt:
-            cands = []
-            for rot in (0, 90):
-                fp.SetOrientationDegrees(rot if side == 'F' else 180 - rot)
-                fp.SetPosition(pcbnew.VECTOR2I_MM(0, 0))
-                l, t, r, b = courtyard(fp)
-                n = int(NEAR_R / STEP)
-                for i in range(-n, n + 1):
-                    for j in range(-n, n + 1):
-                        cx, cy = tgt[0] + i * STEP, tgt[1] + j * STEP     # courtyard centre
-                        cands.append((math.hypot(i, j) * STEP, rot, cx - (r - l) / 2 - l, cy - (b - t) / 2 - t))
-            for d, rot, px, py in sorted(cands):
-                fp.SetOrientationDegrees(rot if side == 'F' else 180 - rot)
-                fp.SetPosition(pcbnew.VECTOR2I_MM(px, py))
-                if fits(fp, side, x0, y0, x1, y1):
-                    done = True; break
-        for rot in (0, 90) if not done else ():
-            fp.SetOrientationDegrees(rot if side == 'F' else 180 - rot)
-            fp.SetPosition(pcbnew.VECTOR2I_MM(0, 0))
-            l, t, r, b = courtyard(fp)
-            y = y0
-            while y + (b - t) <= y1 and not done:
-                x = x0
-                while x + (r - l) <= x1:
-                    fp.SetPosition(pcbnew.VECTOR2I_MM(x - l, y - t))
-                    if fits(fp, side, x0, y0, x1, y1):
-                        done = True; break
-                    x += STEP
-                if not done: y += STEP
-            if done: break
-        if done: register(fp, side)
-        else:
-            report.append(f'{zname}: no room for {ref}')
-            fp.SetPosition(pcbnew.VECTOR2I_MM(BOARD[2] + 10, y0))   # parked off-board so DRC flags it
-
-# ---------------------------------------------------------------- silkscreen reference designators
-# 0.8 mm text (board minimum), at the nearest spot that clears pads (mask openings), other silk, other
-# references and the board edge. Pass 1 also keeps the text off other parts' courtyards, so it stays
-# readable after assembly; pass 2 drops that; if nothing fits, the silk reference is hidden (the Fab layer
-# keeps ${REFERENCE}). Big parts try their own body first.
-SILK_H, SILK_T, SILK_GAP, MASK_GAP, EDGE_GAP, REACH = 0.8, 0.12, 0.15, 0.1, 0.5, 5.0
-F = pcbnew.FromMM
-fps = list(board.GetFootprints())           # mounting holes too: their labels must clear the parts
-CELL = 5.0
-grid = {'F': {}, 'B': {}}      # side -> cell -> [(bbox, shape, clearance, owner)]
-def add_obstacle(side, item, shape, clearance, owner):
-    l, t, r, b = bbox(item.GetBoundingBox())
-    for cx in range(int(l // CELL), int(r // CELL) + 1):
-        for cy in range(int(t // CELL), int(b // CELL) + 1):
-            grid[side].setdefault((cx, cy), []).append(((l, t, r, b), shape, clearance, owner))
-for f in board.GetFootprints():
-    for side, silk, cu in (('F', pcbnew.F_SilkS, pcbnew.F_Cu), ('B', pcbnew.B_SilkS, pcbnew.B_Cu)):
-        for g in f.GraphicalItems():
-            if g.GetLayer() == silk: add_obstacle(side, g, g.GetEffectiveShape(silk), SILK_GAP, f)
-        for p in f.Pads():
-            if p.IsOnLayer(cu) or p.GetAttribute() == pcbnew.PAD_ATTRIB_NPTH:
-                add_obstacle(side, p, p.GetEffectiveShape(cu), MASK_GAP, f)
-crt = {'F': [(courtyard(f), f) for f in board.GetFootprints() if not f.IsFlipped()],
-       'B': [(courtyard(f), f) for f in board.GetFootprints() if f.IsFlipped()]}
-
-def ref_clear(f, side, strict):
-    ref = f.Reference(); silk = ref.GetLayer()
-    l, t, r, b = bbox(ref.GetBoundingBox())
-    if l < BOARD[0] + EDGE_GAP or t < BOARD[1] + EDGE_GAP or r > BOARD[2] - EDGE_GAP or b > BOARD[3] - EDGE_GAP:
-        return False
-    if strict and overlaps((l, t, r, b), [c for c, o in crt[side] if o is not f], 0): return False
-    shape = None
-    seen = set()
-    for cx in range(int((l - 1) // CELL), int((r + 1) // CELL) + 1):
-        for cy in range(int((t - 1) // CELL), int((b + 1) // CELL) + 1):
-            for ob in grid[side].get((cx, cy), ()):
-                if id(ob) in seen or not overlaps((l, t, r, b), [ob[0]], ob[2] + 0.05): continue
-                seen.add(id(ob))
-                shape = shape or ref.GetEffectiveShape(silk)
-                if shape.Collide(ob[1], F(ob[2])): return False
-    return True
-
-hidden = []
-for f in sorted(fps, key=lambda f: -(lambda c: (c[2] - c[0]) * (c[3] - c[1]))(courtyard(f))):
-    side = 'B' if f.IsFlipped() else 'F'
-    ref = f.Reference(); ref.SetVisible(True)
-    ref.SetTextSize(pcbnew.VECTOR2I_MM(SILK_H, SILK_H)); ref.SetTextThickness(F(SILK_T))
-    ref.SetHorizJustify(pcbnew.GR_TEXT_H_ALIGN_CENTER); ref.SetVertJustify(pcbnew.GR_TEXT_V_ALIGN_CENTER)
-    l, t, r, b = courtyard(f); cx0, cy0 = (l + r) / 2, (t + b) / 2
-    big = min(r - l, b - t) > 6
-    cands = []
-    n = int(((max(r - l, b - t) / 2) + REACH) / 0.25)
-    for i in range(-n, n + 1):
-        for j in range(-n, n + 1):
-            x, y = cx0 + i * 0.25, cy0 + j * 0.25
-            inside = l < x < r and t < y < b
-            if not inside and (x < l - REACH or x > r + REACH or y < t - REACH or y > b + REACH): continue
-            for ang in (0, 90):
-                d = math.hypot(x - cx0, y - cy0) + (1.0 if ang else 0) - (100 if big and inside else 0)
-                cands.append((d, x, y, ang))
-    cands.sort()
-    done = False
-    for strict in (True, False):
-        for d, x, y, ang in cands:
-            ref.SetTextAngleDegrees(ang); ref.SetPosition(pcbnew.VECTOR2I_MM(x, y))
-            if ref_clear(f, side, strict):
-                done = True; break
-        if done: break
-    if done:
-        add_obstacle(side, ref, ref.GetEffectiveShape(ref.GetLayer()), SILK_GAP, f)
-    else:
-        ref.SetVisible(False); hidden.append(f.GetReference())
-
-# panel-feature notes (board y)
-for y, txt in NOTES:
-    note(txt, W + 3, y, size=2.0)
-pcbnew.SaveBoard(OUT, board)
-print(f'placed {len(parts)} footprints + {len(HOLES)} holes on {BOARD[2] - BOARD[0]:.0f} x {BOARD[3] - BOARD[1]:.0f} mm; nets {len(netinfo)}')
-for r in report: print('  WARNING', r)
-if hidden: print(f'  silk reference hidden (no room): {" ".join(sorted(hidden))}')
+NET, OUT = sys.argv[1], sys.argv[2]
+if '(ref "CN5")' in open(NET).read():                           # jack board netlist
+    layout = dict(board=(0, 0, W, JACK_Y1), fix=JACK_FIX, holes=JACK_HOLES, zones=JACK_ZONES, notes=JACK_NOTES,
+                  hole_value='M3 standoff = jack body height (~24 mm)')
+else:
+    layout = dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, holes=HOLES, zones=ZONES, notes=NOTES, near=NEAR,
+                  hole_value='M3 standoff 11.5 mm')
+place(NET, OUT, layout)

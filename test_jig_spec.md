@@ -137,7 +137,12 @@ Targets from `tools/sim_netlist.py` (the exported netlists, 30 checks) and `sim/
 - ~~Schematics for the master stub and the load board~~ done 2026-10-22: `tools/gen_jig.py` writes
   `jig_master_stub.kicad_sch` (127 parts) and `jig_load_board.kicad_sch` (50 parts) from the master's
   own circuit functions, now in `tools/master_lib.py`. Both: netlist 0 mismatches, every pin on a
-  pad, ERC 0. Next: their PCB placement.
+  pad, ERC 0.
+- ~~PCB placement~~ done 2026-10-22: `tools/place_jig.py` → `jig_master_stub.kicad_pcb` (160 × 125 mm:
+  six BNCs and the balanced XLR on the front edge, ribbon header on the left, bench terminal top right,
+  labelled jumpers) and `jig_load_board.kicad_pcb` (120 × 85 mm: a labelled 5 × 4 grid of slide switches,
+  each with its group resistor). Both: 0 schematic-parity issues, 0 DRC violations; placement only, no
+  copper. Routing is Ruslan's.
 - The strips need routed boards: placement is done (`channel_strip_v4.kicad_pcb`,
   `jack_board.kicad_pcb`); copper routing is Ruslan's.
 - For the ribbon-current test, the load board could also carry a switchable dummy load
