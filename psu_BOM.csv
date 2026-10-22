@@ -1,0 +1,26 @@
+Qty,Value,Footprint,MPN,References
+2,2200u 35V low-ESR,Capacitor_THT:CP_Radial_D16.0mm_P7.50mm,,C1 C7
+4,100n,Capacitor_SMD:C_0805_2012Metric,,C2 C5 C8 C11
+2,47u 25V,Capacitor_THT:CP_Radial_D6.3mm_P2.50mm,,C3 C9
+2,220u 25V,Capacitor_THT:CP_Radial_D8.0mm_P3.50mm,,C4 C10
+2,2n2,Capacitor_SMD:C_0805_2012Metric,,C6 C12
+4,S1G,Diode_SMD:D_SMA,S1G,D1 D2 D5 D6
+2,SS54,Diode_SMD:D_SMC,SS54,D3 D7
+1,POS rail green,LED_THT:LED_D3.0mm,,D4
+1,NEG rail green,LED_THT:LED_D3.0mm,,D8
+1,LRS-150-24 #1 DC in,TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal,Phoenix MKDS 1,5/2-5,08,J1
+1,LRS-150-24 #2 DC in,TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal,Phoenix MKDS 1,5/2-5,08,J2
+1,Console out (NC7FD-LX),TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-7-5.08_1x07_P5.08mm_Horizontal,Phoenix MKDS 1,5/7-5,08 (to a Neutrik NC7FD-LX),J3
+1,Earth stud (case),TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal,Phoenix MKDS 1,5/2-5,08,J4
+2,10u 11A,Inductor_THT:L_Toroid_Horizontal_D21.8mm_P19.10mm_Bourns_2100,Bourns 2100LL-100-H-RC,L1 L2
+2,MMBT3906,Package_TO_SOT_SMD:SOT-23,MMBT3906,Q1 Q3
+2,2N6505G,Package_TO_SOT_THT:TO-220-3_Vertical,onsemi 2N6505G,Q2 Q4
+2,120R 1%,Resistor_SMD:R_0805_2012Metric,,R1 R10
+2,1K5 1%,Resistor_SMD:R_0805_2012Metric,,R2 R11
+4,4K7,Resistor_SMD:R_0805_2012Metric,,R3 R6 R12 R15
+2,66K5 1%,Resistor_SMD:R_0805_2012Metric,,R4 R13
+2,10K 1%,Resistor_SMD:R_0805_2012Metric,,R5 R14
+4,1K,Resistor_SMD:R_0805_2012Metric,,R7 R9 R16 R18
+2,100R,Resistor_SMD:R_0805_2012Metric,,R8 R17
+2,LM1084-ADJ,Package_TO_SOT_THT:TO-220-3_Vertical,TI LM1084IT-ADJ,U1 U3
+2,TL431,Package_TO_SOT_SMD:SOT-23,TI TL431AIDBZR,U2 U4

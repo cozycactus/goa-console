@@ -1,0 +1,120 @@
+* External PSU, option B (psu_spec.md): one rail. Both rails are identical floating copies; -V is the same
+* circuit with its output tied to 0 V.
+* Mean Well LRS-150-24 set to 21.6 V (8 A current limit) -> LC 10 uH / 2200 uF -> LM1084-ADJ (120R / 1K5,
+* 47 uF ADJ soft start) -> 220 uF out -> TL431 + PNP + SCR crowbar at 19.1 V -> 2 m cable -> console.
+* Console load: 17 R (1 A) plus a switched 5.67 R (+3 A); 24 strips behind 10 R + 267 uF each (0.42 R + 6.4 mF);
+* master branches 1 R + 1.5 mF.
+.param tf=10 tstep=10 rip=0
+* ---- SMPS: voltage source with 8 A constant-current limit (LRS-150-24 OCP 105-150 %), 470 uF inside
+VSET vs 0 PWL(0 0 30m 21.6)
+VRIP vr vs SIN(0 {rip} 65k)
+BSMPS 0 smpsi I = max(-0.5, min(8, (V(vr)-V(smps))/0.02))
+VSENSE smpsi smps 0
+CS smps 0 470u
+* ---- LC filter: Bourns 2100LL-100 (5 mOhm), 2200 uF 35 V low-ESR (18 mOhm) + 100 nF
+L1 smps l1 10u
+RL1 l1 lc 5m
+C1 lc c1e 2200u
+RC1 c1e 0 18m
+C1B lc 0 100n
+* ---- LM1084-ADJ: holds V(out) - V(adj) = 1.25 V; 6 A limit; 1.3 V dropout; 55 uA out of ADJ; 5 mA ground current
+BPASS lc out I = 6*max(0, tanh(50*(1.25-(V(out)-V(adj))))) * max(0, tanh((V(lc)-V(out)-1.1)/0.15))
+RQ lc 0 4.3k
+R1 out adj 120
+R2 adj 0 1.5k
+CADJ adj 0 47u
+IADJ 0 adj DC 55u
+DADJ adj out DPROT
+DIN out lc DPROT
+COUT out co 220u
+RCO co 0 0.1
+COB out 0 100n
+DREV 0 out DSK
+RLED out 0 4.7k
+* ---- crowbar: TL431 (2.495 V) senses 66.5K / 10K = 19.08 V; sinks PNP base current; PNP fires the SCR gate
+RA out ref 66.5k
+RB ref 0 10k
+CF ref 0 2.2n
+BTL kc 0 I = 0.05*max(0, tanh((V(ref)-2.495)/0.003))
+RBE out pb 4.7k
+RK pb kc 1k
+QPNP gc pb out QP
+RG gc gate 100
+RGK gate 0 1k
+* SCR as two transistors: anode = out, cathode = 0, gate
+QS1 gate n1 out QSP
+QS2 n1 gate 0 QSN
+* ---- fault: the LDO's pass element shorts at tf
+SFAULT lc out fctl 0 SWF
+VFCTL fctl 0 PWL(0 0 {tf} 0 {tf+1u} 1)
+* ---- 2 m cable (7 x 1.0 mm2, two cores per rail and two for 0 V: 34 mOhm and 3 uH round trip)
+RCAB out cb 34m
+LCAB cb con 3u
+* ---- console
+RLOAD con 0 17
+SSTEP con lst sctl 0 SWF
+RSTEP lst 0 5.67
+VSCTL sctl 0 PWL(0 0 {tstep} 0 {tstep+1u} 1)
+RSTR con st 0.42
+CSTR st 0 6.4m
+RMAS con ma 1
+CMAS ma 0 1.5m
+.model DPROT D(IS=1e-12 N=1.8 RS=0.05)
+.model DSK D(IS=1e-6 N=1.1 RS=0.01)
+.model QP PNP(BF=150 IS=1e-14 VAF=100)
+.model QSP PNP(BF=10 IS=1e-11 RB=0.01 RE=0.005 RC=0.01)
+.model QSN NPN(BF=50 IS=1e-11 RB=0.01 RE=0.005 RC=0.01)
+.model SWF SW(RON=0.005 ROFF=1e9 VT=0.5 VH=0.1)
+.options reltol=1e-4 abstol=1e-9 method=gear
+.control
+set noaskquit
+* ---- 1) start-up and a 1 A -> 4 A load step at 0.6 s
+alterparam tstep=0.6
+alterparam tf=10
+reset
+tran 20u 0.8 0 50u
+meas tran v_final find v(con) at=0.55
+meas tran t90 when v(con)=15.3 rise=1
+meas tran t10 when v(con)=1.7 rise=1
+meas tran vmax max v(out) from=0 to=0.6
+meas tran refmax max v(ref) from=0 to=0.6
+let ismps = i(vsense)
+meas tran inrush max ismps from=0 to=0.5
+meas tran vlc_ss find v(lc) at=0.79
+meas tran vout_ss find v(out) at=0.79
+meas tran vstep_out min v(out) from=0.6 to=0.7
+meas tran vstep_con min v(con) from=0.6 to=0.7
+meas tran vcon_4a find v(con) at=0.79
+meas tran gate_max max v(gate) from=0 to=0.8
+let pldo = (vlc_ss - vout_ss) * 4.0
+print pldo
+destroy all
+* ---- 2) crowbar: pass element shorts at 0.5 s (1 A load)
+alterparam tstep=10
+alterparam tf=0.5
+reset
+tran 1u 0.52 0.49 2u
+meas tran vout_peak max v(out) from=0.5 to=0.52
+meas tran vcon_peak max v(con) from=0.5 to=0.52
+meas tran t_fire when v(gate)=0.7 rise=1 from=0.5
+meas tran vout_after find v(out) at=0.515
+meas tran vcon_after find v(con) at=0.519
+let isrc = i(vsense)
+meas tran ismps_after find isrc at=0.515
+meas tran ismps_peak max isrc from=0.5 to=0.52
+meas tran vstrip_peak max v(st) from=0.5 to=0.52
+meas tran vmast_peak max v(ma) from=0.5 to=0.52
+destroy all
+* ---- 3) SMPS switching ripple, 150 mV pk-pk at 65 kHz, 4 A: at the SMPS, after the LC filter (LDO input)
+alterparam tf=10
+alterparam tstep=0.3
+alterparam rip=0.075
+reset
+tran 0.2u 0.402 0.4 0.2u
+meas tran smps_pp pp v(smps)
+meas tran lc_pp pp v(lc)
+let lc_att = 20*log10(lc_pp/smps_pp)
+print lc_att
+destroy all
+.endc
+.end

@@ -1,8 +1,8 @@
-# External PSU — Study, v0.1 (draft, October 2026)
+# External PSU — Specification, v0.2 (October 2026)
 
-The console's power supply sits outside the chassis (architecture 3.3). This study sets the
-requirements from the strip v4.0 current budget and compares four ways to meet them. It needs
-Ruslan's choice before a schematic.
+The console's power supply sits outside the chassis (architecture 3.3). Sections 1–3 are the study
+(requirements, four options). **Ruslan chose option B on 2026-10-22**; sections 5–7 are its design,
+simulation and schematic.
 
 ## 1. Requirements
 
@@ -51,8 +51,64 @@ A is the purist's choice if heat and weight don't matter. C is fine for the test
 try first; its residue can be measured on the jig (test 6). D is attractive if a CPS275 turns up: get
 its pinout from the Soundcraft manual and make an adapter cable to the NC7.
 
-## 4. Next
+## 4. Decision
 
-- Ruslan to choose A–D.
-- Then: a schematic (generator like the others), the crowbar and soft-start sims in ngspice, and the
-  heatsink and case layout.
+Option B (2026-10-22): two isolated Mean Well LRS-150-24 at 21.6 V, LC filter, LDO post-regulators as
+two identical floating positive regulators, crowbar and soft start per rail.
+
+## 5. Design (one rail; the other is an identical floating copy)
+
+```
+LRS-150-24 (+, set 21.6 V) ── J (2-way) ── L 10 µH ── X_LC ─┬─ 2200 µF 35 V + 100 n ── RTN
+                                                             └─ U LM1084-ADJ VI   VO ── X_OUT ── 7-way terminal
+                       ADJ ── 120 Ω to VO;  1K5 ∥ 47 µF to RTN (soft start, ripple rejection)
+                       diodes: ADJ → VO, VO → VI (S1G);  SS54 RTN → OUT (reverse)
+X_OUT ── 220 µF + 100 n;  green LED + 4K7
+crowbar: 66K5 / 10K (1 %) ∥ 2n2 → TL431 ref; TL431 cathode ── 1K ── PNP base (4K7 to OUT);
+         PNP (MMBT3906) collector ── 100 Ω ── SCR gate (1K to RTN);  SCR 2N6505G anode OUT, cathode RTN
+```
+
+- **Stacking.** +V rail: OUT = +V, RTN = 0 V. −V rail: OUT = 0 V, RTN = −V. The two SMPS outputs
+  are isolated, so both rails use the same positive regulator and the same crowbar.
+- **Output.** 1.25 V × (1 + 1K5/120) + 55 µA × 1K5 = 17.0 V. 120 Ω also gives the LM1084's 10 mA
+  minimum load.
+- **LDO.** TI LM1084IT-ADJ (TO-220, 5 A, 1.3 V dropout typ.). 19 W at 4 A, 12 W typical. Tab = VO,
+  so both tabs go on the heatsink through insulating pads (the two tabs sit at +17 V and 0 V).
+  Heatsink ≤ 3.6 °C/W each at 40 °C ambient.
+- **Crowbar threshold.** 2.495 V × (1 + 66K5/10K) = 19.1 V (±1.5 %): 2.1 V above the output, 0.9 V
+  below the OPA1612's 20 V absolute maximum. A TL431 rather than a zener, because a 25 A SCR's gate
+  current (up to 30 mA) would move a zener's trip point by more than a volt. The PNP gives the gate a
+  hard pulse.
+- **After a crowbar.** The SCR holds the rail near 1 V. The LRS-150 goes into hiccup current limiting;
+  on each restart a shorted pass element puts 21.6 V back and the crowbar fires again, so the rail LED
+  flashes. Switch off and repair.
+- **Parts.** Bourns 2100LL-100-H-RC (10 µH, 11.4 A, 5 mΩ); 2200 µF 35 V low-ESR (Panasonic FR, 16 mm);
+  onsemi 2N6505G SCR (25 A, ITSM 250 A, TO-220); TL431 (SOT-23); MMBT3906; SS54; S1G.
+- **Mains side (chassis wiring, not on the PCB).** IEC inlet with fuse (T2.5A at 230 V, T5A at 115 V)
+  and a 2-pole switch → both LRS-150 AC inputs (set their 115/230 V switch). FG terminals, the case
+  and the NC7 pin 1 all go to the earth stud. 0 V stays isolated from earth in the PSU; it meets earth
+  only at the console's star point.
+- **Output connector.** Neutrik NC7FD-LX (female) on the PSU panel, wired from the PCB's 7-way terminal:
+  1 earth, 2–3 +V, 4–5 0 V, 6–7 −V. Cable NC7MX ↔ NC7FX, 7 × 1.0 mm², ≤ 2 m.
+
+## 6. Simulation (`sim/psu.cir`, one rail)
+
+The model has a behavioural LM1084, a two-transistor SCR, a TL431 as a switched current sink, and the
+LRS-150 as a 21.6 V source with an 8 A current limit. The load is the console at the end of a 2 m cable:
+1 A + 3 A switched; 24 strips as 0.42 Ω + 6.4 mF (each strip's 10 Ω + 267 µF); master 1 Ω + 1.5 mF.
+
+| Check | Result |
+|-------|--------|
+| Soft start, console bus 10 % → 90 % | 5 ms → 165 ms, no overshoot |
+| SMPS current at start-up | 5.1 A peak (LRS-150-24 limit ≥ 6.8 A) |
+| Crowbar margin in normal running | sense 2.21 V against 2.495 V; the gate never moves |
+| 1 A → 4 A load step at the PSU output | no dip beyond load regulation |
+| Cable drop at 4 A | 0.13 V |
+| LDO dissipation at 4 A | 19.0 W |
+| Pass element shorted (fault) | crowbar fires after 17 µs. Peak 20.7 V at the PSU terminals, 19.7 V on the console bus; the strips' and the master's own rails (behind 10 Ω / 1 Ω and their reservoirs) stay at 16.9 V. Rail then held at 0.9 V, SMPS in current limit |
+| SMPS ripple 65 kHz through the LC filter | −47 dB: 150 mV pk-pk → 0.7 mV at the LDO input. Limited by the 2200 µF's 18 mΩ ESR, not the 71 dB of an ideal LC; a low-ESR polymer capacitor in parallel would recover more. The LDO's rejection (≥ 20 dB at 65 kHz) and the strips' RC filters (59 dB) follow |
+
+## 7. Schematic
+
+`psu.kicad_sch`, generated by `tools/gen_psu.py` (both rails, the output terminal, status LEDs).
+The SMPS modules, the mains wiring and the NC7 socket are chassis parts wired to the PCB's terminals.
