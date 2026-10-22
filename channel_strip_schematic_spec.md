@@ -74,7 +74,8 @@ C33/C34 (U7), C35/C36 (U8). Bus pin 34 (+48 V): not connected.
 ```
 +V ── R3 10 Ω ── +VL ── C5 47 µF ── LGND        −V ── R4 10 Ω ── −VL ── C6 47 µF ── LGND
 ```
-Feeds the LEDs, the mute gate drive, PFL DET and the OL comparator (U4, C26).
+Feeds the LEDs (including the routing LEDs, §13), the mute gate drive, PFL DET and the OL comparator
+(U4, C26). The DG413s' 5 V logic supply (+5VL) is taken from +VA instead, so VL never exceeds V+ (§13).
 
 ### 2.3 Grounds
 - AGND pour and a separate LGND pour, joined at one point: NT1, beside the spade.
@@ -269,21 +270,54 @@ SW14 pole B: SUBSRC_R = PANR (latched)       or POST (unlatched)
 
 ## 13. Routing matrix
 
-Each DPDT assign switch sends the far end of its 4K7 resistor to the bus (latched) or to AGND
-(unlatched), so the load on the source never changes (ED3151, ED3344C).
+Each assign moves the far end of its 4K7 resistor between the bus (assigned) and AGND (off), so the
+load on the source never changes (ED3151, ED3344C). The moving is done by a **DG413** CMOS switch
+right at the bus header. The PVA2 on the panel only carries logic: pole A drives the DG413 inputs,
+pole B the routing LED (decided 2026-10-22, option b in `strip_panel_study.md`).
 
-| Switch | Pole A | Pole B |
-|--------|--------|--------|
-| SW5 L-R | PANL ─ R26 ─ MIX L (18) | PANR ─ R27 ─ MIX R (17) |
-| SW6 1-2 | SUBSRC_L ─ R28 ─ SUB 1 (15) | SUBSRC_R ─ R29 ─ SUB 2 (13) |
-| SW7 3-4 | SUBSRC_L ─ R30 ─ SUB 3 (11) | SUBSRC_R ─ R31 ─ SUB 4 (9) |
+```
+PANL ── R26 4K7 ── RT_R26 ═╤═ U9 SW1 (NO) ── MIX L (pin 18)      IN1 = IN2 = RTE_LR
+                           ╘═ U9 SW2 (NC) ── AGND
+PANR ── R27 4K7 ── RT_R27 ═╤═ U9 SW4 (NO) ── MIX R (pin 17)      IN3 = IN4 = RTE_LR
+                           ╘═ U9 SW3 (NC) ── AGND
+SW5 pole A: RTE_LR = +5VL (latched) or LGND (unlatched); R74 100K to LGND holds it low in the break
+SW5 pole B: +VL (latched) ── R75 4K7 ── D6 yellow LED ── LGND
+```
 
-R26–R31: 4K7 1 % metal film (recorded decision; the master's feedback resistors are 4K7 too).
+| Switch | DG413 | Left (SW1 NO / SW2 NC) | Right (SW4 NO / SW3 NC) | IN pull-down | LED |
+|--------|-------|------------------------|-------------------------|--------------|-----|
+| SW5 L-R | U9 | PANL ─ R26 ─ MIX L (18) | PANR ─ R27 ─ MIX R (17) | R74 | R75, D6 |
+| SW6 1-2 | U10 | SUBSRC_L ─ R28 ─ SUB 1 (15) | SUBSRC_R ─ R29 ─ SUB 2 (13) | R76 | R77, D7 |
+| SW7 3-4 | U11 | SUBSRC_L ─ R30 ─ SUB 3 (11) | SUBSRC_R ─ R31 ─ SUB 4 (9) | R78 | R79, D8 |
 
-**Routing LEDs (decided, not yet drawn).** Both PVA2 poles carry audio, so an LED needs a third
-pole. No vertical-action 4PDT latching switch from a known maker has turned up. The C&K PHB 4-pole
-(PHB4UEE1A, body 22.5 × 7.4 mm) is right-angle: its plunger moves parallel to the PCB, 5 mm above it.
-Alps SPUN/SPUJ are listed as horizontal-mount. Options are in `strip_panel_study.md`, open check 3.
+- **Pin use.** In each SPDT the S pins are the common (the 4K7 end), D goes to the bus or AGND. Charge
+  injection into D at 0 V is about 0–5 pC, into S about 30 pC (Vishay curves), so the bus gets the
+  small one.
+- **Supplies.** V+ = +VA, V− = −VA (C53/C54, C56/C57, C59/C60, 100 nF to AGND), GND = LGND.
+  VL = +5VL: R80 4K7 from +VA, D9 BZX84C5V1, C62 1 µF, plus 100 nF per IC (C55, C58, C61).
+  +5VL comes from +VA, not +VL, so VL can never exceed V+ (abs max V+ + 0.3 V) during power-up.
+  About 2.4 mA from +VA, DC only.
+- **Why the bus end.** Both switch terminals sit at the virtual earth (assigned) or ground (off), so
+  the switch never sees more than I × Ron ≈ 60 mV even at +20 dBu, and its Ron-versus-voltage curve
+  can't add distortion.
+- **DG413, not DG403.** Same Siliconix family and function: two NO plus two NC, so the two SPDTs
+  come from pairing them, with IN pins tied in pairs. Its advantages: a KiCad library symbol and
+  SOIC-16 footprint; Vishay, ADI/Maxim and Renesas make it; Ron 25 Ω typical.
+
+**Simulation (`sim/routing_switch.cir`, Vishay DG413 data, OPA1612 two-pole model, Rf 4K7 ∥ 100 pF).**
+The 4K7 resistor tolerance (1 %, ±0.09 dB) is larger than the switch's level effect.
+
+| Check | Result |
+|-------|--------|
+| Level vs. ideal switch, Ron 17 / 25 / 35 / 45 Ω | −0.03 / −0.05 / −0.06 / −0.08 dB (same on every channel) |
+| THD at +20 dBu, 1 and 10 kHz, Ron(V) curvature 2 × the datasheet curve | −124 dB (6 × 10⁻⁵ %); the same switch at the source end of the 4K7: −67 dB |
+| Summing-amp stability, bus capacitance 130 pF / 1.1 nF / 2.2 nF (24 strips × 44 pF + ribbon ≈ 1.1 nF) | no peaking; −3 dB at 283 / 300 / 321 kHz |
+| Click on switching, 20 kHz band | −55 dBu peak (5 pC, bus on D); −39.5 dBu if the bus were on S (30 pC) |
+| Crosstalk from one unassigned strip into the bus | −137 dB at 1 kHz, −111 dB at 20 kHz (24 strips, same signal: −84 dB at 20 kHz) |
+
+Leakage: 24 × 0.25 nA (25 °C max) × 4K7 = 28 µV DC at the summing amp; 0.6 mV at 85 °C. The
+PVA2's contact bounce now toggles the DG413 for a few ms, just as it used to chatter the audio
+directly; no debounce RC, because the DG413 inputs have no hysteresis.
 
 ---
 
@@ -299,15 +333,17 @@ Alps SPUN/SPUJ are listed as horizontal-mount. Options are in `strip_panel_study
 | U6 | OPA1612 | EQ HI-MID | EQ LO-MID |
 | U7 | OPA1612 | EQ LF | insert return buffer |
 | U8 | OPA1612 | direct out | spare, tied off |
+| U9–U11 | DG413 | routing switches L-R, 1-2, 3-4 (two SPDT each) | |
 | Q1, Q2 | J112 | soft mute | |
 
 ---
 
 ## 15. Bill of materials
 
-`channel_strip_BOM.csv` (exported from the schematic): 172 parts per channel, of which three are
-the DNP VCA-option parts (J3, J4, R44), so 169 fitted. Panel parts per channel: 15 pots (fader, 6 aux, pan, gain, 4 EQ
-gain, 2 dual EQ frequency), 13 switches, 4 LEDs (OL, PFL, ON, EQ), 3 jacks, 1 bus header.
+`channel_strip_BOM.csv` (main board, exported from the schematic): 192 parts per channel, of which three
+are the DNP VCA-option parts (J3, J4, R44), so 189 fitted; `jack_board_BOM.csv`: 6. Panel parts per channel:
+15 pots (fader, 6 aux, pan, gain, 4 EQ gain, 2 dual EQ frequency), 13 switches, 7 LEDs (OL, PFL, ON, EQ,
+3 routing), 3 jacks, 1 bus header.
 
 ---
 
@@ -332,7 +368,7 @@ AI scope: component placement only. Ruslan routes copper and pours grounds in Ki
 | RV8 | Alpha RD902F-40, B10K, centre detent | `Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical` | Confirm a detent version is stocked. |
 | RV12, RV14 | Alpha RD902F-40 dual, **100K C (reverse log)** | same | **Availability to confirm**; the Delta used 100K C-law dual. |
 | SW3–SW15 | C&K PVA2 EE H1 1.7N V2 | `Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2` | DPDT push-push, 32 V / 100 mA; PV caps. |
-| D2–D5 | 3 mm LEDs | `LED_THT:LED_D3.0mm` | 7.6 mm spacers. |
+| D2–D8 | 3 mm LEDs | `LED_THT:LED_D3.0mm` | 7.6 mm spacers. D6–D8 (routing, yellow) at y 283, centred under SW5–SW7. |
 | CN4 | Keystone 1287-ST | `goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm` | |
 
 **Check on samples before ordering boards:** which PVA2 throw closes when latched (the
@@ -357,7 +393,7 @@ the panel's top edge), placement only:
 
 | Board | File | Size | Depth under the panel | Parts |
 |-------|------|------|-----------------------|-------|
-| Main | `channel_strip_v4.kicad_pcb` | 38 × 400 mm, y 44–444 | 11.5 mm | 176 + 6 M3 holes (11.5 mm standoffs) |
+| Main | `channel_strip_v4.kicad_pcb` | 38 × 400 mm, y 44–444 | 11.5 mm | 200 + 6 M3 holes (11.5 mm standoffs) |
 | Jack | `jack_board.kicad_pcb` | 38 × 43 mm, y 0–43 | ≈ 24 mm (the NJ6FD-V body) | 6 + 2 M3 holes |
 
 DRC with `--schematic-parity`, both boards: 0 parity issues. The main board has no violations at all;
@@ -366,7 +402,9 @@ SN pad sits close to the footprint's own locating peg). Plus unrouted connection
 references are 0.8 mm text, each placed by the script at the nearest spot clear of pads, silk, other
 references, other parts' courtyards and the edge. The bus header CN1 is turned 180° (pin 1 at
 y 345.6, same pin field x 31.46/34, y 305–345.6), so its pin-1 arrow stays on the board. The Ø switch moved from the jack row to the main board, right
-of the gain pot (above the OL LED). `channel_strip.kicad_pcb` is the old v3.1 placement, kept unchanged.
+of the gain pot (above the OL LED). Decoupling caps sit beside their IC's supply pins (place_strip.py
+`DECOUPLE`); the DG413s (U9–U11) are beside the fader just below CN1, the routing 4K7s between the fader
+and CN1's pins. `channel_strip.kicad_pcb` is the old v3.1 placement, kept unchanged.
 
 ### 16.4 Jack board and link
 
@@ -394,19 +432,20 @@ sleeves go to AGND only through the ribbon. CN3/CN5: Würth 61201021621 2 × 5 b
 ## 17. Status (v4.0, 2026-10-22)
 
 - Schematic generated by `tools/gen.py` (User-size sheet, label-connected).
-- `tools/verify.py`: main 533 pin entries, jack board 30; 0 mismatches, 0 stray pins, no single-pin nets.
-- `tools/check_fp.py`: 176 + 6 parts, every symbol pin on a footprint pad.
+- `tools/verify.py`: main 625 pin entries, jack board 30; 0 mismatches, 0 stray pins, no single-pin nets.
+- `tools/check_fp.py`: 200 + 6 parts, every symbol pin on a footprint pad.
 - KiCad 10.0.7 ERC, `--severity-all`: 0 violations on both schematics.
 - `tools/sim_netlist.py` simulates the two exported netlists joined through the ribbon (CN3↔CN5), so
-  the source drives J1 and the direct out is read at J5 (25 checks, all pass): levels
+  the source drives J1 and the direct out is read at J5 (28 checks, all pass): levels
   (PRE 0 dBu, POST +9.9 dBu, MIX +3.8 dBu), gain range, Ø, HPF corner, every EQ band at both
-  ends, EQ bypass, mute depth, direct out, DIR muting aux 6, PRE/post aux, PAN on/off, PFL.
+  ends, EQ bypass, mute depth, direct out, DIR muting aux 6, PRE/post aux, PAN on/off, PFL,
+  routing through the DG413s (state taken from the PVA2 logic; Ron 25 Ω): SUB 4, MIX L/R off.
   It found one real error during development: the new HI-MID nets had the same names as the mute
   nets (M1/M2), so the generator merged them. Fixed by prefixing the EQ nets with `EQ_`.
 - Hand-written decks: `sim/gain_stage.cir`, `sim/delta_eq.cir`, `sim/strip_v4.cir`
-  (results in `delta_clone_comparison.md` §6). `sim/strip.cir` is the v3.1 path.
+  (results in `delta_clone_comparison.md` §6), `sim/routing_switch.cir` (§13). `sim/strip.cir` is the v3.1 path.
 
-**Open:** routing LEDs (a 4PDT switch); C-law dual and centre-detent pot availability;
+**Open:** C-law dual and centre-detent pot availability;
 PVA2 latched-throw sense; NJ6FD-V body height (sets the jack-board depth and standoffs).
 
 *Document version 4.0 — October 2026*

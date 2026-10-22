@@ -1,0 +1,132 @@
+* Routing switch: DG413 CMOS switch at the bus end of the strip's 4K7 summing resistor (strip spec §13).
+* The PVA2 routing switch now only drives logic: pole A -> DG413 IN, pole B -> routing LED.
+* Per side: S1+S2 = 4K7 end (common), D1 = bus, D2 = AGND; IN1 = IN2 (SW1 NO, SW2 NC).
+* Vishay DG413 (rev B 2025), +/-15 V, VL = 5 V: Ron 25 typ / 35 max (25 C) / 45 max (85 C);
+* near 0 V about 17 ohm, slope about -0.15 ohm/V; CS(off) = CD(off) = 9 pF, CD(on) = 35 pF;
+* off isolation 68 dB @ 1 MHz into 50 ohm -> about 1.3 pF from D to S; Q into D at 0 V about 0-5 pC,
+* into S about 30 pC (so the bus goes on D).
+* Master side as master_section_spec.md: summing amp OPA1612, Rf 4K7 || 100 pF, + input = GCANCEL (0 here).
+.param ron0=17 ka=-0.15 kb=0.02 vamp=10.96 fsig=1k cbus=1.1n nsw=1 swpos=0 qinj=5p
+* swpos=0: switch at the bus end (virtual earth), as built. swpos=1: switch at the source end, for comparison.
+.subckt OPA2 inp inn out
+* OPA1612: GBW 40 MHz, A0 120 dB, second pole 70 MHz (about 60 deg phase margin at unity gain)
+G1 0 n1 inp inn 1
+R1 n1 0 1e6
+C1 n1 0 3.98n
+E2 n2 0 n1 0 1
+R2 n2 n3 1k
+C2 n3 0 2.27p
+E1 out 0 n3 0 1
+.ends
+* ---- channel 1 (under test): source = pan buffer output, 4K7, DG413 on (or ideal)
+VS src 0 DC 0 SIN(0 {vamp} {fsig}) AC 0.7746
+RS src rt {swpos > 0.5 ? 1m : 4.7k}
+* Ron depends on the switch's own voltage (mean of its terminals): ron0 + ka*v + kb*v^2
+BSW rt sw I = {nsw} * V(rt,sw) / ({ron0} + {ka}*(V(rt)+V(sw))/2 + {kb}*((V(rt)+V(sw))/2)*((V(rt)+V(sw))/2))
+RSW rt sw {nsw > 0.5 ? 1e12 : 1m}
+RS2 sw bus {swpos > 0.5 ? 4.7k : 1m}
+* ---- channels 2..24 sit at ground through their 4K7 (worst-case noise gain 25)
+RSN 0 bus {4.7k/23}
+* bus capacitance: ribbon + 24 strips' switch terminals (DG413 on: 35 + 9 pF; mechanical PVA2: about 3 pF)
+CBUS bus 0 {cbus}
+* charge injection (switching only): a 50 ns current pulse of total charge qinj into the bus
+IQ 0 bus PULSE(0 {qinj/50n} 1u 1n 1n 50n 1)
+XU 0 bus out OPA2
+RF out bus 4.7k
+CF out bus 100p
+* audio-band view of the output: 2nd-order Butterworth 20 kHz (R-L-C), fed by an ideal buffer
+EB fin 0 out 0 1
+RFL fin f1 1125
+LFL f1 f2 6.333m
+CFL f2 0 10n
+.options reltol=1e-6 abstol=1e-15 vntol=1e-10
+.control
+set noaskquit
+set wr_singlescale
+* ---- 1) level at 1 kHz, 0 dBu: ideal switch vs DG413 Ron
+alterparam vamp=1.0954
+foreach r 0.001 17 25 35 45
+  alterparam ron0=$r
+  alterparam ka=0
+  alterparam kb=0
+  reset
+  ac lin 1 1k 1k
+  let g = db(mag(v(out))/0.7746)
+  print g
+  destroy all
+end
+* ---- 2) distortion at +20 dBu (10.96 V peak), 1 kHz and 10 kHz, worst-case Ron curvature (2x typical)
+* (linear switch first = numerical floor, then the Ron(V) model)
+alterparam ron0=17
+alterparam vamp=10.96
+alterparam qinj=0
+foreach p 0 1
+  alterparam swpos=$p
+  foreach k 0 1
+    alterparam ka=$k*(-0.3)
+    alterparam kb=$k*0.04
+    echo "DIST swpos=$p nonlinear=$k"
+    alterparam fsig=1k
+    reset
+    tran 0.2u 6m 4m
+    fourier 1k v(out)
+    destroy all
+    alterparam fsig=10k
+    reset
+    tran 0.02u 0.6m 0.4m
+    fourier 10k v(out)
+    destroy all
+  end
+end
+alterparam swpos=0
+* ---- 3) stability: closed-loop response, source to summing-amp output, bus capacitance 130 pF vs 1.1 nF
+alterparam vamp=1.0954
+alterparam ka=0
+alterparam kb=0
+foreach c 130p 1.1n 2.2n
+  alterparam cbus=$c
+  reset
+  ac dec 50 1k 100meg
+  let h = db(mag(v(out))/0.7746)
+  meas ac h1k find h at=1k
+  meas ac hmax max h
+  let hn = h - h1k
+  meas ac f3 when hn=-3 fall=1
+  destroy all
+end
+alterparam cbus=1.1n
+* ---- 4) charge injection click: 5 pC (bus on D, as built) and 30 pC (bus on S); raw and 20 kHz band peak
+alterparam vamp=0
+foreach q 5p 30p
+  alterparam qinj=$q
+  reset
+  tran 2n 60u
+  let ao = abs(v(out))
+  let af = abs(v(f2))
+  meas tran raw max ao from=0.9u to=60u
+  meas tran band max af from=0.9u to=60u
+  let bdbu = db(band/0.7746)
+  print bdbu
+  destroy all
+end
+* ---- 5) crosstalk from one unassigned strip into the bus (circuit at the end of the deck), 1 and 20 kHz
+foreach f 1k 20k
+  reset
+  ac lin 1 $f $f
+  let xt = db(mag(v(xo))/0.7746)
+  print xt
+  destroy all
+end
+.endc
+* ---- 5) crosstalk from an unassigned strip (separate circuit): 4K7 end grounded by the NC switch
+VX xs 0 AC 0.7746
+RX xs xu 4.7k
+RXON xu 0 17
+CXS xu 0 18p
+CXDS xu xb 1.3p
+CXB xb 0 1.1n
+RXN 0 xb {4.7k/24}
+XX 0 xb xo OPA2
+RXF xo xb 4.7k
+CXF xo xb 100p
+.end

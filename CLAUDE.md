@@ -66,7 +66,8 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
 - `master_section_spec.md` — master section spec, v0.6 draft: stereo mix path, mono, outputs,
   power-on mute, subgroups, aux masters, stereo returns, monitoring/PFL/meters, power entry.
   `sim/master_mix.cir` — mix path model (single-pole OPA1612); `sim/aux_master.cir` — aux
-  summing-amp stability; `sim/mute.cir` — power-on mute control; `sim/meter.cir` — meter rectifier/ballistics (precision peak
+  summing-amp stability; `sim/routing_switch.cir` — strip DG413 routing switch (level, THD, bus C, click);
+  `sim/mute.cir` — power-on mute control; `sim/meter.cir` — meter rectifier/ballistics (precision peak
   detector; the Delta-style one read −20 dB as −11.7 dB).
 - `test_jig_spec.md` — test jig v0.1: 4 real strips + master stub (A/D/22R-tie jumpers) + load board
   (dummy channels for 24-channel noise gain); 11 tests with targets.
@@ -79,6 +80,9 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
 ## Decisions made (do not silently change)
 - Strip panel (2026-10-22): 8 HP × 12U Eurorack-style, two pot columns, jacks on the panel (Neutrik
   NJ6FD-V); custom frame with rails only at the panel ends.
+- Routing (2026-10-22): the PVA2 routing switches carry logic only. Pole A drives a DG413 (U9–U11, at the
+  bus header) that moves each 4K7's bus end between the bus (D side) and AGND; pole B drives a yellow
+  routing LED. VL = +5VL from +VA via 4K7 + BZX84C5V1. Replaces the 4PDT idea (no vertical part exists).
 - Jack board (2026-10-22): a 1/4" plug goes ~30 mm deep, so J1/J2/J5 sit on a separate 38 × 43 mm board
   ~24 mm under the panel, linked to the main board by a 2x5 IDC ribbon (CN5 ↔ CN3, both bottom side).
 - Delta clone without mic stage (2026-10-22), replacing "no EQ, no trim". Input = our receiver +
@@ -116,14 +120,19 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
   strip VCA option.
 
 ## Verified so far
-- Strip v4.0 with jack board (2026-10-22): netlists main 533 / jack 30 pin entries, 0 mismatches;
-  check_fp 176 + 6 parts, 0 problems; ERC 0 on both; tools/sim_netlist.py 25/25 through the ribbon
-  (levels, gain, Ø, HPF, every EQ band, bypass, mute, direct out at J5, aux pre/post, PAN, PFL);
+- Strip v4.0 with jack board and DG413 routing (2026-10-22): netlists main 625 / jack 30 pin entries,
+  0 mismatches; check_fp 200 + 6 parts, 0 problems; ERC 0 on both; tools/sim_netlist.py 28/28 through
+  the ribbon (levels, gain, Ø, HPF, every EQ band, bypass, mute, direct out at J5, aux pre/post, PAN, PFL,
+  routing via the DG413s incl. off = silent);
   with ribbon conductor 6 removed, 23 checks fail, so the link is really exercised.
-- Strip v4.0 placement (KiCad 10.0.7, 2026-10-22): main 176 footprints + 6 holes, jack board 6 + 2 holes;
+- Routing switch sim (`sim/routing_switch.cir`, Vishay DG413): level −0.05 dB (Ron 25 Ω), THD −124 dB at
+  +20 dBu (−67 dB if the switch were at the source end), no summing-amp peaking up to 2.2 nF of bus
+  capacitance, switching click −55 dBu peak in the 20 kHz band, crosstalk from an unassigned strip −111 dB at 20 kHz.
+- Strip v4.0 placement (KiCad 10.0.7, 2026-10-22): main 200 footprints + 6 holes, jack board 6 + 2 holes;
   0 tracks/vias/zones, 0 schematic-parity issues. Main board: 0 violations, including silkscreen (refs
   0.8 mm, placed by place_strip.py). Jack board: only 6 hole-clearance + 6 solder-mask items inside
-  KiCad's NJ6FD-V footprint. Unconnected items 372 main, 17 jack (expected).
+  KiCad's NJ6FD-V footprint. Unconnected items 449 main, 17 jack (expected). Decoupling caps beside
+  their ICs' supply pins.
 - Strip placement check (v3.1 board, KiCad 10.0.7, 2026-10-20): 109 footprints including six mounting
   holes, 0 tracks/vias/zones, 0 schematic-parity issues; no clearance, courtyard, hole or
   outline errors. DRC reports 219 expected unconnected items and 157 silkscreen warnings.
@@ -148,8 +157,6 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
 ## Next steps
 0. Delta clone: spec v4.0, schematics and placement (main board + jack board) done (2026-10-22).
    Open: NJ6FD-V body height from Neutrik's drawing/sample (sets jack-board depth and standoffs);
-   routing LEDs: no vertical 4PDT from a known maker (C&K PHB and Alps SPUN are right-angle), so
-   Ruslan to pick: generic 4PDT, PVA2 + CMOS switch, or no LEDs (study, open check 3);
    C-law dual 100K / B10K detent pots; custom 12U frame with end rails only. Routing is Ruslan's.
 1. Confirm panel parts against samples (see spec 13.1 checklist).
 2. Master section: every function is specified (spec v0.5). Ruslan decided: DRV134

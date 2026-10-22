@@ -5,7 +5,9 @@ import schgen
 from schgen import block, P, build, FADER_FP, CAP_FP, SYM, FP
 
 SYM.update({'CONN6': ('Connector_Generic', 'Conn_01x06'), 'CONN2': ('Connector_Generic', 'Conn_01x02'),
-            'LINK': ('Connector_Generic', 'Conn_02x05_Odd_Even')})
+            'LINK': ('Connector_Generic', 'Conn_02x05_Odd_Even'),
+            'DG': ('Analog_Switch', 'DG413xY'), 'ZEN': ('Diode', 'BZX84Cxx')})
+schgen.MPN.update({'DG': 'Vishay DG413DY-E3', 'ZEN': 'BZX84C5V1'})
 FP.update({'CONN6': 'Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical',
            'CONN2': 'Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical',
            'LINK': 'Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical'})
@@ -184,13 +186,28 @@ b = block('PAN SWITCH  SW14: latched = subgroups panned; unlatched = subgroups g
 P(b,'SW14','SW','PAN',{2:'SUBSRC_L',1:'PANL',3:'POST'},unit=1)
 P(b,'SW14','SW','PAN',{5:'SUBSRC_R',4:'PANR',6:'POST'},unit=2)
 
-b = block('ROUTING MATRIX  (A-B = assigned; off grounds the resistor)  4K7 summing')
-for sw,rl,rr,sl,sr,bl,br,nm in [('SW5','R26','R27','PANL','PANR','MIXL','MIXR','L-R'),
-                                ('SW6','R28','R29','SUBSRC_L','SUBSRC_R','SUB1','SUB2','1-2'),
-                                ('SW7','R30','R31','SUBSRC_L','SUBSRC_R','SUB3','SUB4','3-4')]:
-    P(b,rl,'R','4K7 1%',{1:sl,2:f'RT_{rl}'}); P(b,rr,'R','4K7 1%',{1:sr,2:f'RT_{rr}'})
-    P(b,sw,'SW',f'Assign {nm}',{2:f'RT_{rl}',1:bl,3:'GNDA'},unit=1)
-    P(b,sw,'SW',f'Assign {nm}',{5:f'RT_{rr}',4:br,6:'GNDA'},unit=2)
+b = block('ROUTING MATRIX  4K7 summing; DG413 at the bus end: assigned = bus, off = AGND. PVA2: pole A logic, pole B LED')
+P(b,'R80','R','4K7',{1:'+VA',2:'+5VL'})                  # DG413 logic supply VL, from +VA so VL never exceeds V+
+P(b,'D9','ZEN','BZX84C5V1',{3:'+5VL',1:'GNDD',2:'NC'}); P(b,'C62','C','1u',{1:'+5VL',2:'GNDD'})
+P(b,'#FLG07','FLAG','PWR_FLAG',{1:'+5VL'})
+for sw,u,rl,rr,sl,sr,bl,br,nm,rpd,rled,dled,cs in [
+        ('SW5','U9','R26','R27','PANL','PANR','MIXL','MIXR','L-R','R74','R75','D6',('C53','C54','C55')),
+        ('SW6','U10','R28','R29','SUBSRC_L','SUBSRC_R','SUB1','SUB2','1-2','R76','R77','D7',('C56','C57','C58')),
+        ('SW7','U11','R30','R31','SUBSRC_L','SUBSRC_R','SUB3','SUB4','3-4','R78','R79','D8',('C59','C60','C61'))]:
+    k = nm.replace('-', ''); ctl, rtl, rtr = f'RTE_{k}', f'RT_{rl}', f'RT_{rr}'
+    P(b,rl,'R','4K7 1%',{1:sl,2:rtl}); P(b,rr,'R','4K7 1%',{1:sr,2:rtr})
+    # S = 4K7 end (common), D = bus or AGND: the bus sees the D-side charge injection (~5 pC at 0 V; S side ~30)
+    P(b,u,'DG','DG413',{1:ctl,3:rtl,2:bl},unit=1)             # SW1 (NO): left to the bus
+    P(b,u,'DG','DG413',{16:ctl,14:rtl,15:'GNDA'},unit=4)      # SW2 (NC): left to AGND
+    P(b,u,'DG','DG413',{8:ctl,6:rtr,7:br},unit=2)             # SW4 (NO): right to the bus
+    P(b,u,'DG','DG413',{9:ctl,11:rtr,10:'GNDA'},unit=3)       # SW3 (NC): right to AGND
+    P(b,u,'DG','DG413',{13:'+VA',4:'-VA',12:'+5VL',5:'GNDD'},unit=5)
+    P(b,cs[0],'C','100n',{1:'+VA',2:'GNDA'}); P(b,cs[1],'C','100n',{1:'GNDA',2:'-VA'})
+    P(b,cs[2],'C','100n',{1:'+5VL',2:'GNDD'})
+    P(b,sw,'SW',f'Assign {nm}',{2:ctl,1:'+5VL',3:'GNDD'},unit=1)          # pole A: DG413 logic
+    P(b,sw,'SW',f'Assign {nm}',{5:'+VL',4:f'RTLED_{k}',6:'NC'},unit=2)    # pole B: routing LED
+    P(b,rpd,'R','100K',{1:ctl,2:'GNDD'})                                  # holds IN low through the PVA2's break
+    P(b,rled,'R','4K7',{1:f'RTLED_{k}',2:f'RTLA_{k}'}); P(b,dled,'LED',f'{nm} yellow',{2:f'RTLA_{k}',1:'GNDD'})
 
 build(OUT, 'channel_strip', 'Channel strip - goa console (Delta Theatre input without the mic stage)',
       {1: 'Generated from channel_strip_schematic_spec.md v4.0', 2: 'Nets joined by labels; tidy wiring in Eeschema as needed'},

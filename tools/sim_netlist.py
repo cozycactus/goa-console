@@ -45,6 +45,8 @@ def law(taper, th):
 TAPER = {'RV1': 'A', 'RV2': 'A', 'RV3': 'A', 'RV4': 'A', 'RV5': 'A', 'RV6': 'A', 'RV7': 'A',
          'RV8': 'B', 'RV9': 'B', 'RV10': 'B', 'RV11': 'B', 'RV12': 'C', 'RV13': 'B', 'RV14': 'C', 'RV15': 'B'}
 POTR = {'RV12': 100e3, 'RV14': 100e3}
+DG_RON = 25                                   # DG413 on-resistance, typical (Vishay, +/-15 V)
+libname = lambda c: field(next(x for x in c[1:] if isinstance(x, list) and x[0] == 'libsource'), 'part')
 
 def deck(pos, sw, extra=''):
     L = ['* generated from ' + NET, '.subckt OPA inp inn out', 'G1 0 n1 inp inn 1', 'R1 n1 0 1e6', 'C1 n1 0 3.98n',
@@ -52,10 +54,22 @@ def deck(pos, sw, extra=''):
          'VPVA PVA 0 DC 16.5', 'VMVA MVA 0 DC -16.5', 'VPVL PVL 0 DC 16.5', 'VMVL MVL 0 DC -16.5',
          f"VSRC src {node('J1','S')} DC 0 AC 0.7746", f"RST src {node('J1','T')} 50", f"RSR {node('J1','R')} {node('J1','S')} 50"]
     L += [f'RLINK{p} {node("CN3", p)} {node("CN5", p)} 0.01' for p in range(1, 11)]     # the ribbon
+    # logic level of each net: high if the closed PVA2 contacts join it to +5VL (the DG413 control lines)
+    group = {}
+    def root(n):
+        while group.setdefault(n, n) != n: n = group[n]
+        return n
+    for ref, c in comps.items():
+        if libname(c) == 'SW_DPDT_x2':
+            on = sw.get(ref, False)
+            for c_, t_on, t_off in ((2, 1, 3), (5, 4, 6)):
+                a, b = pins.get((ref, str(c_))), pins.get((ref, str(t_on if on else t_off)))
+                if a and b: group[root(a)] = root(b)
+    high = lambda n: n is not None and root(n) == root('+5VL')
     k = 0
     for ref, c in comps.items():
         if ref.startswith('#') or any(isinstance(x, list) and x[0] == 'property' and field(x, 'name') == 'dnp' for x in c[1:]): continue
-        v = field(c, 'value') or ''; lib = field(next(x for x in c[1:] if isinstance(x, list) and x[0] == 'libsource'), 'part')
+        v = field(c, 'value') or ''; lib = libname(c)
         if lib == 'R':   L.append(f'R{ref} {node(ref,1)} {node(ref,2)} {value(v)}')
         elif lib in ('C', 'C_Polarized'): L.append(f'C{ref} {node(ref,1)} {node(ref,2)} {value(v)}')
         elif lib in ('R_Potentiometer', 'R_Potentiometer_Dual'):
@@ -73,6 +87,10 @@ def deck(pos, sw, extra=''):
                 L.append(f'R{ref}_{c_} {node(ref,c_)} {node(ref, t_on if on else t_off)} 0.01')
         elif lib.startswith('SolderJumper_3'): L.append(f'R{ref} {node(ref,1)} {node(ref,2)} 0.01')
         elif lib.startswith('SolderJumper_2'): L.append(f'R{ref} {node(ref,1)} {node(ref,2)} 0.01')
+        elif lib == 'DG413xY':                                   # SW1/SW4 on at logic 1, SW2/SW3 at logic 0
+            for in_, d_, s_, no in ((1, 2, 3, True), (8, 7, 6, True), (9, 10, 11, False), (16, 15, 14, False)):
+                if (ref, str(in_)) in pins and high(pins[(ref, str(in_))]) == no:
+                    L.append(f'R{ref}_{in_} {node(ref,d_)} {node(ref,s_)} {DG_RON}')
         elif lib == 'NetTie_2': pass
         elif lib in ('AudioJack3_SwitchTR', 'AudioJack3'):
             if ref == 'J2':                                      # insert, nothing plugged: ring normal closed
@@ -150,6 +168,11 @@ r = run(TOP, {**ON, 'SW6': True}, AC1K, [dbu('SUB1_O'), 'print x_SUB1_O'])
 check('PAN on, routed 1-2: SUB 1 out (panned, centre)', r.get('x_sub1_o'), 3.3, 4.3)
 r = run(TOP, {**ON, 'SW6': True, 'SW14': False}, AC1K, [dbu('SUB1_O'), 'print x_SUB1_O'])
 check('PAN off, routed 1-2: SUB 1 out (POST, unpanned)', r.get('x_sub1_o'), 9.4, 10.3)
+r = run(TOP, {**ON, 'SW7': True}, AC1K, [dbu('SUB4_O'), 'print x_SUB4_O'])
+check('routed 3-4: SUB 4 out (right side, panned, centre)', r.get('x_sub4_o'), 3.3, 4.3)
+r = run(TOP, {**ON, 'SW5': False}, AC1K, [dbu('MIXL_O'), dbu('MIXR_O'), 'print x_MIXL_O', 'print x_MIXR_O'])
+check('L-R off: MIX L silent (4K7 end to AGND through the DG413)', r.get('x_mixl_o'), -400, -60)
+check('L-R off: MIX R silent', r.get('x_mixr_o'), -400, -60)
 r = run(TOP, {**ON, 'SW3': True}, AC1K, [dbu('PFL_O'), 'print x_PFL_O'])
 check('PFL latched: PFL bus out (pre-fade)', r.get('x_pfl_o'), -0.5, 0.5)
 print(f'{sum(checks)}/{len(checks)} checks passed')

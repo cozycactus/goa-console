@@ -69,6 +69,7 @@ FIX = {
  'SW8': sw(6, 230), 'SW9': sw(17, 230), 'SW10': sw(28, 230),                              # PRE 1-2, 3-4, 5-6
  'RV8': pot(XL, 252, dual=True), 'SW14': sw(XR, 246), 'SW13': sw(XR, 258),                # pan, PAN, DIR
  'SW5': sw(6, 274), 'SW6': sw(17, 274), 'SW7': sw(28, 274),                               # L-R, 1-2, 3-4
+ 'D6': led(6, 283), 'D7': led(17, 283), 'D8': led(28, 283),                               # routing LEDs
  'SW3': sw(6, 292), 'D3': led(14.2, 292), 'SW4': sw(24, 292), 'D4': led(32.2, 292),       # PFL, ON
  'RV1': (XC - 1.9, 372 + 63.75, 270, 'F'),                                                # fader, slot centre y = 372
  'CN1': (31.46, 345.64, 180, 'B'),       # bus header, bottom side, pins at x = 31.46 / 34, y = 305..346; pin 1 at the
@@ -102,6 +103,9 @@ ZONES = [
  ('pan buffers + mute', (1, 236, 37, 306), ['U3', 'C24', 'C25', 'R35', 'R36', 'R37', 'R16', 'R17', 'Q1', 'Q2',
                                             'R42', 'C28', 'R43'], 'F'),
  ('PFL', (1, 280, 37, 330), ['R32', 'R33', 'R34'], 'F'),
+ ('routing logic + LEDs', (1, 262, 37, 310), ['R74', 'R75', 'R76', 'R77', 'R78', 'R79', 'R80', 'D9', 'C62'], 'F'),
+ ('routing switches (DG413, at the header)', (16, 280, 37, 444), ['U9', 'C53', 'C54', 'C55', 'U10', 'C56', 'C57',
+                                                                  'C58', 'U11', 'C59', 'C60', 'C61'], 'F'),
  ('bus resistors (at the header)', (22, 296, 37, 362), ['R20', 'R21', 'R22', 'R23', 'R24', 'R25', 'R26', 'R27',
                                                         'R28', 'R29', 'R30', 'R31'], 'F'),
  ('power entry', (1, 340, 37, 380), ['R1', 'R2', 'R3', 'R4', 'R5', 'C2', 'C4'], 'F'),
@@ -109,7 +113,7 @@ ZONES = [
 ]
 NOTES = ((50, 'GAIN | PHASE, OL'), (76, 'HF | HPF'), (98, 'HI-MID gain | freq'), (120, 'LO-MID gain | freq'),
          (142, 'LF | EQ'), (166, 'AUX 1 | 2'), (188, 'AUX 3 | 4'), (210, 'AUX 5 | 6'), (230, 'PRE 1-2  3-4  5-6'),
-         (252, 'PAN | PAN, DIR'), (274, 'L-R  1-2  3-4'), (292, 'PFL | ON'), (305, 'BUS HEADER (bottom, right)'),
+         (252, 'PAN | PAN, DIR'), (274, 'L-R  1-2  3-4 (LEDs y 283)'), (292, 'PFL | ON'), (305, 'BUS HEADER (bottom, right)'),
          (372, 'FADER 100 mm'), (55, 'LINK CN3 (bottom) to the jack board'))
 
 # ---------------------------------------------------------------- netlist
@@ -216,6 +220,22 @@ def fits(fp, side, x0, y0, x1, y1):
     pads = tht_pads(fp)
     return not (pads and any(overlaps(p, occ[other]) for p in pads))
 
+# Decoupling caps go as close as the courtyards allow to their IC's supply pin (the IC's pad on the cap's
+# non-ground net), searched within NEAR_R of it; anything else, or a cap with no room there, takes the
+# zone's first free spot from the top left.
+DECOUPLE = {'C20': 'U1', 'C21': 'U1', 'C22': 'U2', 'C23': 'U2', 'C24': 'U3', 'C25': 'U3', 'C26': 'U4',
+            'C29': 'U5', 'C30': 'U5', 'C31': 'U6', 'C32': 'U6', 'C33': 'U7', 'C34': 'U7', 'C35': 'U8', 'C36': 'U8',
+            'C53': 'U9', 'C54': 'U9', 'C55': 'U9', 'C56': 'U10', 'C57': 'U10', 'C58': 'U10',
+            'C59': 'U11', 'C60': 'U11', 'C61': 'U11'}
+NEAR_R = 12.0
+def supply_pin(ref, fp):
+    ic = board.FindFootprintByReference(DECOUPLE.get(ref, ''))
+    if ic is None: return None
+    nets = {padnet.get((ref, p.GetNumber())) for p in fp.Pads()} - {'GNDA', 'GNDD', None}
+    for p in ic.Pads():
+        if padnet.get((ic.GetReference(), p.GetNumber())) in nets:
+            return mm(p.GetPosition().x), mm(p.GetPosition().y)
+
 report = []
 for zname, (x0, y0, x1, y1), refs, side in ZONES:
     edge_rect(x0, y0, x1, y1, pcbnew.Dwgs_User if side == 'F' else pcbnew.Cmts_User, 0.05)
@@ -223,7 +243,24 @@ for zname, (x0, y0, x1, y1), refs, side in ZONES:
         fp = load(ref)
         if side == 'B': flip(fp)
         done = False
-        for rot in (0, 90):
+        tgt = supply_pin(ref, fp)
+        if tgt:
+            cands = []
+            for rot in (0, 90):
+                fp.SetOrientationDegrees(rot if side == 'F' else 180 - rot)
+                fp.SetPosition(pcbnew.VECTOR2I_MM(0, 0))
+                l, t, r, b = courtyard(fp)
+                n = int(NEAR_R / STEP)
+                for i in range(-n, n + 1):
+                    for j in range(-n, n + 1):
+                        cx, cy = tgt[0] + i * STEP, tgt[1] + j * STEP     # courtyard centre
+                        cands.append((math.hypot(i, j) * STEP, rot, cx - (r - l) / 2 - l, cy - (b - t) / 2 - t))
+            for d, rot, px, py in sorted(cands):
+                fp.SetOrientationDegrees(rot if side == 'F' else 180 - rot)
+                fp.SetPosition(pcbnew.VECTOR2I_MM(px, py))
+                if fits(fp, side, x0, y0, x1, y1):
+                    done = True; break
+        for rot in (0, 90) if not done else ():
             fp.SetOrientationDegrees(rot if side == 'F' else 180 - rot)
             fp.SetPosition(pcbnew.VECTOR2I_MM(0, 0))
             l, t, r, b = courtyard(fp)
