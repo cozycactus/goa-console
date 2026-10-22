@@ -73,13 +73,36 @@ more panel per channel.
   376 unconnected items (placement only).
 - Bottom side: 12 radial electrolytics, the bus header CN1, the spade CN4, the VCA socket J3/J4.
 
+## Jack depth: the jacks can't sit on the main board (found 2026-10-22, after placement)
+
+A 1/4" plug goes about 30 mm into the jack (Switchcraft stereo plug: mating depth 30.2 mm), and
+the jack's axis is perpendicular to the panel. Any 1/4" panel jack therefore needs about 25 mm
+behind the panel. The NJ6FD-V body is reported as 12.8 × 15.0 × 24 mm behind the panel, with a
+3.5 mm snout. That figure is second-hand, from Neutrik drawing nj6fd-v-3.dxf as quoted in a
+public issue tracker; Neutrik's page returned 503, and its datasheet PDF has no drawing. Our
+PCB is 11.5 mm under the panel, so **J1, J2 and J5 as placed in `channel_strip_v4.kicad_pcb`
+cannot be built**. The pots, switches, LEDs and fader are unaffected.
+
+Options:
+
+| | Jacks | What changes | Cost |
+|---|---|---|---|
+| A | NJ6FD-V on a separate **jack board** (38 × ~44 mm) about 24 mm under the panel, held by the jack caps and 2 standoffs | Main board starts below the jacks (≈ 400 mm long); the Ø switch moves onto it; a 2 × 5 header on each board with a short IDC jumper (J1 T/R, J2 T/TN/R/RN, J5 T/R, GND) | A second small PCB per strip and a jumper; 1/4" jacks kept, isolated, no hand wiring |
+| B | Panel-mount 1/4" jacks with solder lugs, wired to a header | Main board as A | About 72 jacks × 3–5 wires to hand-wire; slim isolated panel jacks with switching contacts are scarce |
+| C | 3.5 mm TRS jacks (Thonkiconn class) directly on the main board | Jack footprints only | Eurorack-native and buildable at the 11.5 mm gap (height to confirm), but 1/4" synth outputs then need adapters |
+
+Recommendation: **A**. Confirm the 24 mm figure with Neutrik's DXF/STEP, or with a sample, before
+drawing the jack board.
+
 ## Open checks
 
-1. **NJ6FD-V height above the PCB** against the 11.5 mm panel gap. The Neutrik drawing wasn't
-   available (neutrik.com down on 2026-10-22). If the jack's panel shoulder is higher, the jack rows
-   need local spacers or a short jack board.
+1. Jack depth: choose A, B or C, then confirm the NJ6FD-V drawing.
 2. Knob diameter ≤ 14 mm in the two-column rows.
-3. Routing LEDs still need a 4PDT switch (spec v4.0 §13).
+3. Routing LEDs still need a 4PDT switch (spec v4.0 §13). Candidates found, datasheets not yet
+   checked: C&K PHB4UEETS1A (PHB series, push-push, 1 A / 15 V; the 2-pole PHB is 7.4 × 26 × 10 mm,
+   so the 4-pole is long), and generic Schadow-style 4PDT (34.9 × 7.6 × 12.3 mm, 3.2 mm pitch). A
+   35 mm body along y doesn't fit the 18 mm between the routing row and the PFL row. The routing row
+   would have to be re-laid.
 4. C-law dual 100K and B10K centre-detent pot availability; PVA2 latched-throw sense.
 
 Sources: [Neutrik NJ6FD-V datasheet](https://www.neutrik.us/en-us/product/nj6fd-v.pdf),

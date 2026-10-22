@@ -323,7 +323,7 @@ AI scope: component placement only. Ruslan routes copper and pours grounds in Ki
 
 | Ref | Part | Footprint | Notes |
 |-----|------|-----------|-------|
-| J1, J2, J5 | Neutrik NJ6FD-V | `Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical` | On the panel (no rear apron in the 12U frame; three right-angle jacks don't fit the 38 mm edge). All plastic, isolated; panel hole 12 mm, panel 1.2–1.5 mm. Height above the PCB still to confirm (`strip_panel_study.md`). |
+| J1, J2, J5 | Neutrik NJ6FD-V | `Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical` | On the panel (no rear apron in the 12U frame; three right-angle jacks don't fit the 38 mm edge). All plastic, isolated; panel hole 12 mm, panel 1.2–1.5 mm. **Too deep for the 11.5 mm gap** (~24 mm behind the panel): needs a jack board or other jacks, see `strip_panel_study.md`. |
 | RV1 | Bourns PTB0143-2010BPA103 | `goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm` | 100 mm, A10K; pin 1 (ground end) to the operator. |
 | RV2–RV7 | Alpha RD901F-40, A10K | `Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical` | Pin 1 = AGND (A-law runs from pin 1). |
 | RV9–RV11, RV13, RV15 | Alpha RD901F-40-15R1-B10K-0CD | same | 10K linear, centre detent (Alpha spec SP26020021). |
@@ -372,7 +372,7 @@ DRC items are inside KiCad's NJ6FD-V footprint, silkscreen, and unrouted connect
   (results in `delta_clone_comparison.md` §6). `sim/strip.cir` is the v3.1 path.
 
 **Open:** routing LEDs (a 4PDT switch); C-law dual and centre-detent pot availability;
-PVA2 latched-throw sense; NJ6FD-V height above the PCB; silkscreen tidy.
+PVA2 latched-throw sense; jacks too deep for the 11.5 mm gap (jack board proposed); silkscreen tidy.
 
 *Document version 4.0 — October 2026*
 *Sources: Soundcraft Delta ED3344A/B/C, ED3151, ED2911A/B, ED2915A, ED2780*

@@ -12,7 +12,7 @@ A Soundcraft-Delta-style console for mixing hardware synths (goa trance).
 Line level only. One identical PCB per channel, joined by a 34-way IDC ribbon "motherloom".
 Channel = a Soundcraft Delta Theatre input without the mic stage (decided 2026-10-22): line gain,
 Ø, HPF, 4-band EQ, post-EQ insert, ON, PFL, aux 1-6 with PRE switches, pan + PAN switch, routing,
-direct out. Strip spec v4.0 and schematic done; the PCB is still the v3.1 placement.
+direct out. Strip spec v4.0, schematic and placement (`channel_strip_v4.kicad_pcb`) done.
 
 ## Files
 - `channel_strip.kicad_sch` / `.kicad_pro` — channel strip schematic v4.0 (KiCad 7 file format, opens in KiCad 10; User-size sheet, label-connected).
@@ -64,14 +64,15 @@ direct out. Strip spec v4.0 and schematic done; the PCB is still the v3.1 placem
 - `test_jig_spec.md` — test jig v0.1: 4 real strips + master stub (A/D/22R-tie jumpers) + load board
   (dummy channels for 24-channel noise gain); 11 tests with targets.
 - `delta_clone_comparison.md` — the strip as a Delta Theatre input without the mic stage, stage by
-  stage against the old strip; 7 decisions signed off 2026-10-22 (§3). Not yet in spec or schematic.
-- `console_architecture.md` — whole-console architecture, v3.1. Authoritative.
-- `channel_strip_schematic_spec.md` — strip component-level spec, v3.1. Authoritative.
+  stage against the old strip; 7 decisions signed off 2026-10-22 (§3), now in spec v4.0 and the schematic.
+- `console_architecture.md` — whole-console architecture, v3.0. Authoritative.
+- `channel_strip_schematic_spec.md` — strip component-level spec, v4.0. Authoritative.
 - `channel_strip_BOM.csv`, `channel_strip.net`, `channel_strip.pdf` — exports.
 
 ## Decisions made (do not silently change)
 - Strip panel (2026-10-22): 8 HP × 12U Eurorack-style, two pot columns, jacks on the panel (Neutrik
   NJ6FD-V); custom frame with rails only at the panel ends.
+  How the jacks mount is open: they can't sit on the main board (see Next steps 0).
 - Delta clone without mic stage (2026-10-22), replacing "no EQ, no trim". Input = our receiver +
   separate inverting gain stage (Delta line topology rejected, 4.7 dB noisier); HPF unity-gain
   Butterworth 87 Hz (Delta's has +3 dB); EQ with Delta values. Then: line gain −15 to +15 dB
@@ -128,7 +129,7 @@ direct out. Strip spec v4.0 and schematic done; the PCB is still the v3.1 placem
 - Bus noise (OPA1612, 24 ch routed): −97.6 dBu with 10K, −100.4 dBu with 4K7 (20 Hz–20 kHz).
 
 ## Not done / open
-- Panel parts chosen (spec 13.1): NRJ6HF jacks, Bourns PTB0143 fader, Alpha RD901F/RD902F pots,
+- Panel parts chosen (spec 13.1, 16.1): NJ6FD-V panel jacks (were NRJ6HF), Bourns PTB0143 fader, Alpha RD901F/RD902F pots,
   C&K PVA2 EE switches, Keystone 1287-ST. Still to confirm with real parts: PVA2 latched-throw
   sense, fader pad pattern (1:1 print), panel stack height. Fader/aux pots now pin 1 = GNDA (A taper).
 - Pin 28 (PFL−) reading from the Delta drawing is uncertain.
@@ -136,8 +137,10 @@ direct out. Strip spec v4.0 and schematic done; the PCB is still the v3.1 placem
 
 ## Next steps
 0. Delta clone: spec v4.0, schematic and placement (`channel_strip_v4.kicad_pcb`) done (2026-10-22).
-   Open: routing LEDs need a 4PDT switch; C-law dual 100K / B10K detent pots; NJ6FD-V height above
-   the PCB (Neutrik drawing); custom 12U frame with end rails only; silk tidy. Routing is Ruslan's.
+   Open: **1/4" jacks can't sit on the main board** (a plug goes ~30 mm deep; NJ6FD-V ~24 mm behind
+   the panel vs our 11.5 mm gap). Proposed: a separate jack board (study, option A); waiting for Ruslan.
+   Also: routing LEDs need a 4PDT (candidates in the study); C-law dual 100K / B10K detent pots;
+   custom 12U frame with end rails only; silk tidy (after the jack fix). Routing is Ruslan's.
 1. Confirm panel parts against samples (see spec 13.1 checklist).
 2. Master section: every function is specified (spec v0.5). Ruslan decided: DRV134
    outputs, no master-end GCANCEL tie. Proposed in the spec, not yet reviewed: GCANCEL
@@ -147,11 +150,10 @@ direct out. Strip spec v4.0 and schematic done; the PCB is still the v3.1 placem
    proposed parts; consider splitting the master into hierarchical sheets for readability.
 3. Test jig: specified (test_jig_spec.md). Next: schematics for master stub and load board
    (move gen_master.py's circuit functions into a shared module first).
-4. PCB layout of the strip: first placement done (strip spec 13.2); panel stack fixed (13.3: panel
-   underside 11.5 mm, PVA2 H1 + PV caps, pot 1.5 mm spacer washers, fader 3.5 mm spacer, 7.6 mm
-   LED spacers, 6 × M3 standoffs). Unrouted placement restored on 2026-10-20; component
-   positions and footprint geometry retained. Open: fader knob for a 5 mm lever stub,
-   physical sample checks and silk tidy. Routing and ground pours are left to Ruslan.
+4. PCB layout of the strip: v4.0 placement done (`channel_strip_v4.kicad_pcb`, spec 16.3); panel stack
+   unchanged (16.2: panel underside 11.5 mm, PVA2 H1 + PV caps, pot 1.5 mm spacer washers, fader
+   3.5 mm spacer, 7.6 mm LED spacers, 6 × M3 standoffs). Open: fader knob for a 5 mm lever stub,
+   physical sample checks. Routing and ground pours are left to Ruslan.
 
 ## Reference material
 Delta DLX/Theatre schematics, Mackie 1604-VLZ block diagram and API 500 spec were used;
