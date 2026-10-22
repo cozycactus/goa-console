@@ -281,7 +281,9 @@ Each DPDT assign switch sends the far end of its 4K7 resistor to the bus (latche
 R26–R31: 4K7 1 % metal film (recorded decision; the master's feedback resistors are 4K7 too).
 
 **Routing LEDs (decided, not yet drawn).** Both PVA2 poles carry audio, so an LED needs a third
-pole. KiCad has no 4PDT push-switch footprint, and no part is chosen yet. Open item §16.
+pole. No vertical-action 4PDT latching switch from a known maker has turned up. The C&K PHB 4-pole
+(PHB4UEE1A, body 22.5 × 7.4 mm) is right-angle: its plunger moves parallel to the PCB, 5 mm above it.
+Alps SPUN/SPUJ are listed as horizontal-mount. Options are in `strip_panel_study.md`, open check 3.
 
 ---
 
@@ -358,9 +360,12 @@ the panel's top edge), placement only:
 | Main | `channel_strip_v4.kicad_pcb` | 38 × 400 mm, y 44–444 | 11.5 mm | 176 + 6 M3 holes (11.5 mm standoffs) |
 | Jack | `jack_board.kicad_pcb` | 38 × 43 mm, y 0–43 | ≈ 24 mm (the NJ6FD-V body) | 6 + 2 M3 holes |
 
-DRC with `--schematic-parity`, both boards: 0 parity issues, no courtyard or clearance errors.
-Left: 6 hole-clearance + 6 solder-mask items inside KiCad's NJ6FD-V footprint (jack board),
-silkscreen, unrouted connections. The Ø switch moved from the jack row to the main board, right
+DRC with `--schematic-parity`, both boards: 0 parity issues. The main board has no violations at all;
+the jack board has only 6 hole-clearance + 6 solder-mask items inside KiCad's NJ6FD-V footprint (the
+SN pad sits close to the footprint's own locating peg). Plus unrouted connections. Silkscreen
+references are 0.8 mm text, each placed by the script at the nearest spot clear of pads, silk, other
+references, other parts' courtyards and the edge. The bus header CN1 is turned 180° (pin 1 at
+y 345.6, same pin field x 31.46/34, y 305–345.6), so its pin-1 arrow stays on the board. The Ø switch moved from the jack row to the main board, right
 of the gain pot (above the OL LED). `channel_strip.kicad_pcb` is the old v3.1 placement, kept unchanged.
 
 ### 16.4 Jack board and link
@@ -402,7 +407,7 @@ sleeves go to AGND only through the ribbon. CN3/CN5: Würth 61201021621 2 × 5 b
   (results in `delta_clone_comparison.md` §6). `sim/strip.cir` is the v3.1 path.
 
 **Open:** routing LEDs (a 4PDT switch); C-law dual and centre-detent pot availability;
-PVA2 latched-throw sense; NJ6FD-V body height (sets the jack-board depth and standoffs); silkscreen tidy.
+PVA2 latched-throw sense; NJ6FD-V body height (sets the jack-board depth and standoffs).
 
 *Document version 4.0 — October 2026*
 *Sources: Soundcraft Delta ED3344A/B/C, ED3151, ED2911A/B, ED2915A, ED2780*

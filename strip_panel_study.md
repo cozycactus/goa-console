@@ -101,11 +101,18 @@ DXF/STEP, or with a sample, before ordering: it sets the jack-board standoffs.
 
 1. NJ6FD-V body height from Neutrik's drawing or a sample (sets the jack-board depth and standoffs).
 2. Knob diameter ≤ 14 mm in the two-column rows.
-3. Routing LEDs still need a 4PDT switch (spec v4.0 §13). Candidates found, datasheets not yet
-   checked: C&K PHB4UEETS1A (PHB series, push-push, 1 A / 15 V; the 2-pole PHB is 7.4 × 26 × 10 mm,
-   so the 4-pole is long), and generic Schadow-style 4PDT (34.9 × 7.6 × 12.3 mm, 3.2 mm pitch). A
-   35 mm body along y doesn't fit the 18 mm between the routing row and the PFL row. The routing row
-   would have to be re-laid.
+3. Routing LEDs still need a third pole (spec v4.0 §13). Checked 2026-10-22: the C&K PHB4UEE1A
+   (datasheet A-85: 4 changeovers, push-push, body 22.5 mm, 2.5 mm pitch) is a **right-angle**
+   switch, with its plunger parallel to the PCB 5 mm up, so it can't work under a parallel panel.
+   Alps SPUN/SPUJ (2/4-pole, 100 mA) are listed as horizontal-mount too. Vertical 4PDT latching
+   parts exist only as generic 8.5 mm "self-locking" switches (Shin Chin / Highly style; quality
+   and caps unlike the PVA2). Options:
+   - a. generic vertical 4PDT for the three routing switches (new footprint, different caps);
+   - b. keep the PVA2: one pole drives the LED, the other a CMOS switch (e.g. DG403, dual SPDT)
+     that moves the 4K7's bus end between the bus and ground. It sits at the virtual earth, so it
+     sees almost no signal voltage. Needs a 5 V logic supply per strip;
+   - c. drop the routing LEDs (the Delta has none).
+   This needs Ruslan's decision.
 4. C-law dual 100K and B10K centre-detent pot availability; PVA2 latched-throw sense.
 
 Sources: [Neutrik NJ6FD-V datasheet](https://www.neutrik.us/en-us/product/nj6fd-v.pdf),

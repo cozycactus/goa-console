@@ -121,9 +121,9 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
   (levels, gain, Ø, HPF, every EQ band, bypass, mute, direct out at J5, aux pre/post, PAN, PFL);
   with ribbon conductor 6 removed, 23 checks fail, so the link is really exercised.
 - Strip v4.0 placement (KiCad 10.0.7, 2026-10-22): main 176 footprints + 6 holes, jack board 6 + 2 holes;
-  0 tracks/vias/zones, 0 schematic-parity issues, no courtyard or clearance errors. Left: 6 hole-clearance
-  + 6 solder-mask items inside KiCad's NJ6FD-V footprint (jack board), silkscreen warnings, unconnected
-  items (372 main, 17 jack; expected).
+  0 tracks/vias/zones, 0 schematic-parity issues. Main board: 0 violations, including silkscreen (refs
+  0.8 mm, placed by place_strip.py). Jack board: only 6 hole-clearance + 6 solder-mask items inside
+  KiCad's NJ6FD-V footprint. Unconnected items 372 main, 17 jack (expected).
 - Strip placement check (v3.1 board, KiCad 10.0.7, 2026-10-20): 109 footprints including six mounting
   holes, 0 tracks/vias/zones, 0 schematic-parity issues; no clearance, courtyard, hole or
   outline errors. DRC reports 219 expected unconnected items and 157 silkscreen warnings.
@@ -148,8 +148,9 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
 ## Next steps
 0. Delta clone: spec v4.0, schematics and placement (main board + jack board) done (2026-10-22).
    Open: NJ6FD-V body height from Neutrik's drawing/sample (sets jack-board depth and standoffs);
-   routing LEDs need a 4PDT (candidates in the study); C-law dual 100K / B10K detent pots;
-   custom 12U frame with end rails only; silk tidy. Routing is Ruslan's.
+   routing LEDs: no vertical 4PDT from a known maker (C&K PHB and Alps SPUN are right-angle), so
+   Ruslan to pick: generic 4PDT, PVA2 + CMOS switch, or no LEDs (study, open check 3);
+   C-law dual 100K / B10K detent pots; custom 12U frame with end rails only. Routing is Ruslan's.
 1. Confirm panel parts against samples (see spec 13.1 checklist).
 2. Master section: every function is specified (spec v0.5). Ruslan decided: DRV134
    outputs, no master-end GCANCEL tie. Proposed in the spec, not yet reviewed: GCANCEL

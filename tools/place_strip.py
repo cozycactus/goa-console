@@ -12,7 +12,7 @@ Panel parts sit at fixed coordinates. Every other part is packed into a named zo
 where its courtyard clears every courtyard on its side and every through-hole pad on either side (THT
 pads go through the board), so top and bottom parts can share an area without colliding.
 Each footprint is linked to its schematic symbol, so "Update PCB from Schematic" works later."""
-import os, sys
+import math, os, sys
 import pcbnew
 sys.path.insert(0, os.path.dirname(__file__))
 from verify import sexp, field
@@ -46,11 +46,12 @@ led = lambda x, y: (x - 1.27, y, 0, 'F')               # 3 mm LED: centre at (1.
 jack = lambda x, y: (x, y - 5.72, 0, 'F')              # NJ6FD-V: nose centre at (0, 5.72) from the tip pin
 
 # ================================================================ jack board
-JACK_FIX = {'J1': jack(XL, 12), 'J2': jack(XR, 12), 'J5': jack(XL, 32)}              # line in, insert / direct out
+JACK_FIX = {'J1': jack(XL, 12), 'J2': jack(XR, 12), 'J5': jack(XL, 32),              # line in, insert / direct out
+            # link header, bottom side, pins x 31 / 33.54, y 26.6-36.8 (pin 1 low, so its silk arrow points inboard)
+            'CN5': (31.0, 36.8, 180, 'B')}
 # M3 standoffs to the panel, length = jack body height (~24 mm); the jack caps hold the board too
 JACK_HOLES = [(23, 27), (23, 37)]
 JACK_ZONES = [
- ('link header (bottom)', (25, 21, 37, 43), ['CN5'], 'B'),
  ('input RF caps (bottom, at J1)', (1, 1, 19, 22), ['C8', 'C9'], 'B'),
 ]
 JACK_NOTES = ((12, 'LINE IN | INSERT'), (32, 'DIRECT OUT | link CN5 (bottom)'))
@@ -70,7 +71,8 @@ FIX = {
  'SW5': sw(6, 274), 'SW6': sw(17, 274), 'SW7': sw(28, 274),                               # L-R, 1-2, 3-4
  'SW3': sw(6, 292), 'D3': led(14.2, 292), 'SW4': sw(24, 292), 'D4': led(32.2, 292),       # PFL, ON
  'RV1': (XC - 1.9, 372 + 63.75, 270, 'F'),                                                # fader, slot centre y = 372
- 'CN1': (34.0, 305.0, 0, 'B'),           # bus header, bottom side, pins at x = 31.46 / 34, y = 305..346
+ 'CN1': (31.46, 345.64, 180, 'B'),       # bus header, bottom side, pins at x = 31.46 / 34, y = 305..346; pin 1 at the
+                                         # bottom end so its silk arrow points inboard, not off the edge
  'CN4': (5.0, 358.0, 0, 'B'),            # ground spade, bottom side, left of the fader body
  'NT1': (5.0, 351.0, 0, 'F'),            # AGND-LGND net tie beside the spade (no courtyard: keep it clear by hand)
 }
@@ -240,9 +242,83 @@ for zname, (x0, y0, x1, y1), refs, side in ZONES:
             report.append(f'{zname}: no room for {ref}')
             fp.SetPosition(pcbnew.VECTOR2I_MM(BOARD[2] + 10, y0))   # parked off-board so DRC flags it
 
+# ---------------------------------------------------------------- silkscreen reference designators
+# 0.8 mm text (board minimum), at the nearest spot that clears pads (mask openings), other silk, other
+# references and the board edge. Pass 1 also keeps the text off other parts' courtyards, so it stays
+# readable after assembly; pass 2 drops that; if nothing fits, the silk reference is hidden (the Fab layer
+# keeps ${REFERENCE}). Big parts try their own body first.
+SILK_H, SILK_T, SILK_GAP, MASK_GAP, EDGE_GAP, REACH = 0.8, 0.12, 0.15, 0.1, 0.5, 5.0
+F = pcbnew.FromMM
+fps = [f for f in board.GetFootprints() if f.GetReference()[:1] != 'H']
+CELL = 5.0
+grid = {'F': {}, 'B': {}}      # side -> cell -> [(bbox, shape, clearance, owner)]
+def add_obstacle(side, item, shape, clearance, owner):
+    l, t, r, b = bbox(item.GetBoundingBox())
+    for cx in range(int(l // CELL), int(r // CELL) + 1):
+        for cy in range(int(t // CELL), int(b // CELL) + 1):
+            grid[side].setdefault((cx, cy), []).append(((l, t, r, b), shape, clearance, owner))
+for f in board.GetFootprints():
+    for side, silk, cu in (('F', pcbnew.F_SilkS, pcbnew.F_Cu), ('B', pcbnew.B_SilkS, pcbnew.B_Cu)):
+        for g in f.GraphicalItems():
+            if g.GetLayer() == silk: add_obstacle(side, g, g.GetEffectiveShape(silk), SILK_GAP, f)
+        for p in f.Pads():
+            if p.IsOnLayer(cu) or p.GetAttribute() == pcbnew.PAD_ATTRIB_NPTH:
+                add_obstacle(side, p, p.GetEffectiveShape(cu), MASK_GAP, f)
+crt = {'F': [(courtyard(f), f) for f in board.GetFootprints() if not f.IsFlipped()],
+       'B': [(courtyard(f), f) for f in board.GetFootprints() if f.IsFlipped()]}
+
+def ref_clear(f, side, strict):
+    ref = f.Reference(); silk = ref.GetLayer()
+    l, t, r, b = bbox(ref.GetBoundingBox())
+    if l < BOARD[0] + EDGE_GAP or t < BOARD[1] + EDGE_GAP or r > BOARD[2] - EDGE_GAP or b > BOARD[3] - EDGE_GAP:
+        return False
+    if strict and overlaps((l, t, r, b), [c for c, o in crt[side] if o is not f], 0): return False
+    shape = None
+    seen = set()
+    for cx in range(int((l - 1) // CELL), int((r + 1) // CELL) + 1):
+        for cy in range(int((t - 1) // CELL), int((b + 1) // CELL) + 1):
+            for ob in grid[side].get((cx, cy), ()):
+                if id(ob) in seen or not overlaps((l, t, r, b), [ob[0]], ob[2] + 0.05): continue
+                seen.add(id(ob))
+                shape = shape or ref.GetEffectiveShape(silk)
+                if shape.Collide(ob[1], F(ob[2])): return False
+    return True
+
+hidden = []
+for f in sorted(fps, key=lambda f: -(lambda c: (c[2] - c[0]) * (c[3] - c[1]))(courtyard(f))):
+    side = 'B' if f.IsFlipped() else 'F'
+    ref = f.Reference(); ref.SetVisible(True)
+    ref.SetTextSize(pcbnew.VECTOR2I_MM(SILK_H, SILK_H)); ref.SetTextThickness(F(SILK_T))
+    ref.SetHorizJustify(pcbnew.GR_TEXT_H_ALIGN_CENTER); ref.SetVertJustify(pcbnew.GR_TEXT_V_ALIGN_CENTER)
+    l, t, r, b = courtyard(f); cx0, cy0 = (l + r) / 2, (t + b) / 2
+    big = min(r - l, b - t) > 6
+    cands = []
+    n = int(((max(r - l, b - t) / 2) + REACH) / 0.25)
+    for i in range(-n, n + 1):
+        for j in range(-n, n + 1):
+            x, y = cx0 + i * 0.25, cy0 + j * 0.25
+            inside = l < x < r and t < y < b
+            if not inside and (x < l - REACH or x > r + REACH or y < t - REACH or y > b + REACH): continue
+            for ang in (0, 90):
+                d = math.hypot(x - cx0, y - cy0) + (1.0 if ang else 0) - (100 if big and inside else 0)
+                cands.append((d, x, y, ang))
+    cands.sort()
+    done = False
+    for strict in (True, False):
+        for d, x, y, ang in cands:
+            ref.SetTextAngleDegrees(ang); ref.SetPosition(pcbnew.VECTOR2I_MM(x, y))
+            if ref_clear(f, side, strict):
+                done = True; break
+        if done: break
+    if done:
+        add_obstacle(side, ref, ref.GetEffectiveShape(ref.GetLayer()), SILK_GAP, f)
+    else:
+        ref.SetVisible(False); hidden.append(f.GetReference())
+
 # panel-feature notes (board y)
 for y, txt in NOTES:
     note(txt, W + 3, y, size=2.0)
 pcbnew.SaveBoard(OUT, board)
 print(f'placed {len(parts)} footprints + {len(HOLES)} holes on {BOARD[2] - BOARD[0]:.0f} x {BOARD[3] - BOARD[1]:.0f} mm; nets {len(netinfo)}')
 for r in report: print('  WARNING', r)
+if hidden: print(f'  silk reference hidden (no room): {" ".join(sorted(hidden))}')
