@@ -9,7 +9,7 @@ if [ "$#" -gt 1 ]; then
   echo "usage: $0 [output.kicad_pcb]" >&2
   exit 2
 fi
-PCB=${1:-channel_strip.kicad_pcb}
+PCB=${1:-channel_strip_v4.kicad_pcb}  # v4.0 placement; channel_strip.kicad_pcb is the old v3.1 board
 case "$PCB" in
   *.kicad_pcb) ;;
   *) echo "Output must end in .kicad_pcb; routing blocks are no longer supported." >&2; exit 2 ;;

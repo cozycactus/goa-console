@@ -323,7 +323,7 @@ AI scope: component placement only. Ruslan routes copper and pours grounds in Ki
 
 | Ref | Part | Footprint | Notes |
 |-----|------|-----------|-------|
-| J1, J2, J5 | Neutrik NRJ6HF | `Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal` | Isolated (plastic nose). Not the `-1` variant. |
+| J1, J2, J5 | Neutrik NJ6FD-V | `Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical` | On the panel (no rear apron in the 12U frame; three right-angle jacks don't fit the 38 mm edge). All plastic, isolated; panel hole 12 mm, panel 1.2–1.5 mm. Height above the PCB still to confirm (`strip_panel_study.md`). |
 | RV1 | Bourns PTB0143-2010BPA103 | `goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm` | 100 mm, A10K; pin 1 (ground end) to the operator. |
 | RV2–RV7 | Alpha RD901F-40, A10K | `Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical` | Pin 1 = AGND (A-law runs from pin 1). |
 | RV9–RV11, RV13, RV15 | Alpha RD901F-40-15R1-B10K-0CD | same | 10K linear, centre detent (Alpha spec SP26020021). |
@@ -342,15 +342,18 @@ pattern against a 1:1 print; detent and C-law pot availability.
 Panel underside 11.5 mm above the PCB (1.5 mm aluminium). PVA2 H1 + PV cap, panel hole ø8.0.
 Pots: 1.5 mm M7 spacer washer, panel hole ø7.2. Fader: 3.5 mm spacer, lever 5 mm above the
 panel. 3 mm LEDs on 7.6 mm spacers. Six M3 standoffs, unplated holes. Radial electrolytics,
-the spade and the VCA socket on the bottom side.
+the bus header, the spade and the VCA socket on the bottom side.
 
-### 16.3 Placement status
+### 16.3 Panel and placement (v4.0)
 
-`channel_strip.kicad_pcb` is still the **v3.1 placement** (103 parts, 38 × 480 mm). It does not
-match the v4.0 schematic (180 parts), and `tools/place_strip.py` will refuse to run until its
-placement tables include the new parts. Next step: the panel-height study for the added
-controls (about 7 more pots and 8 more switches; two pot columns at 8 HP, or a longer board),
-then a new placement into a separate output file.
+Study: `strip_panel_study.md`. Chosen: **8 HP × 12U** Eurorack-style panel (40.3 × 514 mm) in a
+custom frame with rails only at the two ends, **two pot columns** (x = 10 / 28), jacks on the
+panel. One column would need ≈ 545 mm (15U).
+
+`channel_strip_v4.kicad_pcb` (from `tools/place_strip.py`, placement only): 180 footprints and 6 M3
+holes on 38 × 444 mm, 0 schematic-parity issues, no courtyard or clearance errors. The remaining
+DRC items are inside KiCad's NJ6FD-V footprint, silkscreen, and unrouted connections.
+`channel_strip.kicad_pcb` is the old v3.1 placement, kept unchanged.
 
 ---
 
@@ -369,7 +372,7 @@ then a new placement into a separate output file.
   (results in `delta_clone_comparison.md` §6). `sim/strip.cir` is the v3.1 path.
 
 **Open:** routing LEDs (a 4PDT switch); C-law dual and centre-detent pot availability;
-PVA2 latched-throw sense; panel-height study and v4.0 placement.
+PVA2 latched-throw sense; NJ6FD-V height above the PCB; silkscreen tidy.
 
 *Document version 4.0 — October 2026*
 *Sources: Soundcraft Delta ED3344A/B/C, ED3151, ED2911A/B, ED2915A, ED2780*

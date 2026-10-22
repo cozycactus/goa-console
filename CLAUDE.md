@@ -23,16 +23,20 @@ direct out. Strip spec v4.0 and schematic done; the PCB is still the v3.1 placem
   Both generators use the shared builder `tools/schgen.py`. Same loop with `master` in place of
   `channel_strip` (`tools/gen_master.py master.kicad_sch`). Exports: master.net/.pdf/_BOM.csv.
 - `goa-console.kicad_sym` + `sym-lib-table` — project symbols (DRV134).
-- `channel_strip.kicad_pcb` — strip PCB, 38 × 480 mm, component placement only, **still v3.1** (103 parts;
-  the v4.0 schematic has 180, so place_strip.py refuses until its tables are extended):
-  no tracks, vias or copper zones. Rebuild with `tools/build_strip_pcb.sh [output.kicad_pcb]`
-  or run `tools/place_strip.py` with KiCad's Python:
-  `/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3 tools/place_strip.py channel_strip.net channel_strip.kicad_pcb`
+- `channel_strip_v4.kicad_pcb` — strip v4.0 PCB, 38 × 444 mm under an 8 HP × 12U panel (two pot columns,
+  jacks on the panel), 180 parts + 6 M3 holes, component placement only: no tracks, vias or copper zones.
+  Rebuild with `tools/build_strip_pcb.sh [output.kicad_pcb]` (default output channel_strip_v4.kicad_pcb) or
+  `/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3 tools/place_strip.py channel_strip.net channel_strip_v4.kicad_pcb`
   Re-running the generator overwrites unrouted placement edits. It refuses to overwrite
   an existing board containing tracks, vias or zones; use a separate output for later placement work.
-  Check with `$KC pcb drc --schematic-parity --severity-all channel_strip.kicad_pcb`;
+  Parity DRC needs the board next to a schematic of the same name, so check a copy:
+  `cp channel_strip_v4.kicad_pcb /tmp/x/channel_strip.kicad_pcb` (plus the .kicad_sch/.kicad_pro), then
+  `$KC pcb drc --schematic-parity --severity-all /tmp/x/channel_strip.kicad_pcb`;
   unconnected items are expected at the placement stage and are not an instruction to route.
   Schematic UUIDs are deterministic (schgen.py), so the footprint-symbol link survives regeneration.
+  `strip_panel_study.md` — 12U vs 15U, one vs two pot columns.
+- `channel_strip.kicad_pcb` — old v3.1 placement (38 × 480 mm, 103 parts), kept for reference; don't rebuild it
+  from the v4.0 netlist.
 - `tools/verify.py` — checks KiCad's exported netlist against `channel_strip_intended.json`.
   Regenerate + verify loop:
   ```
@@ -66,6 +70,8 @@ direct out. Strip spec v4.0 and schematic done; the PCB is still the v3.1 placem
 - `channel_strip_BOM.csv`, `channel_strip.net`, `channel_strip.pdf` — exports.
 
 ## Decisions made (do not silently change)
+- Strip panel (2026-10-22): 8 HP × 12U Eurorack-style, two pot columns, jacks on the panel (Neutrik
+  NJ6FD-V); custom frame with rails only at the panel ends.
 - Delta clone without mic stage (2026-10-22), replacing "no EQ, no trim". Input = our receiver +
   separate inverting gain stage (Delta line topology rejected, 4.7 dB noisier); HPF unity-gain
   Butterworth 87 Hz (Delta's has +3 dB); EQ with Delta values. Then: line gain −15 to +15 dB
@@ -104,6 +110,9 @@ direct out. Strip spec v4.0 and schematic done; the PCB is still the v3.1 placem
 - Strip v4.0 (2026-10-22): netlist 542 pin entries, 0 mismatches; check_fp 180 parts, 0 problems;
   ERC 0; tools/sim_netlist.py 25/25 (levels, gain, Ø, HPF, every EQ band, bypass, mute, direct out,
   aux pre/post, PAN, PFL) on the exported netlist.
+- Strip v4.0 placement (KiCad 10.0.7, 2026-10-22): 180 footprints + 6 holes, 0 tracks/vias/zones,
+  0 schematic-parity issues, no courtyard or clearance errors. Left: 6 hole-clearance + 6 solder-mask
+  items inside KiCad's NJ6FD-V footprint, 326 silkscreen warnings, 376 unconnected items (expected).
 - Strip placement check (v3.1 board, KiCad 10.0.7, 2026-10-20): 109 footprints including six mounting
   holes, 0 tracks/vias/zones, 0 schematic-parity issues; no clearance, courtyard, hole or
   outline errors. DRC reports 219 expected unconnected items and 157 silkscreen warnings.
@@ -126,9 +135,9 @@ direct out. Strip spec v4.0 and schematic done; the PCB is still the v3.1 placem
 - Input buffer/receiver question settled: differential receiver fitted (pseudo-balanced cables recommended).
 
 ## Next steps
-0. Delta clone: spec v4.0 + schematic done (2026-10-22). Open: routing LEDs need a 4PDT switch
-   (no part/footprint yet); confirm C-law dual 100K and B10K centre-detent pots; panel-height
-   study for 15 pots / 13 switches, then v4.0 placement (placement only).
+0. Delta clone: spec v4.0, schematic and placement (`channel_strip_v4.kicad_pcb`) done (2026-10-22).
+   Open: routing LEDs need a 4PDT switch; C-law dual 100K / B10K detent pots; NJ6FD-V height above
+   the PCB (Neutrik drawing); custom 12U frame with end rails only; silk tidy. Routing is Ruslan's.
 1. Confirm panel parts against samples (see spec 13.1 checklist).
 2. Master section: every function is specified (spec v0.5). Ruslan decided: DRV134
    outputs, no master-end GCANCEL tie. Proposed in the spec, not yet reviewed: GCANCEL

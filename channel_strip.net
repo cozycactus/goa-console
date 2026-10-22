@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/channel_strip.kicad_sch")
-		(date "2026-10-22T17:34:51")
+		(date "2026-10-22T17:45:13")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -3180,12 +3180,12 @@
 		(comp
 			(ref "J1")
 			(value "Line in TRS")
-			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
+			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
 			(fields
 				(field
-					(name "MPN") "Neutrik NRJ6HF")
+					(name "MPN") "Neutrik NJ6FD-V")
 				(field
-					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
+					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
 				(field
 					(name "Datasheet")
 				)
@@ -3200,7 +3200,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Neutrik NRJ6HF")
+				(value "Neutrik NJ6FD-V")
 			)
 			(property
 				(name "Sheetname")
@@ -3249,12 +3249,12 @@
 		(comp
 			(ref "J2")
 			(value "Insert TRS switched")
-			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
+			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
 			(fields
 				(field
-					(name "MPN") "Neutrik NRJ6HF")
+					(name "MPN") "Neutrik NJ6FD-V")
 				(field
-					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
+					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
 				(field
 					(name "Datasheet")
 				)
@@ -3269,7 +3269,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Neutrik NRJ6HF")
+				(value "Neutrik NJ6FD-V")
 			)
 			(property
 				(name "Sheetname")
@@ -3444,12 +3444,12 @@
 		(comp
 			(ref "J5")
 			(value "Direct out TRS")
-			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
+			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
 			(fields
 				(field
-					(name "MPN") "Neutrik NRJ6HF")
+					(name "MPN") "Neutrik NJ6FD-V")
 				(field
-					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
+					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
 				(field
 					(name "Datasheet")
 				)
@@ -3464,7 +3464,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Neutrik NRJ6HF")
+				(value "Neutrik NJ6FD-V")
 			)
 			(property
 				(name "Sheetname")

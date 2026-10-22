@@ -25,11 +25,11 @@ Qty,Value,Footprint,MPN,References
 1,PFL red,LED_THT:LED_D3.0mm,,D3
 1,ON green,LED_THT:LED_D3.0mm,,D4
 1,EQ green,LED_THT:LED_D3.0mm,,D5
-1,Line in TRS,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J1
-1,Insert TRS switched,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J2
+1,Line in TRS,Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical,Neutrik NJ6FD-V,J1
+1,Insert TRS switched,Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical,Neutrik NJ6FD-V,J2
 1,VCA module socket,Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical,,J3
 1,VCA control in,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,,J4
-1,Direct out TRS,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J5
+1,Direct out TRS,Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical,Neutrik NJ6FD-V,J5
 2,J112,Package_TO_SOT_SMD:SOT-23,,Q1 Q2
 4,10R,Resistor_SMD:R_0805_2012Metric,,R1 R2 R3 R4
 1,10R GND cancel,Resistor_SMD:R_0805_2012Metric,,R5
