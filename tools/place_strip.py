@@ -13,6 +13,13 @@ sys.path.insert(0, os.path.dirname(__file__))
 from verify import sexp, field
 
 NET, OUT = sys.argv[1], sys.argv[2]
+# Preserve any later manual routing. Rebuild into a separate file once routing has started.
+if os.path.exists(OUT):
+    old = sexp(open(OUT).read())
+    copper = [item[0] for item in old[1:] if isinstance(item, list) and
+              item and item[0] in ('segment', 'arc', 'via', 'zone')]
+    if copper:
+        raise SystemExit(f'{OUT}: contains routing or zones; choose a separate placement output')
 PROJ = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 KLIB = '/Applications/KiCad/KiCad.app/Contents/SharedSupport/footprints/'
 if not os.path.isdir(KLIB): KLIB = '/usr/share/kicad/footprints/'

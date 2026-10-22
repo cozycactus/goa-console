@@ -320,6 +320,10 @@ pan buffers, AC coupling and soft mute).
 
 ## 13. PCB Layout Notes
 
+AI scope: component placement only. Ruslan handles copper routing and pours in KiCad.
+The following copper guidance is for that later manual work; the placement board contains
+no tracks, vias or copper zones.
+
 - 2-layer board, AGND pour on the bottom, separate LGND pour; join at the spade terminal.
 - Keep the routing resistors (R26–R31) and aux summing resistors (R20–R25) next to the
   bus headers; the bus side of each resistor is a virtual-earth node, so keep those traces short.
@@ -383,7 +387,7 @@ ground spade CN4 (faston + wire), and the VCA module socket J3 with its control 
 `channel_strip.kicad_pcb`, made by `tools/place_strip.py` (KiCad 10 pcbnew, run with KiCad's
 bundled Python) from the netlist. Footprints are linked to their schematic symbols, so
 "Update PCB from Schematic" works; schematic UUIDs are now deterministic, so regenerating the
-schematic keeps the link. Placement only: no tracks or pours yet.
+schematic keeps the link. Placement only: no tracks, vias or copper zones.
 
 Board 38 × 480 mm (40 mm strip pitch, 1 mm clearance per side), two layers. y = 0 is the rear
 edge. Control column at x = 19 mm.
@@ -405,41 +409,31 @@ edge. Control column at x = 19 mm.
 | 331 | MUTE + LED | PFL and soft-mute electronics in the left band below |
 | 346–478 | Fader, slot centre 412 | ground end (pin 1) to the front; post-amp and VCA socket in the right band |
 
-Routing and pours are rebuilt from the netlist by `tools/build_strip_pcb.sh` (placement, then
-four routing blocks, each followed by fresh ground pours and a DRC):
+`tools/build_strip_pcb.sh [output.kicad_pcb]` builds placement only from the netlist.
+It overwrites unrouted placement, but refuses to overwrite a board containing tracks, vias
+or zones. Use a separate output after manual routing has started.
 
-| Block | Nets | Width |
-|-------|------|-------|
-| ribbon | MIX L/R, SUB 1–4, AUX 1–6, PFL, PFLDET, GCANCEL, ±VBUS | 0.3 mm; ±VBUS 0.6 mm |
-| rails | GNDD (LGND tracks), ±VA, ±VL | 0.5 mm |
-| audio | the 42 audio nets, shortest first | 0.3 mm (0.2 mm where a pin is crowded) |
-| logic | OL detector, PFL/MUTE switching and LEDs, MGATE, VCA_CTRL | 0.3 mm |
+On 2026-10-20 the scripted routing was removed to restore the requested placement-only
+deliverable. Component positions, rotations, sides, footprint pad geometry, net assignments,
+board outline and mounting holes were retained. U2 and its decoupling remain beside the
+fader post-amp, keeping U2A's feedback loop local; U2B is the left pan buffer.
 
-- Router: `tools/route_strip.py`, A* on a 0.1 mm grid over both layers, 0.2 mm clearance,
-  line-of-sight smoothing, no stacked or adjacent vias, B.Cu costed higher so the bottom AGND
-  pour stays largely whole.
-- Pours: `tools/pour_strip.py` — B.Cu AGND over the whole board; F.Cu LGND island over the power
-  entry and reservoir caps (holding NT1 beside the spade) and over the PFL/MUTE rows; F.Cu AGND
-  elsewhere; every top-side GNDA SMD pad gets its own via to the bottom pour; stitching vias on a
-  4 mm grid wherever copper, courtyards and islands allow.
-- Placement change made for routing: U2 and its decoupling sit with the fader post-amp
-  (U2A's feedback loop local); its other half, the left pan buffer, takes its input from the pan
-  wiper.
-
-Result (October 2026): every signal net routed; DRC shows no clearance, short, hole or courtyard
-violations and 0 schematic-parity issues. **Left for hand finishing:** 5 GNDA connections (pads
-Q2.2, C9.2 and R44.2 (DNP) sit in small top-pour fragments with no room for an escape via, plus
-two small pour fragments), one dangling track stub, 9 starved-thermal warnings on GNDA pins, and
-silkscreen overlaps. The top AGND pour is cut into strips by the long runs in the middle of the
-board (aux wipers, rails, PRE/POST, MUTEOUT); it should be reviewed, and some long runs moved
-or shortened by hand.
+Placement verification on 2026-10-20 (KiCad 10.0.7, isolated project copy):
+- 103 schematic components plus six mounting holes; zero tracks, vias or copper zones.
+- All non-routing board data matches the previous board exactly. The generator reproduces
+  its positions, rotations, sides, symbol links and pad geometry (new pad UUIDs are expected).
+- DRC with `--schematic-parity --severity-all`: zero schematic-parity issues; no clearance,
+  courtyard, hole or outline errors under the existing project rules.
+- 219 unconnected items are expected for placement only; do not add copper to clear them.
+- 157 silkscreen warnings remain: 100 overlaps, 53 over copper pads, four near the edge.
+  Silkscreen cleanup and the physical sample checks in section 13.1 remain open.
 
 Still to decide or do in KiCad:
 - Mounting: six M3 standoff holes H1–H6 (section 13.3) at (34, 84.5), (5.5, 160), (19, 232.4),
   (34, 305.5), (5.5, 474.5), (32.5, 474.5); plus the pot nuts and the fader's M3 screws.
 - All nine radial electrolytics (C1, C3, C5, C6, C10, C11, C15, C16, C17; D6.3–D10, 11–16 mm tall),
   the spade tab CN4 and the VCA socket J3/J4 are on the **bottom side** (section 13.3).
-- Routing, AGND and LGND pours joined at the spade (section 13), silk clean-up.
+- Silk clean-up and physical sample checks. Routing and AGND/LGND pours are left to Ruslan.
 
 ---
 
@@ -448,9 +442,9 @@ Still to decide or do in KiCad:
 **KiCad schematic** (`channel_strip/channel_strip.kicad_sch`, KiCad 7 file format, opens in KiCad 10, A1):
 - Generated from this spec by `tools/gen.py`; nets joined by labels, grounds as GNDA/GNDD.
 - KiCad's exported netlist was checked pin by pin against the design (`tools/verify.py`):
-  337 pins, 0 mismatches, 0 stray pins, no single-pin nets.
+  313 pin entries, 0 mismatches, 0 stray pins, no single-pin nets (fresh export, 2026-10-20).
 - Every part has a footprint (panel parts in section 13.1). `tools/check_fp.py` confirms that
-  every symbol pin lands on a pad of its footprint (101 parts, 0 problems).
+  every symbol pin lands on a pad of its footprint (103 parts, 0 problems; 2026-10-20).
 - KiCad 10.0.7 ERC (`kicad-cli sch erc --severity-all`, default rule set): 0 errors,
   0 warnings. Library symbols are embedded from the KiCad 10 libraries.
 

@@ -2,6 +2,11 @@
 
 Owner: Ruslan. Answer in English. Expert electronics hobbyist (KiCad, analog audio) — be technical, no hand-holding.
 
+## PCB scope
+Component placement only. Ruslan does all copper routing in KiCad. Deliver no tracks,
+vias or copper zones; do not autoroute, pour grounds or add stitching/escape vias.
+Keep footprint pads and the net-tie's internal copper. See `AGENTS.md`.
+
 ## What this is
 A Soundcraft-Delta-style console for mixing hardware synths (goa trance).
 Line level only. One identical PCB per channel, joined by a 34-way IDC ribbon "motherloom".
@@ -16,15 +21,14 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
   Both generators use the shared builder `tools/schgen.py`. Same loop with `master` in place of
   `channel_strip` (`tools/gen_master.py master.kicad_sch`). Exports: master.net/.pdf/_BOM.csv.
 - `goa-console.kicad_sym` + `sym-lib-table` — project symbols (DRV134).
-- `channel_strip.kicad_pcb` — strip PCB, 38 × 480 mm, routed. Whole board rebuilt by
-  `tools/build_strip_pcb.sh` (place, route ribbon/rails/audio/logic blocks, re-pour + DRC per block,
-  ~10 min; overwrites hand edits). Single steps: made by
-  `tools/place_strip.py`; run with KiCad's Python:
+- `channel_strip.kicad_pcb` — strip PCB, 38 × 480 mm, component placement only:
+  no tracks, vias or copper zones. Rebuild with `tools/build_strip_pcb.sh [output.kicad_pcb]`
+  or run `tools/place_strip.py` with KiCad's Python:
   `/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3 tools/place_strip.py channel_strip.net channel_strip.kicad_pcb`
-  then `tools/route_strip.py channel_strip.kicad_pcb [NET ...]` (grid router; no NET = the ribbon
-  nets), then `tools/pour_strip.py channel_strip.kicad_pcb` (same Python: strips old pours, then
-  GNDA/GNDD pours, escape and stitching vias avoiding tracks, fill), then `$KC pcb drc --schematic-parity --severity-all channel_strip.kicad_pcb`. Re-running the
-  script overwrites hand edits: once routing starts, change the board in KiCad instead.
+  Re-running the generator overwrites unrouted placement edits. It refuses to overwrite
+  an existing board containing tracks, vias or zones; use a separate output for later placement work.
+  Check with `$KC pcb drc --schematic-parity --severity-all channel_strip.kicad_pcb`;
+  unconnected items are expected at the placement stage and are not an instruction to route.
   Schematic UUIDs are deterministic (schgen.py), so the footprint-symbol link survives regeneration.
 - `tools/verify.py` — checks KiCad's exported netlist against `channel_strip_intended.json`.
   Regenerate + verify loop:
@@ -84,7 +88,11 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
   strip VCA option.
 
 ## Verified so far
-- Netlist check: 337 pins, 0 mismatches. check_fp: 101 parts, every pin on a pad.
+- Fresh channel-strip netlist check (2026-10-20): 313 pin entries, 0 mismatches or
+  unexpected pins. check_fp: 103 parts, every symbol pin on a footprint pad.
+- Strip placement check (KiCad 10.0.7, 2026-10-20): 109 footprints including six mounting
+  holes, 0 tracks/vias/zones, 0 schematic-parity issues; no clearance, courtyard, hole or
+  outline errors. DRC reports 219 expected unconnected items and 157 silkscreen warnings.
 - KiCad 10.0.7 ERC, --severity-all: 0 errors, 0 warnings (2026-10-19).
 - Master: netlist 2991 pins / 0 mismatches, check_fp 1062 parts / 0 problems, ERC 0 violations.
 - Power-on mute (`sim/mute.cir`): closes 2.8 s after power-up, opens ~2 ms after either rail drops
@@ -111,9 +119,9 @@ No mic pres, no EQ, no trim on the strip — processing goes through the insert.
    (move gen_master.py's circuit functions into a shared module first).
 4. PCB layout of the strip: first placement done (strip spec 13.2); panel stack fixed (13.3: panel
    underside 11.5 mm, PVA2 H1 + PV caps, pot 1.5 mm spacer washers, fader 3.5 mm spacer, 7.6 mm
-   LED spacers, 6 × M3 standoffs). Ground pours done (13.2). Open: fader knob for a 5 mm lever
-   stub. All signal nets routed by script (13.2). Left by hand in KiCad: 5 GNDA pad-to-pour links,
-   a dangling stub, top-pour review (cut into strips by long runs), silk tidy.
+   LED spacers, 6 × M3 standoffs). Unrouted placement restored on 2026-10-20; component
+   positions and footprint geometry retained. Open: fader knob for a 5 mm lever stub,
+   physical sample checks and silk tidy. Routing and ground pours are left to Ruslan.
 
 ## Reference material
 Delta DLX/Theatre schematics, Mackie 1604-VLZ block diagram and API 500 spec were used;

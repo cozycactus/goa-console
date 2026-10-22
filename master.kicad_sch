@@ -13765,7 +13765,7 @@
   )
 
   (symbol (lib_id "Device:NetTie_2") (at 167.64000000000001 50.8 0) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 0d149e8f-a99e-51f0-9f10-870c2da3a2c9)
     (property "Reference" "NT1" (id 0) (at 170.18 41.91 0)
       (effects (font (size 1.27 1.27)))
@@ -13841,7 +13841,7 @@
   )
 
   (symbol (lib_id "Device:NetTie_2") (at 200.66 50.8 0) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 17381bd3-f82b-5191-9c39-16238657105d)
     (property "Reference" "NT2" (id 0) (at 203.2 41.91 0)
       (effects (font (size 1.27 1.27)))
@@ -13892,7 +13892,7 @@
   )
 
   (symbol (lib_id "Device:NetTie_2") (at 233.68 50.8 0) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid ca184fb7-6943-52d1-8903-655520c98496)
     (property "Reference" "NT3" (id 0) (at 236.22 41.91 0)
       (effects (font (size 1.27 1.27)))
@@ -13943,7 +13943,7 @@
   )
 
   (symbol (lib_id "Device:NetTie_2") (at 266.7 50.8 0) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 7cb808a7-e0ca-56c6-9640-a5080f5c4fb9)
     (property "Reference" "NT4" (id 0) (at 269.24 41.91 0)
       (effects (font (size 1.27 1.27)))
@@ -53016,7 +53016,7 @@
   )
 
   (symbol (lib_id "Jumper:SolderJumper_3_Bridged12") (at 927.1 1973.58 0) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 82fb603e-bfff-55a9-b749-0466789230e7)
     (property "Reference" "JP1" (id 0) (at 929.64 1964.6899999999998 0)
       (effects (font (size 1.27 1.27)))
@@ -56037,7 +56037,7 @@
   )
 
   (symbol (lib_id "Jumper:SolderJumper_3_Bridged12") (at 927.1 2100.58 0) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid be7f8fcf-13f0-5a0b-bfa2-be0feb36bf16)
     (property "Reference" "JP2" (id 0) (at 929.64 2091.69 0)
       (effects (font (size 1.27 1.27)))

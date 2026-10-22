@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/master.kicad_sch")
-		(date "2026-10-19T21:38:45")
+		(date "2026-10-22T17:09:36")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -26353,6 +26353,9 @@
 				(value "master.kicad_sch")
 			)
 			(property
+				(name "exclude_from_bom")
+			)
+			(property
 				(name "ki_keywords")
 				(value "Solder Jumper SPDT")
 			)
@@ -26408,6 +26411,9 @@
 			(property
 				(name "Sheetfile")
 				(value "master.kicad_sch")
+			)
+			(property
+				(name "exclude_from_bom")
 			)
 			(property
 				(name "ki_keywords")
@@ -26857,6 +26863,9 @@
 				(value "master.kicad_sch")
 			)
 			(property
+				(name "exclude_from_bom")
+			)
+			(property
 				(name "ki_keywords")
 				(value "net tie short")
 			)
@@ -26909,6 +26918,9 @@
 			(property
 				(name "Sheetfile")
 				(value "master.kicad_sch")
+			)
+			(property
+				(name "exclude_from_bom")
 			)
 			(property
 				(name "ki_keywords")
@@ -26965,6 +26977,9 @@
 				(value "master.kicad_sch")
 			)
 			(property
+				(name "exclude_from_bom")
+			)
+			(property
 				(name "ki_keywords")
 				(value "net tie short")
 			)
@@ -27017,6 +27032,9 @@
 			(property
 				(name "Sheetfile")
 				(value "master.kicad_sch")
+			)
+			(property
+				(name "exclude_from_bom")
 			)
 			(property
 				(name "ki_keywords")
