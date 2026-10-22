@@ -16,6 +16,18 @@ strip-style power and grounds (10 Ω + 220 µF, spade, 10 Ω to GCANCEL). The 16
 headers, MIX L/R, master fader, mono, main outputs, power-on mute, aux masters 5–6, monitoring, PFL and
 meters.
 
+**Jack boards (2026-10-22).** As on the strip, ¼" jacks and XLRs need about 25 mm behind a panel that is
+parallel to the board. So each module's panel connectors sit on a jack board under the panel, joined
+by an IDC ribbon (`master_lib.jack` / `link_pins` / `jack_board`). Each jack's pair is adjacent, with a
+ground after it; insert send and return are split by a ground; phones carry PHONESGND beside L/R.
+Ribbon conductor = pin number; never 2 × 17, so a link can't be mistaken for the bus ribbon.
+- Group: `group_jack_board.kicad_sch`, 5 × NJ6FD-V (sub out, sub insert, aux out, return L, return R),
+  2 × 8 link (CN3 on the group board).
+- Master: `master_jack_board.kicad_sch`, 9 × NJ6FD-V (MIX L/R inserts, EXT L/R, C/Room L/R, phones,
+  aux 5/6 out) + 3 × Neutrik NC3MAV (vertical) main XLRs, 2 × 20 link (CN5 on the master board).
+- The returns' and EXT's 100 pF RF caps and 1M stay on the main boards at the receivers. The strip
+  moved its RF caps to its jack board; move these too if the jig shows RF pickup on the ribbon.
+
 Delta references: ED2780 sheet 2 (MIX SUM AMPS, MIX INSERT, FADER POST AMPS, BALANCED
 OUTPUT AMPS, mono "GC O/P AMP") and sheet 1 (monitor-select differential receivers on MIX
 L+/L−, master ground-cancel resistor).

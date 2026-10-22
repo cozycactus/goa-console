@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/master.kicad_sch")
-		(date "2026-10-22T21:00:39")
+		(date "2026-10-22T21:05:21")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -8797,6 +8797,180 @@
 			)
 		)
 		(comp
+			(ref "CN5")
+			(value "Jack board link 2x20")
+			(footprint "Connector_IDC:IDC-Header_2x20_P2.54mm_Vertical")
+			(fields
+				(field
+					(name "MPN") "2x20 box header, 2.54 mm")
+				(field
+					(name "Footprint") "Connector_IDC:IDC-Header_2x20_P2.54mm_Vertical")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Connector_Generic")
+				(part "Conn_02x20_Odd_Even")
+				(description "Generic connector, double row, 02x20, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(property
+				(name "MPN")
+				(value "2x20 box header, 2.54 mm")
+			)
+			(property
+				(name "Sheetname")
+				(value "master")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "connector")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "Connector*:*_2x??_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "658ce67f-595f-5822-88ad-e5a96f639fc4")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "11")
+						)
+						(pin
+							(num "13")
+						)
+						(pin
+							(num "15")
+						)
+						(pin
+							(num "17")
+						)
+						(pin
+							(num "19")
+						)
+						(pin
+							(num "21")
+						)
+						(pin
+							(num "23")
+						)
+						(pin
+							(num "25")
+						)
+						(pin
+							(num "27")
+						)
+						(pin
+							(num "29")
+						)
+						(pin
+							(num "31")
+						)
+						(pin
+							(num "33")
+						)
+						(pin
+							(num "35")
+						)
+						(pin
+							(num "37")
+						)
+						(pin
+							(num "39")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "10")
+						)
+						(pin
+							(num "12")
+						)
+						(pin
+							(num "14")
+						)
+						(pin
+							(num "16")
+						)
+						(pin
+							(num "18")
+						)
+						(pin
+							(num "20")
+						)
+						(pin
+							(num "22")
+						)
+						(pin
+							(num "24")
+						)
+						(pin
+							(num "26")
+						)
+						(pin
+							(num "28")
+						)
+						(pin
+							(num "30")
+						)
+						(pin
+							(num "32")
+						)
+						(pin
+							(num "34")
+						)
+						(pin
+							(num "36")
+						)
+						(pin
+							(num "38")
+						)
+						(pin
+							(num "40")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "D1")
 			(value "SS54")
 			(footprint "Diode_SMD:D_SMC")
@@ -13582,786 +13756,6 @@
 						)
 						(pin
 							(num "7")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "J2")
-			(value "MIX L insert")
-			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
-			(fields
-				(field
-					(name "MPN") "Neutrik NRJ6HF")
-				(field
-					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Connector_Audio")
-				(part "AudioJack3_SwitchTR")
-				(description "Audio Jack, 3 Poles (Stereo / TRS), Switched TR Poles (Normalling)")
-			)
-			(property
-				(name "MPN")
-				(value "Neutrik NRJ6HF")
-			)
-			(property
-				(name "Sheetname")
-				(value "master")
-			)
-			(property
-				(name "Sheetfile")
-				(value "master.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "audio jack receptacle stereo headphones phones TRS connector")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Jack*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "e94f1660-8fee-5d3c-80ef-0f8db0ccd6a3")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "S")
-						)
-						(pin
-							(num "R")
-						)
-						(pin
-							(num "RN")
-						)
-						(pin
-							(num "T")
-						)
-						(pin
-							(num "TN")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "J3")
-			(value "MIX R insert")
-			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
-			(fields
-				(field
-					(name "MPN") "Neutrik NRJ6HF")
-				(field
-					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Connector_Audio")
-				(part "AudioJack3_SwitchTR")
-				(description "Audio Jack, 3 Poles (Stereo / TRS), Switched TR Poles (Normalling)")
-			)
-			(property
-				(name "MPN")
-				(value "Neutrik NRJ6HF")
-			)
-			(property
-				(name "Sheetname")
-				(value "master")
-			)
-			(property
-				(name "Sheetfile")
-				(value "master.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "audio jack receptacle stereo headphones phones TRS connector")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Jack*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "4d0bae8e-a8f4-5972-8462-7cad927edcdd")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "S")
-						)
-						(pin
-							(num "R")
-						)
-						(pin
-							(num "RN")
-						)
-						(pin
-							(num "T")
-						)
-						(pin
-							(num "TN")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "J4")
-			(value "MAIN L out")
-			(footprint "Connector_Audio:Jack_XLR_Neutrik_NC3MAH_Horizontal")
-			(fields
-				(field
-					(name "MPN") "Neutrik NC3MAH")
-				(field
-					(name "Footprint") "Connector_Audio:Jack_XLR_Neutrik_NC3MAH_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Connector_Audio")
-				(part "XLR3")
-				(description "XLR Connector, Male or Female, 3 Pins")
-			)
-			(property
-				(name "MPN")
-				(value "Neutrik NC3MAH")
-			)
-			(property
-				(name "Sheetname")
-				(value "master")
-			)
-			(property
-				(name "Sheetfile")
-				(value "master.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "xlr connector")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Jack*XLR*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "3103f1a6-3d92-5786-8531-58a10c7188b9")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "3")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "J5")
-			(value "MAIN R out")
-			(footprint "Connector_Audio:Jack_XLR_Neutrik_NC3MAH_Horizontal")
-			(fields
-				(field
-					(name "MPN") "Neutrik NC3MAH")
-				(field
-					(name "Footprint") "Connector_Audio:Jack_XLR_Neutrik_NC3MAH_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Connector_Audio")
-				(part "XLR3")
-				(description "XLR Connector, Male or Female, 3 Pins")
-			)
-			(property
-				(name "MPN")
-				(value "Neutrik NC3MAH")
-			)
-			(property
-				(name "Sheetname")
-				(value "master")
-			)
-			(property
-				(name "Sheetfile")
-				(value "master.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "xlr connector")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Jack*XLR*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "b10a9217-dd7e-5329-a735-12e3810538f1")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "3")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "J6")
-			(value "MAIN M out")
-			(footprint "Connector_Audio:Jack_XLR_Neutrik_NC3MAH_Horizontal")
-			(fields
-				(field
-					(name "MPN") "Neutrik NC3MAH")
-				(field
-					(name "Footprint") "Connector_Audio:Jack_XLR_Neutrik_NC3MAH_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Connector_Audio")
-				(part "XLR3")
-				(description "XLR Connector, Male or Female, 3 Pins")
-			)
-			(property
-				(name "MPN")
-				(value "Neutrik NC3MAH")
-			)
-			(property
-				(name "Sheetname")
-				(value "master")
-			)
-			(property
-				(name "Sheetfile")
-				(value "master.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "xlr connector")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Jack*XLR*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "3970f556-7807-52f4-ae48-f01ab0d49a10")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "3")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "J7")
-			(value "Aux 5 out TRS")
-			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
-			(fields
-				(field
-					(name "MPN") "Neutrik NRJ6HF")
-				(field
-					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Connector_Audio")
-				(part "AudioJack3")
-				(description "Audio Jack, 3 Poles (Stereo / TRS)")
-			)
-			(property
-				(name "MPN")
-				(value "Neutrik NRJ6HF")
-			)
-			(property
-				(name "Sheetname")
-				(value "master")
-			)
-			(property
-				(name "Sheetfile")
-				(value "master.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "audio jack receptacle stereo headphones phones TRS connector")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Jack*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "507d4066-0604-567a-a7f7-bb3ccf677ac0")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "S")
-						)
-						(pin
-							(num "R")
-						)
-						(pin
-							(num "T")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "J8")
-			(value "Aux 6 out TRS")
-			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
-			(fields
-				(field
-					(name "MPN") "Neutrik NRJ6HF")
-				(field
-					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Connector_Audio")
-				(part "AudioJack3")
-				(description "Audio Jack, 3 Poles (Stereo / TRS)")
-			)
-			(property
-				(name "MPN")
-				(value "Neutrik NRJ6HF")
-			)
-			(property
-				(name "Sheetname")
-				(value "master")
-			)
-			(property
-				(name "Sheetfile")
-				(value "master.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "audio jack receptacle stereo headphones phones TRS connector")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Jack*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "864551d2-5556-5f18-b079-1086c6cca8d7")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "S")
-						)
-						(pin
-							(num "R")
-						)
-						(pin
-							(num "T")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "J9")
-			(value "EXT L in")
-			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
-			(fields
-				(field
-					(name "MPN") "Neutrik NRJ6HF")
-				(field
-					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Connector_Audio")
-				(part "AudioJack3_SwitchTR")
-				(description "Audio Jack, 3 Poles (Stereo / TRS), Switched TR Poles (Normalling)")
-			)
-			(property
-				(name "MPN")
-				(value "Neutrik NRJ6HF")
-			)
-			(property
-				(name "Sheetname")
-				(value "master")
-			)
-			(property
-				(name "Sheetfile")
-				(value "master.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "audio jack receptacle stereo headphones phones TRS connector")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Jack*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "83c57fbd-cf11-54b5-9eb4-72e5db4b215f")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "S")
-						)
-						(pin
-							(num "R")
-						)
-						(pin
-							(num "RN")
-						)
-						(pin
-							(num "T")
-						)
-						(pin
-							(num "TN")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "J10")
-			(value "EXT R in")
-			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
-			(fields
-				(field
-					(name "MPN") "Neutrik NRJ6HF")
-				(field
-					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Connector_Audio")
-				(part "AudioJack3_SwitchTR")
-				(description "Audio Jack, 3 Poles (Stereo / TRS), Switched TR Poles (Normalling)")
-			)
-			(property
-				(name "MPN")
-				(value "Neutrik NRJ6HF")
-			)
-			(property
-				(name "Sheetname")
-				(value "master")
-			)
-			(property
-				(name "Sheetfile")
-				(value "master.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "audio jack receptacle stereo headphones phones TRS connector")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Jack*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "5380fcdd-d91d-5447-8b7a-f1c1dee66fe5")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "S")
-						)
-						(pin
-							(num "R")
-						)
-						(pin
-							(num "RN")
-						)
-						(pin
-							(num "T")
-						)
-						(pin
-							(num "TN")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "J11")
-			(value "C/Room L out TRS")
-			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
-			(fields
-				(field
-					(name "MPN") "Neutrik NRJ6HF")
-				(field
-					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Connector_Audio")
-				(part "AudioJack3")
-				(description "Audio Jack, 3 Poles (Stereo / TRS)")
-			)
-			(property
-				(name "MPN")
-				(value "Neutrik NRJ6HF")
-			)
-			(property
-				(name "Sheetname")
-				(value "master")
-			)
-			(property
-				(name "Sheetfile")
-				(value "master.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "audio jack receptacle stereo headphones phones TRS connector")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Jack*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "e4c52a6c-597f-5e4e-aeb6-121da9961fba")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "S")
-						)
-						(pin
-							(num "R")
-						)
-						(pin
-							(num "T")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "J12")
-			(value "C/Room R out TRS")
-			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
-			(fields
-				(field
-					(name "MPN") "Neutrik NRJ6HF")
-				(field
-					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Connector_Audio")
-				(part "AudioJack3")
-				(description "Audio Jack, 3 Poles (Stereo / TRS)")
-			)
-			(property
-				(name "MPN")
-				(value "Neutrik NRJ6HF")
-			)
-			(property
-				(name "Sheetname")
-				(value "master")
-			)
-			(property
-				(name "Sheetfile")
-				(value "master.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "audio jack receptacle stereo headphones phones TRS connector")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Jack*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "56fce279-7fa8-59ad-8b1b-03428a73ab05")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "S")
-						)
-						(pin
-							(num "R")
-						)
-						(pin
-							(num "T")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "J13")
-			(value "Phones TRS")
-			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
-			(fields
-				(field
-					(name "MPN") "Neutrik NRJ6HF")
-				(field
-					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Connector_Audio")
-				(part "AudioJack3")
-				(description "Audio Jack, 3 Poles (Stereo / TRS)")
-			)
-			(property
-				(name "MPN")
-				(value "Neutrik NRJ6HF")
-			)
-			(property
-				(name "Sheetname")
-				(value "master")
-			)
-			(property
-				(name "Sheetfile")
-				(value "master.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "audio jack receptacle stereo headphones phones TRS connector")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Jack*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "1cf17ce4-0233-52f7-9a18-07bb5e1df74b")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "S")
-						)
-						(pin
-							(num "R")
-						)
-						(pin
-							(num "T")
 						)
 					)
 				)
@@ -27309,7 +26703,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "7cdc8c84-97d2-5896-89c3-1bcfe47b54e2" "e7573d9c-8c41-5fcb-a3c6-bc490f77aeef"
+			(tstamps "e7573d9c-8c41-5fcb-a3c6-bc490f77aeef" "7cdc8c84-97d2-5896-89c3-1bcfe47b54e2"
 				"2906cd3d-61c7-5d90-8c6f-c36c17c8ec9f"
 			)
 			(units
@@ -27477,7 +26871,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "f0247eba-5a0e-5beb-a089-e565aa4bec3d" "6b12b191-577b-51b0-88cf-f7d3731438ba"
+			(tstamps "6b12b191-577b-51b0-88cf-f7d3731438ba" "f0247eba-5a0e-5beb-a089-e565aa4bec3d"
 				"64e3264b-a7fb-5d1d-919c-5a79081dadd4"
 			)
 			(units
@@ -27561,7 +26955,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "e6d5e4d0-3994-508d-9ad5-d7d4c952cfb2" "491f8d9a-3005-5dd7-b2ad-be83c43ab155"
+			(tstamps "491f8d9a-3005-5dd7-b2ad-be83c43ab155" "e6d5e4d0-3994-508d-9ad5-d7d4c952cfb2"
 				"20f41a45-aaae-54f0-a44d-32f6efbbe0d1"
 			)
 			(units
@@ -28047,7 +27441,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "cc78fd0f-1cf2-5df3-aff8-59449995fc0c" "a3420339-95f1-5500-b3f1-e634033068f0"
+			(tstamps "a3420339-95f1-5500-b3f1-e634033068f0" "cc78fd0f-1cf2-5df3-aff8-59449995fc0c"
 				"a31fbc64-4541-5a6e-bbed-69af4a9f16a6"
 			)
 			(units
@@ -28305,7 +27699,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "9e2603e8-c10f-5804-8941-c643ed42777f" "ceb28d29-41e8-54a4-8a75-945034298e22"
+			(tstamps "ceb28d29-41e8-54a4-8a75-945034298e22" "9e2603e8-c10f-5804-8941-c643ed42777f"
 				"549a71cf-89fb-5729-b13a-6fcbd07679d3"
 			)
 			(units
@@ -28551,7 +27945,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "3743e515-13c0-5718-a0e4-4c9f0d8cb5f7" "d1c61f40-75b5-570e-b6c4-4540a732c619"
+			(tstamps "d1c61f40-75b5-570e-b6c4-4540a732c619" "3743e515-13c0-5718-a0e4-4c9f0d8cb5f7"
 				"23b59510-afa6-574f-9672-627be60e570c"
 			)
 			(units
@@ -28641,7 +28035,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "deaccaff-8aec-5fb2-beb2-f625748465d2" "d85eadcc-5c94-5265-9da6-1fa6cbc90370"
+			(tstamps "d85eadcc-5c94-5265-9da6-1fa6cbc90370" "deaccaff-8aec-5fb2-beb2-f625748465d2"
 				"56e308ec-3c00-59f8-bacc-a941ac4a9544"
 			)
 			(units
@@ -29133,7 +28527,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "8502d6dd-60de-5d47-a96f-e97ea11bd941" "f15d98a2-060c-5dfd-9312-6113b0b0e9ae"
+			(tstamps "f15d98a2-060c-5dfd-9312-6113b0b0e9ae" "8502d6dd-60de-5d47-a96f-e97ea11bd941"
 				"3cb9bd8f-83b6-569f-ab79-46f6889f68ca"
 			)
 			(units
@@ -29439,7 +28833,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "ccede187-5efd-551a-98a6-7e5611cd4f0a" "ec0f97f0-0105-542d-a306-5283f1f8d5c2"
+			(tstamps "ec0f97f0-0105-542d-a306-5283f1f8d5c2" "ccede187-5efd-551a-98a6-7e5611cd4f0a"
 				"5f82f9d5-58f6-5fdd-aee2-f2f0bf2c4f78"
 			)
 			(units
@@ -29523,8 +28917,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "9c913300-835f-5cc2-975b-8955fc9d0c4c" "dae3a935-c060-5236-a9d1-9348b265bfb9"
-				"ddd50790-5500-55c2-9889-5990f46ecc74" "c408f724-9ee9-5c65-b98c-bedae640f33e"
+			(tstamps "dae3a935-c060-5236-a9d1-9348b265bfb9" "9c913300-835f-5cc2-975b-8955fc9d0c4c"
+				"c408f724-9ee9-5c65-b98c-bedae640f33e" "ddd50790-5500-55c2-9889-5990f46ecc74"
 				"63357413-253e-5389-992b-975debd2ae3d"
 			)
 			(units
@@ -29636,8 +29030,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "411ea83f-adeb-5752-b940-30f99eba0052" "c5fd47a2-39ca-5b88-a17e-bd3289c91b07"
-				"540aa435-028a-5774-9c3a-ecf431167fed" "e0bb70c7-cc59-5b9c-9630-61707b18487d"
+			(tstamps "e0bb70c7-cc59-5b9c-9630-61707b18487d" "c5fd47a2-39ca-5b88-a17e-bd3289c91b07"
+				"540aa435-028a-5774-9c3a-ecf431167fed" "411ea83f-adeb-5752-b940-30f99eba0052"
 				"23c39c9a-2b1e-56a6-8ab5-3531c60bb246"
 			)
 			(units
@@ -29862,8 +29256,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "dbad2d5c-8446-5aa0-812b-810772a6dcf7" "ed1b2ace-8bcd-58aa-b530-96bf83d3a73d"
-				"810a7de2-a905-5066-920f-6a4a3499cd83" "d6fc3cc9-5626-5099-ab56-7abe11df2c97"
+			(tstamps "ed1b2ace-8bcd-58aa-b530-96bf83d3a73d" "d6fc3cc9-5626-5099-ab56-7abe11df2c97"
+				"810a7de2-a905-5066-920f-6a4a3499cd83" "dbad2d5c-8446-5aa0-812b-810772a6dcf7"
 				"663bfe5d-1163-555f-8a96-cff3f0bfe976"
 			)
 			(units
@@ -29975,8 +29369,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "eb055ef3-50b2-55eb-acd9-9ef12b5cefdb" "6b9e7dc8-af8b-5320-8d12-e56735c7a707"
-				"576a6f02-af48-54e5-a08d-923941ce9eb8" "39ee11a2-53e5-59e4-a08d-599723abcc1a"
+			(tstamps "6b9e7dc8-af8b-5320-8d12-e56735c7a707" "eb055ef3-50b2-55eb-acd9-9ef12b5cefdb"
+				"39ee11a2-53e5-59e4-a08d-599723abcc1a" "576a6f02-af48-54e5-a08d-923941ce9eb8"
 				"1ce6667e-3d35-51ba-98bf-391f26ba9474"
 			)
 			(units
@@ -30088,7 +29482,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "e141f0e8-dedd-57ea-94ca-d70983d2cd2d" "34cc1c7e-5891-548f-881f-da02f4cb016f"
+			(tstamps "34cc1c7e-5891-548f-881f-da02f4cb016f" "e141f0e8-dedd-57ea-94ca-d70983d2cd2d"
 				"2fcd7114-7cbd-52db-9959-0dd5c4d1c142"
 			)
 			(units
@@ -30172,7 +29566,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "4c681b25-9a62-5f0f-8315-22ae25ac0702" "a1a41a44-9d78-53c4-b053-19a015ef3407"
+			(tstamps "a1a41a44-9d78-53c4-b053-19a015ef3407" "4c681b25-9a62-5f0f-8315-22ae25ac0702"
 				"2bd1ba6a-f102-5c46-b667-8cd2bb5c1408"
 			)
 			(units
@@ -30369,8 +29763,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "bb9cb62d-8df1-5856-8281-b2264651f463" "d9020cb9-0da6-504b-8a1c-7ff3a2de90a4"
-				"c6a2162b-f523-57fe-acd0-253617190d2b" "18417c66-0fd2-52ab-a1c4-e4b954501ef2"
+			(tstamps "c6a2162b-f523-57fe-acd0-253617190d2b" "d9020cb9-0da6-504b-8a1c-7ff3a2de90a4"
+				"bb9cb62d-8df1-5856-8281-b2264651f463" "18417c66-0fd2-52ab-a1c4-e4b954501ef2"
 				"020c1da8-5bf3-55f3-a470-8195fe1a8c69"
 			)
 			(units
@@ -30482,7 +29876,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "32ebd64e-8f2a-569b-b731-65eb01bf0c3c" "29bd67dc-91ca-57b6-b8d6-a603a088a52d"
+			(tstamps "29bd67dc-91ca-57b6-b8d6-a603a088a52d" "32ebd64e-8f2a-569b-b731-65eb01bf0c3c"
 				"14612b38-6639-540f-80d9-7186d97c4bfe" "da94756c-c623-51e5-b366-812a2d74ed3f"
 				"0a491b6b-0233-565c-a082-2d7620aeff03"
 			)
@@ -30595,8 +29989,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "cc30e7fe-e91d-5768-a67b-a9a923ee27b4" "81638319-ac3b-5263-8f29-1440592992b0"
-				"ed7b7213-eec2-554d-9032-0b96d2d6ae92" "5d231401-fd47-55b9-abb0-65dc39563145"
+			(tstamps "5d231401-fd47-55b9-abb0-65dc39563145" "81638319-ac3b-5263-8f29-1440592992b0"
+				"cc30e7fe-e91d-5768-a67b-a9a923ee27b4" "ed7b7213-eec2-554d-9032-0b96d2d6ae92"
 				"41ffc00f-78e3-59b8-a863-8db2720684fd"
 			)
 			(units
@@ -31269,133 +30663,6 @@
 			)
 		)
 		(libpart
-			(lib "Connector_Audio")
-			(part "AudioJack3")
-			(description "Audio Jack, 3 Poles (Stereo / TRS)")
-			(footprints
-				(fp "Jack*")
-			)
-			(fields
-				(field
-					(name "Reference") "J")
-				(field
-					(name "Value") "AudioJack3")
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Audio Jack, 3 Poles (Stereo / TRS)")
-			)
-			(pins
-				(pin
-					(num "R")
-					(name "")
-					(type "passive")
-				)
-				(pin
-					(num "S")
-					(name "")
-					(type "passive")
-				)
-				(pin
-					(num "T")
-					(name "")
-					(type "passive")
-				)
-			)
-		)
-		(libpart
-			(lib "Connector_Audio")
-			(part "AudioJack3_SwitchTR")
-			(description "Audio Jack, 3 Poles (Stereo / TRS), Switched TR Poles (Normalling)")
-			(footprints
-				(fp "Jack*")
-			)
-			(fields
-				(field
-					(name "Reference") "J")
-				(field
-					(name "Value") "AudioJack3_SwitchTR")
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Audio Jack, 3 Poles (Stereo / TRS), Switched TR Poles (Normalling)")
-			)
-			(pins
-				(pin
-					(num "R")
-					(name "")
-					(type "passive")
-				)
-				(pin
-					(num "RN")
-					(name "")
-					(type "passive")
-				)
-				(pin
-					(num "S")
-					(name "")
-					(type "passive")
-				)
-				(pin
-					(num "T")
-					(name "")
-					(type "passive")
-				)
-				(pin
-					(num "TN")
-					(name "")
-					(type "passive")
-				)
-			)
-		)
-		(libpart
-			(lib "Connector_Audio")
-			(part "XLR3")
-			(description "XLR Connector, Male or Female, 3 Pins")
-			(footprints
-				(fp "Jack*XLR*")
-			)
-			(fields
-				(field
-					(name "Reference") "J")
-				(field
-					(name "Value") "XLR3")
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "XLR Connector, Male or Female, 3 Pins")
-			)
-			(pins
-				(pin
-					(num "1")
-					(name "")
-					(type "passive")
-				)
-				(pin
-					(num "2")
-					(name "")
-					(type "passive")
-				)
-				(pin
-					(num "3")
-					(name "")
-					(type "passive")
-				)
-			)
-		)
-		(libpart
 			(lib "Connector_Generic")
 			(part "Conn_01x01")
 			(description "Generic connector, single row, 01x01, script generated (kicad-library-utils/schlib/autogen/connector/)")
@@ -31663,6 +30930,230 @@
 				(pin
 					(num "34")
 					(name "Pin_34")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Connector_Generic")
+			(part "Conn_02x20_Odd_Even")
+			(description "Generic connector, double row, 02x20, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(footprints
+				(fp "Connector*:*_2x??_*")
+			)
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "Conn_02x20_Odd_Even")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Generic connector, double row, 02x20, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "Pin_1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "Pin_2")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "Pin_3")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "Pin_4")
+					(type "passive")
+				)
+				(pin
+					(num "5")
+					(name "Pin_5")
+					(type "passive")
+				)
+				(pin
+					(num "6")
+					(name "Pin_6")
+					(type "passive")
+				)
+				(pin
+					(num "7")
+					(name "Pin_7")
+					(type "passive")
+				)
+				(pin
+					(num "8")
+					(name "Pin_8")
+					(type "passive")
+				)
+				(pin
+					(num "9")
+					(name "Pin_9")
+					(type "passive")
+				)
+				(pin
+					(num "10")
+					(name "Pin_10")
+					(type "passive")
+				)
+				(pin
+					(num "11")
+					(name "Pin_11")
+					(type "passive")
+				)
+				(pin
+					(num "12")
+					(name "Pin_12")
+					(type "passive")
+				)
+				(pin
+					(num "13")
+					(name "Pin_13")
+					(type "passive")
+				)
+				(pin
+					(num "14")
+					(name "Pin_14")
+					(type "passive")
+				)
+				(pin
+					(num "15")
+					(name "Pin_15")
+					(type "passive")
+				)
+				(pin
+					(num "16")
+					(name "Pin_16")
+					(type "passive")
+				)
+				(pin
+					(num "17")
+					(name "Pin_17")
+					(type "passive")
+				)
+				(pin
+					(num "18")
+					(name "Pin_18")
+					(type "passive")
+				)
+				(pin
+					(num "19")
+					(name "Pin_19")
+					(type "passive")
+				)
+				(pin
+					(num "20")
+					(name "Pin_20")
+					(type "passive")
+				)
+				(pin
+					(num "21")
+					(name "Pin_21")
+					(type "passive")
+				)
+				(pin
+					(num "22")
+					(name "Pin_22")
+					(type "passive")
+				)
+				(pin
+					(num "23")
+					(name "Pin_23")
+					(type "passive")
+				)
+				(pin
+					(num "24")
+					(name "Pin_24")
+					(type "passive")
+				)
+				(pin
+					(num "25")
+					(name "Pin_25")
+					(type "passive")
+				)
+				(pin
+					(num "26")
+					(name "Pin_26")
+					(type "passive")
+				)
+				(pin
+					(num "27")
+					(name "Pin_27")
+					(type "passive")
+				)
+				(pin
+					(num "28")
+					(name "Pin_28")
+					(type "passive")
+				)
+				(pin
+					(num "29")
+					(name "Pin_29")
+					(type "passive")
+				)
+				(pin
+					(num "30")
+					(name "Pin_30")
+					(type "passive")
+				)
+				(pin
+					(num "31")
+					(name "Pin_31")
+					(type "passive")
+				)
+				(pin
+					(num "32")
+					(name "Pin_32")
+					(type "passive")
+				)
+				(pin
+					(num "33")
+					(name "Pin_33")
+					(type "passive")
+				)
+				(pin
+					(num "34")
+					(name "Pin_34")
+					(type "passive")
+				)
+				(pin
+					(num "35")
+					(name "Pin_35")
+					(type "passive")
+				)
+				(pin
+					(num "36")
+					(name "Pin_36")
+					(type "passive")
+				)
+				(pin
+					(num "37")
+					(name "Pin_37")
+					(type "passive")
+				)
+				(pin
+					(num "38")
+					(name "Pin_38")
+					(type "passive")
+				)
+				(pin
+					(num "39")
+					(name "Pin_39")
+					(type "passive")
+				)
+				(pin
+					(num "40")
+					(name "Pin_40")
 					(type "passive")
 				)
 			)
@@ -32536,10 +32027,6 @@
 		(library
 			(logical "Connector")
 			(uri "${KICAD10_SYMBOL_DIR}/Connector.kicad_sym")
-		)
-		(library
-			(logical "Connector_Audio")
-			(uri "${KICAD10_SYMBOL_DIR}/Connector_Audio.kicad_sym")
 		)
 		(library
 			(logical "Connector_Generic")
@@ -34130,8 +33617,9 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J7")
-				(pin "R")
+				(ref "CN5")
+				(pin "20")
+				(pinfunction "Pin_20_20")
 				(pintype "passive")
 			)
 			(node
@@ -34167,8 +33655,9 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J7")
-				(pin "T")
+				(ref "CN5")
+				(pin "19")
+				(pinfunction "Pin_19_19")
 				(pintype "passive")
 			)
 			(node
@@ -34407,8 +33896,9 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J8")
-				(pin "R")
+				(ref "CN5")
+				(pin "23")
+				(pinfunction "Pin_23_23")
 				(pintype "passive")
 			)
 			(node
@@ -34444,8 +33934,9 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J8")
-				(pin "T")
+				(ref "CN5")
+				(pin "22")
+				(pinfunction "Pin_22_22")
 				(pintype "passive")
 			)
 			(node
@@ -34723,24 +34214,15 @@
 			(name "/CHASSIS")
 			(class "Default")
 			(node
+				(ref "CN5")
+				(pin "9")
+				(pinfunction "Pin_9_9")
+				(pintype "passive")
+			)
+			(node
 				(ref "J1")
 				(pin "1")
 				(pinfunction "Pin_1_1")
-				(pintype "passive")
-			)
-			(node
-				(ref "J4")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "J5")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "J6")
-				(pin "1")
 				(pintype "passive")
 			)
 			(node
@@ -34829,8 +34311,9 @@
 			(name "/CRL_XN")
 			(class "Default")
 			(node
-				(ref "J11")
-				(pin "R")
+				(ref "CN5")
+				(pin "32")
+				(pinfunction "Pin_32_32")
 				(pintype "passive")
 			)
 			(node
@@ -34844,8 +34327,9 @@
 			(name "/CRL_XP")
 			(class "Default")
 			(node
-				(ref "J11")
-				(pin "T")
+				(ref "CN5")
+				(pin "31")
+				(pinfunction "Pin_31_31")
 				(pintype "passive")
 			)
 			(node
@@ -34977,8 +34461,9 @@
 			(name "/CRR_XN")
 			(class "Default")
 			(node
-				(ref "J12")
-				(pin "R")
+				(ref "CN5")
+				(pin "35")
+				(pinfunction "Pin_35_35")
 				(pintype "passive")
 			)
 			(node
@@ -34992,8 +34477,9 @@
 			(name "/CRR_XP")
 			(class "Default")
 			(node
-				(ref "J12")
-				(pin "T")
+				(ref "CN5")
+				(pin "34")
+				(pinfunction "Pin_34_34")
 				(pintype "passive")
 			)
 			(node
@@ -35229,13 +34715,9 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J10")
-				(pin "RN")
-				(pintype "passive")
-			)
-			(node
-				(ref "J9")
-				(pin "R")
+				(ref "CN5")
+				(pin "26")
+				(pinfunction "Pin_26_26")
 				(pintype "passive")
 			)
 			(node
@@ -35254,13 +34736,9 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J10")
-				(pin "TN")
-				(pintype "passive")
-			)
-			(node
-				(ref "J9")
-				(pin "T")
+				(ref "CN5")
+				(pin "25")
+				(pinfunction "Pin_25_25")
 				(pintype "passive")
 			)
 			(node
@@ -35387,8 +34865,9 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J10")
-				(pin "R")
+				(ref "CN5")
+				(pin "29")
+				(pinfunction "Pin_29_29")
 				(pintype "passive")
 			)
 			(node
@@ -35464,8 +34943,9 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J10")
-				(pin "T")
+				(ref "CN5")
+				(pin "28")
+				(pinfunction "Pin_28_28")
 				(pintype "passive")
 			)
 			(node
@@ -36088,8 +35568,9 @@
 			(name "/MAIN_L_XN")
 			(class "Default")
 			(node
-				(ref "J4")
-				(pin "3")
+				(ref "CN5")
+				(pin "11")
+				(pinfunction "Pin_11_11")
 				(pintype "passive")
 			)
 			(node
@@ -36103,8 +35584,9 @@
 			(name "/MAIN_L_XP")
 			(class "Default")
 			(node
-				(ref "J4")
-				(pin "2")
+				(ref "CN5")
+				(pin "10")
+				(pinfunction "Pin_10_10")
 				(pintype "passive")
 			)
 			(node
@@ -36192,8 +35674,9 @@
 			(name "/MAIN_M_XN")
 			(class "Default")
 			(node
-				(ref "J6")
-				(pin "3")
+				(ref "CN5")
+				(pin "17")
+				(pinfunction "Pin_17_17")
 				(pintype "passive")
 			)
 			(node
@@ -36207,8 +35690,9 @@
 			(name "/MAIN_M_XP")
 			(class "Default")
 			(node
-				(ref "J6")
-				(pin "2")
+				(ref "CN5")
+				(pin "16")
+				(pinfunction "Pin_16_16")
 				(pintype "passive")
 			)
 			(node
@@ -36296,8 +35780,9 @@
 			(name "/MAIN_R_XN")
 			(class "Default")
 			(node
-				(ref "J5")
-				(pin "3")
+				(ref "CN5")
+				(pin "14")
+				(pinfunction "Pin_14_14")
 				(pintype "passive")
 			)
 			(node
@@ -36311,8 +35796,9 @@
 			(name "/MAIN_R_XP")
 			(class "Default")
 			(node
-				(ref "J5")
-				(pin "2")
+				(ref "CN5")
+				(pin "13")
+				(pinfunction "Pin_13_13")
 				(pintype "passive")
 			)
 			(node
@@ -36531,8 +36017,9 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J2")
-				(pin "R")
+				(ref "CN5")
+				(pin "3")
+				(pinfunction "Pin_3_3")
 				(pintype "passive")
 			)
 		)
@@ -36541,13 +36028,9 @@
 			(name "/MIX_L_SEND")
 			(class "Default")
 			(node
-				(ref "J2")
-				(pin "RN")
-				(pintype "passive")
-			)
-			(node
-				(ref "J2")
-				(pin "T")
+				(ref "CN5")
+				(pin "1")
+				(pinfunction "Pin_1_1")
 				(pintype "passive")
 			)
 			(node
@@ -36670,8 +36153,9 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J3")
-				(pin "R")
+				(ref "CN5")
+				(pin "7")
+				(pinfunction "Pin_7_7")
 				(pintype "passive")
 			)
 		)
@@ -36680,13 +36164,9 @@
 			(name "/MIX_R_SEND")
 			(class "Default")
 			(node
-				(ref "J3")
-				(pin "RN")
-				(pintype "passive")
-			)
-			(node
-				(ref "J3")
-				(pin "T")
+				(ref "CN5")
+				(pin "5")
+				(pinfunction "Pin_5_5")
 				(pintype "passive")
 			)
 			(node
@@ -40358,8 +39838,9 @@
 			(name "/PHONESGND")
 			(class "Default")
 			(node
-				(ref "J13")
-				(pin "S")
+				(ref "CN5")
+				(pin "39")
+				(pinfunction "Pin_39_39")
 				(pintype "passive")
 			)
 			(node
@@ -40379,8 +39860,9 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J13")
-				(pin "T")
+				(ref "CN5")
+				(pin "37")
+				(pinfunction "Pin_37_37")
 				(pintype "passive")
 			)
 			(node
@@ -40404,8 +39886,9 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J13")
-				(pin "R")
+				(ref "CN5")
+				(pin "38")
+				(pinfunction "Pin_38_38")
 				(pintype "passive")
 			)
 			(node
@@ -41815,6 +41298,90 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "CN5")
+				(pin "12")
+				(pinfunction "Pin_12_12")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN5")
+				(pin "15")
+				(pinfunction "Pin_15_15")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN5")
+				(pin "18")
+				(pinfunction "Pin_18_18")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN5")
+				(pin "2")
+				(pinfunction "Pin_2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN5")
+				(pin "21")
+				(pinfunction "Pin_21_21")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN5")
+				(pin "24")
+				(pinfunction "Pin_24_24")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN5")
+				(pin "27")
+				(pinfunction "Pin_27_27")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN5")
+				(pin "30")
+				(pinfunction "Pin_30_30")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN5")
+				(pin "33")
+				(pinfunction "Pin_33_33")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN5")
+				(pin "36")
+				(pinfunction "Pin_36_36")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN5")
+				(pin "4")
+				(pinfunction "Pin_4_4")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN5")
+				(pin "40")
+				(pinfunction "Pin_40_40")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN5")
+				(pin "6")
+				(pinfunction "Pin_6_6")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN5")
+				(pin "8")
+				(pinfunction "Pin_8_8")
+				(pintype "passive")
+			)
+			(node
 				(ref "D1")
 				(pin "2")
 				(pinfunction "A_2")
@@ -41836,46 +41403,6 @@
 				(ref "J1")
 				(pin "5")
 				(pinfunction "Pin_5_5")
-				(pintype "passive")
-			)
-			(node
-				(ref "J10")
-				(pin "S")
-				(pintype "passive")
-			)
-			(node
-				(ref "J11")
-				(pin "S")
-				(pintype "passive")
-			)
-			(node
-				(ref "J12")
-				(pin "S")
-				(pintype "passive")
-			)
-			(node
-				(ref "J2")
-				(pin "S")
-				(pintype "passive")
-			)
-			(node
-				(ref "J3")
-				(pin "S")
-				(pintype "passive")
-			)
-			(node
-				(ref "J7")
-				(pin "S")
-				(pintype "passive")
-			)
-			(node
-				(ref "J8")
-				(pin "S")
-				(pintype "passive")
-			)
-			(node
-				(ref "J9")
-				(pin "S")
 				(pintype "passive")
 			)
 			(node
@@ -42354,46 +41881,6 @@
 		)
 		(net
 			(code "340")
-			(name "unconnected-(J2-PadTN)")
-			(class "Default")
-			(node
-				(ref "J2")
-				(pin "TN")
-				(pintype "passive+no_connect")
-			)
-		)
-		(net
-			(code "341")
-			(name "unconnected-(J3-PadTN)")
-			(class "Default")
-			(node
-				(ref "J3")
-				(pin "TN")
-				(pintype "passive+no_connect")
-			)
-		)
-		(net
-			(code "342")
-			(name "unconnected-(J9-PadRN)")
-			(class "Default")
-			(node
-				(ref "J9")
-				(pin "RN")
-				(pintype "passive+no_connect")
-			)
-		)
-		(net
-			(code "343")
-			(name "unconnected-(J9-PadTN)")
-			(class "Default")
-			(node
-				(ref "J9")
-				(pin "TN")
-				(pintype "passive+no_connect")
-			)
-		)
-		(net
-			(code "344")
 			(name "unconnected-(K1-Pad2)")
 			(class "Default")
 			(node
@@ -42403,7 +41890,7 @@
 			)
 		)
 		(net
-			(code "345")
+			(code "341")
 			(name "unconnected-(K1-Pad7)")
 			(class "Default")
 			(node
@@ -42413,7 +41900,7 @@
 			)
 		)
 		(net
-			(code "346")
+			(code "342")
 			(name "unconnected-(K2-Pad2)")
 			(class "Default")
 			(node
@@ -42423,7 +41910,7 @@
 			)
 		)
 		(net
-			(code "347")
+			(code "343")
 			(name "unconnected-(K2-Pad7)")
 			(class "Default")
 			(node
@@ -42433,7 +41920,7 @@
 			)
 		)
 		(net
-			(code "348")
+			(code "344")
 			(name "unconnected-(K3-Pad2)")
 			(class "Default")
 			(node
@@ -42443,7 +41930,7 @@
 			)
 		)
 		(net
-			(code "349")
+			(code "345")
 			(name "unconnected-(K3-Pad7)")
 			(class "Default")
 			(node
@@ -42453,7 +41940,7 @@
 			)
 		)
 		(net
-			(code "350")
+			(code "346")
 			(name "unconnected-(K4-Pad2)")
 			(class "Default")
 			(node
@@ -42463,7 +41950,7 @@
 			)
 		)
 		(net
-			(code "351")
+			(code "347")
 			(name "unconnected-(K4-Pad7)")
 			(class "Default")
 			(node
@@ -42473,7 +41960,7 @@
 			)
 		)
 		(net
-			(code "352")
+			(code "348")
 			(name "unconnected-(K5-Pad2)")
 			(class "Default")
 			(node
@@ -42483,7 +41970,7 @@
 			)
 		)
 		(net
-			(code "353")
+			(code "349")
 			(name "unconnected-(K5-Pad7)")
 			(class "Default")
 			(node
@@ -42493,7 +41980,7 @@
 			)
 		)
 		(net
-			(code "354")
+			(code "350")
 			(name "unconnected-(SW1B-C-Pad6)")
 			(class "Default")
 			(node
@@ -42504,7 +41991,7 @@
 			)
 		)
 		(net
-			(code "355")
+			(code "351")
 			(name "unconnected-(SW2B-C-Pad6)")
 			(class "Default")
 			(node
@@ -42515,7 +42002,7 @@
 			)
 		)
 		(net
-			(code "356")
+			(code "352")
 			(name "unconnected-(U25-BW-Pad1)")
 			(class "Default")
 			(node
@@ -42526,7 +42013,7 @@
 			)
 		)
 		(net
-			(code "357")
+			(code "353")
 			(name "unconnected-(U26-BW-Pad1)")
 			(class "Default")
 			(node

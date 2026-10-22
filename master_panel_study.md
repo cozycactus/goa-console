@@ -55,8 +55,8 @@ module): 528 parts, 1525 pins, 0 mismatches, ERC 0. The circuits are unchanged f
 master, moved through `master_lib.py`.
 
 Before placement:
-- **Jack and XLR depth.** As on the strip, ¼" jacks and XLRs need about 25 mm behind a panel parallel
-  to the board. The group (5 jacks) and the master (9 jacks, 3 XLRs) need jack boards, as the strip
-  has. The XLRs become vertical types (Neutrik NC3MAV); the current footprints are horizontal
-  (NRJ6HF, NC3MAH).
+- ~~Jack and XLR depth~~ done 2026-10-22: jack boards for both. `group_jack_board.kicad_sch` (5 ×
+  NJ6FD-V, 2 × 8 link) and `master_jack_board.kicad_sch` (9 × NJ6FD-V + 3 × NC3MAV, 2 × 20 link). All
+  four schematics: 0 mismatches, every pin on a pad, ERC 0; the link pinouts match pin for pin
+  (master spec header).
 - **Wings.** Which groups sit on which wing (two per wing).

@@ -1,0 +1,972 @@
+(export
+	(version "E")
+	(design
+		(source "/Users/ruslanmigirov/projects/goa-console/group_jack_board.kicad_sch")
+		(date "2026-10-22T21:05:33")
+		(tool "Eeschema 10.0.7")
+		(sheet
+			(number "1")
+			(name "/")
+			(tstamps "/")
+			(title_block
+				(title "Group module jack board - goa console (sub out, insert, aux out, return L/R)")
+				(company)
+				(rev "0.1")
+				(date "2026-10-19")
+				(source "group_jack_board.kicad_sch")
+				(comment
+					(number "1")
+					(value "Generated with its main board (master_lib.jack_board)")
+				)
+				(comment
+					(number "2")
+					(value "Link pinout = main board CN")
+				)
+				(comment
+					(number "3")
+					(value "")
+				)
+				(comment
+					(number "4")
+					(value "")
+				)
+				(comment
+					(number "5")
+					(value "")
+				)
+				(comment
+					(number "6")
+					(value "")
+				)
+				(comment
+					(number "7")
+					(value "")
+				)
+				(comment
+					(number "8")
+					(value "")
+				)
+				(comment
+					(number "9")
+					(value "")
+				)
+			)
+		)
+	)
+	(components
+		(comp
+			(ref "CN1")
+			(value "Main board link 2x8")
+			(footprint "Connector_IDC:IDC-Header_2x08_P2.54mm_Vertical")
+			(fields
+				(field
+					(name "MPN") "2x8 box header, 2.54 mm")
+				(field
+					(name "Footprint") "Connector_IDC:IDC-Header_2x08_P2.54mm_Vertical")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Connector_Generic")
+				(part "Conn_02x08_Odd_Even")
+				(description "Generic connector, double row, 02x08, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(property
+				(name "MPN")
+				(value "2x8 box header, 2.54 mm")
+			)
+			(property
+				(name "Sheetname")
+				(value "group_jack_board")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group_jack_board.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "connector")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "Connector*:*_2x??_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "593c8b4d-8ca9-5a54-b076-da9d98d15779")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "11")
+						)
+						(pin
+							(num "13")
+						)
+						(pin
+							(num "15")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "10")
+						)
+						(pin
+							(num "12")
+						)
+						(pin
+							(num "14")
+						)
+						(pin
+							(num "16")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J1")
+			(value "SUB insert")
+			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
+			(fields
+				(field
+					(name "MPN") "Neutrik NJ6FD-V")
+				(field
+					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Connector_Audio")
+				(part "AudioJack3_SwitchTR")
+				(description "Audio Jack, 3 Poles (Stereo / TRS), Switched TR Poles (Normalling)")
+			)
+			(property
+				(name "MPN")
+				(value "Neutrik NJ6FD-V")
+			)
+			(property
+				(name "Sheetname")
+				(value "group_jack_board")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group_jack_board.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "audio jack receptacle stereo headphones phones TRS connector")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "Jack*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "b860e7ea-4442-577c-b291-3571b7cb245c")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "S")
+						)
+						(pin
+							(num "R")
+						)
+						(pin
+							(num "RN")
+						)
+						(pin
+							(num "T")
+						)
+						(pin
+							(num "TN")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J2")
+			(value "Sub out TRS")
+			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
+			(fields
+				(field
+					(name "MPN") "Neutrik NJ6FD-V")
+				(field
+					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Connector_Audio")
+				(part "AudioJack3")
+				(description "Audio Jack, 3 Poles (Stereo / TRS)")
+			)
+			(property
+				(name "MPN")
+				(value "Neutrik NJ6FD-V")
+			)
+			(property
+				(name "Sheetname")
+				(value "group_jack_board")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group_jack_board.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "audio jack receptacle stereo headphones phones TRS connector")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "Jack*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "a3021488-9f44-5369-b288-ceaf26498c18")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "S")
+						)
+						(pin
+							(num "R")
+						)
+						(pin
+							(num "T")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J3")
+			(value "Aux out TRS")
+			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
+			(fields
+				(field
+					(name "MPN") "Neutrik NJ6FD-V")
+				(field
+					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Connector_Audio")
+				(part "AudioJack3")
+				(description "Audio Jack, 3 Poles (Stereo / TRS)")
+			)
+			(property
+				(name "MPN")
+				(value "Neutrik NJ6FD-V")
+			)
+			(property
+				(name "Sheetname")
+				(value "group_jack_board")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group_jack_board.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "audio jack receptacle stereo headphones phones TRS connector")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "Jack*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "9b30611f-7df1-5c60-9278-065f61a0f25b")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "S")
+						)
+						(pin
+							(num "R")
+						)
+						(pin
+							(num "T")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J4")
+			(value "Return L in")
+			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
+			(fields
+				(field
+					(name "MPN") "Neutrik NJ6FD-V")
+				(field
+					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Connector_Audio")
+				(part "AudioJack3_SwitchTR")
+				(description "Audio Jack, 3 Poles (Stereo / TRS), Switched TR Poles (Normalling)")
+			)
+			(property
+				(name "MPN")
+				(value "Neutrik NJ6FD-V")
+			)
+			(property
+				(name "Sheetname")
+				(value "group_jack_board")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group_jack_board.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "audio jack receptacle stereo headphones phones TRS connector")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "Jack*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "e863b12e-5c20-5a2d-8e54-8bbe26176828")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "S")
+						)
+						(pin
+							(num "R")
+						)
+						(pin
+							(num "RN")
+						)
+						(pin
+							(num "T")
+						)
+						(pin
+							(num "TN")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J5")
+			(value "Return R in")
+			(footprint "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
+			(fields
+				(field
+					(name "MPN") "Neutrik NJ6FD-V")
+				(field
+					(name "Footprint") "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Connector_Audio")
+				(part "AudioJack3_SwitchTR")
+				(description "Audio Jack, 3 Poles (Stereo / TRS), Switched TR Poles (Normalling)")
+			)
+			(property
+				(name "MPN")
+				(value "Neutrik NJ6FD-V")
+			)
+			(property
+				(name "Sheetname")
+				(value "group_jack_board")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group_jack_board.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "audio jack receptacle stereo headphones phones TRS connector")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "Jack*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "ed2dafce-f7c9-5232-80f6-b10cfa886e65")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "S")
+						)
+						(pin
+							(num "R")
+						)
+						(pin
+							(num "RN")
+						)
+						(pin
+							(num "T")
+						)
+						(pin
+							(num "TN")
+						)
+					)
+				)
+			)
+		)
+	)
+	(groups)
+	(variants)
+	(libparts
+		(libpart
+			(lib "Connector_Audio")
+			(part "AudioJack3")
+			(description "Audio Jack, 3 Poles (Stereo / TRS)")
+			(footprints
+				(fp "Jack*")
+			)
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "AudioJack3")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Audio Jack, 3 Poles (Stereo / TRS)")
+			)
+			(pins
+				(pin
+					(num "R")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "S")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "T")
+					(name "")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Connector_Audio")
+			(part "AudioJack3_SwitchTR")
+			(description "Audio Jack, 3 Poles (Stereo / TRS), Switched TR Poles (Normalling)")
+			(footprints
+				(fp "Jack*")
+			)
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "AudioJack3_SwitchTR")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Audio Jack, 3 Poles (Stereo / TRS), Switched TR Poles (Normalling)")
+			)
+			(pins
+				(pin
+					(num "R")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "RN")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "S")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "T")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "TN")
+					(name "")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Connector_Generic")
+			(part "Conn_02x08_Odd_Even")
+			(description "Generic connector, double row, 02x08, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(footprints
+				(fp "Connector*:*_2x??_*")
+			)
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "Conn_02x08_Odd_Even")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Generic connector, double row, 02x08, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "Pin_1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "Pin_2")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "Pin_3")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "Pin_4")
+					(type "passive")
+				)
+				(pin
+					(num "5")
+					(name "Pin_5")
+					(type "passive")
+				)
+				(pin
+					(num "6")
+					(name "Pin_6")
+					(type "passive")
+				)
+				(pin
+					(num "7")
+					(name "Pin_7")
+					(type "passive")
+				)
+				(pin
+					(num "8")
+					(name "Pin_8")
+					(type "passive")
+				)
+				(pin
+					(num "9")
+					(name "Pin_9")
+					(type "passive")
+				)
+				(pin
+					(num "10")
+					(name "Pin_10")
+					(type "passive")
+				)
+				(pin
+					(num "11")
+					(name "Pin_11")
+					(type "passive")
+				)
+				(pin
+					(num "12")
+					(name "Pin_12")
+					(type "passive")
+				)
+				(pin
+					(num "13")
+					(name "Pin_13")
+					(type "passive")
+				)
+				(pin
+					(num "14")
+					(name "Pin_14")
+					(type "passive")
+				)
+				(pin
+					(num "15")
+					(name "Pin_15")
+					(type "passive")
+				)
+				(pin
+					(num "16")
+					(name "Pin_16")
+					(type "passive")
+				)
+			)
+		)
+	)
+	(libraries
+		(library
+			(logical "Connector_Audio")
+			(uri "${KICAD10_SYMBOL_DIR}/Connector_Audio.kicad_sym")
+		)
+		(library
+			(logical "Connector_Generic")
+			(uri "${KICAD10_SYMBOL_DIR}/Connector_Generic.kicad_sym")
+		)
+	)
+	(nets
+		(net
+			(code "1")
+			(name "/A_ON")
+			(class "Default")
+			(node
+				(ref "CN1")
+				(pin "9")
+				(pinfunction "Pin_9_9")
+				(pintype "passive")
+			)
+			(node
+				(ref "J3")
+				(pin "R")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "2")
+			(name "/A_OP")
+			(class "Default")
+			(node
+				(ref "CN1")
+				(pin "8")
+				(pinfunction "Pin_8_8")
+				(pintype "passive")
+			)
+			(node
+				(ref "J3")
+				(pin "T")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "3")
+			(name "/Return_LR")
+			(class "Default")
+			(node
+				(ref "CN1")
+				(pin "12")
+				(pinfunction "Pin_12_12")
+				(pintype "passive")
+			)
+			(node
+				(ref "J4")
+				(pin "R")
+				(pintype "passive")
+			)
+			(node
+				(ref "J5")
+				(pin "RN")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "4")
+			(name "/Return_LT")
+			(class "Default")
+			(node
+				(ref "CN1")
+				(pin "11")
+				(pinfunction "Pin_11_11")
+				(pintype "passive")
+			)
+			(node
+				(ref "J4")
+				(pin "T")
+				(pintype "passive")
+			)
+			(node
+				(ref "J5")
+				(pin "TN")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "5")
+			(name "/Return_RR")
+			(class "Default")
+			(node
+				(ref "CN1")
+				(pin "15")
+				(pinfunction "Pin_15_15")
+				(pintype "passive")
+			)
+			(node
+				(ref "J5")
+				(pin "R")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "6")
+			(name "/Return_RT")
+			(class "Default")
+			(node
+				(ref "CN1")
+				(pin "14")
+				(pinfunction "Pin_14_14")
+				(pintype "passive")
+			)
+			(node
+				(ref "J5")
+				(pin "T")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "7")
+			(name "/SUB_RETRAW")
+			(class "Default")
+			(node
+				(ref "CN1")
+				(pin "3")
+				(pinfunction "Pin_3_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "R")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "8")
+			(name "/SUB_SEND")
+			(class "Default")
+			(node
+				(ref "CN1")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "RN")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "T")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "9")
+			(name "/S_ON")
+			(class "Default")
+			(node
+				(ref "CN1")
+				(pin "6")
+				(pinfunction "Pin_6_6")
+				(pintype "passive")
+			)
+			(node
+				(ref "J2")
+				(pin "R")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "10")
+			(name "/S_OP")
+			(class "Default")
+			(node
+				(ref "CN1")
+				(pin "5")
+				(pinfunction "Pin_5_5")
+				(pintype "passive")
+			)
+			(node
+				(ref "J2")
+				(pin "T")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "11")
+			(name "GNDA")
+			(class "Default")
+			(node
+				(ref "CN1")
+				(pin "10")
+				(pinfunction "Pin_10_10")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN1")
+				(pin "13")
+				(pinfunction "Pin_13_13")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN1")
+				(pin "16")
+				(pinfunction "Pin_16_16")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN1")
+				(pin "2")
+				(pinfunction "Pin_2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN1")
+				(pin "4")
+				(pinfunction "Pin_4_4")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN1")
+				(pin "7")
+				(pinfunction "Pin_7_7")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "S")
+				(pintype "passive")
+			)
+			(node
+				(ref "J2")
+				(pin "S")
+				(pintype "passive")
+			)
+			(node
+				(ref "J3")
+				(pin "S")
+				(pintype "passive")
+			)
+			(node
+				(ref "J4")
+				(pin "S")
+				(pintype "passive")
+			)
+			(node
+				(ref "J5")
+				(pin "S")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "12")
+			(name "unconnected-(J1-PadTN)")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "TN")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "13")
+			(name "unconnected-(J4-PadRN)")
+			(class "Default")
+			(node
+				(ref "J4")
+				(pin "RN")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "14")
+			(name "unconnected-(J4-PadTN)")
+			(class "Default")
+			(node
+				(ref "J4")
+				(pin "TN")
+				(pintype "passive+no_connect")
+			)
+		)
+	)
+)

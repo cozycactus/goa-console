@@ -11,15 +11,11 @@ Qty,Value,Footprint,MPN,References
 2,33p C0G,Capacitor_SMD:C_0805_2012Metric,,C36 C41
 1,Ground spade 6.3mm,goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm,Keystone 1287-ST,CN1
 1,Bus 2x17,Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical,,CN2
+1,Jack board link 2x8,Connector_IDC:IDC-Header_2x08_P2.54mm_Vertical,2x8 box header, 2.54 mm,CN3
 1,Sub AFL red,LED_THT:LED_D3.0mm,,D1
 1,Aux AFL red,LED_THT:LED_D3.0mm,,D2
 1,Return PFL red,LED_THT:LED_D3.0mm,,D3
 2,Ferrite 220R@100MHz,Inductor_SMD:L_0805_2012Metric,220R@100MHz 0805,FB1 FB2
-1,SUB insert,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J1
-1,Sub out TRS,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J2
-1,Aux out TRS,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J3
-1,Return L in,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J4
-1,Return R in,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J5
 4,10R,Resistor_SMD:R_0805_2012Metric,,R1 R2 R3 R4
 1,10R GND cancel,Resistor_SMD:R_0805_2012Metric,,R5
 9,4K7 1%,Resistor_SMD:R_0805_2012Metric,,R6 R20 R21 R56 R57 R58 R59 R60 R61

@@ -88,7 +88,7 @@ def reinv(b, src, out, part='OPA1612', gref='GCANCEL_BUF'):  # [3]
 def insert(b, src, dst, name):                              # [4]
     s, rr, rt, bf = name + '_SEND', name + '_RETRAW', name + '_RET', name + '_RBUF'
     R(b, '75R', src, s)
-    P(b, ref('J'), 'JACKSW', name.replace('_', ' ') + ' insert', {'T': s, 'RN': s, 'R': rr, 'TN': 'NC', 'S': 'GNDA'})
+    jack(b, 'JACKSW', name.replace('_', ' ') + ' insert', {'T': s, 'RN': s, 'R': rr, 'TN': 'NC', 'S': 'GNDA'}, split=True)
     C(b, '47u NP 25V', rr, rt); R(b, '47K', rt, 'GNDA')
     amp(b, rt, bf, bf)
     C(b, '220u NP 25V', bf, dst); R(b, '47K', dst, 'GNDA')
@@ -139,8 +139,8 @@ def receiver(b, tip, ring, out):                            # strip-style ground
 
 def stereo_in(b, name, outl, outr):                         # two NRJ6HF, R normalled to L
     lt, lr, rt, rr = name + '_LT', name + '_LR', name + '_RT', name + '_RR'
-    P(b, ref('J'), 'JACKSW', name + ' L in', {'T': lt, 'R': lr, 'S': 'GNDA', 'TN': 'NC', 'RN': 'NC'})
-    P(b, ref('J'), 'JACKSW', name + ' R in', {'T': rt, 'R': rr, 'S': 'GNDA', 'TN': lt, 'RN': lr})
+    jack(b, 'JACKSW', name + ' L in', {'T': lt, 'R': lr, 'S': 'GNDA', 'TN': 'NC', 'RN': 'NC'})
+    jack(b, 'JACKSW', name + ' R in', {'T': rt, 'R': rr, 'S': 'GNDA', 'TN': lt, 'RN': lr})
     receiver(b, lt, lr, outl); receiver(b, rt, rr, outr)
 
 def jfet_switch(b, src, dst, ctrl, name):                   # [19] series J112, Delta ED2780 sh.1
@@ -148,6 +148,68 @@ def jfet_switch(b, src, dst, ctrl, name):                   # [19] series J112, 
     C(b, '47u NP 25V', src, s); R(b, '1M', s, 'GNDA')
     P(b, ref('Q'), 'JFET', 'J112', {2: s, 1: dst, 3: g})
     R(b, '47K', g, s); D(b, g, ctrl)
+
+# ---------------------------------------------------------------- jack boards
+# A 1/4" jack or an XLR needs ~25 mm behind a panel parallel to the board, so a module's panel connectors sit
+# on a jack board under the panel, joined to the main board by an IDC ribbon (as the strip, spec 16.4).
+jackboard = None                # None: jacks go on this board; a list: they are collected for the jack board
+LINK_SIZES = (5, 8, 10, 13, 20)  # 2 x n IDC headers; never 2 x 17, the bus ribbon's size
+JB_FP = {'JACK': 'Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical',
+         'JACKSW': 'Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical',
+         'XLR3': 'Connector_Audio:Jack_XLR_Neutrik_NC3MAV_Vertical'}
+JB_MPN = {'JACK': 'Neutrik NJ6FD-V', 'JACKSW': 'Neutrik NJ6FD-V', 'XLR3': 'Neutrik NC3MAV'}
+
+def collect_jacks():
+    """From now on, jacks are recorded for a jack board instead of being placed (reset() turns this off)."""
+    global jackboard
+    jackboard = []
+
+def collected(): return list(jackboard or [])
+
+def project_file(out):
+    """A .kicad_pro next to a generated schematic (settings from master.kicad_pro), so ERC uses them."""
+    import json, os
+    root, name = os.path.dirname(os.path.abspath(out)), os.path.splitext(os.path.basename(out))[0]
+    d = json.load(open(os.path.join(root, 'master.kicad_pro')))
+    d['meta']['filename'] = name + '.kicad_pro'; d['sheets'] = []
+    with open(os.path.join(root, name + '.kicad_pro'), 'w') as f: json.dump(d, f, indent=2); f.write('\n')
+
+def jack(b, key, value, pins, split=False):
+    """A panel jack or XLR: placed on this board, or recorded for the module's jack board. split = give every
+    signal its own ground-separated place on the link (insert send and return)."""
+    if jackboard is None: P(b, ref('J'), key, value, pins)
+    else: jackboard.append(dict(key=key, value=value, pins=pins, split=split))
+
+def link_pins(jacks, ground='GNDA', own_ground=('PHONESGND',)):
+    """IDC pinout for the jack-board link: each jack's signals adjacent, then a ground; a group that carries its
+    own signal return (phones) gets none. Ribbon conductor = pin number. Returns (n, {pin: net})."""
+    pins, seen = [], set()
+    for j in jacks:
+        nets = [n for n in j['pins'].values() if n not in ('NC', ground) and n not in seen and not seen.add(n)]
+        for g in ([[n] for n in nets] if j['split'] else [nets]):
+            if g:
+                pins += g
+                if not any(n in own_ground for n in g): pins.append(ground)
+    n = next(k for k in LINK_SIZES if 2 * k >= len(pins))
+    pins += [ground] * (2 * n - len(pins))
+    return n, {i + 1: net for i, net in enumerate(pins)}
+
+def link_header(b, n, link, value):
+    SYM[f'LINK{n}'] = ('Connector_Generic', f'Conn_02x{n:02d}_Odd_Even')
+    FP[f'LINK{n}'] = f'Connector_IDC:IDC-Header_2x{n:02d}_P2.54mm_Vertical'
+    P(b, ref('CN'), f'LINK{n}', value, link, mpn=f'2x{n} box header, 2.54 mm')
+
+def jack_board(out, project, title, jacks, n, link):
+    """Build the jack-board schematic: the collected jacks (NJ6FD-V / NC3MAV, vertical) and the mating link."""
+    reset()
+    b = block(f'JACK BOARD  panel jacks under the panel (~24 mm deep); 2x{n} IDC ribbon to the main board, pin = conductor')
+    for j in jacks:
+        P(b, ref('J'), j['key'], j['value'], j['pins'], fp=JB_FP[j['key']], mpn=JB_MPN[j['key']])
+    link_header(b, n, link, f'Main board link 2x{n}')
+    P(b, '#FLG01', 'FLAG', 'PWR_FLAG', {1: 'GNDA'})
+    project_file(out)
+    build(out, project, title, {1: 'Generated with its main board (master_lib.jack_board)', 2: 'Link pinout = main board CN'},
+          paper='auto', perrow=12, revision='0.1')
 
 def spares(b):
     """Tie off the unused halves of every partly used package: op-amp as a grounded follower, comparator
@@ -165,4 +227,5 @@ def spares(b):
 
 def reset():
     """Start a new schematic: empty block list, references from 1, no half-used packages."""
-    schgen.blocks.clear(); cnt.clear(); free.clear(); decoupling.clear()
+    global jackboard
+    schgen.blocks.clear(); cnt.clear(); free.clear(); decoupling.clear(); jackboard = None
