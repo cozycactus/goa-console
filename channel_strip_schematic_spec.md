@@ -364,16 +364,16 @@ AI scope: component placement only. Ruslan routes copper and pours grounds in Ki
 | J1, J2, J5 | Neutrik NJ6FD-V | `Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical` | On the panel, **on the jack board** (§16.4): a 1/4" plug goes ~30 mm deep, too deep for the main board's 11.5 mm gap. All plastic, isolated; panel hole 12 mm, panel 1.2–1.5 mm. |
 | RV1 | Bourns PTB0143-2010BPA103 | `goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm` | 100 mm, A10K; pin 1 (ground end) to the operator. |
 | RV2–RV7 | Alpha RD901F-40, A10K | `Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical` | Pin 1 = AGND (A-law runs from pin 1). |
-| RV9–RV11, RV13, RV15 | Alpha RD901F-40-15R1-B10K-0CD | same | 10K linear, centre detent (Alpha spec SP26020021). |
+| RV9–RV11, RV13, RV15 | Alpha RD901F-40-15R1-B10K-0CD | same | 10K linear, centre detent (Alpha spec SP26020021). In stock 2026-10-22 as Alpha 9 mm vertical linear "centre notch" 10K (Cedist / Amplified Parts R-VAV-B10K-CN), but with a 1/4" (6.35 mm) shaft: knobs must match. |
 | RV8 | Alpha RD902F-40, B10K, centre detent | `Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical` | Confirm a detent version is stocked. |
-| RV12, RV14 | Alpha RD902F-40 dual, **100K C (reverse log)** | same | **Availability to confirm**; the Delta used 100K C-law dual. |
-| SW3–SW15 | C&K PVA2 EE H1 1.7N V2 | `Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2` | DPDT push-push, 32 V / 100 mA; PV caps. |
+| RV12, RV14 | Alpha RD902F-40 dual, **100K C (reverse log)** | same | **Not stocked as a dual** (checked 2026-10-22): Tayda has the single C100K only; Bourns PTD90 duals are linear or audio only; a GroupDIY builder found only eBay lots. An A100K dual can't substitute: each gang is a rheostat (f ∝ 1/R), so it either sweeps the wrong way (CW = lower) or crams the range at one end. Needs a source decision (open). |
+| SW3–SW15 | C&K PVA2 EE H1 1.7N V2 | `Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2` | DPDT push-push, 32 V / 100 mA; PV caps. Datasheet (rev. 02/2025, p. 3): common 0 is the middle pin; released 0–1, pressed/latched 0–2; terminals moulded "2 0 1" on the body. **Fit each switch with its moulded "2" pins in the square-pad column (pads 1 and 4)**, so latched = 2–1 / 5–4 as drawn. The footprint is symmetric under 180°, so a switch fitted the other way round works inverted. Check one sample with a meter. |
 | D2–D8 | 3 mm LEDs | `LED_THT:LED_D3.0mm` | 7.6 mm spacers. D6–D8 (routing, yellow) at y 283, centred under SW5–SW7. |
 | CN4 | Keystone 1287-ST | `goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm` | |
 
-**Check on samples before ordering boards:** which PVA2 throw closes when latched (the
-schematic assumes 2–1 / 5–4; if not, swap pins 1↔3 and 4↔6 in `tools/gen.py`); the fader pad
-pattern against a 1:1 print; detent and C-law pot availability.
+**Check on samples before ordering boards:** PVA2 orientation by continuity (moulded "2" in the
+pad 1/4 column gives 2–1 / 5–4 when latched); the fader pad pattern against a 1:1 print; knob fit
+on the 6.35 mm centre-notch pots; a source for the C100K duals (RV12, RV14).
 
 ### 16.2 Panel stack (unchanged from v3.1)
 
@@ -445,8 +445,9 @@ sleeves go to AGND only through the ribbon. CN3/CN5: Würth 61201021621 2 × 5 b
 - Hand-written decks: `sim/gain_stage.cir`, `sim/delta_eq.cir`, `sim/strip_v4.cir`
   (results in `delta_clone_comparison.md` §6), `sim/routing_switch.cir` (§13). `sim/strip.cir` is the v3.1 path.
 
-**Open:** C-law dual and centre-detent pot availability;
-PVA2 latched-throw sense; NJ6FD-V body height (sets the jack-board depth and standoffs).
+**Open:** a source for the 100K C-law dual pots (RV12, RV14); pan dual B10K with centre detent (RV8) not yet found;
+NJ6FD-V body height (sets the jack-board depth and standoffs). PVA2 sense: settled from the datasheet,
+with an assembly rule (§16.1).
 
 *Document version 4.0 — October 2026*
 *Sources: Soundcraft Delta ED3344A/B/C, ED3151, ED2911A/B, ED2915A, ED2780*

@@ -149,15 +149,20 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
 
 ## Not done / open
 - Panel parts chosen (spec 13.1, 16.1): NJ6FD-V panel jacks (were NRJ6HF), Bourns PTB0143 fader, Alpha RD901F/RD902F pots,
-  C&K PVA2 EE switches, Keystone 1287-ST. Still to confirm with real parts: PVA2 latched-throw
-  sense, fader pad pattern (1:1 print), panel stack height. Fader/aux pots now pin 1 = GNDA (A taper).
+  C&K PVA2 EE switches, Keystone 1287-ST. PVA2 sense from the datasheet (2026-10-22): released 0–1,
+  latched 0–2, middle pin common; fit moulded "2" in the pad 1/4 column (spec 16.1). Still to confirm with
+  real parts: fader pad pattern (1:1 print), panel stack height, knob fit (centre-notch pots in stock have
+  6.35 mm shafts). Fader/aux pots now pin 1 = GNDA (A taper).
+- **100K C-law dual (RV12/RV14, EQ frequency) not stocked** anywhere mainstream (Tayda single only,
+  Bourns PTD90 linear/audio only); an A100K can't substitute (rheostat, f ∝ 1/R). Source decision open.
 - Pin 28 (PFL−) reading from the Delta drawing is uncertain.
 - Input buffer/receiver question settled: differential receiver fitted (pseudo-balanced cables recommended).
 
 ## Next steps
 0. Delta clone: spec v4.0, schematics and placement (main board + jack board) done (2026-10-22).
    Open: NJ6FD-V body height from Neutrik's drawing/sample (sets jack-board depth and standoffs);
-   C-law dual 100K / B10K detent pots; custom 12U frame with end rails only. Routing is Ruslan's.
+   C-law dual 100K source (not stocked; see Not done); pan B10K dual with detent; custom 12U frame with
+   end rails only. Routing is Ruslan's.
 1. Confirm panel parts against samples (see spec 13.1 checklist).
 2. Master section: every function is specified (spec v0.5). Ruslan decided: DRV134
    outputs, no master-end GCANCEL tie. Proposed in the spec, not yet reviewed: GCANCEL
