@@ -6,6 +6,11 @@ from schgen import block, P, build, FADER_FP, CAP_FP, SYM, FP
 SYM.update({'CONN6': ('Connector_Generic', 'Conn_01x06'), 'CONN2': ('Connector_Generic', 'Conn_01x02')})
 FP.update({'CONN6': 'Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical',
            'CONN2': 'Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical'})
+C0G = 'Capacitor_SMD:C_1206_3216Metric'                                     # C0G up to 100n
+FILM_S = 'Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2'     # 150n film
+FILM_L = 'Capacitor_THT:C_Rect_L7.2mm_W8.5mm_P5.00mm_FKP2_FKP2_MKS2_MKP2'     # 2.2u film (KiCad's spelling)
+POTB = 'Alpha RD901F-40-15R1-B10K-0CD (centre detent)'
+POT2C = 'Alpha RD902F-40 C100K dual (reverse log) - availability to confirm'
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else 'channel_strip.kicad_sch'
 
@@ -20,7 +25,8 @@ P(b,'R4','R','10R',{1:'-VBUS',2:'-VL'}); P(b,'C6','CP','47u 25V',{1:'GNDD',2:'-V
 P(b,'NT1','NT','AGND-LGND star',{1:'GNDA',2:'GNDD'})
 P(b,'CN4','TAB','Ground spade 6.3mm',{1:'GNDA'})
 P(b,'R5','R','10R GND cancel',{1:'GNDA',2:'GCANCEL'})
-for i,(ref,cp,cn) in enumerate([('U1','C20','C21'),('U2','C22','C23'),('U3','C24','C25')]):
+for i,(ref,cp,cn) in enumerate([('U1','C20','C21'),('U2','C22','C23'),('U3','C24','C25'),('U5','C29','C30'),
+                                  ('U6','C31','C32'),('U7','C33','C34'),('U8','C35','C36')]):
     P(b,ref,'OPA','OPA1612',{8:'+VA',4:'-VA'},unit=3)
     P(b,cp,'C','100n',{1:'+VA',2:'GNDA'}); P(b,cn,'C','100n',{1:'GNDA',2:'-VA'})
 P(b,'U4','CMP','LM393',{8:'+VL',4:'GNDD'},unit=3); P(b,'C26','C','100n',{1:'+VL',2:'GNDD'})
@@ -34,24 +40,77 @@ hdr.update({k:'GNDA' for k in range(2,17,2)})
 b = block('MOTHERLOOM  (Delta pinout; one header, crimped socket on a daisy-chained ribbon)')
 P(b,'CN1','HDR','Bus 2x17',hdr)
 
-b = block('LINE INPUT - ground-compensated differential receiver')
+b = block('LINE INPUT - ground-compensated receiver (inverting), Ø switch  SW15: latched = phase reversed')
 P(b,'J1','JACKSW','Line in TRS',{'T':'IN_T','R':'IN_R','S':'GNDA','TN':'NC','RN':'NC'})
 P(b,'C8','C','100p C0G',{1:'IN_T',2:'GNDA'}); P(b,'C9','C','100p C0G',{1:'IN_R',2:'GNDA'})
-P(b,'R10','R','1M',{1:'IN_T',2:'GNDA'})  # tip = hot, non-inverting
-P(b,'R6','R','10K 0.1%',{1:'IN_R',2:'U1A_N'}); P(b,'R7','R','10K 0.1%',{1:'U1A_N',2:'RECV'})
+P(b,'R10','R','1M',{1:'IN_T',2:'GNDA'})
+P(b,'SW15','SW','Phase',{2:'INV_IN',3:'IN_T',1:'IN_R'},unit=1)     # normal: tip to the inverting leg
+P(b,'SW15','SW','Phase',{5:'NINV_IN',6:'IN_R',4:'IN_T'},unit=2)
+P(b,'R6','R','10K 0.1%',{1:'INV_IN',2:'U1A_N'}); P(b,'R7','R','10K 0.1%',{1:'U1A_N',2:'RECV'})
 P(b,'C7','C','33p C0G',{1:'U1A_N',2:'RECV'})
-P(b,'R8','R','10K 0.1%',{1:'IN_T',2:'U1A_P'}); P(b,'R9','R','10K 0.1%',{1:'U1A_P',2:'GNDA'})
+P(b,'R8','R','10K 0.1%',{1:'NINV_IN',2:'U1A_P'}); P(b,'R9','R','10K 0.1%',{1:'U1A_P',2:'GNDA'})
 P(b,'U1','OPA','OPA1612',{3:'U1A_P',2:'U1A_N',1:'RECV'},unit=1)
 
-b = block('INSERT (send = tip, return = ring, ring normalled to send) + post-insert buffer')
-P(b,'R11','R','75R',{1:'RECV',2:'SEND'})
+b = block('GAIN  -15..+15 dB, 0 dB at the detent (inverting; pot pin 3 = CW = input end)')
+P(b,'R45','R','2K2 1%',{1:'RECV',2:'GA'})
+P(b,'RV9','POT','Gain 10K lin CD',{3:'GA',2:'GV',1:'GC'},mpn=POTB)
+P(b,'R46','R','2K2 1%',{1:'GC',2:'GOUT'}); P(b,'C37','C','22p C0G',{1:'GOUT',2:'GV'})
+P(b,'U1','OPA','OPA1612',{5:'GNDA',6:'GV',7:'GOUT'},unit=2)
+P(b,'C38','C','47u NP 25V',{1:'GOUT',2:'HIN'},fp=CAP_FP['47u']); P(b,'R47','R','47K',{1:'HIN',2:'GNDA'})
+
+b = block('HPF  unity Sallen-Key Butterworth, -3 dB 87 Hz  SW11: latched = HPF in (unlatched shorts the caps)')
+P(b,'C39','C','47n C0G',{1:'HIN',2:'H1'},fp=C0G); P(b,'C40','C','47n C0G',{1:'H1',2:'HP'},fp=C0G)
+P(b,'R48','R','27K',{1:'H1',2:'HOUT'}); P(b,'R49','R','56K',{1:'HP',2:'GNDA'})
+P(b,'U5','OPA','OPA1612',{3:'HP',2:'HOUT',1:'HOUT'},unit=1)
+P(b,'SW11','SW','HPF',{2:'HIN',3:'HP',1:'NC'},unit=1)
+P(b,'SW11','SW','HPF',{5:'NC',4:'NC',6:'NC'},unit=2)
+
+b = block('INSERT POSITION JUMPERS  1-2 = insert post-EQ (default);  2-3 on all three = insert pre-EQ')
+P(b,'JP6','SJ3','EQ input',{1:'HOUT',3:'BUF1',2:'EQIN'})
+P(b,'JP5','SJ3','Insert send source',{1:'EQOUT',3:'HOUT',2:'INS_SRC'})
+P(b,'JP7','SJ3','PRE source',{1:'BUF1',3:'EQOUT',2:'PRESRC'})
+
+b = block('EQ  Delta ED3344A/ED3151 values: HF shelf (U5B), HI-MID (U6A), LO-MID (U6B), LF (U7A); CW = boost')
+P(b,'R50','R','33K',{1:'EQIN',2:'EQ_V3'}); P(b,'R51','R','33K',{1:'EQ_O3',2:'EQ_V3'}); P(b,'C41','C','33p C0G',{1:'EQ_O3',2:'EQ_V3'})
+P(b,'U5','OPA','OPA1612',{5:'GNDA',6:'EQ_V3',7:'EQ_O3'},unit=2)
+P(b,'RV10','POT','HF 10K lin CD',{3:'EQIN',2:'EQ_WHF',1:'EQ_O3'},mpn=POTB)
+P(b,'C42','C','4n7 C0G',{1:'EQ_WHF',2:'EQ_T1'},fp=C0G); P(b,'R52','R','5K6',{1:'EQ_T1',2:'GNDA'})
+P(b,'C43','C','4n7 C0G',{1:'EQ_T1',2:'EQ_T2'},fp=C0G); P(b,'R53','R','6K8',{1:'EQ_T2',2:'EQ_V3'})
+P(b,'R54','R','22K',{1:'EQ_O3',2:'EQ_M4'}); P(b,'R55','R','22K',{1:'EQ_O4',2:'EQ_M4'})
+P(b,'U6','OPA','OPA1612',{3:'EQ_MP',2:'EQ_M4',1:'EQ_O4'},unit=1)
+P(b,'RV11','POT','HI-MID gain 10K lin CD',{3:'EQ_O4',2:'EQ_WHM',1:'EQ_O3'},mpn=POTB)
+P(b,'C44','C','3n3 C0G',{1:'EQ_WHM',2:'EQ_M1'},fp=C0G); P(b,'R56','R','6K8',{1:'EQ_M1',2:'EQ_M2'})
+P(b,'RV12','POT2','HI-MID freq 100K C dual',{3:'EQ_M2',2:'EQ_MP',1:'EQ_MP',6:'EQ_MP',5:'EQ_M3',4:'EQ_M3'},mpn=POT2C)
+P(b,'R57','R','6K8',{1:'EQ_M3',2:'GNDA'}); P(b,'C45','C','1n5 C0G',{1:'EQ_MP',2:'GNDA'},fp=C0G)
+P(b,'R58','R','22K',{1:'EQ_O4',2:'EQ_L4'}); P(b,'R59','R','22K',{1:'EQ_O5',2:'EQ_L4'})
+P(b,'U6','OPA','OPA1612',{5:'EQ_LP',6:'EQ_L4',7:'EQ_O5'},unit=2)
+P(b,'RV13','POT','LO-MID gain 10K lin CD',{3:'EQ_O5',2:'EQ_WLM',1:'EQ_O4'},mpn=POTB)
+P(b,'C46','C','15n C0G',{1:'EQ_WLM',2:'EQ_L1'},fp=C0G); P(b,'R60','R','6K8',{1:'EQ_L1',2:'EQ_L2'})
+P(b,'RV14','POT2','LO-MID freq 100K C dual',{3:'EQ_L2',2:'EQ_LP',1:'EQ_LP',6:'EQ_LP',5:'EQ_L3',4:'EQ_L3'},mpn=POT2C)
+P(b,'R61','R','6K8',{1:'EQ_L3',2:'GNDA'}); P(b,'C47','C','6n8 C0G',{1:'EQ_LP',2:'GNDA'},fp=C0G)
+P(b,'R66','R','22K',{1:'EQ_O5',2:'EQ_F4'}); P(b,'R67','R','22K',{1:'EQ_O6',2:'EQ_F4'})
+P(b,'U7','OPA','OPA1612',{3:'EQ_FP',2:'EQ_F4',1:'EQ_O6'},unit=1)
+P(b,'R62','R','3K3',{1:'EQ_O5',2:'EQ_F1'}); P(b,'R63','R','3K3',{1:'EQ_F2',2:'EQ_O6'})
+P(b,'RV15','POT','LF 10K lin CD',{1:'EQ_F1',2:'EQ_WLF',3:'EQ_F2'},mpn=POTB)
+P(b,'C48','C','150n film',{1:'EQ_F1',2:'EQ_F2'},fp=FILM_S)
+P(b,'R64','R','1K5',{1:'EQ_WLF',2:'EQ_F3'}); P(b,'C49','C','2.2u film',{1:'EQ_F3',2:'EQ_FP'},fp=FILM_L)
+P(b,'C50','C','100n C0G',{1:'EQ_FP',2:'GNDA'},fp=C0G); P(b,'R65','R','5K1',{1:'EQ_FP',2:'GNDA'})
+
+b = block('EQ IN  SW12: latched = EQ in (unlatched = bypass from the EQ input); green EQ LED')
+P(b,'SW12','SW','EQ',{2:'EQSEL',1:'EQ_O6',3:'EQIN'},unit=1)
+P(b,'SW12','SW','EQ',{5:'+VL',4:'EQ_ON',6:'NC'},unit=2)
+P(b,'R69','R','4K7',{1:'EQ_ON',2:'EQ_LA'}); P(b,'D5','LED','EQ green',{2:'EQ_LA',1:'GNDD'})
+P(b,'C51','C','47u NP 25V',{1:'EQSEL',2:'EQOUT'},fp=CAP_FP['47u']); P(b,'R68','R','47K',{1:'EQOUT',2:'GNDA'})
+
+b = block('INSERT (send = tip, return = ring, ring normalled to send) + return buffer')
+P(b,'R11','R','75R',{1:'INS_SRC',2:'SEND'})
 P(b,'J2','JACKSW','Insert TRS switched',{'T':'SEND','RN':'SEND','R':'RET_RAW','TN':'NC','S':'GNDA'})
 P(b,'C10','C','47u NP 25V',{1:'RET_RAW',2:'RET'},fp=CAP_FP['47u']); P(b,'R12','R','47K',{1:'RET',2:'GNDA'})
-P(b,'U1','OPA','OPA1612',{5:'RET',6:'BUF1',7:'BUF1'},unit=2)
-P(b,'C11','C','220u NP 25V',{1:'BUF1',2:'PRE'},fp=CAP_FP['220u']); P(b,'R13','R','47K',{1:'PRE',2:'GNDA'})
+P(b,'U7','OPA','OPA1612',{5:'RET',6:'BUF1',7:'BUF1'},unit=2)
+P(b,'C11','C','220u NP 25V',{1:'PRESRC',2:'PRE'},fp=CAP_FP['220u']); P(b,'R13','R','47K',{1:'PRE',2:'GNDA'})
 
 b = block('OVERLOAD DETECTOR (~+18 dBu)')
-P(b,'R39','R','1K',{1:'BUF1',2:'PKA'}); P(b,'D1','D','1N4148',{2:'PKA',1:'PK'})
+P(b,'R39','R','1K',{1:'PRESRC',2:'PKA'}); P(b,'D1','D','1N4148',{2:'PKA',1:'PK'})
 P(b,'C12','C','1u',{1:'PK',2:'GNDA'}); P(b,'R14','R','470K',{1:'PK',2:'GNDA'})
 P(b,'R40','R','10K',{1:'+VL',2:'VREF'}); P(b,'R41','R','10K',{1:'VREF',2:'GNDA'})
 P(b,'U4','CMP','LM393',{2:'PK',3:'VREF',1:'OL_K'},unit=1)
@@ -65,14 +124,14 @@ P(b,'SW3','SW','PFL',{5:'+VL',4:'PFL_ON',6:'NC'},unit=2)
 P(b,'R33','R','100K',{1:'PFL_ON',2:'PFLDET'})
 P(b,'R34','R','4K7',{1:'PFL_ON',2:'PFL_LA'}); P(b,'D3','LED','PFL red',{2:'PFL_LA',1:'GNDD'})
 
-b = block('SOFT MUTE (2x J112 shunt, ~20 ms ramp)  SW4: A-B = MUTE')
+b = block('ON / SOFT MUTE (2x J112 shunt, ~20 ms ramp)  SW4: latched = channel ON, green LED')
 P(b,'R16','R','4K7',{1:'PRE',2:'M1'}); P(b,'Q1','JFET','J112',{1:'M1',2:'GNDA',3:'MGATE'})
 P(b,'R17','R','4K7',{1:'M1',2:'M2'}); P(b,'Q2','JFET','J112',{1:'M2',2:'GNDA',3:'MGATE'})
 P(b,'U3','OPA','OPA1612',{5:'M2',6:'MUTEOUT',7:'MUTEOUT'},unit=2)
-P(b,'SW4','SW','MUTE',{2:'MSW',1:'GNDD',3:'-VL'},unit=1)
+P(b,'SW4','SW','ON',{2:'MSW',1:'-VL',3:'GNDD'},unit=1)
 P(b,'R42','R','220K',{1:'MSW',2:'MGATE'}); P(b,'C28','C','100n',{1:'MGATE',2:'GNDA'})
-P(b,'SW4','SW','MUTE',{5:'+VL',4:'MUTE_ON',6:'NC'},unit=2)
-P(b,'R43','R','4K7',{1:'MUTE_ON',2:'MUTE_LA'}); P(b,'D4','LED','MUTE amber',{2:'MUTE_LA',1:'GNDD'})
+P(b,'SW4','SW','ON',{5:'+VL',4:'ON_SW',6:'NC'},unit=2)
+P(b,'R43','R','4K7',{1:'ON_SW',2:'ON_LA'}); P(b,'D4','LED','ON green',{2:'ON_LA',1:'GNDD'})
 
 b = block('FADER + POST-AMP (+10 dB; omit R38 for unity)  JP1 = VCA bypass')
 P(b,'RV1','POT','Fader 10K log 100mm',{1:'GNDA',3:'MUTEOUT',2:'WIPER'},fp=FADER_FP,mpn='Bourns PTB0143-2010BPA103')
@@ -86,14 +145,25 @@ P(b,'R19','R','4K7',{1:'FPOST',2:'U2A_N'}); P(b,'C14','C','100p C0G',{1:'FPOST',
 P(b,'R38','R','2K2',{1:'U2A_N',2:'GNDA'})
 P(b,'C15','C','220u NP 25V',{1:'FPOST',2:'POST'},fp=CAP_FP['220u']); P(b,'R35','R','47K',{1:'POST',2:'GNDA'})
 
-b = block('AUX SENDS  (JP2: 1-2 = PRE;  JP3, JP4: 1-2 = POST)')
-P(b,'JP2','SJ3','Aux1/2 source',{1:'PRE',3:'POST',2:'SRC12'})
-P(b,'JP3','SJ3','Aux3/4 source',{1:'POST',3:'PRE',2:'SRC34'})
-P(b,'JP4','SJ3','Aux5/6 source',{1:'POST',3:'PRE',2:'SRC56'})
+b = block('AUX SENDS  PRE switch per pair (latched = pre); jumpers 1-2 = pre-fader, 2-3 = pre-EQ.  SW13 DIR: aux 6 pot -> direct out')
+for jp,sw,n in (('JP2','SW8','12'),('JP3','SW9','34'),('JP4','SW10','56')):
+    P(b,jp,'SJ3',f'Aux{n[0]}/{n[1]} pre source',{1:'PRE',3:'HOUT',2:f'PSRC{n}'})
+    P(b,sw,'SW',f'PRE {n[0]}-{n[1]}',{2:f'SRC{n}',1:f'PSRC{n}',3:'POST'},unit=1)
+    P(b,sw,'SW',f'PRE {n[0]}-{n[1]}',{5:'NC',4:'NC',6:'NC'},unit=2)
 for n,(rv,r,src) in enumerate([('RV2','R20','SRC12'),('RV3','R21','SRC12'),('RV4','R22','SRC34'),
                               ('RV5','R23','SRC34'),('RV6','R24','SRC56'),('RV7','R25','SRC56')],1):
     P(b,rv,'POT',f'Aux{n} 10K log',{1:'GNDA',3:src,2:f'A{n}W'})   # A taper: pin 1 = ground end
-    P(b,r,'R','22K',{1:f'A{n}W',2:f'AUX{n}'})
+    P(b,r,'R','22K',{1:f'A{n}W' if n < 6 else 'A6R',2:f'AUX{n}'})
+P(b,'SW13','SW','DIR',{2:'A6W',3:'A6R',1:'DIRSRC'},unit=1)
+P(b,'SW13','SW','DIR',{5:'A6R',4:'GNDA',6:'NC'},unit=2)   # DIR: R25 grounded, aux 6 bus sees no floating resistor
+
+b = block('DIRECT OUT  (level = aux 6 pot when DIR is latched; impedance-balanced TRS)')
+P(b,'R70','R','100K',{1:'DIRSRC',2:'GNDA'})
+P(b,'U8','OPA','OPA1612',{3:'DIRSRC',2:'DOUT',1:'DOUT'},unit=1)
+P(b,'R71','R','75R',{1:'DOUT',2:'DO1'}); P(b,'C52','C','47u NP 25V',{1:'DO1',2:'DO_T'},fp=CAP_FP['47u'])
+P(b,'R72','R','47K',{1:'DO_T',2:'GNDA'}); P(b,'R73','R','75R',{1:'DO_R',2:'GNDA'})
+P(b,'J5','JACKSW','Direct out TRS',{'T':'DO_T','R':'DO_R','S':'GNDA','TN':'NC','RN':'NC'})
+P(b,'U8','OPA','OPA1612',{5:'GNDA',6:'U8B_O',7:'U8B_O'},unit=2)   # spare half, tied off
 
 b = block('PAN + PAN BUFFERS (AC-coupled outputs)')
 P(b,'RV8','POT2','Pan 10K dual',{1:'POST',3:'GNDA',2:'PANWL',4:'GNDA',6:'POST',5:'PANWR'})
@@ -102,12 +172,18 @@ P(b,'U3','OPA','OPA1612',{3:'PANWR',2:'PBR',1:'PBR'},unit=1)
 P(b,'C16','C','220u NP 25V',{1:'PBL',2:'PANL'},fp=CAP_FP['220u']); P(b,'R36','R','47K',{1:'PANL',2:'GNDA'})
 P(b,'C17','C','220u NP 25V',{1:'PBR',2:'PANR'},fp=CAP_FP['220u']); P(b,'R37','R','47K',{1:'PANR',2:'GNDA'})
 
+b = block('PAN SWITCH  SW14: latched = subgroups panned; unlatched = subgroups get POST, unpanned (MIX always panned)')
+P(b,'SW14','SW','PAN',{2:'SUBSRC_L',1:'PANL',3:'POST'},unit=1)
+P(b,'SW14','SW','PAN',{5:'SUBSRC_R',4:'PANR',6:'POST'},unit=2)
+
 b = block('ROUTING MATRIX  (A-B = assigned; off grounds the resistor)  4K7 summing')
-for sw,rl,rr,bl,br,nm in [('SW5','R26','R27','MIXL','MIXR','L-R'),('SW6','R28','R29','SUB1','SUB2','1-2'),
-                          ('SW7','R30','R31','SUB3','SUB4','3-4')]:
-    P(b,rl,'R','4K7 1%',{1:'PANL',2:f'RT_{rl}'}); P(b,rr,'R','4K7 1%',{1:'PANR',2:f'RT_{rr}'})
+for sw,rl,rr,sl,sr,bl,br,nm in [('SW5','R26','R27','PANL','PANR','MIXL','MIXR','L-R'),
+                                ('SW6','R28','R29','SUBSRC_L','SUBSRC_R','SUB1','SUB2','1-2'),
+                                ('SW7','R30','R31','SUBSRC_L','SUBSRC_R','SUB3','SUB4','3-4')]:
+    P(b,rl,'R','4K7 1%',{1:sl,2:f'RT_{rl}'}); P(b,rr,'R','4K7 1%',{1:sr,2:f'RT_{rr}'})
     P(b,sw,'SW',f'Assign {nm}',{2:f'RT_{rl}',1:bl,3:'GNDA'},unit=1)
     P(b,sw,'SW',f'Assign {nm}',{5:f'RT_{rr}',4:br,6:'GNDA'},unit=2)
 
-build(OUT, 'channel_strip', 'Channel strip - goa console (Delta-style motherloom)',
-      {1: 'Generated from channel_strip_schematic_spec.md v3.0', 2: 'Nets joined by labels; tidy wiring in Eeschema as needed'})
+build(OUT, 'channel_strip', 'Channel strip - goa console (Delta Theatre input without the mic stage)',
+      {1: 'Generated from channel_strip_schematic_spec.md v4.0', 2: 'Nets joined by labels; tidy wiring in Eeschema as needed'},
+      paper='auto', revision='4.0')

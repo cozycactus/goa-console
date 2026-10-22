@@ -1,39 +1,60 @@
 Qty,Value,Footprint,MPN,References
 2,220u 25V,Capacitor_THT:CP_Radial_D8.0mm_P3.50mm,,C1 C3
-10,100n,Capacitor_SMD:C_0805_2012Metric,,C2 C4 C20 C21 C22 C23 C24 C25 C26 C28
+18,100n,Capacitor_SMD:C_0805_2012Metric,,C2 C4 C20 C21 C22 C23 C24 C25 C26 C28 C29 C30 C31 C32 C33 C34 C35 C36
 2,47u 25V,Capacitor_THT:CP_Radial_D6.3mm_P2.50mm,,C5 C6
-1,33p C0G,Capacitor_SMD:C_0805_2012Metric,,C7
+2,33p C0G,Capacitor_SMD:C_0805_2012Metric,,C7 C41
 3,100p C0G,Capacitor_SMD:C_0805_2012Metric,,C8 C9 C14
-1,47u NP 25V,Capacitor_THT:CP_Radial_D8.0mm_P3.50mm,,C10
+4,47u NP 25V,Capacitor_THT:CP_Radial_D8.0mm_P3.50mm,,C10 C38 C51 C52
 4,220u NP 25V,Capacitor_THT:CP_Radial_D10.0mm_P5.00mm,,C11 C15 C16 C17
 1,1u,Capacitor_SMD:C_0805_2012Metric,,C12
 1,2.2u,Capacitor_SMD:C_1206_3216Metric,,C13
+1,22p C0G,Capacitor_SMD:C_0805_2012Metric,,C37
+2,47n C0G,Capacitor_SMD:C_1206_3216Metric,,C39 C40
+2,4n7 C0G,Capacitor_SMD:C_1206_3216Metric,,C42 C43
+1,3n3 C0G,Capacitor_SMD:C_1206_3216Metric,,C44
+1,1n5 C0G,Capacitor_SMD:C_1206_3216Metric,,C45
+1,15n C0G,Capacitor_SMD:C_1206_3216Metric,,C46
+1,6n8 C0G,Capacitor_SMD:C_1206_3216Metric,,C47
+1,150n film,Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2,,C48
+1,2.2u film,Capacitor_THT:C_Rect_L7.2mm_W8.5mm_P5.00mm_FKP2_FKP2_MKS2_MKP2,,C49
+1,100n C0G,Capacitor_SMD:C_1206_3216Metric,,C50
 1,Bus 2x17,Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical,,CN1
 1,Ground spade 6.3mm,goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm,Keystone 1287-ST,CN4
 1,1N4148,Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal,,D1
 1,OL red,LED_THT:LED_D3.0mm,,D2
 1,PFL red,LED_THT:LED_D3.0mm,,D3
-1,MUTE amber,LED_THT:LED_D3.0mm,,D4
+1,ON green,LED_THT:LED_D3.0mm,,D4
+1,EQ green,LED_THT:LED_D3.0mm,,D5
 1,Line in TRS,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J1
 1,Insert TRS switched,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J2
 1,VCA module socket,Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical,,J3
 1,VCA control in,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,,J4
+1,Direct out TRS,Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal,Neutrik NRJ6HF,J5
 2,J112,Package_TO_SOT_SMD:SOT-23,,Q1 Q2
 4,10R,Resistor_SMD:R_0805_2012Metric,,R1 R2 R3 R4
 1,10R GND cancel,Resistor_SMD:R_0805_2012Metric,,R5
 4,10K 0.1%,Resistor_SMD:R_0805_2012Metric,,R6 R7 R8 R9
 1,1M,Resistor_SMD:R_0805_2012Metric,,R10
-1,75R,Resistor_SMD:R_0805_2012Metric,,R11
-5,47K,Resistor_SMD:R_0805_2012Metric,,R12 R13 R35 R36 R37
+3,75R,Resistor_SMD:R_0805_2012Metric,,R11 R71 R73
+8,47K,Resistor_SMD:R_0805_2012Metric,,R12 R13 R35 R36 R37 R47 R68 R72
 1,470K,Resistor_SMD:R_0805_2012Metric,,R14
 2,1K,Resistor_SMD:R_0805_2012Metric,,R15 R39
-5,4K7,Resistor_SMD:R_0805_2012Metric,,R16 R17 R19 R34 R43
-3,100K,Resistor_SMD:R_0805_2012Metric,,R18 R33 R44
-7,22K,Resistor_SMD:R_0805_2012Metric,,R20 R21 R22 R23 R24 R25 R32
+6,4K7,Resistor_SMD:R_0805_2012Metric,,R16 R17 R19 R34 R43 R69
+4,100K,Resistor_SMD:R_0805_2012Metric,,R18 R33 R44 R70
+13,22K,Resistor_SMD:R_0805_2012Metric,,R20 R21 R22 R23 R24 R25 R32 R54 R55 R58 R59 R66 R67
 6,4K7 1%,Resistor_SMD:R_0805_2012Metric,,R26 R27 R28 R29 R30 R31
 1,2K2,Resistor_SMD:R_0805_2012Metric,,R38
 2,10K,Resistor_SMD:R_0805_2012Metric,,R40 R41
 1,220K,Resistor_SMD:R_0805_2012Metric,,R42
+2,2K2 1%,Resistor_SMD:R_0805_2012Metric,,R45 R46
+1,27K,Resistor_SMD:R_0805_2012Metric,,R48
+1,56K,Resistor_SMD:R_0805_2012Metric,,R49
+2,33K,Resistor_SMD:R_0805_2012Metric,,R50 R51
+1,5K6,Resistor_SMD:R_0805_2012Metric,,R52
+5,6K8,Resistor_SMD:R_0805_2012Metric,,R53 R56 R57 R60 R61
+2,3K3,Resistor_SMD:R_0805_2012Metric,,R62 R63
+1,1K5,Resistor_SMD:R_0805_2012Metric,,R64
+1,5K1,Resistor_SMD:R_0805_2012Metric,,R65
 1,Fader 10K log 100mm,goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm,Bourns PTB0143-2010BPA103,RV1
 1,Aux1 10K log,Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,Alpha RD901F-40 A10K,RV2
 1,Aux2 10K log,Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,Alpha RD901F-40 A10K,RV3
@@ -42,10 +63,25 @@ Qty,Value,Footprint,MPN,References
 1,Aux5 10K log,Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,Alpha RD901F-40 A10K,RV6
 1,Aux6 10K log,Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,Alpha RD901F-40 A10K,RV7
 1,Pan 10K dual,Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical,Alpha RD902F-40 B10K centre detent,RV8
+1,Gain 10K lin CD,Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,Alpha RD901F-40-15R1-B10K-0CD (centre detent),RV9
+1,HF 10K lin CD,Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,Alpha RD901F-40-15R1-B10K-0CD (centre detent),RV10
+1,HI-MID gain 10K lin CD,Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,Alpha RD901F-40-15R1-B10K-0CD (centre detent),RV11
+1,HI-MID freq 100K C dual,Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical,Alpha RD902F-40 C100K dual (reverse log) - availability to confirm,RV12
+1,LO-MID gain 10K lin CD,Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,Alpha RD901F-40-15R1-B10K-0CD (centre detent),RV13
+1,LO-MID freq 100K C dual,Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical,Alpha RD902F-40 C100K dual (reverse log) - availability to confirm,RV14
+1,LF 10K lin CD,Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,Alpha RD901F-40-15R1-B10K-0CD (centre detent),RV15
 1,PFL,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW3
-1,MUTE,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW4
+1,ON,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW4
 1,Assign L-R,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW5
 1,Assign 1-2,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW6
 1,Assign 3-4,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW7
-3,OPA1612,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,,U1 U2 U3
+1,PRE 1-2,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW8
+1,PRE 3-4,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW9
+1,PRE 5-6,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW10
+1,HPF,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW11
+1,EQ,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW12
+1,DIR,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW13
+1,PAN,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW14
+1,Phase,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW15
+7,OPA1612,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,,U1 U2 U3 U5 U6 U7 U8
 1,LM393,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,,U4

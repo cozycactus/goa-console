@@ -1,472 +1,375 @@
-# Channel Strip — Component-Level Specification v3.0
-## One PCB per channel, ×24. For KiCad implementation.
+# Channel Strip — Component-Level Specification v4.0
+## Soundcraft Delta Theatre input without the mic stage. One PCB per channel, ×24.
 
-Bus pinout, grounding and power are defined in `console_architecture.md`.
-Where a value comes from a Delta drawing, the drawing number is given.
-
----
-
-## 0. Changes from v2.0
-
-- Added a ground-compensated differential input receiver (was: input jack straight to insert).
-- Added AC coupling (220 µF + 47K) on every node that feeds the bus. (ED3344C)
-- Added pan buffers L/R. (ED3344C, IC11)
-- Routing switches now ground the 10K resistor when off. (ED3151, ED3344C)
-- Mute is now a click-free JFET block. (ED3344B/C, J112)
-- Separate logic supply and logic ground. (ED3344B)
-- Ground-cancel resistor to bus pin 26 and spade ground terminal. (ED3344C R141, CN4)
-- Six dedicated aux pots, 10K log (ED3344C); Shift 5/6 removed.
-- Aux pre/post selected per pair by links. (ED3344C J4–J7)
-- Insert send has a 75 Ω build-out. (ED3344A R143)
-- Fader post-amp gain +10 dB, as the Delta. (ED3344C R130/R132)
-- Dropped the 15K balanced-bus footprints (replaced by ground cancel).
-- Bus connections follow the real Delta motherloom pinout.
+Bus pinout, grounding and power: `console_architecture.md`. Stage-by-stage comparison with the
+Delta, the signed-off decisions and the simulations behind this version: `delta_clone_comparison.md`.
+Reference designators are those of `tools/gen.py`; Delta drawing numbers are given where a
+circuit comes from a Delta sheet (ED3344A/B/C = Theatre input RH board, ED3151 = LH board).
 
 ---
 
-## 1. Signal Flow
+## 0. Changes from v3.1
+
+Decided 2026-10-22 (reverses the earlier "no EQ, no trim"):
+- **Ø switch** (SW15) and a **gain stage**, −15 … +15 dB, 0 dB at the centre detent (U1B, RV9).
+- **HPF**, 2-pole, switched (U5A, SW11). Unity gain; the Delta's version has +3 dB.
+- **4-band EQ** with Delta values (U5B, U6A/B, U7A; RV10–RV15) and **EQ IN** switch with green
+  LED (SW12, D5).
+- **Insert post-EQ** (Delta position), with three solder jumpers for pre-EQ (JP5–JP7). Insert
+  return buffer moves from U1B to U7B.
+- **ON** switch with green LED replaces MUTE/amber (SW4, D4); same J112 soft mute.
+- **PRE switch per aux pair** on the panel (SW8–SW10); the solder jumpers JP2–JP4 now choose
+  the pre source: pre-fader (default) or pre-EQ.
+- **Direct out** (J5, U8A); the **DIR** switch (SW13) turns the aux 6 pot into its level.
+- **PAN switch** (SW14): off sends the unpanned post-fader signal to the subgroups.
+- Four more OPA1612 (U5–U8): seven in all.
+
+Not changed: receiver, motherloom pinout, ground cancel, logic supply, soft mute circuit, fader
+and +10 dB post-amp, VCA option, pan buffers, 4K7 routing with grounded off-position,
+0 dBu internal level.
+
+---
+
+## 1. Signal flow
 
 ```
-J1 line in (TRS)
-  └─ IC1A differential receiver (unity)
-       └─ R_bo 75 Ω ─ J2 insert send (tip)
-                       [external gear, or jack normalling]
-                      J2 insert return (ring)
-                         └─ C coupling ─ IC1B buffer ── PRE node (AC-coupled)
-                                                         ├─ Aux 1/2 (link: pre)
-                                                         ├─ PFL → bus 27, PFL DET → bus 29
-                                                         ├─ OL peak detector
-                                                         └─ soft mute (2× J112)
-                                                              └─ fader ─ [VCA option] ─ IC2A post-amp +10 dB
-                                                                   └─ POST node (AC-coupled)
-                                                                        ├─ Aux 3/4, Aux 5/6 (link: post)
-                                                                        └─ pan pot (dual)
-                                                                             ├─ IC2B pan buffer L ─ PAN L (AC-coupled)
-                                                                             └─ IC3A pan buffer R ─ PAN R (AC-coupled)
-                                                                                  └─ routing switches → 10K → MIX L/R, SUB 1–4
+J1 line in ─ SW15 Ø ─ U1A receiver (unity, inverting) ─ U1B gain (−15…+15 dB, inverting) ─ C38 ─ HIN
+ ─ U5A HPF (SW11 in/out) ─ HOUT ──────────────────────────── pre-EQ tap (aux jumpers, JP5/JP6)
+ ─ JP6 ─ EQIN ─ U5B HF ─ U6A HI-MID ─ U6B LO-MID ─ U7A LF ─┐
+                         └──────────── SW12 EQ IN: EQ out or EQIN ┘─ C51 ─ EQOUT
+ ─ JP5 ─ R11 75R ─ J2 insert send / return (normalled) ─ U7B buffer ─ BUF1
+ ─ JP7 ─ PRESRC ─ C11 ─ PRE ─┬─ OL detector (U4A, from PRESRC)
+                             ├─ PFL (SW3, 22K) ── bus 27, PFL DET bus 29
+                             ├─ aux pre-fader tap (JP2–JP4)
+                             └─ soft mute (Q1/Q2, SW4 ON) ─ U3B ─ fader RV1 ─ [VCA option] ─ U2A +10 dB
+                                 ─ C15 ─ POST ─┬─ aux post tap (SW8–SW10 unlatched)
+                                               ├─ pan RV8 ─ U2B / U3A buffers ─ C16/C17 ─ PANL / PANR
+                                               │    ├─ SW5 L-R ─ R26/R27 4K7 ─ MIX L/R
+                                               │    └─ SW14 PAN ─ SUBSRC_L/R ─ SW6/SW7 ─ R28–R31 ─ SUB 1–4
+                                               └─ (SW14 unlatched: SUBSRC_L/R = POST)
+ aux 1-6: RV2–RV7 (10K A) ─ 22K ─ AUX buses; SW13 DIR: RV7 wiper ─ U8A ─ J5 direct out
 ```
+
+Polarity: receiver and gain stage both invert; the HPF, the EQ (four inverting stages, or the
+bypass), the insert buffer and the rest are non-inverting. Tip is hot, PRE is in phase with the
+tip (simulated −0.6° at 1 kHz). The master's summing amps invert once more; the master
+re-inverts.
+
+Switch convention throughout: PVA2 pin 2 (and 5) is common; **latched = 2–1 (5–4)**,
+unlatched = 2–3 (5–6). The latched throw still needs confirming on a real PVA2 (§16.1).
 
 ---
 
-## 2. Power, Grounding, Bus Connection
+## 2. Power, grounding, bus connection
 
-### 2.1 Audio rails (from bus pins 30–33)
+### 2.1 Audio rails (bus pins 30–33)
 ```
 +V (pins 32, 33) ── R1 10 Ω ── +VA ── C1 220 µF/25 V ── C2 100 nF ── AGND
 −V (pins 30, 31) ── R2 10 Ω ── −VA ── C3 220 µF/25 V ── C4 100 nF ── AGND
 ```
-- 100 nF ceramic at every op-amp supply pin.
-- Bus pin 34 (+48 V): no connection on this PCB.
+100 nF at every op-amp: C20/C21 (U1), C22/C23 (U2), C24/C25 (U3), C29/C30 (U5), C31/C32 (U6),
+C33/C34 (U7), C35/C36 (U8). Bus pin 34 (+48 V): not connected.
 
-### 2.2 Logic rails (separate, ED3344B)
+### 2.2 Logic rails (ED3344B)
 ```
-+V ── R3 10 Ω ── +VL ── C5 47 µF ── LGND
-−V ── R4 10 Ω ── −VL ── C6 47 µF ── LGND
++V ── R3 10 Ω ── +VL ── C5 47 µF ── LGND        −V ── R4 10 Ω ── −VL ── C6 47 µF ── LGND
 ```
-- Feeds LEDs, mute gate drive, PFL DET, OL comparator.
+Feeds the LEDs, the mute gate drive, PFL DET and the OL comparator (U4, C26).
 
 ### 2.3 Grounds
-- **AGND**: audio ground pour.
-- **LGND**: separate logic pour.
-- AGND and LGND join at **one point**, at the spade terminal.
-- **CN4 spade terminal** (¼" / 6.3 mm faston): heavy wire to the main ground bar.
-- **Ground cancel**: R5 10 Ω from AGND to bus **pin 26**. (ED3344C R141)
+- AGND pour and a separate LGND pour, joined at one point: NT1, beside the spade.
+- CN4: ¼" (6.3 mm) spade to the main ground bar.
+- Ground cancel: R5 10 Ω from AGND to bus pin 26 (ED3344C R141).
 - Bus even pins 2–16: AGND.
 
-### 2.4 Bus headers
-- CN1: one 34-pin shrouded keyed box header per strip, as the Delta (ED3344C CN2 "MOTHERLOOM").
-  The motherloom is one ribbon per wing with a crimped IDC socket at every strip position
-  (daisy-chained), so a strip needs no second header. Spare pins 1, 3, 5, 7, 19, 28 (PFL−)
-  and 34 (+48 V) are not connected on the strip. (Decided October 2026; replaced CN1 + CN2 in
-  parallel, which cost 34 cross-links on the PCB.)
+### 2.4 Bus header
+CN1: one 34-pin shrouded keyed header per strip, crimped IDC socket on a daisy-chained ribbon
+(Delta ED3344C CN2). Spare pins 1, 3, 5, 7, 19, 28 (PFL−) and 34 (+48 V) not connected.
 
 | Pin | Signal | Driven on this strip by |
 |-----|--------|-------------------------|
-| 9 | SUB 4 | R31 4K7 via SW_34 |
-| 11 | SUB 3 | R30 4K7 via SW_34 |
-| 13 | SUB 2 | R29 4K7 via SW_12 |
-| 15 | SUB 1 | R28 4K7 via SW_12 |
-| 17 | MIX R | R27 4K7 via SW_LR |
-| 18 | MIX L | R26 4K7 via SW_LR |
-| 20 | AUX 6 | R25 22K from VR6 |
-| 21 | AUX 5 | R24 22K from VR5 |
-| 22 | AUX 4 | R23 22K from VR4 |
-| 23 | AUX 3 | R22 22K from VR3 |
-| 24 | AUX 1 | R20 22K from VR1 |
-| 25 | AUX 2 | R21 22K from VR2 |
+| 9, 11 | SUB 4, SUB 3 | R31, R30 4K7 via SW7 (from SUBSRC_R / _L) |
+| 13, 15 | SUB 2, SUB 1 | R29, R28 4K7 via SW6 (from SUBSRC_R / _L) |
+| 17, 18 | MIX R, MIX L | R27, R26 4K7 via SW5 (from PANR / PANL) |
+| 24, 25, 23, 22, 21 | AUX 1, 2, 3, 4, 5 | R20–R24 22K from the wipers of RV2–RV6 |
+| 20 | AUX 6 | R25 22K from RV7 via SW13 (grounded when DIR is latched) |
 | 26 | GND CANCEL | R5 10 Ω to AGND |
-| 27 | PFL | R32 22K via SW_PFL |
-| 29 | PFL DET | R33 100K via SW_PFL |
+| 27 | PFL | R32 22K via SW3 |
+| 29 | PFL DET | R33 100K via SW3 |
 | 30–33 | −V, +V | power entry |
-| 1, 3, 5, 7, 19 | spare | no connection |
-| 34 | +48 V | no connection |
 
 ---
 
-## 3. Input Receiver (IC1A, ½ OPA1612)
-
-Unity-gain differential amplifier (ground-compensated input).
+## 3. Line input and Ø (U1A, SW15)
 
 ```
-J1 ring ── R6 10K ──┬── IC1A (−)      R7 10K from IC1A out to (−)
-J1 tip  ── R8 10K ──┬── IC1A (+)      R9 10K from (+) to AGND
-(tip = hot, non-inverting; the whole channel path is non-inverting)
-J1 sleeve ── AGND
-C7 33 pF across R7 (HF stability)
-C8, C9 100 pF from tip and ring to AGND at the jack (RF filter)
+J1 tip  ─┬─ C8 100 pF, R10 1M to AGND
+J1 ring ─┴─ C9 100 pF to AGND
+SW15 pole A: INV_IN  = tip (unlatched) or ring (latched, Ø)   ── R6 10K ── U1A (−) ── R7 10K ── RECV
+SW15 pole B: NINV_IN = ring (unlatched) or tip (latched, Ø)   ── R8 10K ── U1A (+) ── R9 10K ── AGND
+C7 33 pF across R7
 ```
-- R6–R9: 0.1% matched (or a 4-resistor network) for good common-mode rejection.
-  (THAT1246 was the alternative here; it went end-of-life in September 2026.)
-- **To get ground compensation from an unbalanced synth**, use a "pseudo-balanced" cable:
-  TRS at the console, TS at the synth, with the ring conductor joined to the sleeve **at
-  the synth end**. With a plain TS cable the input still works, as an ordinary
+- Ground-compensated receiver, unity gain, now **inverting** (tip to the inverting leg) so the
+  inverting gain stage after it restores polarity. R6–R9 0.1 % (or a matched network).
+- For ground compensation with unbalanced synths, use a pseudo-balanced cable (TRS at the
+  console, ring joined to sleeve at the synth end). A plain TS cable works as a normal
   unbalanced input.
-- Optional R10 1M from tip to AGND so the input doesn't float when unplugged.
+- Ø swaps the two legs before the 10K resistors.
 
 ---
 
-## 4. Insert
+## 4. Gain (U1B, RV9)
 
 ```
-IC1A out ── R11 75 Ω ── J2 tip (send)                       (ED3344A R143)
-J2 ring (return) ── normalled to tip by the jack when no plug is inserted
-J2 ring ── C10 47 µF ── node RET ── R12 47K to AGND
-J2 sleeve ── AGND
+RECV ── R45 2K2 ── RV9 pin 3 (CW end)    RV9 wiper ── U1B (−);  U1B (+) ── AGND
+GOUT ── R46 2K2 ── RV9 pin 1 (CCW end)   C37 22 pF from GOUT to U1B (−)
+GOUT ── C38 47 µF NP ── HIN ── R47 47K to AGND
 ```
-- J2: switched TRS jack with tip and ring normalling contacts.
+- Gain = (2K2 + R_wiper–pin1) / (2K2 + R_wiper–pin3): −15.0 dB fully CCW, 0 dB at the centre
+  detent, +14.8 dB fully CW, symmetric in dB (≈ 2.5 dB per 10 % of rotation).
+- RV9: Alpha RD901F-40-15R1-B10K-0CD (10K linear, centre detent).
+- Noise at the gain-stage output, 50 Ω source: −105.2 dBu at 0 dB, −91.4 dBu at +15 dB. The
+  Delta line-stage topology recalculated for the same range is 4.7 dB noisier (rejected).
 
-### IC1B — post-insert buffer (½ OPA1612)
+---
+
+## 5. HPF (U5A, SW11)
+
 ```
-RET ── IC1B (+);  IC1B out ── (−)  (voltage follower)
-IC1B out ── C11 220 µF ── PRE node ── R13 47K to AGND
+HIN ── C39 47 nF ── H1 ── C40 47 nF ── HP ── U5A (+);  U5A out = HOUT, follower
+H1 ── R48 27K ── HOUT;   HP ── R49 56K ── AGND
+SW11 pole A: HIN ─ HP when unlatched (caps shorted, HPF out); open when latched (HPF in)
+```
+- Unity-gain Sallen-Key Butterworth: −3 dB at 87 Hz, −10 dB at 50 Hz, 12 dB/oct, no peaking.
+  The Delta's (ED3344A IC3A, 33K/39K with +3 dB gain, −3 dB at 91 Hz) has +3 dB of passband gain,
+  which our 0 dBu structure doesn't want.
+- C39, C40: C0G 1206. HOUT is also the pre-EQ tap.
+
+---
+
+## 6. EQ (ED3344A, ED3151) and EQ IN
+
+Four cascaded unity-gain inverting stages; each band's 10K B centre-detent gain pot spans its
+stage's input and output; **clockwise boosts** on every band (as the ED3151 CW arrows).
+
+| Band | Stage | Circuit (values as the Delta) | Pots |
+|------|-------|-------------------------------|------|
+| HF shelf | U5B | R50 33K in, R51 33K ∥ C41 33 pF feedback; wiper ─ C42 4n7 ─ T1 (R52 5K6 to AGND) ─ C43 4n7 ─ R53 6K8 ─ virtual earth | RV10 gain: pin 3 = EQIN, pin 1 = U5B out |
+| HI-MID | U6A | R54 22K in, R55 22K feedback; (+) input from the wiper through a Wien band-pass: C44 3n3 + R56 6K8 + RV12A in series, C45 1n5 ∥ (RV12B + R57 6K8) to AGND | RV11 gain: pin 3 = U6A out; RV12 frequency: 100K C-law dual, each gang a rheostat |
+| LO-MID | U6B | R58/R59 22K; C46 15n + R60 6K8 + RV14A; C47 6n8 ∥ (RV14B + R61 6K8) | RV13 gain: pin 3 = U6B out; RV14 frequency |
+| LF bell | U7A | R66/R67 22K; (+) input: wiper ─ R64 1K5 ─ C49 2µ2 ─ (C50 100 nF ∥ R65 5K1 to AGND) | RV15 gain between R62 3K3 (from U6B) and R63 3K3 (to U7A out), C48 150 nF across it |
+
+- Frequency pots RV12, RV14: wiper tied to pin 1 (and 4); rheostat between wiper and pin 3 (6),
+  so resistance falls clockwise and, with the C (reverse-log) law, frequency rises
+  logarithmically.
+- The Delta's R32/R36 meet the stage-input line on ED3344A without a junction dot. They cross
+  rather than connect, and run from the rheostat to ground. Simulation confirms the reading.
+- Simulated (`sim/delta_eq.cir`; whole schematic in `tools/sim_netlist.py`):
+  HF ±11.5 dB at 12 kHz; HI-MID ±14.6 dB, 670 Hz–10.5 kHz, Q 1.44; LO-MID ±14.7 dB,
+  148 Hz–2.3 kHz, Q 1.44; LF ±14.3 dB at 54 Hz, Q 0.88; flat within 0.16 dB and in phase with
+  all pots centred.
+- Capacitors: C0G 1206 up to 100 nF; C48 150 nF and C49 2.2 µF polyester film (MKS2).
+- Op-amps OPA1612. EQ noise is resistor thermal noise (op-amp choice changes it by 0.2 dB);
+  the Delta impedances are kept (halving them would buy 2.4 dB).
+
+### 6.1 EQ IN (SW12, D5)
+```
+SW12 pole A: EQSEL = U7A out (latched, EQ in) or EQIN (unlatched, bypass)
+EQSEL ── C51 47 µF NP ── EQOUT ── R68 47K to AGND
+SW12 pole B: +VL to EQ_ON when latched ── R69 4K7 ── D5 green ── LGND
+```
+The bypass takes the EQ's own input, so it works in both insert positions.
+
+---
+
+## 7. Insert and its position (U7B, JP5–JP7)
+
+```
+JP5: INS_SRC = EQOUT (1-2, default) or HOUT (2-3)      ── R11 75R ── J2 tip (send)
+J2 ring (return) normalled to tip with no plug ── C10 47 µF NP ── RET ── R12 47K ── U7B follower ── BUF1
+JP6: EQIN   = HOUT (1-2, default) or BUF1 (2-3)
+JP7: PRESRC = BUF1 (1-2, default) or EQOUT (2-3)       ── C11 220 µF NP ── PRE ── R13 47K
+```
+- All three on 1-2 (as supplied, bridged): insert **post-EQ**, the Delta default.
+- All three on 2-3: insert **pre-EQ** (HPF → insert → EQ → PRE).
+- Never mix positions: cut and bridge all three together.
+
+---
+
+## 8. Pre-fade section
+
+### 8.1 OL detector (U4A, logic rails)
+From PRESRC (always the signal entering PRE: post-EQ, post-insert): R39 1K, D1 1N4148,
+C12 1 µF, R14 470K; comparator against R40/R41 for ≈ +18 dBu; red OL LED D2 via R15 1K.
+U4B tied off.
+
+### 8.2 PFL (SW3, D3)
+```
+PRE ── R32 22K ── SW3 pole A ── bus 27 (latched) or AGND (unlatched)
++VL ── SW3 pole B ── PFL_ON ── R33 100K ── bus 29 (PFL DET);  R34 4K7 ── D3 red ── LGND
 ```
 
 ---
 
-## 5. Pre-fade Section
+## 9. ON and soft mute (ED3344B/C)
 
-### 5.1 OL detector (½ LM393, on logic rails)
-- Peak detector from IC1B output: D1 1N4148 → C12 1 µF, R14 470K discharge.
-- Comparator against a divider set for ~+18 dBu; open-collector output drives the red
-  OL LED via R15 1K from +VL.
-
-### 5.2 PFL
 ```
-PRE ── SW_PFL pole A ── R32 22K ── bus 27 (PFL)
-+VL ── SW_PFL pole B ── R33 100K ── bus 29 (PFL DET)          (ED3344C R47/R48)
-       SW_PFL pole C ── PFL LED (red) via R34 from +VL
+PRE ── R16 4K7 ── M1 ── Q1 J112 to AGND ── R17 4K7 ── M2 ── Q2 J112 to AGND ── U3B follower ── MUTEOUT
+SW4 pole A: MSW = −VL (latched, ON) or LGND (unlatched, muted) ── R42 220K ── MGATE ── C28 100 nF
+SW4 pole B: +VL to ON_SW when latched ── R43 4K7 ── D4 green ── LGND
 ```
+- Latched = channel on: gates at −VL, JFETs off. Unlatched = muted: gates at 0 V, ≈ 86 dB of
+  attenuation, ≈ 20 ms ramp (R42/C28).
 
 ---
 
-## 6. Soft Mute (ED3344B / ED3344C mute block)
-
-Two cascaded shunt-JFET attenuators, click-free.
+## 10. Fader, post-amp, VCA option (unchanged)
 
 ```
-PRE ── R16 4K7 ── node M1 ── Q1 J112 drain-source to AGND ── buffer
-               ── R17 4K7 ── node M2 ── Q2 J112 drain-source to AGND ── IC3B follower ── MUTE OUT
+MUTEOUT ── RV1 fader top (pin 3), pin 1 AGND ── wiper ── C13 2.2 µF ── JP1 (VCA bypass) ── FPIN ── R18 100K
+U2A: (+) FPIN, R19 4K7 ∥ C14 100 pF feedback, R38 2K2 to AGND: +10 dB ── C15 220 µF NP ── POST ── R35 47K
 ```
-- Unmuted: gates held at −VL (JFETs off, open circuit).
-- Muted: gates pulled to 0 V (JFETs on, tens of ohms): roughly 40 dB per stage.
-- Gate drive through an RC ramp (e.g. 220K / 100 nF, with 1N4148 steering, as ED3344B)
-  so the gain changes over ~20 ms instead of switching instantly.
-- SW_MUTE: latching switch on the logic side only; it never carries audio.
-- Mute LED (amber) from the same logic signal.
-- IC3B (½ OPA1612 or NE5532): buffer so the fader is driven from a low impedance.
+- The fader's "0" mark sits 10 dB below the top. Omit R38 for unity at the top.
+- VCA option (DNP): J3 1×6 socket for an SSI2162 plug-in module across C13 → FPIN (in, out,
+  control, +VA, AGND, −VA), J4 control input, R44 100K pull-down; JP1 bridged when no module.
 
 ---
 
-## 7. Fader and Post-amp
+## 11. Aux sends, PRE switches, DIR and direct out
 
 ```
-MUTE OUT ── fader top (100 mm, 10K log/audio taper)
-fader bottom ── AGND
-fader wiper ── C13 2.2 µF ── [VCA option / JP1] ── R18 100K to AGND ── IC2A (+)
-IC2A out ── R19 4K7 ── IC2A (−) ── R38 2K2 to AGND;  C14 100 pF across R19
-IC2A out ── C15 220 µF ── POST node ── R35 47K to AGND
+JP2/JP3/JP4 (pairs 1-2, 3-4, 5-6): PSRCn = PRE (1-2, default, pre-fader) or HOUT (2-3, pre-EQ)
+SW8/SW9/SW10 pole A: SRCn = PSRCn (latched, PRE) or POST (unlatched)
+RV2…RV7 10K A: pin 3 = SRCn, pin 1 = AGND, wiper ── R20…R24 22K ── AUX 1…5
+RV7 wiper ── SW13 pole A ── A6R (unlatched) ── R25 22K ── AUX 6
+                         └─ DIRSRC (latched, DIR) ── R70 100K to AGND ── U8A follower ── DOUT
+SW13 pole B: A6R to AGND when latched (no floating resistor on the aux 6 bus)
+DOUT ── R71 75R ── C52 47 µF NP ── J5 tip ── R72 47K to AGND;   J5 ring ── R73 75R ── AGND
 ```
-- Gain 1 + 4K7/2K2 ≈ +10 dB (ED3344C R130/R132): the fader's "0" mark sits about 10 dB
-  below the top, giving 10 dB of gain at full travel.
-- For unity at the top instead, omit R38 (follower).
-
-### 7.1 VCA option (unpopulated)
-- The THAT 2180/2181 planned here went end-of-life (September 2026). **Replaced by a plug-in VCA
-  module built around a Sound Semiconductor SSI2162** (in production).
-- The SSI2162 is current-in/current-out (output compliance only ±100 mV), so it needs an I/V
-  converter, which inverts. To keep the strip's polarity and its PCB simple, the VCA lives on a
-  small module: 10K input resistor → SSI2162 (both channels in parallel: 3 dB lower noise) →
-  inverting I/V op-amp (10K ∥ 47–100 pF) → unity inverter. Voltage in, voltage out, in phase,
-  unity gain at 0 V control.
-- Datasheet figures for one channel, class AB, 10K: −99 dBu output noise (20 Hz–20 kHz),
-  0.05 % THD at 0 dB; paralleling both channels lowers the noise by about 3 dB.
-- Control: ground-referenced, −33 mV/dB, from a module pin (for VCA groups or automation later).
-- On the strip: a footprint for the module (header: in, out, control, ±V, GNDA) across C13 →
-  R18, with JP1 bridged when no module is fitted. Not yet in `tools/gen.py`.
+- Direct out: impedance-balanced TRS, level = aux 6 pot, source = the aux 5/6 PRE selection.
+  0 dBu at the jack with the pot fully up. U8B spare, tied off as a grounded follower.
+- SW8–SW10 pole B unused.
 
 ---
 
-## 8. Aux Sends
-
-- VR1–VR6: 10K log (Delta ED3344C uses 10KA; ED2911A uses 20K log).
-- Pot: top = source node, bottom = AGND, wiper → 22K → bus.
-- Source links per pair (set at build time, like Delta J4–J7):
-
-| Pair | Link PRE | Link POST | Default |
-|------|----------|-----------|---------|
-| Aux 1/2 | PRE node | POST node | PRE |
-| Aux 3/4 | PRE node | POST node | POST |
-| Aux 5/6 | PRE node | POST node | POST |
-
-- Optional **stereo Aux 5/6**: link Aux 5 source to PAN L and Aux 6 to PAN R, and fit a
-  dual-gang pot at VR5 (VR6 not fitted). Footprint should allow both.
-
----
-
-## 9. Pan and Pan Buffers
+## 12. Pan, pan buffers, PAN switch
 
 ```
-POST ── VR7 gang A (CW) ... wiper ── IC2B (+) ── follower ── C16 220 µF ── PAN L ── R36 47K
-POST ── VR7 gang B (CCW)... wiper ── IC3A (+) ── follower ── C17 220 µF ── PAN R ── R37 47K
+POST ── RV8 (10K B dual, centre detent) ── wipers ── U2B / U3A followers ── C16 / C17 220 µF NP ── PANL / PANR (R36/R37 47K)
+SW14 pole A: SUBSRC_L = PANL (latched, PAN) or POST (unlatched)
+SW14 pole B: SUBSRC_R = PANR (latched)       or POST (unlatched)
 ```
-- VR7: 10K dual-gang pan pot (constant-power / MN taper, or linear "B" with the Delta's
-  buffer arrangement).
-- IC2B: ½ OPA1612. IC3A: ½ OPA1612 or NE5532.
-- The buffers isolate the pan law from the routing load.
+- MIX is always panned (−6 dB at centre with the linear pot). With PAN off the subgroups get the
+  unpanned post-fader signal at full level: the Delta's behaviour (ED3151 "post pan switch"),
+  for using a subgroup pair as two mono groups.
+- Why the buffers: unbuffered, the routing load moves the pan law by up to 5 dB (v3 analysis,
+  unchanged).
 
 ---
 
-## 10. Routing Matrix
+## 13. Routing matrix
 
-Each assign switch is DPDT. Each resistor is always connected to the pan buffer; the
-switch sends its far end either to the bus (on) or to clean AGND (off). (ED3151, ED3344C)
+Each DPDT assign switch sends the far end of its 4K7 resistor to the bus (latched) or to AGND
+(unlatched), so the load on the source never changes (ED3151, ED3344C).
 
-```
-PAN L ── R26 4K7 ──┬─ SW_LR pole A ── on: bus 18 (MIX L)   off: AGND
-PAN R ── R27 4K7 ──┴─ SW_LR pole B ── on: bus 17 (MIX R)   off: AGND
-PAN L ── R28 4K7 ── SW_12 pole A ── on: bus 15 (SUB 1)     off: AGND
-PAN R ── R29 4K7 ── SW_12 pole B ── on: bus 13 (SUB 2)     off: AGND
-PAN L ── R30 4K7 ── SW_34 pole A ── on: bus 11 (SUB 3)     off: AGND
-PAN R ── R31 4K7 ── SW_34 pole B ── on: bus 9  (SUB 4)     off: AGND
-```
-- R26–R31: 4K7 1% metal film (chosen for the quieter bus; 10K for Delta compatibility), 0.5 W body for low excess noise (the Delta uses 0.5 W).
-- Constant load on each pan buffer: 3 × 10K = 3.3K (or 1.57K with 4K7), whatever is routed.
-- Option: 4K7 routing resistors for a quieter bus (see architecture doc 2.4). The master
-  summing feedback resistors must then also be 4K7.
+| Switch | Pole A | Pole B |
+|--------|--------|--------|
+| SW5 L-R | PANL ─ R26 ─ MIX L (18) | PANR ─ R27 ─ MIX R (17) |
+| SW6 1-2 | SUBSRC_L ─ R28 ─ SUB 1 (15) | SUBSRC_R ─ R29 ─ SUB 2 (13) |
+| SW7 3-4 | SUBSRC_L ─ R30 ─ SUB 3 (11) | SUBSRC_R ─ R31 ─ SUB 4 (9) |
 
-### 10.1 Why the pan buffers are needed (calculated)
-Linear 10K pan pot, level of one side:
+R26–R31: 4K7 1 % metal film (recorded decision; the master's feedback resistors are 4K7 too).
 
-| Pot position | Buffered (unloaded) | Unbuffered, 1 route (10K) | Unbuffered, 3 routes (3.3K) |
-|--------------|---------------------|---------------------------|-----------------------------|
-| full | 0 dB | 0 dB | 0 dB |
-| ¾ | −2.5 dB | −4.0 dB | −6.4 dB |
-| centre | −6.0 dB | −8.0 dB | −10.9 dB |
-| ¼ | −12.0 dB | −13.5 dB | −15.9 dB |
-
-- Unbuffered, the centre level falls by about 5 dB and the pan law changes shape.
-- With the buffers, the pan law is set by the pot alone: linear gives −6 dB at centre.
-  For a −3 dB (constant-power) centre, use an MN/constant-power taper pot, or give the pan
-  buffers about +3 dB of gain with a linear pot (hard-panned then reads +3 dB).
-- Assign LEDs optional, on logic rails.
+**Routing LEDs (decided, not yet drawn).** Both PVA2 poles carry audio, so an LED needs a third
+pole. KiCad has no 4PDT push-switch footprint, and no part is chosen yet. Open item §16.
 
 ---
 
-## 11. IC Summary
+## 14. IC summary
 
-| Ref | Part | Halves |
-|-----|------|--------|
-| IC1 | OPA1612 | A: input receiver; B: post-insert buffer |
-| IC2 | OPA1612 | A: fader post-amp; B: pan buffer L |
-| IC3 | OPA1612 or NE5532 | A: pan buffer R; B: mute output buffer |
-| IC4 | LM393 | A: OL comparator; B: spare (inputs tied off) |
-| Q1, Q2 | J112 | Soft mute |
-
----
-
-## 12. Bill of Materials (per channel, approximate)
-
-| Qty | Part | Notes |
-|-----|------|-------|
-| 3 | OPA1612 (or 2× OPA1612 + 1× NE5532) | SOIC-8 |
-| 1 | LM393 | SOIC-8 or DIP-8 |
-| 2 | J112 | TO-92 |
-| 2 | TRS jack, switched, isolated | J1 input, J2 insert |
-| 1 | 34-pin shrouded box header | CN1 |
-| 1 | 6.3 mm spade/faston tab | CN4 ground |
-| 1 | 100 mm fader, 10K audio taper | |
-| 6 | 10K log pot | Aux 1–6 (VR5 footprint also fits dual-gang) |
-| 1 | 10K dual-gang pan pot | VR7 |
-| 3 | DPDT latching switch | L/R, 1-2, 3-4 |
-| 1 | 3PDT (or DPDT + LED) latching switch | PFL |
-| 1 | Latching switch | Mute (logic only) |
-| 3 | LED | OL red, mute amber, PFL red |
-| 4 | 10K 0.1% (or resistor network) | Input receiver |
-| 6 | 10K 1% 0.5 W | Routing |
-| 7 | 22K 1% | Aux ×6, PFL |
-| ~25 | Assorted 1% resistors | 10 Ω ×5, 75 Ω, 4K7, 2K2, 47K ×6, 100K ×2, 470K, 1K ×3, 1M |
-| 6 | 220 µF 25 V | Rails ×2, PRE, POST, PAN L, PAN R |
-| 2 | 47 µF 25 V | Logic rails, insert return |
-| 1 | 2.2 µF film or electrolytic | Fader wiper coupling |
-| 1 | 1 µF | OL detector |
-| ~10 | 100 nF ceramic | Decoupling, mute RC |
-| 4 | 33–100 pF C0G | Stability and RF |
-| 4 | 1N4148 | OL, mute steering |
-
-Roughly 90–100 parts per channel (up from ~50 in v2.0, mostly from the input receiver,
-pan buffers, AC coupling and soft mute).
+| Ref | Part | A | B |
+|-----|------|---|---|
+| U1 | OPA1612 | receiver | gain stage |
+| U2 | OPA1612 | fader post-amp | pan buffer L |
+| U3 | OPA1612 | pan buffer R | mute output buffer |
+| U4 | LM393 | OL comparator | spare, tied off |
+| U5 | OPA1612 | HPF | EQ HF |
+| U6 | OPA1612 | EQ HI-MID | EQ LO-MID |
+| U7 | OPA1612 | EQ LF | insert return buffer |
+| U8 | OPA1612 | direct out | spare, tied off |
+| Q1, Q2 | J112 | soft mute | |
 
 ---
 
-## 13. PCB Layout Notes
+## 15. Bill of materials
 
-AI scope: component placement only. Ruslan handles copper routing and pours in KiCad.
-The following copper guidance is for that later manual work; the placement board contains
-no tracks, vias or copper zones.
+`channel_strip_BOM.csv` (exported from the schematic): 172 parts per channel, of which three are
+the DNP VCA-option parts (J3, J4, R44), so 169 fitted. Panel parts per channel: 15 pots (fader, 6 aux, pan, gain, 4 EQ
+gain, 2 dual EQ frequency), 13 switches, 4 LEDs (OL, PFL, ON, EQ), 3 jacks, 1 bus header.
 
-- 2-layer board, AGND pour on the bottom, separate LGND pour; join at the spade terminal.
-- Keep the routing resistors (R26–R31) and aux summing resistors (R20–R25) next to the
-  bus headers; the bus side of each resistor is a virtual-earth node, so keep those traces short.
-- Keep the input receiver resistors symmetrical and close to IC1.
-- Coupling capacitors: watch polarity; DC on the PRE/POST/PAN nodes is near 0 V, so use
-  bipolar (non-polarised) electrolytics, or orient for the op-amp's offset sign.
-- LED and mute-drive traces on LGND only, away from the audio path.
-- Footprints: SOIC-8 op-amps, 0805 or through-hole passives, through-hole jacks and headers.
+---
 
-### 13.1 Panel parts (chosen October 2026)
+## 16. PCB layout notes
 
-Assumed construction: one long PCB per strip, ~40 mm wide, lying flat under the top panel.
-Pots, switches, fader and LEDs mount on the PCB and come through the top panel. The two
-jacks are right-angle parts on the rear edge of the PCB and come through a vertical rear
-apron. Top to bottom: OL LED, Aux 1–6, pan, assign L-R / 1-2 / 3-4, PFL, mute, fader.
+AI scope: component placement only. Ruslan routes copper and pours grounds in KiCad.
+
+- 2-layer board, AGND pour on the bottom, separate LGND pour; join at NT1 beside the spade.
+- Keep the bus resistors (R20–R31) next to CN1: their bus ends are virtual-earth nodes.
+- Keep the receiver resistors symmetrical and close to U1; keep the EQ's 22K/33K and Wien
+  networks compact around U5/U6/U7 (high impedance: up to ≈ 107K in the mid networks).
+- LED and logic traces on LGND, away from the audio path.
+
+### 16.1 Panel parts
 
 | Ref | Part | Footprint | Notes |
 |-----|------|-----------|-------|
-| J1, J2 | Neutrik NRJ6HF | `Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal` | Plastic nose, so the sleeve is isolated from the panel. Not the `-1` variant, which bonds the sleeve to the panel. J1 uses the switched symbol with TN/RN unused; SN is unused on both. |
-| RV1 | Bourns PTB0143-2010BPA103 | `goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm` | 100 mm, A10K, metal housing, 10 mm metal lever, M3 panel screws. Body tabs are unconnected pads: the housing reaches chassis through the panel screws, not through AGND. Pin 1 (ground end) faces the operator. |
-| RV2–RV7 | Alpha RD901F-40, A10K | `Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical` | 9 mm vertical. Shaft length is set by the panel height. |
+| J1, J2, J5 | Neutrik NRJ6HF | `Connector_Audio:Jack_6.35mm_Neutrik_NRJ6HF_Horizontal` | Isolated (plastic nose). Not the `-1` variant. |
+| RV1 | Bourns PTB0143-2010BPA103 | `goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm` | 100 mm, A10K; pin 1 (ground end) to the operator. |
+| RV2–RV7 | Alpha RD901F-40, A10K | `Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical` | Pin 1 = AGND (A-law runs from pin 1). |
+| RV9–RV11, RV13, RV15 | Alpha RD901F-40-15R1-B10K-0CD | same | 10K linear, centre detent (Alpha spec SP26020021). |
 | RV8 | Alpha RD902F-40, B10K, centre detent | `Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical` | Confirm a detent version is stocked. |
-| SW3–SW7 | C&K PVA2 EE H1 1.7N V2 | `Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2` | DPDT push-push. Rated 32 V DC / 100 mA, enough for audio and logic. H1 is 17.5 mm tall; H2 (23 mm), H3 (20.5 mm) and H4 (15 mm) use the same footprint, so the height can be picked later to suit the panel stack. Caps are ordered separately (PE/PV). |
-| CN4 | Keystone 1287-ST | `goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm` | 0.250 in tab, two legs, both pads are GNDA. |
+| RV12, RV14 | Alpha RD902F-40 dual, **100K C (reverse log)** | same | **Availability to confirm**; the Delta used 100K C-law dual. |
+| SW3–SW15 | C&K PVA2 EE H1 1.7N V2 | `Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2` | DPDT push-push, 32 V / 100 mA; PV caps. |
+| D2–D5 | 3 mm LEDs | `LED_THT:LED_D3.0mm` | 7.6 mm spacers. |
+| CN4 | Keystone 1287-ST | `goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm` | |
 
-**Audio-taper pin order.** On A-taper pots the law runs from pin 1, so pin 1 is the ground
-end. The fader and the aux pots are wired 1 = GNDA, 3 = signal. Before v3.1a they were wired
-the other way round, which would have given a reverse-log law.
+**Check on samples before ordering boards:** which PVA2 throw closes when latched (the
+schematic assumes 2–1 / 5–4; if not, swap pins 1↔3 and 4↔6 in `tools/gen.py`); the fader pad
+pattern against a 1:1 print; detent and C-law pot availability.
 
-**Check before ordering boards:**
-- Fader pad pattern against a real PTB100, using a 1:1 print. The datasheet layout view may be
-  mirrored relative to the component side.
-- PVA2 switching sense. Pin 2/5 (datasheet "0") is common. Which throw (1 or 3) closes when
-  the switch is latched in must be confirmed with a meter. The schematic assumes 1–2 / 4–5
-  closed when latched (PFL on, mute on, routed). If it is the other way, mirror the
-  footprint or swap pins 1↔3 and 4↔6 in `tools/gen.py`.
-- Panel stack height: fixed in section 13.3.
+### 16.2 Panel stack (unchanged from v3.1)
 
-### 13.3 Panel stack (October 2026)
+Panel underside 11.5 mm above the PCB (1.5 mm aluminium). PVA2 H1 + PV cap, panel hole ø8.0.
+Pots: 1.5 mm M7 spacer washer, panel hole ø7.2. Fader: 3.5 mm spacer, lever 5 mm above the
+panel. 3 mm LEDs on 7.6 mm spacers. Six M3 standoffs, unplated holes. Radial electrolytics,
+the spade and the VCA socket on the bottom side.
 
-Heights above the PCB top surface, from the datasheets (Bourns PTB100 drawing, Alpha
-RD901F-40 drawing SLH-211-414, C&K PVA datasheet A-170/A-171):
+### 16.3 Placement status
 
-| Part | Datasheet heights | Arrangement |
-|------|-------------------|-------------|
-| Panel | — | **underside 11.5 mm above the PCB**, 1.5 mm aluminium (top at 13.0) |
-| PVA2 switch | body 11.0; H1 actuator 17.54 overall, cap snaps on the top 3.9 mm | **H1** (as in the MPN) + **PV cap** (ø7.4 × 9.7, ordered separately). Cap bottom 13.6 at rest (0.6 above the panel, top 10.3 mm proud), 12.1 latched, 11.2 fully pressed: panel hole **ø8.0** so the cap can sink through. H3 would leave the cap floating 3.6 mm above the panel. |
-| Pots RD901F-40, L = 15 | body face 10.0; M7×0.75 bushing to 15.0; shaft to 25.0 | **1.5 mm M7 spacer washer** between body and panel; M7 nut (2.0 mm, no washer) flush with the bushing end; 12 mm of shaft for the knob. Panel hole ø7.2. |
-| Fader PTB0143 | body top 8.0; lever 10.0 above body (top at 18.0) | **3.5 mm spacer** between body and panel, M3 × 8 screws into the body. Lever stands **5.0 mm above the panel**: choose a knob that grips a flat metal lever with 5 mm engagement, or get a longer lever from Bourns (not found as a standard part). |
-| 3 mm LEDs (OL, PFL, MUTE) | T-1 LED ≈ 5.3 mm tall | **7.6 mm LED spacer**, dome flush with the panel top; panel hole ø3.1. |
-| NRJ6HF jacks | nose ø11.2, body top ≈ 12 (estimated) | Taller than the gap: the top panel starts in front of them (y ≈ 27 mm); the rear apron covers the jack zone. |
-| Standoffs | — | 6 × M3, 11.5 mm (or 11 mm + 0.5 mm washer), unplated holes H1–H6 so audio ground never meets the chassis. |
-
-Parts too tall for the gap moved to the bottom side: the nine radial electrolytics, the
-ground spade CN4 (faston + wire), and the VCA module socket J3 with its control header J4
-(a module on a socket would stand 12–13 mm). Remaining top-side parts are SMD, the 1N4148
-(DO-35, lying), the pots, switches, LEDs, fader and jacks.
-
-### 13.2 PCB first placement (October 2026)
-
-`channel_strip.kicad_pcb`, made by `tools/place_strip.py` (KiCad 10 pcbnew, run with KiCad's
-bundled Python) from the netlist. Footprints are linked to their schematic symbols, so
-"Update PCB from Schematic" works; schematic UUIDs are now deterministic, so regenerating the
-schematic keeps the link. Placement only: no tracks, vias or copper zones.
-
-Board 38 × 480 mm (40 mm strip pitch, 1 mm clearance per side), two layers. y = 0 is the rear
-edge. Control column at x = 19 mm.
-
-| y (mm) | Panel feature | Notes |
-|--------|---------------|-------|
-| 0 | Rear edge: J1 line in, J2 insert | NRJ6HF noses through the rear apron, centres at x = 10 and 28 |
-| 27–47 | — | input receiver + insert electronics |
-| 48–61 | — | insert coupling caps C10, C11 (**bottom**) |
-| 62–72 | — | rail reservoir caps C1, C3, C5, C6 (**bottom**) |
-| 73–81 | — | power entry resistors, decoupling, net tie, spade tab |
-| 84 | OL LED | |
-| 84–90 | — | ground spade CN4 (bottom, x = 19) and net tie NT1 (top, x = 26.5): the strip's AGND-LGND star point |
-| 100–200 | Aux 1–6 | 20 mm pitch; aux source jumpers in the left band, OL detector in the right |
-| 222 | Pan | pan buffers in the right band (132–180); post and pan coupling caps C15–C17 below them on the **bottom** (181–233) |
-| 236–288 | Bus header CN1 | one header, centred, **bottom side**, so the ribbon runs under the boards; either side on top: the aux 22K (R20–R25, each on the side of its header pin) and routing 4K7 (R26–R31) bus resistors (spec 13: virtual-earth ends short) |
-| 297 | L-R, 1-2, 3-4 | 12 mm pitch, right next to the headers: short virtual-earth traces |
-| 314 | PFL + LED | |
-| 331 | MUTE + LED | PFL and soft-mute electronics in the left band below |
-| 346–478 | Fader, slot centre 412 | ground end (pin 1) to the front; post-amp and VCA socket in the right band |
-
-`tools/build_strip_pcb.sh [output.kicad_pcb]` builds placement only from the netlist.
-It overwrites unrouted placement, but refuses to overwrite a board containing tracks, vias
-or zones. Use a separate output after manual routing has started.
-
-On 2026-10-20 the scripted routing was removed to restore the requested placement-only
-deliverable. Component positions, rotations, sides, footprint pad geometry, net assignments,
-board outline and mounting holes were retained. U2 and its decoupling remain beside the
-fader post-amp, keeping U2A's feedback loop local; U2B is the left pan buffer.
-
-Placement verification on 2026-10-20 (KiCad 10.0.7, isolated project copy):
-- 103 schematic components plus six mounting holes; zero tracks, vias or copper zones.
-- All non-routing board data matches the previous board exactly. The generator reproduces
-  its positions, rotations, sides, symbol links and pad geometry (new pad UUIDs are expected).
-- DRC with `--schematic-parity --severity-all`: zero schematic-parity issues; no clearance,
-  courtyard, hole or outline errors under the existing project rules.
-- 219 unconnected items are expected for placement only; do not add copper to clear them.
-- 157 silkscreen warnings remain: 100 overlaps, 53 over copper pads, four near the edge.
-  Silkscreen cleanup and the physical sample checks in section 13.1 remain open.
-
-Still to decide or do in KiCad:
-- Mounting: six M3 standoff holes H1–H6 (section 13.3) at (34, 84.5), (5.5, 160), (19, 232.4),
-  (34, 305.5), (5.5, 474.5), (32.5, 474.5); plus the pot nuts and the fader's M3 screws.
-- All nine radial electrolytics (C1, C3, C5, C6, C10, C11, C15, C16, C17; D6.3–D10, 11–16 mm tall),
-  the spade tab CN4 and the VCA socket J3/J4 are on the **bottom side** (section 13.3).
-- Silk clean-up and physical sample checks. Routing and AGND/LGND pours are left to Ruslan.
+`channel_strip.kicad_pcb` is still the **v3.1 placement** (103 parts, 38 × 480 mm). It does not
+match the v4.0 schematic (180 parts), and `tools/place_strip.py` will refuse to run until its
+placement tables include the new parts. Next step: the panel-height study for the added
+controls (about 7 more pots and 8 more switches; two pot columns at 8 HP, or a longer board),
+then a new placement into a separate output file.
 
 ---
 
-## 14. Schematic and Simulation Status (v3.1)
+## 17. Status (v4.0, 2026-10-22)
 
-**KiCad schematic** (`channel_strip/channel_strip.kicad_sch`, KiCad 7 file format, opens in KiCad 10, A1):
-- Generated from this spec by `tools/gen.py`; nets joined by labels, grounds as GNDA/GNDD.
-- KiCad's exported netlist was checked pin by pin against the design (`tools/verify.py`):
-  313 pin entries, 0 mismatches, 0 stray pins, no single-pin nets (fresh export, 2026-10-20).
-- Every part has a footprint (panel parts in section 13.1). `tools/check_fp.py` confirms that
-  every symbol pin lands on a pad of its footprint (103 parts, 0 problems; 2026-10-20).
-- KiCad 10.0.7 ERC (`kicad-cli sch erc --severity-all`, default rule set): 0 errors,
-  0 warnings. Library symbols are embedded from the KiCad 10 libraries.
+- Schematic generated by `tools/gen.py` (User-size sheet, label-connected).
+- `tools/verify.py`: 542 pin entries, 0 mismatches, 0 stray pins, no single-pin nets.
+- `tools/check_fp.py`: 180 parts, every symbol pin on a footprint pad.
+- KiCad 10.0.7 ERC, `--severity-all`: 0 violations.
+- `tools/sim_netlist.py` simulates the exported netlist itself (25 checks, all pass): levels
+  (PRE 0 dBu, POST +9.9 dBu, MIX +3.8 dBu), gain range, Ø, HPF corner, every EQ band at both
+  ends, EQ bypass, mute depth, direct out, DIR muting aux 6, PRE/post aux, PAN on/off, PFL.
+  It found one real error during development: the new HI-MID nets had the same names as the mute
+  nets (M1/M2), so the generator merged them. Fixed by prefixing the EQ nets with `EQ_`.
+- Hand-written decks: `sim/gain_stage.cir`, `sim/delta_eq.cir`, `sim/strip_v4.cir`
+  (results in `delta_clone_comparison.md` §6). `sim/strip.cir` is the v3.1 path.
 
-**ngspice signal-path simulation** (`sim/strip.cir`; ideal op-amps, generic J112 model),
-0 dBu into the tip:
+**Open:** routing LEDs (a 4PDT switch); C-law dual and centre-detent pot availability;
+PVA2 latched-throw sense; panel-height study and v4.0 placement.
 
-| Node | Level at 1 kHz |
-|------|----------------|
-| Receiver out (RECV) | 0.0 dBu, in phase with tip |
-| PRE | 0.0 dBu |
-| POST, fader at top | +9.9 dBu |
-| PAN L, pan centre (linear pot) | +3.9 dBu (−6 dB pan law) |
-| Mix bus out, fader at top | +3.9 dBu, inverted (master must re-invert) |
-| Mix bus out, fader at "0" mark (−10 dB travel) | −6.3 dBu |
-| Mute engaged (MUTEOUT) | −86 dBu (≈ 86 dB of mute depth) |
-| Low-frequency −3 dB point, whole chain | 1.1 Hz |
-| 100 kHz | −0.5 dB |
-
-**Headroom note.** With the +10 dB post-amp and ±16–17 V rails (about +22 dBu swing), a
-channel with the fader at the top clips at about +12 dBu input. Hot synths therefore need
-the fader below the top, or the external input module's trim/pad. If that proves
-limiting, fit R38 as a higher value (e.g. 4K7 for +6 dB) or omit it for unity.
-
-*Document version 3.1 — October 2026*
+*Document version 4.0 — October 2026*
 *Sources: Soundcraft Delta ED3344A/B/C, ED3151, ED2911A/B, ED2915A, ED2780*
