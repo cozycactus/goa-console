@@ -44,6 +44,13 @@ A cut-down master built from the same circuits (master spec sections 2, 3, 12, 1
 - Power entry as the master (5-pin XLR or bench leads), PTC per rail, reverse Schottkys.
 - Test points: GCANCEL, GCANCEL_BUF, each SUM and re-inverter output, ±V.
 
+As generated: one config jumper (GC REF: 1-2 = D, 2-3 = A) sets every summing amp's + input and
+the re-inverters' buffered reference together, and a separate 22 Ω tie jumper covers test 3. AUX 2
+gets its own summing amp as well, for the crosstalk test. Unused buses (SUB 2–4, AUX 3–6) are tied
+to AGND at the stub, standing in for their summing amps' virtual earths. Power comes from a bench
+supply on a screw terminal, with the master's MF-RX160/72 PTCs and SS54 reverse diodes. The PFL
+detect is one LM393 and an LED. The BNC outputs and the test points are as listed above.
+
 ## 3. Load board
 
 Brings the bus noise gain up to what 24 routed channels give (1 + N), without 24 strips:
@@ -54,6 +61,10 @@ Brings the bus noise gain up to what 24 routed channels give (1 + N), without 24
   1, 3, 4, 12 (DIP switch or jumpers): any N from 0 to 20 extra channels.
 - Per AUX 1 / PFL: 20 × 22K 1 % in the same groups.
 - Switch at the bus end of each group, off grounds the group (as the routing switches do).
+- As generated, each group is one equivalent resistor: 4K7 / 1K58 / 1K18 / 392R, and 22K / 7K32 /
+  5K49 / 1K82. That gives the same thermal noise and noise gain as 1 / 3 / 4 / 12 separate
+  channels. Each group has a C&K OS102011 slide switch, and there are five buses: MIX L, MIX R,
+  SUB 1, AUX 1, PFL.
 - Bus capacitance: the strips' DG413 routing switches put about 44 pF each on MIX / SUB buses
   (35 pF on, 9 pF off), about 1.1 nF with 24 strips and the ribbon. Per MIX / SUB 1 bus, a jumper
   adds 1 nF C0G to AGND, so tests 1, 8 and 10 can run with the full-console bus capacitance.
@@ -123,10 +134,10 @@ Targets from `tools/sim_netlist.py` (the exported netlists, 30 checks) and `sim/
 
 ## 7. Still to do
 
-- Schematics for the master stub and the load board. Both can come from the existing
-  generators: the master stub reuses `gen_master.py`'s circuit functions (they would need
-  moving into a shared module), the load board is a few dozen resistors, switches and the
-  bus-capacitance jumpers.
+- ~~Schematics for the master stub and the load board~~ done 2026-10-22: `tools/gen_jig.py` writes
+  `jig_master_stub.kicad_sch` (127 parts) and `jig_load_board.kicad_sch` (50 parts) from the master's
+  own circuit functions, now in `tools/master_lib.py`. Both: netlist 0 mismatches, every pin on a
+  pad, ERC 0. Next: their PCB placement.
 - The strips need routed boards: placement is done (`channel_strip_v4.kicad_pcb`,
   `jack_board.kicad_pcb`); copper routing is Ruslan's.
 - For the ribbon-current test, the load board could also carry a switchable dummy load
