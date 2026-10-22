@@ -8,11 +8,20 @@ place(net, out, layout) builds a board from a KiCad netlist and a layout:
   grounds  nets ignored when matching a near part to its IC's pin (default GNDA, GNDD).
   silk_text_off  footprint silk texts moved to the Fab layer, e.g. ('K',): DO-35's cathode letter sits outside
          the courtyard, over the next part's pads (KiCad 10 doesn't save a hidden footprint text).
+  attach  True: every part is placed beside the IC pin it belongs to, found from the netlist's pin types:
+         decouplers at their IC's supply pin (NEAR, or the IC before them in the zone), parts on an input, feedback or
+         summing net at that input pin, output networks at the output pin, and parts joined only to such a part next
+         to it. Each IC is placed with room around it and followed at once by its parts.
+  limits  (decoupling, input reach) in mm for the placement report (default 5, 6).
+  keepout  [(x0, y0, x1, y1)] areas kept free of parts on both sides.
+After placing, the report gives each decoupler's distance to its supply pin and, per local high-impedance input net
+(an IC input not driven by an output directly or through a coupling cap, not a connector line or a reference shared
+by three or more inputs), the farthest R/C/L/D/FB/JP pad from the pin.
 Fixed parts go first. Every other part is packed into its zone at the first position where its courtyard
 clears every courtyard on its side and every through-hole pad on either side (THT pads go through the board),
 so top and bottom parts can share an area. Then the silkscreen references are placed. Each footprint is linked
 to its schematic symbol, so "Update PCB from Schematic" works later. Refuses to overwrite a routed board."""
-import math, os, sys
+import collections, math, os, sys
 import pcbnew
 sys.path.insert(0, os.path.dirname(__file__))
 from verify import sexp, field
@@ -53,8 +62,9 @@ def place(NET, OUT, L):
     BOARD, FIX, HOLES, ZONES = L['board'], L['fix'], L.get('holes', []), L['zones']
     HOLE_VALUE, NEAR, NOTES = L.get('hole_value', 'M3'), L.get('near', {}), L.get('notes', ())
     LABELS = L.get('labels', ())
-    GROUNDS = set(L.get('grounds', ('GNDA', 'GNDD')))   # nets ignored when matching a NEAR part to its IC pin
+    GROUNDS = {v for g in L.get('grounds', ('GNDA', 'GNDD')) for v in (g.lstrip('/'), '/' + g.lstrip('/'))}  # with or without '/'
     SILK_OFF = set(L.get('silk_text_off', ()))
+    ATTACH = L.get('attach', False)
     W = BOARD[2]
     # ---------------------------------------------------------------- netlist
     tree = sexp(open(NET).read())
@@ -66,11 +76,12 @@ def place(NET, OUT, L):
         props = {field(x, 'name'): field(x, 'value') for x in c[1:] if isinstance(x, list) and x[0] == 'property'}
         parts[field(c, 'ref')] = dict(value=field(c, 'value'), fp=field(c, 'footprint'), uuid=ts[1] if ts else None,
                                       mpn=props.get('MPN'), dnp='dnp' in props, nobom='exclude_from_bom' in props)
-    padnet = {}
+    padnet, pintype = {}, {}
     for n in nets[1:]:
         name = field(n, 'name')
         for nd in n[1:]:
-            if isinstance(nd, list) and nd[0] == 'node': padnet[(field(nd, 'ref'), field(nd, 'pin'))] = name
+            if isinstance(nd, list) and nd[0] == 'node':
+                padnet[(field(nd, 'ref'), field(nd, 'pin'))] = name; pintype[(field(nd, 'ref'), field(nd, 'pin'))] = field(nd, 'pintype')
 
     every = list(FIX) + [r for z in ZONES for r in z[2]]
     placed = set(every); twice = sorted({r for r in every if every.count(r) > 1})
@@ -132,97 +143,269 @@ def place(NET, OUT, L):
         try: fp.Flip(fp.GetPosition(), pcbnew.FLIP_DIRECTION_LEFT_RIGHT)
         except (AttributeError, TypeError): fp.Flip(fp.GetPosition(), False)
 
-    occ = {'F': [], 'B': []}       # courtyards per side, plus THT pads of parts on the other side
+    # occupancy per side on a 5 mm grid: courtyards, plus the THT pads of parts on the other side
+    OCELL = 5.0
+    occ = {'F': {}, 'B': {}}
+    def occupy(side, r):
+        for cx in range(int(r[0] // OCELL), int(r[2] // OCELL) + 1):
+            for cy in range(int(r[1] // OCELL), int(r[3] // OCELL) + 1):
+                occ[side].setdefault((cx, cy), []).append(r)
+    def hits(side, r, g):
+        x0, y0, x1, y1 = r[0] - g, r[1] - g, r[2] + g, r[3] + g
+        for cx in range(int(x0 // OCELL), int(x1 // OCELL) + 1):
+            for cy in range(int(y0 // OCELL), int(y1 // OCELL) + 1):
+                for q in occ[side].get((cx, cy), ()):
+                    if x0 < q[2] and q[0] < x1 and y0 < q[3] and q[1] < y1: return True
+        return False
     def overlaps(r, rects, g=GAP):
         return any(r[0] < q[2] + g and q[0] < r[2] + g and r[1] < q[3] + g and q[1] < r[3] + g for q in rects)
     def register(fp, side):
         other = 'B' if side == 'F' else 'F'
-        occ[side].append(courtyard(fp))
-        occ[other].extend(tht_pads(fp))
+        occupy(side, courtyard(fp))
+        for pr in tht_pads(fp): occupy(other, pr)
 
     # silkscreen labels first: the packer treats them as occupied, so parts don't land on them
     label_items = []
     for x, y, txt, size in LABELS:
         t = pcbnew.PCB_TEXT(board); t.SetText(txt); t.SetPosition(pcbnew.VECTOR2I_MM(x, y)); t.SetLayer(pcbnew.F_SilkS)
         t.SetTextSize(pcbnew.VECTOR2I_MM(size, size)); t.SetTextThickness(pcbnew.FromMM(max(0.12, size * 0.15)))
-        board.Add(t); label_items.append(t); occ['F'].append(bbox(t.GetBoundingBox()))
+        board.Add(t); label_items.append(t); occupy('F', bbox(t.GetBoundingBox()))
     for ref, (x, y, rot, side) in FIX.items():
         fp = load(ref)
         fp.SetOrientationDegrees(rot); fp.SetPosition(pcbnew.VECTOR2I_MM(x, y))
         if side == 'B': flip(fp)
         register(fp, side)
+    for k in L.get('keepout', ()):                      # areas no part may use, either side (e.g. supply channels)
+        occupy('F', k); occupy('B', k); edge_rect(*k, pcbnew.Cmts_User, 0.05)
     for i, (x, y) in enumerate(HOLES, 1):
         h = pcbnew.FootprintLoad(os.path.join(KLIB, 'MountingHole.pretty'), 'MountingHole_3.2mm_M3')
         h.SetFPID(pcbnew.LIB_ID('MountingHole', 'MountingHole_3.2mm_M3')); h.SetReference(f'H{i}'); h.SetValue(HOLE_VALUE)
         h.SetBoardOnly(True); h.SetExcludedFromBOM(True); h.SetExcludedFromPosFiles(True)
         board.Add(h); h.SetPosition(pcbnew.VECTOR2I_MM(x, y))
-        c = courtyard(h); occ['F'].append(c); occ['B'].append(c)
+        c = courtyard(h); occupy('F', c); occupy('B', c)
 
-    def fits(fp, side, x0, y0, x1, y1, g=GAP):
-        other = 'B' if side == 'F' else 'F'
-        c = courtyard(fp)
-        if (c[0] < max(x0, BOARD[0] + 0.3) or c[1] < max(y0, BOARD[1] + 0.3) or c[2] > min(x1, BOARD[2] - 0.3)
-                or c[3] > min(y1, BOARD[3] - 0.3)): return False
-        if overlaps(c, occ[side], g): return False
-        pads = tht_pads(fp)
-        return not (pads and any(overlaps(p, occ[other], g) for p in pads))
+    # ---------------------------------------------------------------- what belongs where (netlist pin types)
+    pins_of = collections.defaultdict(list)            # ref -> [(pin, net, pin type)]
+    for (r, pn), n in padnet.items(): pins_of[r].append((pn, n, pintype.get((r, pn), '')))
+    rails = {n for (r, pn), n in padnet.items() if pintype.get((r, pn)) == 'power_in'} - GROUNDS
+    quiet = lambda n: n is None or n in GROUNDS or n in rails or n.startswith('unconnected')
+    active = {r for r, ps in pins_of.items() if any(t in ('input', 'output', 'open_collector') for _, _, t in ps)}
+    out_pins = {r: [(pn, n) for pn, n, t in pins_of[r] if t in ('output', 'open_collector') and not quiet(n)] for r in active}
+    driven = {n for r in active for _, n in out_pins[r]}       # an input on an output's net is not a high-Z node,
+    def coupled(net):                                  # nor one fed through a coupling cap from an output
+        for (r, pn), n in padnet.items():
+            if n == net and r.startswith('C') and 'u' in parts[r]['value'].split()[0]:
+                if any(padnet.get((r, q)) in driven for q in ('1', '2') if q != pn): return True
+        return False
+    in_pins = {r: [(pn, n) for pn, n, t in pins_of[r] if t == 'input' and not quiet(n) and n not in driven and not coupled(n)]
+               for r in active}
+    sup_pins = {r: [(pn, n) for pn, n, t in pins_of[r] if t == 'power_in' and n in rails] for r in active}
+    nets_of = lambda r: {n for _, n, _ in pins_of[r] if not quiet(n)}
+    attach = {}                                        # ref -> (kind, target ref, target pin or None)
+    positional = lambda r: r.startswith(('CN', 'J', 'SW', 'RV', 'K', 'NT', 'H')) and not r.startswith('JP')   # stay put
+    for z in ZONES:
+        refs = z[2]; here = [r for r in refs if r in active]
+        for r in refs:
+            if r in active and r not in NEAR: continue
+            alln = {n for _, n, _ in pins_of[r]}; rl = [n for n in alln if n in rails]
+            decoupler = r.startswith('C') and len(rl) == 1 and not (alln - set(rl) - GROUNDS)
+            if r in NEAR:
+                a = NEAR[r]
+                sp = [pn for pn, n in sup_pins.get(a, ()) if decoupler and n == rl[0]]
+                attach[r] = ('decouple', a, sp[0]) if (ATTACH and sp) else ('near', a, None); continue
+            if not ATTACH or positional(r): continue
+            if decoupler:
+                cand = [a for a in here if any(n == rl[0] for _, n in sup_pins[a])]
+                before = [a for a in cand if refs.index(a) < refs.index(r)]
+                if cand:
+                    a = (before or cand)[-1 if before else 0]
+                    attach[r] = ('decouple', a, next(pn for pn, n in sup_pins[a] if n == rl[0]))
+                continue
+            ns = nets_of(r)
+            for kind, table in (('input', in_pins), ('output', out_pins)):
+                for pool in (here, sorted(active)):
+                    hit = [(a, pn) for a in pool for pn, n in table[a] if n in ns]
+                    if hit: attach[r] = (kind, *hit[0]); break
+                if r in attach: break
+        if ATTACH:                                     # parts joined only to an attached part go next to it
+            grew = True
+            while grew:
+                grew = False
+                for r in refs:
+                    if r in active or r in attach or positional(r): continue
+                    q = next((q for q in refs if q != r and q in attach and nets_of(r) & nets_of(q)), None)
+                    if q: attach[r] = ('chain', q, None); grew = True
+    PRIORITY = {'decouple': 0, 'near': 1, 'input': 1, 'output': 2, 'chain': 3}
+    def ordered(refs):
+        out, seen = [], set()
+        def emit(r):
+            if r in seen: return
+            seen.add(r); out.append(r)
+            for q in sorted((q for q in refs if q not in seen and attach.get(q, ('', None))[1] == r),
+                            key=lambda q: PRIORITY[attach[q][0]]):
+                emit(q)
+        for r in refs:
+            if r in active or (r in attach and attach[r][1] not in refs): emit(r)
+        for r in refs: emit(r)
+        return out
+    kids = collections.Counter(t for kind, t, _ in attach.values() if kind != 'chain')
+    zone_side = {r: z[3] for z in ZONES for r in z[2]}
+    AREA = {}
+    def fp_area(ref):                                  # courtyard area of a footprint, plus the packing gap
+        key = parts[ref]['fp']
+        if key not in AREA:
+            lib, name = key.split(':', 1)
+            f = pcbnew.FootprintLoad(os.path.join(PROJ, lib + '.pretty') if lib == 'goa-console' else os.path.join(KLIB, lib + '.pretty'), name)
+            l, t, r, b = courtyard(f); AREA[key] = (r - l + GAP) * (b - t + GAP)
+        return AREA[key]
+    def ring(ref, w, h):
+        """Free margin an IC keeps around its courtyard: enough for its own same-side parts at 70 % packing."""
+        need = sum(fp_area(q) for q, (kind, t, _) in attach.items() if t == ref and zone_side.get(q) == zone_side.get(ref)) / 0.7
+        return 0.0 if not need else (-(w + h) + math.sqrt((w + h) ** 2 + 4 * need)) / 4
 
-    # Parts in NEAR (decoupling caps, integrator parts) go as close as the courtyards allow to their IC's pin on a
-    # shared non-ground net, searched within NEAR_R of it; anything else, or a part with no room there, takes the
-    # zone's first free spot from the top left.
-    NEAR_R = 12.0
-    def supply_pin(ref, fp):
-        ic = board.FindFootprintByReference(NEAR.get(ref, ''))
-        if ic is None: return None
+    def target_xy(ref, fp):
+        """Where a part wants to be: its IC pin (attach), or NEAR's first pad on a shared non-ground net."""
+        a = attach.get(ref)
+        if not a: return None
+        kind, tref, tpin = a
+        t = board.FindFootprintByReference(tref)
+        if t is None: return None
+        if tpin is not None:
+            pad = next((p for p in t.Pads() if p.GetNumber() == tpin), None)
+            return (mm(pad.GetPosition().x), mm(pad.GetPosition().y)) if pad else None
         nets = {padnet.get((ref, p.GetNumber())) for p in fp.Pads()} - GROUNDS - {None}
-        for p in ic.Pads():
-            if padnet.get((ic.GetReference(), p.GetNumber())) in nets:
+        for p in t.Pads():
+            if padnet.get((tref, p.GetNumber())) in nets:
                 return mm(p.GetPosition().x), mm(p.GetPosition().y)
 
+    def shape(fp, side, rot):                          # courtyard and THT pads at the origin, translated per candidate.
+        fp.SetOrientationDegrees(rot if side == 'F' else 180 - rot)     # KiCad rebuilds a courtyard ~1 nm larger away
+        fp.SetPosition(pcbnew.VECTOR2I_MM(0, 0))                        # from the origin, so a part flush with a zone
+        return courtyard(fp), tht_pads(fp)                              # edge may now fit one 0.5 mm step earlier
+    def fits_at(sh, px, py, side, zr, g):
+        (l, t, r, b), pads = sh
+        c = (l + px, t + py, r + px, b + py)
+        if (c[0] < max(zr[0], BOARD[0] + 0.3) or c[1] < max(zr[1], BOARD[1] + 0.3) or c[2] > min(zr[2], BOARD[2] - 0.3)
+                or c[3] > min(zr[3], BOARD[3] - 0.3)): return False
+        if hits(side, c, g): return False
+        other = 'B' if side == 'F' else 'F'
+        return not any(hits(other, (pl + px, pt + py, pr + px, pb + py), g) for pl, pt, pr, pb in pads)
+
+    # Parts with a target go as close to it as the courtyards allow, searched within NEAR_R; anything else, or a part
+    # with no room there, takes the zone's first free spot from the top left. An IC with parts of its own keeps a
+    # margin free around it until they are placed.
+    NEAR_R = 12.0
     report = []
-    for z in ZONES:
-        zname, (x0, y0, x1, y1), refs, side = z[:4]
+    placed_refs, tried = set(FIX), set(FIX)
+    zone_rect = {r: z[1] for z in ZONES for r in z[2]}
+    def place_one(ref, z):
+        tried.add(ref)
+        zname, zr, _, side = z[:4]
         zgap = z[4] if len(z) > 4 else GAP
-        edge_rect(x0, y0, x1, y1, pcbnew.Dwgs_User if side == 'F' else pcbnew.Cmts_User, 0.05)
-        for ref in refs:
-            fp = load(ref)
-            if side == 'B': flip(fp)
-            done = False
-            tgt = supply_pin(ref, fp)
-            if tgt:
-                cands = []
-                for rot in (0, 90):
-                    fp.SetOrientationDegrees(rot if side == 'F' else 180 - rot)
-                    fp.SetPosition(pcbnew.VECTOR2I_MM(0, 0))
-                    l, t, r, b = courtyard(fp)
-                    n = int(NEAR_R / STEP)
+        fp = load(ref)
+        if side == 'B': flip(fp)
+        shapes = {rot: shape(fp, side, rot) for rot in (0, 90)}
+        (l0, t0, r0, b0), _ = shapes[0]
+        margin = min(8.0, ring(ref, r0 - l0, b0 - t0)) if (ATTACH and kids[ref]) else 0.0
+        gaps = tuple(sorted({max(zgap, margin), max(zgap, margin / 2), zgap}, reverse=True))   # the ring shrinks when the zone is full
+        best = None
+        tgt = target_xy(ref, fp)
+        zn = zr                                        # an attached part searches around its target wherever that
+        if ATTACH and tgt:                             # landed; with no room there it falls back to its own zone
+            zn = (min(zr[0], tgt[0] - 30), min(zr[1], tgt[1] - 30), max(zr[2], tgt[0] + 30), max(zr[3], tgt[1] + 30))
+        for g in gaps if tgt else ():
+            for reach_r in (NEAR_R, 20.0, 30.0) if ATTACH else (NEAR_R,):     # widen when crowded
+                n = int(reach_r / STEP); cands = []
+                for rot, ((l, t, r, b), _) in shapes.items():
                     for i in range(-n, n + 1):
                         for j in range(-n, n + 1):
-                            cx, cy = tgt[0] + i * STEP, tgt[1] + j * STEP     # courtyard centre
+                            cx, cy = tgt[0] + i * STEP, tgt[1] + j * STEP           # courtyard centre
                             cands.append((math.hypot(i, j) * STEP, rot, cx - (r - l) / 2 - l, cy - (b - t) / 2 - t))
-                for d, rot, px, py in sorted(cands):
-                    fp.SetOrientationDegrees(rot if side == 'F' else 180 - rot)
-                    fp.SetPosition(pcbnew.VECTOR2I_MM(px, py))
-                    if fits(fp, side, x0, y0, x1, y1, zgap):
-                        done = True; break
-            for rot in (0, 90) if not done else ():
-                fp.SetOrientationDegrees(rot if side == 'F' else 180 - rot)
-                fp.SetPosition(pcbnew.VECTOR2I_MM(0, 0))
-                l, t, r, b = courtyard(fp)
-                y = y0
-                while y + (b - t) <= y1 and not done:
-                    x = x0
-                    while x + (r - l) <= x1:
-                        fp.SetPosition(pcbnew.VECTOR2I_MM(x - l, y - t))
-                        if fits(fp, side, x0, y0, x1, y1, zgap):
-                            done = True; break
+                best = next(((rot, px, py) for d, rot, px, py in sorted(cands) if fits_at(shapes[rot], px, py, side, zn, g)), None)
+                if best: break
+            if best: break
+        for g in gaps if best is None else ():
+            for rot, sh in shapes.items():
+                (l, t, r, b), _ = sh
+                y = zr[1]
+                while y + (b - t) <= zr[3] and best is None:
+                    x = zr[0]
+                    while x + (r - l) <= zr[2]:
+                        if fits_at(sh, x - l, y - t, side, zr, g): best = (rot, x - l, y - t); break
                         x += STEP
-                    if not done: y += STEP
-                if done: break
-            if done: register(fp, side)
-            else:
-                report.append(f'{zname}: no room for {ref}')
-                fp.SetPosition(pcbnew.VECTOR2I_MM(BOARD[2] + 10, y0))   # parked off-board so DRC flags it
+                    y += STEP
+                if best: break
+            if best: break
+        if best:
+            rot, px, py = best
+            fp.SetOrientationDegrees(rot if side == 'F' else 180 - rot); fp.SetPosition(pcbnew.VECTOR2I_MM(px, py))
+            register(fp, side); placed_refs.add(ref)
+        else:
+            report.append(f'{zname}: no room for {ref}')
+            fp.SetPosition(pcbnew.VECTOR2I_MM(BOARD[2] + 10, zr[1]))   # parked off-board so DRC flags it
+
+    # A part whose target is placed later waits for it, then goes right after it, so it can still sit beside it.
+    in_zones = {r for z in ZONES for r in z[2]}
+    waiting = collections.defaultdict(list)
+    def settle(ref):
+        for r2, z2 in waiting.pop(ref, ()):
+            if r2 not in tried: place_one(r2, z2); settle(r2)
+    def tht(r):
+        lib = parts[r]['fp'].split(':')[0]
+        return lib.endswith('_THT') or lib.startswith(('Connector', 'TerminalBlock')) or lib == 'goa-console'
+    def stage(r):                                      # attach: connectors and free through-hole parts (they need room
+        if not ATTACH: return 0                        # on both sides), then ICs with their decouplers, input networks
+        if r not in attach and (positional(r) or tht(r)): return 0     # and through-hole parts, then the other output
+        if r in active or attach.get(r, ('',))[0] in ('decouple', 'input', 'near') or tht(r): return 1   # networks and
+        return 2 if r in attach else 3                 # chains, then the rest
+    for z in ZONES: edge_rect(*z[1], pcbnew.Dwgs_User if z[3] == 'F' else pcbnew.Cmts_User, 0.05)
+    for st in (0, 1, 2, 3) if ATTACH else (0,):
+        for z in ZONES:
+            for ref in (ordered(z[2]) if ATTACH else z[2]):
+                if stage(ref) != st or ref in tried: continue
+                t = attach.get(ref, (None, None))[1]
+                if ATTACH and t in in_zones and t not in placed_refs:
+                    if (ref, z) not in waiting[t]: waiting[t].append((ref, z))
+                    continue
+                place_one(ref, z); settle(ref)
+    for t in list(waiting):                            # targets that could not be placed: place the rest anyway
+        for r2, z2 in waiting.pop(t, ()):
+            if r2 not in tried: place_one(r2, z2); settle(r2)
+
+    # ---------------------------------------------------------------- placement report
+    LIM_DEC, LIM_IN = L.get('limits', (5.0, 6.0))
+    def pad_of(ref, net):
+        f = board.FindFootprintByReference(ref)
+        return [(mm(p.GetPosition().x), mm(p.GetPosition().y)) for p in f.Pads() if padnet.get((ref, p.GetNumber())) == net]
+    dec = []
+    for r, (kind, a, _) in attach.items():
+        if a not in active or not r.startswith('C'): continue
+        alln = {n for _, n, _ in pins_of[r]}; rl = [n for n in alln if n in rails]
+        if len(rl) != 1 or (alln - set(rl) - GROUNDS) or kind not in ('decouple', 'near'): continue
+        ic = board.FindFootprintByReference(a)
+        pins_xy = [(mm(p.GetPosition().x), mm(p.GetPosition().y)) for p in ic.Pads() if padnet.get((a, p.GetNumber())) == rl[0]]
+        cap_xy = pad_of(r, rl[0])
+        if pins_xy and cap_xy: dec.append((min(math.dist(u, v) for u in pins_xy for v in cap_xy), f'{r}->{a}'))
+    outnets = driven
+    passive = lambda r: r not in active and (r.startswith(('FB', 'JP')) or (r[0] in 'RCLD' and not r.startswith(('RV', 'CN'))))
+    inputs_on = collections.Counter(n for a in active for _, n in in_pins[a])
+    members = collections.defaultdict(set)
+    for (r, pn), n in padnet.items(): members[n].add(r)
+    reach = []
+    for a in sorted(active):
+        ic = board.FindFootprintByReference(a)
+        for pn, n in in_pins[a]:
+            if n in outnets or coupled(n) or inputs_on[n] >= 3: continue      # low-Z, or a shared reference line
+            if any(r.startswith(('CN', 'J')) and not r.startswith('JP') for r in members[n]): continue   # off-board
+            pin_xy = next(((mm(p.GetPosition().x), mm(p.GetPosition().y)) for p in ic.Pads() if p.GetNumber() == pn), None)
+            far = [(min(math.dist(pin_xy, v) for v in pad_of(r, n)), r) for r in members[n] if passive(r)]
+            if far: reach.append((max(far)[0], f'{a}.{pn} {n.lstrip("/")} {max(far)[1]}'))
+    def summary(rows, lim, what):
+        if not rows: return f'{what}: none'
+        ds = sorted(x[0] for x in rows); bad = sorted((x for x in rows if x[0] > lim), reverse=True)
+        return (f'{what}: {len(rows)}, median {ds[len(ds) // 2]:.1f} mm, max {ds[-1]:.1f} mm, over {lim:g} mm: {len(bad)}'
+                + ('' if not bad else '  (worst: ' + '; '.join(f'{x[1]} {x[0]:.1f}' for x in bad[:6]) + ')'))
+    stats = dict(decoupling=sorted(dec, reverse=True), input_reach=sorted(reach, reverse=True))
 
     # ---------------------------------------------------------------- silkscreen reference designators
     # 0.8 mm text (board minimum), at the nearest spot that clears pads (mask openings), other silk, other
@@ -308,4 +491,6 @@ def place(NET, OUT, L):
     print(f'placed {len(parts)} footprints + {len(HOLES)} holes on {BOARD[2] - BOARD[0]:.0f} x {BOARD[3] - BOARD[1]:.0f} mm; nets {len(netinfo)}')
     for r in report: print('  WARNING', r)
     if hidden: print(f'  silk reference hidden (no room): {" ".join(sorted(hidden))}')
-    return report, hidden
+    print('  ' + summary(stats['decoupling'], LIM_DEC, 'decouplers, cap pad to supply pin'))
+    print('  ' + summary(stats['input_reach'], LIM_IN, 'high-Z inputs, farthest R/C/L/D/FB/JP pad from the pin'))
+    return report, hidden, stats

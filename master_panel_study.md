@@ -76,8 +76,10 @@ faders line up across the console.
   POWER | EXT | PFL ACTIVE (y 178); dual master fader on the strips' slot line between the two 20-LED meters (5 mm
   pitch, −20 dB at the bottom, +18 dB at the top of the fader travel). Left- and right-wing bus headers at the strips'
   header height. Balanced outputs and mute relays sit towards the jack-board link; summers, re-inverters and
-  inserts between the wing headers; the power entry (terminal, reservoirs, wing PTCs) on the bottom side there;
-  the LM2901 ladders beside their LED columns. Both post-amps share one OPA1612 (U5) across the strip under the
+  inserts between the wing headers; the LM2901 ladders beside their LED columns. Power entry (re-placed
+  2026-10-23): J1 on the bottom at y 197 centred, the four wing PTCs, rail reservoirs and SS54 clamps beside it,
+  the M4 star stud at (39.3, 214) with NT1–NT4 around it (GNDA pads towards the stud); each wing's fused supply
+  runs along a 4 mm edge keep-out (x < 4, x > 74.6, y 186–299) to its header, at least 67 mm from any summing amp. Both post-amps share one OPA1612 (U5) across the strip under the
   fader's wiper end, the 2.2 µF couplers at the wiper pins, each feedback network within 14 mm of its pins.
 - DRC: 0 violations and 0 parity issues on both main boards; the jack boards show only the NJ6FD-V footprint's
   own hole-clearance / mask items, as on the strip. Unconnected items are expected (routing is Ruslan's).

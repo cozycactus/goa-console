@@ -60,15 +60,14 @@ ZONES = [
  # bottom side first: links and electrolytics
  ('jack-board link (bottom)', (12, MAIN_Y0, 37, 140), ['CN3'], 'B'),
  ('rail reservoir caps (bottom)', (1, 360, 37, 444), ['C1', 'C2', 'C3', 'C4'], 'B'),
- ('return coupling (bottom; clear of the CN3 pin-1 mark)', (1, 96, 37, 165), ['C42', 'C43', 'C47', 'C49'], 'B'),
- ('aux / sub coupling and DRV134 outputs (bottom)', (1, 140, 37, 300),
-  ['C17', 'C18', 'C30', 'C31', 'C28', 'C10', 'C11', 'C16', 'C23', 'C24'], 'B'),
+ ('coupling caps and DRV134 output caps, beside their ICs (bottom; clear of the CN3 pin-1 mark)', (1, 96, 37, 444),
+  ['C42', 'C43', 'C47', 'C49', 'C17', 'C18', 'C30', 'C31', 'C28', 'C10', 'C11', 'C16', 'C23', 'C24'], 'B'),
  # top side
  ('GC buffer, summers + re-inverters (under the bus header)', (27, 300, 37.7, 444), SUMMERS, 'F'),
  ('power entry', (0.3, 299, 11, 444), POWER, 'F'),
  ('return receivers, level buffers, PFL', (1, MAIN_Y0 + 2, 37, 165), take('STEREO RETURN', *RET_ROUTE), 'F'),
- ('aux level buffer + DRV134, AFL', (1, 150, 37, 245), take('AUX MASTER', *SUMMERS), 'F'),
- ('sub insert, post-amp, pan buffers, DRV134', (1, 170, 37, 300), take('SUBGROUP', *SUMMERS, *SUB_BUS), 'F'),
+ ('sub insert, post-amp, pan buffers, DRV134', (1, 150, 37, 300), take('SUBGROUP', *SUMMERS, *SUB_BUS), 'F'),
+ ('aux level buffer + DRV134, AFL', (1, 150, 37, 300), take('AUX MASTER', *SUMMERS), 'F'),
  ('bus resistors at the switches', (1, 240, 37, 300), RET_ROUTE + SUB_BUS, 'F'),
 ]
 NOTES = ((84, 'RETURN | PFL'), (166, 'AUX n | AFL'), (252, 'SUB PAN | to MIX'), (274, 'RETURN to MIX  1-2  3-4'),
@@ -76,4 +75,4 @@ NOTES = ((84, 'RETURN | PFL'), (166, 'AUX n | AFL'), (252, 'SUB PAN | to MIX'), 
          (372, 'FADER 100 mm'), (75, 'LINK CN3 (bottom) to the jack board'))
 place(os.path.join(PROJ, 'group.net'), os.path.join(PROJ, 'group.kicad_pcb'),
       dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
-           hole_value='M3 standoff 11.5 mm'))
+           hole_value='M3 standoff 11.5 mm', attach=True))

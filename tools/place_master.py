@@ -64,10 +64,17 @@ FIX = {
  'CN2': (5.5, BUS[1], 180, 'B'),              # left-wing bus header: as a strip's, 1.4 mm in so its pin-1 mark stays on
  'CN3': (72.0, BUS[1], 180, 'B'),             # right-wing bus header (pin-1 mark inboard)
  'CN5': (15.0, 118.0, 270, 'B'),              # 2x20 link to the jack board, pin 1 left, pin-1 mark towards the edge
+ # power entry at y 186-236, between the panel controls and the summers: J1 (bottom, centred), the wing PTCs beside
+ # it, and the star point (the M4 stud with the four net ties around it). Each wing's fused supply then runs along its
+ # own board edge (keep-outs x < 4 and x > 74.6, y 186-299) to its header's power pins, never past the summers
+ 'J1': (XF + 15.24, 197.0, 0, 'B'),           # 7-way terminal, pins 54.5 .. 24.1
+ 'CN1': (XF, 214.0, 0, 'F'),                  # M4 star stud
+ 'NT1': (XF - 6.5, 214.0, 180, 'F'), 'NT2': (XF + 6.5, 214.0, 0, 'F'),        # GNDA-GNDD | GNDA-GNDM, GNDA pads
+ 'NT3': (XF, 214.0 - 6.5, 90, 'F'), 'NT4': (XF, 214.0 + 6.5, 270, 'F'),       # GNDA-PHONESGND | GNDA-CHASSIS  to the stud
 }
 for k, (l, r) in enumerate(zip(mL, mR)):      # D28..D49 / D56..D77 in ladder order: -20 dB at the bottom, +18 dB at the top
     FIX[l] = led(18.0, 422.0 - 5.0 * k); FIX[r] = led(60.6, 422.0 - 5.0 * k)
-HOLES = [(44, 134), (5, 215), (73.6, 215), (26, 318), (52.6, 318), (24, 436), (54.4, 436)]
+HOLES = [(44, 134), (8.5, 228), (70.1, 228), (26, 318), (52.6, 318), (24, 436), (54.4, 436)]   # clear of the edge channels
 
 net = sexp(open(os.path.join(PROJ, 'master.net')).read())
 comps = next(c for c in net[1:] if isinstance(c, list) and c[0] == 'components')
@@ -96,34 +103,38 @@ SUMMERP = ['U18', 'C81', 'C82', 'FB5', 'R88', 'C83', 'R89', 'R90', 'R91', 'R92']
 OUTS = ['U7', 'C36', 'C37', 'K1', 'R39', 'D4', 'U8', 'C40', 'C41', 'K2', 'R40', 'D5', 'U9', 'C44', 'C45', 'K3', 'R41', 'D6',
         'U22', 'C102', 'C103', 'K4', 'R118', 'D20', 'U23', 'C107', 'C108', 'K5', 'R120', 'D21',
         'U13', 'C58', 'C59', 'U16', 'C69', 'C70']
-ic_first = lambda refs: sorted(refs, key=lambda r: not r.startswith(('U', 'K')))    # ICs before their NEAR parts
+EL, ER = 4.0, W - 4.0                          # edge channels for the wing supplies (y 186 to the headers)
+PWR_TALL = tall('POWER ENTRY', 'DISTRIBUTION')
 ZONES = [
- # bottom side: electrolytics, PTCs, terminal, trimmers
- ('balanced-out, monitor and aux coupling caps (bottom)', (0.3, MAIN_Y0, W - 0.3, 236),
+ # power entry first, so it gets its area around J1 and the star stud
+ ('left-wing PTCs at J1 (bottom)', (EL, 186, 22, 236), ['F1', 'F2'], 'B'),
+ ('right-wing PTCs at J1 (bottom)', (W - 22, 186, ER, 236), ['F3', 'F4'], 'B'),
+ ('rail reservoirs beside J1 (bottom)', (EL, 186, ER, 236), sorted((r for r in PWR_TALL if r[0] == 'C'), key=lambda r: (-dia(r), num(r))), 'B'),
+ ('SS54 clamps, branch resistors (top, at J1)', (EL, 186, ER, 236), take('POWER ENTRY', 'DISTRIBUTION'), 'F'),
+ # bottom side: electrolytics, trimmers
+ ('balanced-out, monitor and aux coupling caps (bottom)', (0.3, MAIN_Y0, W - 0.3, 186),
   tall('MAIN OUTPUTS', 'AUX MASTER 5', 'AUX MASTER 6', 'EXT INPUT', 'PFL / AFL', 'PFL SWITCHER', 'CONTROL ROOM',
        'HEADPHONES', 'POWER-ON MUTE'), 'B'),
- ('power entry: terminal, reservoirs, wing PTCs (bottom)', (11, 228, 68, 305),         # terminal, big caps, PTCs, rest
-  sorted(tall('POWER ENTRY', 'DISTRIBUTION'), key=lambda r: (0 if r[0] == 'J' else 1 if dia(r) >= 10 else
-                                                             2 if r[0] == 'F' else 3, -dia(r), num(r))), 'B'),
  ('mix coupling (bottom)', (11, 296, 68, 444), tall('MIX L', 'MIX R', 'MASTER FADER'), 'B'),
  ('meter trims + remote meter header (bottom)', (0.3, 300, W - 0.3, 444), tall('METER L', 'METER R', 'REMOTE METER HEADER'), 'B'),
  # top side
- ('balanced outputs + mute relays (towards the jack-board link)', (0.3, MAIN_Y0, W - 0.3, 236), ic_first(OUTS), 'F'),
- ('monitoring: EXT, PFL switcher, C/ROOM, phones', (36, MAIN_Y0, W - 0.3, 236),
-  ic_first(take('EXT INPUT', 'PFL SWITCHER', 'CONTROL ROOM', 'HEADPHONES', drop=OUTS)), 'F'),
- ('aux 5-6 level buffers, AFL; solo level', (0.3, MAIN_Y0, 40, 236),
-  ic_first(take('AUX MASTER 5', 'AUX MASTER 6', 'PFL / AFL', drop=OUTS + SUMMER5 + SUMMER6 + SUMMERP)), 'F'),
- ('PFL detect, power-on mute', (0.3, 160, W - 0.3, 240), ic_first(take('PFL DETECT', 'POWER-ON MUTE')), 'F'),
+ ('balanced outputs + mute relays (towards the jack-board link)', (EL, MAIN_Y0, ER, 236), OUTS, 'F'),
+ ('monitoring: EXT, PFL switcher, C/ROOM, phones', (EL, MAIN_Y0, ER, 306),
+  take('EXT INPUT', 'PFL SWITCHER', 'CONTROL ROOM', 'HEADPHONES', drop=OUTS), 'F'),
+ ('aux 5-6 level buffers, AFL; solo level', (EL, MAIN_Y0, ER, 306),
+  take('AUX MASTER 5', 'AUX MASTER 6', 'PFL / AFL', drop=OUTS + SUMMER5 + SUMMER6 + SUMMERP), 'F'),
+ ('PFL detect, power-on mute', (EL, 160, ER, 306), take('PFL DETECT', 'POWER-ON MUTE'), 'F'),
  ('GC buffer, summers, re-inverters, insert returns, mono (between the wing headers)', (11, 236, 68, 306),
-  ic_first(take('GROUND CANCEL BUFFER', 'MIX L', 'MIX R', 'MONO') + SUMMER5 + SUMMER6 + SUMMERP), 'F'),
- ('power distribution, star ground', (11, 190, 68, 306), take('POWER ENTRY', 'DISTRIBUTION'), 'F'),
+  take('GROUND CANCEL BUFFER', 'MIX L', 'MIX R', 'MONO') + SUMMER5 + SUMMER6 + SUMMERP, 'F'),
  ('post-amps L + R around U5 and wiper coupling (fader wiper end)', (19, 424.5, 60, 444), POST, 'F'),
- ('meter L', (0.3, 300, 31.2, 444), ic_first(take('METER L')), 'F', 0.8),
- ('meter R', (47.4, 300, W - 0.3, 444), ic_first(take('METER R')), 'F', 0.8),
+ ('meter L', (0.3, 300, 31.2, 444), take('METER L'), 'F'),
+ ('meter R', (47.4, 300, W - 0.3, 444), take('METER R'), 'F'),
 ]
 NOTES = ((134, 'AUX 5 | AUX 6 || C/ROOM'), (156, 'AFL 5 | AFL 6 || PHONES | SOLO'), (178, 'POWER || EXT | PFL ACTIVE'),
+         (197, 'POWER IN J1 (bottom), star stud CN1 + NT1-4 at y 214; wing supplies along the board edges'),
          (305, 'BUS HEADERS: left wing CN2, right wing CN3 (bottom)'), (372, 'MASTER FADER 100 mm, meters L | R'),
          (118, 'LINK CN5 (bottom) to the jack board, pin 1 left'))
 place(os.path.join(PROJ, 'master.net'), os.path.join(PROJ, 'master.kicad_pcb'),
       dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
-           grounds=('GNDA', 'GNDD', 'GNDM', 'PHONESGND'), silk_text_off=('K',), hole_value='M3 standoff 11.5 mm'))
+           grounds=('GNDA', 'GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'), silk_text_off=('K',), hole_value='M3 standoff 11.5 mm',
+           attach=True, keepout=[(0, 186, EL, 299), (ER, 186, W, 299)]))
