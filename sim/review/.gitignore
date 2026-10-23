@@ -1,0 +1,6 @@
+pflswitch/decks/
+subafl/pfldet_case.cir
+*.dat
+*.cols
+*.log
+meters/nom*.cir

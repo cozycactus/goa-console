@@ -1,0 +1,153 @@
+* Power-on / power-off mute control (master spec section 8), v2 = values in tools/gen_master.py.
+* v1 (first generator draft: 220K / 22u timer, 1M hysteresis, unlimited diode paths) never closed within 4 s:
+* the 1M from the Schmitt output held the timer near 10.4 V, so it crawled towards the 6.2 V threshold.
+* Five G6K-2F-Y DC12 coils (1315 R, inductance assumed 1 H) with 560R each from +VBUS, MMBT3904 low-side.
+* LM393: open-collector model, emitter on -VL, sinks up to 16 mA, works above 2 V total supply.
+* Cases: 1 power-up; 2 power-down; 3 +V lost; 4 -V lost; 5 20 ms dip to 12 V; 6 slow 2 s ramp.
+.param tr=50m tp=1e9 tn=1e9 dip=0 tdp=0 tdn=0 isink=16m lcoil=1 vz=12 rzb=1m
+.model DZ62 D(BV=6.2 IBV=5m IS=1e-14 RS=10)
+.model DZV D(BV={vz} IBV=5m IS=1e-14 RS=5)
+.model D1N4148 D(IS=2.52n RS=0.568 N=1.752 CJO=4p M=0.4 TT=20n BV=100)
+.model Q3904 NPN(IS=6.734f XTI=3 EG=1.11 VAF=74.03 BF=416.4 NE=1.259 ISE=6.734f IKF=66.78m XTB=1.5 BR=.7371
++ NC=2 ISC=0 IKR=0 RC=1 CJC=3.638p MJC=.3085 VJC=.75 FC=.5 CJE=4.493p MJE=.2593 VJE=.75 TR=239.5n TF=301.2p ITF=.4 VTF=4 XTF=2 RB=10)
+.subckt CMP inp inn out vp vn
+* sink when inn > inp, only with > 2 V across the supply pins
+B1 out vn I = 0.25*(1+tanh(1e3*(V(inn)-V(inp))))*(1+tanh(5*(V(vp)-V(vn)-2)))*{isink}*tanh((V(out)-V(vn))/0.8)
+COUT out 0 10p
+.ends
+* ---------------- rails (PSU after its regulators): ramp up over tr, collapse over 200 ms at tp / tn, optional dip
+BVP vbp 0 V = 17*max(0,min((time-{tdp})/{tr},1))*max(0,min(1,1-(time-{tp})/0.2))*(1-{dip}*(5/17)*(time>3)*(time<3.02))
+BVN vbn 0 V = -17*max(0,min((time-{tdn})/{tr},1))*max(0,min(1,1-(time-{tn})/0.2))*(1-{dip}*(5/17)*(time>3)*(time<3.02))
+* ---------------- logic branch: 10R + 47u per rail, ~17 mA load (LEDs, comparators)
+RLP vbp vlp 10
+CLP vlp 0 47u
+RLLP vlp 0 1k
+RLN vbn vln 10
+CLN vln 0 47u
+RLLN vln 0 1k
+* ---------------- reference and rail sense
+RZ vbp vref 4.7k
+DZ1 0 vref DZ62
+R56 vbp sp 56k
+R47 sp 0 47k
+R22 vref sn 22k
+R51 sn vbn 51k
+XA sp vref rok vlp vln CMP
+XB 0 sn rok vlp vln CMP
+RPU vlp rok 10k
+* ---------------- timer (2.2M / 2.2u film, clamped at -0.7 V, reset through 2.2K), Schmitt (22M), driver
+RT rok mt 2.2meg
+CT mt 0 2.2u
+DT mt dtx D1N4148
+RDT dtx rok 2.2k
+DCT 0 mt D1N4148
+XC mt vref go vlp vln CMP
+RH go mt 22meg
+RGO vlp go 4.7k
+RB go b 4.7k
+DF b dfx D1N4148
+RDF dfx rok 2.2k
+DCL 0 b D1N4148
+Q1 drv b 0 Q3904
+* ---------------- five relay coils
+.subckt COIL top drv
+RS top c 560
+RW c m 1315
+LW m drv {lcoil}
+DFW drv dz D1N4148
+DZW c dz DZV
+RZB c dz {rzb}
+.ends
+XK1 vbp drv COIL
+XK2 vbp drv COIL
+XK3 vbp drv COIL
+XK4 vbp drv COIL
+XK5 vbp drv COIL
+* coil current of one relay
+BIK ik 0 V = (V(XK1.c) - V(XK1.m)) / 1315
+.control
+set noaskquit
+* must operate: 80 % of 12 V = 9.6 V -> 7.30 mA; must release: 10 % (spec min) -> 0.91 mA, chart typ ~20 % -> 1.8 mA
+let k = 1
+while k <= 8
+  alterparam tr=50m
+  alterparam tp=1e9
+  alterparam tn=1e9
+  alterparam dip=0
+  alterparam tdp=0
+  alterparam tdn=0
+  if k = 2
+    alterparam tp=3
+    alterparam tn=3
+  end
+  if k = 3
+    alterparam tp=3
+  end
+  if k = 4
+    alterparam tn=3
+  end
+  if k = 5
+    alterparam dip=1
+  end
+  if k = 6
+    alterparam tr=2
+  end
+  if k = 7
+    alterparam tdn=0.5
+  end
+  if k = 8
+    alterparam tdp=0.5
+  end
+  reset
+  if k = 5
+    tran 100u 8 0 100u
+  else
+    if k = 6
+      tran 100u 6 0 100u
+    else
+      tran 100u 4 0 100u
+    end
+  end
+  meas tran glitch max v(ik) from=0 to=1.5
+  meas tran tclose when v(ik)=7.3m rise=1
+  meas tran vce max v(drv) from=3.5 to=3.9
+  echo "case $&k: max coil current before 1.5 s = $&glitch A; closes at $&tclose s; VCE(on) $&vce V"
+  if k >= 2
+    if k <= 5
+      if k = 3
+        meas tran tth when v(vbp)=13.6 fall=1 td=2.9
+      else
+        meas tran tth when v(vbn)=-14.4 rise=1 td=2.9
+      end
+      if k = 5
+        meas tran tth when v(vbp)=13.6 fall=1 td=2.9
+      end
+      meas tran tb when v(b)=0.4 fall=1 td=2.9
+      meas tran topen when v(ik)=0.91m fall=1 td=2.9
+      meas tran topen2 when v(ik)=1.8m fall=1 td=2.9
+      let dtb = (tb - tth)*1000
+      let dt1 = (topen - tth)*1000
+      let dt2 = (topen2 - tth)*1000
+      meas tran vpat find v(vbp) at=$&topen
+      meas tran vnat find v(vbn) at=$&topen
+      echo "        threshold at $&tth s; base off +$&dtb ms; coil < 1.8 mA +$&dt2 ms, < 0.91 mA +$&dt1 ms; rails +$&vpat / $&vnat V"
+    end
+  end
+  if k = 5
+    meas tran treclose when v(ik)=7.3m rise=2
+    echo "        recloses at $&treclose s (dip ended 3.02 s)"
+  end
+  if k = 6
+    meas tran t14 when v(vbp)=14 rise=1
+    echo "        (+V reached 14 V at $&t14 s)"
+  end
+  if k = 7
+    echo "        (-V started 0.5 s late)"
+  end
+  if k = 8
+    echo "        (+V started 0.5 s late)"
+  end
+  let k = k + 1
+end
+.endc
+.end

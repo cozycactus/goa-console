@@ -1,0 +1,175 @@
+* Review deck (relays): what a DRV134 output (10 uF NP in the Sense loop, master spec 7) and the phones amp
+* (OPA1612 + LME49600 composite, DC-coupled, spec 21) do at power-up / power-down WITHOUT the mute relay.
+* Behavioural models: each op-amp = 10 MHz single pole, output clamped to [V- + h, V+ - h]; when the supply is
+* smaller than 2h the output sits at mid-supply.  h: OPA1612 0.6 V, DRV134 internal amps 2.5 V (datasheet: swing to
+* 2.5-3 V of the rails), composite phones amp 1.8 V.
+* DRV134 = its block diagram (SBOS094B 8.2): A1 inverter (30K/30K), A2/A3 cross-coupled, 30K network, 10K from
+* each Sense node to ground, 50 R out.  Offsets: A2 +1 mV, A3 -1 mV, post-amp +0.5 mV; C(-leg) 12 uF vs 10 uF.
+* Chain: post-amp (OPA1612, +10 dB, input 100K to ground) -> 220 uF NP + 47K -> DRV134 VIN; outputs -> 10 uF ->
+*        Sense nodes OP/ON -> (relay) -> 1 m cable 100 pF/leg -> receiver 10K per leg to ground.
+* Phones: composite +9.9 dB (4K7/2K2), input 100K to ground, 2R2 out, 32 R headphone.
+* Rails: 0 -> 17 V ramps of 180 ms (PSU sim: 165 ms 10-90 %), start of each rail = tdp / tdn; power-down: rail
+* falls 17 -> 0 V at 0.25 V/ms (PSU + console capacitance, 2.65 A) starting at tpp / tpn; master audio branch 1R+470u,
+* phones branch 2R2 + 1000u.
+.param tdp=0 tdn=0 tpp=100 tpn=100 fall=68m
+.param hopa=0.6 hdrv=2.5 hph=1.8
+.subckt OA p n o vp vn h=1.5 vos=0
+B1 0 y I=1e-3*(V(p)-V(n)+{vos})
+Ry y 0 1e8
+Cy y 0 15.9p
+Bmid mid 0 V=(V(vp)+V(vn))/2
+Blo lo 0 V=min(V(vn)+{h}, V(mid))
+Bhi hi 0 V=max(V(vp)-{h}, V(mid))
+Bc y 0 I=0.01*(max(V(y)-V(hi),0)+min(V(y)-V(lo),0))
+Bo o1 0 V=max(min(V(y),V(hi)),V(lo))
+Ro o1 o 5
+.ends
+.subckt DRV134 vin vop von sp sn vp vn
+XA1 0 n1 x vp vn OA h={hdrv}
+R1 vin n1 30k
+R2 n1 x 30k
+XA2 n2p n2m a2 vp vn OA h={hdrv} vos=1m
+R3 x n2m 30k
+R4 n2m a2 30k
+R5 vin n2p 30k
+R6 n2p sn 30k
+R7 sn 0 10k
+XA3 n3p n3m a3 vp vn OA h={hdrv} vos=-1m
+R8 vin n3m 30k
+R9 n3m a3 30k
+R10 x n3p 30k
+R11 n3p sp 30k
+R12 sp 0 10k
+RO2 a2 vop 50
+RO3 a3 von 50
+.ends
+* ---------------- rails
+BVP vbp 0 V=17*max(0,min(1,(time-{tdp})/0.18))*max(0,min(1,1-(time-{tpp})/{fall}))
+BVN vbn 0 V=-17*max(0,min(1,(time-{tdn})/0.18))*max(0,min(1,1-(time-{tpn})/{fall}))
+RAP vbp vap 1
+CAP vap 0 470u
+RLAP vap 0 100
+RAN vbn van 1
+CAN van 0 470u
+RLAN van 0 100
+RPP vbp vpp 2.2
+CPP vpp 0 1000u
+RLPP vpp 0 1k
+RPN vbn vpn 2.2
+CPN vpn 0 1000u
+RLPN vpn 0 1k
+* ---------------- post-amp -> 220u NP + 47K -> DRV134 -> 10u -> Sense nodes -> (switch) -> cable -> receiver
+RFIN fin 0 100k
+XPA fin fn fo vap van OA h={hopa} vos=0.5m
+RF1 fo fn 4.7k
+RF2 fn 0 2.2k
+CPOST fo post 220u
+RPOST post 0 47k
+XD post vop von op on vap van DRV134
+CVP vop op 10u
+CVN von on 12u
+SP op xp rly 0 SREL
+SN on xn rly 0 SREL
+CCP xp 0 100p
+CCN xn 0 100p
+RRP xp 0 10k
+RRN xn 0 10k
+* relay: closed (1) or open (0) for the whole run; this deck is about the unprotected output
+VRLY rly 0 1
+.model SREL SW(RON=0.1 ROFF=1e9 VT=0.5 VH=0.1)
+* ---------------- phones: composite amp, DC-coupled, 2R2, 32 R
+RPHIN phin 0 100k
+XPH phin phn phd vpp vpn OA h={hph} vos=0.5m
+RPHO phd pho 2.2
+RPF1 pho phn 4.7k
+RPF2 phn 0 2.2k
+RHP pho 0 32
+.options reltol=1e-4 abstol=1e-10 method=gear
+.control
+set noaskquit
+let k = 1
+while k <= 6
+  alterparam tdp=0
+  alterparam tdn=0
+  alterparam tpp=100
+  alterparam tpn=100
+  if k = 2
+    alterparam tdn=0.3
+  end
+  if k = 3
+    alterparam tdp=0.3
+  end
+  if k = 4
+    alterparam tpp=4
+    alterparam tpn=4.03
+  end
+  if k = 5
+    alterparam tpn=4
+    alterparam tpp=4.03
+  end
+  if k = 6
+    alterparam tpn=4
+    alterparam fall=1m
+  end
+  reset
+  tran 50u 4.3 0 100u uic
+  let vd = v(xp)-v(xn)
+  let vc = (v(xp)+v(xn))/2
+  let iph = v(pho)/32
+  if k <= 3
+    meas tran dpk max vd from=0 to=2.9
+    meas tran dmn min vd from=0 to=2.9
+    meas tran cpk max vc from=0 to=2.9
+    meas tran cmn min vc from=0 to=2.9
+    meas tran ppk max xp from=0 to=2.9
+    meas tran pmn min xp from=0 to=2.9
+    meas tran ipk max iph from=0 to=2.9
+    meas tran imn min iph from=0 to=2.9
+    meas tran wph integ iph from=0 to=2.9
+    meas tran dclose find vd at=3.3
+    meas tran pclose find v(op) at=3.3
+    meas tran nclose find v(on) at=3.3
+    meas tran inclose find v(post) at=3.3
+    echo "case $&k power-up, unprotected: diff $&dmn .. $&dpk V; CM $&cmn .. $&cpk V; hot leg alone $&pmn .. $&ppk V"
+    echo "        phones current $&imn .. $&ipk A into 32 R"
+    echo "        at 3.3 s (relay would close): diff $&dclose V, Sense nodes $&pclose / $&nclose V, DRV134 VIN $&inclose V"
+  else
+    meas tran dpk max vd from=3.9 to=4.3
+    meas tran dmn min vd from=3.9 to=4.3
+    meas tran cpk max vc from=3.9 to=4.3
+    meas tran cmn min vc from=3.9 to=4.3
+    meas tran ipk max iph from=3.9 to=4.3
+    meas tran imn min iph from=3.9 to=4.3
+    if k < 6
+      meas tran t136 when v(vbp)=13.6 fall=1
+      meas tran t144 when v(vbn)=-14.4 rise=1
+      echo "case $&k power-down: +V < 13.6 V at $&t136 s, -V > -14.4 V at $&t144 s"
+    end
+    meas tran d10 max vd from=3.9 to=4.010
+    meas tran dm10 min vd from=3.9 to=4.010
+    meas tran c10 max vc from=3.9 to=4.010
+    meas tran cm10 min vc from=3.9 to=4.010
+    meas tran i10 max iph from=3.9 to=4.010
+    meas tran im10 min iph from=3.9 to=4.010
+    echo "        unprotected over the whole collapse: diff $&dmn .. $&dpk V; CM $&cmn .. $&cpk V; phones $&imn .. $&ipk A"
+    echo "        within 10 ms of the start of the collapse: diff $&dm10 .. $&d10 V; CM $&cm10 .. $&c10 V; phones $&im10 .. $&i10 A"
+    let avc = abs(vc)
+    let avd = abs(vd)
+    let aip = abs(iph)
+    meas tran tc50 when avc=0.05 rise=1 td=3.9
+    meas tran td50 when avd=0.05 rise=1 td=3.9
+    meas tran ti5 when aip=0.005 rise=1 td=3.9
+    echo "        first |CM| > 50 mV at $&tc50 s, first |diff| > 50 mV at $&td50 s, phones > 5 mA at $&ti5 s"
+    if k < 6
+      meas tran vpt find v(vap) at=$&tc50
+      meas tran vnt find v(van) at=$&tc50
+      echo "        (master VA rails then $&vpt / $&vnt V)"
+    end
+  end
+  if k = 2
+    wrdata case2.dat vd vc iph v(vap) v(van)
+  end
+  let k = k + 1
+end
+.endc
+.end

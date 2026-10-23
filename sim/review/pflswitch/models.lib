@@ -1,0 +1,23 @@
+* J112 models
+* (1) Fairchild MMBFJ112 (same die as J112/J111/J113; "Product: MMBFJ112 / MMBFJ111 / MMBFJ113", Creation Dec-24-2004,
+*     Fairchild Semiconductor; card as posted in mikrocontroller.net/topic/256439, archived copy)
+*     AF=1.1208E-3 in the card (looks like a typo for ~1.12); noise exponent irrelevant here, set to 1.
+.MODEL J112F NJF
++ VTO=-1.6800 N=1 BETA=5.002E-003
++ BETATCE=-0.46 RD=0.334 RS=0.334
++ LAMBDA=0.00398 IS=181.30E-15 ISR=1.7470E-12
++ ALPHA=2.5430E-6 VK=152.20 CGD=6.9920E-12
++ CGS=13.267E-12 M=0.49314 PB=1.4440
++ FC=0.5 KF=16.860E-27 AF=1
++ VTOTC=-2.10E-3
+* (2) LTspice standard.jft J112 (Mfg=Linear_Systems), Vto -2.057 V
+.model J112L NJF(Beta=5.695m Betatce=-0.5 Vto=-2.057 Vtotc=-2.5m Lambda=13m Is=205.2f Xti=3 Isr=1988f Nr=2 Alpha=20.98u N=1 Rd=1 Rs=1 Cgd=6.46p Cgs=5.74p Fc=0.5 Vk=123.7 M=407m Pb=1 Kf=75980f Af=1)
+* (3) datasheet corners built on the Fairchild card (onsemi MMBFJ113/D rev 5: VGS(off) -1..-5 V, IDSS >= 5 mA, rDS(on) <= 50 ohm)
+*     high-Vp corner: Vto = -5 V, Beta 2.0m -> Ron 50 ohm, Idss 50 mA (worst for off-isolation)
+.MODEL J112P5 NJF VTO=-5.0 BETA=2.0E-003 RD=0.334 RS=0.334 LAMBDA=0.00398 IS=181.30E-15 ISR=1.7470E-12
++ ALPHA=2.5430E-6 VK=152.20 CGD=6.9920E-12 CGS=13.267E-12 M=0.49314 PB=1.4440 FC=0.5
+*     low-Vp corner: Vto = -1.0 V, Beta 10m -> Ron 50 ohm, Idss 10 mA (worst for Ron modulation)
+.MODEL J112P1 NJF VTO=-1.0 BETA=10.0E-003 RD=0.334 RS=0.334 LAMBDA=0.00398 IS=181.30E-15 ISR=1.7470E-12
++ ALPHA=2.5430E-6 VK=152.20 CGD=6.9920E-12 CGS=13.267E-12 M=0.49314 PB=1.4440 FC=0.5
+* 1N4148, LTspice standard.dio (mfg=OnSemi)
+.model D1N4148 D(Is=2.52n Rs=.568 N=1.752 Cjo=4p M=.4 tt=20n)

@@ -65,8 +65,8 @@ netlists and simulated in ngspice.
   - 0 DRC violations on the strip, group and master main boards, the PSU and both jig boards;
   - the jack boards show only items inside KiCad's NJ6FD-V footprint.
 - **Still open:**
-  - review the master parts proposed in `master_section_spec.md` (v0.6 draft): GCANCEL buffer, OPA1656 on the
-    aux/PFL sums, mute relays on the main and control-room outputs, series-J112 PFL switcher, 20-LED meters, sub AFL;
+  - sign off `master_parts_review.md` (the six master parts proposed in `master_section_spec.md` v0.6), then apply
+    the changes to the generators;
   - check the panel parts against samples:
     - fader pad pattern (1:1 print) and which side of the slot the pins sit;
     - fader law, which the printed dB scale needs;
@@ -89,7 +89,7 @@ netlists and simulated in ngspice.
 |------|------|
 | `console_architecture.md` | Whole-console architecture (authoritative): bus pinout, grounding, power, op-amp choices |
 | `channel_strip_schematic_spec.md` | Strip component-level spec v4.0 (authoritative), incl. panel parts and stack (§16) |
-| `master_section_spec.md`, `master_panel_study.md` | Master and group modules: functions, parts, panel study |
+| `master_section_spec.md`, `master_panel_study.md`, `master_parts_review.md` | Master and group modules: functions, parts, panel study, review of the proposed parts |
 | `psu_spec.md`, `test_jig_spec.md` | External PSU, test jig |
 | `delta_clone_comparison.md`, `strip_panel_study.md` | Why the strip is a Delta clone, why 8 HP × 12U with two pot columns |
 | `panel_parts_drawings.md`, `panel_print.md` | Panel parts against their manufacturers' drawings; the Delta's panel legend system and ours |

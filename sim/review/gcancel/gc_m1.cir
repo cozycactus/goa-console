@@ -1,0 +1,121 @@
+* GCANCEL buffer review: post-M1 ground-difference leakage at MIX_L (master), one AC source at a time.
+* Strips (24) at ground GS, group modules (4) at ground GG, master ground = node 0.
+* GC line: 24 x 10R from GS (strips) + 4 x 10R from GG (groups' R5). No master-end tie (RTIE = 1e12 unless set).
+* Master: U1A follower (GCANCEL_BUF) feeds 5 re-inverters (MIX L/R, A5, A6, PFL) = 5 x (2K2+2K2) to master ground.
+*   bufon=1: loads hang on the buffer output; bufon=0: loads hang on the raw line (no buffer).
+* Groups: each has its own follower for its 2 re-inverters (2 x 4K4 to GG); gbuf=0 puts them on the raw line.
+* Re-inverter: 4 x 2K2 with worst-case 0.1 % (t) mismatch arrangement (max common-mode gain).
+.param vgs=1 vgg=1 cbus=1n bufon=1 gbuf=1 rtie=1e12 t=0 ng=8
+.subckt OPA inp inn out
+G1 0 n1 inp inn 1
+R1 n1 0 1e6
+C1 n1 0 3.98n
+E1 out 0 n1 0 1
+.ends
+VGS gs 0 DC 0 AC {vgs}
+VGG gg 0 DC 0 AC {vgg}
+* GC line
+RGCS gs gc {10/24}
+RGCG gg gc {10/4}
+RTIE gc 0 {rtie}
+* MIX L bus: 24 strips at GS (silent), ng group feeds (sub pans + returns) at GG, 4K7 each
+RSN gs bus {4.7k/24}
+RGN gg bus {4.7k/ng}
+CBUS bus 0 {cbus}
+* master GCANCEL buffer and its 5 re-inverter loads (4 lumped + the MIX L one modelled below)
+XGB gc gcb gcb OPA
+* switch: loads on gcb (bufon=1) or on gc (bufon=0)
+RSW1 gcb ref {1e-3 + (1-bufon)*1e12}
+RSW2 gc ref {1e-3 + bufon*1e12}
+RLD ref 0 {4.4k/4}
+* group re-inverter loads (2 per group, 4 groups) when unbuffered: 8 x 4K4 from GC to GG
+RGL gc gg {1e12*gbuf + (1-gbuf)*4.4k/8}
+* U1B summing amp on GC
+XSUM gc bus s1 OPA
+RF1 s1 bus 4.7k
+CF1 s1 bus 100p
+* re-inverter, worst-case mismatch t
+R21 s1 dn {2.2k*(1+t)}
+R22 dn mix {2.2k*(1-t)}
+R23 ref dp {2.2k*(1-t)}
+R24 dp 0 {2.2k*(1+t)}
+XRI dp dn mix OPA
+.control
+set noaskquit
+* columns: 10 Hz, 50 Hz, 1 kHz, 10 kHz
+echo "case | 10Hz 50Hz 1k 10k (dB re 1 V ground difference)"
+* --- strip-to-master ground difference (VGS=VGG=1: strips and groups move together vs master)
+foreach cb 1n 50p 0
+ foreach bo 1 0
+  alterparam cbus=$cb
+  alterparam bufon=$bo
+  reset
+  foreach fq 10 50 1k 10k
+   ac lin 1 $fq $fq
+   let d = db(v(mix))
+   print d
+  end
+  echo "strips+groups vs master, cbus=$cb bufon=$bo t=0"
+ end
+end
+* with 0.1 % worst-case mismatch
+alterparam t=0.001
+alterparam cbus=50p
+alterparam bufon=1
+reset
+  foreach fq 10 50 1k 10k
+   ac lin 1 $fq $fq
+   let d = db(v(mix))
+   print d
+  end
+echo "strips+groups vs master, cbus=50p bufon=1 t=0.1%"
+alterparam t=0.0002
+reset
+  foreach fq 10 50 1k 10k
+   ac lin 1 $fq $fq
+   let d = db(v(mix))
+   print d
+  end
+echo "strips+groups vs master, cbus=50p bufon=1 t=0.02% (INA1620-class)"
+alterparam t=0
+* keeper 100K and 47K, and the 22R tie, buffered, cbus 50p
+foreach rt 100k 47k 10k 22
+ alterparam rtie=$rt
+ reset
+  foreach fq 10 50 1k 10k
+   ac lin 1 $fq $fq
+   let d = db(v(mix))
+   print d
+  end
+ echo "tie/keeper $rt, bufon=1, cbus=50p"
+end
+alterparam rtie=1e12
+* 10K re-inverters unbuffered (each 20K on the line): 5 x 20K = 4K -> emulate by scaling RLD and the MIX L leg
+* (done in gc_m1_10k.cir)
+* --- group-only ground difference (groups move vs strips and master): effect of unbuffered group legs
+alterparam vgs=0
+alterparam vgg=1
+alterparam cbus=0
+foreach gb 1 0
+ alterparam gbuf=$gb
+ reset
+  foreach fq 10 50 1k 10k
+   ac lin 1 $fq $fq
+   let d = db(v(mix))
+   print d
+  end
+ echo "groups only, gbuf=$gb (ng=8 group feeds on MIX)"
+end
+alterparam ng=1e-9
+foreach gb 1 0
+ alterparam gbuf=$gb
+ reset
+  foreach fq 10 50 1k 10k
+   ac lin 1 $fq $fq
+   let d = db(v(mix))
+   print d
+  end
+ echo "groups only, gbuf=$gb (no group feeds routed)"
+end
+.endc
+.end
