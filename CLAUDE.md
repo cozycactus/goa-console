@@ -78,7 +78,10 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
   render/glb/, re-exported when a .kicad_pcb is newer); the parts KiCad has no model for come from `tools/models3d`;
   standoffs, M4 stud, LED spacers/lenses are generic; IDC sockets crimped on the ribbons (34-way motherloom through
   every module's bus header, folded jack-board links), the supply cable to the master's J1; the panel plate has real
-  cut-outs (holes, fader slots, D-size XLR); the panel layer is a separate collection per module (hide it to see the
+  cut-outs (holes, fader slots, D-size XLR) and Delta-style print (`panel_print`: name above each pot, 11-dot ring,
+  scale numbers that dodge neighbours, FREQ scales from sim/mid_tuning.py, gain scale from the gain-stage law, fader dB
+  scale from a two-slope A law + 9.9 dB post-amp, approximate until the fader's law is measured; Arial Narrow); views
+  panel_strip.png / panel_master.png; the panel layer is a separate collection per module (hide it to see the
   boards). 24 strips + 4 groups + master as instanced collections, 9° tub, nine PNG views incl. internals.png.
   .blend, PNGs and GLBs are gitignored.
 - `tools/models3d/` — part models from the manufacturers' drawings for the footprints KiCad has no model for (Alpha
@@ -293,7 +296,9 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
 
 ## Reference material
 In `ref/`: Delta DLX/Theatre schematics (`Sndcft_DeltaDLX_Schems.pdf`, the ED drawings), Soundcraft 200 Delta
-Technical Manual ZZ2593 (`Soundcraft_200Delta_TechManual_ZZ2593_Part1-3.pdf`, scanned, no text layer: specs,
+Technical Manual ZZ2593 (`Soundcraft_200Delta_TechManual_ZZ2593_Part1-3.pdf`) and User Guide
+(`Soundcraft_200Delta_UserGuide.pdf`, front-panel drawings of every module, cropped at 300 dpi into `ref/delta200_panels/`:
+the legend style for our panels), both scanned, no text layer. Manual: specs,
 circuit descriptions, jumper settings, connector and loom pinouts p. 129-135, spare-parts lists p. 151-162 (the Delta's
 fader is an ALPS 10K 100 mm mono with a "SIF low profile" knob; 14 mm push-on knobs, M7 nuts, 16 mm pots),
 dimensions p. 114), Mackie 1604-VLZ block diagram, API 500 spec. Ask Ruslan for other PDFs if needed.
