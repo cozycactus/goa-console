@@ -48,7 +48,7 @@ for side, bus in (('L', 'MIXL'), ('R', 'MIXR')):
     insert(b, f'MIX_{side}', f'PRE_{side}', f'MIX_{side}')
 b = block('MASTER FADER (dual 100 mm A10K, pin 1 = GNDA) + post-amps +10 dB')
 P(b, ref('RV'), 'POT2', 'Master fader 10K log 100mm dual', {1: 'GNDA', 3: 'PRE_L', 2: 'MW_L', 4: 'GNDA', 6: 'PRE_R', 5: 'MW_R'},
-  fp=FADER2_FP, mpn='Bourns PTB0144-2010BPA103')
+  fp=FADER2_FP, mpn='Bourns PTB0144-2010APA103')
 with new_package():                     # both post-amps in one OPA1612, beside the fader wiper
     post_amp(b, 'MW_L', 'POST_L', 'MST_L'); post_amp(b, 'MW_R', 'POST_R', 'MST_R')
 b = block('MONO: inverting sum of POST L+R, re-inverter')

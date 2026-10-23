@@ -409,7 +409,7 @@ AI scope: component placement only. Ruslan routes copper and pours grounds in Ki
 | Ref | Part | Footprint | Notes |
 |-----|------|-----------|-------|
 | J1, J2, J5 | Neutrik NJ6FD-V | `Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical` | On the panel, **on the jack board** (§16.4): a 1/4" plug goes ~30 mm deep, too deep for the main board's 11.5 mm gap. All plastic, isolated; panel hole 12 mm, panel 1.2–1.5 mm. |
-| RV1 | Bourns PTB0143-2010BPA103 | `goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm` | 100 mm, A10K; pin 1 (ground end) to the operator. |
+| RV1 | Bourns PTB0143-2010APA103 | `goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm` | 100 mm, A10K; pin 1 (ground end) to the operator. AP lever (2026-10-23): 4.0 mm split fork, 10 mm above the cover, so standard 4 mm fader knobs fit (the BP lever was an 8 mm flat blade). |
 | RV2–RV7 | Alpha RD901F-40, A10K | `Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical` | Pin 1 = AGND (A-law runs from pin 1). |
 | RV9–RV11, RV13, RV15 | Alpha RD901F-40-15R1-B10K-0CD | same | 10K linear, centre detent (Alpha spec SP26020021). In stock 2026-10-22 as Alpha 9 mm vertical linear "centre notch" 10K (Cedist / Amplified Parts R-VAV-B10K-CN), but with a 1/4" (6.35 mm) shaft: knobs must match. |
 | RV8 | Alpha RD902F-40, B10K, centre detent | `Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical` | Confirm a detent version is stocked. |

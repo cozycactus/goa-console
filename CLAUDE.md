@@ -162,6 +162,8 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
 - Bus = real Delta motherloom pinout (read from Delta ED3344C): GRP1-4 = SUB1-4 on pins 15/13/11/9,
   MIX R 17, MIX L 18, AUX6..1 on 20-25 (AUX1=24, AUX2=25), GND CANCEL 26, PFL 27, PFL DET 29,
   -V 30-31, +V 32-33, +48 V pin 34 not connected. Spares: 1,3,5,7,19. Even pins 2-16 = GND.
+  The 200 Delta Technical Manual (p. 134, `ref/`) lists 17 = Mix left / 18 = Mix right, the opposite of ED3344C;
+  kept the ED3344C order (Ruslan, 2026-10-23; console_architecture.md 2). It confirms pin 28 = PFL Audio −VE.
 - Ground cancel: 10 Ω from strip AGND to pin 26; master summing amps reference that line.
   Each master summing amp is followed by a unity differential re-inverter (sum − GCANCEL).
   No tie from GCANCEL to master ground at the master end (2026-10-19; sim: a 22 Ω tie costs ~45 dB).
@@ -180,6 +182,9 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
 - All balanced outputs use TI DRV134 (2026-10-19), Sense pins after a 10 µF NP per leg, mute
   relay after that. Replaced THAT1646, which went EOL (THAT memo 2026-09-01). The same memo
   kills THAT 2180/2181 (bus-compressor VCA, strip VCA option) and THAT 124x.
+- Fader lever (2026-10-23): Bourns AP lever, a 4.0 mm split fork 10 mm above the cover, on every fader
+  (PTB0143-2010APA103 strips and groups, PTB0144-2010APA103 master), so standard 4 mm fader knobs fit; replaces the BP
+  lever (an 8 mm flat blade). Panel slot >= 104 x 1.3 (model 106 x 2.2).
 - VCA (decided 2026-10-19): Sound Semiconductor SSI2162 for the bus compressor (sidechain
   rescaled 6.1 → 33 mV/dB; THAT2181 backorder route rejected) and as a plug-in module for the
   strip VCA option.
@@ -255,14 +260,13 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
   case specified (psu_spec.md §8). Routing is Ruslan's; build the case.
 - Pan RV8: no Alpha B10K dual with a centre detent found; options are the stocked Alpha B10K dual with no
   detent, or an ALPS RK097121TD57 (9 mm dual, centre detent; different footprint).
-- Pin 28 (PFL−) reading from the Delta drawing is uncertain.
 - Input buffer/receiver question settled: differential receiver fitted (pseudo-balanced cables recommended).
 
 ## Next steps
 0. Delta clone: spec v4.0, schematics and placement (main board + jack board) done (2026-10-22).
    Jack-board depth 24.0 mm confirmed from Neutrik's drawings (NJ6FD-V and NC3MAV, 2026-10-23; 24.0 M3 standoffs).
-   Panel parts vs their drawings: `panel_parts_drawings.md` (open: PTB BP lever is an 8 mm blade, so the AP lever or an
-   8 x 1.3 knob; PTB0143 pin side of the slot; PV cap 0.3 mm in the 8.0 hole; Alpha bushing has no spare thread; every
+   Panel parts vs their drawings: `panel_parts_drawings.md` (fader lever: AP fork chosen 2026-10-23; open: PTB0143 pin
+   side of the slot; PV cap 0.3 mm in the 8.0 hole; Alpha bushing has no spare thread; every
    pot shaft is 1/4"). Open: pan B10K dual with detent; custom 12U frame with
    end rails only. Routing is Ruslan's.
 1. Confirm panel parts against samples (see spec 13.1 checklist).
@@ -284,9 +288,12 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
    ERC 0, parity DRC 0 violations). Routing is Ruslan's; then build with four routed strips.
 4. PCB layout of the strip: v4.0 placement done (`channel_strip_v4.kicad_pcb`, spec 16.3); panel stack
    unchanged (16.2: panel underside 11.5 mm, PVA2 H1 + PV caps, pot 1.5 mm spacer washers, fader
-   3.5 mm spacer, 7.6 mm LED spacers, 6 × M3 standoffs). Open: fader knob for a 5 mm lever stub,
+   3.5 mm spacer, 7.6 mm LED spacers, 6 × M3 standoffs). Open: which 4 mm fader knob (AP fork, 5 mm above the panel),
    physical sample checks. Routing and ground pours are left to Ruslan.
 
 ## Reference material
-Delta DLX/Theatre schematics, Mackie 1604-VLZ block diagram and API 500 spec were used;
-ask Ruslan to drop the PDFs into `ref/` if needed.
+In `ref/`: Delta DLX/Theatre schematics (`Sndcft_DeltaDLX_Schems.pdf`, the ED drawings), Soundcraft 200 Delta
+Technical Manual ZZ2593 (`Soundcraft_200Delta_TechManual_ZZ2593_Part1-3.pdf`, scanned, no text layer: specs,
+circuit descriptions, jumper settings, connector and loom pinouts p. 129-135, spare-parts lists p. 151-162 (the Delta's
+fader is an ALPS 10K 100 mm mono with a "SIF low profile" knob; 14 mm push-on knobs, M7 nuts, 16 mm pots),
+dimensions p. 114), Mackie 1604-VLZ block diagram, API 500 spec. Ask Ruslan for other PDFs if needed.

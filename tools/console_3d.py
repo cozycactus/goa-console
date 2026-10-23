@@ -300,7 +300,7 @@ def import_board(c, board, z_top):
 
 # ---------------------------------------------------------------- one module
 HOLE = {'alpha_pot': 7.2, 'ck_pva2': 8.0, 'neutrik_nj6fd_v': 12.0}      # panel holes, spec 16.1 / 16.2
-FADER_SLOT = (110.0, 2.4, 60.0)               # PTB: 100 travel + 8.0 blade (BP lever), 1.3 blade; M3 fixings at +-60
+FADER_SLOT = (106.0, 2.2, 60.0)               # PTB: 100 travel + 4.0 fork (AP lever) + clearance, 1.3 thick; M3 at +-60
 XLR_CUT = (22.2, [(-9.9, -9.9), (9.9, 9.9)])  # NC3MAV (A series, rear mount): >= 22 hole, 2 x 3.2 (footprint frame)
 FADER_POS = 0.75                              # lever position shown: 75 % of the travel
 LATCHED = {'strip': ('SW4', 'SW5')}           # switches shown pressed: ON and L-R (their LEDs are lit)

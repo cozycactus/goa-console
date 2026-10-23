@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/channel_strip.kicad_sch")
-		(date "2026-10-22T19:52:04")
+		(date "2026-10-23T04:01:24")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -10257,7 +10257,7 @@
 			(footprint "goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm")
 			(fields
 				(field
-					(name "MPN") "Bourns PTB0143-2010BPA103")
+					(name "MPN") "Bourns PTB0143-2010APA103")
 				(field
 					(name "Footprint") "goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm")
 				(field
@@ -10274,7 +10274,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Bourns PTB0143-2010BPA103")
+				(value "Bourns PTB0143-2010APA103")
 			)
 			(property
 				(name "Sheetname")

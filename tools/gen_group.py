@@ -43,7 +43,7 @@ s = 'S'
 summer(b, 'SUB_SEL', s + '_SUM', '4K7', '100p')
 reinv(b, s + '_SUM', s + '_MIX', gref='GC_BUF')
 insert(b, s + '_MIX', s + '_PRE', 'SUB')
-P(b, ref('RV'), 'POT', 'Sub fader 10K log 100mm', {1: 'GNDA', 3: s + '_PRE', 2: s + '_W'}, fp=FADER_FP, mpn='Bourns PTB0143-2010BPA103')
+P(b, ref('RV'), 'POT', 'Sub fader 10K log 100mm', {1: 'GNDA', 3: s + '_PRE', 2: s + '_W'}, fp=FADER_FP, mpn='Bourns PTB0143-2010APA103')
 post_amp(b, s + '_W', s + '_POST', s)
 drv134(b, s + '_POST', s + '_OP', s + '_ON')
 jack(b, 'JACK', 'Sub out TRS', {'T': s + '_OP', 'R': s + '_ON', 'S': 'GNDA'})

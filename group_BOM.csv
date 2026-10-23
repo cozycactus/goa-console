@@ -31,7 +31,7 @@ Qty,Value,Footprint,MPN,References
 2,1M,Resistor_SMD:R_0805_2012Metric,,R36 R41
 8,10K 0.1%,Resistor_SMD:R_0805_2012Metric,,R37 R38 R39 R40 R42 R43 R44 R45
 2,43K,Resistor_SMD:R_0805_2012Metric,,R62 R63
-1,Sub fader 10K log 100mm,goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm,Bourns PTB0143-2010BPA103,RV1
+1,Sub fader 10K log 100mm,goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm,Bourns PTB0143-2010APA103,RV1
 1,Sub pan 10K dual,Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical,Alpha RD902F-40 B10K centre detent,RV2
 1,Aux master 10K log,Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,Alpha RD901F-40 A10K,RV3
 1,Return level 10K log dual,Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical,Alpha RD902F-40 A10K,RV4

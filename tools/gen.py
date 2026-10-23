@@ -166,7 +166,7 @@ P(b,'SW4','SW','ON',{5:'+VL',4:'ON_SW',6:'NC'},unit=2)
 P(b,'R43','R','4K7',{1:'ON_SW',2:'ON_LA'}); P(b,'D4','LED','ON green',{2:'ON_LA',1:'GNDD'})
 
 b = block('FADER + POST-AMP (+10 dB; omit R38 for unity)  JP1 = VCA bypass')
-P(b,'RV1','POT','Fader 10K log 100mm',{1:'GNDA',3:'MUTEOUT',2:'WIPER'},fp=FADER_FP,mpn='Bourns PTB0143-2010BPA103')
+P(b,'RV1','POT','Fader 10K log 100mm',{1:'GNDA',3:'MUTEOUT',2:'WIPER'},fp=FADER_FP,mpn='Bourns PTB0143-2010APA103')
 P(b,'C13','C','2.2u',{1:'WIPER',2:'VCAIN'},fp=CAP_FP['2.2u'])
 P(b,'JP1','SJ2','VCA bypass',{1:'VCAIN',2:'FPIN'}); P(b,'R18','R','100K',{1:'FPIN',2:'GNDA'})
 # VCA module option (spec 7.1): SSI2162 + I/V + inverter on a plug-in module; JP1 bridged when not fitted

@@ -6,7 +6,9 @@
 ## 0. What changed in v3.0
 
 v3.0 is based on a full read of all 17 pages of the Soundcraft Delta DLX / Theatre
-schematic set (ED2911, ED2915, ED2776, ED2778, ED2779, ED2780, ED3151, ED3344).
+schematic set (ED2911, ED2915, ED2776, ED2778, ED2779, ED2780, ED3151, ED3344). Since 2026-10-23 also the
+Soundcraft 200 Delta Technical Manual (ZZ2593, `ref/Soundcraft_200Delta_TechManual_ZZ2593_Part1-3.pdf`, scanned):
+loom pinouts, connector pinouts, jumper settings, spare-parts lists, dimensions.
 
 **Corrections to v2.0**
 - The 2SB737 transistors in the Delta mix summing amp (ED2780 sh.2) are a **low-noise
@@ -76,8 +78,8 @@ ED2915A (stereo input). Ribbon conductor order = pin number.
 | 14 | GND | GND |
 | 15 | GRP 1 | SUB 1 |
 | 16 | GND | GND |
-| 17 | MIX R | MIX R |
-| 18 | MIX L | MIX L |
+| 17 | MIX R | MIX R (200 Delta manual: Mix left, see below) |
+| 18 | MIX L | MIX L (200 Delta manual: Mix right) |
 | 19 | unused | spare |
 | 20 | AUX 6 | AUX 6 |
 | 21 | AUX 5 | AUX 5 |
@@ -87,7 +89,7 @@ ED2915A (stereo input). Ribbon conductor order = pin number.
 | 25 | AUX 2 | AUX 2 |
 | 26 | GND CANCEL | GND CANCEL (see 2.2) |
 | 27 | PFL+ | PFL |
-| 28 | PFL− | PFL− (stereo returns only; reading less certain) |
+| 28 | PFL− | PFL− (stereo returns only); 200 Delta manual: "PFL Audio −VE" |
 | 29 | PFL DET | PFL DET |
 | 30 | −17 V | −V |
 | 31 | −17 V | −V |
@@ -95,8 +97,18 @@ ED2915A (stereo input). Ribbon conductor order = pin number.
 | 33 | +17 V | +V |
 | 34 | +48 V | **not connected** — no phantom in this console |
 
-Confidence: pins 1–27 and 29–34 read clearly. Pin 28 (PFL−) is inferred from the
-stereo-input sheet. Note AUX 1/AUX 2 are on 24/25, not in numeric order.
+Confidence: pins 1–27 and 29–34 read clearly. Pin 28 (PFL−), first inferred from the
+stereo-input sheet, is confirmed by the 200 Delta Technical Manual (p. 134, "Motherloom, 34 way IDC loom":
+27 PFL Audio +VE, 28 PFL Audio −VE). Note AUX 1/AUX 2 are on 24/25, not in numeric order.
+
+MIX L / R: the two Soundcraft sources disagree. ED3344C (Theatre input, CN2) labels the trace to pin 17 "R"
+and the one to pin 18 "L" (re-read at 600 dpi on 2026-10-23: odd pins in the top row, pin 1 at the right, GROUP 1-4
+on 15/13/11/9, "L" beside the trace to bottom-row pin 18, "R" beside the one to top-row pin 17). The 200 Delta
+manual's loom table (p. 134) lists 17 = Mix left, 18 = Mix right. Every other pin agrees between the two (groups
+1-8 on 15/13/11/9 and 7/5/3/1, AUX 6..1 on 20-25 with AUX 1/2 on 24/25, GND cancel 26, PFL 27/28, PFL detect 29,
+±17 V on 30-33, +48 V on 34). Decision (Ruslan, 2026-10-23): keep the ED3344C order, MIX R = 17 and MIX L = 18.
+Our strips, groups and master all use it, so the console is consistent either way; only a real Delta module
+built to the 200 Delta order would have its L and R swapped on this bus.
 
 ### 2.1 Observations from the real pinout
 - Only the group buses have ground wires between them (pins 2–16).

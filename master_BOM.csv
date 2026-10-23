@@ -100,7 +100,7 @@ Qty,Value,Footprint,MPN,References
 2,27R,Resistor_SMD:R_0805_2012Metric,,R158 R194
 2,20R,Resistor_SMD:R_0805_2012Metric,,R159 R195
 4,27K,Resistor_SMD:R_0805_2012Metric,,R162 R164 R198 R200
-1,Master fader 10K log 100mm dual,goa-console:Potentiometer_Bourns_PTB0144_Slide_100mm_Dual,Bourns PTB0144-2010BPA103,RV1
+1,Master fader 10K log 100mm dual,goa-console:Potentiometer_Bourns_PTB0144_Slide_100mm_Dual,Bourns PTB0144-2010APA103,RV1
 1,Aux 5 master 10K log,Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,Alpha RD901F-40 A10K,RV2
 1,Aux 6 master 10K log,Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,Alpha RD901F-40 A10K,RV3
 1,Solo level 10K log,Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,Alpha RD901F-40 A10K,RV4

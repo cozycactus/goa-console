@@ -100,7 +100,8 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
 
 ## 5. Master fader and post-amp
 
-- Fader: Bourns PTB0144-2010BPA103 (100 mm, dual gang, A10K, metal lever). The dual-gang
+- Fader: Bourns PTB0144-2010APA103 (100 mm, dual gang, A10K, AP metal lever: 4.0 mm split fork for standard
+  4 mm fader knobs, as the strips and groups, 2026-10-23). The dual-gang
   footprint is the PTB0143 one plus pins 1′ 2′ 3′ mirrored about the body centreline (same
   datasheet drawing). Wired with pin 1 = GNDA, as on the strips (A taper).
 - Post-amp U2B: 2.2 µF + 100K input, gain 1 + 4K7/2K2 = +9.9 dB, 100 pF across 4K7. Same as
@@ -230,7 +231,7 @@ top of this, as in the architecture's section 2.4.
 | U9A | OPA1612 (half) | GCANCEL buffer for all re-inverters |
 | K1–K3 | Omron G6K-2F-Y | output mute |
 | J (×3) | Neutrik NRJ6HF | master insert L/R (2) — the third is spare / mono insert if wanted |
-| RV | Bourns PTB0144-2010BPA103 | master fader |
+| RV | Bourns PTB0144-2010APA103 | master fader |
 
 ---
 
@@ -433,8 +434,8 @@ PFL is mono and goes to both sides. The meters follow what is being monitored: m
 - Same circuit as an aux master (section 13): OPA1656 sum, 22K ∥ 100 pF feedback, + input on
   GCANCEL, re-inverter on GCANCEL_BUF. Strip PFL, sub AFL, aux AFL and return PFL all feed it
   through 22K (or 43K + 43K for the stereo returns).
-- Pin 28 ("PFL−" in our reading of the Delta) is not used by the master. The strips only pass
-  it through, so it stays a spare.
+- Pin 28 ("PFL Audio −VE" in the 200 Delta Technical Manual, p. 134) is not used by the master. The strips only
+  pass it through, so it stays a spare.
 - SOLO LEVEL: RD901F A10K, pin 1 = GNDA, then 2.2 µF + 100K and an OPA1612 follower.
   Fully up = unity: strip PRE at 0 dBu gives 0 dBu in the control room, the same as a channel
   at its "0" mark through the mix.

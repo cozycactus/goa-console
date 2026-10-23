@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/master.kicad_sch")
-		(date "2026-10-23T02:22:23")
+		(date "2026-10-23T04:01:38")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -25818,7 +25818,7 @@
 			(footprint "goa-console:Potentiometer_Bourns_PTB0144_Slide_100mm_Dual")
 			(fields
 				(field
-					(name "MPN") "Bourns PTB0144-2010BPA103")
+					(name "MPN") "Bourns PTB0144-2010APA103")
 				(field
 					(name "Footprint") "goa-console:Potentiometer_Bourns_PTB0144_Slide_100mm_Dual")
 				(field
@@ -25835,7 +25835,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Bourns PTB0144-2010BPA103")
+				(value "Bourns PTB0144-2010APA103")
 			)
 			(property
 				(name "Sheetname")
