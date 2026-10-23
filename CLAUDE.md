@@ -78,9 +78,10 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
   render/glb/, re-exported when a .kicad_pcb is newer); the parts KiCad has no model for come from `tools/models3d`;
   standoffs, M4 stud, LED spacers/lenses are generic; IDC sockets crimped on the ribbons (34-way motherloom through
   every module's bus header, folded jack-board links), the supply cable to the master's J1; the panel plate has real
-  cut-outs (holes, fader slots, D-size XLR) and Delta-style print (`panel_print`: name above each pot, 11-dot ring,
-  scale numbers that dodge neighbours, FREQ scales from sim/mid_tuning.py, gain scale from the gain-stage law, fader dB
-  scale from a two-slope A law + 9.9 dB post-amp, approximate until the fader's law is measured; Arial Narrow); views
+  cut-outs (holes, fader slots, D-size XLR) and Delta-style print (`panel_print`, rules in `panel_print.md`: cream ink,
+  bold name above each pot, HI/LO MID bracket, 11 square dots with numerals that dodge neighbours, "dB" between the end
+  numerals, FREQ scales from sim/mid_tuning.py, gain scale from the gain-stage law, fader dB scale from a two-slope A
+  law + 9.9 dB post-amp (approximate until the fader's law is measured), section rules, meter outlines); views
   panel_strip.png / panel_master.png; the panel layer is a separate collection per module (hide it to see the
   boards). 24 strips + 4 groups + master as instanced collections, 9° tub, nine PNG views incl. internals.png.
   .blend, PNGs and GLBs are gitignored.
@@ -92,6 +93,8 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
   `goa-console.3dshapes/<footprint>.wrl` (KiCad's 3D viewer) + `.step` (KiCad's GLB/STEP export). The placer points
   a footprint at that model when it exists; tools/footprints.py writes the model line. Per-part review renders:
   `Blender -b --factory-startup --python tools/models3d/preview.py -- render/parts [module]`.
+- `panel_print.md` — the Delta's panel legend system (from ref/delta200_panels and verified photos of real modules,
+  with links) and our adaptation to the two-column panels; the reference for the panel artwork.
 - `tools/verify.py` — checks KiCad's exported netlist against `channel_strip_intended.json`.
   Regenerate + verify loop:
   ```
