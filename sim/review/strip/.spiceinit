@@ -1,0 +1,2 @@
+* TI OPA161x macromodel needs PSpice compatibility
+set ngbehavior=psa

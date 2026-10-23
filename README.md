@@ -76,6 +76,8 @@ netlists and simulated in ngspice.
     - knob fit;
   - choose the pan pot: the stocked Alpha B10K dual (no centre detent) or an ALPS RK097121TD57 (detent, different
     footprint);
+  - sign off `strip_parts_review.md`: the strip's EQ stages and KHN summers need feedback capacitors (≈0° phase
+    margin with TI's model), plus receiver, follower and ratings fixes;
   - route the boards;
   - build the test jig with four routed strips and run its bus tests (`test_jig_spec.md`); some bus decisions wait on
     them;

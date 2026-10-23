@@ -1,0 +1,4 @@
+raw/
+*.cir
+OPA161x*.LIB
+*.json
