@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/group.kicad_sch")
-		(date "2026-10-23T17:36:48")
+		(date "2026-10-23T21:51:10")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -2270,7 +2270,7 @@
 		)
 		(comp
 			(ref "C42")
-			(value "100n")
+			(value "33p C0G")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
@@ -2378,7 +2378,7 @@
 		)
 		(comp
 			(ref "C44")
-			(value "100p C0G")
+			(value "100n")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
@@ -2486,7 +2486,7 @@
 		)
 		(comp
 			(ref "C46")
-			(value "33p C0G")
+			(value "100p C0G")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
@@ -2540,11 +2540,11 @@
 		)
 		(comp
 			(ref "C47")
-			(value "47u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+			(value "33p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -2594,11 +2594,11 @@
 		)
 		(comp
 			(ref "C48")
-			(value "47u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+			(value "33p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -2648,11 +2648,11 @@
 		)
 		(comp
 			(ref "C49")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "47u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
 					(name "Datasheet")
 				)
@@ -2702,11 +2702,11 @@
 		)
 		(comp
 			(ref "C50")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "47u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
 					(name "Datasheet")
 				)
@@ -2756,11 +2756,11 @@
 		)
 		(comp
 			(ref "C51")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "2.2u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -2810,7 +2810,7 @@
 		)
 		(comp
 			(ref "C52")
-			(value "100p C0G")
+			(value "100n")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
@@ -2864,11 +2864,11 @@
 		)
 		(comp
 			(ref "C53")
-			(value "220u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -2918,11 +2918,11 @@
 		)
 		(comp
 			(ref "C54")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "100p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -2972,11 +2972,11 @@
 		)
 		(comp
 			(ref "C55")
-			(value "100p C0G")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "220u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -3026,6 +3026,114 @@
 		)
 		(comp
 			(ref "C56")
+			(value "2.2u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "group")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "dc80d4ca-092c-520f-a35d-7b5c951eaa5b")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C57")
+			(value "100p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "group")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "87099892-cfa5-5eed-8e5e-8b94cfdd1041")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C58")
 			(value "220u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 			(fields
@@ -3063,7 +3171,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "dc80d4ca-092c-520f-a35d-7b5c951eaa5b")
+			(tstamps "e2b3fe5d-1267-59ad-85c1-9f93181dbd6d")
 			(units
 				(unit
 					(name "A")
@@ -8567,7 +8675,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "bc38ef18-8c01-52b3-8de4-44367f4b242b" "8c7d97eb-8dae-54ba-a095-44d8117f3d3e"
+			(tstamps "8c7d97eb-8dae-54ba-a095-44d8117f3d3e" "bc38ef18-8c01-52b3-8de4-44367f4b242b"
 				"71988484-c836-550a-9f46-93d59a5a5ef3"
 			)
 			(units
@@ -8735,7 +8843,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "6666f2af-d151-525a-997d-6c4cbece6ff5" "fef1618b-a54e-5d61-a86e-42c3b68e5074"
+			(tstamps "fef1618b-a54e-5d61-a86e-42c3b68e5074" "6666f2af-d151-525a-997d-6c4cbece6ff5"
 				"05f27ba1-488f-5298-aea0-d5868b1a284f"
 			)
 			(units
@@ -9143,7 +9251,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "e30d5744-77ba-501b-887f-61471e07e117" "58bfcb2c-b402-5afd-9f17-ecaa257dbee8"
+			(tstamps "58bfcb2c-b402-5afd-9f17-ecaa257dbee8" "e30d5744-77ba-501b-887f-61471e07e117"
 				"210c2dc0-a7c4-5b27-8d72-4eeb96938138"
 			)
 			(units
@@ -9227,7 +9335,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "c5be36eb-f870-57b3-a116-21a130672bc0" "1a9b3be8-5f16-580a-bb34-5a4af14e3fb0"
+			(tstamps "1a9b3be8-5f16-580a-bb34-5a4af14e3fb0" "c5be36eb-f870-57b3-a116-21a130672bc0"
 				"0742c192-5c18-58a8-b776-70306dd60033"
 			)
 			(units
@@ -10215,7 +10323,7 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C42")
+				(ref "C43")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -10225,7 +10333,7 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C50")
+				(ref "C52")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -10389,12 +10497,12 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C43")
+				(ref "C44")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C51")
+				(ref "C53")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11103,7 +11211,7 @@
 			(name "/RTL_LIN")
 			(class "Default")
 			(node
-				(ref "C49")
+				(ref "C51")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11124,7 +11232,7 @@
 			(name "/RTL_LN")
 			(class "Default")
 			(node
-				(ref "C52")
+				(ref "C54")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11150,7 +11258,7 @@
 			(name "/RTR_LIN")
 			(class "Default")
 			(node
-				(ref "C54")
+				(ref "C56")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11171,7 +11279,7 @@
 			(name "/RTR_LN")
 			(class "Default")
 			(node
-				(ref "C55")
+				(ref "C57")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11197,12 +11305,12 @@
 			(name "/RT_BL")
 			(class "Default")
 			(node
-				(ref "C52")
+				(ref "C54")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C53")
+				(ref "C55")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11222,12 +11330,12 @@
 			(name "/RT_BR")
 			(class "Default")
 			(node
-				(ref "C55")
+				(ref "C57")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C56")
+				(ref "C58")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11252,7 +11360,7 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C47")
+				(ref "C49")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11298,6 +11406,11 @@
 			(name "/RT_L_P")
 			(class "Default")
 			(node
+				(ref "C42")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "R39")
 				(pin "2")
 				(pintype "passive")
@@ -11340,7 +11453,7 @@
 			(name "/RT_PREL")
 			(class "Default")
 			(node
-				(ref "C47")
+				(ref "C49")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11366,7 +11479,7 @@
 			(name "/RT_PRER")
 			(class "Default")
 			(node
-				(ref "C48")
+				(ref "C50")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11392,12 +11505,12 @@
 			(name "/RT_R")
 			(class "Default")
 			(node
-				(ref "C46")
+				(ref "C47")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C48")
+				(ref "C50")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11417,7 +11530,7 @@
 			(name "/RT_RTNL")
 			(class "Default")
 			(node
-				(ref "C53")
+				(ref "C55")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11447,7 +11560,7 @@
 			(name "/RT_RTNR")
 			(class "Default")
 			(node
-				(ref "C56")
+				(ref "C58")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11477,7 +11590,7 @@
 			(name "/RT_R_N")
 			(class "Default")
 			(node
-				(ref "C46")
+				(ref "C47")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11502,6 +11615,11 @@
 			(code "49")
 			(name "/RT_R_P")
 			(class "Default")
+			(node
+				(ref "C48")
+				(pin "1")
+				(pintype "passive")
+			)
 			(node
 				(ref "R44")
 				(pin "2")
@@ -11652,7 +11770,7 @@
 			(name "/RT_WL")
 			(class "Default")
 			(node
-				(ref "C49")
+				(ref "C51")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11668,7 +11786,7 @@
 			(name "/RT_WR")
 			(class "Default")
 			(node
-				(ref "C54")
+				(ref "C56")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11731,7 +11849,7 @@
 			(name "/Return_RR")
 			(class "Default")
 			(node
-				(ref "C45")
+				(ref "C46")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11752,7 +11870,7 @@
 			(name "/Return_RT")
 			(class "Default")
 			(node
-				(ref "C44")
+				(ref "C45")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -12663,16 +12781,26 @@
 			)
 			(node
 				(ref "C43")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "C44")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
+				(ref "C44")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "C45")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C46")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C48")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -12682,12 +12810,12 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C50")
+				(ref "C52")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C51")
+				(ref "C53")
 				(pin "1")
 				(pintype "passive")
 			)

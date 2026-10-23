@@ -38,6 +38,9 @@ Ribbon conductor = pin number; never 2 × 17, so a link can't be mistaken for th
 - Meter current sources on SOT-223, LM2901B, GaP LEDs (§22).
 - Sub AFL kept; a PFLDET clamp stops the back-feed into released keys' LEDs (§12, §19).
 
+From the strip review (`strip_parts_review.md`, signed off 2026-10-23): every differential receiver (EXT, returns)
+has 33 pF on both legs, and the master's +5VL has the BAT54W.
+
 Delta references: ED2780 sheet 2 (MIX SUM AMPS, MIX INSERT, FADER POST AMPS, BALANCED
 OUTPUT AMPS, mono "GC O/P AMP") and sheet 1 (monitor-select differential receivers on MIX
 L+/L−, master ground-cancel resistor).
@@ -457,7 +460,7 @@ Purpose: effects returns (reverbs, delays) into the mix and subs. Built on the g
 with the same receiver, routing and PFL circuits as the strip.
 
 ```
-RET n L in (NJ6FD-V) ─ differential receiver (OPA1612 A, 4 × 10K 0.1 %, 33 pF, 100 pF + 1M on inputs) → RETn_L
+RET n L in (NJ6FD-V) ─ differential receiver (OPA1612 A, 4 × 10K 0.1 %, 33 pF on both legs, 100 pF + 1M on inputs) → RETn_L
 RET n R in (NJ6FD-V, tip and ring normals wired to the L jack's tip and ring:
            with no plug in R, the R receiver sees the L signal)        ─ receiver (OPA1612 B) → RETn_R
 RETn_L/R ─ 47µ NP + 47K ─ PREn_L/R ─┬─ level, dual A10K (RD902F), pin 1 = GNDA
@@ -496,7 +499,7 @@ remote meter connector) and sheet 3 (meters).
 ## 17. Signal flow
 
 ```
-EXT in L/R (2 × NJ6FD-V, R normalled to L) ─ receivers (OPA1612) ─ 47µ NP + 47K → EXT_L/R
+EXT in L/R (2 × NJ6FD-V, R normalled to L) ─ receivers (OPA1612, 33 pF on both legs) ─ 47µ NP + 47K → EXT_L/R
 POST_L/R (mix, after the master fader) ──────────────────────────────────────────→ MIX_MON_L/R
 EXT switch (PVA2: latched = EXT) selects MIX_MON or EXT                           → MON_L/R
 
@@ -548,7 +551,8 @@ PFL is mono and goes to both sides. The meters follow what is being monitored: m
   and the flasher hold B, same inputs) sit beside the DG413, so PFL_ON_RAW stays short.
 - **Switch: one DG413** (replaces the series-J112 switcher, review 2026-10-23), the strip's
   routing part, on the same ±VA rails and a +5VL logic supply made as on the strip (4K7 from +VA,
-  BZX84C5V1, 1 µF).
+  BZX84C5V1, 1 µF, and a BAT54W from +5VL to +VA so VL stays within 0.3 V of V+ at power-down too;
+  `strip_parts_review.md` T7).
   - PFL pressed (logic 1): SW1 / SW4 connect PFL_SIG to CRS_L / CRS_R; otherwise SW2 / SW3
     connect MON_L / MON_R. Break-before-make, 25 ns.
   - Sources are AC-coupled (47 µF + 1M) and CRS is on the D side (about 5 pC of charge

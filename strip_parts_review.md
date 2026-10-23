@@ -1,9 +1,12 @@
 # Strip review — op-amp stability and part ratings (strip v4.0)
 
-Reviewed 2026-10-23 for sign-off. This follows the master parts review (`master_parts_review.md`), which found
+Reviewed 2026-10-23 for sign-off; **signed off by Ruslan the same day (T1–T11 as recommended, R71/R11 kept at 75R,
+R15 4K7, the no-phantom note instead of 50 V caps) and applied as strip v4.1** (`channel_strip_schematic_spec.md`), with
+the receiver and +5VL fixes also on the master and group. Applying T8 showed that R99 needs §8's optional 100 pF
+(C84, RET_IN to AGND): with the 1K alone, U7B's + input lagged (40°; 27° with DIR on and aux 6 at the top); with
+C84, ≥ 70°. The built strip's results are in `channel_strip_schematic_spec.md` §17. This follows the master parts review (`master_parts_review.md`), which found
 OPA1612 stages with resistive feedback and no capacitor ringing at 10–15 MHz in TI's model, and listed the strip's
-EQ and KHN stages as the same class. The strip is signed off, so nothing here has been changed yet: the changes wait
-for your sign-off.
+EQ and KHN stages as the same class. (When written, nothing had been changed: the strip was signed off and the changes waited for sign-off.)
 
 Method:
 - **Stability:** every OPA1612 unit on the strip (20) with TI's OPA161x macromodel (SBOM396G) in the real network. The
@@ -38,19 +41,19 @@ same one-sided 33p as U1A (finding 3), and the master's +5VL the same power-down
 
 ## What to sign
 
-- [ ] **T1** EQ stages: C0G 10p across R55 and across R54 (U6A); 10p across R59 and R58 (U6B); 22p across R67 (U7A).
-- [ ] **T2** KHN summers: 10p C0G across R83 (U12A) and R92 (U13B); 22p C0G from EQ_MSP (U12 pin 3) and from EQ_LSP
+- [x] **T1** EQ stages: C0G 10p across R55 and across R54 (U6A); 10p across R59 and R58 (U6B); 22p across R67 (U7A).
+- [x] **T2** KHN summers: 10p C0G across R83 (U12A) and R92 (U13B); 22p C0G from EQ_MSP (U12 pin 3) and from EQ_LSP
   (U13 pin 5) to AGND.
-- [ ] **T3** Receiver: 33p C0G across R9 (U1A_P to AGND); the same in `master_lib.receiver()` (master EXT, group returns).
-- [ ] **T4** Followers: 10p C0G from PANWL (U2 pin 5), PANWR (U3 pin 3), M2 (U3 pin 5) and FPIN (U2 pin 3) to AGND; 22p
+- [x] **T3** Receiver: 33p C0G across R9 (U1A_P to AGND); the same in `master_lib.receiver()` (master EXT, group returns).
+- [x] **T4** Followers: 10p C0G from PANWL (U2 pin 5), PANWR (U3 pin 3), M2 (U3 pin 5) and FPIN (U2 pin 3) to AGND; 22p
   from DIRSRC (U8 pin 3) to AGND. Optional: R71 and R11 75R → 100R.
-- [ ] **T5** Routing rule in spec 16.3 (below).
-- [ ] **T6** R15 1K → 4K7.
-- [ ] **T7** BAT54 from +5VL (anode) to +VA (cathode), next to the 4K7, on the strip and the master.
-- [ ] **T8** 1K between RET and U7 pin 5 (new net RET_IN).
-- [ ] **T9** BOM rules and MPNs (§9); BOM export with DNP.
-- [ ] **T10** Anti-surge 0805: R1/R2 Panasonic ERJ-P06J100V; R11/R71 ERJ-P06J750V (or …101V with T4's 100R).
-- [ ] **T11** Spec notes (J112 headroom, phantom).
+- [x] **T5** Routing rule in spec 16.3 (below).
+- [x] **T6** R15 1K → 4K7.
+- [x] **T7** BAT54 from +5VL (anode) to +VA (cathode), next to the 4K7, on the strip and the master.
+- [x] **T8** 1K between RET and U7 pin 5 (new net RET_IN).
+- [x] **T9** BOM rules and MPNs (§9); BOM export with DNP.
+- [x] **T10** Anti-surge 0805: R1/R2 Panasonic ERJ-P06J100V; R11/R71 ERJ-P06J750V (or …101V with T4's 100R).
+- [x] **T11** Spec notes (J112 headroom, phantom).
 
 Applying T1–T8 changes the signed-off strip netlist. It means: `gen.py` edits, regenerating the strip and
 `channel_strip_intended.json`, verify / check_fp / ERC / `sim_netlist.py`, re-placing `channel_strip_v4.kicad_pcb`

@@ -6,8 +6,13 @@ from schgen import block, P, build, FADER_FP, CAP_FP, SYM, FP
 
 SYM.update({'CONN6': ('Connector_Generic', 'Conn_01x06'), 'CONN2': ('Connector_Generic', 'Conn_01x02'),
             'LINK': ('Connector_Generic', 'Conn_02x05_Odd_Even'),
-            'DG': ('Analog_Switch', 'DG413xY'), 'ZEN': ('Diode', 'BZX84Cxx')})
-schgen.MPN.update({'DG': 'Vishay DG413DY-E3', 'ZEN': 'BZX84C5V1'})
+            'DG': ('Analog_Switch', 'DG413xY'), 'ZEN': ('Diode', 'BZX84Cxx'), 'SCH': ('Diode', 'BAT54W')})
+schgen.MPN.update({'DG': 'Vishay DG413DY-E3', 'ZEN': 'BZX84C5V1', 'SCH': 'Nexperia BAT54W',
+                   'OPA': 'TI OPA1612AIDR', 'CMP': 'TI LM393BIDR', 'JFET': 'onsemi MMBFJ112'})
+# strip_parts_review.md T9/T10: ceramics >= 25 V (50 V X7R here), anti-surge resistors where the power is marginal
+CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Murata GRM21BR71H105KA12 (X7R 50V)',
+           '2.2u': 'Murata GRM31CR71H225KA88 (X7R 50V)'}
+LED_MPN = {'red': 'Kingbright WP710A10ID', 'green': 'Kingbright WP710A10GD', 'yellow': 'Kingbright WP710A10YD'}
 FP.update({'CONN6': 'Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical',
            'CONN2': 'Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical',
            'LINK': 'Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical'})
@@ -29,9 +34,9 @@ JB_OUT = os.path.join(os.path.dirname(OUT), 'jack_board.kicad_sch')
 
 # ---------------------------------------------------------------- netlist
 b = block('POWER ENTRY, LOGIC SUPPLY, GROUNDS, DECOUPLING')
-P(b,'R1','R','10R',{1:'+VBUS',2:'+VA'}); P(b,'C1','CP','220u 25V',{1:'+VA',2:'GNDA'})
+P(b,'R1','R','10R',{1:'+VBUS',2:'+VA'},mpn='Panasonic ERJ-P06J100V'); P(b,'C1','CP','220u 25V',{1:'+VA',2:'GNDA'})
 P(b,'C2','C','100n',{1:'+VA',2:'GNDA'})
-P(b,'R2','R','10R',{1:'-VBUS',2:'-VA'}); P(b,'C3','CP','220u 25V',{1:'GNDA',2:'-VA'})
+P(b,'R2','R','10R',{1:'-VBUS',2:'-VA'},mpn='Panasonic ERJ-P06J100V'); P(b,'C3','CP','220u 25V',{1:'GNDA',2:'-VA'})
 P(b,'C4','C','100n',{1:'GNDA',2:'-VA'})
 P(b,'R3','R','10R',{1:'+VBUS',2:'+VL'}); P(b,'C5','CP','47u 25V',{1:'+VL',2:'GNDD'},fp='Capacitor_THT:CP_Radial_D6.3mm_P2.50mm')
 P(b,'R4','R','10R',{1:'-VBUS',2:'-VL'}); P(b,'C6','CP','47u 25V',{1:'GNDD',2:'-VL'},fp='Capacitor_THT:CP_Radial_D6.3mm_P2.50mm')
@@ -52,7 +57,7 @@ hdr = {1:'NC',3:'NC',5:'NC',7:'NC',19:'NC',9:'SUB4',11:'SUB3',13:'SUB2',15:'SUB1
        27:'PFL',28:'NC',29:'PFLDET',30:'-VBUS',31:'-VBUS',32:'+VBUS',33:'+VBUS',34:'NC'}
 hdr.update({k:'GNDA' for k in range(2,17,2)})
 b = block('MOTHERLOOM  (Delta pinout; one header, crimped socket on a daisy-chained ribbon)')
-P(b,'CN1','HDR','Bus 2x17',hdr)
+P(b,'CN1','HDR','Bus 2x17',hdr,mpn='Wurth 61203421621 (2x17 box header)')
 
 b = block('LINE INPUT - ground-compensated receiver (inverting), Ø switch  SW15: latched = phase reversed')
 P(b,'CN3','LINK','Jack board link 2x5',LINK,mpn=LINK_MPN)   # J1/J2/J5 and the RF caps C8/C9 are on the jack board
@@ -62,6 +67,7 @@ P(b,'SW15','SW','Phase',{5:'NINV_IN',6:'IN_R',4:'IN_T'},unit=2)
 P(b,'R6','R','10K 0.1%',{1:'INV_IN',2:'U1A_N'}); P(b,'R7','R','10K 0.1%',{1:'U1A_N',2:'RECV'})
 P(b,'C7','C','33p C0G',{1:'U1A_N',2:'RECV'})
 P(b,'R8','R','10K 0.1%',{1:'NINV_IN',2:'U1A_P'}); P(b,'R9','R','10K 0.1%',{1:'U1A_P',2:'GNDA'})
+P(b,'C78','C','33p C0G',{1:'U1A_P',2:'GNDA'},fp=C0G)   # matches C7 across R7: balance and stability
 P(b,'U1','OPA','OPA1612',{3:'U1A_P',2:'U1A_N',1:'RECV'},unit=1)
 
 b = block('GAIN  -15..+15 dB, 0 dB at the detent (inverting; pot pin 3 = CW = input end)')
@@ -90,9 +96,12 @@ P(b,'RV10','POT','HF 10K lin CD',{3:'EQIN',2:'EQ_WHF',1:'EQ_O3'},mpn=POTB)
 P(b,'C42','C','4n7 C0G',{1:'EQ_WHF',2:'EQ_T1'},fp=C0G); P(b,'R52','R','5K6',{1:'EQ_T1',2:'GNDA'})
 P(b,'C43','C','4n7 C0G',{1:'EQ_T1',2:'EQ_T2'},fp=C0G); P(b,'R53','R','6K8',{1:'EQ_T2',2:'EQ_V3'})
 P(b,'R54','R','22K',{1:'EQ_O3',2:'EQ_M4'}); P(b,'R55','R','22K',{1:'EQ_O4',2:'EQ_M4'})
+# 10p across both 22Ks: ~0 deg phase margin without (TI OPA161x model); equal caps leave the EQ unchanged
+P(b,'C69','C','10p C0G',{1:'EQ_O3',2:'EQ_M4'},fp=C0G); P(b,'C70','C','10p C0G',{1:'EQ_O4',2:'EQ_M4'},fp=C0G)
 P(b,'U6','OPA','OPA1612',{3:'EQ_MP',2:'EQ_M4',1:'EQ_O4'},unit=1)
 P(b,'RV11','POT','HI-MID gain 10K lin CD',{3:'EQ_O4',2:'EQ_WHM',1:'EQ_O3'},mpn=POTB)
 P(b,'R58','R','22K',{1:'EQ_O4',2:'EQ_L4'}); P(b,'R59','R','22K',{1:'EQ_O5',2:'EQ_L4'})
+P(b,'C71','C','10p C0G',{1:'EQ_O4',2:'EQ_L4'},fp=C0G); P(b,'C72','C','10p C0G',{1:'EQ_O5',2:'EQ_L4'},fp=C0G)
 P(b,'U6','OPA','OPA1612',{5:'EQ_LP',6:'EQ_L4',7:'EQ_O5'},unit=2)
 P(b,'RV13','POT','LO-MID gain 10K lin CD',{3:'EQ_O5',2:'EQ_WLM',1:'EQ_O4'},mpn=POTB)
 
@@ -101,16 +110,18 @@ P(b,'RV13','POT','LO-MID gain 10K lin CD',{3:'EQ_O5',2:'EQ_WLM',1:'EQ_O4'},mpn=P
 # A10K dual: each gang a divider from the driving op-amp (pin 3) to 430R (pin 1), 13K wiper-to-top, wiper -> 4K7
 # -> integrator. CW = higher frequency, within 0.3 octave of a log sweep. sim/mid_tuning.py, strip spec 6.2.
 b = block('EQ MID TUNING  KHN band-pass per mid band: summer (10K x3, BP via 2K2/10K), two integrators, A10K dual')
-for (nm, wip, bp, sm, sp, hp, lp, d1, d2, r1, r2, i1, i2, pot, ci1, ci2, c1v, c2v, rb1, rb2, rs, us, ui1, ui2) in (
+for (nm, wip, bp, sm, sp, hp, lp, d1, d2, r1, r2, i1, i2, pot, ci1, ci2, c1v, c2v, rb1, rb2, rs, us, ui1, ui2, cs) in (
         ('HI-MID', 'EQ_WHM', 'EQ_MP', 'EQ_MSM', 'EQ_MSP', 'EQ_MHP', 'EQ_MLP', 'EQ_MD1', 'EQ_MD2', 'EQ_MR1', 'EQ_MR2',
          'EQ_MI1', 'EQ_MI2', 'RV12', 'C44', 'C45', '2n2 C0G', '4n7 C0G', 'R56', 'R57',
-         ('R81', 'R82', 'R83', 'R84', 'R85', 'R86', 'R87', 'R88', 'R89'), ('U12', 1), ('U12', 2), ('U13', 1)),
+         ('R81', 'R82', 'R83', 'R84', 'R85', 'R86', 'R87', 'R88', 'R89'), ('U12', 1), ('U12', 2), ('U13', 1), ('C74', 'C75')),
         ('LO-MID', 'EQ_WLM', 'EQ_LP', 'EQ_LSM', 'EQ_LSP', 'EQ_LHP', 'EQ_LLP', 'EQ_LD1', 'EQ_LD2', 'EQ_LR1', 'EQ_LR2',
          'EQ_LI1', 'EQ_LI2', 'RV14', 'C46', 'C47', '10n C0G', '22n C0G', 'R60', 'R61',
-         ('R90', 'R91', 'R92', 'R93', 'R94', 'R95', 'R96', 'R97', 'R98'), ('U13', 2), ('U14', 1), ('U14', 2))):
+         ('R90', 'R91', 'R92', 'R93', 'R94', 'R95', 'R96', 'R97', 'R98'), ('U13', 2), ('U14', 1), ('U14', 2), ('C76', 'C77'))):
     rin, rlp, rfb, r4, r5, r0a, r0b, rta, rtb = rs
     P(b,rin,'R','10K 1%',{1:wip,2:sm}); P(b,rlp,'R','10K 1%',{1:lp,2:sm}); P(b,rfb,'R','10K 1%',{1:hp,2:sm})
     P(b,r4,'R','2K2 1%',{1:bp,2:sp}); P(b,r5,'R','10K 1%',{1:sp,2:'GNDA'})
+    # ~3 deg phase margin without these: 10p across the feedback 10K, 22p on the + input (its 1.8 kohm lags through Cdiff)
+    P(b,cs[0],'C','10p C0G',{1:hp,2:sm},fp=C0G); P(b,cs[1],'C','22p C0G',{1:sp,2:'GNDA'},fp=C0G)
     pp = {1: (3, 2, 1), 2: (5, 6, 7)}
     P(b,us[0],'OPA','OPA1612',dict(zip(pp[us[1]], (sp, sm, hp))),unit=us[1])            # summer: HP out
     # integrator 1 (HP -> BP) through gang A, integrator 2 (BP -> LP) through gang B
@@ -122,6 +133,7 @@ for (nm, wip, bp, sm, sp, hp, lp, d1, d2, r1, r2, i1, i2, pot, ci1, ci2, c1v, c2
     P(b,ui1[0],'OPA','OPA1612',dict(zip(pp[ui1[1]], ('GNDA', i1, bp))),unit=ui1[1])
     P(b,ui2[0],'OPA','OPA1612',dict(zip(pp[ui2[1]], ('GNDA', i2, lp))),unit=ui2[1])
 P(b,'R66','R','22K',{1:'EQ_O5',2:'EQ_F4'}); P(b,'R67','R','22K',{1:'EQ_O6',2:'EQ_F4'})
+P(b,'C73','C','22p C0G',{1:'EQ_O6',2:'EQ_F4'},fp=C0G)   # one 22p (not a pair): it drives the insert send, cables
 P(b,'U7','OPA','OPA1612',{3:'EQ_FP',2:'EQ_F4',1:'EQ_O6'},unit=1)
 P(b,'R62','R','3K3',{1:'EQ_O5',2:'EQ_F1'}); P(b,'R63','R','3K3',{1:'EQ_F2',2:'EQ_O6'})
 P(b,'RV15','POT','LF 10K lin CD',{1:'EQ_F1',2:'EQ_WLF',3:'EQ_F2'},mpn=POTB)
@@ -132,13 +144,15 @@ P(b,'C50','C','100n C0G',{1:'EQ_FP',2:'GNDA'},fp=C0G); P(b,'R65','R','5K1',{1:'E
 b = block('EQ IN  SW12: latched = EQ in (unlatched = bypass from the EQ input); green EQ LED')
 P(b,'SW12','SW','EQ',{2:'EQSEL',1:'EQ_O6',3:'EQIN'},unit=1)
 P(b,'SW12','SW','EQ',{5:'+VL',4:'EQ_ON',6:'NC'},unit=2)
-P(b,'R69','R','4K7',{1:'EQ_ON',2:'EQ_LA'}); P(b,'D5','LED','EQ green',{2:'EQ_LA',1:'GNDD'})
+P(b,'R69','R','4K7',{1:'EQ_ON',2:'EQ_LA'}); P(b,'D5','LED','EQ green',{2:'EQ_LA',1:'GNDD'},mpn=LED_MPN['green'])
 P(b,'C51','C','47u NP 25V',{1:'EQSEL',2:'EQOUT'},fp=CAP_FP['47u']); P(b,'R68','R','47K',{1:'EQOUT',2:'GNDA'})
 
 b = block('INSERT (send = tip, return = ring, ring normalled to send) + return buffer')
-P(b,'R11','R','75R',{1:'INS_SRC',2:'SEND'})
+P(b,'R11','R','75R',{1:'INS_SRC',2:'SEND'},mpn='Panasonic ERJ-P06J750V')
 P(b,'C10','C','47u NP 25V',{1:'RET_RAW',2:'RET'},fp=CAP_FP['47u']); P(b,'R12','R','47K',{1:'RET',2:'GNDA'})
-P(b,'U7','OPA','OPA1612',{5:'RET',6:'BUF1',7:'BUF1'},unit=2)
+P(b,'R99','R','1K',{1:'RET',2:'RET_IN'})   # bounds the input-diode current on a jack fault (+0.013 dB noise)
+P(b,'C84','C','100p C0G',{1:'RET_IN',2:'GNDA'},fp=C0G)   # with R99 a follower on 1K: lags without it (40 deg); RF too
+P(b,'U7','OPA','OPA1612',{5:'RET_IN',6:'BUF1',7:'BUF1'},unit=2)
 P(b,'C11','C','220u NP 25V',{1:'PRESRC',2:'PRE'},fp=CAP_FP['220u']); P(b,'R13','R','47K',{1:'PRE',2:'GNDA'})
 
 b = block('OVERLOAD DETECTOR (~+18 dBu)')
@@ -146,7 +160,7 @@ P(b,'R39','R','1K',{1:'PRESRC',2:'PKA'}); P(b,'D1','D','1N4148',{2:'PKA',1:'PK'}
 P(b,'C12','C','1u',{1:'PK',2:'GNDA'}); P(b,'R14','R','470K',{1:'PK',2:'GNDA'})
 P(b,'R40','R','10K',{1:'+VL',2:'VREF'}); P(b,'R41','R','10K',{1:'VREF',2:'GNDA'})
 P(b,'U4','CMP','LM393',{2:'PK',3:'VREF',1:'OL_K'},unit=1)
-P(b,'R15','R','1K',{1:'+VL',2:'OL_A'}); P(b,'D2','LED','OL red',{2:'OL_A',1:'OL_K'})
+P(b,'R15','R','4K7',{1:'+VL',2:'OL_A'}); P(b,'D2','LED','OL red',{2:'OL_A',1:'OL_K'},mpn=LED_MPN['red'])   # ~3 mA, as the other LEDs
 P(b,'U4','CMP','LM393',{5:'GNDD',6:'+VL',7:'NC'},unit=2)
 
 b = block('PFL (pre-fade)  SW3: A-B = ON')
@@ -154,16 +168,17 @@ P(b,'R32','R','22K',{1:'PRE',2:'PFL_S'})
 P(b,'SW3','SW','PFL',{2:'PFL_S',1:'PFL',3:'GNDA'},unit=1)
 P(b,'SW3','SW','PFL',{5:'+VL',4:'PFL_ON',6:'NC'},unit=2)
 P(b,'R33','R','100K',{1:'PFL_ON',2:'PFLDET'})
-P(b,'R34','R','4K7',{1:'PFL_ON',2:'PFL_LA'}); P(b,'D3','LED','PFL red',{2:'PFL_LA',1:'GNDD'})
+P(b,'R34','R','4K7',{1:'PFL_ON',2:'PFL_LA'}); P(b,'D3','LED','PFL red',{2:'PFL_LA',1:'GNDD'},mpn=LED_MPN['red'])
 
 b = block('ON / SOFT MUTE (2x J112 shunt, ~20 ms ramp)  SW4: latched = channel ON, green LED')
-P(b,'R16','R','4K7',{1:'PRE',2:'M1'}); P(b,'Q1','JFET','J112',{1:'M1',2:'GNDA',3:'MGATE'})
-P(b,'R17','R','4K7',{1:'M1',2:'M2'}); P(b,'Q2','JFET','J112',{1:'M2',2:'GNDA',3:'MGATE'})
+P(b,'R16','R','4K7',{1:'PRE',2:'M1'}); P(b,'Q1','JFET','MMBFJ112',{1:'M1',2:'GNDA',3:'MGATE'})
+P(b,'R17','R','4K7',{1:'M1',2:'M2'}); P(b,'Q2','JFET','MMBFJ112',{1:'M2',2:'GNDA',3:'MGATE'})
 P(b,'U3','OPA','OPA1612',{5:'M2',6:'MUTEOUT',7:'MUTEOUT'},unit=2)
+P(b,'C81','C','10p C0G',{1:'M2',2:'GNDA'},fp=C0G)   # followers on 1-5 kohm sources: 10p at + (strip review T4)
 P(b,'SW4','SW','ON',{2:'MSW',1:'-VL',3:'GNDD'},unit=1)
 P(b,'R42','R','220K',{1:'MSW',2:'MGATE'}); P(b,'C28','C','100n',{1:'MGATE',2:'GNDA'})
 P(b,'SW4','SW','ON',{5:'+VL',4:'ON_SW',6:'NC'},unit=2)
-P(b,'R43','R','4K7',{1:'ON_SW',2:'ON_LA'}); P(b,'D4','LED','ON green',{2:'ON_LA',1:'GNDD'})
+P(b,'R43','R','4K7',{1:'ON_SW',2:'ON_LA'}); P(b,'D4','LED','ON green',{2:'ON_LA',1:'GNDD'},mpn=LED_MPN['green'])
 
 b = block('FADER + POST-AMP (+10 dB; omit R38 for unity)  JP1 = VCA bypass')
 P(b,'RV1','POT','Fader 10K log 100mm',{1:'GNDA',3:'MUTEOUT',2:'WIPER'},fp=FADER_FP,mpn='Bourns PTB0143-2010BPA103')
@@ -173,6 +188,7 @@ P(b,'JP1','SJ2','VCA bypass',{1:'VCAIN',2:'FPIN'}); P(b,'R18','R','100K',{1:'FPI
 P(b,'J3','CONN6','VCA module socket',{1:'VCAIN',2:'FPIN',3:'VCA_CTRL',4:'+VA',5:'GNDA',6:'-VA'},dnp=True)
 P(b,'J4','CONN2','VCA control in',{1:'VCA_CTRL',2:'GNDA'},dnp=True); P(b,'R44','R','100K',{1:'VCA_CTRL',2:'GNDA'},dnp=True)
 P(b,'U2','OPA','OPA1612',{3:'FPIN',2:'U2A_N',1:'FPOST'},unit=1)
+P(b,'C82','C','10p C0G',{1:'FPIN',2:'GNDA'},fp=C0G)   # not above 22p: it sits on U3B's output with the fader at top
 P(b,'R19','R','4K7',{1:'FPOST',2:'U2A_N'}); P(b,'C14','C','100p C0G',{1:'FPOST',2:'U2A_N'})
 P(b,'R38','R','2K2',{1:'U2A_N',2:'GNDA'})
 P(b,'C15','C','220u NP 25V',{1:'FPOST',2:'POST'},fp=CAP_FP['220u']); P(b,'R35','R','47K',{1:'POST',2:'GNDA'})
@@ -192,14 +208,15 @@ P(b,'SW13','SW','DIR',{5:'A6R',4:'GNDA',6:'NC'},unit=2)   # DIR: R25 grounded, a
 b = block('DIRECT OUT  (level = aux 6 pot when DIR is latched; impedance-balanced TRS)')
 P(b,'R70','R','100K',{1:'DIRSRC',2:'GNDA'})
 P(b,'U8','OPA','OPA1612',{3:'DIRSRC',2:'DOUT',1:'DOUT'},unit=1)
-P(b,'R71','R','75R',{1:'DOUT',2:'DO1'}); P(b,'C52','C','47u NP 25V',{1:'DO1',2:'DO_T'},fp=CAP_FP['47u'])
+P(b,'C83','C','22p C0G',{1:'DIRSRC',2:'GNDA'},fp=C0G)   # 22p (short direct-out leads); more would load U7B
+P(b,'R71','R','75R',{1:'DOUT',2:'DO1'},mpn='Panasonic ERJ-P06J750V'); P(b,'C52','C','47u NP 25V',{1:'DO1',2:'DO_T'},fp=CAP_FP['47u'])
 P(b,'R72','R','47K',{1:'DO_T',2:'GNDA'}); P(b,'R73','R','75R',{1:'DO_R',2:'GNDA'})
 P(b,'U8','OPA','OPA1612',{5:'GNDA',6:'U8B_O',7:'U8B_O'},unit=2)   # spare half, tied off
 
 b = block('PAN + PAN BUFFERS (AC-coupled outputs)')
 P(b,'RV8','POT2','Pan 10K dual',{1:'POST',3:'GNDA',2:'PANWL',4:'GNDA',6:'POST',5:'PANWR'})
-P(b,'U2','OPA','OPA1612',{5:'PANWL',6:'PBL',7:'PBL'},unit=2)
-P(b,'U3','OPA','OPA1612',{3:'PANWR',2:'PBR',1:'PBR'},unit=1)
+P(b,'U2','OPA','OPA1612',{5:'PANWL',6:'PBL',7:'PBL'},unit=2); P(b,'C79','C','10p C0G',{1:'PANWL',2:'GNDA'},fp=C0G)
+P(b,'U3','OPA','OPA1612',{3:'PANWR',2:'PBR',1:'PBR'},unit=1); P(b,'C80','C','10p C0G',{1:'PANWR',2:'GNDA'},fp=C0G)
 P(b,'C16','C','220u NP 25V',{1:'PBL',2:'PANL'},fp=CAP_FP['220u']); P(b,'R36','R','47K',{1:'PANL',2:'GNDA'})
 P(b,'C17','C','220u NP 25V',{1:'PBR',2:'PANR'},fp=CAP_FP['220u']); P(b,'R37','R','47K',{1:'PANR',2:'GNDA'})
 
@@ -210,6 +227,7 @@ P(b,'SW14','SW','PAN',{5:'SUBSRC_R',4:'PANR',6:'POST'},unit=2)
 b = block('ROUTING MATRIX  4K7 summing; DG413 at the bus end: assigned = bus, off = AGND. PVA2: pole A logic, pole B LED')
 P(b,'R80','R','4K7',{1:'+VA',2:'+5VL'})                  # DG413 logic supply VL, from +VA so VL never exceeds V+
 P(b,'D9','ZEN','BZX84C5V1',{3:'+5VL',1:'GNDD',2:'NC'}); P(b,'C62','C','1u',{1:'+5VL',2:'GNDD'})
+P(b,'D10','SCH','BAT54W',{1:'+5VL',3:'+VA',2:'NC'})   # VL <= V+ + 0.3 V at power-down too (DG413 abs max)
 P(b,'#FLG07','FLAG','PWR_FLAG',{1:'+5VL'})
 for sw,u,rl,rr,sl,sr,bl,br,nm,rpd,rled,dled,cs in [
         ('SW5','U9','R26','R27','PANL','PANR','MIXL','MIXR','L-R','R74','R75','D6',('C53','C54','C55')),
@@ -228,11 +246,14 @@ for sw,u,rl,rr,sl,sr,bl,br,nm,rpd,rled,dled,cs in [
     P(b,sw,'SW',f'Assign {nm}',{2:ctl,1:'+5VL',3:'GNDD'},unit=1)          # pole A: DG413 logic
     P(b,sw,'SW',f'Assign {nm}',{5:'+VL',4:f'RTLED_{k}',6:'NC'},unit=2)    # pole B: routing LED
     P(b,rpd,'R','100K',{1:ctl,2:'GNDD'})                                  # holds IN low through the PVA2's break
-    P(b,rled,'R','4K7',{1:f'RTLED_{k}',2:f'RTLA_{k}'}); P(b,dled,'LED',f'{nm} yellow',{2:f'RTLA_{k}',1:'GNDD'})
+    P(b,rled,'R','4K7',{1:f'RTLED_{k}',2:f'RTLA_{k}'}); P(b,dled,'LED',f'{nm} yellow',{2:f'RTLA_{k}',1:'GNDD'},mpn=LED_MPN['yellow'])
 
+for _, ps in schgen.blocks:                     # ceramic MPNs by value (X7R 50 V; C0G parts keep their value text)
+    for pt in ps:
+        if pt['key'] == 'C' and not pt['mpn']: pt['mpn'] = CAP_MPN.get(pt['value'], '')
 build(OUT, 'channel_strip', 'Channel strip - goa console (Delta Theatre input without the mic stage)',
-      {1: 'Generated from channel_strip_schematic_spec.md v4.0', 2: 'Nets joined by labels; tidy wiring in Eeschema as needed'},
-      paper='auto', revision='4.0')
+      {1: 'Generated from channel_strip_schematic_spec.md v4.1', 2: 'Nets joined by labels; tidy wiring in Eeschema as needed'},
+      paper='auto', revision='4.1')
 
 # ---------------------------------------------------------------- jack board (its own PCB; same net names)
 schgen.blocks.clear()

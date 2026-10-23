@@ -80,6 +80,10 @@ beside = lambda a: sorted((r for r, x in NEAR.items() if x == a and r not in RAD
 # end), then the GC buffer + sub sum, then the sub re-inverter
 SUMMERS = []
 for u in dict.fromkeys((ic_on('AUX_SEL_VE'), ic_on('SUB_SEL_VE'), ic_on('S_MIX_DN'))): SUMMERS += [u] + beside(u)
+RETURN = []                                     # each IC, then the parts beside it, then the rest
+_ret = take('STEREO RETURN', *RET_ROUTE)
+for u in (r for r in _ret if r.startswith('U')): RETURN += [u] + [r for r in beside(u) if r in _ret]
+RETURN += [r for r in _ret if r not in RETURN]
 POWER = take('POWER AND GROUNDS')
 ZONES = [
  # bottom side first: links and electrolytics
@@ -90,7 +94,7 @@ ZONES = [
  # top side
  ('GC buffer, summers + re-inverters (under the bus header)', (27, 300, 37.7, 444), SUMMERS, 'F'),
  ('power entry', (0.3, 299, 11, 444), POWER, 'F'),
- ('return receivers, level buffers, PFL', (1, MAIN_Y0 + 2, 37, 165), take('STEREO RETURN', *RET_ROUTE), 'F'),
+ ('return receivers, level buffers, PFL', (1, MAIN_Y0 + 2, 37, 165), RETURN, 'F'),
  ('sub insert, post-amp, pan buffers, DRV134', (1, 150, 37, 300), take('SUBGROUP', *SUMMERS, *SUB_BUS), 'F'),
  ('aux level buffer + DRV134, AFL', (1, 150, 37, 300), take('AUX MASTER', *SUMMERS), 'F'),
  ('bus resistors at the switches', (1, 240, 37, 300), RET_ROUTE + SUB_BUS, 'F'),

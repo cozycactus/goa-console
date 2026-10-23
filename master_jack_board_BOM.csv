@@ -1,14 +1,14 @@
-Qty,Value,Footprint,MPN,References
-1,Main board link 2x20,Connector_IDC:IDC-Header_2x20_P2.54mm_Vertical,2x20 box header, 2.54 mm,CN1
-1,MIX L insert,Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical,Neutrik NJ6FD-V,J1
-1,MIX R insert,Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical,Neutrik NJ6FD-V,J2
-1,MAIN L out,Connector_Audio:Jack_XLR_Neutrik_NC3MAV_Vertical,Neutrik NC3MAV,J3
-1,MAIN R out,Connector_Audio:Jack_XLR_Neutrik_NC3MAV_Vertical,Neutrik NC3MAV,J4
-1,MAIN M out,Connector_Audio:Jack_XLR_Neutrik_NC3MAV_Vertical,Neutrik NC3MAV,J5
-1,Aux 5 out TRS,Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical,Neutrik NJ6FD-V,J6
-1,Aux 6 out TRS,Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical,Neutrik NJ6FD-V,J7
-1,EXT L in,Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical,Neutrik NJ6FD-V,J8
-1,EXT R in,Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical,Neutrik NJ6FD-V,J9
-1,C/Room L out TRS,Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical,Neutrik NJ6FD-V,J10
-1,C/Room R out TRS,Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical,Neutrik NJ6FD-V,J11
-1,Phones TRS,Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical,Neutrik NJ6FD-V,J12
+"Qty","Value","Footprint","MPN","DNP","References"
+"1","Main board link 2x20","Connector_IDC:IDC-Header_2x20_P2.54mm_Vertical","2x20 box header, 2.54 mm","","CN1"
+"1","MIX L insert","Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical","Neutrik NJ6FD-V","","J1"
+"1","MIX R insert","Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical","Neutrik NJ6FD-V","","J2"
+"1","MAIN L out","Connector_Audio:Jack_XLR_Neutrik_NC3MAV_Vertical","Neutrik NC3MAV","","J3"
+"1","MAIN R out","Connector_Audio:Jack_XLR_Neutrik_NC3MAV_Vertical","Neutrik NC3MAV","","J4"
+"1","MAIN M out","Connector_Audio:Jack_XLR_Neutrik_NC3MAV_Vertical","Neutrik NC3MAV","","J5"
+"1","Aux 5 out TRS","Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical","Neutrik NJ6FD-V","","J6"
+"1","Aux 6 out TRS","Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical","Neutrik NJ6FD-V","","J7"
+"1","EXT L in","Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical","Neutrik NJ6FD-V","","J8"
+"1","EXT R in","Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical","Neutrik NJ6FD-V","","J9"
+"1","C/Room L out TRS","Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical","Neutrik NJ6FD-V","","J10"
+"1","C/Room R out TRS","Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical","Neutrik NJ6FD-V","","J11"
+"1","Phones TRS","Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical","Neutrik NJ6FD-V","","J12"

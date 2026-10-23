@@ -15,7 +15,7 @@ SYM.update({
  'FB': ('Device', 'FerriteBead'), 'PTC': ('Device', 'Polyfuse'), 'DS': ('Device', 'D_Schottky'),
  'DZ': ('Device', 'D_Zener'), 'NPN': ('Transistor_BJT', 'MMBT3904'), 'PNP': ('Transistor_BJT', 'BCP53'),
  'TRIM': ('Device', 'R_Potentiometer_Trim'), 'HDR5': ('Connector_Generic', 'Conn_01x05'),
- 'DG': ('Analog_Switch', 'DG413xY'), 'ZEN': ('Diode', 'BZX84Cxx'),
+ 'DG': ('Analog_Switch', 'DG413xY'), 'ZEN': ('Diode', 'BZX84Cxx'), 'SCH': ('Diode', 'BAT54W'),
 })
 FP.update({
  'OPA1656': 'Package_SO:SOIC-8_3.9x4.9mm_P1.27mm', 'TL072': 'Package_SO:SOIC-8_3.9x4.9mm_P1.27mm',
@@ -34,7 +34,7 @@ MPN.update({'DRV134': 'TI DRV134UA', 'RELAY': 'Omron G6K-2F-Y DC12', 'XLR3': 'Ne
             'LME49600': 'TI LME49600TS', 'OPA1656': 'TI OPA1656ID', 'JACK': 'Neutrik NRJ6HF',
             # B grades: the comparators run from +-17 V (34 V), over the non-B parts' 30 V recommended maximum
             'CMP': 'TI LM393BIDR', 'LM2901': 'TI LM2901BIDR',
-            'DG': 'Vishay DG413DY-E3', 'ZEN': 'BZX84C5V1', 'PNP': 'onsemi BCP53-16T1G'})
+            'DG': 'Vishay DG413DY-E3', 'ZEN': 'BZX84C5V1', 'PNP': 'onsemi BCP53-16T1G', 'SCH': 'Nexperia BAT54W'})
 # 3 mm diffused LEDs, Vf <= 2.6 V max (GaP / GaAsP): ten in series must fit a meter string's ~31 V, so no InGaN
 LED_MPN = {'green': 'Kingbright WP710A10GD', 'amber': 'Kingbright WP710A10ND', 'red': 'Kingbright WP710A10ID'}
 FADER2_FP = 'goa-console:Potentiometer_Bourns_PTB0144_Slide_100mm_Dual'
@@ -165,9 +165,12 @@ def afl(b, junction, name):                                 # PFL/AFL switch: 22
 def receiver(b, tip, ring, out):                            # strip-style ground-compensated receiver
     n, p = out + '_N', out + '_P'
     C(b, '100p C0G', tip, 'GNDA'); C(b, '100p C0G', ring, 'GNDA'); R(b, '1M', tip, 'GNDA')
-    R(b, '10K 0.1%', ring, n); R(b, '10K 0.1%', n, out); C(b, '33p C0G', n, out)
-    R(b, '10K 0.1%', tip, p); R(b, '10K 0.1%', p, 'GNDA')
-    amp(b, p, n, out)
+    R(b, '10K 0.1%', ring, n); R(b, '10K 0.1%', n, out); cn = C(b, '33p C0G', n, out)
+    # 33p on the + leg too: with only the feedback cap the bridge is unbalanced (CMRR 60 / 40 / 34 dB at 1 / 10 / 20 kHz)
+    # and the 5 kohm + node lags through Cdiff (45 deg); balanced: 86 dB flat, 85 deg (strip_parts_review.md, T3)
+    R(b, '10K 0.1%', tip, p); R(b, '10K 0.1%', p, 'GNDA'); cp = C(b, '33p C0G', p, 'GNDA')
+    u = amp(b, p, n, out)
+    near(cn, u); near(cp, u)
 
 def stereo_in(b, name, outl, outr):                         # two NRJ6HF, R normalled to L
     lt, lr, rt, rr = name + '_LT', name + '_LR', name + '_RT', name + '_RR'

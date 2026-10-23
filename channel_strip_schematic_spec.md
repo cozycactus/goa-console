@@ -1,4 +1,4 @@
-# Channel Strip — Component-Level Specification v4.0
+# Channel Strip — Component-Level Specification v4.1
 ## Soundcraft Delta Theatre input without the mic stage. One PCB per channel, ×24.
 
 Bus pinout, grounding and power: `console_architecture.md`. Stage-by-stage comparison with the
@@ -7,6 +7,31 @@ Reference designators are those of `tools/gen.py`; Delta drawing numbers are giv
 circuit comes from a Delta sheet (ED3344A/B/C = Theatre input RH board, ED3151 = LH board).
 
 ---
+
+## Changes in v4.1 (2026-10-23, signed off; `strip_parts_review.md`)
+
+Op-amp stability, checked with TI's OPA161x model in the real network (`sim/review/strip/`), and part ratings:
+- **EQ stages:** 10 pF C0G across both 22Ks of U6A (C69/C70) and U6B (C71/C72), 22 pF across R67 (C73, U7A). They had
+  ≈ 0° phase margin (U7A −20° with an insert lead). The equal pairs leave the Delta EQ unchanged.
+- **KHN summers:** 10 pF across R83 / R92 (C74 / C76) and 22 pF from each summer's + input to AGND (C75 / C77):
+  2–3° → 82°. Audio cost ≤ 0.084 dB at about 12 kHz (HI-MID full cut, frequency CW).
+- **Receiver:** C78 33 pF across R9, matching C7 across R7: CMRR 86 dB flat (was 60 / 40 / 34 dB at
+  1 / 10 / 20 kHz), 45° → 85°.
+- **Followers on 1–5 kΩ sources:** 10 pF from the + input to AGND on PANWL (C79), PANWR (C80), M2 (C81) and FPIN
+  (C82); 22 pF on DIRSRC (C83). Was 18–51°.
+- **OL LED:** R15 1K → 4K7 (was 14 mA through an 0805 at 160 %).
+- **Insert return:** R99 1K between RET and U7B's + input (RET_IN), with C84 100 pF from RET_IN to AGND. Without
+  C84 the 1K left U7B at 40° (27° with DIR on and aux 6 at the top); with it, ≥ 70°, and it is an RF filter too.
+- **+5VL:** D10 BAT54W from +5VL to +VA: VL stays within 0.3 V of V+ at power-down too.
+- **BOM:**
+  - MPNs: OPA1612AIDR, LM393BIDR, MMBFJ112 (value), Kingbright LEDs, the bus header.
+  - Ceramics X7R 50 V (100n, 1u, 2.2u by MPN; C0G parts 50 V).
+  - Anti-surge R1/R2 and R11/R71.
+  - BOM export with a DNP column.
+- **Spec notes:** routing rule for long op-amp output nets (16.3), J112 headroom (§9), no phantom on the insert
+  send or direct out (§7, §11).
+
+All stages ≥ 72° phase margin in the nominal state with the TI model (§17).
 
 ## 0. Changes from v3.1
 
@@ -75,7 +100,8 @@ C33/C34 (U7), C35/C36 (U8). Bus pin 34 (+48 V): not connected.
 +V ── R3 10 Ω ── +VL ── C5 47 µF ── LGND        −V ── R4 10 Ω ── −VL ── C6 47 µF ── LGND
 ```
 Feeds the LEDs (including the routing LEDs, §13), the mute gate drive, PFL DET and the OL comparator
-(U4, C26). The DG413s' 5 V logic supply (+5VL) is taken from +VA instead, so VL never exceeds V+ (§13).
+(U4, C26). The DG413s' 5 V logic supply (+5VL) is taken from +VA instead, so VL never exceeds V+ at power-up;
+D10 BAT54W keeps it within 0.3 V of V+ at power-down (§13).
 
 ### 2.3 Grounds
 - AGND pour and a separate LGND pour, joined at one point: NT1, beside the spade.
@@ -108,7 +134,7 @@ J1 tip  ─┬─ C8 100 pF to AGND (jack board) ── ribbon pin 1 ── IN_T
 J1 ring ─┴─ C9 100 pF to AGND (jack board) ── ribbon pin 2 ── IN_R
 SW15 pole A: INV_IN  = tip (unlatched) or ring (latched, Ø)   ── R6 10K ── U1A (−) ── R7 10K ── RECV
 SW15 pole B: NINV_IN = ring (unlatched) or tip (latched, Ø)   ── R8 10K ── U1A (+) ── R9 10K ── AGND
-C7 33 pF across R7
+C7 33 pF across R7; C78 33 pF across R9 (v4.1: balances the bridge, CMRR 86 dB flat, 85° phase margin)
 ```
 - Ground-compensated receiver, unity gain, now **inverting** (tip to the inverting leg) so the
   inverting gain stage after it restores polarity. R6–R9 0.1 % (or a matched network).
@@ -156,9 +182,9 @@ stage's input and output; **clockwise boosts** on every band (as the ED3151 CW a
 | Band | Stage | Circuit (values as the Delta) | Pots |
 |------|-------|-------------------------------|------|
 | HF shelf | U5B | R50 33K in, R51 33K ∥ C41 33 pF feedback; wiper ─ C42 4n7 ─ T1 (R52 5K6 to AGND) ─ C43 4n7 ─ R53 6K8 ─ virtual earth | RV10 gain: pin 3 = EQIN, pin 1 = U5B out |
-| HI-MID | U6A | R54 22K in, R55 22K feedback; (+) input = band-pass of the gain-pot wiper. Delta: Wien network with a 100K C-law dual. **Here: KHN state-variable band-pass, same response (§6.2), U12A/U12B/U13A** | RV11 gain: pin 3 = U6A out; RV12 frequency: **10K A-law dual** |
-| LO-MID | U6B | R58/R59 22K; (+) input as HI-MID, KHN on U13B/U14A/U14B | RV13 gain: pin 3 = U6B out; RV14 frequency: 10K A-law dual |
-| LF bell | U7A | R66/R67 22K; (+) input: wiper ─ R64 1K5 ─ C49 2µ2 ─ (C50 100 nF ∥ R65 5K1 to AGND) | RV15 gain between R62 3K3 (from U6B) and R63 3K3 (to U7A out), C48 150 nF across it |
+| HI-MID | U6A | R54 22K in, R55 22K feedback, C69/C70 10 pF across both (v4.1, stability); (+) input = band-pass of the gain-pot wiper. Delta: Wien network with a 100K C-law dual. **Here: KHN state-variable band-pass, same response (§6.2), U12A/U12B/U13A** | RV11 gain: pin 3 = U6A out; RV12 frequency: **10K A-law dual** |
+| LO-MID | U6B | R58/R59 22K, C71/C72 10 pF across both (v4.1); (+) input as HI-MID, KHN on U13B/U14A/U14B | RV13 gain: pin 3 = U6B out; RV14 frequency: 10K A-law dual |
+| LF bell | U7A | R66/R67 22K, C73 22 pF across R67 (v4.1); (+) input: wiper ─ R64 1K5 ─ C49 2µ2 ─ (C50 100 nF ∥ R65 5K1 to AGND) | RV15 gain between R62 3K3 (from U6B) and R63 3K3 (to U7A out), C48 150 nF across it |
 
 - The Delta's R32/R36 meet the stage-input line on ED3344A without a junction dot. They cross
   rather than connect, and run from the rheostat to ground. Simulation confirms the reading.
@@ -206,6 +232,10 @@ BP (U12B out) ── U6A (+)                                                  LO
 - Cost: three more OPA1612 (U12–U14), 18 resistors, C63–C68 decoupling. The Wien parts' references
   C44–C47 and R56/R57/R60/R61 are reused for the integrator capacitors and 4K7 inputs.
 
+Stability (v4.1): C74 / C76 10 pF across R83 / R92 and C75 / C77 22 pF from the summers' + inputs (EQ_MSP /
+EQ_LSP) to AGND. Without them the summers had 2–3° of phase margin; a feedback cap alone tops out near 55°
+because the 1.8 kΩ + node lags through the input capacitance.
+
 `sim/mid_tuning.py` (both versions in the same U6A stage, Alpha 15 % tapers, OPA1612 with noise):
 
 | | Delta Wien, C100K | KHN, A10K | Ideal log |
@@ -231,7 +261,7 @@ The bypass takes the EQ's own input, so it works in both insert positions.
 
 ```
 JP5: INS_SRC = EQOUT (1-2, default) or HOUT (2-3)      ── R11 75R ── J2 tip (send)
-J2 ring (return) normalled to tip with no plug ── C10 47 µF NP ── RET ── R12 47K ── U7B follower ── BUF1
+J2 ring (return) normalled to tip with no plug ── C10 47 µF NP ── RET (R12 47K to AGND) ── R99 1K ── RET_IN (C84 100 pF) ── U7B follower ── BUF1
 JP6: EQIN   = HOUT (1-2, default) or BUF1 (2-3)
 JP7: PRESRC = BUF1 (1-2, default) or EQOUT (2-3)       ── C11 220 µF NP ── PRE ── R13 47K
 ```
@@ -245,7 +275,7 @@ JP7: PRESRC = BUF1 (1-2, default) or EQOUT (2-3)       ── C11 220 µF NP ─
 
 ### 8.1 OL detector (U4A, logic rails)
 From PRESRC (always the signal entering PRE: post-EQ, post-insert): R39 1K, D1 1N4148,
-C12 1 µF, R14 470K; comparator against R40/R41 for ≈ +18 dBu; red OL LED D2 via R15 1K.
+C12 1 µF, R14 470K; comparator against R40/R41 for ≈ +18 dBu; red OL LED D2 via R15 4K7 (≈ 3 mA, as the other LEDs; v4.1, was 1K: 14 mA in an 0805).
 U4B tied off.
 
 ### 8.2 PFL (SW3, D3)
@@ -259,22 +289,28 @@ PRE ── R32 22K ── SW3 pole A ── bus 27 (latched) or AGND (unlatched)
 ## 9. ON and soft mute (ED3344B/C)
 
 ```
-PRE ── R16 4K7 ── M1 ── Q1 J112 to AGND ── R17 4K7 ── M2 ── Q2 J112 to AGND ── U3B follower ── MUTEOUT
+PRE ── R16 4K7 ── M1 ── Q1 J112 to AGND ── R17 4K7 ── M2 (C81 10 pF) ── Q2 J112 to AGND ── U3B follower ── MUTEOUT
 SW4 pole A: MSW = −VL (latched, ON) or LGND (unlatched, muted) ── R42 220K ── MGATE ── C28 100 nF
 SW4 pole B: +VL to ON_SW when latched ── R43 4K7 ── D4 green ── LGND
 ```
 - Latched = channel on: gates at −VL, JFETs off. Unlatched = muted: gates at 0 V, ≈ 86 dB of
   attenuation, ≈ 20 ms ramp (R42/C28).
+- Headroom (v4.1 note): while ON the gates sit at −VL, about 1 V below PRE's most negative excursion. A J112 at the
+  worst-case VGS(off) of −5 V starts conducting on negative peaks above about +20.7 dBu (+22.9 dBu with typical
+  parts); VDG reaches 32.5 V of 35 V. Selecting J112s with |VGS(off)| ≤ 3 V raises the onset to about +22 dBu.
+- Q1/Q2 are the SOT-23 MMBFJ112 (J112 is the TO-92 part).
 
 ---
 
-## 10. Fader, post-amp, VCA option (unchanged)
+## 10. Fader, post-amp, VCA option
 
 ```
-MUTEOUT ── RV1 fader top (pin 3), pin 1 AGND ── wiper ── C13 2.2 µF ── JP1 (VCA bypass) ── FPIN ── R18 100K
+MUTEOUT ── RV1 fader top (pin 3), pin 1 AGND ── wiper ── C13 2.2 µF ── JP1 (VCA bypass) ── FPIN ── R18 100K, C82 10 pF
 U2A: (+) FPIN, R19 4K7 ∥ C14 100 pF feedback, R38 2K2 to AGND: +10 dB ── C15 220 µF NP ── POST ── R35 47K
 ```
 - The fader's "0" mark sits 10 dB below the top. Omit R38 for unity at the top.
+- C82 (v4.1): the fader wiper (up to 2.5 kΩ) against the op-amp's input capacitance left U2A at 40°; 10 pF to AGND
+  gives 73°. Not above 22 pF: with the fader at the top it loads U3B's output.
 - VCA option (DNP): J3 1×6 socket for an SSI2162 plug-in module across C13 → FPIN (in, out,
   control, +VA, AGND, −VA), J4 control input, R44 100K pull-down; JP1 bridged when no module.
 
@@ -287,12 +323,16 @@ JP2/JP3/JP4 (pairs 1-2, 3-4, 5-6): PSRCn = PRE (1-2, default, pre-fader) or HOUT
 SW8/SW9/SW10 pole A: SRCn = PSRCn (latched, PRE) or POST (unlatched)
 RV2…RV7 10K A: pin 3 = SRCn, pin 1 = AGND, wiper ── R20…R24 22K ── AUX 1…5
 RV7 wiper ── SW13 pole A ── A6R (unlatched) ── R25 22K ── AUX 6
-                         └─ DIRSRC (latched, DIR) ── R70 100K to AGND ── U8A follower ── DOUT
+                         └─ DIRSRC (latched, DIR) ── R70 100K to AGND, C83 22 pF ── U8A follower ── DOUT
 SW13 pole B: A6R to AGND when latched (no floating resistor on the aux 6 bus)
 DOUT ── R71 75R ── C52 47 µF NP ── J5 tip ── R72 47K to AGND;   J5 ring ── R73 75R ── AGND
 ```
 - Direct out: impedance-balanced TRS, level = aux 6 pot, source = the aux 5/6 PRE selection.
   0 dBu at the jack with the pot fully up. U8B spare, tied off as a grounded follower.
+- C83 22 pF (v4.1): with DIR on and a short lead, U8A was down to 19–21°; with it, 70°. Not more: it loads U7B (PRE)
+  when aux 6 is at the top.
+- No phantom: neither the direct out nor the insert send may feed a phantom-powered input (a TRS-to-XLR lead into a
+  mic preamp). C52 and C51 (47 µF NP 25 V) would see about 42 V.
 - SW8–SW10 pole B unused.
 
 ---
@@ -300,7 +340,7 @@ DOUT ── R71 75R ── C52 47 µF NP ── J5 tip ── R72 47K to AGND;  
 ## 12. Pan, pan buffers, PAN switch
 
 ```
-POST ── RV8 (10K B dual, centre detent) ── wipers ── U2B / U3A followers ── C16 / C17 220 µF NP ── PANL / PANR (R36/R37 47K)
+POST ── RV8 (10K B dual, centre detent) ── wipers (C79 / C80 10 pF) ── U2B / U3A followers ── C16 / C17 220 µF NP ── PANL / PANR (R36/R37 47K)
 SW14 pole A: SUBSRC_L = PANL (latched, PAN) or POST (unlatched)
 SW14 pole B: SUBSRC_R = PANR (latched)       or POST (unlatched)
 ```
@@ -339,7 +379,8 @@ SW5 pole B: +VL (latched) ── R75 4K7 ── D6 yellow LED ── LGND
   small one.
 - **Supplies.** V+ = +VA, V− = −VA (C53/C54, C56/C57, C59/C60, 100 nF to AGND), GND = LGND.
   VL = +5VL: R80 4K7 from +VA, D9 BZX84C5V1, C62 1 µF, plus 100 nF per IC (C55, C58, C61).
-  +5VL comes from +VA, not +VL, so VL can never exceed V+ (abs max V+ + 0.3 V) during power-up.
+  +5VL comes from +VA, not +VL, so VL can never exceed V+ (abs max V+ + 0.3 V) during power-up. At power-down
+  +5VL would lag a falling +VA by 1.3–1.5 V; D10 BAT54W (anode +5VL, cathode +VA) holds it within 0.3 V (v4.1).
   About 2.4 mA from +VA, DC only.
 - **Why the bus end.** Both switch terminals sit at the virtual earth (assigned) or ground (off), so
   the switch never sees more than I × Ron ≈ 60 mV even at +20 dBu, and its Ron-versus-voltage curve
@@ -381,16 +422,26 @@ directly; no debounce RC, because the DG413 inputs have no hysteresis.
 | U12 | OPA1612 | HI-MID KHN summer | HI-MID integrator 1 (BP) |
 | U13 | OPA1612 | HI-MID integrator 2 (LP) | LO-MID KHN summer |
 | U14 | OPA1612 | LO-MID integrator 1 (BP) | LO-MID integrator 2 (LP) |
-| Q1, Q2 | J112 | soft mute | |
+| Q1, Q2 | MMBFJ112 (J112 in SOT-23) | soft mute | |
 
 ---
 
 ## 15. Bill of materials
 
-`channel_strip_BOM.csv` (main board, exported from the schematic): 219 parts per channel, of which three
-are the DNP VCA-option parts (J3, J4, R44), so 216 fitted; `jack_board_BOM.csv`: 6. Panel parts per channel:
+`channel_strip_BOM.csv` (main board, exported from the schematic, with a DNP column): 237 parts per channel, of which
+three are the DNP VCA-option parts (J3, J4, R44), so 234 fitted; `jack_board_BOM.csv`: 6. Panel parts per channel:
 15 pots (fader, 6 aux, pan, gain, 4 EQ gain, 2 dual EQ frequency), 13 switches, 7 LEDs (OL, PFL, ON, EQ,
 3 routing), 3 jacks, 1 bus header.
+
+BOM rules (v4.1):
+- every ceramic ≥ 25 V, 50 V preferred: 100n Samsung CL21B104KBCNNNC (X7R 50 V 0805), C12 / C62 1 µF Murata
+  GRM21BR71H105KA12, C13 2.2 µF Murata GRM31CR71H225KA88, C0G parts 50 V;
+- OPA1612AIDR, LM393BIDR (the same comparator as the master), onsemi MMBFJ112;
+- Kingbright WP710A10ID red, WP710A10GD green, WP710A10YD yellow;
+- Panasonic ERJ-P06J100V (R1/R2, 10R at up to 0.126 W) and ERJ-P06J750V (R11/R71, ~0.25 W into a shorted lead);
+- Würth 61203421621 bus header.
+
+Still open: the pots' full order codes (shaft and bushing) and RV8's centre-detent part (pan pot).
 
 ---
 
@@ -429,7 +480,7 @@ Pots: 1.5 mm M7 spacer washer, panel hole ø7.2. Fader: 3.5 mm spacer, lever 5 m
 panel. 3 mm LEDs on 7.6 mm spacers. Six M3 standoffs, unplated holes. Radial electrolytics,
 the bus header, the spade and the VCA socket on the bottom side.
 
-### 16.3 Panel and placement (v4.0)
+### 16.3 Panel and placement (v4.0; routing rule v4.1)
 
 Study: `strip_panel_study.md`. Chosen: **8 HP × 12U** Eurorack-style panel (40.3 × 514 mm) in a
 custom frame with rails only at the two ends, **two pot columns** (x = 8.84 / 29.16, 2026-10-23: an even
@@ -444,7 +495,7 @@ the panel's top edge), placement only:
 
 | Board | File | Size | Depth under the panel | Parts |
 |-------|------|------|-----------------------|-------|
-| Main | `channel_strip_v4.kicad_pcb` | 38 × 400 mm, y 44–444 | 11.5 mm | 227 + 6 M3 holes (11.5 mm standoffs) |
+| Main | `channel_strip_v4.kicad_pcb` | 38 × 400 mm, y 44–444 | 11.5 mm | 245 + 6 M3 holes (11.5 mm standoffs) |
 | Jack | `jack_board.kicad_pcb` | 38 × 43 mm, y 0–43 | 24.0 mm (the NJ6FD-V body) | 6 + 2 M3 holes |
 
 DRC with `--schematic-parity`, both boards: 0 parity issues. The main board has no violations at all;
@@ -456,6 +507,21 @@ y 345.6, same pin field x 31.46/34, y 305–345.6), so its pin-1 arrow stays on 
 of the gain pot (above the OL LED). Decoupling caps sit beside their IC's supply pins (place_strip.py
 `DECOUPLE`); the DG413s (U9–U11) are beside the fader just below CN1, the routing 4K7s between the fader
 and CN1's pins. `channel_strip.kicad_pcb` is the old v3.1 placement, kept unchanged.
+
+**Routing rule (v4.1, `strip_parts_review.md` §5).** Four op-amp outputs drive long nets directly; at MHz the series
+220 µF caps are shorts:
+- POST (U2A, 200–270 mm to the pan pot, the PRE/POST switches and the aux pots);
+- MUTEOUT (U3B, about 200 mm to the fader);
+- PANL / PANR (U2B / U3A, 110–170 mm);
+- PRE (U7B, to the switches and the aux pots).
+
+Keep each at ≤ about 22 pF: short, thin, not run over a pour for long. With the v4.1 caps the stages keep ≥ 55° up
+to 47 pF, but at 100 pF they fall to about 40°. Alternatives:
+- put the long run on the high-impedance side (e.g. the post-amp near the pot block, so the long net is FPIN, where
+  shunt C helps a follower);
+- isolate U3B from the fader with a series resistor (100R costs −0.09 dB into 10K).
+
+The v4.1 stability caps sit beside their op-amps: feedback caps within 6.2 mm, + input caps within 9.2 mm.
 
 ### 16.4 Jack board and link
 
@@ -482,7 +548,20 @@ sleeves go to AGND only through the ribbon. CN3/CN5: Würth 61201021621 2 × 5 b
 
 ---
 
-## 17. Status (v4.0, 2026-10-22)
+## 17. Status (v4.1, 2026-10-23)
+
+v4.1:
+- **Netlist:** `tools/verify.py` main 734 pin entries / 0 mismatches, `tools/check_fp.py` 245 parts / 0, ERC 0;
+  jack board unchanged.
+- **Netlist sims:** `tools/sim_netlist.py` 30/30, same values as v4.0 within 0.06 dB.
+- **Stability:** TI OPA161x model in the full network (`sim/review/strip/`, `python3 run_all.py none`). Every op-amp
+  unit, over 21 pot / switch / cable states, has ≥ 69.9° phase margin (U7B with DIR on, aux 6 at the top and a lead on
+  the jacks) and ≤ 1.61 dB closed-loop peaking (U8A with a 470 pF direct-out lead). As v4.0: U6A/U6B/U7A −3 to −5°,
+  U12A/U13B 2.6–2.7°, followers 18–51°.
+- **Placement:** `channel_strip_v4.kicad_pcb` re-placed: 245 footprints + 6 holes, 0 DRC violations, 0 parity
+  issues. Report: decouplers 3.1 / 10.0 / 11, high-Z inputs 10.0 / 19.7 / 25.
+
+v4.0 (2026-10-22):
 
 - Schematic generated by `tools/gen.py` (User-size sheet, label-connected).
 - `tools/verify.py`: main 697 pin entries, jack board 30; 0 mismatches, 0 stray pins, no single-pin nets.

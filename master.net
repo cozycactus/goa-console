@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/master.kicad_sch")
-		(date "2026-10-23T17:36:43")
+		(date "2026-10-23T21:51:05")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -4598,7 +4598,7 @@
 		)
 		(comp
 			(ref "C85")
-			(value "100n")
+			(value "33p C0G")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
@@ -4706,7 +4706,7 @@
 		)
 		(comp
 			(ref "C87")
-			(value "100p C0G")
+			(value "100n")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
@@ -4814,7 +4814,7 @@
 		)
 		(comp
 			(ref "C89")
-			(value "33p C0G")
+			(value "100p C0G")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
@@ -4868,11 +4868,11 @@
 		)
 		(comp
 			(ref "C90")
-			(value "47u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+			(value "33p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -4922,11 +4922,11 @@
 		)
 		(comp
 			(ref "C91")
-			(value "47u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+			(value "33p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -4976,11 +4976,11 @@
 		)
 		(comp
 			(ref "C92")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "47u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
 					(name "Datasheet")
 				)
@@ -5030,11 +5030,11 @@
 		)
 		(comp
 			(ref "C93")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "47u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
 					(name "Datasheet")
 				)
@@ -5084,7 +5084,7 @@
 		)
 		(comp
 			(ref "C94")
-			(value "100p C0G")
+			(value "100n")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
@@ -5138,7 +5138,7 @@
 		)
 		(comp
 			(ref "C95")
-			(value "22p C0G 5%")
+			(value "100n")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
@@ -5192,7 +5192,7 @@
 		)
 		(comp
 			(ref "C96")
-			(value "22p C0G 5%")
+			(value "100p C0G")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
@@ -5246,11 +5246,11 @@
 		)
 		(comp
 			(ref "C97")
-			(value "47u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+			(value "22p C0G 5%")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -5300,11 +5300,11 @@
 		)
 		(comp
 			(ref "C98")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "22p C0G 5%")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -5354,11 +5354,11 @@
 		)
 		(comp
 			(ref "C99")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "47u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
 					(name "Datasheet")
 				)
@@ -5408,11 +5408,11 @@
 		)
 		(comp
 			(ref "C100")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "2.2u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -5462,11 +5462,11 @@
 		)
 		(comp
 			(ref "C101")
-			(value "1u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -5516,11 +5516,11 @@
 		)
 		(comp
 			(ref "C102")
-			(value "47u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -5570,11 +5570,11 @@
 		)
 		(comp
 			(ref "C103")
-			(value "47u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+			(value "1u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -5732,11 +5732,11 @@
 		)
 		(comp
 			(ref "C106")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "47u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
 					(name "Datasheet")
 				)
@@ -5786,11 +5786,11 @@
 		)
 		(comp
 			(ref "C107")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "47u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
 					(name "Datasheet")
 				)
@@ -6002,11 +6002,11 @@
 		)
 		(comp
 			(ref "C111")
-			(value "1u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -6110,11 +6110,11 @@
 		)
 		(comp
 			(ref "C113")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "1u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -6164,7 +6164,7 @@
 		)
 		(comp
 			(ref "C114")
-			(value "330n")
+			(value "100n")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
@@ -6218,11 +6218,11 @@
 		)
 		(comp
 			(ref "C115")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -6272,7 +6272,7 @@
 		)
 		(comp
 			(ref "C116")
-			(value "100n")
+			(value "330n")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
@@ -6326,11 +6326,11 @@
 		)
 		(comp
 			(ref "C117")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "2.2u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -6380,11 +6380,11 @@
 		)
 		(comp
 			(ref "C118")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -6434,11 +6434,11 @@
 		)
 		(comp
 			(ref "C119")
-			(value "10u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -6488,11 +6488,11 @@
 		)
 		(comp
 			(ref "C120")
-			(value "10u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+			(value "2.2u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -6542,11 +6542,11 @@
 		)
 		(comp
 			(ref "C121")
-			(value "1u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "10u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -6596,11 +6596,11 @@
 		)
 		(comp
 			(ref "C122")
-			(value "1u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "10u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -6650,11 +6650,11 @@
 		)
 		(comp
 			(ref "C123")
-			(value "10u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+			(value "1u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -6704,11 +6704,11 @@
 		)
 		(comp
 			(ref "C124")
-			(value "10u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+			(value "1u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -6758,11 +6758,11 @@
 		)
 		(comp
 			(ref "C125")
-			(value "1u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "10u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -6812,11 +6812,11 @@
 		)
 		(comp
 			(ref "C126")
-			(value "1u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "10u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -6866,7 +6866,7 @@
 		)
 		(comp
 			(ref "C127")
-			(value "2.2u")
+			(value "1u")
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
@@ -6920,11 +6920,11 @@
 		)
 		(comp
 			(ref "C128")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "1u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -6974,11 +6974,11 @@
 		)
 		(comp
 			(ref "C129")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "2.2u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -7136,11 +7136,11 @@
 		)
 		(comp
 			(ref "C132")
-			(value "10u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -7190,11 +7190,11 @@
 		)
 		(comp
 			(ref "C133")
-			(value "10u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -7244,11 +7244,11 @@
 		)
 		(comp
 			(ref "C134")
-			(value "100p C0G")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "10u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -7298,11 +7298,11 @@
 		)
 		(comp
 			(ref "C135")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "10u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -7352,7 +7352,7 @@
 		)
 		(comp
 			(ref "C136")
-			(value "100n")
+			(value "100p C0G")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
@@ -7406,11 +7406,11 @@
 		)
 		(comp
 			(ref "C137")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "2.2u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -7460,11 +7460,11 @@
 		)
 		(comp
 			(ref "C138")
-			(value "10u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -7514,11 +7514,11 @@
 		)
 		(comp
 			(ref "C139")
-			(value "10u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -7568,11 +7568,11 @@
 		)
 		(comp
 			(ref "C140")
-			(value "100p C0G")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "10u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -7622,11 +7622,11 @@
 		)
 		(comp
 			(ref "C141")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "10u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -7676,7 +7676,7 @@
 		)
 		(comp
 			(ref "C142")
-			(value "100n")
+			(value "100p C0G")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
@@ -7730,11 +7730,11 @@
 		)
 		(comp
 			(ref "C143")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -7838,11 +7838,11 @@
 		)
 		(comp
 			(ref "C145")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "2.2u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -7892,11 +7892,11 @@
 		)
 		(comp
 			(ref "C146")
-			(value "1u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -8000,11 +8000,11 @@
 		)
 		(comp
 			(ref "C148")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "1u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -8594,11 +8594,11 @@
 		)
 		(comp
 			(ref "C159")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -8702,11 +8702,11 @@
 		)
 		(comp
 			(ref "C161")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "2.2u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -8756,11 +8756,11 @@
 		)
 		(comp
 			(ref "C162")
-			(value "1u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -8864,11 +8864,11 @@
 		)
 		(comp
 			(ref "C164")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "1u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -9334,6 +9334,114 @@
 				(tstamps "/")
 			)
 			(tstamps "47006338-b7e8-594c-9d65-3dfa87f6672a")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C173")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "master")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "49d95725-ff2b-5f26-9915-94f900646cd9")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C174")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "master")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "f2b41e0b-52b0-5342-a21b-91c00c1dae1d")
 			(units
 				(unit
 					(name "A")
@@ -10733,11 +10841,13 @@
 		)
 		(comp
 			(ref "D15")
-			(value "1N4148")
-			(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+			(value "BAT54W")
+			(footprint "Package_TO_SOT_SMD:SOT-323_SC-70")
 			(fields
 				(field
-					(name "Footprint") "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+					(name "MPN") "Nexperia BAT54W")
+				(field
+					(name "Footprint") "Package_TO_SOT_SMD:SOT-323_SC-70")
 				(field
 					(name "Datasheet")
 				)
@@ -10747,8 +10857,12 @@
 			)
 			(libsource
 				(lib "Diode")
-				(part "1N4148")
-				(description "100V 0.15A standard switching diode, DO-35")
+				(part "BAT54W")
+				(description "Schottky barrier diode, SOT-323")
+			)
+			(property
+				(name "MPN")
+				(value "Nexperia BAT54W")
 			)
 			(property
 				(name "Sheetname")
@@ -10760,11 +10874,11 @@
 			)
 			(property
 				(name "ki_keywords")
-				(value "diode")
+				(value "schottky diode")
 			)
 			(property
 				(name "ki_fp_filters")
-				(value "D*DO?35*")
+				(value "SOT?323*")
 			)
 			(sheetpath
 				(names "/")
@@ -10776,10 +10890,13 @@
 					(name "A")
 					(pins
 						(pin
-							(num "1")
+							(num "3")
 						)
 						(pin
 							(num "2")
+						)
+						(pin
+							(num "1")
 						)
 					)
 				)
@@ -10895,60 +11012,6 @@
 		)
 		(comp
 			(ref "D18")
-			(value "PFL ACTIVE red 5mm")
-			(footprint "LED_THT:LED_D5.0mm")
-			(fields
-				(field
-					(name "Footprint") "LED_THT:LED_D5.0mm")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Device")
-				(part "LED")
-				(description "Light emitting diode")
-			)
-			(property
-				(name "Sheetname")
-				(value "master")
-			)
-			(property
-				(name "Sheetfile")
-				(value "master.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "LED diode")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "LED* LED_SMD:* LED_THT:*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "2e1ed0b7-e543-527b-9595-ffd30a95a77e")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "D19")
 			(value "1N4148")
 			(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
 			(fields
@@ -10981,6 +11044,60 @@
 			(property
 				(name "ki_fp_filters")
 				(value "D*DO?35*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "2e1ed0b7-e543-527b-9595-ffd30a95a77e")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D19")
+			(value "PFL ACTIVE red 5mm")
+			(footprint "LED_THT:LED_D5.0mm")
+			(fields
+				(field
+					(name "Footprint") "LED_THT:LED_D5.0mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "LED")
+				(description "Light emitting diode")
+			)
+			(property
+				(name "Sheetname")
+				(value "master")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "LED diode")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "LED* LED_SMD:* LED_THT:*")
 			)
 			(sheetpath
 				(names "/")
@@ -11435,13 +11552,11 @@
 		)
 		(comp
 			(ref "D28")
-			(value "green -20 dB")
-			(footprint "LED_THT:LED_D3.0mm")
+			(value "1N4148")
+			(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
 			(fields
 				(field
-					(name "MPN") "Kingbright WP710A10GD")
-				(field
-					(name "Footprint") "LED_THT:LED_D3.0mm")
+					(name "Footprint") "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
 				(field
 					(name "Datasheet")
 				)
@@ -11450,13 +11565,9 @@
 				)
 			)
 			(libsource
-				(lib "Device")
-				(part "LED")
-				(description "Light emitting diode")
-			)
-			(property
-				(name "MPN")
-				(value "Kingbright WP710A10GD")
+				(lib "Diode")
+				(part "1N4148")
+				(description "100V 0.15A standard switching diode, DO-35")
 			)
 			(property
 				(name "Sheetname")
@@ -11468,11 +11579,11 @@
 			)
 			(property
 				(name "ki_keywords")
-				(value "LED diode")
+				(value "diode")
 			)
 			(property
 				(name "ki_fp_filters")
-				(value "LED* LED_SMD:* LED_THT:*")
+				(value "D*DO?35*")
 			)
 			(sheetpath
 				(names "/")
@@ -11495,7 +11606,7 @@
 		)
 		(comp
 			(ref "D29")
-			(value "green -18 dB")
+			(value "green -20 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -11555,7 +11666,7 @@
 		)
 		(comp
 			(ref "D30")
-			(value "green -16 dB")
+			(value "green -18 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -11615,7 +11726,7 @@
 		)
 		(comp
 			(ref "D31")
-			(value "green -14 dB")
+			(value "green -16 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -11675,7 +11786,7 @@
 		)
 		(comp
 			(ref "D32")
-			(value "green -12 dB")
+			(value "green -14 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -11735,7 +11846,7 @@
 		)
 		(comp
 			(ref "D33")
-			(value "green -10 dB")
+			(value "green -12 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -11795,7 +11906,7 @@
 		)
 		(comp
 			(ref "D34")
-			(value "green -8 dB")
+			(value "green -10 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -11855,7 +11966,7 @@
 		)
 		(comp
 			(ref "D35")
-			(value "green -6 dB")
+			(value "green -8 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -11915,7 +12026,7 @@
 		)
 		(comp
 			(ref "D36")
-			(value "green -4 dB")
+			(value "green -6 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -11975,7 +12086,7 @@
 		)
 		(comp
 			(ref "D37")
-			(value "green -2 dB")
+			(value "green -4 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -12035,11 +12146,13 @@
 		)
 		(comp
 			(ref "D38")
-			(value "1N4148")
-			(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+			(value "green -2 dB")
+			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
-					(name "Footprint") "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+					(name "MPN") "Kingbright WP710A10GD")
+				(field
+					(name "Footprint") "LED_THT:LED_D3.0mm")
 				(field
 					(name "Datasheet")
 				)
@@ -12048,9 +12161,13 @@
 				)
 			)
 			(libsource
-				(lib "Diode")
-				(part "1N4148")
-				(description "100V 0.15A standard switching diode, DO-35")
+				(lib "Device")
+				(part "LED")
+				(description "Light emitting diode")
+			)
+			(property
+				(name "MPN")
+				(value "Kingbright WP710A10GD")
 			)
 			(property
 				(name "Sheetname")
@@ -12062,11 +12179,11 @@
 			)
 			(property
 				(name "ki_keywords")
-				(value "diode")
+				(value "LED diode")
 			)
 			(property
 				(name "ki_fp_filters")
-				(value "D*DO?35*")
+				(value "LED* LED_SMD:* LED_THT:*")
 			)
 			(sheetpath
 				(names "/")
@@ -12143,6 +12260,60 @@
 		)
 		(comp
 			(ref "D40")
+			(value "1N4148")
+			(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+			(fields
+				(field
+					(name "Footprint") "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Diode")
+				(part "1N4148")
+				(description "100V 0.15A standard switching diode, DO-35")
+			)
+			(property
+				(name "Sheetname")
+				(value "master")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "diode")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "D*DO?35*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "514eeed8-5b8f-5d69-a8d5-c4c1f5c35721")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D41")
 			(value "green +0 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
@@ -12186,66 +12357,6 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "514eeed8-5b8f-5d69-a8d5-c4c1f5c35721")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "D41")
-			(value "amber +2 dB")
-			(footprint "LED_THT:LED_D3.0mm")
-			(fields
-				(field
-					(name "MPN") "Kingbright WP710A10ND")
-				(field
-					(name "Footprint") "LED_THT:LED_D3.0mm")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Device")
-				(part "LED")
-				(description "Light emitting diode")
-			)
-			(property
-				(name "MPN")
-				(value "Kingbright WP710A10ND")
-			)
-			(property
-				(name "Sheetname")
-				(value "master")
-			)
-			(property
-				(name "Sheetfile")
-				(value "master.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "LED diode")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "LED* LED_SMD:* LED_THT:*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
 			(tstamps "e5d7aeac-9b25-5c36-b5c2-fdb7eb6f4775")
 			(units
 				(unit
@@ -12263,7 +12374,7 @@
 		)
 		(comp
 			(ref "D42")
-			(value "amber +4 dB")
+			(value "amber +2 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -12323,7 +12434,7 @@
 		)
 		(comp
 			(ref "D43")
-			(value "amber +6 dB")
+			(value "amber +4 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -12383,7 +12494,7 @@
 		)
 		(comp
 			(ref "D44")
-			(value "amber +8 dB")
+			(value "amber +6 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -12443,7 +12554,7 @@
 		)
 		(comp
 			(ref "D45")
-			(value "amber +10 dB")
+			(value "amber +8 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -12503,11 +12614,11 @@
 		)
 		(comp
 			(ref "D46")
-			(value "red +12 dB")
+			(value "amber +10 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
-					(name "MPN") "Kingbright WP710A10ID")
+					(name "MPN") "Kingbright WP710A10ND")
 				(field
 					(name "Footprint") "LED_THT:LED_D3.0mm")
 				(field
@@ -12524,7 +12635,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Kingbright WP710A10ID")
+				(value "Kingbright WP710A10ND")
 			)
 			(property
 				(name "Sheetname")
@@ -12563,7 +12674,7 @@
 		)
 		(comp
 			(ref "D47")
-			(value "red +14 dB")
+			(value "red +12 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -12623,7 +12734,7 @@
 		)
 		(comp
 			(ref "D48")
-			(value "red +16 dB")
+			(value "red +14 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -12683,7 +12794,7 @@
 		)
 		(comp
 			(ref "D49")
-			(value "red +18 dB")
+			(value "red +16 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -12743,11 +12854,13 @@
 		)
 		(comp
 			(ref "D50")
-			(value "1N4148")
-			(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+			(value "red +18 dB")
+			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
-					(name "Footprint") "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+					(name "MPN") "Kingbright WP710A10ID")
+				(field
+					(name "Footprint") "LED_THT:LED_D3.0mm")
 				(field
 					(name "Datasheet")
 				)
@@ -12756,9 +12869,13 @@
 				)
 			)
 			(libsource
-				(lib "Diode")
-				(part "1N4148")
-				(description "100V 0.15A standard switching diode, DO-35")
+				(lib "Device")
+				(part "LED")
+				(description "Light emitting diode")
+			)
+			(property
+				(name "MPN")
+				(value "Kingbright WP710A10ID")
 			)
 			(property
 				(name "Sheetname")
@@ -12770,11 +12887,11 @@
 			)
 			(property
 				(name "ki_keywords")
-				(value "diode")
+				(value "LED diode")
 			)
 			(property
 				(name "ki_fp_filters")
-				(value "D*DO?35*")
+				(value "LED* LED_SMD:* LED_THT:*")
 			)
 			(sheetpath
 				(names "/")
@@ -13067,13 +13184,11 @@
 		)
 		(comp
 			(ref "D56")
-			(value "green -20 dB")
-			(footprint "LED_THT:LED_D3.0mm")
+			(value "1N4148")
+			(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
 			(fields
 				(field
-					(name "MPN") "Kingbright WP710A10GD")
-				(field
-					(name "Footprint") "LED_THT:LED_D3.0mm")
+					(name "Footprint") "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
 				(field
 					(name "Datasheet")
 				)
@@ -13082,13 +13197,9 @@
 				)
 			)
 			(libsource
-				(lib "Device")
-				(part "LED")
-				(description "Light emitting diode")
-			)
-			(property
-				(name "MPN")
-				(value "Kingbright WP710A10GD")
+				(lib "Diode")
+				(part "1N4148")
+				(description "100V 0.15A standard switching diode, DO-35")
 			)
 			(property
 				(name "Sheetname")
@@ -13100,11 +13211,11 @@
 			)
 			(property
 				(name "ki_keywords")
-				(value "LED diode")
+				(value "diode")
 			)
 			(property
 				(name "ki_fp_filters")
-				(value "LED* LED_SMD:* LED_THT:*")
+				(value "D*DO?35*")
 			)
 			(sheetpath
 				(names "/")
@@ -13127,7 +13238,7 @@
 		)
 		(comp
 			(ref "D57")
-			(value "green -18 dB")
+			(value "green -20 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -13187,7 +13298,7 @@
 		)
 		(comp
 			(ref "D58")
-			(value "green -16 dB")
+			(value "green -18 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -13247,7 +13358,7 @@
 		)
 		(comp
 			(ref "D59")
-			(value "green -14 dB")
+			(value "green -16 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -13307,7 +13418,7 @@
 		)
 		(comp
 			(ref "D60")
-			(value "green -12 dB")
+			(value "green -14 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -13367,7 +13478,7 @@
 		)
 		(comp
 			(ref "D61")
-			(value "green -10 dB")
+			(value "green -12 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -13427,7 +13538,7 @@
 		)
 		(comp
 			(ref "D62")
-			(value "green -8 dB")
+			(value "green -10 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -13487,7 +13598,7 @@
 		)
 		(comp
 			(ref "D63")
-			(value "green -6 dB")
+			(value "green -8 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -13547,7 +13658,7 @@
 		)
 		(comp
 			(ref "D64")
-			(value "green -4 dB")
+			(value "green -6 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -13607,7 +13718,7 @@
 		)
 		(comp
 			(ref "D65")
-			(value "green -2 dB")
+			(value "green -4 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -13667,11 +13778,13 @@
 		)
 		(comp
 			(ref "D66")
-			(value "1N4148")
-			(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+			(value "green -2 dB")
+			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
-					(name "Footprint") "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+					(name "MPN") "Kingbright WP710A10GD")
+				(field
+					(name "Footprint") "LED_THT:LED_D3.0mm")
 				(field
 					(name "Datasheet")
 				)
@@ -13680,9 +13793,13 @@
 				)
 			)
 			(libsource
-				(lib "Diode")
-				(part "1N4148")
-				(description "100V 0.15A standard switching diode, DO-35")
+				(lib "Device")
+				(part "LED")
+				(description "Light emitting diode")
+			)
+			(property
+				(name "MPN")
+				(value "Kingbright WP710A10GD")
 			)
 			(property
 				(name "Sheetname")
@@ -13694,11 +13811,11 @@
 			)
 			(property
 				(name "ki_keywords")
-				(value "diode")
+				(value "LED diode")
 			)
 			(property
 				(name "ki_fp_filters")
-				(value "D*DO?35*")
+				(value "LED* LED_SMD:* LED_THT:*")
 			)
 			(sheetpath
 				(names "/")
@@ -13775,6 +13892,60 @@
 		)
 		(comp
 			(ref "D68")
+			(value "1N4148")
+			(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+			(fields
+				(field
+					(name "Footprint") "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Diode")
+				(part "1N4148")
+				(description "100V 0.15A standard switching diode, DO-35")
+			)
+			(property
+				(name "Sheetname")
+				(value "master")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "diode")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "D*DO?35*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "f7cc922e-973d-578d-acbf-911ae35e92f2")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D69")
 			(value "green +0 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
@@ -13818,66 +13989,6 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "f7cc922e-973d-578d-acbf-911ae35e92f2")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "D69")
-			(value "amber +2 dB")
-			(footprint "LED_THT:LED_D3.0mm")
-			(fields
-				(field
-					(name "MPN") "Kingbright WP710A10ND")
-				(field
-					(name "Footprint") "LED_THT:LED_D3.0mm")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Device")
-				(part "LED")
-				(description "Light emitting diode")
-			)
-			(property
-				(name "MPN")
-				(value "Kingbright WP710A10ND")
-			)
-			(property
-				(name "Sheetname")
-				(value "master")
-			)
-			(property
-				(name "Sheetfile")
-				(value "master.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "LED diode")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "LED* LED_SMD:* LED_THT:*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
 			(tstamps "a87a7a05-c733-5d8f-bf6d-123230b7dc65")
 			(units
 				(unit
@@ -13895,7 +14006,7 @@
 		)
 		(comp
 			(ref "D70")
-			(value "amber +4 dB")
+			(value "amber +2 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -13955,7 +14066,7 @@
 		)
 		(comp
 			(ref "D71")
-			(value "amber +6 dB")
+			(value "amber +4 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -14015,7 +14126,7 @@
 		)
 		(comp
 			(ref "D72")
-			(value "amber +8 dB")
+			(value "amber +6 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -14075,7 +14186,7 @@
 		)
 		(comp
 			(ref "D73")
-			(value "amber +10 dB")
+			(value "amber +8 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -14135,11 +14246,11 @@
 		)
 		(comp
 			(ref "D74")
-			(value "red +12 dB")
+			(value "amber +10 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
-					(name "MPN") "Kingbright WP710A10ID")
+					(name "MPN") "Kingbright WP710A10ND")
 				(field
 					(name "Footprint") "LED_THT:LED_D3.0mm")
 				(field
@@ -14156,7 +14267,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Kingbright WP710A10ID")
+				(value "Kingbright WP710A10ND")
 			)
 			(property
 				(name "Sheetname")
@@ -14195,7 +14306,7 @@
 		)
 		(comp
 			(ref "D75")
-			(value "red +14 dB")
+			(value "red +12 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -14255,7 +14366,7 @@
 		)
 		(comp
 			(ref "D76")
-			(value "red +16 dB")
+			(value "red +14 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -14315,7 +14426,7 @@
 		)
 		(comp
 			(ref "D77")
-			(value "red +18 dB")
+			(value "red +16 dB")
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
@@ -14359,6 +14470,66 @@
 				(tstamps "/")
 			)
 			(tstamps "b8ac9179-a017-5887-a129-589a7abbb6e9")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D78")
+			(value "red +18 dB")
+			(footprint "LED_THT:LED_D3.0mm")
+			(fields
+				(field
+					(name "MPN") "Kingbright WP710A10ID")
+				(field
+					(name "Footprint") "LED_THT:LED_D3.0mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "LED")
+				(description "Light emitting diode")
+			)
+			(property
+				(name "MPN")
+				(value "Kingbright WP710A10ID")
+			)
+			(property
+				(name "Sheetname")
+				(value "master")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "LED diode")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "LED* LED_SMD:* LED_THT:*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "6a56b92a-b283-5397-b6e0-c1fa2ef21edf")
 			(units
 				(unit
 					(name "A")
@@ -27624,7 +27795,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "60502326-e865-55f5-b89b-7ca0d91fbaed" "30676a6c-4b97-5673-87d6-ab3cc0f8fd28"
+			(tstamps "30676a6c-4b97-5673-87d6-ab3cc0f8fd28" "60502326-e865-55f5-b89b-7ca0d91fbaed"
 				"0eb907df-3fb5-5338-8995-609288b48c7c"
 			)
 			(units
@@ -27792,7 +27963,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "66b310ad-c041-5987-883e-e0db60508376" "df730602-8a38-5c5e-941f-4f6403eb2fef"
+			(tstamps "df730602-8a38-5c5e-941f-4f6403eb2fef" "66b310ad-c041-5987-883e-e0db60508376"
 				"11430998-e761-55f4-9b4c-1d37dae7ce09"
 			)
 			(units
@@ -27876,7 +28047,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "6b12b191-577b-51b0-88cf-f7d3731438ba" "f0247eba-5a0e-5beb-a089-e565aa4bec3d"
+			(tstamps "f0247eba-5a0e-5beb-a089-e565aa4bec3d" "6b12b191-577b-51b0-88cf-f7d3731438ba"
 				"64e3264b-a7fb-5d1d-919c-5a79081dadd4"
 			)
 			(units
@@ -27960,7 +28131,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "e6d5e4d0-3994-508d-9ad5-d7d4c952cfb2" "491f8d9a-3005-5dd7-b2ad-be83c43ab155"
+			(tstamps "491f8d9a-3005-5dd7-b2ad-be83c43ab155" "e6d5e4d0-3994-508d-9ad5-d7d4c952cfb2"
 				"20f41a45-aaae-54f0-a44d-32f6efbbe0d1"
 			)
 			(units
@@ -28368,7 +28539,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "efc8b8e4-523a-59bf-afe8-83977f45a587" "2bc198e0-6e30-5e5c-a5a4-bde8208f6983"
+			(tstamps "2bc198e0-6e30-5e5c-a5a4-bde8208f6983" "efc8b8e4-523a-59bf-afe8-83977f45a587"
 				"108e3e86-2a62-5b96-bf41-0036a2402dc4"
 			)
 			(units
@@ -28542,7 +28713,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "e41d5101-8d84-51f3-b894-e18f9a09dcc1" "83d6c923-499d-5f28-a0fe-f2dcadb44d67"
+			(tstamps "83d6c923-499d-5f28-a0fe-f2dcadb44d67" "e41d5101-8d84-51f3-b894-e18f9a09dcc1"
 				"2808004e-75b1-5e34-9baa-9aec65a468cb"
 			)
 			(units
@@ -28626,7 +28797,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "d39290a8-e473-5215-83ba-d39b99f8936a" "f0634be6-ca06-5757-8b20-b1288b3e3b93"
+			(tstamps "f0634be6-ca06-5757-8b20-b1288b3e3b93" "d39290a8-e473-5215-83ba-d39b99f8936a"
 				"6b4a3dd6-c8a6-51f5-b25b-0258e6b42d13"
 			)
 			(units
@@ -28788,7 +28959,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "d9612d83-2766-5e1c-9864-1a306ebf1e4d" "f078749c-e940-588c-956c-a2ebcadb25f9"
+			(tstamps "f078749c-e940-588c-956c-a2ebcadb25f9" "d9612d83-2766-5e1c-9864-1a306ebf1e4d"
 				"6a4a9239-64f8-573e-83c2-822f0e0f9202"
 			)
 			(units
@@ -29040,7 +29211,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "deaccaff-8aec-5fb2-beb2-f625748465d2" "d85eadcc-5c94-5265-9da6-1fa6cbc90370"
+			(tstamps "d85eadcc-5c94-5265-9da6-1fa6cbc90370" "deaccaff-8aec-5fb2-beb2-f625748465d2"
 				"56e308ec-3c00-59f8-bacc-a941ac4a9544"
 			)
 			(units
@@ -29214,8 +29385,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "b3517bc9-ed34-56b8-af2d-42959ae4f8fb" "684d59b9-e076-5076-a0e8-2e1230526d3d"
-				"32100191-0516-52f9-b033-1902e6871749" "31ca9043-dba9-538d-a7f2-61c10872f49e"
+			(tstamps "b3517bc9-ed34-56b8-af2d-42959ae4f8fb" "32100191-0516-52f9-b033-1902e6871749"
+				"684d59b9-e076-5076-a0e8-2e1230526d3d" "31ca9043-dba9-538d-a7f2-61c10872f49e"
 				"1157c472-b07d-58f4-9d73-9d256d19fce6"
 			)
 			(units
@@ -29429,7 +29600,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "9ff7eef0-b898-529e-a028-c684c7381ee6" "6df6a57c-b9cb-5c2d-b3fd-44727dcbc705"
+			(tstamps "6df6a57c-b9cb-5c2d-b3fd-44727dcbc705" "9ff7eef0-b898-529e-a028-c684c7381ee6"
 				"29e272ab-4585-5ca4-abe0-11884afcb41f"
 			)
 			(units
@@ -29753,7 +29924,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "63b9d019-a0dc-524c-b564-b737946b03d7" "5d99fc74-84f3-5187-9d95-4020da748ba4"
+			(tstamps "5d99fc74-84f3-5187-9d95-4020da748ba4" "63b9d019-a0dc-524c-b564-b737946b03d7"
 				"068b97c3-a866-5d4f-badd-881320b58e21"
 			)
 			(units
@@ -29975,7 +30146,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "9c913300-835f-5cc2-975b-8955fc9d0c4c" "ddd50790-5500-55c2-9889-5990f46ecc74"
+			(tstamps "ddd50790-5500-55c2-9889-5990f46ecc74" "9c913300-835f-5cc2-975b-8955fc9d0c4c"
 				"63357413-253e-5389-992b-975debd2ae3d"
 			)
 			(units
@@ -30059,7 +30230,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "e0bb70c7-cc59-5b9c-9630-61707b18487d" "c5fd47a2-39ca-5b88-a17e-bd3289c91b07"
+			(tstamps "c5fd47a2-39ca-5b88-a17e-bd3289c91b07" "e0bb70c7-cc59-5b9c-9630-61707b18487d"
 				"540aa435-028a-5774-9c3a-ecf431167fed"
 			)
 			(units
@@ -30149,8 +30320,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "2d6fcb6d-078a-577c-bdf6-5266f8368a48" "ddda7da8-6c58-5e2d-94c3-a00823945d14"
-				"a70e7846-926d-52e4-bff7-8ae3bdc71d86" "d1c2e9aa-69dd-593e-ba38-9e75394ef6e8"
+			(tstamps "d1c2e9aa-69dd-593e-ba38-9e75394ef6e8" "ddda7da8-6c58-5e2d-94c3-a00823945d14"
+				"a70e7846-926d-52e4-bff7-8ae3bdc71d86" "2d6fcb6d-078a-577c-bdf6-5266f8368a48"
 				"1237b22c-1450-5cf4-adf4-d1093a718845"
 			)
 			(units
@@ -30268,8 +30439,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "d6fc3cc9-5626-5099-ab56-7abe11df2c97" "810a7de2-a905-5066-920f-6a4a3499cd83"
-				"ed1b2ace-8bcd-58aa-b530-96bf83d3a73d" "dbad2d5c-8446-5aa0-812b-810772a6dcf7"
+			(tstamps "dbad2d5c-8446-5aa0-812b-810772a6dcf7" "ed1b2ace-8bcd-58aa-b530-96bf83d3a73d"
+				"810a7de2-a905-5066-920f-6a4a3499cd83" "d6fc3cc9-5626-5099-ab56-7abe11df2c97"
 				"663bfe5d-1163-555f-8a96-cff3f0bfe976"
 			)
 			(units
@@ -30387,8 +30558,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "6b9e7dc8-af8b-5320-8d12-e56735c7a707" "eb055ef3-50b2-55eb-acd9-9ef12b5cefdb"
-				"576a6f02-af48-54e5-a08d-923941ce9eb8" "39ee11a2-53e5-59e4-a08d-599723abcc1a"
+			(tstamps "576a6f02-af48-54e5-a08d-923941ce9eb8" "eb055ef3-50b2-55eb-acd9-9ef12b5cefdb"
+				"6b9e7dc8-af8b-5320-8d12-e56735c7a707" "39ee11a2-53e5-59e4-a08d-599723abcc1a"
 				"1ce6667e-3d35-51ba-98bf-391f26ba9474"
 			)
 			(units
@@ -30506,8 +30677,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "34cc1c7e-5891-548f-881f-da02f4cb016f" "c9e6be31-68c0-584e-99d1-d922281ba28d"
-				"c1758f00-aabf-5e88-9b06-fb9aa934fbde" "e141f0e8-dedd-57ea-94ca-d70983d2cd2d"
+			(tstamps "e141f0e8-dedd-57ea-94ca-d70983d2cd2d" "c1758f00-aabf-5e88-9b06-fb9aa934fbde"
+				"34cc1c7e-5891-548f-881f-da02f4cb016f" "c9e6be31-68c0-584e-99d1-d922281ba28d"
 				"2fcd7114-7cbd-52db-9959-0dd5c4d1c142"
 			)
 			(units
@@ -30625,8 +30796,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "93f88410-4248-5c64-bd41-a83550ef8c85" "a1a41a44-9d78-53c4-b053-19a015ef3407"
-				"4d611510-ac14-593a-b39d-56cabe1e9f7f" "4c681b25-9a62-5f0f-8315-22ae25ac0702"
+			(tstamps "4d611510-ac14-593a-b39d-56cabe1e9f7f" "4c681b25-9a62-5f0f-8315-22ae25ac0702"
+				"93f88410-4248-5c64-bd41-a83550ef8c85" "a1a41a44-9d78-53c4-b053-19a015ef3407"
 				"2bd1ba6a-f102-5c46-b667-8cd2bb5c1408"
 			)
 			(units
@@ -30738,7 +30909,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "8f84bfce-491c-5cb0-a7da-b94d00248556" "bce6e9f3-5659-5397-9a2b-ea387b2df6e3"
+			(tstamps "bce6e9f3-5659-5397-9a2b-ea387b2df6e3" "8f84bfce-491c-5cb0-a7da-b94d00248556"
 				"3030d2be-46da-596c-b309-384ac660303d"
 			)
 			(units
@@ -30822,7 +30993,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "c6a2162b-f523-57fe-acd0-253617190d2b" "d9020cb9-0da6-504b-8a1c-7ff3a2de90a4"
+			(tstamps "d9020cb9-0da6-504b-8a1c-7ff3a2de90a4" "c6a2162b-f523-57fe-acd0-253617190d2b"
 				"bb9cb62d-8df1-5856-8281-b2264651f463"
 			)
 			(units
@@ -30912,8 +31083,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "14612b38-6639-540f-80d9-7186d97c4bfe" "da94756c-c623-51e5-b366-812a2d74ed3f"
-				"29bd67dc-91ca-57b6-b8d6-a603a088a52d" "32ebd64e-8f2a-569b-b731-65eb01bf0c3c"
+			(tstamps "14612b38-6639-540f-80d9-7186d97c4bfe" "32ebd64e-8f2a-569b-b731-65eb01bf0c3c"
+				"29bd67dc-91ca-57b6-b8d6-a603a088a52d" "da94756c-c623-51e5-b366-812a2d74ed3f"
 				"0a491b6b-0233-565c-a082-2d7620aeff03"
 			)
 			(units
@@ -31031,8 +31202,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "ed7b7213-eec2-554d-9032-0b96d2d6ae92" "81638319-ac3b-5263-8f29-1440592992b0"
-				"5d231401-fd47-55b9-abb0-65dc39563145" "cc30e7fe-e91d-5768-a67b-a9a923ee27b4"
+			(tstamps "81638319-ac3b-5263-8f29-1440592992b0" "cc30e7fe-e91d-5768-a67b-a9a923ee27b4"
+				"ed7b7213-eec2-554d-9032-0b96d2d6ae92" "5d231401-fd47-55b9-abb0-65dc39563145"
 				"41ffc00f-78e3-59b8-a863-8db2720684fd"
 			)
 			(units
@@ -31150,7 +31321,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "82fa8cfa-fc4e-5d11-94c2-19f5cab80e97" "809be764-cb00-526b-af45-706fe6ed7a27"
+			(tstamps "809be764-cb00-526b-af45-706fe6ed7a27" "82fa8cfa-fc4e-5d11-94c2-19f5cab80e97"
 				"69966862-08af-57bf-b681-aef21b47b7f1" "249715c6-2804-546b-9e4d-8bd0b2156bf6"
 				"12026b6d-8c19-5947-b971-42a59189d4d6"
 			)
@@ -31269,8 +31440,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "3fe7c4de-ede4-500c-ad25-7813be3ce673" "35735228-9550-575f-b824-b4bf1abb1b2f"
-				"566f1d94-2c28-5462-aa2c-6cbf008909ad" "31c086c6-f4ef-52d0-ba1d-e6b89679172c"
+			(tstamps "566f1d94-2c28-5462-aa2c-6cbf008909ad" "35735228-9550-575f-b824-b4bf1abb1b2f"
+				"31c086c6-f4ef-52d0-ba1d-e6b89679172c" "3fe7c4de-ede4-500c-ad25-7813be3ce673"
 				"12db67c9-6421-5882-9ac3-d603087afdd3"
 			)
 			(units
@@ -31388,8 +31559,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "ff82b943-332f-5d07-a35a-d9a740afad11" "cf157d82-a35e-5db0-a1f8-971a4cb2f95a"
-				"521142c1-0faf-5f1b-a141-f01c97c7b3db" "3a0ac732-5842-5a49-a2e5-c531c0404a85"
+			(tstamps "3a0ac732-5842-5a49-a2e5-c531c0404a85" "cf157d82-a35e-5db0-a1f8-971a4cb2f95a"
+				"ff82b943-332f-5d07-a35a-d9a740afad11" "521142c1-0faf-5f1b-a141-f01c97c7b3db"
 				"047aa0d3-089e-5ba3-aa8e-6f7e9b01629b"
 			)
 			(units
@@ -33059,6 +33230,44 @@
 		)
 		(libpart
 			(lib "Diode")
+			(part "BAT54W")
+			(description "Schottky barrier diode, SOT-323")
+			(docs "https://assets.nexperia.com/documents/data-sheet/BAT54W_SER.pdf")
+			(footprints
+				(fp "SOT?323*")
+			)
+			(fields
+				(field
+					(name "Reference") "D")
+				(field
+					(name "Value") "BAT54W")
+				(field
+					(name "Footprint") "Package_TO_SOT_SMD:SOT-323_SC-70")
+				(field
+					(name "Datasheet") "https://assets.nexperia.com/documents/data-sheet/BAT54W_SER.pdf")
+				(field
+					(name "Description") "Schottky barrier diode, SOT-323")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "A")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "NC")
+					(type "no_connect")
+				)
+				(pin
+					(num "3")
+					(name "K")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Diode")
 			(part "BZX84Cxx")
 			(description "300mW Zener Diode, SOT-23")
 			(docs "https://diotec.com/tl_files/diotec/files/pdf/datasheets/bzx84c2v4.pdf")
@@ -33461,12 +33670,12 @@
 			(name "/+5VL")
 			(class "Default")
 			(node
-				(ref "C101")
+				(ref "C103")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C106")
+				(ref "C108")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -33474,6 +33683,12 @@
 				(ref "D14")
 				(pin "3")
 				(pinfunction "K_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "D15")
+				(pin "1")
+				(pinfunction "A_1")
 				(pintype "passive")
 			)
 			(node
@@ -33503,7 +33718,7 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C107")
+				(ref "C101")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -33513,17 +33728,22 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C116")
+				(ref "C111")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C121")
+				(ref "C118")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C125")
+				(ref "C123")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C127")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -33593,7 +33813,7 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C85")
+				(ref "C86")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -33603,13 +33823,14 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C92")
+				(ref "C94")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C99")
-				(pin "1")
+				(ref "D15")
+				(pin "3")
+				(pinfunction "K_3")
 				(pintype "passive")
 			)
 			(node
@@ -33897,7 +34118,7 @@
 			(name "/+VL")
 			(class "Default")
 			(node
-				(ref "C112")
+				(ref "C114")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -33992,17 +34213,12 @@
 			(name "/+VM")
 			(class "Default")
 			(node
-				(ref "C141")
+				(ref "C143")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C144")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "C147")
+				(ref "C146")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -34032,12 +34248,12 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C160")
+				(ref "C159")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C163")
+				(ref "C162")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -34062,6 +34278,11 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "C173")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "C5")
 				(pin "1")
 				(pintype "passive")
@@ -34073,25 +34294,25 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "D26")
+				(ref "D27")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
 			)
 			(node
-				(ref "D38")
+				(ref "D39")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
 			)
 			(node
-				(ref "D54")
+				(ref "D55")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
 			)
 			(node
-				(ref "D66")
+				(ref "D67")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -34221,11 +34442,6 @@
 			(name "/+VP")
 			(class "Default")
 			(node
-				(ref "C128")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
 				(ref "C130")
 				(pin "1")
 				(pintype "passive")
@@ -34236,12 +34452,17 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C136")
+				(ref "C134")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
 				(ref "C138")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C140")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -34284,12 +34505,7 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C100")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "C108")
+				(ref "C102")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -34299,17 +34515,22 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C117")
+				(ref "C112")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C122")
+				(ref "C119")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C126")
+				(ref "C124")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C128")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -34384,12 +34605,12 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C86")
+				(ref "C87")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C93")
+				(ref "C95")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -34638,7 +34859,7 @@
 			(name "/-VL")
 			(class "Default")
 			(node
-				(ref "C113")
+				(ref "C115")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -34686,17 +34907,12 @@
 			(name "/-VM")
 			(class "Default")
 			(node
-				(ref "C142")
+				(ref "C144")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C145")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "C148")
+				(ref "C147")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -34726,12 +34942,12 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C161")
+				(ref "C160")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C164")
+				(ref "C163")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -34756,6 +34972,11 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "C174")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
 				(ref "C6")
 				(pin "2")
 				(pintype "passive")
@@ -34767,25 +34988,25 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "D37")
+				(ref "D38")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D49")
+				(ref "D50")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D65")
+				(ref "D66")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D77")
+				(ref "D78")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
@@ -34905,11 +35126,6 @@
 			(name "/-VP")
 			(class "Default")
 			(node
-				(ref "C129")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
 				(ref "C131")
 				(pin "2")
 				(pintype "passive")
@@ -34920,12 +35136,17 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C137")
+				(ref "C135")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
 				(ref "C139")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C141")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -35758,7 +35979,7 @@
 			(name "/CRL_N")
 			(class "Default")
 			(node
-				(ref "C120")
+				(ref "C122")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -35779,7 +36000,7 @@
 			(name "/CRL_N_VO")
 			(class "Default")
 			(node
-				(ref "C120")
+				(ref "C122")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -35795,7 +36016,7 @@
 			(name "/CRL_P")
 			(class "Default")
 			(node
-				(ref "C119")
+				(ref "C121")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -35816,7 +36037,7 @@
 			(name "/CRL_P_VO")
 			(class "Default")
 			(node
-				(ref "C119")
+				(ref "C121")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -35908,7 +36129,7 @@
 			(name "/CRR_N")
 			(class "Default")
 			(node
-				(ref "C124")
+				(ref "C126")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -35929,7 +36150,7 @@
 			(name "/CRR_N_VO")
 			(class "Default")
 			(node
-				(ref "C124")
+				(ref "C126")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -35945,7 +36166,7 @@
 			(name "/CRR_P")
 			(class "Default")
 			(node
-				(ref "C123")
+				(ref "C125")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -35966,7 +36187,7 @@
 			(name "/CRR_P_VO")
 			(class "Default")
 			(node
-				(ref "C123")
+				(ref "C125")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -36132,7 +36353,7 @@
 			(name "/CRW_L")
 			(class "Default")
 			(node
-				(ref "C115")
+				(ref "C117")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -36148,7 +36369,7 @@
 			(name "/CRW_R")
 			(class "Default")
 			(node
-				(ref "C118")
+				(ref "C120")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -36164,7 +36385,7 @@
 			(name "/CR_FINL")
 			(class "Default")
 			(node
-				(ref "C115")
+				(ref "C117")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -36185,7 +36406,7 @@
 			(name "/CR_FINR")
 			(class "Default")
 			(node
-				(ref "C118")
+				(ref "C120")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -36206,7 +36427,7 @@
 			(name "/EXT_L")
 			(class "Default")
 			(node
-				(ref "C90")
+				(ref "C92")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -36274,7 +36495,7 @@
 			(name "/EXT_R")
 			(class "Default")
 			(node
-				(ref "C91")
+				(ref "C93")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -36300,7 +36521,7 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C90")
+				(ref "C92")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -36346,6 +36567,11 @@
 			(name "/EXT_RL_P")
 			(class "Default")
 			(node
+				(ref "C85")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "R80")
 				(pin "2")
 				(pintype "passive")
@@ -36367,17 +36593,17 @@
 			(name "/EXT_RR")
 			(class "Default")
 			(node
-				(ref "C88")
+				(ref "C89")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C89")
+				(ref "C90")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C91")
+				(ref "C93")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -36408,7 +36634,7 @@
 			(name "/EXT_RR_N")
 			(class "Default")
 			(node
-				(ref "C89")
+				(ref "C90")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -36434,6 +36660,11 @@
 			(name "/EXT_RR_P")
 			(class "Default")
 			(node
+				(ref "C91")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "R85")
 				(pin "2")
 				(pintype "passive")
@@ -36455,7 +36686,7 @@
 			(name "/EXT_RT")
 			(class "Default")
 			(node
-				(ref "C87")
+				(ref "C88")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -36481,7 +36712,7 @@
 			(name "/FL_HOLD")
 			(class "Default")
 			(node
-				(ref "D17")
+				(ref "D18")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
@@ -36497,7 +36728,7 @@
 			(name "/FL_LA")
 			(class "Default")
 			(node
-				(ref "D18")
+				(ref "D19")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -36513,12 +36744,12 @@
 			(name "/FL_N")
 			(class "Default")
 			(node
-				(ref "C114")
+				(ref "C116")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D17")
+				(ref "D18")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -36540,7 +36771,7 @@
 			(name "/FL_OUT")
 			(class "Default")
 			(node
-				(ref "D18")
+				(ref "D19")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
@@ -36696,28 +36927,18 @@
 			(name "/GNDM")
 			(class "Default")
 			(node
-				(ref "C141")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "C142")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
 				(ref "C143")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
 				(ref "C144")
-				(pin "2")
+				(pin "1")
 				(pintype "passive")
 			)
 			(node
 				(ref "C145")
-				(pin "1")
+				(pin "2")
 				(pintype "passive")
 			)
 			(node
@@ -36727,12 +36948,12 @@
 			)
 			(node
 				(ref "C147")
-				(pin "2")
+				(pin "1")
 				(pintype "passive")
 			)
 			(node
 				(ref "C148")
-				(pin "1")
+				(pin "2")
 				(pintype "passive")
 			)
 			(node
@@ -36792,12 +37013,12 @@
 			)
 			(node
 				(ref "C160")
-				(pin "2")
+				(pin "1")
 				(pintype "passive")
 			)
 			(node
 				(ref "C161")
-				(pin "1")
+				(pin "2")
 				(pintype "passive")
 			)
 			(node
@@ -36807,12 +37028,12 @@
 			)
 			(node
 				(ref "C163")
-				(pin "2")
+				(pin "1")
 				(pintype "passive")
 			)
 			(node
 				(ref "C164")
-				(pin "1")
+				(pin "2")
 				(pintype "passive")
 			)
 			(node
@@ -36852,6 +37073,16 @@
 			)
 			(node
 				(ref "C172")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C173")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C174")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -36990,7 +37221,7 @@
 			(name "/K4_COIL")
 			(class "Default")
 			(node
-				(ref "D19")
+				(ref "D20")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
@@ -37011,7 +37242,7 @@
 			(name "/K5_COIL")
 			(class "Default")
 			(node
-				(ref "D20")
+				(ref "D21")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
@@ -37032,7 +37263,7 @@
 			(name "/K6_COIL")
 			(class "Default")
 			(node
-				(ref "D21")
+				(ref "D22")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
@@ -37769,7 +38000,7 @@
 			(name "/MLA_0")
 			(class "Default")
 			(node
-				(ref "D28")
+				(ref "D29")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -37797,13 +38028,13 @@
 			(name "/MLA_1")
 			(class "Default")
 			(node
-				(ref "D28")
+				(ref "D29")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D29")
+				(ref "D30")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -37819,13 +38050,13 @@
 			(name "/MLA_2")
 			(class "Default")
 			(node
-				(ref "D29")
+				(ref "D30")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D30")
+				(ref "D31")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -37841,13 +38072,13 @@
 			(name "/MLA_3")
 			(class "Default")
 			(node
-				(ref "D30")
+				(ref "D31")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D31")
+				(ref "D32")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -37863,13 +38094,13 @@
 			(name "/MLA_4")
 			(class "Default")
 			(node
-				(ref "D31")
+				(ref "D32")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D32")
+				(ref "D33")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -37885,13 +38116,13 @@
 			(name "/MLA_5")
 			(class "Default")
 			(node
-				(ref "D32")
+				(ref "D33")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D33")
+				(ref "D34")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -37907,13 +38138,13 @@
 			(name "/MLA_6")
 			(class "Default")
 			(node
-				(ref "D33")
+				(ref "D34")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D34")
+				(ref "D35")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -37929,13 +38160,13 @@
 			(name "/MLA_7")
 			(class "Default")
 			(node
-				(ref "D34")
+				(ref "D35")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D35")
+				(ref "D36")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -37951,13 +38182,13 @@
 			(name "/MLA_8")
 			(class "Default")
 			(node
-				(ref "D35")
+				(ref "D36")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D36")
+				(ref "D37")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -37973,13 +38204,13 @@
 			(name "/MLA_9")
 			(class "Default")
 			(node
-				(ref "D36")
+				(ref "D37")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D37")
+				(ref "D38")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -37995,13 +38226,13 @@
 			(name "/MLA_D1")
 			(class "Default")
 			(node
-				(ref "D26")
+				(ref "D27")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D27")
+				(ref "D28")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -38012,7 +38243,7 @@
 			(name "/MLA_QB")
 			(class "Default")
 			(node
-				(ref "D27")
+				(ref "D28")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
@@ -38050,7 +38281,7 @@
 			(name "/MLB_0")
 			(class "Default")
 			(node
-				(ref "D40")
+				(ref "D41")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -38078,13 +38309,13 @@
 			(name "/MLB_1")
 			(class "Default")
 			(node
-				(ref "D40")
+				(ref "D41")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D41")
+				(ref "D42")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -38100,13 +38331,13 @@
 			(name "/MLB_2")
 			(class "Default")
 			(node
-				(ref "D41")
+				(ref "D42")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D42")
+				(ref "D43")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -38122,13 +38353,13 @@
 			(name "/MLB_3")
 			(class "Default")
 			(node
-				(ref "D42")
+				(ref "D43")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D43")
+				(ref "D44")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -38144,13 +38375,13 @@
 			(name "/MLB_4")
 			(class "Default")
 			(node
-				(ref "D43")
+				(ref "D44")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D44")
+				(ref "D45")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -38166,13 +38397,13 @@
 			(name "/MLB_5")
 			(class "Default")
 			(node
-				(ref "D44")
+				(ref "D45")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D45")
+				(ref "D46")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -38188,13 +38419,13 @@
 			(name "/MLB_6")
 			(class "Default")
 			(node
-				(ref "D45")
+				(ref "D46")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D46")
+				(ref "D47")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -38210,13 +38441,13 @@
 			(name "/MLB_7")
 			(class "Default")
 			(node
-				(ref "D46")
+				(ref "D47")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D47")
+				(ref "D48")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -38232,13 +38463,13 @@
 			(name "/MLB_8")
 			(class "Default")
 			(node
-				(ref "D47")
+				(ref "D48")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D48")
+				(ref "D49")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -38254,13 +38485,13 @@
 			(name "/MLB_9")
 			(class "Default")
 			(node
-				(ref "D48")
+				(ref "D49")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D49")
+				(ref "D50")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -38276,13 +38507,13 @@
 			(name "/MLB_D1")
 			(class "Default")
 			(node
-				(ref "D38")
+				(ref "D39")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D39")
+				(ref "D40")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -38293,7 +38524,7 @@
 			(name "/MLB_QB")
 			(class "Default")
 			(node
-				(ref "D39")
+				(ref "D40")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
@@ -38331,7 +38562,7 @@
 			(name "/ML_AV")
 			(class "Default")
 			(node
-				(ref "C143")
+				(ref "C145")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -38493,7 +38724,7 @@
 			(name "/ML_HW")
 			(class "Default")
 			(node
-				(ref "D22")
+				(ref "D23")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -38531,7 +38762,7 @@
 			(name "/ML_N1")
 			(class "Default")
 			(node
-				(ref "D23")
+				(ref "D24")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
@@ -38591,7 +38822,7 @@
 			(name "/ML_N4")
 			(class "Default")
 			(node
-				(ref "D25")
+				(ref "D26")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -38613,7 +38844,7 @@
 			(name "/ML_PK")
 			(class "Default")
 			(node
-				(ref "C146")
+				(ref "C148")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -38639,7 +38870,7 @@
 			(name "/ML_PK1")
 			(class "Default")
 			(node
-				(ref "D24")
+				(ref "D25")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
@@ -39106,13 +39337,13 @@
 			(name "/ML_U1O")
 			(class "Default")
 			(node
-				(ref "D22")
+				(ref "D23")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D23")
+				(ref "D24")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39128,13 +39359,13 @@
 			(name "/ML_U3O")
 			(class "Default")
 			(node
-				(ref "D24")
+				(ref "D25")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
 			)
 			(node
-				(ref "D25")
+				(ref "D26")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
@@ -39284,7 +39515,7 @@
 			(name "/MON_L")
 			(class "Default")
 			(node
-				(ref "C102")
+				(ref "C104")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -39300,7 +39531,7 @@
 			(name "/MON_R")
 			(class "Default")
 			(node
-				(ref "C104")
+				(ref "C106")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -39316,7 +39547,7 @@
 			(name "/MRA_0")
 			(class "Default")
 			(node
-				(ref "D56")
+				(ref "D57")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39344,13 +39575,13 @@
 			(name "/MRA_1")
 			(class "Default")
 			(node
-				(ref "D56")
+				(ref "D57")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D57")
+				(ref "D58")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39366,13 +39597,13 @@
 			(name "/MRA_2")
 			(class "Default")
 			(node
-				(ref "D57")
+				(ref "D58")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D58")
+				(ref "D59")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39388,13 +39619,13 @@
 			(name "/MRA_3")
 			(class "Default")
 			(node
-				(ref "D58")
+				(ref "D59")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D59")
+				(ref "D60")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39410,13 +39641,13 @@
 			(name "/MRA_4")
 			(class "Default")
 			(node
-				(ref "D59")
+				(ref "D60")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D60")
+				(ref "D61")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39432,13 +39663,13 @@
 			(name "/MRA_5")
 			(class "Default")
 			(node
-				(ref "D60")
+				(ref "D61")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D61")
+				(ref "D62")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39454,13 +39685,13 @@
 			(name "/MRA_6")
 			(class "Default")
 			(node
-				(ref "D61")
+				(ref "D62")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D62")
+				(ref "D63")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39476,13 +39707,13 @@
 			(name "/MRA_7")
 			(class "Default")
 			(node
-				(ref "D62")
+				(ref "D63")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D63")
+				(ref "D64")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39498,13 +39729,13 @@
 			(name "/MRA_8")
 			(class "Default")
 			(node
-				(ref "D63")
+				(ref "D64")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D64")
+				(ref "D65")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39520,13 +39751,13 @@
 			(name "/MRA_9")
 			(class "Default")
 			(node
-				(ref "D64")
+				(ref "D65")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D65")
+				(ref "D66")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39542,13 +39773,13 @@
 			(name "/MRA_D1")
 			(class "Default")
 			(node
-				(ref "D54")
+				(ref "D55")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D55")
+				(ref "D56")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39559,7 +39790,7 @@
 			(name "/MRA_QB")
 			(class "Default")
 			(node
-				(ref "D55")
+				(ref "D56")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
@@ -39597,7 +39828,7 @@
 			(name "/MRB_0")
 			(class "Default")
 			(node
-				(ref "D68")
+				(ref "D69")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39625,13 +39856,13 @@
 			(name "/MRB_1")
 			(class "Default")
 			(node
-				(ref "D68")
+				(ref "D69")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D69")
+				(ref "D70")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39647,13 +39878,13 @@
 			(name "/MRB_2")
 			(class "Default")
 			(node
-				(ref "D69")
+				(ref "D70")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D70")
+				(ref "D71")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39669,13 +39900,13 @@
 			(name "/MRB_3")
 			(class "Default")
 			(node
-				(ref "D70")
+				(ref "D71")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D71")
+				(ref "D72")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39691,13 +39922,13 @@
 			(name "/MRB_4")
 			(class "Default")
 			(node
-				(ref "D71")
+				(ref "D72")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D72")
+				(ref "D73")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39713,13 +39944,13 @@
 			(name "/MRB_5")
 			(class "Default")
 			(node
-				(ref "D72")
+				(ref "D73")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D73")
+				(ref "D74")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39735,13 +39966,13 @@
 			(name "/MRB_6")
 			(class "Default")
 			(node
-				(ref "D73")
+				(ref "D74")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D74")
+				(ref "D75")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39757,13 +39988,13 @@
 			(name "/MRB_7")
 			(class "Default")
 			(node
-				(ref "D74")
+				(ref "D75")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D75")
+				(ref "D76")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39779,13 +40010,13 @@
 			(name "/MRB_8")
 			(class "Default")
 			(node
-				(ref "D75")
+				(ref "D76")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D76")
+				(ref "D77")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39801,13 +40032,13 @@
 			(name "/MRB_9")
 			(class "Default")
 			(node
-				(ref "D76")
+				(ref "D77")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D77")
+				(ref "D78")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39823,13 +40054,13 @@
 			(name "/MRB_D1")
 			(class "Default")
 			(node
-				(ref "D66")
+				(ref "D67")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D67")
+				(ref "D68")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -39840,7 +40071,7 @@
 			(name "/MRB_QB")
 			(class "Default")
 			(node
-				(ref "D67")
+				(ref "D68")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
@@ -39878,7 +40109,7 @@
 			(name "/MR_AV")
 			(class "Default")
 			(node
-				(ref "C159")
+				(ref "C161")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -40040,7 +40271,7 @@
 			(name "/MR_HW")
 			(class "Default")
 			(node
-				(ref "D50")
+				(ref "D51")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -40078,7 +40309,7 @@
 			(name "/MR_N1")
 			(class "Default")
 			(node
-				(ref "D51")
+				(ref "D52")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
@@ -40138,7 +40369,7 @@
 			(name "/MR_N4")
 			(class "Default")
 			(node
-				(ref "D53")
+				(ref "D54")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -40160,7 +40391,7 @@
 			(name "/MR_PK")
 			(class "Default")
 			(node
-				(ref "C162")
+				(ref "C164")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -40186,7 +40417,7 @@
 			(name "/MR_PK1")
 			(class "Default")
 			(node
-				(ref "D52")
+				(ref "D53")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
@@ -40653,13 +40884,13 @@
 			(name "/MR_U1O")
 			(class "Default")
 			(node
-				(ref "D50")
+				(ref "D51")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D51")
+				(ref "D52")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -40675,13 +40906,13 @@
 			(name "/MR_U3O")
 			(class "Default")
 			(node
-				(ref "D52")
+				(ref "D53")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
 			)
 			(node
-				(ref "D53")
+				(ref "D54")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
@@ -41081,7 +41312,7 @@
 			(name "/PFLDET")
 			(class "Default")
 			(node
-				(ref "C111")
+				(ref "C113")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -41098,7 +41329,7 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "D15")
+				(ref "D16")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -41158,13 +41389,13 @@
 			(name "/PFL_CL")
 			(class "Default")
 			(node
-				(ref "D15")
+				(ref "D16")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D16")
+				(ref "D17")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -41175,7 +41406,7 @@
 			(name "/PFL_FIN")
 			(class "Default")
 			(node
-				(ref "C98")
+				(ref "C100")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -41196,12 +41427,12 @@
 			(name "/PFL_MIX")
 			(class "Default")
 			(node
-				(ref "C95")
+				(ref "C97")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C97")
+				(ref "C99")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -41221,7 +41452,7 @@
 			(name "/PFL_MIX_DN")
 			(class "Default")
 			(node
-				(ref "C95")
+				(ref "C97")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -41247,7 +41478,7 @@
 			(name "/PFL_MIX_DP")
 			(class "Default")
 			(node
-				(ref "C96")
+				(ref "C98")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -41328,7 +41559,7 @@
 			(name "/PFL_PT")
 			(class "Default")
 			(node
-				(ref "C97")
+				(ref "C99")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -41371,12 +41602,12 @@
 			(name "/PFL_SIG")
 			(class "Default")
 			(node
-				(ref "C103")
+				(ref "C105")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C105")
+				(ref "C107")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -41397,7 +41628,7 @@
 			(name "/PFL_SUM")
 			(class "Default")
 			(node
-				(ref "C94")
+				(ref "C96")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -41422,7 +41653,7 @@
 			(name "/PFL_VE")
 			(class "Default")
 			(node
-				(ref "C94")
+				(ref "C96")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -41448,7 +41679,7 @@
 			(name "/PFL_W")
 			(class "Default")
 			(node
-				(ref "C98")
+				(ref "C100")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -41523,7 +41754,7 @@
 			(name "/PHO_L")
 			(class "Default")
 			(node
-				(ref "C134")
+				(ref "C136")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -41548,7 +41779,7 @@
 			(name "/PHO_R")
 			(class "Default")
 			(node
-				(ref "C140")
+				(ref "C142")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -41573,7 +41804,7 @@
 			(name "/PHW_L")
 			(class "Default")
 			(node
-				(ref "C127")
+				(ref "C129")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -41589,7 +41820,7 @@
 			(name "/PHW_R")
 			(class "Default")
 			(node
-				(ref "C135")
+				(ref "C137")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -41667,7 +41898,7 @@
 			(name "/PH_INL")
 			(class "Default")
 			(node
-				(ref "C127")
+				(ref "C129")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -41688,7 +41919,7 @@
 			(name "/PH_INR")
 			(class "Default")
 			(node
-				(ref "C135")
+				(ref "C137")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -41709,7 +41940,7 @@
 			(name "/PH_NL")
 			(class "Default")
 			(node
-				(ref "C134")
+				(ref "C136")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -41735,7 +41966,7 @@
 			(name "/PH_NR")
 			(class "Default")
 			(node
-				(ref "C140")
+				(ref "C142")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -41962,12 +42193,6 @@
 			(name "/RLY_DRV")
 			(class "Default")
 			(node
-				(ref "D19")
-				(pin "2")
-				(pinfunction "A_2")
-				(pintype "passive")
-			)
-			(node
 				(ref "D20")
 				(pin "2")
 				(pinfunction "A_2")
@@ -41975,6 +42200,12 @@
 			)
 			(node
 				(ref "D21")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "D22")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -42358,7 +42589,7 @@
 			(name "/SWML_S")
 			(class "Default")
 			(node
-				(ref "C102")
+				(ref "C104")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -42378,7 +42609,7 @@
 			(name "/SWMR_S")
 			(class "Default")
 			(node
-				(ref "C104")
+				(ref "C106")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -42398,7 +42629,7 @@
 			(name "/SWPL_S")
 			(class "Default")
 			(node
-				(ref "C103")
+				(ref "C105")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -42418,7 +42649,7 @@
 			(name "/SWPR_S")
 			(class "Default")
 			(node
-				(ref "C105")
+				(ref "C107")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -42513,17 +42744,12 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C100")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "C107")
+				(ref "C101")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C108")
+				(ref "C102")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -42538,42 +42764,42 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C116")
+				(ref "C111")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C117")
+				(ref "C112")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C121")
+				(ref "C118")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C122")
+				(ref "C119")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C125")
+				(ref "C123")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C126")
+				(ref "C124")
 				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C127")
+				(pin "2")
 				(pintype "passive")
 			)
 			(node
 				(ref "C128")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "C129")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -42603,12 +42829,12 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C136")
+				(ref "C134")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C137")
+				(ref "C135")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -42625,6 +42851,16 @@
 			(node
 				(ref "C14")
 				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C140")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C141")
+				(pin "1")
 				(pintype "passive")
 			)
 			(node
@@ -42799,16 +43035,21 @@
 			)
 			(node
 				(ref "C86")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "C87")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
+				(ref "C87")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "C88")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C89")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -42818,22 +43059,22 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C92")
+				(ref "C91")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C93")
+				(ref "C94")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C95")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C96")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "C99")
+				(ref "C98")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -43454,32 +43695,32 @@
 			(name "GNDD")
 			(class "Default")
 			(node
-				(ref "C101")
+				(ref "C103")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C106")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "C111")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "C112")
+				(ref "C108")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
 				(ref "C113")
-				(pin "1")
+				(pin "2")
 				(pintype "passive")
 			)
 			(node
 				(ref "C114")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C115")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C116")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -43543,7 +43784,7 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "D16")
+				(ref "D17")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
@@ -43624,6 +43865,17 @@
 		)
 		(net
 			(code "343")
+			(name "unconnected-(D15-NC-Pad2)")
+			(class "Default")
+			(node
+				(ref "D15")
+				(pin "2")
+				(pinfunction "NC_2")
+				(pintype "no_connect")
+			)
+		)
+		(net
+			(code "344")
 			(name "unconnected-(SW1B-C-Pad6)")
 			(class "Default")
 			(node
@@ -43634,7 +43886,7 @@
 			)
 		)
 		(net
-			(code "344")
+			(code "345")
 			(name "unconnected-(SW2B-C-Pad6)")
 			(class "Default")
 			(node
@@ -43645,7 +43897,7 @@
 			)
 		)
 		(net
-			(code "345")
+			(code "346")
 			(name "unconnected-(U27-BW-Pad1)")
 			(class "Default")
 			(node
@@ -43656,7 +43908,7 @@
 			)
 		)
 		(net
-			(code "346")
+			(code "347")
 			(name "unconnected-(U28-BW-Pad1)")
 			(class "Default")
 			(node

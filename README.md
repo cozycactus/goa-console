@@ -16,7 +16,7 @@ netlists and simulated in ngspice.
     wing of 12 strips;
   - the 16 HP master module sits in the centre with both wing headers and the power entry; the four 8 HP group
     modules sit next to it, two on each wing.
-- **Channel strip** (spec v4.0):
+- **Channel strip** (spec v4.1):
   - differential line receiver and an inverting line gain stage, −15…+15 dB with a centre detent;
   - Ø switch and a switched 87 Hz Butterworth HPF;
   - the Delta's 4-band EQ, with the swept mids re-done as a KHN state-variable band-pass so a stocked A10K dual
@@ -76,8 +76,7 @@ netlists and simulated in ngspice.
     - knob fit;
   - choose the pan pot: the stocked Alpha B10K dual (no centre detent) or an ALPS RK097121TD57 (detent, different
     footprint);
-  - sign off `strip_parts_review.md`: the strip's EQ stages and KHN summers need feedback capacitors (≈0° phase
-    margin with TI's model), plus receiver, follower and ratings fixes;
+  - a TI-model stability pass on the master and group's remaining stages (the strip's is done: strip v4.1);
   - route the boards;
   - build the test jig with four routed strips and run its bus tests (`test_jig_spec.md`); some bus decisions wait on
     them;
@@ -90,7 +89,7 @@ netlists and simulated in ngspice.
 | Path | What |
 |------|------|
 | `console_architecture.md` | Whole-console architecture (authoritative): bus pinout, grounding, power, op-amp choices |
-| `channel_strip_schematic_spec.md` | Strip component-level spec v4.0 (authoritative), incl. panel parts and stack (§16) |
+| `channel_strip_schematic_spec.md`, `strip_parts_review.md` | Strip component-level spec v4.1 (authoritative), incl. panel parts and stack (§16); the stability and ratings review behind v4.1 |
 | `master_section_spec.md`, `master_panel_study.md`, `master_parts_review.md` | Master and group modules: functions, parts, panel study, review of the proposed parts |
 | `psu_spec.md`, `test_jig_spec.md` | External PSU, test jig |
 | `delta_clone_comparison.md`, `strip_panel_study.md` | Why the strip is a Delta clone, why 8 HP × 12U with two pot columns |

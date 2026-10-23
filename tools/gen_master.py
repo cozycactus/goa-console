@@ -118,6 +118,7 @@ b = block('PFL SWITCHER: DG413 (PFL pressed = SW1/SW4, else SW2/SW3; break-befor
 # +5VL for the DG413 logic, as on the strip: from +VA so VL never exceeds V+
 net5 = [R(b, '4K7', '+VA', '+5VL'), ref('D')]
 P(b, net5[1], 'ZEN', 'BZX84C5V1', {3: '+5VL', 1: 'GNDD', 2: 'NC'}); net5.append(C(b, '1u', '+5VL', 'GNDD'))
+net5.append(ref('D')); P(b, net5[-1], 'SCH', 'BAT54W', {1: '+5VL', 3: '+VA', 2: 'NC'})   # VL <= V+ + 0.3 V at power-down
 P(b, '#FLG15', 'FLAG', 'PWR_FLAG', {1: '+5VL'})
 for src, s in (('MON_L', 'SWML_S'), ('PFL_SIG', 'SWPL_S'), ('MON_R', 'SWMR_S'), ('PFL_SIG', 'SWPR_S')):
     net5 += [C(b, '47u NP 25V', src, s), R(b, '1M', s, 'GNDA')]

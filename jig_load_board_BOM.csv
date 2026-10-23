@@ -1,37 +1,37 @@
-Qty,Value,Footprint,MPN,References
-3,1n C0G,Capacitor_SMD:C_0805_2012Metric,,C1 C2 C3
-1,Bus 2x17 (ribbon),Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical,,CN1
-1,Ground spade 6.3mm (to the ground bar),goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm,Keystone 1287-ST,CN2
-1,Dummy load +V / 0 V / -V,TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal,Phoenix MKDS 1,5/3-5,08,J1
-1,MIXL +1 nF,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,2.54 mm header + shunt,JP1
-1,MIXR +1 nF,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,2.54 mm header + shunt,JP2
-1,SUB1 +1 nF,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,2.54 mm header + shunt,JP3
-1,10R,Resistor_SMD:R_0805_2012Metric,,R1
-3,4K7 1%,Resistor_SMD:R_0805_2012Metric,,R2 R6 R10
-3,1K58 1%,Resistor_SMD:R_0805_2012Metric,,R3 R7 R11
-3,1K18 1%,Resistor_SMD:R_0805_2012Metric,,R4 R8 R12
-3,392R 1%,Resistor_SMD:R_0805_2012Metric,,R5 R9 R13
-2,22K 1%,Resistor_SMD:R_0805_2012Metric,,R14 R18
-2,7K32 1%,Resistor_SMD:R_0805_2012Metric,,R15 R19
-2,5K49 1%,Resistor_SMD:R_0805_2012Metric,,R16 R20
-2,1K82 1%,Resistor_SMD:R_0805_2012Metric,,R17 R21
-1,MIXL +1 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW1
-1,MIXL +3 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW2
-1,MIXL +4 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW3
-1,MIXL +12 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW4
-1,MIXR +1 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW5
-1,MIXR +3 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW6
-1,MIXR +4 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW7
-1,MIXR +12 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW8
-1,SUB1 +1 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW9
-1,SUB1 +3 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW10
-1,SUB1 +4 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW11
-1,SUB1 +12 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW12
-1,AUX1 +1 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW13
-1,AUX1 +3 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW14
-1,AUX1 +4 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW15
-1,AUX1 +12 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW16
-1,PFL +1 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW17
-1,PFL +3 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW18
-1,PFL +4 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW19
-1,PFL +12 ch,Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,C&K OS102011MS2QN1,SW20
+"Qty","Value","Footprint","MPN","DNP","References"
+"3","1n C0G","Capacitor_SMD:C_0805_2012Metric","","","C1 C2 C3"
+"1","Bus 2x17 (ribbon)","Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical","","","CN1"
+"1","Ground spade 6.3mm (to the ground bar)","goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm","Keystone 1287-ST","","CN2"
+"1","Dummy load +V / 0 V / -V","TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal","Phoenix MKDS 1,5/3-5,08","","J1"
+"1","MIXL +1 nF","Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical","2.54 mm header + shunt","","JP1"
+"1","MIXR +1 nF","Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical","2.54 mm header + shunt","","JP2"
+"1","SUB1 +1 nF","Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical","2.54 mm header + shunt","","JP3"
+"1","10R","Resistor_SMD:R_0805_2012Metric","","","R1"
+"3","4K7 1%","Resistor_SMD:R_0805_2012Metric","","","R2 R6 R10"
+"3","1K58 1%","Resistor_SMD:R_0805_2012Metric","","","R3 R7 R11"
+"3","1K18 1%","Resistor_SMD:R_0805_2012Metric","","","R4 R8 R12"
+"3","392R 1%","Resistor_SMD:R_0805_2012Metric","","","R5 R9 R13"
+"2","22K 1%","Resistor_SMD:R_0805_2012Metric","","","R14 R18"
+"2","7K32 1%","Resistor_SMD:R_0805_2012Metric","","","R15 R19"
+"2","5K49 1%","Resistor_SMD:R_0805_2012Metric","","","R16 R20"
+"2","1K82 1%","Resistor_SMD:R_0805_2012Metric","","","R17 R21"
+"1","MIXL +1 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW1"
+"1","MIXL +3 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW2"
+"1","MIXL +4 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW3"
+"1","MIXL +12 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW4"
+"1","MIXR +1 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW5"
+"1","MIXR +3 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW6"
+"1","MIXR +4 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW7"
+"1","MIXR +12 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW8"
+"1","SUB1 +1 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW9"
+"1","SUB1 +3 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW10"
+"1","SUB1 +4 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW11"
+"1","SUB1 +12 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW12"
+"1","AUX1 +1 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW13"
+"1","AUX1 +3 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW14"
+"1","AUX1 +4 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW15"
+"1","AUX1 +12 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW16"
+"1","PFL +1 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW17"
+"1","PFL +3 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW18"
+"1","PFL +4 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW19"
+"1","PFL +12 ch","Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q","C&K OS102011MS2QN1","","SW20"
