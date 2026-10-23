@@ -1,6 +1,6 @@
-"""Bourns PTB0143-2010APA103 / PTB0144-2010APA103 slide potentiometer: 100 mm travel (01), no dust cover (4), single /
-dual gang (3 / 4), PC pins down (2), no detent (0), 10 mm lever (10), AP metal lever (4.0 split fork, for standard 4 mm
-fader knobs), audio taper, 10K.
+"""Bourns PTB0143-2010BPA103 / PTB0144-2010BPA103 slide potentiometer: 100 mm travel (01), no dust cover (4), single /
+dual gang (3 / 4), PC pins down (2), no detent (0), 10 mm lever (10), BP metal lever (8.0 x 1.3 flat blade), audio taper,
+10K. (The AP 4 mm fork lever exists only as the linear PTB0143-2010APB103; the audio AP codes are factory-only.)
 Datasheet: Bourns PTB series, REV. 08/20, https://www.bourns.com/docs/Product-Datasheets/ptb.pdf (PTB100 drawing on
 page 2, lever styles on page 1); overall size 128 x 16 x 8 mm also on DigiKey's listing. Undimensioned details are
 scaled from the drawing (side view about 22 px/mm at 1200 dpi).
@@ -14,7 +14,7 @@ from .geom import Mesh
 from . import STACK
 from .knob import CAPS
 
-NAME = 'Bourns PTB0143 / PTB0144-2010APA103 slide pot, 100 mm, AP lever (Bourns PTB datasheet REV. 08/20)'
+NAME = 'Bourns PTB0143 / PTB0144-2010BPA103 slide pot, 100 mm, BP lever (Bourns PTB datasheet REV. 08/20)'
 FOOTPRINTS = {'Potentiometer_Bourns_PTB0143_Slide_100mm': dict(dual=False),
               'Potentiometer_Bourns_PTB0144_Slide_100mm_Dual': dict(dual=True)}
 FEATURE = (-63.75, -1.9)
@@ -134,23 +134,14 @@ def build(dual=False, pos=0.75):
     m.box(XC - SLOT, YC - 2.4, 6.3, XC + SLOT, YC + 2.4, 6.5, 'plastic_black')            # slider rail, seen in the slot
     lx = XC + TRAVEL / 2 - TRAVEL * pos
     m.box(lx - 6.0, YC - SW / 2 + 0.05, 6.5, lx + 6.0, YC + SW / 2 - 0.05, H - T - 0.05, 'plastic_dark')   # slider, 12.0 (top view)
-    m.merge(_ap_lever().translate(lx, YC, 0.0))
+    lw, lt, lh = 8.0, 1.3, 10.0           # BP lever: 8.0 wide, 10.0 above the cover; 1.3 thick, 1.4 hole (lever drawing)
+    m.merge(_holed((lx - lw / 2, 6.9, lx + lw / 2, H + lh), (lx, H + lh - 1.3, 0.7), YC - lt / 2, YC + lt / 2,
+                   'metal_gold', lambda u, v, w: (u, w, v)))
     for e in (-1, 1):
         hx = XC + e * HOLE
         m.tube(hx, YC, H, pz, 2.5, 1.6, 'metal_alu', 32)                                  # 3.5 mm spacer, 5 OD
         m.cyl(hx, YC, H - 3.0, pz + STACK['panel_t'], 1.45, 'metal_zinc', 16)             # M3 x 8 shank
     return m
-
-
-def _ap_lever(seg=8):
-    """AP lever (datasheet p. 1): 5.0 wide root to 8.8 below the top, then a 4.0 wide fork with a 1.0 slit, round-ended
-    prongs, 10.0 above the cover, 1.3 thick (across the travel); from z 6.9 in the slider. Centred on x 0, y 0."""
-    zb, zt, t = H + 10.0 - 8.8, H + 10.0, 1.3
-    arc = lambda cu, cw, r, a0, a1: [(cu + r * math.cos(math.radians(a0 + (a1 - a0) * k / seg)),
-                                      cw + r * math.sin(math.radians(a0 + (a1 - a0) * k / seg))) for k in range(seg + 1)]
-    out = ([(-2.5, 6.9), (2.5, 6.9), (2.5, zb), (2.0, zb)] + arc(1.25, zt - 0.75, 0.75, 0, 180)
-           + arc(0.0, zb + 0.5, 0.5, 0, -180) + arc(-1.25, zt - 0.75, 0.75, 0, 180) + [(-2.0, zb), (-2.5, zb)])
-    return Mesh().prism(out, -t / 2, t / 2, 'metal_gold').rotate('x', 90)       # profile (u, w) -> x, z; thickness in y
 
 
 def _screw():
@@ -161,7 +152,7 @@ def _screw():
 
 def panel(dual=False, colour='grey', pos=0.75):
     """Fader knob on the lever (placeholder: 12 x 22 cap with a finger dish and a coloured line, bottom 0.8 above the
-    panel, socket for the 4.0 x 1.3 AP fork) and the two M3 pan head screws; FEATURE frame, z = 0 on the panel top."""
+    panel, socket for the 8.0 x 1.3 BP blade) and the two M3 pan head screws; FEATURE frame, z = 0 on the panel top."""
     m = Mesh(); dx = TRAVEL / 2 - TRAVEL * pos
     dish = [(4.4 - 0.88 * k, 12.6 - 1.1 * (1 - ((4.4 - 0.88 * k) / 4.4) ** 2)) for k in range(11)]
     _yprism(m, [(-6.0, 0.8), (6.0, 0.8), (6.0, 2.6), (4.8, 12.0), (4.6, 12.6)] + dish + [(-4.6, 12.6), (-4.8, 12.0), (-6.0, 2.6)],

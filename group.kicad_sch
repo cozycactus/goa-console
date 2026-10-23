@@ -5071,7 +5071,7 @@
     (property "Datasheet" "" (id 3) (at 629.92 256.54 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "MPN" "Bourns PTB0143-2010APA103" (id 4) (at 629.92 256.54 0)
+    (property "MPN" "Bourns PTB0143-2010BPA103" (id 4) (at 629.92 256.54 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 8f57c9c2-61b0-5cd6-8056-c45332118cce))

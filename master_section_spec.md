@@ -100,8 +100,8 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
 
 ## 5. Master fader and post-amp
 
-- Fader: Bourns PTB0144-2010APA103 (100 mm, dual gang, A10K, AP metal lever: 4.0 mm split fork for standard
-  4 mm fader knobs, as the strips and groups, 2026-10-23). The dual-gang
+- Fader: Bourns PTB0144-2010BPA103 (100 mm, dual gang, A10K, BP metal lever: 8 x 1.3 mm flat blade, as the strips
+  and groups; the AP 4 mm-fork audio parts are factory-only, 2026-10-23). The dual-gang
   footprint is the PTB0143 one plus pins 1′ 2′ 3′ mirrored about the body centreline (same
   datasheet drawing). Wired with pin 1 = GNDA, as on the strips (A taper).
 - Post-amp U2B: 2.2 µF + 100K input, gain 1 + 4K7/2K2 = +9.9 dB, 100 pF across 4K7. Same as
@@ -231,7 +231,7 @@ top of this, as in the architecture's section 2.4.
 | U9A | OPA1612 (half) | GCANCEL buffer for all re-inverters |
 | K1–K3 | Omron G6K-2F-Y | output mute |
 | J (×3) | Neutrik NRJ6HF | master insert L/R (2) — the third is spare / mono insert if wanted |
-| RV | Bourns PTB0144-2010APA103 | master fader |
+| RV | Bourns PTB0144-2010BPA103 | master fader |
 
 ---
 

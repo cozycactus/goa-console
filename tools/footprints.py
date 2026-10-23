@@ -35,7 +35,7 @@ def footprint(name, descr, tags, body, ref_xy, val_xy):
           '\t\t(rotate (xyz 0 0 0))\n\t)\n)\n')       # tools/models3d/check.py --wrl writes it
     open(os.path.join(OUT, name + '.kicad_mod'), 'w').write(s)
 
-# ---- Bourns PTB0143-2010APA103: 100 mm travel, single gang, PC pins down, AP lever (4 mm fork), A10K
+# ---- Bourns PTB0143-2010BPA103: 100 mm travel, single gang, PC pins down, BP lever (8 mm blade), A10K
 # https://www.bourns.com/docs/Product-Datasheets/ptb.pdf (REV. 08/20), PTB100 drawing:
 # pin 3 at one end and pins 1, 2 at the other, 127.5 apart; pins 1.9 off the body centreline,
 # 3.8 pitch; 1.5 mm holes for pins; 2.0 mm holes for the two body tabs, 38.8 and 43.7 either side
@@ -56,7 +56,7 @@ footprint('Potentiometer_Bourns_PTB0143_Slide_100mm',
           'Bourns PTB series slide potentiometer, 100 mm travel, single gang, PC pins down, https://www.bourns.com/docs/Product-Datasheets/ptb.pdf',
           'fader slide potentiometer 100mm Bourns PTB', b, (xc, by0 - 1.5), (xc, by1 + 1.5))
 
-# ---- Bourns PTB0144-2010APA103: as PTB0143 but dual gang. Same drawing: pins 1', 2', 3' (here 4, 5, 6)
+# ---- Bourns PTB0144-2010BPA103: as PTB0143 but dual gang. Same drawing: pins 1', 2', 3' (here 4, 5, 6)
 # mirror 1, 2, 3 about the body centreline (1' and 3' at -1.9, 2' at -5.7 from the centreline).
 b = pad(1, 0, 0, 2.4, 1.5, 'rect') + pad(2, 0, 3.8, 2.4, 1.5) + pad(3, -L, 0, 2.4, 1.5)
 b += pad(4, 0, 2 * CY, 2.4, 1.5) + pad(5, 0, 2 * CY - 3.8, 2.4, 1.5) + pad(6, -L, 2 * CY, 2.4, 1.5)

@@ -59,7 +59,7 @@ Qty,Value,Footprint,MPN,References
 8,10K 1%,Resistor_SMD:R_0805_2012Metric,,R81 R82 R83 R85 R90 R91 R92 R94
 4,430R 1%,Resistor_SMD:R_0805_2012Metric,,R86 R87 R95 R96
 4,13K 1%,Resistor_SMD:R_0805_2012Metric,,R88 R89 R97 R98
-1,Fader 10K log 100mm,goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm,Bourns PTB0143-2010APA103,RV1
+1,Fader 10K log 100mm,goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm,Bourns PTB0143-2010BPA103,RV1
 1,Aux1 10K log,Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,Alpha RD901F-40 A10K,RV2
 1,Aux2 10K log,Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,Alpha RD901F-40 A10K,RV3
 1,Aux3 10K log,Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,Alpha RD901F-40 A10K,RV4
