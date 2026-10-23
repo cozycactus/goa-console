@@ -46,7 +46,7 @@ The 3D model applies this in `tools/console_3d.py` (`panel_print`); see `render/
   - Key legends are printed on the key caps.
   - The channel numbers are on the frame, not the module.
 
-## Our adaptation (two pot columns 18 mm apart, rows 22 mm, Ø15 knob skirts)
+## Our adaptation (two pot columns 20.32 mm apart, rows 22 mm, Ø13 knobs)
 
 - **Names:** above the knob, centred, bold condensed (Arial Narrow Bold in the model). The Delta's upper-right
   column needs a single-column module about 40 mm wide.
@@ -59,7 +59,8 @@ The 3D model applies this in `tools/console_3d.py` (`panel_print`); see `render/
   4. the rest.
 
   A numeral is dropped where it would land in a neighbouring knob's ring, a switch, LED, jack or a name. In
-  practice the inner sides of the two columns show dots only and the outer sides carry the numerals.
+  practice, at the 20.32 mm column pitch, most rings print in full; only numerals that would touch a
+  neighbouring ring or name are dropped.
 - **Scales:**
   - EQ: 15 … −0+ … 15 with "dB".
   - Levels: 0–10.

@@ -432,8 +432,12 @@ the bus header, the spade and the VCA socket on the bottom side.
 ### 16.3 Panel and placement (v4.0)
 
 Study: `strip_panel_study.md`. Chosen: **8 HP × 12U** Eurorack-style panel (40.3 × 514 mm) in a
-custom frame with rails only at the two ends, **two pot columns** (x = 10 / 28), jacks on the
-panel. One column would need ≈ 545 mm (15U).
+custom frame with rails only at the two ends, **two pot columns** (x = 8.84 / 29.16, 2026-10-23: an even
+20.32 mm pitch within a module and across the module boundary; it was x = 10 / 28, 18 mm apart, which left 3 mm
+between Ø15 knobs), jacks on the panel in the same columns. Every pot turns its pins towards the module's centre
+line (left column 180°, right column 0°), so no pad comes within 1.3 mm of the board edge. Knobs about Ø13 (the
+Delta used 14 mm, 12.5 mm on the MID frequency pot): 7.3 mm between knobs across, 9 mm down the 22 mm rows.
+One column would need ≈ 545 mm (15U).
 
 Two boards per channel, placed by `tools/place_strip.py` in one coordinate frame (y = 0 is 11 mm below
 the panel's top edge), placement only:
@@ -460,8 +464,9 @@ The three jacks, plus the input RF caps C8/C9 at J1, are on a separate 38 × 43 
 under the panel, set by the jack body (Neutrik NJ*FD-V drawing: flange front 24.00 above the PCB; see
 `panel_parts_drawings.md`). The jack caps hold it on the panel, plus two M3 female-female standoffs of exactly
 24.0 mm (the jacks are rigid spacers). CN5 (jack board) and
-CN3 (main board) are both on the bottom side, so the ribbon runs behind both boards. CN3 sits
-between the pot columns at y ≈ 77; the ribbon is about 80 mm long.
+CN3 (main board) are both on the bottom side, so the ribbon runs behind both boards. Since the pots turned their pins
+to the centre line (16.3), CN3 lies across the strip at y ≈ 85.5 (pins x 17.6–27.8), between the HF and HI-MID rows;
+CN5 on the jack board stays along y, so the 10-way ribbon makes one 90° fold (about 90 mm long).
 
 | Pin | Net | | Pin | Net |
 |-----|-----|-|-----|-----|

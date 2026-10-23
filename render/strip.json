@@ -7,36 +7,1458 @@
 "y1": 444.05,
 "parts": [
 {
-"ref": "R85",
+"ref": "R37",
 "fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "10K 1%",
-"x": 2.27,
-"y": 127.88,
+"value": "47K",
+"x": 35.225,
+"y": 236.995,
 "rot": 0.0,
 "side": "F",
 "box": [
-0.545,
-126.885,
-3.995,
-128.875
+33.5,
+236.0,
+36.95,
+237.99
 ],
 "model": true
+},
+{
+"ref": "C66",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 21.77,
+"y": 112.15,
+"rot": 0.0,
+"side": "F",
+"box": [
+20.025,
+111.125,
+23.515,
+113.175
+],
+"model": true
+},
+{
+"ref": "R60",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "4K7 1%",
+"x": 10.27,
+"y": 132.61,
+"rot": 90.0,
+"side": "F",
+"box": [
+9.275,
+130.885,
+11.265,
+134.335
+],
+"model": true
+},
+{
+"ref": "SW4",
+"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
+"value": "ON",
+"x": 22.66,
+"y": 289.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+19.965,
+287.105,
+30.355,
+296.895
+],
+"feature": [
+25.16,
+292.0
+],
+"model": false,
+"pads": [
+[
+22.66,
+289.0
+],
+[
+25.16,
+289.0
+],
+[
+27.66,
+289.0
+],
+[
+22.66,
+295.0
+],
+[
+25.16,
+295.0
+],
+[
+27.66,
+295.0
+]
+]
+},
+{
+"ref": "C59",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 34.719999,
+"y": 401.11,
+"rot": 0.0,
+"side": "F",
+"box": [
+32.974999,
+400.085,
+36.464999,
+402.135
+],
+"model": true
+},
+{
+"ref": "C54",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 29.769999,
+"y": 360.11,
+"rot": 0.0,
+"side": "F",
+"box": [
+28.024999,
+359.085,
+31.514999,
+361.135
+],
+"model": true
+},
+{
+"ref": "R41",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "10K",
+"x": 12.77,
+"y": 65.379999,
+"rot": 90.0,
+"side": "F",
+"box": [
+11.775,
+63.654999,
+13.765,
+67.104999
+],
+"model": true
+},
+{
+"ref": "C64",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 2.27,
+"y": 112.15,
+"rot": 0.0,
+"side": "F",
+"box": [
+0.525,
+111.125,
+4.015,
+113.175
+],
+"model": true
+},
+{
+"ref": "Q1",
+"fp": "Package_TO_SOT_SMD:SOT-23",
+"value": "J112",
+"x": 15.975,
+"y": 238.245,
+"rot": 0.0,
+"side": "F",
+"box": [
+14.0,
+236.5,
+17.95,
+239.99
+],
+"model": true
+},
+{
+"ref": "R67",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "22K",
+"x": 34.769999,
+"y": 154.11,
+"rot": 90.0,
+"side": "F",
+"box": [
+33.774999,
+152.385,
+35.764999,
+155.835
+],
+"model": true
+},
+{
+"ref": "R16",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "4K7",
+"x": 2.307499,
+"y": 247.15,
+"rot": 90.0,
+"side": "F",
+"box": [
+1.312499,
+245.425,
+3.302499,
+248.875
+],
+"model": true
+},
+{
+"ref": "C45",
+"fp": "Capacitor_SMD:C_1206_3216Metric",
+"value": "4n7 C0G",
+"x": 30.77,
+"y": 110.34,
+"rot": 0.0,
+"side": "F",
+"box": [
+28.425,
+109.145,
+33.115,
+111.535
+],
+"model": true
+},
+{
+"ref": "R20",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "22K",
+"x": 32.725,
+"y": 296.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+31.0,
+296.0,
+34.45,
+297.99
+],
+"model": true
+},
+{
+"ref": "C47",
+"fp": "Capacitor_SMD:C_1206_3216Metric",
+"value": "22n C0G",
+"x": 13.219999,
+"y": 131.38,
+"rot": 90.0,
+"side": "F",
+"box": [
+12.024999,
+129.035,
+14.414999,
+133.725
+],
+"model": true
+},
+{
+"ref": "H3",
+"fp": "MountingHole:MountingHole_3.2mm_M3",
+"value": "M3 standoff 11.5 mm",
+"x": 19.0,
+"y": 221.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+15.50753,
+217.502474,
+22.494999,
+224.497526
+],
+"model": false,
+"pads": []
+},
+{
+"ref": "R3",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "10R",
+"x": 2.725,
+"y": 343.495,
+"rot": 0.0,
+"side": "F",
+"box": [
+1.0,
+342.5,
+4.45,
+344.49
+],
+"model": true
+},
+{
+"ref": "R74",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "100K",
+"x": 29.269999,
+"y": 345.8,
+"rot": 90.0,
+"side": "F",
+"box": [
+28.274999,
+344.075,
+30.264999,
+347.525
+],
+"model": true
+},
+{
+"ref": "R96",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "430R 1%",
+"x": 10.225,
+"y": 149.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+8.5,
+149.0,
+11.95,
+150.99
+],
+"model": true
+},
+{
+"ref": "C25",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 2.27,
+"y": 243.65,
+"rot": 0.0,
+"side": "F",
+"box": [
+0.525,
+242.625,
+4.015,
+244.675
+],
+"model": true
+},
+{
+"ref": "D3",
+"fp": "LED_THT:LED_D3.0mm",
+"value": "PFL red",
+"x": 14.09,
+"y": 292.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+12.895,
+289.745,
+17.825,
+294.255
+],
+"feature": [
+15.36,
+292.0
+],
+"model": true
+},
+{
+"ref": "C32",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 18.27,
+"y": 133.15,
+"rot": 90.0,
+"side": "F",
+"box": [
+17.245,
+131.405,
+19.295,
+134.895
+],
+"model": true
+},
+{
+"ref": "C13",
+"fp": "Capacitor_SMD:C_1206_3216Metric",
+"value": "2.2u",
+"x": 35.229999,
+"y": 430.22,
+"rot": 0.0,
+"side": "F",
+"box": [
+32.884999,
+429.025,
+37.574999,
+431.415
+],
+"model": true
+},
+{
+"ref": "JP5",
+"fp": "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm",
+"value": "Insert send source",
+"x": 1.769999,
+"y": 90.34,
+"rot": 90.0,
+"side": "F",
+"box": [
+0.474999,
+87.995,
+3.064999,
+92.685
+],
+"model": false,
+"pads": []
+},
+{
+"ref": "R55",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "22K",
+"x": 15.77,
+"y": 131.11,
+"rot": 90.0,
+"side": "F",
+"box": [
+14.775,
+129.385,
+16.765,
+132.835
+],
+"model": true
+},
+{
+"ref": "D2",
+"fp": "LED_THT:LED_D3.0mm",
+"value": "OL red",
+"x": 27.89,
+"y": 61.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+26.695,
+58.745,
+31.625,
+63.255
+],
+"feature": [
+29.16,
+61.0
+],
+"model": true
+},
+{
+"ref": "SW5",
+"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
+"value": "Assign L-R",
+"x": 4.66,
+"y": 271.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+1.965,
+269.105,
+12.355,
+278.895
+],
+"feature": [
+7.16,
+274.0
+],
+"model": false,
+"pads": [
+[
+4.66,
+271.0
+],
+[
+7.16,
+271.0
+],
+[
+9.66,
+271.0
+],
+[
+4.66,
+277.0
+],
+[
+7.16,
+277.0
+],
+[
+9.66,
+277.0
+]
+]
+},
+{
+"ref": "R23",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "22K",
+"x": 31.725,
+"y": 299.495,
+"rot": 0.0,
+"side": "F",
+"box": [
+30.0,
+298.5,
+33.45,
+300.49
+],
+"model": true
+},
+{
+"ref": "C50",
+"fp": "Capacitor_SMD:C_1206_3216Metric",
+"value": "100n C0G",
+"x": 22.77,
+"y": 148.88,
+"rot": 0.0,
+"side": "F",
+"box": [
+20.425,
+147.685,
+25.115,
+150.075
+],
+"model": true
+},
+{
+"ref": "RV13",
+"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
+"value": "LO-MID gain 10K lin CD",
+"x": 16.34,
+"y": 122.5,
+"rot": 180.0,
+"side": "F",
+"box": [
+3.695,
+113.545,
+17.535,
+126.455
+],
+"feature": [
+8.84,
+120.0
+],
+"model": false,
+"pads": [
+[
+8.84,
+124.8
+],
+[
+8.84,
+115.2
+],
+[
+16.34,
+122.5
+],
+[
+16.34,
+120.0
+],
+[
+16.34,
+117.5
+]
+]
+},
+{
+"ref": "C23",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 34.649999,
+"y": 416.72,
+"rot": 0.0,
+"side": "F",
+"box": [
+32.904999,
+415.695,
+36.394999,
+417.745
+],
+"model": true
+},
+{
+"ref": "C55",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 34.719999,
+"y": 359.88,
+"rot": 0.0,
+"side": "F",
+"box": [
+32.974999,
+358.855,
+36.464999,
+360.905
+],
+"model": true
+},
+{
+"ref": "R87",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "430R 1%",
+"x": 32.725,
+"y": 135.495,
+"rot": 0.0,
+"side": "F",
+"box": [
+31.0,
+134.5,
+34.45,
+136.49
+],
+"model": true
+},
+{
+"ref": "R29",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "4K7 1%",
+"x": 35.995,
+"y": 297.725,
+"rot": 90.0,
+"side": "F",
+"box": [
+35.0,
+296.0,
+36.99,
+299.45
+],
+"model": true
+},
+{
+"ref": "R39",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "1K",
+"x": 1.77,
+"y": 49.3,
+"rot": 90.0,
+"side": "F",
+"box": [
+0.775,
+47.575,
+2.765,
+51.025
+],
+"model": true
+},
+{
+"ref": "R48",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "27K",
+"x": 2.269999,
+"y": 78.34,
+"rot": 90.0,
+"side": "F",
+"box": [
+1.274999,
+76.615,
+3.264999,
+80.065
+],
+"model": true
+},
+{
+"ref": "R88",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "13K 1%",
+"x": 2.27,
+"y": 94.84,
+"rot": 90.0,
+"side": "F",
+"box": [
+1.275,
+93.115,
+3.265,
+96.565
+],
+"model": true
+},
+{
+"ref": "R34",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "4K7",
+"x": 33.725,
+"y": 280.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+32.0,
+280.0,
+35.45,
+281.99
+],
+"model": true
+},
+{
+"ref": "C56",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 35.719999,
+"y": 372.11,
+"rot": 90.0,
+"side": "F",
+"box": [
+34.694999,
+370.365,
+36.744999,
+373.855
+],
+"model": true
+},
+{
+"ref": "R73",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "75R",
+"x": 33.725,
+"y": 173.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+32.0,
+173.0,
+35.45,
+174.99
+],
+"model": true
+},
+{
+"ref": "D9",
+"fp": "Package_TO_SOT_SMD:SOT-23",
+"value": "BZX84C5V1",
+"x": 18.975,
+"y": 263.745,
+"rot": 0.0,
+"side": "F",
+"box": [
+17.0,
+262.0,
+20.95,
+265.49
+],
+"model": true
+},
+{
+"ref": "JP7",
+"fp": "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm",
+"value": "PRE source",
+"x": 36.22,
+"y": 161.11,
+"rot": 90.0,
+"side": "F",
+"box": [
+34.925,
+158.765,
+37.515,
+163.455
+],
+"model": false,
+"pads": []
+},
+{
+"ref": "JP1",
+"fp": "Jumper:SolderJumper-2_P1.3mm_Bridged_RoundedPad1.0x1.5mm",
+"value": "VCA bypass",
+"x": 35.879999,
+"y": 419.72,
+"rot": 0.0,
+"side": "F",
+"box": [
+34.184999,
+418.425,
+37.574999,
+421.015
+],
+"model": false,
+"pads": []
+},
+{
+"ref": "C39",
+"fp": "Capacitor_SMD:C_1206_3216Metric",
+"value": "47n C0G",
+"x": 1.795,
+"y": 82.88,
+"rot": 90.0,
+"side": "F",
+"box": [
+0.6,
+80.535,
+2.99,
+85.225
+],
+"model": true
+},
+{
+"ref": "JP6",
+"fp": "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm",
+"value": "EQ input",
+"x": 20.27,
+"y": 60.34,
+"rot": 0.0,
+"side": "F",
+"box": [
+17.925,
+59.045,
+22.615,
+61.635
+],
+"model": false,
+"pads": []
+},
+{
+"ref": "R5",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "10R GND cancel",
+"x": 2.725,
+"y": 345.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+1.0,
+345.0,
+4.45,
+346.99
+],
+"model": true
+},
+{
+"ref": "RV4",
+"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
+"value": "Aux3 10K log",
+"x": 16.34,
+"y": 190.5,
+"rot": 180.0,
+"side": "F",
+"box": [
+3.695,
+181.545,
+17.535,
+194.455
+],
+"feature": [
+8.84,
+188.0
+],
+"model": false,
+"pads": [
+[
+8.84,
+192.8
+],
+[
+8.84,
+183.2
+],
+[
+16.34,
+190.5
+],
+[
+16.34,
+188.0
+],
+[
+16.34,
+185.5
+]
+]
+},
+{
+"ref": "R49",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "56K",
+"x": 5.77,
+"y": 89.38,
+"rot": 0.0,
+"side": "F",
+"box": [
+4.045,
+88.385,
+7.495,
+90.375
+],
+"model": true
+},
+{
+"ref": "SW6",
+"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
+"value": "Assign 1-2",
+"x": 15.66,
+"y": 271.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+12.965,
+269.105,
+23.355,
+278.895
+],
+"feature": [
+18.16,
+274.0
+],
+"model": false,
+"pads": [
+[
+15.66,
+271.0
+],
+[
+18.16,
+271.0
+],
+[
+20.66,
+271.0
+],
+[
+15.66,
+277.0
+],
+[
+18.16,
+277.0
+],
+[
+20.66,
+277.0
+]
+]
 },
 {
 "ref": "R71",
 "fp": "Resistor_SMD:R_0805_2012Metric",
 "value": "75R",
-"x": 20.77,
-"y": 170.34,
+"x": 2.27,
+"y": 168.34,
+"rot": 90.0,
+"side": "F",
+"box": [
+1.275,
+166.615,
+3.265,
+170.065
+],
+"model": true
+},
+{
+"ref": "D7",
+"fp": "LED_THT:LED_D3.0mm",
+"value": "1-2 yellow",
+"x": 16.89,
+"y": 283.0,
 "rot": 0.0,
 "side": "F",
 "box": [
-19.045,
-169.345,
-22.495,
-171.335
+15.695,
+280.745,
+20.625,
+285.255
+],
+"feature": [
+18.16,
+283.0
 ],
 "model": true
+},
+{
+"ref": "NT1",
+"fp": "NetTie:NetTie-2_SMD_Pad0.5mm",
+"value": "AGND-LGND star",
+"x": 5.0,
+"y": 351.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+4.25,
+350.75,
+5.75,
+351.25
+],
+"model": false,
+"pads": []
+},
+{
+"ref": "R80",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "4K7",
+"x": 14.725,
+"y": 262.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+13.0,
+262.0,
+16.45,
+263.99
+],
+"model": true
+},
+{
+"ref": "SW8",
+"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
+"value": "PRE 1-2",
+"x": 4.66,
+"y": 227.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+1.965,
+225.105,
+12.355,
+234.895
+],
+"feature": [
+7.16,
+230.0
+],
+"model": false,
+"pads": [
+[
+4.66,
+227.0
+],
+[
+7.16,
+227.0
+],
+[
+9.66,
+227.0
+],
+[
+4.66,
+233.0
+],
+[
+7.16,
+233.0
+],
+[
+9.66,
+233.0
+]
+]
+},
+{
+"ref": "SW7",
+"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
+"value": "Assign 3-4",
+"x": 26.66,
+"y": 271.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+23.965,
+269.105,
+34.355,
+278.895
+],
+"feature": [
+29.16,
+274.0
+],
+"model": false,
+"pads": [
+[
+26.66,
+271.0
+],
+[
+29.16,
+271.0
+],
+[
+31.66,
+271.0
+],
+[
+26.66,
+277.0
+],
+[
+29.16,
+277.0
+],
+[
+31.66,
+277.0
+]
+]
+},
+{
+"ref": "R79",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "4K7",
+"x": 10.725,
+"y": 262.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+9.0,
+262.0,
+12.45,
+263.99
+],
+"model": true
+},
+{
+"ref": "R53",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "6K8",
+"x": 19.72,
+"y": 74.88,
+"rot": 0.0,
+"side": "F",
+"box": [
+17.995,
+73.885,
+21.445,
+75.875
+],
+"model": true
+},
+{
+"ref": "R51",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "33K",
+"x": 18.72,
+"y": 89.38,
+"rot": 0.0,
+"side": "F",
+"box": [
+16.995,
+88.385,
+20.445,
+90.375
+],
+"model": true
+},
+{
+"ref": "C61",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 34.719999,
+"y": 403.88,
+"rot": 0.0,
+"side": "F",
+"box": [
+32.974999,
+402.855,
+36.464999,
+404.905
+],
+"model": true
+},
+{
+"ref": "R65",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "5K1",
+"x": 30.77,
+"y": 156.38,
+"rot": 0.0,
+"side": "F",
+"box": [
+29.045,
+155.385,
+32.495,
+157.375
+],
+"model": true
+},
+{
+"ref": "C58",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 34.719999,
+"y": 386.38,
+"rot": 0.0,
+"side": "F",
+"box": [
+32.974999,
+385.355,
+36.464999,
+387.405
+],
+"model": true
+},
+{
+"ref": "C68",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 2.27,
+"y": 135.65,
+"rot": 90.0,
+"side": "F",
+"box": [
+1.245,
+133.905,
+3.295,
+137.395
+],
+"model": true
+},
+{
+"ref": "R12",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "47K",
+"x": 34.72,
+"y": 157.15,
+"rot": 0.0,
+"side": "F",
+"box": [
+32.995,
+156.155,
+36.445,
+158.145
+],
+"model": true
+},
+{
+"ref": "SW10",
+"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
+"value": "PRE 5-6",
+"x": 26.66,
+"y": 227.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+23.965,
+225.105,
+34.355,
+234.895
+],
+"feature": [
+29.16,
+230.0
+],
+"model": false,
+"pads": [
+[
+26.66,
+227.0
+],
+[
+29.16,
+227.0
+],
+[
+31.66,
+227.0
+],
+[
+26.66,
+233.0
+],
+[
+29.16,
+233.0
+],
+[
+31.66,
+233.0
+]
+]
+},
+{
+"ref": "RV6",
+"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
+"value": "Aux5 10K log",
+"x": 16.34,
+"y": 212.5,
+"rot": 180.0,
+"side": "F",
+"box": [
+3.695,
+203.545,
+17.535,
+216.455
+],
+"feature": [
+8.84,
+210.0
+],
+"model": false,
+"pads": [
+[
+8.84,
+214.8
+],
+[
+8.84,
+205.2
+],
+[
+16.34,
+212.5
+],
+[
+16.34,
+210.0
+],
+[
+16.34,
+207.5
+]
+]
+},
+{
+"ref": "D1",
+"fp": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+"value": "1N4148",
+"x": 1.77,
+"y": 60.42,
+"rot": 90.0,
+"side": "F",
+"box": [
+0.475,
+51.705,
+3.065,
+61.515
+],
+"model": true
+},
+{
+"ref": "R81",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "10K 1%",
+"x": 2.27,
+"y": 102.61,
+"rot": 90.0,
+"side": "F",
+"box": [
+1.275,
+100.885,
+3.265,
+104.335
+],
+"model": true
+},
+{
+"ref": "R89",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "13K 1%",
+"x": 16.219999,
+"y": 106.61,
+"rot": 90.0,
+"side": "F",
+"box": [
+15.224999,
+104.885,
+17.214999,
+108.335
+],
+"model": true
+},
+{
+"ref": "U12",
+"fp": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
+"value": "OPA1612",
+"x": 4.745,
+"y": 107.745,
+"rot": 0.0,
+"side": "F",
+"box": [
+1.0,
+105.0,
+8.49,
+110.49
+],
+"model": true
+},
+{
+"ref": "U10",
+"fp": "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm",
+"value": "DG413",
+"x": 32.244999,
+"y": 379.745,
+"rot": 0.0,
+"side": "F",
+"box": [
+28.499999,
+374.5,
+35.989999,
+384.99
+],
+"model": true
+},
+{
+"ref": "C43",
+"fp": "Capacitor_SMD:C_1206_3216Metric",
+"value": "4n7 C0G",
+"x": 25.3075,
+"y": 68.38,
+"rot": 0.0,
+"side": "F",
+"box": [
+22.9625,
+67.185,
+27.6525,
+69.575
+],
+"model": true
+},
+{
+"ref": "R76",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "100K",
+"x": 33.269999,
+"y": 372.3,
+"rot": 90.0,
+"side": "F",
+"box": [
+32.274999,
+370.575,
+34.264999,
+374.025
+],
+"model": true
+},
+{
+"ref": "RV11",
+"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
+"value": "HI-MID gain 10K lin CD",
+"x": 16.34,
+"y": 100.5,
+"rot": 180.0,
+"side": "F",
+"box": [
+3.695,
+91.545,
+17.535,
+104.455
+],
+"feature": [
+8.84,
+98.0
+],
+"model": false,
+"pads": [
+[
+8.84,
+102.8
+],
+[
+8.84,
+93.2
+],
+[
+16.34,
+100.5
+],
+[
+16.34,
+98.0
+],
+[
+16.34,
+95.5
+]
+]
 },
 {
 "ref": "D5",
@@ -59,67 +1481,128 @@
 "model": true
 },
 {
-"ref": "R88",
+"ref": "R6",
 "fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "13K 1%",
-"x": 21.77,
-"y": 89.84,
+"value": "10K 0.1%",
+"x": 28.109999,
+"y": 89.22,
 "rot": 0.0,
 "side": "F",
 "box": [
-20.045,
-88.845,
-23.495,
-90.835
+26.384999,
+88.225,
+29.834999,
+90.215
 ],
 "model": true
 },
 {
-"ref": "H1",
-"fp": "MountingHole:MountingHole_3.2mm_M3",
-"value": "M3 standoff 11.5 mm",
-"x": 19.0,
-"y": 67.0,
+"ref": "D8",
+"fp": "LED_THT:LED_D3.0mm",
+"value": "3-4 yellow",
+"x": 27.89,
+"y": 283.0,
 "rot": 0.0,
 "side": "F",
 "box": [
-15.50753,
-63.502474,
-22.494999,
-70.497526
+26.695,
+280.745,
+31.625,
+285.255
+],
+"feature": [
+29.16,
+283.0
+],
+"model": true
+},
+{
+"ref": "R95",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "430R 1%",
+"x": 33.225,
+"y": 137.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+31.5,
+137.0,
+34.95,
+138.99
+],
+"model": true
+},
+{
+"ref": "RV5",
+"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
+"value": "Aux4 10K log",
+"x": 21.66,
+"y": 185.5,
+"rot": 0.0,
+"side": "F",
+"box": [
+20.465,
+181.545,
+34.305,
+194.455
+],
+"feature": [
+29.16,
+188.0
 ],
 "model": false,
-"pads": []
+"pads": [
+[
+29.16,
+183.2
+],
+[
+29.16,
+192.8
+],
+[
+21.66,
+185.5
+],
+[
+21.66,
+188.0
+],
+[
+21.66,
+190.5
+]
+]
 },
 {
-"ref": "R51",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "33K",
-"x": 35.22,
-"y": 75.38,
-"rot": 0.0,
+"ref": "C12",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "1u",
+"x": 2.27,
+"y": 69.61,
+"rot": 90.0,
 "side": "F",
 "box": [
-33.495,
-74.385,
-36.945,
-76.375
+1.245,
+67.865,
+3.295,
+71.355
 ],
 "model": true
 },
 {
-"ref": "C61",
+"ref": "C60",
 "fp": "Capacitor_SMD:C_0805_2012Metric",
 "value": "100n",
-"x": 34.719999,
-"y": 403.88,
+"x": 29.769999,
+"y": 403.61,
 "rot": 0.0,
 "side": "F",
 "box": [
-32.974999,
-402.855,
-36.464999,
-404.905
+28.024999,
+402.585,
+31.514999,
+404.635
 ],
 "model": true
 },
@@ -140,1173 +1623,34 @@
 "model": true
 },
 {
-"ref": "R32",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "22K",
-"x": 10.725,
-"y": 280.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-9.0,
-280.0,
-12.45,
-281.99
-],
-"model": true
-},
-{
-"ref": "Q1",
-"fp": "Package_TO_SOT_SMD:SOT-23",
-"value": "J112",
-"x": 15.975,
-"y": 238.245,
-"rot": 0.0,
-"side": "F",
-"box": [
-14.0,
-236.5,
-17.95,
-239.99
-],
-"model": true
-},
-{
-"ref": "SW7",
-"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
-"value": "Assign 3-4",
-"x": 25.5,
-"y": 271.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-22.805,
-269.105,
-33.195,
-278.895
-],
-"feature": [
-28.0,
-274.0
-],
-"model": false,
-"pads": [
-[
-25.5,
-271.0
-],
-[
-28.0,
-271.0
-],
-[
-30.5,
-271.0
-],
-[
-25.5,
-277.0
-],
-[
-28.0,
-277.0
-],
-[
-30.5,
-277.0
-]
-]
-},
-{
-"ref": "R77",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "4K7",
-"x": 6.725,
-"y": 262.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-5.0,
-262.0,
-8.45,
-263.99
-],
-"model": true
-},
-{
-"ref": "R83",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "10K 1%",
-"x": 17.77,
-"y": 110.61,
-"rot": 90.0,
-"side": "F",
-"box": [
-16.775,
-108.885,
-18.765,
-112.335
-],
-"model": true
-},
-{
-"ref": "R10",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "1M",
-"x": 2.725,
-"y": 45.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.0,
-45.0,
-4.45,
-46.99
-],
-"model": true
-},
-{
-"ref": "H3",
-"fp": "MountingHole:MountingHole_3.2mm_M3",
-"value": "M3 standoff 11.5 mm",
-"x": 19.0,
-"y": 221.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-15.50753,
-217.502474,
-22.494999,
-224.497526
-],
-"model": false,
-"pads": []
-},
-{
-"ref": "C35",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 29.22,
-"y": 175.34,
-"rot": 90.0,
-"side": "F",
-"box": [
-28.195,
-173.595,
-30.245,
-177.085
-],
-"model": true
-},
-{
-"ref": "R56",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "4K7 1%",
-"x": 6.719999,
-"y": 111.88,
-"rot": 0.0,
-"side": "F",
-"box": [
-4.994999,
-110.885,
-8.444999,
-112.875
-],
-"model": true
-},
-{
-"ref": "C55",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 34.719999,
-"y": 359.88,
-"rot": 0.0,
-"side": "F",
-"box": [
-32.974999,
-358.855,
-36.464999,
-360.905
-],
-"model": true
-},
-{
-"ref": "R89",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "13K 1%",
-"x": 22.22,
-"y": 87.11,
-"rot": 0.0,
-"side": "F",
-"box": [
-20.495,
-86.115,
-23.945,
-88.105
-],
-"model": true
-},
-{
-"ref": "R69",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "4K7",
-"x": 25.725,
-"y": 89.495,
-"rot": 0.0,
-"side": "F",
-"box": [
-24.0,
-88.5,
-27.45,
-90.49
-],
-"model": true
-},
-{
-"ref": "C7",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "33p C0G",
-"x": 20.77,
-"y": 51.11,
-"rot": 90.0,
-"side": "F",
-"box": [
-19.745,
-49.365,
-21.795,
-52.855
-],
-"model": true
-},
-{
-"ref": "RV3",
-"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
-"value": "Aux2 10K log",
-"x": 35.5,
-"y": 168.5,
-"rot": 180.0,
-"side": "F",
-"box": [
-22.855,
-159.545,
-36.695,
-172.455
-],
-"feature": [
-28.0,
-166.0
-],
-"model": false,
-"pads": [
-[
-28.0,
-170.8
-],
-[
-28.0,
-161.2
-],
-[
-35.5,
-168.5
-],
-[
-35.5,
-166.0
-],
-[
-35.5,
-163.5
-]
-]
-},
-{
-"ref": "D6",
-"fp": "LED_THT:LED_D3.0mm",
-"value": "L-R yellow",
-"x": 4.73,
-"y": 283.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-3.535,
-280.745,
-8.465,
-285.255
-],
-"feature": [
-6.0,
-283.0
-],
-"model": true
-},
-{
-"ref": "R37",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "47K",
-"x": 35.225,
-"y": 236.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-33.5,
-236.0,
-36.95,
-237.99
-],
-"model": true
-},
-{
-"ref": "R76",
+"ref": "R44",
 "fp": "Resistor_SMD:R_0805_2012Metric",
 "value": "100K",
-"x": 33.269999,
-"y": 372.3,
-"rot": 90.0,
-"side": "F",
-"box": [
-32.274999,
-370.575,
-34.264999,
-374.025
-],
-"model": true
-},
-{
-"ref": "D9",
-"fp": "Package_TO_SOT_SMD:SOT-23",
-"value": "BZX84C5V1",
-"x": 18.975,
-"y": 263.745,
-"rot": 0.0,
-"side": "F",
-"box": [
-17.0,
-262.0,
-20.95,
-265.49
-],
-"model": true
-},
-{
-"ref": "R57",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "4K7 1%",
-"x": 27.77,
-"y": 112.11,
-"rot": 0.0,
-"side": "F",
-"box": [
-26.045,
-111.115,
-29.495,
-113.105
-],
-"model": true
-},
-{
-"ref": "C2",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 6.745,
-"y": 346.025,
-"rot": 0.0,
-"side": "F",
-"box": [
-5.0,
-345.0,
-8.49,
-347.05
-],
-"model": true
-},
-{
-"ref": "R8",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "10K 0.1%",
-"x": 13.27,
-"y": 65.879999,
-"rot": 0.0,
-"side": "F",
-"box": [
-11.545,
-64.884999,
-14.995,
-66.874999
-],
-"model": true
-},
-{
-"ref": "R39",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "1K",
-"x": 5.579999,
-"y": 64.61,
-"rot": 0.0,
-"side": "F",
-"box": [
-3.854999,
-63.615,
-7.304999,
-65.605
-],
-"model": true
-},
-{
-"ref": "RV2",
-"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
-"value": "Aux1 10K log",
-"x": 2.5,
-"y": 163.5,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.305,
-159.545,
-15.145,
-172.455
-],
-"feature": [
-10.0,
-166.0
-],
-"model": false,
-"pads": [
-[
-10.0,
-161.2
-],
-[
-10.0,
-170.8
-],
-[
-2.5,
-163.5
-],
-[
-2.5,
-166.0
-],
-[
-2.5,
-168.5
-]
-]
-},
-{
-"ref": "C29",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 33.22,
-"y": 62.34,
-"rot": 0.0,
-"side": "F",
-"box": [
-31.475,
-61.315,
-34.965,
-63.365
-],
-"model": true
-},
-{
-"ref": "R96",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "430R 1%",
 "x": 35.225,
-"y": 121.995,
+"y": 362.495,
 "rot": 0.0,
 "side": "F",
 "box": [
 33.5,
-121.0,
+361.5,
 36.95,
-122.99
+363.49
 ],
 "model": true
 },
 {
-"ref": "R21",
+"ref": "R19",
 "fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "22K",
-"x": 35.225,
-"y": 296.995,
+"value": "4K7",
+"x": 32.109999,
+"y": 419.22,
 "rot": 0.0,
 "side": "F",
 "box": [
-33.5,
-296.0,
-36.95,
-297.99
-],
-"model": true
-},
-{
-"ref": "JP3",
-"fp": "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm",
-"value": "Aux3/4 pre source",
-"x": 19.77,
-"y": 45.84,
-"rot": 0.0,
-"side": "F",
-"box": [
-17.425,
-44.545,
-22.115,
-47.135
-],
-"model": false,
-"pads": []
-},
-{
-"ref": "C41",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "33p C0G",
-"x": 33.22,
-"y": 57.379999,
-"rot": 0.0,
-"side": "F",
-"box": [
-31.475,
-56.354999,
-34.965,
-58.404999
-],
-"model": true
-},
-{
-"ref": "R93",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "2K2 1%",
-"x": 34.72,
-"y": 116.15,
-"rot": 90.0,
-"side": "F",
-"box": [
-33.725,
-114.425,
-35.715,
-117.875
-],
-"model": true
-},
-{
-"ref": "R82",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "10K 1%",
-"x": 17.27,
-"y": 106.61,
-"rot": 90.0,
-"side": "F",
-"box": [
-16.275,
-104.885,
-18.265,
-108.335
-],
-"model": true
-},
-{
-"ref": "D7",
-"fp": "LED_THT:LED_D3.0mm",
-"value": "1-2 yellow",
-"x": 15.73,
-"y": 283.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-14.535,
-280.745,
-19.465,
-285.255
-],
-"feature": [
-17.0,
-283.0
-],
-"model": true
-},
-{
-"ref": "H5",
-"fp": "MountingHole:MountingHole_3.2mm_M3",
-"value": "M3 standoff 11.5 mm",
-"x": 5.0,
-"y": 425.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.50753,
-421.502474,
-8.494999,
-428.497526
-],
-"model": false,
-"pads": []
-},
-{
-"ref": "R40",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "10K",
-"x": 13.77,
-"y": 89.38,
-"rot": 0.0,
-"side": "F",
-"box": [
-12.045,
-88.385,
-15.495,
-90.375
-],
-"model": true
-},
-{
-"ref": "R49",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "56K",
-"x": 34.769999,
-"y": 71.88,
-"rot": 90.0,
-"side": "F",
-"box": [
-33.774999,
-70.155,
-35.764999,
-73.605
-],
-"model": true
-},
-{
-"ref": "JP6",
-"fp": "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm",
-"value": "EQ input",
-"x": 35.269999,
-"y": 53.34,
-"rot": 90.0,
-"side": "F",
-"box": [
-33.974999,
-50.995,
-36.564999,
-55.685
-],
-"model": false,
-"pads": []
-},
-{
-"ref": "D2",
-"fp": "LED_THT:LED_D3.0mm",
-"value": "OL red",
-"x": 26.73,
-"y": 61.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-25.535,
-58.745,
-30.465,
-63.255
-],
-"feature": [
-28.0,
-61.0
-],
-"model": true
-},
-{
-"ref": "C65",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 31.22,
-"y": 106.84,
-"rot": 90.0,
-"side": "F",
-"box": [
-30.195,
-105.095,
-32.245,
-108.585
-],
-"model": true
-},
-{
-"ref": "R66",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "22K",
-"x": 33.269999,
-"y": 147.11,
-"rot": 0.0,
-"side": "F",
-"box": [
-31.544999,
-146.115,
-34.994999,
-148.105
-],
-"model": true
-},
-{
-"ref": "C32",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 18.27,
-"y": 136.15,
-"rot": 0.0,
-"side": "F",
-"box": [
-16.525,
-135.125,
-20.015,
-137.175
-],
-"model": true
-},
-{
-"ref": "SW15",
-"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
-"value": "Phase",
-"x": 25.5,
-"y": 47.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-22.805,
-45.105,
-33.195,
-54.895
-],
-"feature": [
-28.0,
-50.0
-],
-"model": false,
-"pads": [
-[
-25.5,
-47.0
-],
-[
-28.0,
-47.0
-],
-[
-30.5,
-47.0
-],
-[
-25.5,
-53.0
-],
-[
-28.0,
-53.0
-],
-[
-30.5,
-53.0
-]
-]
-},
-{
-"ref": "R41",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "10K",
-"x": 17.77,
-"y": 89.38,
-"rot": 0.0,
-"side": "F",
-"box": [
-16.045,
-88.385,
-19.495,
-90.375
-],
-"model": true
-},
-{
-"ref": "C62",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "1u",
-"x": 35.245,
-"y": 263.024999,
-"rot": 0.0,
-"side": "F",
-"box": [
-33.5,
-261.999999,
-36.99,
-264.049999
-],
-"model": true
-},
-{
-"ref": "R6",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "10K 0.1%",
-"x": 17.27,
-"y": 51.61,
-"rot": 0.0,
-"side": "F",
-"box": [
-15.545,
-50.615,
-18.995,
-52.605
-],
-"model": true
-},
-{
-"ref": "R73",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "75R",
-"x": 2.725,
-"y": 153.495,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.0,
-152.5,
-4.45,
-154.49
-],
-"model": true
-},
-{
-"ref": "RV13",
-"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
-"value": "LO-MID gain 10K lin CD",
-"x": 2.5,
-"y": 117.5,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.305,
-113.545,
-15.145,
-126.455
-],
-"feature": [
-10.0,
-120.0
-],
-"model": false,
-"pads": [
-[
-10.0,
-115.2
-],
-[
-10.0,
-124.8
-],
-[
-2.5,
-117.5
-],
-[
-2.5,
-120.0
-],
-[
-2.5,
-122.5
-]
-]
-},
-{
-"ref": "C31",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 27.22,
-"y": 129.84,
-"rot": 90.0,
-"side": "F",
-"box": [
-26.195,
-128.095,
-28.245,
-131.585
-],
-"model": true
-},
-{
-"ref": "R50",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "33K",
-"x": 33.22,
-"y": 59.879999,
-"rot": 0.0,
-"side": "F",
-"box": [
-31.495,
-58.884999,
-34.945,
-60.874999
-],
-"model": true
-},
-{
-"ref": "JP5",
-"fp": "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm",
-"value": "Insert send source",
-"x": 19.77,
-"y": 72.34,
-"rot": 0.0,
-"side": "F",
-"box": [
-17.425,
-71.045,
-22.115,
-73.635
-],
-"model": false,
-"pads": []
-},
-{
-"ref": "U5",
-"fp": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
-"value": "OPA1612",
-"x": 30.745,
-"y": 66.745,
-"rot": 0.0,
-"side": "F",
-"box": [
-27.0,
-64.0,
-34.49,
-69.49
-],
-"model": true
-},
-{
-"ref": "R48",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "27K",
-"x": 36.269999,
-"y": 62.84,
-"rot": 90.0,
-"side": "F",
-"box": [
-35.274999,
-61.115,
-37.264999,
-64.565
-],
-"model": true
-},
-{
-"ref": "C64",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 2.27,
-"y": 112.15,
-"rot": 0.0,
-"side": "F",
-"box": [
-0.525,
-111.125,
-4.015,
-113.175
-],
-"model": true
-},
-{
-"ref": "C49",
-"fp": "Capacitor_THT:C_Rect_L7.2mm_W8.5mm_P5.00mm_FKP2_FKP2_MKS2_MKP2",
-"value": "2.2u film",
-"x": 8.77,
-"y": 153.38,
-"rot": 0.0,
-"side": "F",
-"box": [
-7.375,
-148.835,
-15.165,
-157.925
-],
-"model": true
-},
-{
-"ref": "D1",
-"fp": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
-"value": "1N4148",
-"x": 1.459999,
-"y": 67.61,
-"rot": 0.0,
-"side": "F",
-"box": [
-0.364999,
-66.315,
-10.174999,
-68.905
-],
-"model": true
-},
-{
-"ref": "C20",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 25.22,
-"y": 56.34,
-"rot": 0.0,
-"side": "F",
-"box": [
-23.475,
-55.315,
-26.965,
-57.365
-],
-"model": true
-},
-{
-"ref": "C36",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 20.77,
-"y": 181.65,
-"rot": 0.0,
-"side": "F",
-"box": [
-19.025,
-180.625,
-22.515,
-182.675
-],
-"model": true
-},
-{
-"ref": "RV7",
-"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
-"value": "Aux6 10K log",
-"x": 35.5,
-"y": 212.5,
-"rot": 180.0,
-"side": "F",
-"box": [
-22.855,
-203.545,
-36.695,
-216.455
-],
-"feature": [
-28.0,
-210.0
-],
-"model": false,
-"pads": [
-[
-28.0,
-214.8
-],
-[
-28.0,
-205.2
-],
-[
-35.5,
-212.5
-],
-[
-35.5,
-210.0
-],
-[
-35.5,
-207.5
-]
-]
-},
-{
-"ref": "SW8",
-"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
-"value": "PRE 1-2",
-"x": 3.5,
-"y": 227.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-0.805,
-225.105,
-11.195,
-234.895
-],
-"feature": [
-6.0,
-230.0
-],
-"model": false,
-"pads": [
-[
-3.5,
-227.0
-],
-[
-6.0,
-227.0
-],
-[
-8.5,
-227.0
-],
-[
-3.5,
-233.0
-],
-[
-6.0,
-233.0
-],
-[
-8.5,
-233.0
-]
-]
-},
-{
-"ref": "C26",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 10.219999,
-"y": 84.84,
-"rot": 90.0,
-"side": "F",
-"box": [
-9.194999,
-83.095,
-11.244999,
-86.585
-],
-"model": true
-},
-{
-"ref": "R23",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "22K",
-"x": 27.725,
-"y": 299.495,
-"rot": 0.0,
-"side": "F",
-"box": [
-26.0,
-298.5,
-29.45,
-300.49
-],
-"model": true
-},
-{
-"ref": "R29",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "4K7 1%",
-"x": 27.725,
-"y": 304.495,
-"rot": 0.0,
-"side": "F",
-"box": [
-26.0,
-303.5,
-29.45,
-305.49
+30.384999,
+418.225,
+33.834999,
+420.215
 ],
 "model": true
 },
@@ -1314,661 +1658,97 @@
 "ref": "R14",
 "fp": "Resistor_SMD:R_0805_2012Metric",
 "value": "470K",
-"x": 12.77,
-"y": 86.11,
+"x": 10.27,
+"y": 66.61,
 "rot": 90.0,
 "side": "F",
 "box": [
-11.775,
-84.385,
-13.765,
-87.835
+9.275,
+64.885,
+11.265,
+68.335
 ],
 "model": true
 },
 {
-"ref": "R33",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "100K",
-"x": 21.725,
-"y": 280.995,
+"ref": "C34",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 26.77,
+"y": 156.65,
 "rot": 0.0,
 "side": "F",
 "box": [
-20.0,
-280.0,
-23.45,
-281.99
+25.025,
+155.625,
+28.515,
+157.675
 ],
 "model": true
 },
 {
-"ref": "R70",
+"ref": "R62",
 "fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "100K",
+"value": "3K3",
+"x": 31.72,
+"y": 128.61,
+"rot": 90.0,
+"side": "F",
+"box": [
+30.725,
+126.885,
+32.715,
+130.335
+],
+"model": true
+},
+{
+"ref": "R13",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "47K",
+"x": 10.225,
+"y": 156.495,
+"rot": 0.0,
+"side": "F",
+"box": [
+8.5,
+155.5,
+11.95,
+157.49
+],
+"model": true
+},
+{
+"ref": "R64",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "1K5",
 "x": 20.77,
-"y": 172.88,
-"rot": 0.0,
+"y": 179.38,
+"rot": 90.0,
 "side": "F",
 "box": [
-19.045,
-171.885,
-22.495,
-173.875
+19.775,
+177.655,
+21.765,
+181.105
 ],
 "model": true
 },
 {
-"ref": "R65",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "5K1",
-"x": 30.77,
-"y": 156.38,
-"rot": 0.0,
-"side": "F",
-"box": [
-29.045,
-155.385,
-32.495,
-157.375
-],
-"model": true
-},
-{
-"ref": "SW3",
-"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
-"value": "PFL",
-"x": 3.5,
-"y": 289.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-0.805,
-287.105,
-11.195,
-296.895
-],
-"feature": [
-6.0,
-292.0
-],
-"model": false,
-"pads": [
-[
-3.5,
-289.0
-],
-[
-6.0,
-289.0
-],
-[
-8.5,
-289.0
-],
-[
-3.5,
-295.0
-],
-[
-6.0,
-295.0
-],
-[
-8.5,
-295.0
-]
-]
-},
-{
-"ref": "R24",
+"ref": "R21",
 "fp": "Resistor_SMD:R_0805_2012Metric",
 "value": "22K",
-"x": 31.725,
-"y": 299.495,
+"x": 23.725,
+"y": 298.495,
 "rot": 0.0,
 "side": "F",
 "box": [
-30.0,
-298.5,
-33.45,
-300.49
+22.0,
+297.5,
+25.45,
+299.49
 ],
 "model": true
-},
-{
-"ref": "R18",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "100K",
-"x": 28.879998,
-"y": 428.22,
-"rot": 90.0,
-"side": "F",
-"box": [
-27.884998,
-426.495,
-29.874998,
-429.945
-],
-"model": true
-},
-{
-"ref": "R94",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "10K 1%",
-"x": 35.22,
-"y": 103.65,
-"rot": 0.0,
-"side": "F",
-"box": [
-33.495,
-102.655,
-36.945,
-104.645
-],
-"model": true
-},
-{
-"ref": "R34",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "4K7",
-"x": 32.725,
-"y": 280.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-31.0,
-280.0,
-34.45,
-281.99
-],
-"model": true
-},
-{
-"ref": "R31",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "4K7 1%",
-"x": 28.495,
-"y": 307.725,
-"rot": 90.0,
-"side": "F",
-"box": [
-27.5,
-306.0,
-29.49,
-309.45
-],
-"model": true
-},
-{
-"ref": "R79",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "4K7",
-"x": 10.725,
-"y": 262.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-9.0,
-262.0,
-12.45,
-263.99
-],
-"model": true
-},
-{
-"ref": "R98",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "13K 1%",
-"x": 16.77,
-"y": 170.84,
-"rot": 90.0,
-"side": "F",
-"box": [
-15.775,
-169.115,
-17.765,
-172.565
-],
-"model": true
-},
-{
-"ref": "C40",
-"fp": "Capacitor_SMD:C_1206_3216Metric",
-"value": "47n C0G",
-"x": 36.269999,
-"y": 67.38,
-"rot": 90.0,
-"side": "F",
-"box": [
-35.074999,
-65.035,
-37.464999,
-69.725
-],
-"model": true
-},
-{
-"ref": "R38",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "2K2",
-"x": 29.109999,
-"y": 424.22,
-"rot": 90.0,
-"side": "F",
-"box": [
-28.114999,
-422.495,
-30.104999,
-425.945
-],
-"model": true
-},
-{
-"ref": "C24",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 10.719999,
-"y": 239.84,
-"rot": 0.0,
-"side": "F",
-"box": [
-8.974999,
-238.815,
-12.464999,
-240.865
-],
-"model": true
-},
-{
-"ref": "C56",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 35.719999,
-"y": 372.11,
-"rot": 90.0,
-"side": "F",
-"box": [
-34.694999,
-370.365,
-36.744999,
-373.855
-],
-"model": true
-},
-{
-"ref": "R55",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "22K",
-"x": 13.77,
-"y": 131.11,
-"rot": 90.0,
-"side": "F",
-"box": [
-12.775,
-129.385,
-14.765,
-132.835
-],
-"model": true
-},
-{
-"ref": "R78",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "100K",
-"x": 29.769999,
-"y": 400.8,
-"rot": 0.0,
-"side": "F",
-"box": [
-28.044999,
-399.805,
-31.494999,
-401.795
-],
-"model": true
-},
-{
-"ref": "C33",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 34.72,
-"y": 150.34,
-"rot": 90.0,
-"side": "F",
-"box": [
-33.695,
-148.595,
-35.745,
-152.085
-],
-"model": true
-},
-{
-"ref": "SW5",
-"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
-"value": "Assign L-R",
-"x": 3.5,
-"y": 271.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-0.805,
-269.105,
-11.195,
-278.895
-],
-"feature": [
-6.0,
-274.0
-],
-"model": false,
-"pads": [
-[
-3.5,
-271.0
-],
-[
-6.0,
-271.0
-],
-[
-8.5,
-271.0
-],
-[
-3.5,
-277.0
-],
-[
-6.0,
-277.0
-],
-[
-8.5,
-277.0
-]
-]
-},
-{
-"ref": "RV1",
-"fp": "goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm",
-"value": "Fader 10K log 100mm",
-"x": 17.1,
-"y": 435.75,
-"rot": -90.0,
-"side": "F",
-"box": [
-10.955,
-306.455,
-27.045,
-437.545
-],
-"feature": [
-18.999999999999996,
-372.0
-],
-"model": false,
-"pads": [
-[
-19.0,
-333.2
-],
-[
-19.0,
-415.7
-],
-[
-17.1,
-435.75
-],
-[
-13.3,
-435.75
-],
-[
-17.1,
-308.25
-]
-]
-},
-{
-"ref": "C23",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 34.649999,
-"y": 416.72,
-"rot": 0.0,
-"side": "F",
-"box": [
-32.904999,
-415.695,
-36.394999,
-417.745
-],
-"model": true
-},
-{
-"ref": "U6",
-"fp": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
-"value": "OPA1612",
-"x": 21.745,
-"y": 131.745,
-"rot": 0.0,
-"side": "F",
-"box": [
-18.0,
-129.0,
-25.49,
-134.49
-],
-"model": true
-},
-{
-"ref": "R1",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "10R",
-"x": 2.725,
-"y": 340.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.0,
-340.0,
-4.45,
-341.99
-],
-"model": true
-},
-{
-"ref": "R7",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "10K 0.1%",
-"x": 11.27,
-"y": 62.61,
-"rot": 90.0,
-"side": "F",
-"box": [
-10.275,
-60.885,
-12.265,
-64.335
-],
-"model": true
-},
-{
-"ref": "C46",
-"fp": "Capacitor_SMD:C_1206_3216Metric",
-"value": "10n C0G",
-"x": 13.27,
-"y": 175.34,
-"rot": 90.0,
-"side": "F",
-"box": [
-12.075,
-172.995,
-14.465,
-177.685
-],
-"model": true
-},
-{
-"ref": "C43",
-"fp": "Capacitor_SMD:C_1206_3216Metric",
-"value": "4n7 C0G",
-"x": 33.307499,
-"y": 83.88,
-"rot": 90.0,
-"side": "F",
-"box": [
-32.112499,
-81.535,
-34.502499,
-86.225
-],
-"model": true
-},
-{
-"ref": "RV4",
-"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
-"value": "Aux3 10K log",
-"x": 2.5,
-"y": 185.5,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.305,
-181.545,
-15.145,
-194.455
-],
-"feature": [
-10.0,
-188.0
-],
-"model": false,
-"pads": [
-[
-10.0,
-183.2
-],
-[
-10.0,
-192.8
-],
-[
-2.5,
-185.5
-],
-[
-2.5,
-188.0
-],
-[
-2.5,
-190.5
-]
-]
-},
-{
-"ref": "RV8",
-"fp": "Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical",
-"value": "Pan 10K dual",
-"x": 17.5,
-"y": 254.5,
-"rot": 180.0,
-"side": "F",
-"box": [
-4.855,
-245.595,
-21.195,
-258.405
-],
-"feature": [
-10.0,
-252.0
-],
-"model": false,
-"pads": [
-[
-10.0,
-256.75
-],
-[
-10.0,
-247.25
-],
-[
-17.5,
-254.5
-],
-[
-17.5,
-252.0
-],
-[
-17.5,
-249.5
-],
-[
-20.0,
-254.5
-],
-[
-20.0,
-252.0
-],
-[
-20.0,
-249.5
-]
-]
-},
-{
-"ref": "SW13",
-"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
-"value": "DIR",
-"x": 25.5,
-"y": 255.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-22.805,
-253.105,
-33.195,
-262.895
-],
-"feature": [
-28.0,
-258.0
-],
-"model": false,
-"pads": [
-[
-25.5,
-255.0
-],
-[
-28.0,
-255.0
-],
-[
-30.5,
-255.0
-],
-[
-25.5,
-261.0
-],
-[
-28.0,
-261.0
-],
-[
-30.5,
-261.0
-]
-]
 },
 {
 "ref": "SW12",
@@ -2017,184 +1797,172 @@
 ]
 },
 {
-"ref": "JP2",
-"fp": "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm",
-"value": "Aux1/2 pre source",
-"x": 35.269999,
-"y": 48.34,
+"ref": "U14",
+"fp": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
+"value": "OPA1612",
+"x": 4.745,
+"y": 130.745,
+"rot": 0.0,
+"side": "F",
+"box": [
+1.0,
+128.0,
+8.49,
+133.49
+],
+"model": true
+},
+{
+"ref": "RV10",
+"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
+"value": "HF 10K lin CD",
+"x": 16.34,
+"y": 78.5,
+"rot": 180.0,
+"side": "F",
+"box": [
+3.695,
+69.545,
+17.535,
+82.455
+],
+"feature": [
+8.84,
+76.0
+],
+"model": false,
+"pads": [
+[
+8.84,
+80.8
+],
+[
+8.84,
+71.2
+],
+[
+16.34,
+78.5
+],
+[
+16.34,
+76.0
+],
+[
+16.34,
+73.5
+]
+]
+},
+{
+"ref": "U5",
+"fp": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
+"value": "OPA1612",
+"x": 12.245,
+"y": 85.745,
+"rot": 0.0,
+"side": "F",
+"box": [
+8.5,
+83.0,
+15.99,
+88.49
+],
+"model": true
+},
+{
+"ref": "RV7",
+"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
+"value": "Aux6 10K log",
+"x": 21.66,
+"y": 207.5,
+"rot": 0.0,
+"side": "F",
+"box": [
+20.465,
+203.545,
+34.305,
+216.455
+],
+"feature": [
+29.16,
+210.0
+],
+"model": false,
+"pads": [
+[
+29.16,
+205.2
+],
+[
+29.16,
+214.8
+],
+[
+21.66,
+207.5
+],
+[
+21.66,
+210.0
+],
+[
+21.66,
+212.5
+]
+]
+},
+{
+"ref": "C30",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 9.77,
+"y": 90.15,
+"rot": 0.0,
+"side": "F",
+"box": [
+8.025,
+89.125,
+11.515,
+91.175
+],
+"model": true
+},
+{
+"ref": "C65",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 29.72,
+"y": 106.84,
 "rot": 90.0,
 "side": "F",
 "box": [
-33.974999,
-45.995,
-36.564999,
-50.685
+28.695,
+105.095,
+30.745,
+108.585
+],
+"model": true
+},
+{
+"ref": "JP4",
+"fp": "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm",
+"value": "Aux5/6 pre source",
+"x": 25.27,
+"y": 56.84,
+"rot": 0.0,
+"side": "F",
+"box": [
+22.925,
+55.545,
+27.615,
+58.135
 ],
 "model": false,
 "pads": []
 },
 {
-"ref": "R16",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "4K7",
-"x": 2.807499,
-"y": 246.15,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.082499,
-245.155,
-4.532499,
-247.145
-],
-"model": true
-},
-{
-"ref": "R53",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "6K8",
-"x": 35.22,
-"y": 77.88,
-"rot": 0.0,
-"side": "F",
-"box": [
-33.495,
-76.885,
-36.945,
-78.875
-],
-"model": true
-},
-{
-"ref": "U4",
-"fp": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
-"value": "LM393",
-"x": 4.745,
-"y": 86.745,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.0,
-84.0,
-8.49,
-89.49
-],
-"model": true
-},
-{
-"ref": "R62",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "3K3",
-"x": 29.72,
-"y": 128.61,
-"rot": 90.0,
-"side": "F",
-"box": [
-28.725,
-126.885,
-30.715,
-130.335
-],
-"model": true
-},
-{
-"ref": "R58",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "22K",
-"x": 27.22,
-"y": 133.88,
-"rot": 90.0,
-"side": "F",
-"box": [
-26.225,
-132.155,
-28.215,
-135.605
-],
-"model": true
-},
-{
-"ref": "R72",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "47K",
-"x": 2.725,
-"y": 150.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.0,
-150.0,
-4.45,
-151.99
-],
-"model": true
-},
-{
-"ref": "R20",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "22K",
-"x": 31.225,
-"y": 296.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-29.5,
-296.0,
-32.95,
-297.99
-],
-"model": true
-},
-{
-"ref": "R22",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "22K",
-"x": 23.725,
-"y": 298.495,
-"rot": 0.0,
-"side": "F",
-"box": [
-22.0,
-297.5,
-25.45,
-299.49
-],
-"model": true
-},
-{
-"ref": "R63",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "3K3",
-"x": 20.77,
-"y": 158.84,
-"rot": 0.0,
-"side": "F",
-"box": [
-19.045,
-157.845,
-22.495,
-159.835
-],
-"model": true
-},
-{
-"ref": "U8",
-"fp": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
-"value": "OPA1612",
-"x": 23.745,
-"y": 177.245,
-"rot": 0.0,
-"side": "F",
-"box": [
-20.0,
-174.5,
-27.49,
-179.99
-],
-"model": true
-},
-{
-"ref": "R28",
+"ref": "R27",
 "fp": "Resistor_SMD:R_0805_2012Metric",
 "value": "4K7 1%",
 "x": 23.725,
@@ -2210,271 +1978,20 @@
 "model": true
 },
 {
-"ref": "R2",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "10R",
-"x": 6.725,
-"y": 340.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-5.0,
-340.0,
-8.45,
-341.99
-],
-"model": true
-},
-{
-"ref": "RV15",
-"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
-"value": "LF 10K lin CD",
-"x": 2.5,
-"y": 139.5,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.305,
-135.545,
-15.145,
-148.455
-],
-"feature": [
-10.0,
-142.0
-],
-"model": false,
-"pads": [
-[
-10.0,
-137.2
-],
-[
-10.0,
-146.8
-],
-[
-2.5,
-139.5
-],
-[
-2.5,
-142.0
-],
-[
-2.5,
-144.5
-]
-]
-},
-{
-"ref": "C57",
+"ref": "C20",
 "fp": "Capacitor_SMD:C_0805_2012Metric",
 "value": "100n",
-"x": 29.769999,
-"y": 386.61,
-"rot": 0.0,
-"side": "F",
-"box": [
-28.024999,
-385.585,
-31.514999,
-387.635
-],
-"model": true
-},
-{
-"ref": "R25",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "22K",
-"x": 23.725,
-"y": 300.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-22.0,
-300.0,
-25.45,
-301.99
-],
-"model": true
-},
-{
-"ref": "R86",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "430R 1%",
-"x": 35.225,
-"y": 92.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-33.5,
-92.0,
-36.95,
-93.99
-],
-"model": true
-},
-{
-"ref": "U12",
-"fp": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
-"value": "OPA1612",
-"x": 4.745,
-"y": 107.745,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.0,
-105.0,
-8.49,
-110.49
-],
-"model": true
-},
-{
-"ref": "C12",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "1u",
-"x": 10.27,
-"y": 89.11,
+"x": 35.839999,
+"y": 80.27,
 "rot": 90.0,
 "side": "F",
 "box": [
-9.245,
-87.365,
-11.295,
-90.855
+34.814999,
+78.525,
+36.864999,
+82.015
 ],
 "model": true
-},
-{
-"ref": "U13",
-"fp": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
-"value": "OPA1612",
-"x": 25.745,
-"y": 107.745,
-"rot": 0.0,
-"side": "F",
-"box": [
-22.0,
-105.0,
-29.49,
-110.49
-],
-"model": true
-},
-{
-"ref": "C37",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "22p C0G",
-"x": 24.72,
-"y": 64.879999,
-"rot": 0.0,
-"side": "F",
-"box": [
-22.975,
-63.854999,
-26.465,
-65.904999
-],
-"model": true
-},
-{
-"ref": "C63",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 10.219999,
-"y": 106.84,
-"rot": 90.0,
-"side": "F",
-"box": [
-9.194999,
-105.095,
-11.244999,
-108.585
-],
-"model": true
-},
-{
-"ref": "R3",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "10R",
-"x": 2.725,
-"y": 343.495,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.0,
-342.5,
-4.45,
-344.49
-],
-"model": true
-},
-{
-"ref": "U10",
-"fp": "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm",
-"value": "DG413",
-"x": 32.244999,
-"y": 379.745,
-"rot": 0.0,
-"side": "F",
-"box": [
-28.499999,
-374.5,
-35.989999,
-384.99
-],
-"model": true
-},
-{
-"ref": "R36",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "47K",
-"x": 31.225,
-"y": 236.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-29.5,
-236.0,
-32.95,
-237.99
-],
-"model": true
-},
-{
-"ref": "C54",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 29.769999,
-"y": 360.11,
-"rot": 0.0,
-"side": "F",
-"box": [
-28.024999,
-359.085,
-31.514999,
-361.135
-],
-"model": true
-},
-{
-"ref": "H6",
-"fp": "MountingHole:MountingHole_3.2mm_M3",
-"value": "M3 standoff 11.5 mm",
-"x": 34.0,
-"y": 425.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-30.50753,
-421.502474,
-37.494999,
-428.497526
-],
-"model": false,
-"pads": []
 },
 {
 "ref": "C44",
@@ -2493,1292 +2010,35 @@
 "model": true
 },
 {
-"ref": "RV10",
-"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
-"value": "HF 10K lin CD",
-"x": 2.5,
-"y": 73.5,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.305,
-69.545,
-15.145,
-82.455
-],
-"feature": [
-10.0,
-76.0
-],
-"model": false,
-"pads": [
-[
-10.0,
-71.2
-],
-[
-10.0,
-80.8
-],
-[
-2.5,
-73.5
-],
-[
-2.5,
-76.0
-],
-[
-2.5,
-78.5
-]
-]
-},
-{
-"ref": "C39",
-"fp": "Capacitor_SMD:C_1206_3216Metric",
-"value": "47n C0G",
-"x": 36.269999,
-"y": 81.855,
-"rot": 90.0,
-"side": "F",
-"box": [
-35.074999,
-79.51,
-37.464999,
-84.2
-],
-"model": true
-},
-{
-"ref": "R30",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "4K7 1%",
-"x": 34.995,
-"y": 300.225,
-"rot": 90.0,
-"side": "F",
-"box": [
-34.0,
-298.5,
-35.99,
-301.95
-],
-"model": true
-},
-{
-"ref": "R11",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "75R",
-"x": 22.27,
-"y": 82.34,
-"rot": 0.0,
-"side": "F",
-"box": [
-20.545,
-81.345,
-23.995,
-83.335
-],
-"model": true
-},
-{
-"ref": "R75",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "4K7",
-"x": 2.725,
-"y": 262.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.0,
-262.0,
-4.45,
-263.99
-],
-"model": true
-},
-{
-"ref": "C13",
-"fp": "Capacitor_SMD:C_1206_3216Metric",
-"value": "2.2u",
-"x": 35.229999,
-"y": 430.22,
-"rot": 0.0,
-"side": "F",
-"box": [
-32.884999,
-429.025,
-37.574999,
-431.415
-],
-"model": true
-},
-{
-"ref": "R35",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "47K",
-"x": 27.225,
-"y": 236.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-25.5,
-236.0,
-28.95,
-237.99
-],
-"model": true
-},
-{
-"ref": "SW4",
-"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
-"value": "ON",
-"x": 21.5,
-"y": 289.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-18.805,
-287.105,
-29.195,
-296.895
-],
-"feature": [
-24.0,
-292.0
-],
-"model": false,
-"pads": [
-[
-21.5,
-289.0
-],
-[
-24.0,
-289.0
-],
-[
-26.5,
-289.0
-],
-[
-21.5,
-295.0
-],
-[
-24.0,
-295.0
-],
-[
-26.5,
-295.0
-]
-]
-},
-{
-"ref": "R27",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "4K7 1%",
-"x": 31.725,
-"y": 301.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-30.0,
-301.0,
-33.45,
-302.99
-],
-"model": true
-},
-{
-"ref": "C21",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 13.77,
-"y": 62.65,
-"rot": 90.0,
-"side": "F",
-"box": [
-12.745,
-60.905,
-14.795,
-64.395
-],
-"model": true
-},
-{
-"ref": "RV5",
-"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
-"value": "Aux4 10K log",
-"x": 35.5,
-"y": 190.5,
-"rot": 180.0,
-"side": "F",
-"box": [
-22.855,
-181.545,
-36.695,
-194.455
-],
-"feature": [
-28.0,
-188.0
-],
-"model": false,
-"pads": [
-[
-28.0,
-192.8
-],
-[
-28.0,
-183.2
-],
-[
-35.5,
-190.5
-],
-[
-35.5,
-188.0
-],
-[
-35.5,
-185.5
-]
-]
-},
-{
-"ref": "R19",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "4K7",
-"x": 32.109999,
-"y": 419.22,
-"rot": 0.0,
-"side": "F",
-"box": [
-30.384999,
-418.225,
-33.834999,
-420.215
-],
-"model": true
-},
-{
-"ref": "RV9",
-"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
-"value": "Gain 10K lin CD",
-"x": 2.5,
-"y": 51.5,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.305,
-47.545,
-15.145,
-60.455
-],
-"feature": [
-10.0,
-54.0
-],
-"model": false,
-"pads": [
-[
-10.0,
-49.2
-],
-[
-10.0,
-58.8
-],
-[
-2.5,
-51.5
-],
-[
-2.5,
-54.0
-],
-[
-2.5,
-56.5
-]
-]
-},
-{
-"ref": "U14",
-"fp": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
-"value": "OPA1612",
-"x": 4.745,
-"y": 176.745,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.0,
-174.0,
-8.49,
-179.49
-],
-"model": true
-},
-{
-"ref": "JP1",
-"fp": "Jumper:SolderJumper-2_P1.3mm_Bridged_RoundedPad1.0x1.5mm",
-"value": "VCA bypass",
-"x": 35.879999,
-"y": 419.72,
-"rot": 0.0,
-"side": "F",
-"box": [
-34.184999,
-418.425,
-37.574999,
-421.015
-],
-"model": false,
-"pads": []
-},
-{
-"ref": "U11",
-"fp": "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm",
-"value": "DG413",
-"x": 32.244999,
-"y": 394.245,
-"rot": 0.0,
-"side": "F",
-"box": [
-28.499999,
-389.0,
-35.989999,
-399.49
-],
-"model": true
-},
-{
-"ref": "D4",
-"fp": "LED_THT:LED_D3.0mm",
-"value": "ON green",
-"x": 30.93,
-"y": 292.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-29.735,
-289.745,
-34.665,
-294.255
-],
-"feature": [
-32.2,
-292.0
-],
-"model": true
-},
-{
-"ref": "R87",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "430R 1%",
-"x": 35.225,
-"y": 95.495,
-"rot": 0.0,
-"side": "F",
-"box": [
-33.5,
-94.5,
-36.95,
-96.49
-],
-"model": true
-},
-{
-"ref": "R61",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "4K7 1%",
-"x": 17.22,
-"y": 179.88,
-"rot": 90.0,
-"side": "F",
-"box": [
-16.225,
-178.155,
-18.215,
-181.605
-],
-"model": true
-},
-{
-"ref": "R9",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "10K 0.1%",
-"x": 8.77,
-"y": 62.88,
-"rot": 90.0,
-"side": "F",
-"box": [
-7.775,
-61.155,
-9.765,
-64.605
-],
-"model": true
-},
-{
-"ref": "R15",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "1K",
-"x": 2.725,
-"y": 61.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.0,
-61.0,
-4.45,
-62.99
-],
-"model": true
-},
-{
-"ref": "R60",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "4K7 1%",
-"x": 13.77,
-"y": 179.11,
-"rot": 0.0,
-"side": "F",
-"box": [
-12.045,
-178.115,
-15.495,
-180.105
-],
-"model": true
-},
-{
-"ref": "RV11",
-"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
-"value": "HI-MID gain 10K lin CD",
-"x": 2.5,
-"y": 95.5,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.305,
-91.545,
-15.145,
-104.455
-],
-"feature": [
-10.0,
-98.0
-],
-"model": false,
-"pads": [
-[
-10.0,
-93.2
-],
-[
-10.0,
-102.8
-],
-[
-2.5,
-95.5
-],
-[
-2.5,
-98.0
-],
-[
-2.5,
-100.5
-]
-]
-},
-{
-"ref": "R26",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "4K7 1%",
-"x": 27.725,
-"y": 301.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-26.0,
-301.0,
-29.45,
-302.99
-],
-"model": true
-},
-{
-"ref": "SW11",
-"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
-"value": "HPF",
-"x": 25.5,
-"y": 73.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-22.805,
-71.105,
-33.195,
-80.895
-],
-"feature": [
-28.0,
-76.0
-],
-"model": false,
-"pads": [
-[
-25.5,
-73.0
-],
-[
-28.0,
-73.0
-],
-[
-30.5,
-73.0
-],
-[
-25.5,
-79.0
-],
-[
-28.0,
-79.0
-],
-[
-30.5,
-79.0
-]
-]
-},
-{
-"ref": "C30",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 25.27,
-"y": 68.65,
-"rot": 90.0,
-"side": "F",
-"box": [
-24.245,
-66.905,
-26.295,
-70.395
-],
-"model": true
-},
-{
-"ref": "R90",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "10K 1%",
-"x": 33.72,
-"y": 106.88,
-"rot": 90.0,
-"side": "F",
-"box": [
-32.725,
-105.155,
-34.715,
-108.605
-],
-"model": true
-},
-{
-"ref": "R4",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "10R",
-"x": 6.725,
-"y": 343.495,
-"rot": 0.0,
-"side": "F",
-"box": [
-5.0,
-342.5,
-8.45,
-344.49
-],
-"model": true
-},
-{
-"ref": "R68",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "47K",
-"x": 26.225,
-"y": 86.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-24.5,
-86.0,
-27.95,
-87.99
-],
-"model": true
-},
-{
-"ref": "SW9",
-"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
-"value": "PRE 3-4",
-"x": 14.5,
-"y": 227.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-11.805,
-225.105,
-22.195,
-234.895
-],
-"feature": [
-17.0,
-230.0
-],
-"model": false,
-"pads": [
-[
-14.5,
-227.0
-],
-[
-17.0,
-227.0
-],
-[
-19.5,
-227.0
-],
-[
-14.5,
-233.0
-],
-[
-17.0,
-233.0
-],
-[
-19.5,
-233.0
-]
-]
-},
-{
-"ref": "U7",
-"fp": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
-"value": "OPA1612",
-"x": 29.245,
-"y": 152.245,
-"rot": 0.0,
-"side": "F",
-"box": [
-25.5,
-149.5,
-32.99,
-154.99
-],
-"model": true
-},
-{
-"ref": "RV6",
-"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
-"value": "Aux5 10K log",
-"x": 2.5,
-"y": 207.5,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.305,
-203.545,
-15.145,
-216.455
-],
-"feature": [
-10.0,
-210.0
-],
-"model": false,
-"pads": [
-[
-10.0,
-205.2
-],
-[
-10.0,
-214.8
-],
-[
-2.5,
-207.5
-],
-[
-2.5,
-210.0
-],
-[
-2.5,
-212.5
-]
-]
-},
-{
-"ref": "R95",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "430R 1%",
-"x": 35.225,
-"y": 119.495,
-"rot": 0.0,
-"side": "F",
-"box": [
-33.5,
-118.5,
-36.95,
-120.49
-],
-"model": true
-},
-{
-"ref": "R13",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "47K",
-"x": 35.225,
-"y": 124.495,
-"rot": 0.0,
-"side": "F",
-"box": [
-33.5,
-123.5,
-36.95,
-125.49
-],
-"model": true
-},
-{
-"ref": "C25",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 2.27,
-"y": 243.65,
-"rot": 0.0,
-"side": "F",
-"box": [
-0.525,
-242.625,
-4.015,
-244.675
-],
-"model": true
-},
-{
-"ref": "R43",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "4K7",
-"x": 27.225,
-"y": 239.495,
-"rot": 0.0,
-"side": "F",
-"box": [
-25.5,
-238.5,
-28.95,
-240.49
-],
-"model": true
-},
-{
-"ref": "C66",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 23.77,
-"y": 112.15,
-"rot": 0.0,
-"side": "F",
-"box": [
-22.025,
-111.125,
-25.515,
-113.175
-],
-"model": true
-},
-{
-"ref": "NT1",
-"fp": "NetTie:NetTie-2_SMD_Pad0.5mm",
-"value": "AGND-LGND star",
-"x": 5.0,
-"y": 351.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-4.25,
-350.75,
-5.75,
-351.25
-],
-"model": false,
-"pads": []
-},
-{
-"ref": "H4",
+"ref": "H5",
 "fp": "MountingHole:MountingHole_3.2mm_M3",
 "value": "M3 standoff 11.5 mm",
 "x": 5.0,
-"y": 330.0,
+"y": 425.0,
 "rot": 0.0,
 "side": "F",
 "box": [
 1.50753,
-326.502474,
+421.502474,
 8.494999,
-333.497526
+428.497526
 ],
 "model": false,
 "pads": []
 },
 {
-"ref": "C34",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
+"ref": "C49",
+"fp": "Capacitor_THT:C_Rect_L7.2mm_W8.5mm_P5.00mm_FKP2_FKP2_MKS2_MKP2",
+"value": "2.2u film",
 "x": 26.77,
-"y": 156.65,
-"rot": 0.0,
-"side": "F",
-"box": [
-25.025,
-155.625,
-28.515,
-157.675
-],
-"model": true
-},
-{
-"ref": "R44",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "100K",
-"x": 35.225,
-"y": 362.495,
-"rot": 0.0,
-"side": "F",
-"box": [
-33.5,
-361.5,
-36.95,
-363.49
-],
-"model": true
-},
-{
-"ref": "JP4",
-"fp": "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm",
-"value": "Aux5/6 pre source",
-"x": 14.77,
-"y": 45.84,
-"rot": 0.0,
-"side": "F",
-"box": [
-12.425,
-44.545,
-17.115,
-47.135
-],
-"model": false,
-"pads": []
-},
-{
-"ref": "D3",
-"fp": "LED_THT:LED_D3.0mm",
-"value": "PFL red",
-"x": 12.93,
-"y": 292.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-11.735,
-289.745,
-16.665,
-294.255
-],
-"feature": [
-14.2,
-292.0
-],
-"model": true
-},
-{
-"ref": "SW14",
-"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
-"value": "PAN",
-"x": 25.5,
-"y": 243.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-22.805,
-241.105,
-33.195,
-250.895
-],
-"feature": [
-28.0,
-246.0
-],
-"model": false,
-"pads": [
-[
-25.5,
-243.0
-],
-[
-28.0,
-243.0
-],
-[
-30.5,
-243.0
-],
-[
-25.5,
-249.0
-],
-[
-28.0,
-249.0
-],
-[
-30.5,
-249.0
-]
-]
-},
-{
-"ref": "R80",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "4K7",
-"x": 14.725,
-"y": 262.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-13.0,
-262.0,
-16.45,
-263.99
-],
-"model": true
-},
-{
-"ref": "C58",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 34.719999,
-"y": 386.38,
-"rot": 0.0,
-"side": "F",
-"box": [
-32.974999,
-385.355,
-36.464999,
-387.405
-],
-"model": true
-},
-{
-"ref": "U1",
-"fp": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
-"value": "OPA1612",
-"x": 19.245,
-"y": 58.245,
-"rot": 0.0,
-"side": "F",
-"box": [
-15.5,
-55.5,
-22.99,
-60.99
-],
-"model": true
-},
-{
-"ref": "R81",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "10K 1%",
-"x": 15.27,
-"y": 110.61,
+"y": 179.38,
 "rot": 90.0,
 "side": "F",
 "box": [
-14.275,
-108.885,
-16.265,
-112.335
-],
-"model": true
-},
-{
-"ref": "R46",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "2K2 1%",
-"x": 29.22,
-"y": 57.11,
-"rot": 0.0,
-"side": "F",
-"box": [
-27.495,
-56.115,
-30.945,
-58.105
-],
-"model": true
-},
-{
-"ref": "C67",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 10.219999,
-"y": 174.84,
-"rot": 90.0,
-"side": "F",
-"box": [
-9.194999,
-173.095,
-11.244999,
-176.585
-],
-"model": true
-},
-{
-"ref": "Q2",
-"fp": "Package_TO_SOT_SMD:SOT-23",
-"value": "J112",
-"x": 22.975,
-"y": 237.745,
-"rot": 0.0,
-"side": "F",
-"box": [
-21.0,
-236.0,
-24.95,
-239.49
-],
-"model": true
-},
-{
-"ref": "C14",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100p C0G",
-"x": 28.609999,
-"y": 420.22,
-"rot": 90.0,
-"side": "F",
-"box": [
-27.584999,
-418.475,
-29.634999,
-421.965
-],
-"model": true
-},
-{
-"ref": "RV14",
-"fp": "Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical",
-"value": "LO-MID freq 10K A dual",
-"x": 20.5,
-"y": 117.5,
-"rot": 0.0,
-"side": "F",
-"box": [
-16.805,
-113.595,
-33.145,
-126.405
-],
-"feature": [
-28.0,
-120.0
-],
-"model": false,
-"pads": [
-[
-28.0,
-115.25
-],
-[
-28.0,
-124.75
-],
-[
-20.5,
-117.5
-],
-[
-20.5,
-120.0
-],
-[
-20.5,
-122.5
-],
-[
-18.0,
-117.5
-],
-[
-18.0,
-120.0
-],
-[
-18.0,
-122.5
-]
-]
-},
-{
-"ref": "R97",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "13K 1%",
-"x": 34.72,
-"y": 100.61,
-"rot": 90.0,
-"side": "F",
-"box": [
-33.725,
-98.885,
-35.715,
-102.335
-],
-"model": true
-},
-{
-"ref": "C45",
-"fp": "Capacitor_SMD:C_1206_3216Metric",
-"value": "4n7 C0G",
-"x": 32.269999,
-"y": 110.34,
-"rot": 0.0,
-"side": "F",
-"box": [
-29.924999,
-109.145,
-34.614999,
-111.535
-],
-"model": true
-},
-{
-"ref": "SW10",
-"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
-"value": "PRE 5-6",
-"x": 25.5,
-"y": 227.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-22.805,
-225.105,
-33.195,
-234.895
-],
-"feature": [
-28.0,
-230.0
-],
-"model": false,
-"pads": [
-[
-25.5,
-227.0
-],
-[
-28.0,
-227.0
-],
-[
-30.5,
-227.0
-],
-[
-25.5,
-233.0
-],
-[
-28.0,
-233.0
-],
-[
-30.5,
-233.0
-]
-]
-},
-{
-"ref": "U9",
-"fp": "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm",
-"value": "DG413",
-"x": 32.244999,
-"y": 353.245,
-"rot": 0.0,
-"side": "F",
-"box": [
-28.499999,
-348.0,
-35.989999,
-358.49
-],
-"model": true
-},
-{
-"ref": "C53",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 36.219999,
-"y": 345.61,
-"rot": 90.0,
-"side": "F",
-"box": [
-35.194999,
-343.865,
-37.244999,
-347.355
-],
-"model": true
-},
-{
-"ref": "C59",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 34.719999,
-"y": 401.11,
-"rot": 0.0,
-"side": "F",
-"box": [
-32.974999,
-400.085,
-36.464999,
-402.135
-],
-"model": true
-},
-{
-"ref": "C28",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 16.9125,
-"y": 241.745,
-"rot": 0.0,
-"side": "F",
-"box": [
-15.1675,
-240.72,
-18.6575,
-242.77
+22.225,
+172.985,
+31.315,
+180.775
 ],
 "model": true
 },
@@ -3786,191 +2046,517 @@
 "ref": "R91",
 "fp": "Resistor_SMD:R_0805_2012Metric",
 "value": "10K 1%",
-"x": 36.22,
-"y": 108.38,
+"x": 32.22,
+"y": 106.88,
 "rot": 90.0,
 "side": "F",
 "box": [
-35.225,
-106.655,
-37.215,
-110.105
+31.225,
+105.155,
+33.215,
+108.605
 ],
 "model": true
 },
 {
-"ref": "R54",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "22K",
-"x": 16.27,
-"y": 131.11,
-"rot": 90.0,
-"side": "F",
-"box": [
-15.275,
-129.385,
-17.265,
-132.835
-],
-"model": true
-},
-{
-"ref": "C22",
+"ref": "C33",
 "fp": "Capacitor_SMD:C_0805_2012Metric",
 "value": "100n",
-"x": 30.839999,
-"y": 416.77,
+"x": 34.72,
+"y": 150.34,
+"rot": 90.0,
+"side": "F",
+"box": [
+33.695,
+148.595,
+35.745,
+152.085
+],
+"model": true
+},
+{
+"ref": "D6",
+"fp": "LED_THT:LED_D3.0mm",
+"value": "L-R yellow",
+"x": 5.89,
+"y": 283.0,
 "rot": 0.0,
 "side": "F",
 "box": [
-29.094999,
-415.745,
-32.584999,
-417.795
+4.695,
+280.745,
+9.625,
+285.255
+],
+"feature": [
+7.16,
+283.0
 ],
 "model": true
 },
 {
-"ref": "R17",
+"ref": "R77",
 "fp": "Resistor_SMD:R_0805_2012Metric",
 "value": "4K7",
-"x": 7.219999,
-"y": 243.65,
-"rot": 0.0,
-"side": "F",
-"box": [
-5.494999,
-242.655,
-8.944999,
-244.645
-],
-"model": true
-},
-{
-"ref": "C4",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 2.745,
-"y": 348.525,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.0,
-347.5,
-4.49,
-349.55
-],
-"model": true
-},
-{
-"ref": "R47",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "47K",
 "x": 6.725,
-"y": 45.995,
+"y": 262.995,
 "rot": 0.0,
 "side": "F",
 "box": [
 5.0,
-45.0,
+262.0,
 8.45,
-46.99
+263.99
 ],
 "model": true
 },
 {
-"ref": "R59",
+"ref": "R78",
 "fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "22K",
-"x": 29.72,
-"y": 132.38,
+"value": "100K",
+"x": 29.769999,
+"y": 400.8,
+"rot": 0.0,
+"side": "F",
+"box": [
+28.044999,
+399.805,
+31.494999,
+401.795
+],
+"model": true
+},
+{
+"ref": "R82",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "10K 1%",
+"x": 2.27,
+"y": 98.61,
 "rot": 90.0,
 "side": "F",
 "box": [
-28.725,
-130.655,
-30.715,
-134.105
+1.275,
+96.885,
+3.265,
+100.335
 ],
 "model": true
+},
+{
+"ref": "R72",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "47K",
+"x": 2.725,
+"y": 157.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+1.0,
+157.0,
+4.45,
+158.99
+],
+"model": true
+},
+{
+"ref": "D4",
+"fp": "LED_THT:LED_D3.0mm",
+"value": "ON green",
+"x": 32.089999,
+"y": 292.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+30.894999,
+289.745,
+35.824999,
+294.255
+],
+"feature": [
+33.359999,
+292.0
+],
+"model": true
+},
+{
+"ref": "R31",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "4K7 1%",
+"x": 28.495,
+"y": 306.725,
+"rot": 90.0,
+"side": "F",
+"box": [
+27.5,
+305.0,
+29.49,
+308.45
+],
+"model": true
+},
+{
+"ref": "U13",
+"fp": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
+"value": "OPA1612",
+"x": 24.245,
+"y": 107.745,
+"rot": 0.0,
+"side": "F",
+"box": [
+20.5,
+105.0,
+27.99,
+110.49
+],
+"model": true
+},
+{
+"ref": "RV15",
+"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
+"value": "LF 10K lin CD",
+"x": 16.34,
+"y": 144.5,
+"rot": 180.0,
+"side": "F",
+"box": [
+3.695,
+135.545,
+17.535,
+148.455
+],
+"feature": [
+8.84,
+142.0
+],
+"model": false,
+"pads": [
+[
+8.84,
+146.8
+],
+[
+8.84,
+137.2
+],
+[
+16.34,
+144.5
+],
+[
+16.34,
+142.0
+],
+[
+16.34,
+139.5
+]
+]
+},
+{
+"ref": "SW9",
+"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
+"value": "PRE 3-4",
+"x": 15.66,
+"y": 227.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+12.965,
+225.105,
+23.355,
+234.895
+],
+"feature": [
+18.16,
+230.0
+],
+"model": false,
+"pads": [
+[
+15.66,
+227.0
+],
+[
+18.16,
+227.0
+],
+[
+20.66,
+227.0
+],
+[
+15.66,
+233.0
+],
+[
+18.16,
+233.0
+],
+[
+20.66,
+233.0
+]
+]
 },
 {
 "ref": "R92",
 "fp": "Resistor_SMD:R_0805_2012Metric",
 "value": "10K 1%",
-"x": 35.22,
-"y": 112.88,
+"x": 34.72,
+"y": 108.38,
+"rot": 90.0,
+"side": "F",
+"box": [
+33.725,
+106.655,
+35.715,
+110.105
+],
+"model": true
+},
+{
+"ref": "R10",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "1M",
+"x": 2.725,
+"y": 45.995,
 "rot": 0.0,
 "side": "F",
 "box": [
-33.495,
-111.885,
-36.945,
-113.875
+1.0,
+45.0,
+4.45,
+46.99
 ],
 "model": true
 },
 {
-"ref": "C68",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100n",
-"x": 10.27,
-"y": 178.65,
-"rot": 90.0,
-"side": "F",
-"box": [
-9.245,
-176.905,
-11.295,
-180.395
-],
-"model": true
-},
-{
-"ref": "R74",
+"ref": "R69",
 "fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "100K",
-"x": 29.269999,
-"y": 345.8,
-"rot": 90.0,
+"value": "4K7",
+"x": 35.225,
+"y": 130.495,
+"rot": 0.0,
 "side": "F",
 "box": [
-28.274999,
-344.075,
-30.264999,
-347.525
+33.5,
+129.5,
+36.95,
+131.49
 ],
 "model": true
 },
 {
-"ref": "R67",
+"ref": "R98",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "13K 1%",
+"x": 2.27,
+"y": 143.84,
+"rot": 90.0,
+"side": "F",
+"box": [
+1.275,
+142.115,
+3.265,
+145.565
+],
+"model": true
+},
+{
+"ref": "RV9",
+"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
+"value": "Gain 10K lin CD",
+"x": 16.34,
+"y": 56.5,
+"rot": 180.0,
+"side": "F",
+"box": [
+3.695,
+47.545,
+17.535,
+60.455
+],
+"feature": [
+8.84,
+54.0
+],
+"model": false,
+"pads": [
+[
+8.84,
+58.8
+],
+[
+8.84,
+49.2
+],
+[
+16.34,
+56.5
+],
+[
+16.34,
+54.0
+],
+[
+16.34,
+51.5
+]
+]
+},
+{
+"ref": "R24",
 "fp": "Resistor_SMD:R_0805_2012Metric",
 "value": "22K",
-"x": 34.769999,
-"y": 154.11,
-"rot": 90.0,
+"x": 23.725,
+"y": 300.995,
+"rot": 0.0,
 "side": "F",
 "box": [
-33.774999,
-152.385,
-35.764999,
-155.835
+22.0,
+300.0,
+25.45,
+301.99
 ],
 "model": true
 },
 {
-"ref": "C60",
+"ref": "RV8",
+"fp": "Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical",
+"value": "Pan 10K dual",
+"x": 16.34,
+"y": 254.5,
+"rot": 180.0,
+"side": "F",
+"box": [
+3.695,
+245.595,
+20.035,
+258.405
+],
+"feature": [
+8.84,
+252.0
+],
+"model": false,
+"pads": [
+[
+8.84,
+256.75
+],
+[
+8.84,
+247.25
+],
+[
+16.34,
+254.5
+],
+[
+16.34,
+252.0
+],
+[
+16.34,
+249.5
+],
+[
+18.84,
+254.5
+],
+[
+18.84,
+252.0
+],
+[
+18.84,
+249.5
+]
+]
+},
+{
+"ref": "RV14",
+"fp": "Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical",
+"value": "LO-MID freq 10K A dual",
+"x": 21.66,
+"y": 117.5,
+"rot": 0.0,
+"side": "F",
+"box": [
+17.965,
+113.595,
+34.305,
+126.405
+],
+"feature": [
+29.16,
+120.0
+],
+"model": false,
+"pads": [
+[
+29.16,
+115.25
+],
+[
+29.16,
+124.75
+],
+[
+21.66,
+117.5
+],
+[
+21.66,
+120.0
+],
+[
+21.66,
+122.5
+],
+[
+19.16,
+117.5
+],
+[
+19.16,
+120.0
+],
+[
+19.16,
+122.5
+]
+]
+},
+{
+"ref": "R7",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "10K 0.1%",
+"x": 35.609999,
+"y": 96.22,
+"rot": 90.0,
+"side": "F",
+"box": [
+34.614999,
+94.495,
+36.604999,
+97.945
+],
+"model": true
+},
+{
+"ref": "C57",
 "fp": "Capacitor_SMD:C_0805_2012Metric",
 "value": "100n",
 "x": 29.769999,
-"y": 403.61,
+"y": 386.61,
 "rot": 0.0,
 "side": "F",
 "box": [
 28.024999,
-402.585,
+385.585,
 31.514999,
-404.635
+387.635
 ],
 "model": true
 },
@@ -3991,299 +2577,50 @@
 "model": true
 },
 {
-"ref": "C47",
-"fp": "Capacitor_SMD:C_1206_3216Metric",
-"value": "22n C0G",
-"x": 16.219999,
-"y": 175.38,
+"ref": "C37",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "22p C0G",
+"x": 35.879999,
+"y": 76.27,
 "rot": 90.0,
 "side": "F",
 "box": [
-15.024999,
-173.035,
-17.414999,
-177.725
+34.854999,
+74.525,
+36.904999,
+78.015
 ],
 "model": true
 },
 {
-"ref": "C42",
-"fp": "Capacitor_SMD:C_1206_3216Metric",
-"value": "4n7 C0G",
-"x": 33.307499,
-"y": 87.855,
-"rot": 0.0,
-"side": "F",
-"box": [
-30.962499,
-86.66,
-35.652499,
-89.05
-],
-"model": true
-},
-{
-"ref": "R84",
+"ref": "R4",
 "fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "2K2 1%",
-"x": 20.27,
-"y": 110.38,
-"rot": 90.0,
+"value": "10R",
+"x": 6.725,
+"y": 343.495,
+"rot": 0.0,
 "side": "F",
 "box": [
-19.275,
-108.655,
-21.265,
-112.105
+5.0,
+342.5,
+8.45,
+344.49
 ],
 "model": true
 },
 {
-"ref": "SW6",
-"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
-"value": "Assign 1-2",
-"x": 14.5,
-"y": 271.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-11.805,
-269.105,
-22.195,
-278.895
-],
-"feature": [
-17.0,
-274.0
-],
-"model": false,
-"pads": [
-[
-14.5,
-271.0
-],
-[
-17.0,
-271.0
-],
-[
-19.5,
-271.0
-],
-[
-14.5,
-277.0
-],
-[
-17.0,
-277.0
-],
-[
-19.5,
-277.0
-]
-]
-},
-{
-"ref": "R45",
+"ref": "R2",
 "fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "2K2 1%",
-"x": 17.27,
-"y": 48.84,
+"value": "10R",
+"x": 6.725,
+"y": 340.995,
 "rot": 0.0,
 "side": "F",
 "box": [
-15.545,
-47.845,
-18.995,
-49.835
-],
-"model": true
-},
-{
-"ref": "D8",
-"fp": "LED_THT:LED_D3.0mm",
-"value": "3-4 yellow",
-"x": 26.73,
-"y": 283.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-25.535,
-280.745,
-30.465,
-285.255
-],
-"feature": [
-28.0,
-283.0
-],
-"model": true
-},
-{
-"ref": "R5",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "10R GND cancel",
-"x": 2.725,
-"y": 345.995,
-"rot": 0.0,
-"side": "F",
-"box": [
-1.0,
-345.0,
-4.45,
-346.99
-],
-"model": true
-},
-{
-"ref": "R12",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "47K",
-"x": 34.72,
-"y": 157.15,
-"rot": 0.0,
-"side": "F",
-"box": [
-32.995,
-156.155,
-36.445,
-158.145
-],
-"model": true
-},
-{
-"ref": "JP7",
-"fp": "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm",
-"value": "PRE source",
-"x": 19.72,
-"y": 161.61,
-"rot": 0.0,
-"side": "F",
-"box": [
-17.375,
-160.315,
-22.065,
-162.905
-],
-"model": false,
-"pads": []
-},
-{
-"ref": "R42",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "220K",
-"x": 19.4125,
-"y": 238.245,
-"rot": 90.0,
-"side": "F",
-"box": [
-18.4175,
-236.52,
-20.4075,
-239.97
-],
-"model": true
-},
-{
-"ref": "C50",
-"fp": "Capacitor_SMD:C_1206_3216Metric",
-"value": "100n C0G",
-"x": 22.77,
-"y": 148.88,
-"rot": 0.0,
-"side": "F",
-"box": [
-20.425,
-147.685,
-25.115,
-150.075
-],
-"model": true
-},
-{
-"ref": "RV12",
-"fp": "Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical",
-"value": "HI-MID freq 10K A dual",
-"x": 20.5,
-"y": 95.5,
-"rot": 0.0,
-"side": "F",
-"box": [
-16.805,
-91.595,
-33.145,
-104.405
-],
-"feature": [
-28.0,
-98.0
-],
-"model": false,
-"pads": [
-[
-28.0,
-93.25
-],
-[
-28.0,
-102.75
-],
-[
-20.5,
-95.5
-],
-[
-20.5,
-98.0
-],
-[
-20.5,
-100.5
-],
-[
-18.0,
-95.5
-],
-[
-18.0,
-98.0
-],
-[
-18.0,
-100.5
-]
-]
-},
-{
-"ref": "R64",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "1K5",
-"x": 5.77,
-"y": 153.38,
-"rot": 90.0,
-"side": "F",
-"box": [
-4.775,
-151.655,
-6.765,
-155.105
-],
-"model": true
-},
-{
-"ref": "R52",
-"fp": "Resistor_SMD:R_0805_2012Metric",
-"value": "5K6",
-"x": 35.282499,
-"y": 90.355,
-"rot": 0.0,
-"side": "F",
-"box": [
-33.557499,
-89.36,
-37.007499,
-91.35
+5.0,
+340.0,
+8.45,
+341.99
 ],
 "model": true
 },
@@ -4305,50 +2642,1681 @@
 "pads": []
 },
 {
-"ref": "C48",
-"fp": "Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2",
-"value": "150n film",
-"x": 33.72,
-"y": 133.197499,
+"ref": "R57",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "4K7 1%",
+"x": 18.27,
+"y": 110.61,
 "rot": 90.0,
 "side": "F",
 "box": [
-31.175,
-126.802499,
-36.265,
-134.592499
+17.275,
+108.885,
+19.265,
+112.335
 ],
 "model": true
 },
 {
-"ref": "C52",
-"fp": "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm",
-"value": "47u NP 25V",
-"x": 20.047479,
-"y": 164.296238,
-"rot": 180.0,
-"side": "B",
+"ref": "R52",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "5K6",
+"x": 29.8075,
+"y": 64.879999,
+"rot": 0.0,
+"side": "F",
 "box": [
-14.0,
-159.999999,
-22.592478,
-168.592476
+28.0825,
+63.884999,
+31.5325,
+65.874999
 ],
 "model": true
 },
 {
-"ref": "C16",
-"fp": "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm",
-"value": "220u NP 25V",
-"x": 28.60875,
-"y": 411.27,
+"ref": "R84",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "2K2 1%",
+"x": 2.27,
+"y": 119.38,
 "rot": 90.0,
-"side": "B",
+"side": "F",
 "box": [
-23.316248,
-403.477498,
-33.903749,
-414.062502
+1.275,
+117.655,
+3.265,
+121.105
+],
+"model": true
+},
+{
+"ref": "Q2",
+"fp": "Package_TO_SOT_SMD:SOT-23",
+"value": "J112",
+"x": 22.975,
+"y": 237.745,
+"rot": 0.0,
+"side": "F",
+"box": [
+21.0,
+236.0,
+24.95,
+239.49
+],
+"model": true
+},
+{
+"ref": "C46",
+"fp": "Capacitor_SMD:C_1206_3216Metric",
+"value": "10n C0G",
+"x": 1.77,
+"y": 125.34,
+"rot": 90.0,
+"side": "F",
+"box": [
+0.575,
+122.995,
+2.965,
+127.685
+],
+"model": true
+},
+{
+"ref": "C40",
+"fp": "Capacitor_SMD:C_1206_3216Metric",
+"value": "47n C0G",
+"x": 5.77,
+"y": 84.38,
+"rot": 0.0,
+"side": "F",
+"box": [
+3.425,
+83.185,
+8.115,
+85.575
+],
+"model": true
+},
+{
+"ref": "C67",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 10.219999,
+"y": 128.84,
+"rot": 90.0,
+"side": "F",
+"box": [
+9.194999,
+127.095,
+11.244999,
+130.585
+],
+"model": true
+},
+{
+"ref": "R28",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "4K7 1%",
+"x": 27.725,
+"y": 303.495,
+"rot": 0.0,
+"side": "F",
+"box": [
+26.0,
+302.5,
+29.45,
+304.49
+],
+"model": true
+},
+{
+"ref": "R26",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "4K7 1%",
+"x": 31.725,
+"y": 301.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+30.0,
+301.0,
+33.45,
+302.99
+],
+"model": true
+},
+{
+"ref": "R9",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "10K 0.1%",
+"x": 22.379998,
+"y": 81.22,
+"rot": 90.0,
+"side": "F",
+"box": [
+21.384998,
+79.495,
+23.374998,
+82.945
+],
+"model": true
+},
+{
+"ref": "C36",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 2.27,
+"y": 182.15,
+"rot": 90.0,
+"side": "F",
+"box": [
+1.245,
+180.405,
+3.295,
+183.895
+],
+"model": true
+},
+{
+"ref": "SW14",
+"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
+"value": "PAN",
+"x": 26.66,
+"y": 243.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+23.965,
+241.105,
+34.355,
+250.895
+],
+"feature": [
+29.16,
+246.0
+],
+"model": false,
+"pads": [
+[
+26.66,
+243.0
+],
+[
+29.16,
+243.0
+],
+[
+31.66,
+243.0
+],
+[
+26.66,
+249.0
+],
+[
+29.16,
+249.0
+],
+[
+31.66,
+249.0
+]
+]
+},
+{
+"ref": "RV1",
+"fp": "goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm",
+"value": "Fader 10K log 100mm",
+"x": 17.1,
+"y": 435.75,
+"rot": -90.0,
+"side": "F",
+"box": [
+10.955,
+306.455,
+27.045,
+437.545
+],
+"feature": [
+18.999999999999996,
+372.0
+],
+"model": false,
+"pads": [
+[
+19.0,
+333.2
+],
+[
+19.0,
+415.7
+],
+[
+17.1,
+435.75
+],
+[
+13.3,
+435.75
+],
+[
+17.1,
+308.25
+]
+]
+},
+{
+"ref": "R75",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "4K7",
+"x": 2.725,
+"y": 262.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+1.0,
+262.0,
+4.45,
+263.99
+],
+"model": true
+},
+{
+"ref": "C29",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 19.22,
+"y": 80.84,
+"rot": 90.0,
+"side": "F",
+"box": [
+18.195,
+79.095,
+20.245,
+82.585
+],
+"model": true
+},
+{
+"ref": "R22",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "22K",
+"x": 27.725,
+"y": 298.495,
+"rot": 0.0,
+"side": "F",
+"box": [
+26.0,
+297.5,
+29.45,
+299.49
+],
+"model": true
+},
+{
+"ref": "C63",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 10.219999,
+"y": 106.84,
+"rot": 90.0,
+"side": "F",
+"box": [
+9.194999,
+105.095,
+11.244999,
+108.585
+],
+"model": true
+},
+{
+"ref": "R61",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "4K7 1%",
+"x": 2.219999,
+"y": 139.88,
+"rot": 90.0,
+"side": "F",
+"box": [
+1.224999,
+138.155,
+3.214999,
+141.605
+],
+"model": true
+},
+{
+"ref": "R59",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "22K",
+"x": 31.72,
+"y": 132.38,
+"rot": 90.0,
+"side": "F",
+"box": [
+30.725,
+130.655,
+32.715,
+134.105
+],
+"model": true
+},
+{
+"ref": "C2",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 6.745,
+"y": 346.025,
+"rot": 0.0,
+"side": "F",
+"box": [
+5.0,
+345.0,
+8.49,
+347.05
+],
+"model": true
+},
+{
+"ref": "R18",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "100K",
+"x": 28.879998,
+"y": 428.22,
+"rot": 90.0,
+"side": "F",
+"box": [
+27.884998,
+426.495,
+29.874998,
+429.945
+],
+"model": true
+},
+{
+"ref": "H1",
+"fp": "MountingHole:MountingHole_3.2mm_M3",
+"value": "M3 standoff 11.5 mm",
+"x": 19.0,
+"y": 65.5,
+"rot": 0.0,
+"side": "F",
+"box": [
+15.50753,
+62.002474,
+22.494999,
+68.997526
+],
+"model": false,
+"pads": []
+},
+{
+"ref": "R36",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "47K",
+"x": 31.225,
+"y": 236.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+29.5,
+236.0,
+32.95,
+237.99
+],
+"model": true
+},
+{
+"ref": "R83",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "10K 1%",
+"x": 2.27,
+"y": 115.61,
+"rot": 90.0,
+"side": "F",
+"box": [
+1.275,
+113.885,
+3.265,
+117.335
+],
+"model": true
+},
+{
+"ref": "SW3",
+"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
+"value": "PFL",
+"x": 4.66,
+"y": 289.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+1.965,
+287.105,
+12.355,
+296.895
+],
+"feature": [
+7.16,
+292.0
+],
+"model": false,
+"pads": [
+[
+4.66,
+289.0
+],
+[
+7.16,
+289.0
+],
+[
+9.66,
+289.0
+],
+[
+4.66,
+295.0
+],
+[
+7.16,
+295.0
+],
+[
+9.66,
+295.0
+]
+]
+},
+{
+"ref": "R94",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "10K 1%",
+"x": 35.72,
+"y": 104.15,
+"rot": 90.0,
+"side": "F",
+"box": [
+34.725,
+102.425,
+36.715,
+105.875
+],
+"model": true
+},
+{
+"ref": "RV12",
+"fp": "Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical",
+"value": "HI-MID freq 10K A dual",
+"x": 21.66,
+"y": 95.5,
+"rot": 0.0,
+"side": "F",
+"box": [
+17.965,
+91.595,
+34.305,
+104.405
+],
+"feature": [
+29.16,
+98.0
+],
+"model": false,
+"pads": [
+[
+29.16,
+93.25
+],
+[
+29.16,
+102.75
+],
+[
+21.66,
+95.5
+],
+[
+21.66,
+98.0
+],
+[
+21.66,
+100.5
+],
+[
+19.16,
+95.5
+],
+[
+19.16,
+98.0
+],
+[
+19.16,
+100.5
+]
+]
+},
+{
+"ref": "H4",
+"fp": "MountingHole:MountingHole_3.2mm_M3",
+"value": "M3 standoff 11.5 mm",
+"x": 5.0,
+"y": 330.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+1.50753,
+326.502474,
+8.494999,
+333.497526
+],
+"model": false,
+"pads": []
+},
+{
+"ref": "C31",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 29.22,
+"y": 129.84,
+"rot": 90.0,
+"side": "F",
+"box": [
+28.195,
+128.095,
+30.245,
+131.585
+],
+"model": true
+},
+{
+"ref": "JP2",
+"fp": "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm",
+"value": "Aux1/2 pre source",
+"x": 24.27,
+"y": 61.34,
+"rot": 90.0,
+"side": "F",
+"box": [
+22.975,
+58.995,
+25.565,
+63.685
+],
+"model": false,
+"pads": []
+},
+{
+"ref": "C4",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 2.745,
+"y": 348.525,
+"rot": 0.0,
+"side": "F",
+"box": [
+1.0,
+347.5,
+4.49,
+349.55
+],
+"model": true
+},
+{
+"ref": "R38",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "2K2",
+"x": 29.109999,
+"y": 424.22,
+"rot": 90.0,
+"side": "F",
+"box": [
+28.114999,
+422.495,
+30.104999,
+425.945
+],
+"model": true
+},
+{
+"ref": "C41",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "33p C0G",
+"x": 19.72,
+"y": 77.38,
+"rot": 0.0,
+"side": "F",
+"box": [
+17.975,
+76.355,
+21.465,
+78.405
+],
+"model": true
+},
+{
+"ref": "SW11",
+"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
+"value": "HPF",
+"x": 26.66,
+"y": 73.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+23.965,
+71.105,
+34.355,
+80.895
+],
+"feature": [
+29.16,
+76.0
+],
+"model": false,
+"pads": [
+[
+26.66,
+73.0
+],
+[
+29.16,
+73.0
+],
+[
+31.66,
+73.0
+],
+[
+26.66,
+79.0
+],
+[
+29.16,
+79.0
+],
+[
+31.66,
+79.0
+]
+]
+},
+{
+"ref": "R97",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "13K 1%",
+"x": 35.72,
+"y": 115.11,
+"rot": 90.0,
+"side": "F",
+"box": [
+34.725,
+113.385,
+36.715,
+116.835
+],
+"model": true
+},
+{
+"ref": "R70",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "100K",
+"x": 2.27,
+"y": 172.38,
+"rot": 90.0,
+"side": "F",
+"box": [
+1.275,
+170.655,
+3.265,
+174.105
+],
+"model": true
+},
+{
+"ref": "R56",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "4K7 1%",
+"x": 6.719999,
+"y": 111.88,
+"rot": 0.0,
+"side": "F",
+"box": [
+4.994999,
+110.885,
+8.444999,
+112.875
+],
+"model": true
+},
+{
+"ref": "C7",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "33p C0G",
+"x": 24.109999,
+"y": 89.22,
+"rot": 0.0,
+"side": "F",
+"box": [
+22.364999,
+88.195,
+25.854999,
+90.245
+],
+"model": true
+},
+{
+"ref": "R32",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "22K",
+"x": 11.725,
+"y": 280.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+10.0,
+280.0,
+13.45,
+281.99
+],
+"model": true
+},
+{
+"ref": "U8",
+"fp": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
+"value": "OPA1612",
+"x": 4.745,
+"y": 177.245,
+"rot": 0.0,
+"side": "F",
+"box": [
+1.0,
+174.5,
+8.49,
+179.99
+],
+"model": true
+},
+{
+"ref": "C62",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "1u",
+"x": 23.245,
+"y": 264.524999,
+"rot": 0.0,
+"side": "F",
+"box": [
+21.5,
+263.499999,
+24.99,
+265.549999
+],
+"model": true
+},
+{
+"ref": "R15",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "1K",
+"x": 10.725,
+"y": 45.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+9.0,
+45.0,
+12.45,
+46.99
+],
+"model": true
+},
+{
+"ref": "C26",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 10.219999,
+"y": 62.84,
+"rot": 90.0,
+"side": "F",
+"box": [
+9.194999,
+61.095,
+11.244999,
+64.585
+],
+"model": true
+},
+{
+"ref": "C28",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 16.9125,
+"y": 241.745,
+"rot": 0.0,
+"side": "F",
+"box": [
+15.1675,
+240.72,
+18.6575,
+242.77
+],
+"model": true
+},
+{
+"ref": "R66",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "22K",
+"x": 33.269999,
+"y": 147.11,
+"rot": 0.0,
+"side": "F",
+"box": [
+31.544999,
+146.115,
+34.994999,
+148.105
+],
+"model": true
+},
+{
+"ref": "R85",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "10K 1%",
+"x": 15.27,
+"y": 110.38,
+"rot": 90.0,
+"side": "F",
+"box": [
+14.275,
+108.655,
+16.265,
+112.105
+],
+"model": true
+},
+{
+"ref": "C22",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 30.839999,
+"y": 416.77,
+"rot": 0.0,
+"side": "F",
+"box": [
+29.094999,
+415.745,
+32.584999,
+417.795
+],
+"model": true
+},
+{
+"ref": "U9",
+"fp": "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm",
+"value": "DG413",
+"x": 32.244999,
+"y": 353.245,
+"rot": 0.0,
+"side": "F",
+"box": [
+28.499999,
+348.0,
+35.989999,
+358.49
+],
+"model": true
+},
+{
+"ref": "U7",
+"fp": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
+"value": "OPA1612",
+"x": 29.245,
+"y": 152.245,
+"rot": 0.0,
+"side": "F",
+"box": [
+25.5,
+149.5,
+32.99,
+154.99
+],
+"model": true
+},
+{
+"ref": "R90",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "10K 1%",
+"x": 26.22,
+"y": 111.88,
+"rot": 0.0,
+"side": "F",
+"box": [
+24.495,
+110.885,
+27.945,
+112.875
+],
+"model": true
+},
+{
+"ref": "R40",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "10K",
+"x": 2.27,
+"y": 73.38,
+"rot": 90.0,
+"side": "F",
+"box": [
+1.275,
+71.655,
+3.265,
+75.105
+],
+"model": true
+},
+{
+"ref": "R17",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "4K7",
+"x": 7.219999,
+"y": 243.65,
+"rot": 0.0,
+"side": "F",
+"box": [
+5.494999,
+242.655,
+8.944999,
+244.645
+],
+"model": true
+},
+{
+"ref": "U11",
+"fp": "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm",
+"value": "DG413",
+"x": 32.244999,
+"y": 394.245,
+"rot": 0.0,
+"side": "F",
+"box": [
+28.499999,
+389.0,
+35.989999,
+399.49
+],
+"model": true
+},
+{
+"ref": "R1",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "10R",
+"x": 2.725,
+"y": 340.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+1.0,
+340.0,
+4.45,
+341.99
+],
+"model": true
+},
+{
+"ref": "C35",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 10.219999,
+"y": 175.34,
+"rot": 90.0,
+"side": "F",
+"box": [
+9.194999,
+173.595,
+11.244999,
+177.085
+],
+"model": true
+},
+{
+"ref": "R30",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "4K7 1%",
+"x": 34.995,
+"y": 301.725,
+"rot": 90.0,
+"side": "F",
+"box": [
+34.0,
+300.0,
+35.99,
+303.45
+],
+"model": true
+},
+{
+"ref": "R50",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "33K",
+"x": 14.72,
+"y": 89.88,
+"rot": 0.0,
+"side": "F",
+"box": [
+12.995,
+88.885,
+16.445,
+90.875
+],
+"model": true
+},
+{
+"ref": "H6",
+"fp": "MountingHole:MountingHole_3.2mm_M3",
+"value": "M3 standoff 11.5 mm",
+"x": 34.0,
+"y": 425.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+30.50753,
+421.502474,
+37.494999,
+428.497526
+],
+"model": false,
+"pads": []
+},
+{
+"ref": "R43",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "4K7",
+"x": 27.225,
+"y": 239.495,
+"rot": 0.0,
+"side": "F",
+"box": [
+25.5,
+238.5,
+28.95,
+240.49
+],
+"model": true
+},
+{
+"ref": "SW13",
+"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
+"value": "DIR",
+"x": 26.66,
+"y": 255.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+23.965,
+253.105,
+34.355,
+262.895
+],
+"feature": [
+29.16,
+258.0
+],
+"model": false,
+"pads": [
+[
+26.66,
+255.0
+],
+[
+29.16,
+255.0
+],
+[
+31.66,
+255.0
+],
+[
+26.66,
+261.0
+],
+[
+29.16,
+261.0
+],
+[
+31.66,
+261.0
+]
+]
+},
+{
+"ref": "C14",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100p C0G",
+"x": 28.609999,
+"y": 420.22,
+"rot": 90.0,
+"side": "F",
+"box": [
+27.584999,
+418.475,
+29.634999,
+421.965
+],
+"model": true
+},
+{
+"ref": "R63",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "3K3",
+"x": 19.27,
+"y": 145.34,
+"rot": 90.0,
+"side": "F",
+"box": [
+18.275,
+143.615,
+20.265,
+147.065
+],
+"model": true
+},
+{
+"ref": "R46",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "2K2 1%",
+"x": 22.609999,
+"y": 71.77,
+"rot": 90.0,
+"side": "F",
+"box": [
+21.614999,
+70.045,
+23.604999,
+73.495
+],
+"model": true
+},
+{
+"ref": "SW15",
+"fp": "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2",
+"value": "Phase",
+"x": 26.66,
+"y": 47.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+23.965,
+45.105,
+34.355,
+54.895
+],
+"feature": [
+29.16,
+50.0
+],
+"model": false,
+"pads": [
+[
+26.66,
+47.0
+],
+[
+29.16,
+47.0
+],
+[
+31.66,
+47.0
+],
+[
+26.66,
+53.0
+],
+[
+29.16,
+53.0
+],
+[
+31.66,
+53.0
+]
+]
+},
+{
+"ref": "R11",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "75R",
+"x": 19.269999,
+"y": 71.84,
+"rot": 90.0,
+"side": "F",
+"box": [
+18.274999,
+70.115,
+20.264999,
+73.565
+],
+"model": true
+},
+{
+"ref": "JP3",
+"fp": "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm",
+"value": "Aux3/4 pre source",
+"x": 20.27,
+"y": 57.34,
+"rot": 0.0,
+"side": "F",
+"box": [
+17.925,
+56.045,
+22.615,
+58.635
+],
+"model": false,
+"pads": []
+},
+{
+"ref": "C21",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 35.649999,
+"y": 92.22,
+"rot": 90.0,
+"side": "F",
+"box": [
+34.624999,
+90.475,
+36.674999,
+93.965
+],
+"model": true
+},
+{
+"ref": "R47",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "47K",
+"x": 6.725,
+"y": 45.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+5.0,
+45.0,
+8.45,
+46.99
+],
+"model": true
+},
+{
+"ref": "RV2",
+"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
+"value": "Aux1 10K log",
+"x": 16.34,
+"y": 168.5,
+"rot": 180.0,
+"side": "F",
+"box": [
+3.695,
+159.545,
+17.535,
+172.455
+],
+"feature": [
+8.84,
+166.0
+],
+"model": false,
+"pads": [
+[
+8.84,
+170.8
+],
+[
+8.84,
+161.2
+],
+[
+16.34,
+168.5
+],
+[
+16.34,
+166.0
+],
+[
+16.34,
+163.5
+]
+]
+},
+{
+"ref": "U6",
+"fp": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
+"value": "OPA1612",
+"x": 23.745,
+"y": 131.745,
+"rot": 0.0,
+"side": "F",
+"box": [
+20.0,
+129.0,
+27.49,
+134.49
+],
+"model": true
+},
+{
+"ref": "R25",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "22K",
+"x": 27.725,
+"y": 300.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+26.0,
+300.0,
+29.45,
+301.99
+],
+"model": true
+},
+{
+"ref": "R93",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "2K2 1%",
+"x": 35.22,
+"y": 111.65,
+"rot": 0.0,
+"side": "F",
+"box": [
+33.495,
+110.655,
+36.945,
+112.645
+],
+"model": true
+},
+{
+"ref": "R8",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "10K 0.1%",
+"x": 35.879999,
+"y": 100.22,
+"rot": 90.0,
+"side": "F",
+"box": [
+34.884999,
+98.495,
+36.874999,
+101.945
+],
+"model": true
+},
+{
+"ref": "C48",
+"fp": "Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2",
+"value": "150n film",
+"x": 5.219999,
+"y": 155.1975,
+"rot": 90.0,
+"side": "F",
+"box": [
+2.674999,
+148.8025,
+7.764999,
+156.5925
+],
+"model": true
+},
+{
+"ref": "R68",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "47K",
+"x": 35.225,
+"y": 127.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+33.5,
+127.0,
+36.95,
+128.99
+],
+"model": true
+},
+{
+"ref": "C24",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 10.719999,
+"y": 239.84,
+"rot": 0.0,
+"side": "F",
+"box": [
+8.974999,
+238.815,
+12.464999,
+240.865
+],
+"model": true
+},
+{
+"ref": "R54",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "22K",
+"x": 18.27,
+"y": 129.11,
+"rot": 90.0,
+"side": "F",
+"box": [
+17.275,
+127.385,
+19.265,
+130.835
+],
+"model": true
+},
+{
+"ref": "R33",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "100K",
+"x": 22.725,
+"y": 280.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+21.0,
+280.0,
+24.45,
+281.99
+],
+"model": true
+},
+{
+"ref": "C53",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100n",
+"x": 36.219999,
+"y": 345.61,
+"rot": 90.0,
+"side": "F",
+"box": [
+35.194999,
+343.865,
+37.244999,
+347.355
+],
+"model": true
+},
+{
+"ref": "R45",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "2K2 1%",
+"x": 35.839999,
+"y": 72.22,
+"rot": 90.0,
+"side": "F",
+"box": [
+34.844999,
+70.495,
+36.834999,
+73.945
+],
+"model": true
+},
+{
+"ref": "C42",
+"fp": "Capacitor_SMD:C_1206_3216Metric",
+"value": "4n7 C0G",
+"x": 25.3325,
+"y": 65.379999,
+"rot": 0.0,
+"side": "F",
+"box": [
+22.9875,
+64.184999,
+27.6775,
+66.574999
+],
+"model": true
+},
+{
+"ref": "RV3",
+"fp": "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical",
+"value": "Aux2 10K log",
+"x": 21.66,
+"y": 163.5,
+"rot": 0.0,
+"side": "F",
+"box": [
+20.465,
+159.545,
+34.305,
+172.455
+],
+"feature": [
+29.16,
+166.0
+],
+"model": false,
+"pads": [
+[
+29.16,
+161.2
+],
+[
+29.16,
+170.8
+],
+[
+21.66,
+163.5
+],
+[
+21.66,
+166.0
+],
+[
+21.66,
+168.5
+]
+]
+},
+{
+"ref": "U1",
+"fp": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
+"value": "OPA1612",
+"x": 33.244999,
+"y": 86.245,
+"rot": 90.0,
+"side": "F",
+"box": [
+30.499999,
+82.5,
+35.989999,
+89.99
+],
+"model": true
+},
+{
+"ref": "U4",
+"fp": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
+"value": "LM393",
+"x": 4.745,
+"y": 64.745,
+"rot": 0.0,
+"side": "F",
+"box": [
+1.0,
+62.0,
+8.49,
+67.49
+],
+"model": true
+},
+{
+"ref": "R42",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "220K",
+"x": 19.4125,
+"y": 238.245,
+"rot": 90.0,
+"side": "F",
+"box": [
+18.4175,
+236.52,
+20.4075,
+239.97
+],
+"model": true
+},
+{
+"ref": "R58",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "22K",
+"x": 29.22,
+"y": 133.88,
+"rot": 90.0,
+"side": "F",
+"box": [
+28.225,
+132.155,
+30.215,
+135.605
+],
+"model": true
+},
+{
+"ref": "R35",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "47K",
+"x": 27.225,
+"y": 236.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+25.5,
+236.0,
+28.95,
+237.99
+],
+"model": true
+},
+{
+"ref": "R86",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "430R 1%",
+"x": 35.225,
+"y": 132.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+33.5,
+132.0,
+36.95,
+133.99
 ],
 "model": true
 },
@@ -4356,15 +4324,15 @@
 "ref": "C38",
 "fp": "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm",
 "value": "47u NP 25V",
-"x": 21.471239,
-"y": 54.11,
+"x": 34.361239,
+"y": 67.27,
 "rot": 180.0,
 "side": "B",
 "box": [
-15.42376,
-49.813761,
-24.016238,
-58.406238
+28.31376,
+62.973761,
+36.906238,
+71.566238
 ],
 "model": true
 },
@@ -4385,58 +4353,34 @@
 "model": true
 },
 {
-"ref": "CN1",
-"fp": "Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical",
-"value": "Bus 2x17",
-"x": 31.46,
-"y": 345.64,
-"rot": 0.0,
-"side": "B",
-"box": [
-27.735,
-299.355,
-37.725,
-351.285
-],
-"pin1": [
-31.46,
-345.64
-],
-"model": true
-},
-{
-"ref": "C10",
-"fp": "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm",
-"value": "47u NP 25V",
-"x": 17.721239,
-"y": 147.4,
+"ref": "C15",
+"fp": "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm",
+"value": "220u NP 25V",
+"x": 30.83875,
+"y": 436.72,
 "rot": 90.0,
 "side": "B",
 "box": [
-13.42376,
-141.353761,
-22.016238,
-149.946238
+25.546248,
+428.927498,
+36.133749,
+439.512502
 ],
 "model": true
 },
 {
-"ref": "CN3",
-"fp": "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical",
-"value": "Jack board link 2x5",
-"x": 19.265,
-"y": 76.645,
+"ref": "C51",
+"fp": "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm",
+"value": "47u NP 25V",
+"x": 7.047479,
+"y": 86.796238,
 "rot": 180.0,
 "side": "B",
 "box": [
-13.0,
-71.0,
-22.99,
-92.45
-],
-"pin1": [
-19.265,
-76.645
+1.0,
+82.499999,
+9.592478,
+91.092476
 ],
 "model": true
 },
@@ -4444,31 +4388,15 @@
 "ref": "C11",
 "fp": "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm",
 "value": "220u NP 25V",
-"x": 19.792502,
+"x": 18.792502,
 "y": 107.292502,
 "rot": 180.0,
 "side": "B",
 "box": [
-12.0,
+11.0,
 102.0,
-22.587501,
+21.587501,
 112.585004
-],
-"model": true
-},
-{
-"ref": "J3",
-"fp": "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical",
-"value": "VCA module socket",
-"x": 2.815,
-"y": 381.815,
-"rot": 180.0,
-"side": "B",
-"box": [
-1.0,
-380.0,
-4.63,
-396.33
 ],
 "model": true
 },
@@ -4499,34 +4427,34 @@
 ]
 },
 {
-"ref": "C6",
-"fp": "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm",
-"value": "47u 25V",
-"x": 5.692507,
-"y": 372.947489,
+"ref": "C1",
+"fp": "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm",
+"value": "220u 25V",
+"x": 32.047479,
+"y": 364.296238,
 "rot": 180.0,
 "side": "B",
 "box": [
-1.0,
-369.499999,
-7.887506,
-376.394978
+26.0,
+359.999999,
+34.592478,
+368.592476
 ],
 "model": true
 },
 {
-"ref": "C51",
+"ref": "C52",
 "fp": "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm",
 "value": "47u NP 25V",
-"x": 29.547479,
-"y": 84.796238,
+"x": 17.047479,
+"y": 174.296238,
 "rot": 180.0,
 "side": "B",
 "box": [
-23.5,
-80.499999,
-32.092478,
-89.092476
+11.0,
+169.999999,
+19.592478,
+178.592476
 ],
 "model": true
 },
@@ -4547,34 +4475,54 @@
 "model": true
 },
 {
-"ref": "C15",
-"fp": "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm",
-"value": "220u NP 25V",
-"x": 30.83875,
-"y": 436.72,
-"rot": 90.0,
+"ref": "C6",
+"fp": "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm",
+"value": "47u 25V",
+"x": 5.692507,
+"y": 372.947489,
+"rot": 180.0,
 "side": "B",
 "box": [
-25.546248,
-428.927498,
-36.133749,
-439.512502
+1.0,
+369.499999,
+7.887506,
+376.394978
 ],
 "model": true
 },
 {
-"ref": "C1",
-"fp": "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm",
-"value": "220u 25V",
-"x": 32.047479,
-"y": 364.296238,
+"ref": "CN1",
+"fp": "Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical",
+"value": "Bus 2x17",
+"x": 31.46,
+"y": 345.64,
+"rot": 0.0,
+"side": "B",
+"box": [
+27.735,
+299.355,
+37.725,
+351.285
+],
+"pin1": [
+31.46,
+345.64
+],
+"model": true
+},
+{
+"ref": "C5",
+"fp": "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm",
+"value": "47u 25V",
+"x": 30.692507,
+"y": 372.447489,
 "rot": 180.0,
 "side": "B",
 "box": [
 26.0,
-359.999999,
-34.592478,
-368.592476
+368.999999,
+32.887506,
+375.894978
 ],
 "model": true
 },
@@ -4595,18 +4543,70 @@
 "model": true
 },
 {
-"ref": "C5",
-"fp": "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm",
-"value": "47u 25V",
-"x": 30.692507,
-"y": 372.447489,
+"ref": "C10",
+"fp": "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm",
+"value": "47u NP 25V",
+"x": 12.471239,
+"y": 154.15,
 "rot": 180.0,
 "side": "B",
 "box": [
-26.0,
-368.999999,
-32.887506,
-375.894978
+6.42376,
+149.853761,
+15.016238,
+158.446238
+],
+"model": true
+},
+{
+"ref": "J3",
+"fp": "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical",
+"value": "VCA module socket",
+"x": 2.815,
+"y": 381.815,
+"rot": 180.0,
+"side": "B",
+"box": [
+1.0,
+380.0,
+4.63,
+396.33
+],
+"model": true
+},
+{
+"ref": "C16",
+"fp": "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm",
+"value": "220u NP 25V",
+"x": 28.60875,
+"y": 411.27,
+"rot": 90.0,
+"side": "B",
+"box": [
+23.316248,
+403.477498,
+33.903749,
+414.062502
+],
+"model": true
+},
+{
+"ref": "CN3",
+"fp": "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical",
+"value": "Jack board link 2x5",
+"x": 27.805,
+"y": 86.765,
+"rot": 90.0,
+"side": "B",
+"box": [
+12.0,
+80.5,
+33.45,
+90.49
+],
+"pin1": [
+27.805,
+86.765
 ],
 "model": true
 }
@@ -4623,47 +4623,110 @@
 "ref": "J1",
 "fp": "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical",
 "value": "Line in TRS",
-"x": 10.0,
+"x": 8.84,
 "y": 6.28,
 "rot": 0.0,
 "side": "F",
 "box": [
-2.205,
+1.045,
 3.955,
-17.795,
+16.635,
 20.045
 ],
 "feature": [
-10.0,
+8.84,
 12.0
 ],
 "model": false,
 "pads": [
 [
-15.08,
+13.92,
 12.0
 ],
 [
-14.45,
+13.29,
 16.45
 ],
 [
-4.92,
+3.76,
 12.0
 ],
 [
-5.55,
+4.39,
 16.45
 ],
 [
-10.0,
+8.84,
 6.28
 ],
 [
-4.92,
+3.76,
 6.92
 ]
 ]
+},
+{
+"ref": "J2",
+"fp": "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical",
+"value": "Insert TRS switched",
+"x": 29.16,
+"y": 6.28,
+"rot": 0.0,
+"side": "F",
+"box": [
+21.365,
+3.955,
+36.955,
+20.045
+],
+"feature": [
+29.16,
+12.0
+],
+"model": false,
+"pads": [
+[
+34.24,
+12.0
+],
+[
+33.61,
+16.45
+],
+[
+24.08,
+12.0
+],
+[
+24.71,
+16.45
+],
+[
+29.16,
+6.28
+],
+[
+24.08,
+6.92
+]
+]
+},
+{
+"ref": "H2",
+"fp": "MountingHole:MountingHole_3.2mm_M3",
+"value": "M3 standoff = jack body height (~24 mm)",
+"x": 23.0,
+"y": 37.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+19.50753,
+33.502474,
+26.494999,
+40.497526
+],
+"model": false,
+"pads": []
 },
 {
 "ref": "H1",
@@ -4686,108 +4749,45 @@
 "ref": "J5",
 "fp": "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical",
 "value": "Direct out TRS",
-"x": 10.0,
+"x": 8.84,
 "y": 26.28,
 "rot": 0.0,
 "side": "F",
 "box": [
-2.205,
+1.045,
 23.955,
-17.795,
+16.635,
 40.045
 ],
 "feature": [
-10.0,
+8.84,
 32.0
 ],
 "model": false,
 "pads": [
 [
-15.08,
+13.92,
 32.0
 ],
 [
-14.45,
+13.29,
 36.45
 ],
 [
-4.92,
+3.76,
 32.0
 ],
 [
-5.55,
+4.39,
 36.45
 ],
 [
-10.0,
+8.84,
 26.28
 ],
 [
-4.92,
+3.76,
 26.92
-]
-]
-},
-{
-"ref": "H2",
-"fp": "MountingHole:MountingHole_3.2mm_M3",
-"value": "M3 standoff = jack body height (~24 mm)",
-"x": 23.0,
-"y": 37.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-19.50753,
-33.502474,
-26.494999,
-40.497526
-],
-"model": false,
-"pads": []
-},
-{
-"ref": "J2",
-"fp": "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical",
-"value": "Insert TRS switched",
-"x": 28.0,
-"y": 6.28,
-"rot": 0.0,
-"side": "F",
-"box": [
-20.205,
-3.955,
-35.795,
-20.045
-],
-"feature": [
-28.0,
-12.0
-],
-"model": false,
-"pads": [
-[
-33.08,
-12.0
-],
-[
-32.45,
-16.45
-],
-[
-22.92,
-12.0
-],
-[
-23.55,
-16.45
-],
-[
-28.0,
-6.28
-],
-[
-22.92,
-6.92
 ]
 ]
 },
@@ -4803,6 +4803,22 @@
 1.0,
 1.0,
 4.49,
+3.05
+],
+"model": true
+},
+{
+"ref": "C9",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100p C0G",
+"x": 6.745,
+"y": 2.025,
+"rot": 180.0,
+"side": "B",
+"box": [
+5.0,
+1.0,
+8.49,
 3.05
 ],
 "model": true
@@ -4824,22 +4840,6 @@
 "pin1": [
 31.0,
 36.8
-],
-"model": true
-},
-{
-"ref": "C9",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100p C0G",
-"x": 6.745,
-"y": 2.025,
-"rot": 180.0,
-"side": "B",
-"box": [
-5.0,
-1.0,
-8.49,
-3.05
 ],
 "model": true
 }

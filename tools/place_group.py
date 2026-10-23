@@ -37,8 +37,8 @@ FIX = {
  'RV4': pot(XL, 84, dual=True), 'SW7': sw(27, 84), 'D3': led(35, 84),        # RETURN level | PFL
  'RV3': pot(XL, 166), 'SW3': sw(26, 166), 'D2': led(34.5, 166),             # AUX n master | AFL (strips' aux 1|2 row)
  'RV2': pot(XL, 252, dual=True), 'SW1': sw(XR, 252),                         # SUB pan | to MIX (strips' pan row)
- 'SW4': sw(6, 274), 'SW5': sw(17, 274), 'SW6': sw(28, 274),                  # return to MIX, 1-2, 3-4 (routing row)
- 'SW2': sw(6, 292), 'D1': led(14.2, 292),                                    # SUB AFL (strips' PFL row)
+ 'SW4': sw(XR - 22, 274), 'SW5': sw(XR - 11, 274), 'SW6': sw(XR, 274),       # return to MIX, 1-2, 3-4 (routing row)
+ 'SW2': sw(XR - 22, 292), 'D1': led(XR - 13.8, 292),                         # SUB AFL (strips' PFL row)
  'RV1': FADER, 'CN2': BUS, 'CN1': SPADE, 'NT1': NETTIE,
 }
 # bus-select solder jumpers, top side, right of the fader under the bus header: SUB 1-4 | AUX 1-4

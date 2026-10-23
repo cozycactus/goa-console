@@ -17,6 +17,7 @@ import bpy, bmesh, inspect, json, math, os, subprocess, sys
 from mathutils import Vector, Matrix
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from models3d import lookup, STACK, cable
+from models3d.knob import D_KNOB, D_BIG
 from models3d.blend import to_mesh
 
 ARGV = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else ['render']
@@ -316,7 +317,7 @@ LATCHED = {'strip': ('SW4', 'SW5')}           # switches shown pressed: ON and L
 LEGEND = {'alpha_pot': (-9.8, 2.0), 'ck_pva2': (-5.8, 1.7), 'neutrik_nj6fd_v': (-10.2, 1.8), 'neutrik_nc3mav': (-16.2, 1.8)}
 # ---------------------------------------------------------------- panel print in the Delta's style (ref/delta200_panels)
 # Each pot: name above, a ring of 11 dots over the 300-degree rotation and numbers at chosen positions; numbers that
-# would hit a neighbouring knob, switch, LED, jack or label are left out (two pot columns 18 mm apart, rows 22 mm).
+# would hit a neighbouring knob, switch, LED, jack or label are left out (two pot columns 20.32 mm apart, rows 22 mm).
 EVEN11 = [k / 10 for k in range(11)]
 def gain_theta(db):
     """Strip gain stage (spec 4): G = (2K2 + 10K t) / (2K2 + 10K (1 - t)), symmetric in dB about the detent."""
@@ -382,14 +383,14 @@ def panel_print(c, key, pots, faders, obst, width):
     at = {ref: (x, y, big) for ref, name, x, y, big in pots}
     for ref, name, x, y, big in pots:                # names first: ring numbers give way to them
         if ref not in paired:
-            put_text(name, x, y - (9.0 if big else 7.5) - 4.2, 2.0 if not big else 2.2, ref, force=True, bold=True)
+            put_text(name, x, y - (D_BIG if big else D_KNOB) / 2 - 4.2, 2.0 if not big else 2.2, ref, force=True, bold=True)
     for fref, (gref, band) in pairs.items():         # bracket over a gain / frequency pair, band name in its middle
-        (xg, y, _), (xf, _, _) = at[gref], at[fref]; yb, xm = y - 11.7, (xg + xf) / 2
+        (xg, y, _), (xf, _, _) = at[gref], at[fref]; yb, xm = y - D_KNOB / 2 - 4.2, (xg + xf) / 2
         hw = 0.47 * 2.0 * len(band) / 2 + 0.8
-        line(xg, yb, xm - hw, yb); line(xm + hw, yb, xf, yb); line(xg, yb, xg, yb + 1.2); line(xf, yb, xf, yb + 1.2)
+        line(xg, yb, xm - hw, yb); line(xm + hw, yb, xf, yb); line(xg, yb, xg, yb + 0.6); line(xf, yb, xf, yb + 0.6)
         put_text(band, xm, yb, 2.0, None, force=True, bold=True)
     for ref, name, x, y, big in pots:
-        rk = 9.0 if big else 7.5; rd, rn = rk + 0.85, rk + 2.15
+        rk = (D_BIG if big else D_KNOB) / 2; rd, rn = rk + 0.85, rk + 2.15
         dots, labels, unit = scale_of(ref, name)
         for t in dots:
             a = math.radians(-150 + 300 * t); px, py = x + rd * math.sin(a), y - rd * math.cos(a)
@@ -433,7 +434,8 @@ def link_ribbon(c, name, j, m):
     """Jack-board link: flat cable from the jack board's IDC socket j to the main board's socket m (dicts: n, x, y,
     z = ribbon centre, along, y1 = the jack board's far edge, pin1). Long side along x: the cable leaves along y and
     loops up past the jack board's edge. Along y: it leaves along x, bends down, turns a quarter twist into a run along y
-    below both boards, and twists back up into the main board's socket. Red stripe on the pin-1 edge."""
+    below both boards, then twists back into a main-board socket along y, or rises straight into one along x. Red
+    stripe on the pin-1 edge."""
     w = 2.54 * j['n']
     if j['along'] == 'x':
         r = (m['z'] - j['z']) / 2; yt = max(m['y'], j['y1']) + 4.0
@@ -441,12 +443,19 @@ def link_ribbon(c, name, j, m):
         me = cable.ribbon([(j['x'], j['y'], j['z'])] + arc + [(m['x'], m['y'], m['z'])], [(1, 0, 0)], w,
                           stripe=1 if j['pin1'][0] > j['x'] else -1)
     else:
-        sj = 1 if j['pin1'][1] > j['y'] else -1; sm = 1 if m['pin1'][1] > m['y'] else -1     # pin-1 edge at each end
-        dj = -1 if m['x'] < j['x'] else 1; xr = (j['x'] + m['x']) / 2; zl = min(j['z'], m['z']) - 8.0
+        sj = 1 if j['pin1'][1] > j['y'] else -1                                         # pin-1 edge at each end
+        dj = -1 if m['x'] < j['x'] else 1; zl = min(j['z'], m['z']) - 8.0
         ctrl = [((j['x'], j['y'], j['z']), (0, sj, 0)), ((j['x'] + 4 * dj, j['y'], j['z']), (0, sj, 0)),
-                ((j['x'] + 7 * dj, j['y'] + 2, j['z'] - 5), (0, sj, 0)), ((xr, j['y'] + 9, zl), (1, 0, 0)),
-                ((xr, m['y'] - 9, zl), (1, 0, 0)), ((m['x'] - 7 * dj, m['y'] - 2, m['z'] - 5), (0, sm, 0)),
-                ((m['x'] - 4 * dj, m['y'], m['z']), (0, sm, 0)), ((m['x'], m['y'], m['z']), (0, sm, 0))]
+                ((j['x'] + 7 * dj, j['y'] + 2, j['z'] - 5), (0, sj, 0))]
+        if m['along'] == 'y':          # into a main-board socket along y: twist back, enter it along x
+            sm = 1 if m['pin1'][1] > m['y'] else -1; xr = (j['x'] + m['x']) / 2
+            ctrl += [((xr, j['y'] + 9, zl), (1, 0, 0)), ((xr, m['y'] - 9, zl), (1, 0, 0)),
+                     ((m['x'] - 7 * dj, m['y'] - 2, m['z'] - 5), (0, sm, 0)), ((m['x'] - 4 * dj, m['y'], m['z']), (0, sm, 0)),
+                     ((m['x'], m['y'], m['z']), (0, sm, 0))]
+        else:                          # into a socket along x: run under it and rise into it along y
+            sm = 1 if m['pin1'][0] > m['x'] else -1
+            ctrl += [((m['x'], j['y'] + 9, zl), (sm, 0, 0)), ((m['x'], m['y'] - 12, zl), (sm, 0, 0)),
+                     ((m['x'], m['y'] - 5, m['z'] - 3), (sm, 0, 0)), ((m['x'], m['y'], m['z']), (sm, 0, 0))]
         path = cable.smooth([p for p, _ in ctrl], 8); k = 8
         wd = []                                   # width direction blended between the control points
         for i in range(len(path)):
@@ -524,7 +533,8 @@ def module(key, names, width, label=None):
                     if kind == 'alpha_pot':
                         o.rotation_euler[2] = math.radians(KNOB_ANGLE.get(name.split()[0] if name else '', 0.0))
                 big = pk.get('big', False)
-                rp = {'alpha_pot': 9.3 if big else 7.8, 'ck_pva2': 4.2, 'neutrik_nj6fd_v': 7.3, 'neutrik_nc3mav': 12.0}.get(kind, 0.0)
+                rp = {'alpha_pot': (D_BIG if big else D_KNOB) / 2 + 0.3, 'ck_pva2': 4.2, 'neutrik_nj6fd_v': 7.3,
+                      'neutrik_nc3mav': 12.0}.get(kind, 0.0)
                 obst.append((f[0], f[1], rp + 2.5 if kind == 'alpha_pot' else rp, ref, rp))   # pots: keep their ring clear
                 if kind == 'ck_pva2': obst.append((f[0], f[1] - 5.8, 0.4 * len(name) + 0.4, ref, 0.0))     # its legend
                 if kind in HOLE: holes.append(('round', f[0], f[1], HOLE[kind]))

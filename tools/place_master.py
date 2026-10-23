@@ -2,7 +2,7 @@
   KPY=/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3
   $KPY tools/place_master.py      # -> master.kicad_pcb (78.6 x 331.5 mm), master_jack_board.kicad_pcb (78.6 x 111.5 mm)
 16 HP x 12U panel (80.9 mm) in the strip's frame (placer.py): y = 0 is 11 mm below the panel's top edge, panel
-x = board x + 1.15, pot columns at the strips' 10 / 28 and 50.64 / 68.64 (8 HP further). The dual master fader
+x = board x + 1.15, pot columns at the strips' 8.84 / 29.16 and 49.48 / 69.80 (8 HP further). The dual master fader
 sits on the strips' slot line (y 372, x 39.3) between the two 20-LED meters; both wing bus headers sit at the
 strips' header height, pin 1 at the bottom end like every strip, so each wing's ribbon runs straight.
 Jack board (~24 mm under the panel): MAIN L / R / MONO XLRs (NC3MAV) in a column, 9 NJ6FD-V in two columns,
@@ -57,7 +57,7 @@ mL = [r for r in B['METER L'] if r.startswith('D') and r not in ('D22', 'D23', '
 mR = [r for r in B['METER R'] if r.startswith('D') and r not in ('D50', 'D51', 'D52', 'D53', 'D54', 'D55', 'D66', 'D67')]
 FIX = {
  'RV2': pot(XL, 134), 'RV3': pot(XR, 134, right=True), 'RV5': pot(59.3, 134, dual=True),           # AUX 5 | AUX 6 || C/ROOM
- 'SW1': sw(6, 156), 'D12': led(14.2, 156), 'SW2': sw(24, 156), 'D13': led(32.2, 156),             # AFL 5 | AFL 6
+ 'SW1': sw(XR - 22, 156), 'D12': led(XR - 13.8, 156), 'SW2': sw(XR - 4, 156), 'D13': led(XR + 4.2, 156),  # AFL 5 | 6
  'RV6': pot(XL + H8, 156, dual=True), 'RV4': pot(XR + H8, 156, right=True),                        # || PHONES | SOLO
  'D3': led(19, 178), 'SW3': sw(XL + H8, 178), 'D15': led(XR + H8, 178),                           # POWER || EXT | PFL ACTIVE
  'RV1': (XF - 1.9, 372 + 63.75, 270, 'F'),                                                         # dual master fader

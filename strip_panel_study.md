@@ -13,7 +13,7 @@ it: `tools/place_strip.py` → `channel_strip_v4.kicad_pcb` (main board) + `jack
 | End-rail zone | ≈ 11 mm per end (holes 3 mm from the edge; 108–110 mm usable per 3U row) | Doepfer, sdiy wiki |
 | Board width | 38 mm (1 mm clearance per side) | strip spec |
 | Pot, RD901F | courtyard 13.8 × 12.8 mm, shaft 7.5 / 2.5 mm from pin 1; dual RD902F 16.3 mm wide | KiCad footprint, Alpha SLH-211-414 |
-| Knob | ≤ 14 mm diameter with two columns 18 mm apart; ≤ 16 mm with one column | choice |
+| Knob | ≤ 14 mm diameter with two columns; ≤ 16 mm with one column. Columns now 20.32 mm apart (x 8.84 / 29.16, 2026-10-23), knobs about Ø13: 7.3 mm between knobs | choice |
 | PVA2 + PV cap | courtyard 10.3 × 9.7 mm, cap ø7.4; three per 38 mm row at 11 mm pitch | C&K PVA |
 | Fader PTB0143 | body 128 mm, travel 100 mm; zone ≈ 130 mm | Bourns PTB |
 | Jack, panel-mount | Neutrik NJ6FD-V, vertical, all plastic (PA shell, POM cap: isolated), panel hole 12 mm, panel 1.2–1.5 mm, courtyard 15.5 × 16 mm | Neutrik datasheet (neutrik.us) |
@@ -34,7 +34,7 @@ for two rows, fader 130 mm, 11 mm end rails.
 
 Two-column rows (as placed; y = panel y − 11; jack board y 0–43, main board y 44–444):
 
-| Board y | Left (x 10) | Right (x 28) |
+| Board y | Left (x 8.84) | Right (x 29.16) |
 |---------|-------------|--------------|
 | 12 | LINE IN jack (jack board) | INSERT jack (jack board) |
 | 32 | DIRECT OUT jack (jack board) | (link header CN5, bottom of the jack board) |
@@ -100,7 +100,8 @@ drawing (flange front 24.00 above the PCB, `panel_parts_drawings.md`): 24.0 mm s
 ## Open checks
 
 1. NJ6FD-V body height: 24.0 mm from Neutrik's NJ*FD-V drawing (2026-10-23, `panel_parts_drawings.md`).
-2. Knob diameter ≤ 14 mm in the two-column rows.
+2. Knob diameter ≤ 14 mm in the two-column rows: columns re-centred to 20.32 mm pitch and knobs about Ø13 (2026-10-23);
+   the knob part itself is still to choose (1/4" bore, every pot shaft is 6.35 mm).
 3. Routing LEDs: no vertical 4PDT from a known maker (the C&K PHB4UEE1A and Alps SPUN/SPUJ are
    right-angle / horizontal-mount). Ruslan chose option b on 2026-10-22: the PVA2 drives a DG413 CMOS
    switch at the bus end of each 4K7 (pole A) and the routing LED (pole B). Spec §13,

@@ -1,9 +1,11 @@
 """Panel knob for the pot shafts (placeholder: the knob part is not decided). Delta-like skirted collet knob: skirt with a
 white pointer line, fluted body, coloured cap over the collet nut with a pointer line. Frame: z = 0 on the panel top,
 pointer towards -y at angle 0 (positive angle turns it clockwise on the panel, as Mesh.rotate('z')).
-It sits on the shaft above the pot's nut: the skirt (Ø15, Ø18 big) clears the panel by 0.6 mm and hides the M7 nut
-(10 AF, 11.55 across corners, 2.0 thick) in a Ø12.4 x 2.4 recess; the bore (Ø6.35 for the Alpha R1 shaft, or Ø6) starts
-2.4 above the panel, so a 15 mm shaft (12.0 above the panel on the 16.2 stack) engages 9.6 mm, the collet's length."""
+Diameters Ø13 (Ø16 big): the Delta used 14 mm push-on knobs (12.5 mm on the MID frequency pot; 200 Delta spare parts,
+p. 151), and our two pot columns are 20.32 mm apart. A Ø16 skirt clears the panel by 0.6 mm and hides the M7 nut (10 AF,
+11.55 across corners, 2.0 thick) in a Ø12.4 x 2.4 recess; a Ø13 knob has no room for that recess and sits 0.4 mm above
+the nut. Either way the bore (Ø6.35 for the Alpha R1 shaft, or Ø6) starts 2.4 above the panel, so a 15 mm shaft (12.0
+above the panel on the 16.2 stack) engages 9.6 mm, the collet's length."""
 import math
 from .geom import Mesh
 
@@ -24,19 +26,25 @@ def _fluted(m, z0, z1, r_out, r_in, n, taper, mat):
     return m.loft([ring(z0, 1.0), ring(z1, taper)], mat, cap0=False, cap1=True)
 
 
-def build(colour='grey', big=False, angle=0.0, bore=6.35):
-    k = 1.2 if big else 1.0
-    r_sk, r_b, h = 7.5 * k, 6.0 * k, 12.8 + (1.0 if big else 0.0)          # skirt, body, body top
+D_KNOB, D_BIG = 13.0, 16.0
+
+
+def build(colour='grey', big=False, angle=0.0, bore=6.35, d=None):
+    r_sk = (d or (D_BIG if big else D_KNOB)) / 2; r_b = 0.8 * r_sk               # skirt, body
+    recess = r_sk - R_RECESS >= 0.8                                              # room to hide the nut under the skirt
+    z0 = Z_SKIRT if recess else Z_RECESS                                         # else it sits on top of the nut
+    h = Z_RECESS + 12.2 + (1.0 if big else 0.0)                                  # body top: the big one 1.0 higher
     m = Mesh()
-    m.lathe([(bore / 2, h - 0.8), (bore / 2, Z_RECESS), (R_RECESS, Z_RECESS), (R_RECESS, Z_SKIRT), (r_sk, Z_SKIRT),
-             (r_sk, 2.4), (r_sk - 0.2, 2.6), (r_b - 0.6, 2.6)], 'plastic_black', seg=48, cap1=False)
-    _fluted(m, 2.6, h, r_b, r_b - 0.45, 20, 0.92, 'plastic_black')
+    m.lathe(([(bore / 2, h - 0.8), (bore / 2, Z_RECESS), (R_RECESS, Z_RECESS), (R_RECESS, z0)] if recess else
+             [(bore / 2, h - 0.8), (bore / 2, z0)]) + [(r_sk, z0), (r_sk, z0 + 1.8), (r_sk - 0.2, z0 + 2.0),
+                                                       (r_b - 0.6, z0 + 2.0)], 'plastic_black', seg=48, cap1=False)
+    _fluted(m, z0 + 2.0, h, r_b, r_b - 0.45, 20, 0.92, 'plastic_black')
     rt = r_b * 0.92
     m.lathe([(rt - 0.1, h), (rt - 0.6, h + 0.6), (rt - 1.0, h + 0.6)], 'plastic_black', seg=48, cap0=False, cap1=False)
     rc = rt - 1.1                                                             # cap in the top recess
     m.lathe([(rc, h + 0.2), (rc, h + 1.3), (rc - 0.3, h + 1.6), (0.0, h + 1.6)], CAPS.get(colour, 'plastic_grey'), seg=40)
     m.box(-0.35, -(rc - 0.5), h + 1.58, 0.35, -0.9, h + 1.64, 'print_white')                 # cap pointer
-    m.box(-0.4, -(r_sk - 0.25), 2.58, 0.4, -(r_b + 0.1), 2.66, 'print_white')               # skirt pointer, top
-    m.box(-0.4, -(r_sk + 0.03), Z_SKIRT + 0.3, 0.4, -(r_sk - 0.05), 2.4, 'print_white')     # and down its side
+    m.box(-0.4, -(r_sk - 0.25), z0 + 1.98, 0.4, -(r_b + 0.1), z0 + 2.06, 'print_white')     # skirt pointer, top
+    m.box(-0.4, -(r_sk + 0.03), z0 + 0.3, 0.4, -(r_sk - 0.05), z0 + 1.8, 'print_white')     # and down its side
     if angle: m.rotate('z', angle)
     return m

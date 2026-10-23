@@ -36,11 +36,11 @@ FIX = {
  'RV2': pot(XL, 166), 'RV3': pot(XR, 166, right=True),                                    # aux 1, 2
  'RV4': pot(XL, 188), 'RV5': pot(XR, 188, right=True),                                    # aux 3, 4
  'RV6': pot(XL, 210), 'RV7': pot(XR, 210, right=True),                                    # aux 5, 6
- 'SW8': sw(6, 230), 'SW9': sw(17, 230), 'SW10': sw(28, 230),                              # PRE 1-2, 3-4, 5-6
+ 'SW8': sw(XR - 22, 230), 'SW9': sw(XR - 11, 230), 'SW10': sw(XR, 230),                   # PRE 1-2, 3-4, 5-6
  'RV8': pot(XL, 252, dual=True), 'SW14': sw(XR, 246), 'SW13': sw(XR, 258),                # pan, PAN, DIR
- 'SW5': sw(6, 274), 'SW6': sw(17, 274), 'SW7': sw(28, 274),                               # L-R, 1-2, 3-4
- 'D6': led(6, 283), 'D7': led(17, 283), 'D8': led(28, 283),                               # routing LEDs
- 'SW3': sw(6, 292), 'D3': led(14.2, 292), 'SW4': sw(24, 292), 'D4': led(32.2, 292),       # PFL, ON
+ 'SW5': sw(XR - 22, 274), 'SW6': sw(XR - 11, 274), 'SW7': sw(XR, 274),                    # L-R, 1-2, 3-4 (key rows end
+ 'D6': led(XR - 22, 283), 'D7': led(XR - 11, 283), 'D8': led(XR, 283),                    # routing LEDs   in the right
+ 'SW3': sw(XR - 22, 292), 'D3': led(XR - 13.8, 292), 'SW4': sw(XR - 4, 292), 'D4': led(XR + 4.2, 292),  # PFL, ON  (column)
  'RV1': FADER,                           # fader, slot centre y = 372
  'CN1': BUS,                             # bus header, bottom side, pins at x = 31.46 / 34, y = 305..346; pin 1 at the
                                          # bottom end so its silk arrow points inboard, not off the edge
@@ -48,12 +48,12 @@ FIX = {
  'NT1': NETTIE,                          # AGND-LGND net tie beside the spade (no courtyard: keep it clear by hand)
 }
 # M3 standoff holes (11.5 mm), unplated so audio ground never meets the chassis
-HOLES = [(XC, 67), (XC, 154), (XC, 221), (5, 330), (5, 425), (34, 425)]
+HOLES = [(XC, 65.5), (XC, 154), (XC, 221), (5, 330), (5, 425), (34, 425)]   # 65.5: clear of the turned GAIN and HF pots
 
 # ---------------------------------------------------------------- zones: (x0, y0, x1, y1), refs, side
 # Bottom side: radial electrolytics (too tall for the 11.5 mm panel gap), VCA socket. Placed first.
 ZONES = [
- ('jack-board link (bottom)', (12, 44, 37, 120), ['CN3'], 'B'),     # pins between the columns
+ ('jack-board link (bottom)', (12, 44, 37, 120), ['CN3'], 'B'),     # across the strip between pot rows
  ('rail reservoir caps (bottom)', (1, 360, 37, 444), ['C1', 'C3', 'C5', 'C6'], 'B'),
  ('gain-out coupling (bottom)',  (1, 45, 37, 80), ['C38'], 'B'),
  ('insert / EQ coupling (bottom)', (1, 75, 37, 160), ['C51', 'C10', 'C11'], 'B'),
@@ -88,7 +88,7 @@ ZONES = [
 NOTES = ((50, 'GAIN | PHASE, OL'), (76, 'HF | HPF'), (98, 'HI-MID gain | freq'), (120, 'LO-MID gain | freq'),
          (142, 'LF | EQ'), (166, 'AUX 1 | 2'), (188, 'AUX 3 | 4'), (210, 'AUX 5 | 6'), (230, 'PRE 1-2  3-4  5-6'),
          (252, 'PAN | PAN, DIR'), (274, 'L-R  1-2  3-4 (LEDs y 283)'), (292, 'PFL | ON'), (305, 'BUS HEADER (bottom, right)'),
-         (372, 'FADER 100 mm'), (55, 'LINK CN3 (bottom) to the jack board'))
+         (372, 'FADER 100 mm'), (91, 'LINK CN3 (bottom, across) to the jack board'))
 
 NEAR = {'C20': 'U1', 'C21': 'U1', 'C22': 'U2', 'C23': 'U2', 'C24': 'U3', 'C25': 'U3', 'C26': 'U4',
         'C29': 'U5', 'C30': 'U5', 'C31': 'U6', 'C32': 'U6', 'C33': 'U7', 'C34': 'U7', 'C35': 'U8', 'C36': 'U8',

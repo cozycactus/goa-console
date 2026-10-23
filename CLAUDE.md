@@ -137,7 +137,9 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
 
 ## Decisions made (do not silently change)
 - Strip panel (2026-10-22): 8 HP × 12U Eurorack-style, two pot columns, jacks on the panel (Neutrik
-  NJ6FD-V); custom frame with rails only at the panel ends.
+  NJ6FD-V); custom frame with rails only at the panel ends. Columns at x 8.84 / 29.16 (2026-10-23, Ruslan): an even
+  20.32 mm pitch within and across modules (`placer.py` XL / XR), every pot's pins turned to the centre line, knobs
+  about Ø13 (Delta: 14 mm, 12.5 mm on MID frequency); was x 10 / 28 with 3 mm between Ø15 knobs.
 - Master section as modules (2026-10-22, M1): four identical 8 HP group modules on the ribbon (sub n, aux n
   master, return n; solder-jumper SUB/AUX bus select; local GCANCEL buffer; strip-style power/grounds) and a
   16 HP master module (everything else, aux 5-6). master_section_spec.md header.
@@ -237,7 +239,12 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
   boards, jack boards only the NJ6FD-V's own 4 items per jack). Master regenerated for the CN1 MPN fix: 1521 pins /
   0 mismatches, check_fp 517 / 0, ERC 0; jack board 85 / 0 / ERC 0. Master then re-placed with J1's wire entry kept free
   (C1/C2 had sat 0.35 mm in front of it): 0 DRC violations, 0 parity issues; report decouplers 3.1 / 7.6 / 22, high-Z
-  inputs 6.0 / 78.6 / 54. `check.py --kicad`: KiCad loads all 9 STEP models. A review workflow (3 lenses + skeptics) found
+  inputs 6.0 / 78.6 / 54. `check.py --kicad`: KiCad loads all 9 STEP models.
+  Pot columns re-centred to x 8.84 / 29.16 (2026-10-23): strip / group / master re-placed, 0 DRC violations and 0 parity
+  issues on all main boards (jack boards: only the NJ6FD-V's own items); reports decouplers 3.6 / 10.0 / 11,
+  2.9 / 5.1 / 1, 3.1 / 7.6 / 22; high-Z inputs 8.9 / 22.7 / 18, 7.6 / 17.2 / 15, 5.9 / 78.6 / 52. Strip CN3 now lies
+  across the strip (y 85.5), so the jack-board ribbon makes one 90° fold (spec 16.4). Independent review: 0 copper or
+  courtyard conflicts; key rows re-aligned to the right column (XR - 22 / XR - 11 / XR). A review workflow (3 lenses + skeptics) found
   18 integration faults (flip axis, empty STEPs, ribbon routes, legends under screws, ...), all fixed.
 - PSU sim (`sim/psu.cir`, 2026-10-22): soft start 165 ms to 90 %, no overshoot; 5.1 A peak SMPS current;
   crowbar idle margin 2.21 / 2.495 V; fault (pass element shorted) → fires in 17 µs, console bus peak 19.7 V,
@@ -283,7 +290,8 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
    reservoirs and SS54 clamps at y 186-236 between the controls and the summers; M4 star stud with the four net ties
    (GNDA pads towards it); wing supplies along 4 mm edge keep-outs to the headers; J1's wire entries (its +y face) kept
    free on the bottom (x 21-58, y 202-220, one-sided keep-out), so the reservoirs no longer block them. Remaining placement hot spots
-   (report): meter ladders (26-30 mm, the meter strip is full), U11 VREF6, strip KHN/EQ and OL detector.
+   (report): meter ladders (26-30 mm, the meter strip is full), U11 VREF6, strip U7 (EQ_FP via the big C49 film cap
+   21.5 mm and RET via C10 22.7 mm since the pots turned inward: no room beside U7), strip KHN/EQ.
    Every function is specified (spec v0.5). Ruslan decided: DRV134
    outputs, no master-end GCANCEL tie. Proposed in the spec, not yet reviewed: GCANCEL
    buffer, OPA1656 on aux/PFL sums, mute relays on main and control-room outputs,

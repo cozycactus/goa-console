@@ -35,18 +35,18 @@ GAP, STEP = 0.3, 0.5          # packer clearance between courtyards / pads, sear
 # y = 0 is 11 mm below the panel's top edge; panel x = board x + 1.15. Every module puts its fader, bus header and
 # ground spade at the same coordinates, so the daisy-chained ribbon and the faders line up across the console.
 W8 = 38.0                     # board width of an 8 HP module (40.64 mm pitch)
-XL, XR, XC = 10.0, 28.0, 19.0 # pot columns and centre line
+XL, XR, XC = 8.84, 29.16, 19.0  # pot columns and centre line: 20.32 mm pitch within and across modules (40.64 / 2)
 FADER = (XC - 1.9, 372 + 63.75, 270, 'F')   # PTB0143/4: slot centre (19, 372), 100 mm travel
 BUS = (31.46, 345.64, 180, 'B')             # 2x17 bus header, bottom side, pins x 31.46 / 34, y 305-346
 SPADE, NETTIE = (5.0, 358.0, 0, 'B'), (5.0, 351.0, 0, 'F')
 FADER_HOLES = [(5, 330), (5, 425), (34, 425)]
 
-def pot(x, y, dual=False, right=False):
-    """RD901F/RD902F with the shaft at (x, y): shaft at (7.5, 2.5) from pin 1. Single pots in the right column turn
-    180 deg (body to the board edge); dual pots stay at 0 deg on the right (their second gang would hang off the
-    edge) and turn 180 deg on the left."""
-    rot = 180 if (right and not dual) or (dual and not right) else 0
-    return (x + 7.5, y + 2.5, 180, 'F') if rot == 180 else (x - 7.5, y - 2.5, 0, 'F')
+def pot(x, y, dual=False, right=None):
+    """RD901F/RD902F with the shaft at (x, y): shaft at (7.5, 2.5) from pin 1. Every pot turns its pins towards the
+    module's centre line (at x 8.84 / 29.16 outward pins would sit 1.3 mm from the board edge): left column 180 deg,
+    right column 0 deg, so a dual's second row of pins also lies inboard. right: column, by default from x."""
+    if right is None: right = x % 40.64 > XC
+    return (x - 7.5, y - 2.5, 0, 'F') if right else (x + 7.5, y + 2.5, 180, 'F')
 sw = lambda x, y: (x - 2.5, y - 3.0, 0, 'F')          # PVA2: actuator centre at (2.5, 3.0) from pin 1
 led = lambda x, y: (x - 1.27, y, 0, 'F')               # 3 mm LED: centre at (1.27, 0)
 jack = lambda x, y: (x, y - 5.72, 0, 'F')              # NJ6FD-V: nose centre at (0, 5.72) from the tip pin
