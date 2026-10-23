@@ -1,0 +1,45 @@
+* Rude-solo flasher with its hold (master spec section 19, tools/gen_master.py RUDE SOLO / PFL DETECT blocks).
+* The hold comparator (+ = PFLDET, - = PFL_REF) sinks while no key is pressed and pulls FL_N to about -VL through a
+* 1N4148, so the flasher comparator's output stays high and the PFL ACTIVE LED stays off. The first version held FL_P
+* instead (through a diode from a pulled-up comparator output): FL_P could only reach that output less a diode drop,
+* FL_N charged past it, and the LED flickered with nothing soloed (applied review, 2026-10-23).
+* LM393B on +-VL: open-collector model as sim/mute.cir. Key released 0-2 s, pressed 2-5 s, released after 5 s.
+.model D4148 D(IS=2.52n N=1.752 RS=0.568 CJO=4p)
+.model LEDR D(IS=1e-22 N=1.7 RS=10)
+.subckt CMP inp inn out vn
+B1 out vn I = 0.5*(1+tanh(200*(V(inn)-V(inp))))*16m*tanh((V(out)-V(vn))/0.5)
+COUT out 0 10p
+.ends
+VL vl 0 16.9
+VN vn 0 -16.9
+VDET det 0 PWL(0 0 2 0 2.001 0.92 5 0.92 5.001 0)
+VREF ref 0 0.497
+XHOLD det ref FL_HOLD vn CMP
+DH FL_N FL_HOLD D4148
+RP1 vl FL_P 100K
+RP2 FL_P 0 100K
+RP3 FL_OUT FL_P 100K
+RT FL_OUT FL_N 1Meg
+CT FL_N 0 330n
+XFL FL_P FL_N FL_OUT vn CMP
+RPU vl FL_OUT 10K
+RLED vl FL_LA 3.3K
+DLED FL_LA FL_OUT LEDR
+.tran 20u 7 0 20u
+.control
+set noaskquit
+run
+meas tran first WHEN v(fl_out)=0 fall=1
+meas tran second WHEN v(fl_out)=0 fall=2
+meas tran third WHEN v(fl_out)=0 fall=3
+meas tran on1 WHEN v(fl_out)=0 rise=1
+meas tran outmin_idle MIN v(fl_out) from=0.2 to=2
+meas tran outmin_after MIN v(fl_out) from=5.6 to=7
+meas tran iled MAX i(vl) from=2 to=5
+let delay = first - 2
+let period = third - second
+let ontime = on1 - first
+echo "released: FL_OUT min $&outmin_idle V (LED off if near +VL); pressed: first flash $&delay s after the press,"
+echo "  on $&ontime s, period $&period s; released again: FL_OUT min $&outmin_after V"
+.endc
+.end

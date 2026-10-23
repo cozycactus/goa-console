@@ -8,7 +8,7 @@ strips' header height, pin 1 at the bottom end like every strip, so each wing's 
 Jack board (~24 mm under the panel): MAIN L / R / MONO XLRs (NC3MAV) in a column, 9 NJ6FD-V in two columns,
 2x20 link along its bottom edge; the main board's 2x20 sits along its top edge, pin 1 at the same end.
 Zones follow gen_master.py's blocks (master_parts.json)."""
-import json, os, re, sys
+import collections, json, os, re, sys
 sys.path.insert(0, os.path.dirname(__file__))
 from placer import place, PROJ, XL, XR, pot, sw, led, jack, BUS
 from verify import sexp, field
@@ -41,25 +41,28 @@ d = json.load(open(os.path.join(PROJ, 'master_parts.json')))
 seen, B = set(), {}
 for title, refs in d['blocks']:                 # a package shared by two blocks stays in the first
     B[re.split(r'\s*[(:]|  ', title)[0].strip()] = [r for r in refs if not (r in seen or seen.add(r))]
+# Beside-parts come from the generator (master_parts.json 'near': decouplers, summing-junction parts, DRV134 caps,
+# relay coil parts, LM2901s at the first LED they drive, ...), so a regeneration that renumbers parts needs no edits here
 NEAR = dict(d['near'])
-for u, cs in (('U7', 'C34 C35 C36 C37 K1'), ('U8', 'C38 C39 C40 C41 K2'), ('U9', 'C42 C43 C44 C45 K3'),
-              ('U13', 'C56 C57 C58 C59'), ('U16', 'C67 C68 C69 C70'), ('U22', 'C100 C101 C102 C103 K4'),
-              ('U23', 'C105 C106 C107 C108 K5'), ('K1', 'R39 D4'), ('K2', 'R40 D5'), ('K3', 'R41 D6'),
-              ('K4', 'R118 D20'), ('K5', 'R120 D21'),
-              ('U1', 'FB1 R10 C11'), ('U3', 'FB2 R18 C18'), ('U12', 'FB3 R54 C53'), ('U14', 'FB4 R65 C62'),
-              ('U18', 'FB5 R88 C83'), ('U25', 'C112 C113 C114 C115 R122'), ('U26', 'C118 C119 C120 C121 R126'),
-              # LM2901 ladders beside the first LED each package drives
-              ('D28', 'U29'), ('D32', 'U30'), ('D36', 'U31'), ('D42', 'U32'), ('D46', 'U33'),
-              ('D56', 'U36'), ('D60', 'U37'), ('D64', 'U38'), ('D70', 'U39'), ('D74', 'U40')):
-    NEAR.update({c: u for c in cs.split()})
+net = sexp(open(os.path.join(PROJ, 'master.net')).read())
+comps = next(c for c in net[1:] if isinstance(c, list) and c[0] == 'components')
+FPN = {field(c, 'ref'): field(c, 'footprint') for c in comps[1:]}
+VAL = {field(c, 'ref'): field(c, 'value') for c in comps[1:]}
+ON = {field(n, 'name').lstrip('/'): {field(x, 'ref') for x in n[1:] if isinstance(x, list) and x[0] == 'node'}
+      for n in next(c for c in net[1:] if isinstance(c, list) and c[0] == 'nets')[1:]}
+num = lambda r: int(re.sub(r'\D', '', r))
+byval = lambda v: next(r for r, x in VAL.items() if x == v)
 
-mL = [r for r in B['METER L'] if r.startswith('D') and r not in ('D22', 'D23', 'D24', 'D25', 'D26', 'D27', 'D38', 'D39')]
-mR = [r for r in B['METER R'] if r.startswith('D') and r not in ('D50', 'D51', 'D52', 'D53', 'D54', 'D55', 'D66', 'D67')]
+# meter LEDs in ladder order (-20 dB first): the LEDs of each meter block, by the dB in their value
+meter_leds = lambda blk: sorted((r for r in B[blk] if 'LED_' in FPN[r]), key=lambda r: int(VAL[r].split()[1]))
+mL, mR = meter_leds('METER L'), meter_leds('METER R')
 FIX = {
  'RV2': pot(XL, 134), 'RV3': pot(XR, 134, right=True), 'RV5': pot(59.3, 134, dual=True),           # AUX 5 | AUX 6 || C/ROOM
- 'SW1': sw(XR - 22, 156), 'D12': led(XR - 13.8, 156), 'SW2': sw(XR - 4, 156), 'D13': led(XR + 4.2, 156),  # AFL 5 | 6
+ 'SW1': sw(XR - 22, 156), byval('Aux 5 AFL red'): led(XR - 13.8, 156),                             # AFL 5 | 6
+ 'SW2': sw(XR - 4, 156), byval('Aux 6 AFL red'): led(XR + 4.2, 156),
  'RV6': pot(XL + H8, 156, dual=True), 'RV4': pot(XR + H8, 156, right=True),                        # || PHONES | SOLO
- 'D3': led(19, 178), 'SW3': sw(XL + H8, 178), 'D15': led(XR + H8, 178),                           # POWER || EXT | PFL ACTIVE
+ byval('Power green'): led(19, 178), 'SW3': sw(XL + H8, 178),                                      # POWER || EXT
+ byval('PFL ACTIVE red 5mm'): led(XR + H8, 178),                                                   # | PFL ACTIVE
  'RV1': (XF - 1.9, 372 + 63.75, 270, 'F'),                                                         # dual master fader
  'CN2': (5.5, BUS[1], 180, 'B'),              # left-wing bus header: as a strip's, 1.4 mm in so its pin-1 mark stays on
  'CN3': (72.0, BUS[1], 180, 'B'),             # right-wing bus header (pin-1 mark inboard)
@@ -76,14 +79,9 @@ for k, (l, r) in enumerate(zip(mL, mR)):      # D28..D49 / D56..D77 in ladder or
     FIX[l] = led(18.0, 422.0 - 5.0 * k); FIX[r] = led(60.6, 422.0 - 5.0 * k)
 HOLES = [(44, 134), (8.5, 228), (70.1, 228), (26, 318), (52.6, 318), (24, 436), (54.4, 436)]   # clear of the edge channels
 
-net = sexp(open(os.path.join(PROJ, 'master.net')).read())
-comps = next(c for c in net[1:] if isinstance(c, list) and c[0] == 'components')
-FPN = {field(c, 'ref'): field(c, 'footprint') for c in comps[1:]}
-VAL = {field(c, 'ref'): field(c, 'value') for c in comps[1:]}
 TALL = {r for r, f in FPN.items() if any(k in f for k in ('CP_Radial', 'C_Rect', 'Fuse_', 'TerminalBlock',
                                                          'Potentiometer_Bourns_3296', 'PinHeader'))}  # bottom: 11.5 mm gap
 dia = lambda r: float(FPN[r].split('_D')[1].split('mm')[0]) if 'CP_Radial' in FPN[r] else 0.0
-num = lambda r: int(re.sub(r'\D', '', r))
 def take(*names, only=None, drop=()):
     out = [r for n in names for r in B[n] if r not in FIX and r not in TALL and r not in drop]
     return [r for r in out if r in only] if only else out
@@ -97,12 +95,29 @@ FIX[POST_U[0]] = (XF, 440.75, 0, 'F')
 POST = COUPLE + [r for r in FADER_BLOCK if r not in COUPLE + POST_U]
 NEAR.update({c: 'RV1' for c in COUPLE})
 NEAR.update({r: POST_U[0] for r in POST if r not in COUPLE and r not in NEAR})
-SUMMER5 = ['U12', 'C51', 'C52', 'FB3', 'R54', 'C53', 'R55', 'R56', 'R57', 'R58']
-SUMMER6 = ['U14', 'C60', 'C61', 'FB4', 'R65', 'C62', 'R66', 'R67', 'R68', 'R69']
-SUMMERP = ['U18', 'C81', 'C82', 'FB5', 'R88', 'C83', 'R89', 'R90', 'R91', 'R92']
-OUTS = ['U7', 'C36', 'C37', 'K1', 'R39', 'D4', 'U8', 'C40', 'C41', 'K2', 'R40', 'D5', 'U9', 'C44', 'C45', 'K3', 'R41', 'D6',
-        'U22', 'C102', 'C103', 'K4', 'R118', 'D20', 'U23', 'C107', 'C108', 'K5', 'R120', 'D21',
-        'U13', 'C58', 'C59', 'U16', 'C69', 'C70']
+NETS_OF = collections.defaultdict(set)
+for n, rs in ON.items():
+    for r in rs: NETS_OF[r].add(n)
+def caps_first(r):
+    """Beside-part order (first = closest to the pins): decouplers, summing-junction parts, other caps, the rest."""
+    if r.startswith('C') and VAL[r].split()[0] in ('100n', '1u', '10u'): rank = 0
+    elif any(n.endswith('_VE') for n in NETS_OF[r]): rank = 1
+    else: rank = 2 if r.startswith('C') else 3
+    return rank, num(r)
+beside = lambda a: sorted((r for r, x in NEAR.items() if x == a and r not in TALL), key=caps_first)
+def summer_group(bus, out):
+    """Summing amp package (sum + re-inverter), its decouplers and junction parts, the re-inverter's network."""
+    u = next(r for r in ON[bus + '_VE'] if r.startswith('U'))
+    rest = sorted((ON[out + '_DN'] | ON[out + '_DP']) - {u} - set(beside(u)), key=caps_first)
+    return [u] + beside(u) + rest
+SUMMER5, SUMMER6, SUMMERP = summer_group('AUX5', 'A5_MIX'), summer_group('AUX6', 'A6_MIX'), summer_group('PFL', 'PFL_MIX')
+# balanced outputs: each DRV134 with its 1u caps, then its mute relay with the coil resistor and diode; then the phones
+# relay (no driver of its own)
+OUTS = []
+for u in sorted((r for r in VAL if VAL[r] == 'DRV134'), key=num):
+    OUTS += [u] + [r for r in beside(u) if not r.startswith('K')]
+    for k in (r for r in beside(u) if r.startswith('K')): OUTS += [k] + beside(k)
+for k in sorted((r for r in VAL if VAL[r].startswith('G6K') and r not in NEAR), key=num): OUTS += [k] + beside(k)
 EL, ER = 4.0, W - 4.0                          # edge channels for the wing supplies (y 186 to the headers)
 PWR_TALL = tall('POWER ENTRY', 'DISTRIBUTION')
 ZONES = [
@@ -114,18 +129,19 @@ ZONES = [
  # bottom side: electrolytics, trimmers
  ('balanced-out, monitor and aux coupling caps (bottom)', (0.3, MAIN_Y0, W - 0.3, 186),
   tall('MAIN OUTPUTS', 'AUX MASTER 5', 'AUX MASTER 6', 'EXT INPUT', 'PFL / AFL', 'PFL SWITCHER', 'CONTROL ROOM',
-       'HEADPHONES', 'POWER-ON MUTE'), 'B'),
+       'HEADPHONES', 'POWER-ON MUTE', 'PFL DETECT', 'RUDE SOLO'), 'B'),
  ('mix coupling (bottom)', (11, 296, 68, 444), tall('MIX L', 'MIX R', 'MASTER FADER'), 'B'),
  ('meter trims + remote meter header (bottom)', (0.3, 300, W - 0.3, 444), tall('METER L', 'METER R', 'REMOTE METER HEADER'), 'B'),
  # top side
  ('balanced outputs + mute relays (towards the jack-board link)', (EL, MAIN_Y0, ER, 236), OUTS, 'F'),
- ('monitoring: EXT, PFL switcher, C/ROOM, phones', (EL, MAIN_Y0, ER, 306),
-  take('EXT INPUT', 'PFL SWITCHER', 'CONTROL ROOM', 'HEADPHONES', drop=OUTS), 'F'),
- ('aux 5-6 level buffers, AFL; solo level', (EL, MAIN_Y0, ER, 306),
-  take('AUX MASTER 5', 'AUX MASTER 6', 'PFL / AFL', drop=OUTS + SUMMER5 + SUMMER6 + SUMMERP), 'F'),
- ('PFL detect, power-on mute', (EL, 160, ER, 306), take('PFL DETECT', 'POWER-ON MUTE'), 'F'),
+ # the summers first: the monitoring and aux zones overlap their area and would otherwise take it
  ('GC buffer, summers, re-inverters, insert returns, mono (between the wing headers)', (11, 236, 68, 306),
   take('GROUND CANCEL BUFFER', 'MIX L', 'MIX R', 'MONO') + SUMMER5 + SUMMER6 + SUMMERP, 'F'),
+ ('monitoring: EXT, PFL switcher, C/ROOM, phones', (EL, MAIN_Y0, ER, 306),
+  take('EXT INPUT', 'PFL SWITCHER', 'PFL DETECT', 'CONTROL ROOM', 'HEADPHONES', drop=OUTS), 'F'),
+ ('aux 5-6 level buffers, AFL; solo level', (EL, MAIN_Y0, ER, 306),
+  take('AUX MASTER 5', 'AUX MASTER 6', 'PFL / AFL', drop=OUTS + SUMMER5 + SUMMER6 + SUMMERP), 'F'),
+ ('rude-solo flasher, power-on mute', (EL, 160, ER, 306), take('RUDE SOLO', 'POWER-ON MUTE'), 'F'),
  ('post-amps L + R around U5 and wiper coupling (fader wiper end)', (19, 424.5, 60, 444), POST, 'F'),
  ('meter L', (0.3, 300, 31.2, 444), take('METER L'), 'F'),
  ('meter R', (47.4, 300, W - 0.3, 444), take('METER R'), 'F'),

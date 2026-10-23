@@ -4,9 +4,42 @@ Reviewed 2026-10-23 for sign-off. Each proposal was checked against the spec, th
 (`master.net`, `group.net`, `jig_master_stub.net`), the manufacturers' datasheets, the Delta drawings in `ref/`
 and new ngspice runs. One analyst worked on each item; a second reviewer then re-derived the key numbers and tried to
 refute every verdict. All six verdicts survived; where the second reviewer corrected a figure or a value, this document
-uses the corrected one. Nothing has been changed in the design yet: the changes below wait for your sign-off.
+uses the corrected one. (When written, nothing had been changed in the design: the changes waited for sign-off; see
+the note below for what was applied.)
 
 Review sims are kept in `sim/review/` (last section).
+
+**Signed off by Ruslan on 2026-10-23 and applied the same day** (master spec v0.7, test jig spec v0.3):
+- S1–S8 as recommended, with the DG413 switcher (S5) and the master-side PFLDET clamp (S8);
+- D1: the 100K GCANCEL keeper;
+- D2: the NE5534 line replaced in CLAUDE.md and console_architecture.md.
+
+References below are those of the v0.6 schematic; the regeneration renumbered parts. What was built differs from the
+text below in these points:
+- **BCP53-16 footprint:** `Package_TO_SOT_SMD:SOT-223` (pads 1–4, tab = 4 = C), not `SOT-223-3_TabPin2`. The TabPin2
+  footprint has no pad 4 for the symbol's fourth pin.
+- **PFL logic:** both optional items are fitted, the 10K between PFL_ON_RAW and the four DG413 IN pins and the 10M
+  hysteresis.
+- **Test jig stub:** it gets the same PFLDET clamp, 330K reference and 1 µF, so it reads like the master. Each of its
+  summers now shares a dual with its re-inverter.
+- **Master op-amp packages:** the master ties off two OPA1612 halves as spares (one after mono, one at the end), so
+  no package straddles two placement areas. 13 OPA1612 + 2 OPA1656 on the master; 41 + 2 console-wide.
+- **Placement:**
+  - The generators now record which parts sit beside which IC (`master_lib.near()`): summing-junction parts,
+    re-inverter caps, DRV134 caps, relay coil parts, and LM2901s and current sources at their LEDs.
+  - The placement layouts derive their groups from the netlist instead of hard-coded refs.
+- **Sims:**
+  - `sim/mute.cir` (v3) and the new `sim/pfldet.py` hold the built values.
+  - The DG413 switcher is the `dgF` variant in `sim/review/pflswitch`.
+- **Not fitted (optional in the review):**
+  - the GCANCEL ferrite;
+  - the meter ladders' bottom 91R at 88R7;
+  - a shared meter reference;
+  - wing-rail sensing;
+  - a C/R MUTE switch;
+  - 50 V Sense-loop caps.
+
+  The film / C0G ballistics caps are a spec note (§22), not a generator change.
 
 ## Summary
 
@@ -23,23 +56,23 @@ Review sims are kept in `sim/review/` (last section).
 
 Tick or strike each line. The bracketed letter is the recommendation.
 
-- [ ] **S1** GCANCEL buffer kept as generated; spec §3 / §9 / §10 / §15 text corrected (item 1).
-- [ ] **S2** Aux sums (master aux 5/6, group aux, jig AUX1/2) → OPA1612; PFL sum stays OPA1656 (item 2).
-- [ ] **S3** 22 pF C0G on every re-inverter, 100 pF across every level buffer's 4K7, 22 pF on the mono re-inverter
+- [x] **S1** GCANCEL buffer kept as generated; spec §3 / §9 / §10 / §15 text corrected (item 1).
+- [x] **S2** Aux sums (master aux 5/6, group aux, jig AUX1/2) → OPA1612; PFL sum stays OPA1656 (item 2).
+- [x] **S3** 22 pF C0G on every re-inverter, 100 pF across every level buffer's 4K7, 22 pF on the mono re-inverter
   (item 2). This touches MIX L/R, SUB, aux, PFL and the jig.
-- [ ] **S4** Relays: NC-to-ground contact map, K6 on phones, LM393B, R49/R53 2K2 → 4K7, D7 footprint (item 3).
-- [ ] **S5** PFL switcher → DG413 with the additions in item 4 [recommended]; *or* the Delta-faithful JFET
+- [x] **S4** Relays: NC-to-ground contact map, K6 on phones, LM393B, R49/R53 2K2 → 4K7, D7 footprint (item 3).
+- [x] **S5** PFL switcher → DG413 with the additions in item 4 [recommended]; *or* the Delta-faithful JFET
   switcher (soft transition, about 38 parts and selected J112s).
-- [ ] **S6** Meters: BCP53-16 + 120R current sources, LM2901B, Kingbright GaP LEDs, new calibration rule (item 5).
-- [ ] **S7** Sub AFL kept as generated (item 6).
-- [ ] **S8** PFLDET back-feed fix: master-side clamp [recommended]; *or* a diode per key (touches the strip netlist).
+- [x] **S6** Meters: BCP53-16 + 120R current sources, LM2901B, Kingbright GaP LEDs, new calibration rule (item 5).
+- [x] **S7** Sub AFL kept as generated (item 6).
+- [x] **S8** PFLDET back-feed fix: master-side clamp [recommended]; *or* a diode per key (touches the strip netlist).
 
 Two of the changes touch recorded decisions. They are listed separately so neither changes silently:
 
-- [ ] **D1** GCANCEL keeper (item 1): 100K from GCANCEL to master GNDA, which leaks −79 dB. Without it the line floats
+- [x] **D1** GCANCEL keeper (item 1): 100K from GCANCEL to master GNDA, which leaks −79 dB. Without it the line floats
   whenever the master runs with no strip or group on a wing. This is a (very weak) master-end tie, against the "no tie"
   decision. Options: 100K / 1M (−99 dB) / none, plus a "never power the master alone" rule in the spec.
-- [ ] **D2** CLAUDE.md "NE5534 good for sub/aux summing" and console_architecture.md line 291: on this console's aux
+- [x] **D2** CLAUDE.md "NE5534 good for sub/aux summing" and console_architecture.md line 291: on this console's aux
   buses (N fixed at 24) the OPA1612 is quieter than the NE5534 (−94.3 vs −92.5 dBu), and ±17 V is above the
   NE5534's recommended ±15 V. Replace the line with "OPA1612 on MIX/SUB/aux sums, OPA1656 on PFL".
 
@@ -373,10 +406,18 @@ Outside the six items, but found while checking them:
 
 ## After sign-off
 
-The signed items become generator changes (`gen_master.py`, `gen_group.py`, `gen_jig.py`, `master_lib.py`,
-`place_master.py`). Then: regenerate master, group and jig; netlist / verify / check_fp / ERC; re-place (placement
-only); parity DRC; spec v0.7; CLAUDE.md decisions and verification record; the new circuits' sims (DG413 switcher,
-meter current source, mute timing with 4K7) moved from `sim/review/` into `sim/`.
+Done on 2026-10-23. The generators were changed (`gen_master.py`, `gen_group.py`, `gen_jig.py`, `master_lib.py`).
+Then master, group and jig were regenerated and checked (netlist / verify / check_fp / ERC), and re-placed
+(placement only) with parity DRC. Also updated: spec v0.7, jig spec v0.3, and the CLAUDE.md decisions and
+verification record. The sims:
+- `sim/mute.cir` holds the 4K7 mute timing;
+- `sim/pfldet.py` and `sim/flasher.cir` are new;
+- the DG413 switcher (`dgF*`, now with leakage) and the meter current source (`mkdeck.py pnp=bcp53 re=120`) stay in
+  `sim/review/`.
+
+An independent check of the applied change found the rude-solo flasher's hold did not hold. That was a v0.6 fault,
+fixed in v0.7 (`sim/flasher.cir`). It also found that the master's DG413 network and C/Room followers were spread
+out, and that the BOM/PDF exports were stale; all fixed.
 
 ## Review sims (`sim/review/`)
 

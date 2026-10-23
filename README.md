@@ -65,8 +65,8 @@ netlists and simulated in ngspice.
   - 0 DRC violations on the strip, group and master main boards, the PSU and both jig boards;
   - the jack boards show only items inside KiCad's NJ6FD-V footprint.
 - **Still open:**
-  - sign off `master_parts_review.md` (the six master parts proposed in `master_section_spec.md` v0.6), then apply
-    the changes to the generators;
+  - the bench checks from the master parts review (`master_parts_review.md`, signed off and applied 2026-10-23):
+    re-inverter stability, aux noise, relay release and mains-off timing, PFL tick, meter current-source temperature;
   - check the panel parts against samples:
     - fader pad pattern (1:1 print) and which side of the slot the pins sit;
     - fader law, which the printed dB scale needs;

@@ -1,14 +1,15 @@
 """Build an ngspice deck of the GENERATED meter (both sides, as master.net): +-V -> 10R -> +-VM, threshold ladder
-16K..91R, 2 x 10-LED strings per side from MMBT3906 CCS (75R, 2 x 1N4148, 27K), 20 LM2901-like open-collector
+16K..91R, 2 x 10-LED strings per side from a PNP current source (2 x 1N4148, 27K; re= emitter R, 75R in the first
+draft, 120R as built; pnp=bcp53 as built, pnp=mmbt3906 the first draft), 20 LM2901-like open-collector
 comparators per side (GND pin = -VM as in master.net), DET swept by a DC source (= U4 output).
 Usage: mkdeck.py out.cir [key=value ...]  keys: vrail, green, amber, red (typ|max|ingan|ingan_max), isink (typ 16m / min 6m),
-vos_seed (0 = no offset), vos_max, icc (per package), tl072 (per package), re (emitter R), temp"""
+vos_seed (0 = no offset), vos_max, icc (per package), tl072 (per package), re (emitter R), pnp (bcp53 | mmbt3906), temp"""
 import sys, random, math
 out = sys.argv[1]
 o = dict(vrail=17.0, green='typ', amber='typ', red='typ', isink=16e-3, vos_seed=0, vos_max=3.5e-3, icc=1.0e-3,
-         tl072=2.8e-3, re=75.0, temp=27.0, ib=25e-9, step=0.5e-3)
+         tl072=2.8e-3, re=120.0, temp=27.0, ib=25e-9, step=0.5e-3, pnp='bcp53')
 for a in sys.argv[2:]:
-    k, v = a.split('='); o[k] = v if k in ('green', 'amber', 'red') else float(v)
+    k, v = a.split('='); o[k] = v if k in ('green', 'amber', 'red', 'pnp') else float(v)
 LADDER = [1500, 1100, 910, 680, 620, 470, 330, 300, 220, 180, 150, 110, 91, 68, 62, 47, 33, 27, 20]
 COLOUR = ['green'] * 11 + ['amber'] * 5 + ['red'] * 4
 VT = 0.025852
@@ -28,6 +29,9 @@ w(f'.options temp={o["temp"]} tnom=27 gmin=1e-12 reltol=1e-4 itl1=500 itl2=500')
 w('.model D1N4148 D(IS=2.52n RS=0.568 N=1.752 CJO=4p M=0.4 TT=20n BV=100)')
 w('.model MMBT3906 PNP(IS=1.41f XTI=3 EG=1.11 VAF=18.7 BF=180.7 NE=1.5 ISE=0 IKF=80m XTB=1.5 BR=4.977 NC=2 ISC=0 '
   'IKR=0 RC=2.5 CJC=9.728p MJC=.5776 VJC=.75 FC=.5 CJE=8.063p MJE=.3677 VJE=.75 TR=33.42n TF=179.3p ITF=.4 VTF=4 XTF=6 RB=10)')
+# BCP53-16 (SOT-223, larger die): the MMBT3906 card with IS scaled so Vbe is ~0.63 V at 5 mA (datasheet typical)
+w('.model BCP53 PNP(IS=1.3e-13 XTI=3 EG=1.11 VAF=100 BF=150 NE=1.5 ISE=0 IKF=1 XTB=1.5 BR=4.977 NC=2 ISC=0 '
+  'IKR=0 RC=0.3 CJC=30p MJC=.5776 VJC=.75 FC=.5 CJE=60p MJE=.3677 VJE=.75 TR=33.42n TF=400p ITF=.4 VTF=4 XTF=6 RB=5)')
 w('.model QOC NPN(IS=1e-14 BF=100 BR=1 RC=15 VAF=100)')
 for c in ('green', 'amber', 'red'): w(led_model('LED_' + c, *LEDS[(c, o[c])]))
 # LM2901-like comparator: PNP-input bias out of the pins, offset, ICC, open-collector NPN with limited base drive
@@ -55,7 +59,7 @@ for sd in 'LR':
         p = f'{m}{s0}'
         w(f'RE{p} vmp {p}_QE {o["re"]}')
         w(f'DR1{p} vmp {p}_D1 D1N4148'); w(f'DR2{p} {p}_D1 {p}_QB D1N4148'); w(f'RB{p} {p}_QB vmn 27k')
-        w(f'Q{p} {p}_0 {p}_QB {p}_QE MMBT3906')     # C B E
+        w(f'Q{p} {p}_0 {p}_QB {p}_QE {o["pnp"].upper()}')     # C B E
         for i, k in enumerate(ks):
             node = f'{p}_{i}'; nxt = f'{p}_{i + 1}' if i < 9 else 'vmn'
             w(f'VL{m}{k} {node} {node}x 0')

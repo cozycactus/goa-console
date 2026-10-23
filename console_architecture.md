@@ -234,8 +234,8 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
 - 47–100 pF across the feedback resistor (ribbon capacitance at the virtual-earth node).
 - Master insert (TRS, normalled) for the bus compressor.
 - Stereo master fader, balanced outputs L/R (DRV134), mono sum output.
-- **Power-on/off mute relay** on the main outputs: closes 2–3 s after the rails are up,
-  opens immediately when they drop.
+- **Power-on/off mute relay** on the main outputs (and the control-room and phones outputs, 2026-10-23): closes
+  2–3 s after the rails are up, opens immediately when they drop; a released relay grounds the line.
 
 ### 4.2 SSL bus compressor (external, via master insert)
 - Clone of the SSL 4000 bus compressor (Gyraf design). The Gyraf uses THAT 2181 VCAs, which went
@@ -288,13 +288,14 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
 | Position | Op-amp | Reason |
 |----------|--------|--------|
 | MIX L/R summing amps | OPA1612 | Many channels routed: low voltage noise matters (section 2.4) |
-| SUB / AUX summing amps | OPA1612 or NE5534 | NE5534 is quieter than OPA1612 with few channels routed (lower current noise) |
+| SUB / AUX summing amps | OPA1612 | An aux bus always carries every strip's 22K (noise gain 25), where the OPA1612 is quietest: −94.3 dBu vs −92.5 (NE5534) and −92.3 (OPA1656); ±17 V is also above the NE5534's recommended ±15 V (master parts review, 2026-10-23) |
+| PFL summing amp | OPA1656 | Switched bus, 1–4 sources: no current noise, 1.6–3.6 dB quieter than the OPA1612 |
 | Channel input receiver | OPA1612 (THAT1246 is end-of-life, Sept 2026) | Ground-loop rejection, low noise |
 | Fader post-amp | OPA1612 | Critical path |
 | Pan buffers | OPA1612 or NE5532 | Drive the routing resistors |
 | Balanced outputs | DRV134 | Floating-style balanced driver, one part per output (replaces the Delta NE5532 EBOS; THAT1646 went end-of-life Sept 2026) |
-| Headphone amp | NE5532 or TPA6120 | Output current |
-| Monitor / PFL | NE5532 | Non-critical |
+| Headphone amp | OPA1612 + LME49600 (composite) | 250 mA output inside the op-amp's loop (master spec section 21) |
+| Monitor (CRS) followers | OPA1656 | FET input after the DG413 PFL switch: a bipolar part's bias current would step CRS at every switch |
 
 PSRR at audio frequencies (not DC) is the deciding figure: about 45 dB at 10 kHz for
 the NE5532 versus about 80 dB for the OPA1612.

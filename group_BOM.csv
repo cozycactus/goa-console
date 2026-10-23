@@ -1,20 +1,21 @@
 Qty,Value,Footprint,MPN,References
 2,220u 25V,Capacitor_THT:CP_Radial_D10.0mm_P5.00mm,,C1 C2
 2,47u 25V,Capacitor_THT:CP_Radial_D8.0mm_P3.50mm,,C3 C4
-14,100n,Capacitor_SMD:C_0805_2012Metric,,C5 C6 C8 C9 C13 C14 C21 C22 C25 C26 C37 C38 C45 C46
-7,100p C0G,Capacitor_SMD:C_0805_2012Metric,,C7 C15 C27 C34 C35 C39 C40
-4,47u NP 25V,Capacitor_THT:CP_Radial_D8.0mm_P3.50mm,,C10 C28 C42 C43
-6,220u NP 25V,Capacitor_THT:CP_Radial_D10.0mm_P5.00mm,,C11 C16 C23 C24 C47 C49
-4,2.2u,Capacitor_SMD:C_1206_3216Metric,,C12 C29 C44 C48
-4,10u NP 25V,Capacitor_THT:CP_Radial_D5.0mm_P2.00mm,,C17 C18 C30 C31
-4,1u,Capacitor_SMD:C_1206_3216Metric,,C19 C20 C32 C33
-2,33p C0G,Capacitor_SMD:C_0805_2012Metric,,C36 C41
+14,100n,Capacitor_SMD:C_0805_2012Metric,,C5 C6 C10 C11 C15 C16 C23 C24 C27 C28 C42 C43 C50 C51
+10,100p C0G,Capacitor_SMD:C_0805_2012Metric,,C7 C17 C29 C34 C39 C40 C44 C45 C52 C55
+4,22p C0G 5%,Capacitor_SMD:C_0805_2012Metric,,C8 C9 C30 C31
+4,47u NP 25V,Capacitor_THT:CP_Radial_D8.0mm_P3.50mm,,C12 C32 C47 C48
+6,220u NP 25V,Capacitor_THT:CP_Radial_D10.0mm_P5.00mm,,C13 C18 C25 C26 C53 C56
+4,2.2u,Capacitor_SMD:C_1206_3216Metric,,C14 C33 C49 C54
+4,10u NP 25V,Capacitor_THT:CP_Radial_D5.0mm_P2.00mm,,C19 C20 C35 C36
+4,1u,Capacitor_SMD:C_1206_3216Metric,,C21 C22 C37 C38
+2,33p C0G,Capacitor_SMD:C_0805_2012Metric,,C41 C46
 1,Ground spade 6.3mm,goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm,Keystone 1287-ST,CN1
 1,Bus 2x17,Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical,,CN2
 1,Jack board link 2x8,Connector_IDC:IDC-Header_2x08_P2.54mm_Vertical,2x8 box header, 2.54 mm,CN3
-1,Sub AFL red,LED_THT:LED_D3.0mm,,D1
-1,Aux AFL red,LED_THT:LED_D3.0mm,,D2
-1,Return PFL red,LED_THT:LED_D3.0mm,,D3
+1,Sub AFL red,LED_THT:LED_D3.0mm,Kingbright WP710A10ID,D1
+1,Aux AFL red,LED_THT:LED_D3.0mm,Kingbright WP710A10ID,D2
+1,Return PFL red,LED_THT:LED_D3.0mm,Kingbright WP710A10ID,D3
 2,Ferrite 220R@100MHz,Inductor_SMD:L_0805_2012Metric,220R@100MHz 0805,FB1 FB2
 4,10R,Resistor_SMD:R_0805_2012Metric,,R1 R2 R3 R4
 1,10R GND cancel,Resistor_SMD:R_0805_2012Metric,,R5
@@ -42,6 +43,5 @@ Qty,Value,Footprint,MPN,References
 1,Return 1-2,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW5
 1,Return 3-4,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW6
 1,Return PFL,Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2,C&K PVA2 EE H1 1.7N V2,SW7
-6,OPA1612,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,,U1 U2 U3 U5 U8 U9
+7,OPA1612,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,,U1 U2 U3 U5 U6 U8 U9
 2,DRV134,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,TI DRV134UA,U4 U7
-1,OPA1656,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,TI OPA1656ID,U6

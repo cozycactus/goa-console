@@ -1,8 +1,8 @@
-# Test Jig — Specification, v0.2 (draft)
+# Test Jig — Specification, v0.3 (draft)
 ## Bus and grounding tests before ordering 24 strips
 
 Implements `console_architecture.md` section 9 with the designs as they now stand
-(strip spec v4.0 with its jack board, master spec v0.6). Goal: confirm the Delta-style unbalanced bus with ground
+(strip spec v4.0 with its jack board, master spec v0.7). Goal: confirm the Delta-style unbalanced bus with ground
 cancel (config **D**) against the same bus without it (config **A**), and measure noise, hum,
 crosstalk, PSRR, distortion and switching clicks on real hardware.
 
@@ -29,10 +29,13 @@ A cut-down master built from the same circuits (master spec sections 2, 3, 12, 1
 
 - One 34-pin header, like every board on the jig: a single ribbon with crimped sockets for
   the four strips, the master stub and the load board.
-- MIX L and MIX R: summing amp (OPA1612, 4K7 ∥ 100 pF, ferrite) + re-inverter (2K2 0.1 %).
+- MIX L and MIX R: summing amp (OPA1612, 4K7 ∥ 100 pF, ferrite) + re-inverter (2K2 0.1 %, 22 pF on both legs),
+  each summer and its re-inverter in one dual (on the master, MIX R, aux 5/6 and PFL are built this way).
 - SUB 1: same as MIX (for routing and SUB-to-MIX crosstalk).
-- AUX 1: OPA1656 summing amp (22K ∥ 100 pF) + re-inverter (for the 22K bus and its crosstalk).
-- PFL: OPA1656 summing amp + re-inverter, PFL-detect comparator and LED.
+- AUX 1: OPA1612 summing amp (22K ∥ 100 pF) + re-inverter (for the 22K bus and its crosstalk). OPA1612, as the
+  master and groups since the parts review (2026-10-23): an aux bus always carries every strip's 22K.
+- PFL: OPA1656 summing amp + re-inverter, PFL-detect comparator and LED. The detect line is the master's:
+  10K plus two 1N4148 to ground, 1 µF, threshold 0.50 V (330K / 10K); one press reads about 0.92 V.
 - GCANCEL buffer (OPA1612 follower) for the re-inverters.
 - **Config jumper JP_GC (3-pole, one per bus amp group):**
   - D (ground cancel): summing-amp + inputs on GCANCEL, re-inverter + legs on GCANCEL_BUF.
@@ -82,15 +85,15 @@ Levels in dBu, 20 Hz–20 kHz unweighted unless stated. Record every result in c
 | # | Test | Method | Target |
 |---|------|--------|-----------|
 | 1 | Noise floor vs N | Strip inputs shorted, faders at the "0" mark, routed to MIX; load board N = 0, 8, 20. RMS and FFT at MIX L. | Within 2 dB of architecture 2.4 (−100.4 dBu at N = 24) plus strip noise. No discrete hum lines above −110 dBu. |
-| 2 | Ground-difference rejection | Put 0.1 Ω in one strip's spade lead; drive 50 Hz through it from the isolation transformer (1 A = 100 mV of ground offset). Measure at MIX L. Repeat at 1 kHz. | D at least 40 dB better than A at 50 Hz (simulation: −71 vs +28 dB for a 1 V difference with 24 routed). |
-| 3 | 22 Ω master-end tie | As test 2 with JP_GC in the tie position. | Confirms the simulated loss (simulation, 1 V difference at 10 Hz: −7 dB with the tie, −71 dB without); if not, revisit master spec section 3. |
+| 2 | Ground-difference rejection | Put 0.1 Ω in one strip's spade lead; drive 50 Hz through it from the isolation transformer (1 A = 100 mV of ground offset). Measure at MIX L. Repeat at 1 kHz. | D at least 40 dB better than A at 50 Hz. Expect D at about −54 to −65 dB at 50 Hz, set by each re-inverter's 0.1 % match (the old −71 dB figure was the model's 1 nF bus capacitance); the spread between the BNC outputs shows the match. Also read TP GCREF_BUF minus TP GCANCEL during the injection: expect < −90 dB (the buffer is not the limit). If the worst output is above about −55 dB, fit 0.05 % / 0.01 % ratio-matched quads. |
+| 3 | 22 Ω master-end tie | As test 2 with JP_GC in the tie position. | Confirms the simulated loss (simulation, 1 V difference at 10 Hz: −7 dB with the tie; without it, the re-inverter match floor of test 2). The master's 100K keeper costs −79 dB, below that floor; if the tie result differs, revisit master spec section 3. |
 | 4 | Hum pickup | 3 m ribbon laid along a loaded mains cable; then a deliberate ground loop through a synth connected to two strips. | No 50/100/150 Hz lines above −100 dBu at MIX L in D. |
 | 5 | Crosstalk | One strip, 0 dBu, routed only to AUX 1 (pin 24); measure on MIX L, MIX R, SUB 1, AUX 2 (the ungrounded neighbours 17–25). 1 kHz, 10 kHz, 20 kHz. | ≤ −80 dB at 10 kHz between adjacent buses. |
 | 6 | PSRR, power on the ribbon | 100 mV ripple at 100 Hz, 1 kHz, 10 kHz injected on +V, then −V (series transformer or a modulated supply). Measure at MIX L. | Ripple at output ≤ −100 dBu at 100 Hz. If not, try separate 18–20 AWG power wiring (architecture 3.2). |
 | 7 | THD+N, all channels | All four strips driven at 0 dBu, routed L-R, faders at "0", N = 20 on the load board. | ≤ 0.005 % at 1 kHz at MIX L; no rise with N. |
 | 8 | Switching clicks | 1 kHz at 0 dBu and silence: toggle every routing (DG413), ON and PFL switch; record MIX L and PFL, raw and through a 20 kHz low-pass. Also DC at each DG413's bus pin. | No audible click. DG413 charge injection: sim −55 dBu peak in the 20 kHz band (`sim/routing_switch.cir`), target ≤ −50 dBu; DC < 1 mV. |
 | 9 | Soft mute | ON switch off with 1 kHz at +10 dBu. | Depth ≥ 70 dB (netlist sim 76 dB at POST), no click. |
-| 10 | Stability | Square wave 1 kHz and 10 kHz at MIX L with the 3 m ribbon, N = 20. | No ringing or oscillation; overshoot < 10 %. |
+| 10 | Stability | Square wave 1 kHz and 10 kHz at MIX L with the 3 m ribbon, N = 20. Then, with a 100 MHz scope and a short ground spring, every re-inverter output (MIX L/R, SUB 1, AUX 1/2, PFL), idle and with a 10 kHz square through a strip, and with a 10 kHz square coupled onto GCANCEL through the test-2 transformer; scope GCANCEL_BUF too. | No ringing or oscillation; overshoot < 10 % (GCANCEL_BUF ≤ 20 %). The re-inverters carry 22 pF on both legs (master spec section 3); without them TI's model rings at about 15 MHz. |
 | 11 | Balanced output | DRV134 on MIX L: level, both legs, then one leg grounded. | +6 dB differential and single-ended; no change in THD. |
 
 ### 4.1 Strip function checks (each of the four strips)
@@ -135,7 +138,7 @@ Targets from `tools/sim_netlist.py` (the exported netlists, 30 checks) and `sim/
 ## 7. Still to do
 
 - ~~Schematics for the master stub and the load board~~ done 2026-10-22: `tools/gen_jig.py` writes
-  `jig_master_stub.kicad_sch` (127 parts) and `jig_load_board.kicad_sch` (50 parts) from the master's
+  `jig_master_stub.kicad_sch` (144 parts since v0.3) and `jig_load_board.kicad_sch` (50 parts) from the master's
   own circuit functions, now in `tools/master_lib.py`. Both: netlist 0 mismatches, every pin on a
   pad, ERC 0.
 - ~~PCB placement~~ done 2026-10-22: `tools/place_jig.py` → `jig_master_stub.kicad_pcb` (160 × 125 mm:
@@ -148,4 +151,5 @@ Targets from `tools/sim_netlist.py` (the exported netlists, 30 checks) and `sim/
 - For the ribbon-current test, the load board could also carry a switchable dummy load
   (about 1 A per rail) to emulate a 12-strip wing.
 
-*Document version 0.2 — October 2026 (strip v4.0: jack board, DG413 routing, KHN mid bands)*
+*Document version 0.3 — 23 October 2026 (master parts review: OPA1612 on AUX, re-inverter 22 pF, PFLDET clamp; test 2,
+3 and 10 targets)*

@@ -54,10 +54,11 @@ C(b, '220u NP 25V', s + '_PBR', s + '_PANR'); R(b, '47K', s + '_PANR', 'GNDA')
 routing(b, s + '_PANL', s + '_PANR', 'MIXL', 'MIXR', 'Sub to MIX')
 R(b, '22K', s + '_POST', s + '_AFLJ'); afl(b, s + '_AFLJ', 'Sub AFL')
 
-b = block('AUX MASTER: OPA1656 sum (selected AUX bus, 22K || 100p) + re-invert, level, buffer, DRV134 out, AFL  [spec 13]')
+b = block('AUX MASTER: OPA1612 sum (selected AUX bus, 22K || 100p) + re-invert, level, buffer, DRV134 out, AFL  [spec 13]')
 a = 'A'
-summer(b, 'AUX_SEL', a + '_SUM', '22K', '100p', 'OPA1656')
-reinv(b, a + '_SUM', a + '_MIX', 'OPA1656', gref='GC_BUF')
+with new_package():                     # every strip's 22K is always on the aux bus: noise gain 25, so the OPA1612
+    summer(b, 'AUX_SEL', a + '_SUM', '22K', '100p')
+    reinv(b, a + '_SUM', a + '_MIX', gref='GC_BUF')
 C(b, '47u NP 25V', a + '_MIX', a + '_PT')
 P(b, ref('RV'), 'POT', 'Aux master 10K log', {1: 'GNDA', 3: a + '_PT', 2: a + '_W'})
 level_buffer(b, a + '_W', a + '_OUT', a)

@@ -5,8 +5,9 @@
 the faders line up with the strips. The switches that carry a bus (sub to MIX, return routing, AFL/PFL) sit in
 the strips' pan / routing / PFL rows, a few cm from the bus header. Zones follow gen_group.py's blocks
 (group_parts.json). The jack board (5 jacks, 2x8 link) sits ~24 mm under the panel, y 0-65."""
-import json, os, sys
+import collections, json, os, re, sys
 sys.path.insert(0, os.path.dirname(__file__))
+from verify import sexp, field
 from placer import place, PROJ, W8 as W, XL, XR, XC, pot, sw, led, jack, FADER, BUS, SPADE, NETTIE, FADER_HOLES
 
 JACK_Y1, MAIN_Y0, MAIN_Y1 = 65.0, 66.0, 444.0
@@ -27,18 +28,27 @@ d = json.load(open(os.path.join(PROJ, 'group_parts.json')))
 seen, B = set(), {}
 for title, refs in d['blocks']:                 # a package shared by two blocks stays in the first
     B[title.split('  ')[0].split(':')[0]] = [r for r in refs if not (r in seen or seen.add(r))]
+# Beside-parts (decouplers, summing-junction parts, DRV134 caps) come from the generator (group_parts.json 'near');
+# groups below are derived from the netlist, so a regeneration that renumbers parts needs no edits here
 NEAR = dict(d['near'])
-NEAR.update({'C19': 'U4', 'C20': 'U4', 'C17': 'U4', 'C18': 'U4',           # DRV134 supply and output caps
-             'C32': 'U7', 'C33': 'U7', 'C30': 'U7', 'C31': 'U7',
-             'FB1': 'U1', 'R6': 'U1', 'C7': 'U1', 'FB2': 'U6', 'R25': 'U6', 'C27': 'U6',      # summing junctions short
-             'R7': 'U2', 'R8': 'U2', 'R9': 'U2', 'R10': 'U2', 'R26': 'U6', 'R27': 'U6', 'R28': 'U6', 'R29': 'U6'})
+net = sexp(open(os.path.join(PROJ, 'group.net')).read())
+comps = next(c for c in net[1:] if isinstance(c, list) and c[0] == 'components')
+FPN = {field(c, 'ref'): field(c, 'footprint') for c in comps[1:]}
+VAL = {field(c, 'ref'): field(c, 'value') for c in comps[1:]}
+ON = {field(n, 'name').lstrip('/'): {field(x, 'ref') for x in n[1:] if isinstance(x, list) and x[0] == 'node'}
+      for n in next(c for c in net[1:] if isinstance(c, list) and c[0] == 'nets')[1:]}
+num = lambda r: int(re.sub(r'\D', '', r))
+byval = lambda v: next(r for r, x in VAL.items() if x == v)
+ic_on = lambda n: next(r for r in sorted(ON[n], key=num) if r.startswith('U'))
+for out in ('S_MIX', 'A_MIX'):                  # re-inverter networks short, at their op-amp
+    u = ic_on(out + '_DN'); NEAR.update({r: u for r in (ON[out + '_DN'] | ON[out + '_DP']) - {u} if r not in NEAR})
 
 FIX = {
- 'RV4': pot(XL, 84, dual=True), 'SW7': sw(27, 84), 'D3': led(35, 84),        # RETURN level | PFL
- 'RV3': pot(XL, 166), 'SW3': sw(26, 166), 'D2': led(34.5, 166),             # AUX n master | AFL (strips' aux 1|2 row)
+ 'RV4': pot(XL, 84, dual=True), 'SW7': sw(27, 84), byval('Return PFL red'): led(35, 84),        # RETURN level | PFL
+ 'RV3': pot(XL, 166), 'SW3': sw(26, 166), byval('Aux AFL red'): led(34.5, 166),                # AUX n master | AFL
  'RV2': pot(XL, 252, dual=True), 'SW1': sw(XR, 252),                         # SUB pan | to MIX (strips' pan row)
  'SW4': sw(XR - 22, 274), 'SW5': sw(XR - 11, 274), 'SW6': sw(XR, 274),       # return to MIX, 1-2, 3-4 (routing row)
- 'SW2': sw(XR - 22, 292), 'D1': led(XR - 13.8, 292),                         # SUB AFL (strips' PFL row)
+ 'SW2': sw(XR - 22, 292), byval('Sub AFL red'): led(XR - 13.8, 292),         # SUB AFL (strips' PFL row)
  'RV1': FADER, 'CN2': BUS, 'CN1': SPADE, 'NT1': NETTIE,
 }
 # bus-select solder jumpers, top side, right of the fader under the bus header: SUB 1-4 | AUX 1-4
@@ -48,20 +58,35 @@ for k, y in enumerate(JP_Y):
 LABELS = [(30.5, 355.2, 'SUB', 1.0), (35.0, 355.2, 'AUX', 1.0)] + [(28.3, y, str(k + 1), 0.9) for k, y in enumerate(JP_Y)]
 HOLES = [(XC, 72), (XC, 140), (XC, 215)] + FADER_HOLES
 
-RADIAL = {'C1', 'C2', 'C3', 'C4', 'C10', 'C11', 'C16', 'C17', 'C18', 'C23', 'C24', 'C28', 'C30', 'C31',
-          'C42', 'C43', 'C47', 'C49'}                # electrolytics: too tall for the 11.5 mm panel gap -> bottom
+RADIAL = {r for r, f in FPN.items() if 'CP_Radial' in f}   # electrolytics: too tall for the 11.5 mm panel gap -> bottom
+RESERVOIR = sorted(RADIAL & set(B['POWER AND GROUNDS']), key=num)
 take = lambda name, *drop: [r for r in B[name] if r not in FIX and r not in RADIAL and r not in drop]
-RET_ROUTE = ['R56', 'R57', 'R58', 'R59', 'R60', 'R61']                     # 4K7s beside SW4-SW6
-SUB_BUS = ['R20', 'R21', 'R22', 'R23', 'R24']                              # sub to MIX 4K7s, AFL 22K / 100K / 4K7
-SUMMERS = ['U1', 'C5', 'C6', 'FB1', 'R6', 'C7', 'U2', 'C8', 'C9', 'R7', 'R8', 'R9', 'R10',    # ICs before their NEAR parts
-           'U6', 'C25', 'C26', 'FB2', 'R25', 'C27', 'R26', 'R27', 'R28', 'R29']
+switch_rs = lambda *sws: sorted({r for n, rs in ON.items() for s in sws if n.startswith(f'RT_{s}') for r in rs
+                                 if r.startswith('R')}, key=num)
+RET_ROUTE = switch_rs('SW4', 'SW5', 'SW6')                                  # 4K7s beside SW4-SW6
+SUB_BUS = switch_rs('SW1') + sorted((ON['S_AFLJ'] | ON['SW2_ON']) - {'SW2'}, key=num)   # sub to MIX 4K7s, AFL 22K / 100K / 4K7
+SUB_BUS = [r for r in SUB_BUS if r.startswith('R')]
+NETS_OF = collections.defaultdict(set)
+for n, rs in ON.items():
+    for r in rs: NETS_OF[r].add(n)
+def caps_first(r):
+    """Beside-part order (first = closest to the pins): decouplers, summing-junction parts, other caps, the rest."""
+    if r.startswith('C') and VAL[r].split()[0] in ('100n', '1u', '10u'): rank = 0
+    elif any(n.endswith('_VE') for n in NETS_OF[r]): rank = 1
+    else: rank = 2 if r.startswith('C') else 3
+    return rank, num(r)
+beside = lambda a: sorted((r for r, x in NEAR.items() if x == a and r not in RADIAL), key=caps_first)
+# ICs before their NEAR parts: the aux sum + re-inverter first (the most parts, and the zone narrows at the board
+# end), then the GC buffer + sub sum, then the sub re-inverter
+SUMMERS = []
+for u in dict.fromkeys((ic_on('AUX_SEL_VE'), ic_on('SUB_SEL_VE'), ic_on('S_MIX_DN'))): SUMMERS += [u] + beside(u)
 POWER = take('POWER AND GROUNDS')
 ZONES = [
  # bottom side first: links and electrolytics
  ('jack-board link (bottom)', (12, MAIN_Y0, 37, 140), ['CN3'], 'B'),
- ('rail reservoir caps (bottom)', (1, 360, 37, 444), ['C1', 'C2', 'C3', 'C4'], 'B'),
+ ('rail reservoir caps (bottom)', (1, 360, 37, 444), RESERVOIR, 'B'),
  ('coupling caps and DRV134 output caps, beside their ICs (bottom; clear of the CN3 pin-1 mark)', (1, 96, 37, 444),
-  ['C42', 'C43', 'C47', 'C49', 'C17', 'C18', 'C30', 'C31', 'C28', 'C10', 'C11', 'C16', 'C23', 'C24'], 'B'),
+  sorted(RADIAL - set(RESERVOIR), key=num), 'B'),
  # top side
  ('GC buffer, summers + re-inverters (under the bus header)', (27, 300, 37.7, 444), SUMMERS, 'F'),
  ('power entry', (0.3, 299, 11, 444), POWER, 'F'),

@@ -497,4 +497,7 @@ def place(NET, OUT, L):
     if hidden: print(f'  silk reference hidden (no room): {" ".join(sorted(hidden))}')
     print('  ' + summary(stats['decoupling'], LIM_DEC, 'decouplers, cap pad to supply pin'))
     print('  ' + summary(stats['input_reach'], LIM_IN, 'high-Z inputs, farthest R/C/L/D/FB/JP pad from the pin'))
+    if os.environ.get('PLACER_REPORT'):                 # every row over its limit, for layout work
+        for key, lim in (('decoupling', LIM_DEC), ('input_reach', LIM_IN)):
+            print(f'  {key} over {lim:g} mm: ' + '; '.join(f'{x[1]} {x[0]:.1f}' for x in stats[key] if x[0] > lim))
     return report, hidden, stats

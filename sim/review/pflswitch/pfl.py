@@ -168,12 +168,13 @@ def grab(out, key):
     return float(m[-1]) if m else None
 
 # ------------------------------------------------------------------ alternatives
-def dg_switch(n, s, d, state, ron0=17, ka=-0.15, kb=0.02, qinj=5e-12, t_ev=None, sign=1):
+def dg_switch(n, s, d, state, ron0=17, ka=-0.15, kb=0.02, qinj=5e-12, t_ev=None, sign=1, ileak=0):
     """DG413 SPST (Vishay doc 70050 rev G): Ron(V) as sim/routing_switch.cir (17 ohm at 0 V, -0.15 ohm/V, +0.02 ohm/V^2;
     25 typ / 35 max at +-8.5 V), CS(off) = CD(off) = 9 pF, CD(on)+CS(on) 35 pF (26 pF added when on, approximated
     by keeping 9 + 9 and adding 17 pF across), CDS(off) 1.3 pF (68 dB off isolation at 1 MHz into 50 ohm).
     state = node with 0..1 (switch conductance scale). Charge injection: qinj (5 pC typ, CL 10 nF, VG 0) into D as a
-    50 ns pulse at t_ev."""
+    50 ns pulse at t_ev. ileak: leakage current drawn out of S (IS(off) 0.1 nA typ / 0.25 nA max at room temperature;
+    0 V bias here, so less), which steps CRS by the S node's offset when the switch closes."""
     vm = f'((V({s})+V({d}))/2)'
     t = f"""
 B{n} {s} {d} I = V({s},{d}) * (1e-12 + V({state}) / ({ron0} + ({ka})*{vm} + ({kb})*{vm}*{vm}))
@@ -183,10 +184,12 @@ C{n}X {s} {d} 1.3p
 """
     if t_ev is not None and qinj:
         t += f"I{n}Q 0 {d} PULSE(0 {sign*qinj/50e-9} {t_ev} 5n 5n 40n 10)\n"
+    if ileak:
+        t += f"I{n}L {s} 0 {ileak}\n"
     return t
 
 def dg_deck(body_ctrl, am=0, fm=1e3, ap=0, fp=1e3, amr=0, fmr=1.3e3, t_sw=1.0, pfl0=0, acm=0, acp=0,
-            rload='100k', cload=0, ib=60e-9, qinj=5e-12, ka=-0.15, kb=0.02, topo='series', gap=25e-9):
+            rload='100k', cload=0, ib=60e-9, qinj=5e-12, ka=-0.15, kb=0.02, topo='series', gap=25e-9, ileak=0):
     """(a) series DG413: SW2/SW3 (logic 0 = on) carry MON_L/MON_R, SW1/SW4 (logic 1 = on) carry PFL to CRS_L/CRS_R;
     47u NP + 1M kept at each S node, CRS on the D side; logic = PFL_ON_RAW (LM393, 10K pull-up to +5VL).
     break-before-make: the on-going switch closes `gap` after the off-going one opens (tD 25 ns typ).
@@ -202,8 +205,8 @@ def dg_deck(body_ctrl, am=0, fm=1e3, ap=0, fp=1e3, amr=0, fmr=1.3e3, t_sw=1.0, p
     if topo == 'series':
         for side, mon in (('L', 'MON_L'), ('R', 'MON_R')):
             s += f"CIM{side} {mon} SM{side} 47u\nRIM{side} SM{side} 0 1meg\nCIP{side} PFL_SIG SP{side} 47u\nRIP{side} SP{side} 0 1meg\n"
-            s += dg_switch(f'XM{side}', f'SM{side}', f'CRS_{side}', 'stm', ka=ka, kb=kb, qinj=qinj, t_ev=tm, sign=1)
-            s += dg_switch(f'XP{side}', f'SP{side}', f'CRS_{side}', 'stp', ka=ka, kb=kb, qinj=qinj, t_ev=tp, sign=1)
+            s += dg_switch(f'XM{side}', f'SM{side}', f'CRS_{side}', 'stm', ka=ka, kb=kb, qinj=qinj, t_ev=tm, sign=1, ileak=ileak)
+            s += dg_switch(f'XP{side}', f'SP{side}', f'CRS_{side}', 'stp', ka=ka, kb=kb, qinj=qinj, t_ev=tp, sign=1, ileak=ileak)
             s += f"R{side}CRS CRS_{side} 0 {rload}\nI{side}B CRS_{side} 0 {ib}\nC{side}IN CRS_{side} 0 {2e-12 + cload}\nE{side}B CRSB_{side} 0 CRS_{side} 0 1\n"
             s += band(side)
     else:
@@ -243,7 +246,7 @@ L{side}H1 BAND_{side} 0 6.333
 """
 
 DG_OPTS = {'dg': dict(), 'dgW': dict(ka=-0.3, kb=0.04), 'dgC': dict(cload=1e-9), 'dgM': dict(rload='1meg', ib=10e-12, cload=1e-9),
-           'dgMW': dict(rload='1meg', ib=10e-12, cload=1e-9, ka=-0.3, kb=0.04), 've': dict(topo='ve'), 'dgF': dict(ib=10e-12), 'dgF2': dict(ib=10e-12, cload=220e-12), 'dgF1M': dict(ib=10e-12, rload='1meg')}
+           'dgMW': dict(rload='1meg', ib=10e-12, cload=1e-9, ka=-0.3, kb=0.04), 've': dict(topo='ve'), 'dgF': dict(ib=10e-12), 'dgF_L10p': dict(ib=10e-12, ileak=10e-12), 'dgF_L100p': dict(ib=10e-12, ileak=100e-12), 'dgF_L250p': dict(ib=10e-12, ileak=250e-12), 'dgF2': dict(ib=10e-12, cload=220e-12), 'dgF1M': dict(ib=10e-12, rload='1meg')}
 def make(variant, model, body, **kw):
     if variant in DG_OPTS:
         kw.pop('extra', None)

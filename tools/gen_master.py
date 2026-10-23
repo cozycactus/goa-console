@@ -37,8 +37,9 @@ for w in 'LR':
     hdr.update({k: 'GNDA' for k in range(2, 17, 2)})
     P(b, ref('CN'), 'HDR', f'Bus {w} wing 2x17', hdr)
 
-b = block('GROUND CANCEL BUFFER  (feeds every re-inverter; summing amps use the raw GCANCEL line)')
-amp(b, 'GCANCEL', 'GCANCEL_BUF', 'GCANCEL_BUF')
+b = block('GROUND CANCEL BUFFER  (feeds every re-inverter; summing amps use the raw GCANCEL line; 100K keeper)')
+amp(b, 'GCANCEL', 'GCANCEL_BUF', 'GCANCEL_BUF')     # output straight to the net: no series R outside the loop, <= 50 pF
+R(b, '100K', 'GCANCEL', 'GNDA')     # keeper: defines the line with no strip or group on a wing; leaks -79 dB at N = 32
 
 # ================================================================ PART 1: stereo mix  [1-8]
 for side, bus in (('L', 'MIXL'), ('R', 'MIXR')):
@@ -54,28 +55,30 @@ with new_package():                     # both post-amps in one OPA1612, beside 
 b = block('MONO: inverting sum of POST L+R, re-inverter')
 R(b, '10K', 'POST_L', 'MONO_N'); R(b, '10K', 'POST_R', 'MONO_N')
 amp(b, 'GNDA', 'MONO_N', 'MONO_INV'); R(b, '10K', 'MONO_INV', 'MONO_N'); C(b, '100p C0G', 'MONO_INV', 'MONO_N')
-R(b, '10K', 'MONO_INV', 'MONO_N2'); R(b, '10K', 'MONO_N2', 'MONO')
-amp(b, 'GNDA', 'MONO_N2', 'MONO')
-b = block('MAIN OUTPUTS: DRV134 -> 10u NP in the Sense loop -> mute relay (NO) -> XLR male, pin 2 hot')
+R(b, '10K', 'MONO_INV', 'MONO_N2'); R(b, '10K', 'MONO_N2', 'MONO'); c = C(b, '22p C0G', 'MONO', 'MONO_N2')
+near(c, amp(b, 'GNDA', 'MONO_N2', 'MONO'))              # 22p: stability against the input capacitance, at the pins
+spares(b)       # the summer area's odd op-amp half stays a spare: a later block would pull its package to another zone
+b = block('MAIN OUTPUTS: DRV134 -> 10u NP in the Sense loop -> mute relay (NO; NC grounds the line) -> XLR male, pin 2 hot')
 for src, nm in (('POST_L', 'MAIN_L'), ('POST_R', 'MAIN_R'), ('MONO', 'MAIN_M')):
-    drv134(b, src, nm + '_P', nm + '_N')
-    relay(b, nm + '_P', nm + '_XP', nm + '_N', nm + '_XN')
+    u = drv134(b, src, nm + '_P', nm + '_N')
+    relay(b, nm + '_P', nm + '_XP', nm + '_N', nm + '_XN', anchor=u)
     jack(b, 'XLR3', nm.replace('_', ' ') + ' out', {1: 'CHASSIS', 2: nm + '_XP', 3: nm + '_XN'})
 
-b = block('POWER-ON MUTE: rails > ~14 V for ~2 s closes all five relays; either rail low opens them at once')
-P(b, ref('D'), 'DZ', 'BZX84C6V2', {2: 'GNDD', 1: 'VREF6'}, mpn='BZX84C6V2'); R(b, '4K7', '+VBUS', 'VREF6')
+b = block('POWER-ON MUTE: rails > ~14 V for ~2.7 s closes all six relays; either rail low opens them at once')
+P(b, ref('D'), 'DZ', 'BZT52C6V2', {2: 'GNDD', 1: 'VREF6'}, mpn='BZT52C6V2'); R(b, '4K7', '+VBUS', 'VREF6')
 R(b, '56K', '+VBUS', 'SENSE_P'); R(b, '47K', 'SENSE_P', 'GNDD')       # +V < 13.6 V -> fault
 R(b, '22K', 'VREF6', 'SENSE_N'); R(b, '51K', 'SENSE_N', '-VBUS')     # -V above -14.4 V -> fault
 cmp(b, 'SENSE_P', 'VREF6', 'RAIL_OK'); cmp(b, 'GNDD', 'SENSE_N', 'RAIL_OK')
 R(b, '10K', '+VL', 'RAIL_OK')
-# timer and Schmitt: values from sim/mute.cir (closes 2.8 s after both rails pass threshold; opens ~2 ms after
-# either rail drops; any fault longer than ~10 ms re-arms the full delay)
+# timer and Schmitt: values from sim/mute.cir (closes 2.6-2.8 s after both rails pass threshold; contacts open
+# <= ~8.5 ms after either rail drops; any fault longer than ~8 ms re-arms the full delay). The reset and fast-release
+# resistors are 4K7, not 2K2: at a one-rail loss one LM393 output sinks ~12 mA instead of ~23 mA
 R(b, '2M2', 'RAIL_OK', 'MUTE_T')
 P(b, ref('C'), 'C', '2.2u film 63V', {1: 'MUTE_T', 2: 'GNDD'}, fp='Capacitor_THT:C_Rect_L7.2mm_W8.5mm_P5.00mm_FKP2_FKP2_MKS2_MKP2', mpn='WIMA MKS2 2.2uF 63V')
-D(b, 'MUTE_T', 'MUTE_TX'); R(b, '2K2', 'MUTE_TX', 'RAIL_OK'); D(b, 'GNDD', 'MUTE_T')   # reset path, clamp at -0.7 V
+D(b, 'MUTE_T', 'MUTE_TX'); R(b, '4K7', 'MUTE_TX', 'RAIL_OK'); D(b, 'GNDD', 'MUTE_T')   # reset path, clamp at -0.7 V
 cmp(b, 'MUTE_T', 'VREF6', 'MUTE_GO'); R(b, '22M', 'MUTE_GO', 'MUTE_T')
 R(b, '4K7', '+VL', 'MUTE_GO'); R(b, '4K7', 'MUTE_GO', 'RLY_B')
-D(b, 'RLY_B', 'RLY_BX'); R(b, '2K2', 'RLY_BX', 'RAIL_OK'); D(b, 'GNDD', 'RLY_B')      # fast release, base clamp
+D(b, 'RLY_B', 'RLY_BX'); R(b, '4K7', 'RLY_BX', 'RAIL_OK'); D(b, 'GNDD', 'RLY_B')      # fast release, base clamp
 P(b, ref('Q'), 'NPN', 'MMBT3904', {1: 'RLY_B', 2: 'GNDD', 3: 'RLY_DRV'})
 
 # ================================================================ PART 2: aux masters 5-6  [13]
@@ -83,9 +86,10 @@ P(b, ref('Q'), 'NPN', 'MMBT3904', {1: 'RLY_B', 2: 'GNDD', 3: 'RLY_DRV'})
 # master_panel_study.md M1); they sit on the ribbon like strips and sum their own buses.
 for n in range(5, 7):
     a = f'A{n}'
-    b = block(f'AUX MASTER {n}: OPA1656 sum (22K || 100p) + re-invert, level, buffer, DRV134 out, AFL')
-    summer(b, f'AUX{n}', a + '_SUM', '22K', '100p', 'OPA1656')
-    reinv(b, a + '_SUM', a + '_MIX', 'OPA1656')
+    b = block(f'AUX MASTER {n}: OPA1612 sum (22K || 100p) + re-invert, level, buffer, DRV134 out, AFL')
+    with new_package():                 # all 24 strips' 22K are always on an aux bus: noise gain 25, so the OPA1612
+        summer(b, f'AUX{n}', a + '_SUM', '22K', '100p')
+        reinv(b, a + '_SUM', a + '_MIX')
     C(b, '47u NP 25V', a + '_MIX', a + '_PT')
     P(b, ref('RV'), 'POT', f'Aux {n} master 10K log', {1: 'GNDA', 3: a + '_PT', 2: a + '_W'})
     level_buffer(b, a + '_W', a + '_OUT', a)
@@ -103,52 +107,76 @@ P(b, sw, 'SW', 'EXT select', {2: 'MON_L', 1: 'EXT_L', 3: 'POST_L'}, unit=1)
 P(b, sw, 'SW', 'EXT select', {5: 'MON_R', 4: 'EXT_R', 6: 'POST_R'}, unit=2)
 
 b = block('PFL / AFL: OPA1656 sum (22K || 100p) + re-invert, SOLO LEVEL, follower')
-summer(b, 'PFL', 'PFL_SUM', '22K', '100p', 'OPA1656')
+summer(b, 'PFL', 'PFL_SUM', '22K', '100p', 'OPA1656')      # switched bus, 1-4 sources: the CMOS part is quieter
 reinv(b, 'PFL_SUM', 'PFL_MIX', 'OPA1656')
 C(b, '47u NP 25V', 'PFL_MIX', 'PFL_PT')
 P(b, ref('RV'), 'POT', 'Solo level 10K log', {1: 'GNDA', 3: 'PFL_PT', 2: 'PFL_W'})
 C(b, '2.2u', 'PFL_W', 'PFL_FIN'); R(b, '100K', 'PFL_FIN', 'GNDA')
 amp(b, 'PFL_FIN', 'PFL_SIG', 'PFL_SIG')
 
-b = block('PFL DETECT (1.5 V per press vs 0.74 V), complementary ramps, rude-solo flasher')
-R(b, '10K', 'PFLDET', 'GNDD'); R(b, '220K', '+VL', 'PFL_REF'); R(b, '10K', 'PFL_REF', 'GNDD')
-cmp(b, 'PFLDET', 'PFL_REF', 'PFL_ON_RAW'); cmp(b, 'PFL_REF', 'PFLDET', 'MON_ON_RAW')
-R(b, '10K', '+VL', 'PFL_ON_RAW'); R(b, '10K', '+VL', 'MON_ON_RAW')
-R(b, '100K', 'PFL_ON_RAW', 'PFL_ON'); C(b, '100n', 'PFL_ON', 'GNDD')
-R(b, '100K', 'MON_ON_RAW', 'MON_ON'); C(b, '100n', 'MON_ON', 'GNDD')
+b = block('PFL SWITCHER: DG413 (PFL pressed = SW1/SW4, else SW2/SW3; break-before-make) -> CRS L/R OPA1656 followers')
+# +5VL for the DG413 logic, as on the strip: from +VA so VL never exceeds V+
+net5 = [R(b, '4K7', '+VA', '+5VL'), ref('D')]
+P(b, net5[1], 'ZEN', 'BZX84C5V1', {3: '+5VL', 1: 'GNDD', 2: 'NC'}); net5.append(C(b, '1u', '+5VL', 'GNDD'))
+P(b, '#FLG15', 'FLAG', 'PWR_FLAG', {1: '+5VL'})
+for src, s in (('MON_L', 'SWML_S'), ('PFL_SIG', 'SWPL_S'), ('MON_R', 'SWMR_S'), ('PFL_SIG', 'SWPR_S')):
+    net5 += [C(b, '47u NP 25V', src, s), R(b, '1M', s, 'GNDA')]
+dg = ref('U')                   # CRS on the D side: it sees ~5 pC of charge injection, the S side ~25 pC
+P(b, dg, 'DG', 'DG413', {1: 'PFL_ON', 3: 'SWPL_S', 2: 'CRS_L'}, unit=1)      # SW1 (NO): PFL to L
+P(b, dg, 'DG', 'DG413', {16: 'PFL_ON', 14: 'SWML_S', 15: 'CRS_L'}, unit=4)   # SW2 (NC): MON L
+P(b, dg, 'DG', 'DG413', {8: 'PFL_ON', 6: 'SWPR_S', 7: 'CRS_R'}, unit=2)      # SW4 (NO): PFL to R
+P(b, dg, 'DG', 'DG413', {9: 'PFL_ON', 11: 'SWMR_S', 10: 'CRS_R'}, unit=3)    # SW3 (NC): MON R
+P(b, dg, 'DG', 'DG413', {13: '+VA', 4: '-VA', 12: '+5VL', 5: 'GNDD'}, unit=5)
+for x in [C(b, '100n', '+5VL', 'GNDD'), C(b, '100n', '+VA', 'GNDA'), C(b, '100n', 'GNDA', '-VA')] + net5: near(x, dg)
+for sd in 'LR':                 # FET-input followers: an OPA1612's bias current would step CRS at every switch
+    R(b, '100K', f'CRS_{sd}', 'GNDA')
+    near(amp(b, f'CRS_{sd}', f'CRSB_{sd}', f'CRSB_{sd}', 'OPA1656'), dg)
+
+b = block('PFL DETECT (0.92 V per press vs 0.50 V; 2 x 1N4148 clamp, 1u debounce) and DG413 logic, beside the switcher')
+# The clamp keeps PFLDET from back-feeding the released keys' 100K + 4K7 + LED paths (24 presses read 1.29 V, released
+# LEDs <= 20 nA); the 1u filters the PVA2's <= 3 ms bounce (one threshold crossing per press); 10M adds ~20 mV
+# hysteresis. Both comparators sink while no key is pressed: A is the DG413 logic (MON), B holds the flasher off
+R(b, '10K', 'PFLDET', 'GNDD'); R(b, '330K', '+VL', 'PFL_REF'); R(b, '10K', 'PFL_REF', 'GNDD')
+D(b, 'PFLDET', 'PFL_CL'); D(b, 'PFL_CL', 'GNDD'); C(b, '1u', 'PFLDET', 'GNDD')
+with new_package('LM393', 'VL'):        # one package for both, beside the DG413 so PFL_ON_RAW stays short
+    pc = cmp(b, 'PFLDET', 'PFL_REF', 'PFL_ON_RAW'); cmp(b, 'PFLDET', 'PFL_REF', 'FL_HOLD')
+near(R(b, '100K', '+5VL', 'PFL_ON_RAW'), pc); near(R(b, '10M', 'PFL_ON_RAW', 'PFLDET'), pc)   # logic level, hysteresis
+r = R(b, '10K', 'PFL_ON_RAW', 'PFL_ON'); near(r, dg); near(pc, r)    # bounds IN clamp current while rails settle
+
+b = block('RUDE SOLO: ~2 Hz flasher, PFL ACTIVE LED; held off through FL_N while no key is pressed')
+# while released, the hold comparator pulls FL_N to about -VL through the 1N4148, so FL_OUT stays high (LED off); on a
+# press it lets go, the first flash comes ~0.6 s later, then ~0.17 s on every ~0.53 s (sim/flasher.cir)
 R(b, '100K', '+VL', 'FL_P'); R(b, '100K', 'FL_P', 'GNDD'); R(b, '100K', 'FL_OUT', 'FL_P')
-D(b, 'MON_ON_RAW', 'FL_P')                                   # PFL inactive: holds the flasher off
-R(b, '1M', 'FL_OUT', 'FL_N'); C(b, '330n', 'FL_N', 'GNDD')
+R(b, '1M', 'FL_OUT', 'FL_N'); C(b, '330n', 'FL_N', 'GNDD'); D(b, 'FL_N', 'FL_HOLD')
 cmp(b, 'FL_P', 'FL_N', 'FL_OUT')
 R(b, '10K', '+VL', 'FL_OUT'); R(b, '3K3', '+VL', 'FL_LA')
 P(b, ref('D'), 'LED', 'PFL ACTIVE red 5mm', {2: 'FL_LA', 1: 'FL_OUT'}, fp='LED_THT:LED_D5.0mm')
 
-b = block('PFL SWITCHER: series J112 (Delta ED2780 sh.1) -> CRS L/R followers')
-for sd in 'LR':
-    jfet_switch(b, f'MON_{sd}', f'CRS_{sd}', 'MON_ON', f'SWM{sd}')
-    jfet_switch(b, 'PFL_SIG', f'CRS_{sd}', 'PFL_ON', f'SWP{sd}')
-    R(b, '100K', f'CRS_{sd}', 'GNDA')
-    amp(b, f'CRS_{sd}', f'CRSB_{sd}', f'CRSB_{sd}')
-
 b = block('CONTROL ROOM: C/ROOM dual A10K, followers, DRV134, mute relays, TRS outs')
 P(b, ref('RV'), 'POT2', 'C/Room level 10K log dual', {1: 'GNDA', 3: 'CRSB_L', 2: 'CRW_L', 4: 'GNDA', 6: 'CRSB_R', 5: 'CRW_R'}, mpn=POT2A_MPN)
+with new_package():                     # both C/Room followers in one dual, in the C/Room area
+    for sd in 'LR':
+        C(b, '2.2u', f'CRW_{sd}', f'CR_FIN{sd}'); R(b, '100K', f'CR_FIN{sd}', 'GNDA')
+        amp(b, f'CR_FIN{sd}', f'CRO_{sd}', f'CRO_{sd}')
 for sd in 'LR':
-    C(b, '2.2u', f'CRW_{sd}', f'CR_FIN{sd}'); R(b, '100K', f'CR_FIN{sd}', 'GNDA')
-    amp(b, f'CR_FIN{sd}', f'CRO_{sd}', f'CRO_{sd}')
-    drv134(b, f'CRO_{sd}', f'CR{sd}_P', f'CR{sd}_N')
-    relay(b, f'CR{sd}_P', f'CR{sd}_XP', f'CR{sd}_N', f'CR{sd}_XN')
+    u = drv134(b, f'CRO_{sd}', f'CR{sd}_P', f'CR{sd}_N')
+    relay(b, f'CR{sd}_P', f'CR{sd}_XP', f'CR{sd}_N', f'CR{sd}_XN', anchor=u)
     jack(b, 'JACK', f'C/Room {sd} out TRS', {'T': f'CR{sd}_XP', 'R': f'CR{sd}_XN', 'S': 'GNDA'})
 
-b = block('HEADPHONES: PHONES dual A10K, OPA1612 + LME49600 composite (+9.9 dB), 2R2 out, PHONESGND')
+b = block('HEADPHONES: PHONES dual A10K, OPA1612 + LME49600 composite (+9.9 dB), 2R2 out, mute relay, PHONESGND')
 P(b, ref('RV'), 'POT2', 'Phones level 10K log dual', {1: 'GNDA', 3: 'CRSB_L', 2: 'PHW_L', 4: 'GNDA', 6: 'CRSB_R', 5: 'PHW_R'}, mpn=POT2A_MPN)
 for sd in 'LR':
     pin, pn, drv, buf, out = f'PH_IN{sd}', f'PH_N{sd}', f'PH_DRV{sd}', f'PH_BUF{sd}', f'PHO_{sd}'
     C(b, '2.2u', f'PHW_{sd}', pin); R(b, '100K', pin, 'GNDA')
     amp(b, pin, pn, drv, rail='VP')
-    P(b, ref('U'), 'LME49600', 'LME49600', {2: drv, 4: buf, 5: '+VP', 3: '-VP', 1: 'NC'})
-    C(b, '100n', '+VP', 'GNDA'); C(b, '100n', 'GNDA', '-VP'); C(b, '10u NP 25V', '+VP', 'GNDA'); C(b, '10u NP 25V', 'GNDA', '-VP')
-    R(b, '2R2', buf, out); R(b, '4K7', out, pn); C(b, '100p C0G', out, pn); R(b, '2K2', pn, 'GNDA')
-jack(b, 'JACK', 'Phones TRS', {'T': 'PHO_L', 'R': 'PHO_R', 'S': 'PHONESGND'})
+    u = ref('U'); P(b, u, 'LME49600', 'LME49600', {2: drv, 4: buf, 5: '+VP', 3: '-VP', 1: 'NC'})
+    for x in (C(b, '100n', '+VP', 'GNDA'), C(b, '100n', 'GNDA', '-VP'), C(b, '10u NP 25V', '+VP', 'GNDA'),
+              C(b, '10u NP 25V', 'GNDA', '-VP'), R(b, '2R2', buf, out)): near(x, u)
+    R(b, '4K7', out, pn); C(b, '100p C0G', out, pn); R(b, '2K2', pn, 'GNDA')
+# the composite is DC-coupled: a one-rail fault would hold ~1 V DC on the phones, so they get a mute relay too;
+# the contacts sit after the feedback tap (<= 0.1 ohm outside the loop)
+relay(b, 'PHO_L', 'PHJ_L', 'PHO_R', 'PHJ_R', gnd='PHONESGND')
+jack(b, 'JACK', 'Phones TRS', {'T': 'PHJ_L', 'R': 'PHJ_R', 'S': 'PHONESGND'})
 
 b = block('REMOTE METER HEADER (for a meter bridge)')
 P(b, ref('CN'), 'HDR5', 'Remote meter', {1: 'MTR_L', 2: 'MTR_R', 3: '+VM', 4: 'GNDM', 5: '-VM'})
@@ -178,15 +206,20 @@ for sd in 'LR':
     R(b, '16K', '+VM', f'{m}_T20')
     for k, rv in zip(range(20, 1, -1), LADDER): R(b, fmt_r(rv), f'{m}_T{k}', f'{m}_T{k - 1}')
     R(b, '91R', f'{m}_T1', 'GNDM')
-    # two series LED strings, each from a PNP current source; comparator k shorts the string at the node before LED k
+    # two series LED strings, each from a PNP current source; comparator k pulls the anode of LED k to -VM (its GND
+    # pin), bypassing the rest of the string, so the source current is constant. Dark, a source holds ~32 V: SOT-223
+    # with >= 1 cm2 collector copper, 120R for ~4.9 mA (4.2-5.7 mA over junction tolerances, under the 6 mA IOL)
     for s0, ks in (('A', range(1, 11)), ('B', range(11, 21))):
         src = f'{m}{s0}_0'; base, emit = f'{m}{s0}_QB', f'{m}{s0}_QE'
-        R(b, '75R', '+VM', emit); D(b, '+VM', f'{m}{s0}_D1'); D(b, f'{m}{s0}_D1', base); R(b, '27K', base, '-VM')
-        P(b, ref('Q'), 'PNP', 'MMBT3906', {1: base, 2: emit, 3: src})
+        R(b, '120R', '+VM', emit); D(b, '+VM', f'{m}{s0}_D1'); D(b, f'{m}{s0}_D1', base); R(b, '27K', base, '-VM')
+        q = ref('Q'); P(b, q, 'PNP', 'BCP53-16', {1: base, 2: src, 3: emit, 4: src})
         for i, k in enumerate(ks):
             node = f'{m}{s0}_{i}'; nxt = f'{m}{s0}_{i + 1}' if i < 9 else '-VM'
-            P(b, ref('D'), 'LED', f'{COLOUR[k - 1]} {-20 + 2 * (k - 1):+d} dB', {2: node, 1: nxt})
-            cmp(b, f'{m}_DET', f'{m}_T{k}', node, 'LM2901', 'VM')
+            led = ref('D'); P(b, led, 'LED', f'{COLOUR[k - 1]} {-20 + 2 * (k - 1):+d} dB', {2: node, 1: nxt}, mpn=LED_MPN[COLOUR[k - 1]])
+            if i == 0: near(q, led)     # current source at the top of its string (the collector node is the string's)
+            u = cmp(b, f'{m}_DET', f'{m}_T{k}', node, 'LM2901', 'VM')
+            if u not in decoupling: near(u, led)        # each LM2901 beside the first LED it drives
+spares(b)
 
 import os
 JACKS = collected(); NL, LINK = link_pins(JACKS)
@@ -194,8 +227,8 @@ b = block(f'JACK BOARD LINK  2x{NL} IDC ribbon to the master jack board (9 jacks
 link_header(b, NL, LINK, f'Jack board link 2x{NL}')
 parts_sidecar(OUT)
 build(OUT, 'master', 'Master section - goa console',
-      {1: 'Generated by tools/gen_master.py from master_section_spec.md v0.5',
-       2: 'Nets joined by labels; refs auto-assigned'}, paper='auto', perrow=30, revision='0.5')
+      {1: 'Generated by tools/gen_master.py from master_section_spec.md v0.7',
+       2: 'Nets joined by labels; refs auto-assigned'}, paper='auto', perrow=30, revision='0.7')
 
 jack_board(os.path.join(os.path.dirname(os.path.abspath(OUT)), 'master_jack_board.kicad_sch'), 'master_jack_board',
            'Master module jack board - goa console (main XLRs, inserts, EXT, C/Room, phones, aux 5-6)', JACKS, NL, LINK)

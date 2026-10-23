@@ -1,7 +1,9 @@
-* Power-on / power-off mute control (master spec section 8), v2 = values in tools/gen_master.py.
+* Power-on / power-off mute control (master spec section 8), v3 = values in tools/gen_master.py.
+* v3 (2026-10-23, master_parts_review.md item 3): reset and fast-release resistors 2.2K -> 4.7K (one LM393 output
+* sank ~23 mA at a one-rail loss); six coils (K6 phones).
 * v1 (first generator draft: 220K / 22u timer, 1M hysteresis, unlimited diode paths) never closed within 4 s:
 * the 1M from the Schmitt output held the timer near 10.4 V, so it crawled towards the 6.2 V threshold.
-* Five G6K-2F-Y DC12 coils (1315 R, inductance assumed 1 H) with 560R each from +VBUS, MMBT3904 low-side.
+* Six G6K-2F-Y DC12 coils (1315 R, inductance assumed 1 H) with 560R each from +VBUS, MMBT3904 low-side.
 * LM393: open-collector model, emitter on -VL, sinks up to 16 mA, works above 2 V total supply.
 * Cases: 1 power-up; 2 power-down; 3 +V lost; 4 -V lost; 5 20 ms dip to 12 V; 6 slow 2 s ramp.
 .param tr=50m tp=1e9 tn=1e9 dip=0
@@ -34,21 +36,21 @@ R51 sn vbn 51k
 XA sp vref rok vlp vln CMP
 XB 0 sn rok vlp vln CMP
 RPU vlp rok 10k
-* ---------------- timer (2.2M / 2.2u film, clamped at -0.7 V, reset through 2.2K), Schmitt (22M), driver
+* ---------------- timer (2.2M / 2.2u film, clamped at -0.7 V, reset through 4.7K), Schmitt (22M), driver
 RT rok mt 2.2meg
 CT mt 0 2.2u
 DT mt dtx D1N4148
-RDT dtx rok 2.2k
+RDT dtx rok 4.7k
 DCT 0 mt D1N4148
 XC mt vref go vlp vln CMP
 RH go mt 22meg
 RGO vlp go 4.7k
 RB go b 4.7k
 DF b dfx D1N4148
-RDF dfx rok 2.2k
+RDF dfx rok 4.7k
 DCL 0 b D1N4148
 Q1 drv b 0 Q3904
-* ---------------- five relay coils
+* ---------------- six relay coils
 .subckt COIL top drv
 RS top c 560
 RW c m 1315
@@ -60,6 +62,7 @@ XK2 vbp drv COIL
 XK3 vbp drv COIL
 XK4 vbp drv COIL
 XK5 vbp drv COIL
+XK6 vbp drv COIL
 * coil current of one relay
 BIK ik 0 V = (V(XK1.c) - V(XK1.m)) / 1315
 .control

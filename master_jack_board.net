@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/master_jack_board.kicad_sch")
-		(date "2026-10-23T02:22:26")
+		(date "2026-10-23T17:36:46")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -1775,23 +1775,7 @@
 		)
 		(net
 			(code "24")
-			(name "/PHONESGND")
-			(class "Default")
-			(node
-				(ref "CN1")
-				(pin "39")
-				(pinfunction "Pin_39_39")
-				(pintype "passive")
-			)
-			(node
-				(ref "J12")
-				(pin "S")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "25")
-			(name "/PHO_L")
+			(name "/PHJ_L")
 			(class "Default")
 			(node
 				(ref "CN1")
@@ -1806,8 +1790,8 @@
 			)
 		)
 		(net
-			(code "26")
-			(name "/PHO_R")
+			(code "25")
+			(name "/PHJ_R")
 			(class "Default")
 			(node
 				(ref "CN1")
@@ -1818,6 +1802,22 @@
 			(node
 				(ref "J12")
 				(pin "R")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "26")
+			(name "/PHONESGND")
+			(class "Default")
+			(node
+				(ref "CN1")
+				(pin "39")
+				(pinfunction "Pin_39_39")
+				(pintype "passive")
+			)
+			(node
+				(ref "J12")
+				(pin "S")
 				(pintype "passive")
 			)
 		)

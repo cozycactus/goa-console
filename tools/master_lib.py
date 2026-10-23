@@ -13,8 +13,9 @@ SYM.update({
  'DRV134': ('goa-console', 'DRV134'), 'RELAY': ('Relay', 'G6K-2'),
  'XLR3': ('Connector_Audio', 'XLR3'), 'PWRIN': ('Connector', 'Screw_Terminal_01x07'),
  'FB': ('Device', 'FerriteBead'), 'PTC': ('Device', 'Polyfuse'), 'DS': ('Device', 'D_Schottky'),
- 'DZ': ('Device', 'D_Zener'), 'NPN': ('Transistor_BJT', 'MMBT3904'), 'PNP': ('Transistor_BJT', 'MMBT3906'),
+ 'DZ': ('Device', 'D_Zener'), 'NPN': ('Transistor_BJT', 'MMBT3904'), 'PNP': ('Transistor_BJT', 'BCP53'),
  'TRIM': ('Device', 'R_Potentiometer_Trim'), 'HDR5': ('Connector_Generic', 'Conn_01x05'),
+ 'DG': ('Analog_Switch', 'DG413xY'), 'ZEN': ('Diode', 'BZX84Cxx'),
 })
 FP.update({
  'OPA1656': 'Package_SO:SOIC-8_3.9x4.9mm_P1.27mm', 'TL072': 'Package_SO:SOIC-8_3.9x4.9mm_P1.27mm',
@@ -25,11 +26,17 @@ FP.update({
  'PTC': 'goa-console:Fuse_Bourns_MF-RX160-72_Radial_P5.08mm', 'DS': 'Diode_SMD:D_SMC',
  'DZ': 'Diode_SMD:D_SOD-123', 'TRIM': 'Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical',
  'HDR5': 'Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical', 'JACK': FP['JACKSW'],
+ 'PNP': 'Package_TO_SOT_SMD:SOT-223',     # pads 1-4 = the BCEC symbol's pins (tab = 4 = C); TabPin2 has no pad 4
 })
 MPN.update({'DRV134': 'TI DRV134UA', 'RELAY': 'Omron G6K-2F-Y DC12', 'XLR3': 'Neutrik NC3MAH',
             'PWRIN': 'Phoenix MKDS 1,5/7-5,08 (wired to a Neutrik NC7MD-LX inlet)', 'PTC': 'Bourns MF-RX160/72',
             'DS': 'SS54', 'FB': '220R@100MHz 0805',
-            'LME49600': 'TI LME49600TS', 'OPA1656': 'TI OPA1656ID', 'JACK': 'Neutrik NRJ6HF'})
+            'LME49600': 'TI LME49600TS', 'OPA1656': 'TI OPA1656ID', 'JACK': 'Neutrik NRJ6HF',
+            # B grades: the comparators run from +-17 V (34 V), over the non-B parts' 30 V recommended maximum
+            'CMP': 'TI LM393BIDR', 'LM2901': 'TI LM2901BIDR',
+            'DG': 'Vishay DG413DY-E3', 'ZEN': 'BZX84C5V1', 'PNP': 'onsemi BCP53-16T1G'})
+# 3 mm diffused LEDs, Vf <= 2.6 V max (GaP / GaAsP): ten in series must fit a meter string's ~31 V, so no InGaN
+LED_MPN = {'green': 'Kingbright WP710A10GD', 'amber': 'Kingbright WP710A10ND', 'red': 'Kingbright WP710A10ID'}
 FADER2_FP = 'goa-console:Potentiometer_Bourns_PTB0144_Slide_100mm_Dual'
 POT2A_MPN = 'Alpha RD902F-40 A10K'
 NPCAP = {'10u': 'Capacitor_THT:CP_Radial_D5.0mm_P2.00mm', '22u': 'Capacitor_THT:CP_Radial_D6.3mm_P2.50mm',
@@ -65,32 +72,43 @@ class new_package:
     def __enter__(self): self.held = free.pop(self.key, [])
     def __exit__(self, *exc): free[self.key] = self.held + free.get(self.key, [])
 
+def near(part, anchor):
+    """Place part beside anchor (written to <name>_parts.json with the decouplers, read by the placement layouts)."""
+    decoupling[part] = anchor
+
 PINS = {1: (3, 2, 1), 2: (5, 6, 7)}                    # op-amp unit: (+, -, out)
 CPINS = {1: (5, 4, 2), 2: (7, 6, 1), 3: (11, 10, 13), 4: (9, 8, 14)}   # LM2901 unit: (+, -, out)
 def amp(b, inp, inn, out, part='OPA1612', rail='VA'):
     r, u = unit_of(part, rail, b); p, n, o = PINS[u]
-    P(b, r, DUAL[part][0], part, {p: inp, n: inn, o: out}, unit=u)
+    P(b, r, DUAL[part][0], part, {p: inp, n: inn, o: out}, unit=u); return r
 def cmp(b, inp, inn, out, part='LM393', rail='VL'):
     r, u = unit_of(part, rail, b); p, n, o = (CPINS if part == 'LM2901' else PINS)[u]
-    P(b, r, DUAL[part][0], part, {p: inp, n: inn, o: out}, unit=u)
+    P(b, r, DUAL[part][0], part, {p: inp, n: inn, o: out}, unit=u); return r
 
-def R(b, v, a, c, **k): P(b, ref('R'), 'R', v, {1: a, 2: c}, **k)
-def C(b, v, a, c): P(b, ref('C'), 'C', v, {1: a, 2: c}, fp=NPCAP.get(v.split()[0]))
-def CP(b, v, plus, minus): P(b, ref('C'), 'CP', v, {1: plus, 2: minus}, fp=NPCAP.get(v.split()[0]))
-def D(b, anode, cathode, v='1N4148'): P(b, ref('D'), 'D', v, {2: anode, 1: cathode})
+def R(b, v, a, c, **k): r = ref('R'); P(b, r, 'R', v, {1: a, 2: c}, **k); return r
+def C(b, v, a, c): r = ref('C'); P(b, r, 'C', v, {1: a, 2: c}, fp=NPCAP.get(v.split()[0])); return r
+def CP(b, v, plus, minus): r = ref('C'); P(b, r, 'CP', v, {1: plus, 2: minus}, fp=NPCAP.get(v.split()[0])); return r
+def D(b, anode, cathode, v='1N4148'): r = ref('D'); P(b, r, 'D', v, {2: anode, 1: cathode}); return r
 
 # ---------------------------------------------------------------- circuit blocks (spec sections in brackets)
 def summer(b, bus, out, rf, cf, part='OPA1612', gref='GCANCEL'):   # [2, 12, 13, 18]
-    n = bus + '_VE'
-    P(b, ref('FB'), 'FB', 'Ferrite 220R@100MHz', {1: bus, 2: n})
-    amp(b, gref, n, out, part)
-    R(b, rf + ' 1%', out, n); C(b, cf + ' C0G', out, n)
+    n = bus + '_VE'; fb = ref('FB')
+    P(b, fb, 'FB', 'Ferrite 220R@100MHz', {1: bus, 2: n})
+    u = amp(b, gref, n, out, part)
+    for x in (fb, R(b, rf + ' 1%', out, n), C(b, cf + ' C0G', out, n)): near(x, u)   # summing junction short
+    return u
 
 def reinv(b, src, out, part='OPA1612', gref='GCANCEL_BUF'):  # [3]
     dn, dp = out + '_DN', out + '_DP'
+    # the input capacitance against 2K2 leaves ~11 deg phase margin (TI OPA161x model); 22p on both legs, same value
+    # and tolerance so the GCANCEL balance holds (master_parts_review.md, item 2). Created first and placed beside
+    # the op-amp's pins, ahead of the resistors: they only work at the pins
+    cs = C(b, '22p C0G 5%', out, dn), C(b, '22p C0G 5%', dp, 'GNDA')
     R(b, '2K2 0.1%', src, dn); R(b, '2K2 0.1%', dn, out)
     R(b, '2K2 0.1%', gref, dp); R(b, '2K2 0.1%', dp, 'GNDA')
-    amp(b, dp, dn, out, part)
+    u = amp(b, dp, dn, out, part)
+    for c in cs: near(c, u)
+    return u
 
 def insert(b, src, dst, name):                              # [4]
     s, rr, rt, bf = name + '_SEND', name + '_RETRAW', name + '_RET', name + '_RBUF'
@@ -110,19 +128,26 @@ def post_amp(b, wiper, post, name):                         # [5] fader wiper ->
 def level_buffer(b, wiper, out, name, unity=True):          # [13, 16] pot wiper -> buffer, Rg not fitted
     fin, fn = name + '_LIN', name + '_LN'
     C(b, '2.2u', wiper, fin); R(b, '100K', fin, 'GNDA')
-    amp(b, fin, fn, out)
-    R(b, '4K7', out, fn); R(b, 'DNF (2K2 = +10 dB)', fn, 'GNDA', dnp=True)
+    u = amp(b, fin, fn, out)
+    # 100p as post_amp(): without it the follower rings at ~15 MHz (TI OPA161x model)
+    for x in (R(b, '4K7', out, fn), C(b, '100p C0G', out, fn)): near(x, u)
+    R(b, 'DNF (2K2 = +10 dB)', fn, 'GNDA', dnp=True)
 
 def drv134(b, inp, op, on):                                 # [7]
-    vop, von = op + '_VO', on + '_VO'
-    P(b, ref('U'), 'DRV134', 'DRV134', {4: inp, 3: 'GNDA', 6: '+VA', 5: '-VA', 8: vop, 1: von, 7: op, 2: on})
-    C(b, '10u NP 25V', vop, op); C(b, '10u NP 25V', von, on)
-    C(b, '1u', '+VA', 'GNDA'); C(b, '1u', 'GNDA', '-VA')
+    vop, von, u = op + '_VO', on + '_VO', ref('U')
+    P(b, u, 'DRV134', 'DRV134', {4: inp, 3: 'GNDA', 6: '+VA', 5: '-VA', 8: vop, 1: von, 7: op, 2: on})
+    for c in (C(b, '10u NP 25V', vop, op), C(b, '10u NP 25V', von, on), C(b, '1u', '+VA', 'GNDA'), C(b, '1u', 'GNDA', '-VA')):
+        near(c, u)
+    return u
 
-def relay(b, a_in, a_out, b_in, b_out):                    # [8] G6K-2F-Y, NO contacts 3-4 and 6-5
+def relay(b, a_in, a_out, b_in, b_out, gnd='GNDA', anchor=None):   # [8] G6K-2F-Y: COM 3/6, NC 2/7, NO 4/5
+    """Mute relay: COM to the connector side, NO to the driver (Sense node), NC to ground, so a de-energised relay
+    shorts the line to ground instead of leaving it floating. anchor: the driver it sits beside."""
     k = ref('K'); coil = k + '_COIL'
-    P(b, k, 'RELAY', 'G6K-2F-Y DC12', {1: coil, 8: 'RLY_DRV', 3: a_in, 4: a_out, 2: 'NC', 6: b_in, 5: b_out, 7: 'NC'})
-    R(b, '560R', '+VBUS', coil); D(b, 'RLY_DRV', coil)
+    P(b, k, 'RELAY', 'G6K-2F-Y DC12', {1: coil, 8: 'RLY_DRV', 3: a_out, 4: a_in, 2: gnd, 6: b_out, 5: b_in, 7: gnd})
+    near(R(b, '560R', '+VBUS', coil), k); near(D(b, 'RLY_DRV', coil), k)
+    if anchor: near(k, anchor)
+    return k
 
 def routing(b, srcl, srcr, busl, busr, name):               # strip-style routing switch, off grounds the resistor
     sw = ref('SW'); a, c = f'RT_{sw}A', f'RT_{sw}B'
@@ -135,7 +160,7 @@ def afl(b, junction, name):                                 # PFL/AFL switch: 22
     P(b, sw, 'SW', name, {2: junction, 1: 'PFL', 3: 'GNDA'}, unit=1)
     P(b, sw, 'SW', name, {5: '+VL', 4: on, 6: 'NC'}, unit=2)
     R(b, '100K', on, 'PFLDET'); R(b, '4K7', on, la)
-    P(b, ref('D'), 'LED', name + ' red', {2: la, 1: 'GNDD'})
+    P(b, ref('D'), 'LED', name + ' red', {2: la, 1: 'GNDD'}, mpn=LED_MPN['red'])
 
 def receiver(b, tip, ring, out):                            # strip-style ground-compensated receiver
     n, p = out + '_N', out + '_P'
@@ -149,12 +174,6 @@ def stereo_in(b, name, outl, outr):                         # two NRJ6HF, R norm
     jack(b, 'JACKSW', name + ' L in', {'T': lt, 'R': lr, 'S': 'GNDA', 'TN': 'NC', 'RN': 'NC'})
     jack(b, 'JACKSW', name + ' R in', {'T': rt, 'R': rr, 'S': 'GNDA', 'TN': lt, 'RN': lr})
     receiver(b, lt, lr, outl); receiver(b, rt, rr, outr)
-
-def jfet_switch(b, src, dst, ctrl, name):                   # [19] series J112, Delta ED2780 sh.1
-    s, g = name + '_S', name + '_G'
-    C(b, '47u NP 25V', src, s); R(b, '1M', s, 'GNDA')
-    P(b, ref('Q'), 'JFET', 'J112', {2: s, 1: dst, 3: g})
-    R(b, '47K', g, s); D(b, g, ctrl)
 
 # ---------------------------------------------------------------- jack boards
 # A 1/4" jack or an XLR needs ~25 mm behind a panel parallel to the board, so a module's panel connectors sit

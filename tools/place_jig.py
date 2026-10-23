@@ -7,6 +7,7 @@ Engine: placer.py."""
 import json, os, sys
 sys.path.insert(0, os.path.dirname(__file__))
 from placer import place, PROJ
+from verify import sexp, field
 
 def blocks(name):
     d = json.load(open(os.path.join(PROJ, name + '_parts.json')))
@@ -14,6 +15,19 @@ def blocks(name):
     for title, refs in d['blocks']:              # a package shared by two blocks stays in the first
         out.append((title.split('  ')[0], [r for r in refs if not (r in seen or seen.add(r))]))
     return dict(out), d['near']
+
+def netlist(name):
+    """{ref: {pin: net, 'value': value}}, {net: {refs}} from <name>.net, so layouts follow parts by function."""
+    t = sexp(open(os.path.join(PROJ, name + '.net')).read())
+    parts = {field(c, 'ref'): {'value': field(c, 'value')}
+             for c in next(c for c in t[1:] if isinstance(c, list) and c[0] == 'components')[1:]}
+    on = {}
+    for n in next(c for c in t[1:] if isinstance(c, list) and c[0] == 'nets')[1:]:
+        nm = field(n, 'name').lstrip('/')
+        for x in n[1:]:
+            if isinstance(x, list) and x[0] == 'node':
+                r = field(x, 'ref'); on.setdefault(nm, set()).add(r); parts[r][field(x, 'pin')] = nm
+    return parts, on
 
 def corners(w, h, m=4.0): return [(m, m), (w - m, m), (m, h - m), (w - m, h - m)]
 
@@ -28,15 +42,19 @@ fix = {'CN2': (6.5, 14.0, 0, 'F'),                # ribbon header on the left ed
        'J8': (127.0, H - 0.3 - 21.02, 0, 'F')}    # MIX L balanced XLR, front edge
 for k, x in enumerate(BNC_X):                     # BNC J2..J7, front edge, body to the edge (rot 180)
     fix[f'J{k + 2}'] = (x, H - 0.3 - 33.84, 180, 'F')
-near.update({f'R{36 + k}': f'J{k + 2}' for k in range(6)})    # 100R output resistors beside their BNC
-near.update({'U8': 'J8', 'C25': 'U8', 'C26': 'U8', 'C27': 'U8', 'C28': 'U8'})    # DRV134 + its caps at the XLR
+PARTS, ON = netlist('jig_master_stub')
+for k in range(6):                                # 100R output resistors beside their BNC
+    bnc = f'J{k + 2}'; near.update({r: bnc for r in ON[PARTS[bnc]['1']] if r.startswith('R')})
+DRV = next(r for r, p in PARTS.items() if p['value'] == 'DRV134')
+near[DRV] = 'J8'                                  # DRV134 at the XLR; its caps are in near (gen_jig / drv134())
+BAL = [DRV] + sorted((r for r, a in near.items() if a == DRV), key=lambda r: int(r[1:]))
 take = lambda name, *drop: [r for r in B[name] if r not in fix and r not in drop]
 zones = [('power in', (90, 1, 159, 40), take('POWER IN'), 'F'),
          ('config + GC buffer', (54, 10, 92, 32), take('CONFIG'), 'F'),
          ('bus amps', (14, 14, 159, 72), take('BUS AMPS'), 'F'),
-         ('PFL detect', (110, 40, 159, 85), take('PFL DETECT'), 'F'),
-         ('balanced out (DRV134 at the XLR)', (114, 86, 159, 101), ['U8', 'C25', 'C26', 'C27', 'C28'], 'F'),
-         ('outputs', (1, 60, 159, 85), take('OUTPUTS', 'U8', 'C25', 'C26', 'C27', 'C28'), 'F'),
+         ('PFL detect', (110, 40, 159, 85), take('PFL DETECT'), 'F', 1.5),     # room for the DO-35s' cathode marks
+         ('balanced out (DRV134 at the XLR)', (114, 86, 159, 101), BAL, 'F'),
+         ('outputs', (1, 60, 159, 85), take('OUTPUTS', *BAL), 'F'),
          ('test points', (14, 60, 159, 85), take('TEST POINTS'), 'F')]
 labels = [(x, 87.2, n, 1.5) for x, n in zip(BNC_X, ('MIX L', 'MIX R', 'SUB 1', 'AUX 1', 'AUX 2', 'PFL'))]
 labels += [(127 + 3.8, 101.0, 'MIX L BAL', 1.5), (62.0, 12.5, 'GC REF', 1.2), (62.0, 14.3, '1-2 D  2-3 A', 1.0),
