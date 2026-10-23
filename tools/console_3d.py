@@ -225,7 +225,8 @@ def panel(c, name, width, label=None, holes=()):
     if label: text(name + ' label', label, x0 + width / 2, 494, PANEL_Z1 + 0.02, 3.0, M['legend'], c)
 
 # ---------------------------------------------------------------- legends and colours per module
-# Switch caps are C&K PV: red, grey, black, white (green in the ordering code only); knob caps are placeholders.
+# Switch caps are C&K PV: red, grey, black, white (green in the ordering code only); knob caps are placeholders;
+# fader caps Sifam LK110 as the Delta: white inputs, red groups, yellow master.
 STRIP = {'RV9': ('GAIN', 'red'), 'RV10': ('HF', 'white'), 'RV11': ('HI-MID', 'white'), 'RV12': ('FREQ', 'dblue'),
          'RV13': ('LO-MID', 'white'), 'RV14': ('FREQ', 'dblue'), 'RV15': ('LF', 'white'), 'RV2': ('AUX 1', 'yellow'),
          'RV3': ('AUX 2', 'yellow'), 'RV4': ('AUX 3', 'green'), 'RV5': ('AUX 4', 'green'), 'RV6': ('AUX 5', 'orange'),
@@ -241,13 +242,13 @@ GROUP = {'RV4': ('RETURN', 'blue'), 'RV3': ('AUX', 'yellow'), 'RV2': ('SUB PAN',
          'SW5': ('1-2', 'white'), 'SW6': ('3-4', 'white'), 'SW2': ('AFL', 'red'),
          'D1': (None, 'off'), 'D2': (None, 'off'), 'D3': (None, 'off'),
          'J2': ('SUB OUT', None), 'J1': ('INSERT', None), 'J3': ('AUX OUT', None), 'J4': ('RET L', None),
-         'J5': ('RET R', None), 'RV1': ('SUB', 'white')}
+         'J5': ('RET R', None), 'RV1': ('SUB', 'red')}
 MASTER = {'RV2': ('AUX 5', 'orange'), 'RV3': ('AUX 6', 'orange'), 'RV5': ('C/ROOM', 'white'), 'RV6': ('PHONES', 'white'),
           'RV4': ('SOLO', 'red'), 'SW1': ('AFL', 'red'), 'SW2': ('AFL', 'red'), 'SW3': ('EXT', 'grey'),
           'D12': (None, 'off'), 'D13': (None, 'off'), 'D3': ('POWER', 'green'), 'D15': ('PFL', 'off'),
           'J1': ('INS L', None), 'J2': ('INS R', None), 'J10': ('C/R L', None), 'J11': ('C/R R', None),
           'J8': ('EXT L', None), 'J9': ('EXT R', None), 'J6': ('AUX 5', None), 'J7': ('AUX 6', None),
-          'J12': ('PHONES', None), 'J3': ('MAIN L', None), 'J4': ('MAIN R', None), 'J5': ('MONO', None), 'RV1': ('MIX', 'red')}
+          'J12': ('PHONES', None), 'J3': ('MAIN L', None), 'J4': ('MAIN R', None), 'J5': ('MONO', None), 'RV1': ('MIX', 'yellow')}
 KNOB_ANGLE = {'AUX': -50.0, 'RETURN': 40.0, 'C/ROOM': 30.0, 'PHONES': 20.0}
 
 def led_state(p, names):

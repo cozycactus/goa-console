@@ -191,7 +191,9 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
   relay after that. Replaced THAT1646, which went EOL (THAT memo 2026-09-01). The same memo
   kills THAT 2180/2181 (bus-compressor VCA, strip VCA option) and THAT 124x.
 - Faders (2026-10-23): Bourns PTB0143-2010BPA103 (strips, groups) / PTB0144-2010BPA103 (master), stocked, BP lever
-  (8.0 x 1.3 mm flat blade, 5.0 mm above the panel), with fader caps made for an 8 mm flat lever. Rejected after
+  (8.0 x 1.3 mm flat blade, 5.0 mm above the panel), caps Sifam LK110 tang 01 (8.0 x 1.2, socket 4.0 deep: 1.0 mm
+  above the panel; the Delta's "SIF low profile" knob; RS 281-7197 black, colours from pot4audio / D&R; white inputs,
+  red groups, yellow master in the model; sample-check the 1.2 socket on a real blade). Rejected after
   research: the AP 4 mm-fork audio codes (not sold, factory MOQ ~800), ALPS RSA0N (T-bar lever, sits too low), TT PS100,
   Song Huei, Penny+Giles; no stocked 100 mm A10K fader with a 4 mm lever exists. Panel slot >= 108 x 1.3 (model 110 x 2.4).
 - VCA (decided 2026-10-19): Sound Semiconductor SSI2162 for the bus compressor (sidechain
@@ -279,8 +281,8 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
 ## Next steps
 0. Delta clone: spec v4.0, schematics and placement (main board + jack board) done (2026-10-22).
    Jack-board depth 24.0 mm confirmed from Neutrik's drawings (NJ6FD-V and NC3MAV, 2026-10-23; 24.0 M3 standoffs).
-   Panel parts vs their drawings: `panel_parts_drawings.md` (faders: stocked PTB BP blade kept 2026-10-23, fader cap
-   for the 8 mm blade to choose; open: PTB0143 pin
+   Panel parts vs their drawings: `panel_parts_drawings.md` (faders: stocked PTB BP blade kept 2026-10-23, Sifam LK110
+   caps, check two on a real blade; open: PTB0143 pin
    side of the slot; PV cap 0.3 mm in the 8.0 hole; Alpha bushing has no spare thread; every
    pot shaft is 1/4"). Open: pan B10K dual with detent; custom 12U frame with
    end rails only. Routing is Ruslan's.
@@ -304,7 +306,7 @@ direct out. Strip spec v4.0, schematics and placement (main board + jack board) 
    ERC 0, parity DRC 0 violations). Routing is Ruslan's; then build with four routed strips.
 4. PCB layout of the strip: v4.0 placement done (`channel_strip_v4.kicad_pcb`, spec 16.3); panel stack
    unchanged (16.2: panel underside 11.5 mm, PVA2 H1 + PV caps, pot 1.5 mm spacer washers, fader
-   3.5 mm spacer, 7.6 mm LED spacers, 6 × M3 standoffs). Open: which 4 mm fader knob (AP fork, 5 mm above the panel),
+   3.5 mm spacer, 7.6 mm LED spacers, 6 × M3 standoffs). Fader cap Sifam LK110 tang 01 (sample check on the BP blade),
    physical sample checks. Routing and ground pours are left to Ruslan.
 
 ## Reference material

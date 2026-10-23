@@ -151,15 +151,20 @@ def _screw():
 
 
 def panel(dual=False, colour='grey', pos=0.75):
-    """Fader knob on the lever (placeholder: 12 x 22 cap with a finger dish and a coloured line, bottom 0.8 above the
-    panel, socket for the 8.0 x 1.3 BP blade) and the two M3 pan head screws; FEATURE frame, z = 0 on the panel top."""
+    """Fader cap on the BP blade and the two M3 pan head screws; FEATURE frame, z = 0 on the panel top. The cap is a
+    Sifam LK110 with tang 01 (8.0 x 1.2 metal flat lever; Sifam catalogue p. 12-13), the Delta's own "SIF low profile"
+    fader knob: 26.0 along the travel x 11.6 across x 10.0 high, ribbed saddle top, a contrasting line across it, blind
+    socket 4.0 deep, so on the 5.0 mm of blade above the panel its underside sits 1.0 above the panel."""
     m = Mesh(); dx = TRAVEL / 2 - TRAVEL * pos
-    dish = [(4.4 - 0.88 * k, 12.6 - 1.1 * (1 - ((4.4 - 0.88 * k) / 4.4) ** 2)) for k in range(11)]
-    _yprism(m, [(-6.0, 0.8), (6.0, 0.8), (6.0, 2.6), (4.8, 12.0), (4.6, 12.6)] + dish + [(-4.6, 12.6), (-4.8, 12.0), (-6.0, 2.6)],
-            -11.0, 11.0, 'plastic_black')
-    line = CAPS.get(colour, 'plastic_grey')
-    m.box(-0.35, -11.02, 11.45, 0.35, 11.02, 11.55, line)
-    for s in (-1, 1): m.box(-0.35, s * 11.0, 3.0, 0.35, s * 11.05, 11.5, line)
+    L2, W2, z0, top, sag = 13.0, 5.8, 1.0, 11.0, 1.4
+    zt = lambda x: top - sag * (1 - (x / L2) ** 2)                       # saddle: 1.4 lower in the middle
+    body = CAPS.get(colour, 'plastic_grey'); ink = 'plastic_black' if colour in ('white', 'yellow') else 'print_white'
+    _yprism(m, [(-L2, z0), (L2, z0), (L2, top - 0.4), (L2 - 0.4, top)] + [(L2 * (1 - 2 * k / 20), zt(L2 * (1 - 2 * k / 20)))
+            for k in range(1, 20)] + [(-L2 + 0.4, top), (-L2, top - 0.4)], -W2, W2, body)
+    for k in range(-5, 6):                                               # transverse ribs on the saddle
+        if k: x = 2.1 * k; m.box(x - 0.3, -W2 + 0.6, zt(x) - 0.1, x + 0.3, W2 - 0.6, zt(x) + 0.22, body)
+    m.box(-0.4, -W2 - 0.02, zt(0) - 0.05, 0.4, W2 + 0.02, zt(0) + 0.06, ink)            # the line, across the top
+    for s in (-1, 1): m.box(-0.4, s * W2 - 0.03 * (1 - s) / 2, z0 + 0.8, 0.4, s * W2 + 0.03 * (1 + s) / 2, zt(0), ink)
     m.translate(dx)
     for e in (-1, 1): m.merge(_screw().translate(e * HOLE))
     return m
