@@ -13,15 +13,18 @@ PNG views, including two with the panel layer hidden.
 Board coordinates are mm, y down; Blender X = x, Y = -y, Z up, in metres. Main board top at z = 0, panel
 underside at 11.5, jack board top at -12.5. The console sits 9 degrees tilted (fader end lower) in a tub with
 walnut cheeks; panel finish and cap colours are placeholders, not decisions."""
-import bpy, bmesh, json, math, os, subprocess, sys
+import bpy, bmesh, inspect, json, math, os, subprocess, sys
 from mathutils import Vector, Matrix
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from models3d import lookup, STACK, cable
+from models3d.blend import to_mesh
 
 ARGV = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else ['render']
 OUTDIR = os.path.abspath(ARGV[0])
 PROJ = os.path.dirname(OUTDIR)
 KC = os.environ.get('KICAD_CLI', '/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli')
 S = 0.001
-PANEL_Z0, PANEL_Z1, JB_Z = 11.5, 13.0, -12.5
+PANEL_Z0 = STACK['panel_z0']; PANEL_Z1 = PANEL_Z0 + STACK['panel_t']; JB_Z = PANEL_Z0 - STACK['jack_z0']
 H_JB = PANEL_Z0 - JB_Z                         # jack-board top to panel underside: 24 mm
 HP = 5.08; PITCH = 8 * HP                      # 40.64 mm per 8 HP module
 
@@ -138,7 +141,7 @@ def put(name, me, c, x, y, z, rot=0.0, flip=False):
     """An object for a mesh built in footprint-local coordinates, at board (x, y), height z; flip = bottom side."""
     o = bpy.data.objects.new(name, me); c.objects.link(o)
     o.location = (x * S, -y * S, z * S); o.rotation_euler[2] = math.radians(rot)
-    if flip: o.scale = (-1, 1, -1)
+    if flip: o.scale = (1, -1, -1)                  # KiCad flips top to bottom: footprint y mirrored, then rotated
     return o
 
 def text(name, s, x, y, z, size, m, c):
@@ -149,81 +152,7 @@ def text(name, s, x, y, z, size, m, c):
 def legend(c, s, x, y, size=2.0):
     if s: text(f'legend {s} {x:.0f} {y:.0f}', s, x, y, PANEL_Z1 + 0.02, size, M['legend'], c)
 
-# ---------------------------------------------------------------- parts KiCad has no model for
-def pot_mesh(dual):
-    """Alpha RD901F / RD902F, vertical: case centred on the shaft (7.5, 2.5) from pin 1, mounting face 10.0 mm above
-    the board, then the 1.5 mm spacer washer to the panel (spec 16.2); M7 bushing, 6 mm shaft."""
-    g = Geo([M['plastic'], M['potcase'], M['nickel'], M['steel'], M['tin']])
-    x0, x1, y0, y1 = 2.6, 12.4, -2.4, 7.4
-    g.box(x0, y0, 0, x1, y1, 1.6, 0, 0.2)
-    if dual:
-        g.box(x0, y0, 1.6, x1, y1, 5.6, 1, 0.3); g.box(x0, y0, 5.6, x1, y1, 6.2, 0, 0.2); g.box(x0, y0, 6.2, x1, y1, 10.0, 1, 0.3)
-    else:
-        g.box(x0, y0, 1.6, x1, y1, 10.0, 1, 0.3)
-    for ty in (-2.25, 7.25):                                              # case tabs into the board
-        g.box(7.0, ty - 0.25, -1.4, 8.0, ty + 0.25, 2.0, 1)
-    for px in ((0.0, -2.5) if dual else (0.0,)):
-        for py in (0.0, 2.5, 5.0):
-            g.box(px - 0.3, py - 0.4, -1.4, px + 0.3, py + 0.4, 1.2, 4)
-            g.box(px - 0.3, py - 0.4, 0.9, x0 + 0.1, py + 0.4, 1.3, 4)
-    g.cyl(7.5, 2.5, 10.0, PANEL_Z0, 4.8, 3, 28)                          # spacer washer
-    g.cyl(7.5, 2.5, 10.0, PANEL_Z1 + 1.6, 3.5, 2, 28)                    # bushing through the panel
-    g.cyl(7.5, 2.5, PANEL_Z1 + 1.6, PANEL_Z1 + 13.0, 3.0, 3, 24)         # shaft, inside the knob
-    return g.mesh('Alpha RD902F' if dual else 'Alpha RD901F')
-
-def pva2_mesh():
-    """C&K PVA2 H1: 9.8 x 9.8 body, plunger at (2.5, 3.0) from pin 1 through the panel (PV cap on top)."""
-    g = Geo([M['sw'], M['swtop'], M['tin']])
-    g.box(-2.4, -1.9, 0, 7.4, 7.9, 8.4, 0, 0.3)
-    g.box(-1.9, -1.4, 8.4, 6.9, 7.4, 9.0, 1, 0.2)
-    g.box(1.2, 1.7, 9.0, 3.8, 4.3, PANEL_Z1 + 1.0, 0, 0.2)
-    return g.mesh('C&K PVA2')
-
-def jack_mesh():
-    """Neutrik NJ6FD-V on the jack board: body up to the panel underside (24 mm, the open depth check), 12 mm
-    threaded bushing through the panel, plug opening; the nut belongs to the panel layer."""
-    g = Geo([M['jack'], M['nickel'], M['slot']])
-    g.box(-7.5, -2.0, 0, 7.5, 13.4, H_JB - 4.0, 0, 0.4)
-    g.cyl(0, 5.72, H_JB - 4.0, H_JB, 7.4, 0, 32)
-    g.cyl(0, 5.72, H_JB, H_JB + 4.0, 5.9, 1, 32)
-    g.cyl(0, 5.72, H_JB + 3.95, H_JB + 4.05, 3.3, 2, 24)
-    return g.mesh('Neutrik NJ6FD-V')
-
-def xlr_mesh():
-    """Neutrik NC3MAV on the jack board: pin block and round housing up to the panel (barrel at (3.81, 0))."""
-    g = Geo([M['jack']])
-    g.box(-8.5, -9.5, 0, 16.1, 11.0, 6.0, 0, 0.5)
-    g.cyl(3.81, 0, 6.0, H_JB, 11.0, 0, 40)
-    return g.mesh('Neutrik NC3MAV')
-
-def fader_mesh():
-    """Bourns PTB0143/0144: body 128 x 15 x 8 on the slot centreline (y -1.9 from pin 1), pins 1, 2 at x 0, pin 3 at
-    -127.5; 3.5 mm spacers up to the panel (spec 16.2). Lever separate."""
-    g = Geo([M['steel'], M['plastic'], M['slot']])
-    x0, x1, y0, y1 = -127.75, 0.25, -9.4, 5.6
-    g.box(x0, y0, 0, x1, y1, 0.6, 0)
-    g.box(x0, y0, 0, x1, y0 + 0.6, 8.0, 0); g.box(x0, y1 - 0.6, 0, x1, y1, 8.0, 0)
-    g.box(x0 + 6.5, y0, 7.4, x1 - 6.5, -2.5, 8.0, 0); g.box(x0 + 6.5, -1.3, 7.4, x1 - 6.5, y1, 8.0, 0)
-    g.box(x0 + 6.5, -2.5, 6.0, x1 - 6.5, -1.3, 6.4, 2)
-    g.box(x0, y0, 0, x0 + 6.5, y1, 8.3, 1, 0.3); g.box(x1 - 6.5, y0, 0, x1, y1, 8.3, 1, 0.3)
-    for sx in (-63.75 - 38.8, -63.75 + 43.7):
-        g.box(sx - 3.0, y0 + 0.5, 8.0, sx + 3.0, y1 - 0.5, PANEL_Z0, 1)
-    return g.mesh('Bourns PTB fader')
-
-def tab_mesh():
-    """Keystone 1287-ST: foot and 6.35 x 0.8 mm tab in line with the legs at (+-2.54, 0)."""
-    g = Geo([M['tin']])
-    g.box(-3.6, -1.55, 0, 3.6, 1.55, 0.6, 0)
-    g.box(-3.175, -0.41, 0.6, 3.175, 0.41, 8.6, 0, 0.15)
-    return g.mesh('Keystone 1287-ST')
-
-def ptc_mesh():
-    """Bourns MF-RX160/72: 13.9 x 3.1 mm disc on kinked leads, pins at (0, 0) and (5.08, 0)."""
-    g = Geo([M['ptc'], M['tin']])
-    g.disc_y(2.54, 0, 12.0, 6.7, 3.0, 0)
-    for px in (0.0, 5.08): g.box(px - 0.4, -0.4, -1.4, px + 0.4, 0.4, 7.0, 1)
-    return g.mesh('Bourns MF-RX160/72')
-
+# ---------------------------------------------------------------- generic hardware (the parts are tools/models3d)
 def standoff_mesh(h):
     g = Geo([M['brass'], M['steel']])
     g.cyl(0, 0, 0, h, 2.75, 0, 6)
@@ -233,36 +162,17 @@ def standoff_mesh(h):
 def stud_mesh():
     g = Geo([M['steel'], M['tin']])
     g.cyl(0, 0, -1.6 - 2.8, -1.6, 3.5, 0, 6)
-    g.cyl(0, 0, -1.6, 12.0, 2.0, 0, 20)
+    g.cyl(0, 0, -1.6, PANEL_Z0 - 1.5, 2.0, 0, 20)                         # M4 shank, clear of the panel
     g.cyl(0, 0, 0, 0.8, 5.0, 1, 28)
     g.cyl(0, 0, 0.8, 4.0, 3.6, 0, 6); g.cyl(0, 0, 6.0, 9.2, 3.6, 0, 6)
     return g.mesh('M4 star stud')
 
 def spacer_mesh(big):
-    g = Geo([M['plastic']]); g.cyl(0, 0, 0, 7.6, 3.0 if big else 2.0, 0, 16)
-    return g.mesh('LED spacer 7.6 mm')
+    h = 4.3 if big else 7.6                       # 3 mm LED: 7.6 spacer (spec 16.2); 5 mm LED: 8.6 tall, so 4.3
+    g = Geo([M['plastic']]); g.cyl(0, 0, 0, h, 3.0 if big else 2.0, 0, 16)
+    return g.mesh(f'LED spacer {h} mm')
 
 # ---------------------------------------------------------------- the panel layer
-def knob_mesh(big):
-    r = 8.0 if big else 7.0
-    g = Geo([M['knob'], M['legend']])
-    g.cyl(0, 0, 0, 1.4, r + 0.8, 0, 40)
-    g.cyl(0, 0, 1.4, 2.2, r + 0.8, 0, 40, r_top=r - 0.3)
-    g.fluted(r - 0.35, r - 0.85, 2.2, 13.6, 0.93, 20)
-    g.cyl(0, 0, 13.6, 14.4, (r - 0.35) * 0.93, 0, 40, r_top=(r - 0.35) * 0.93 - 1.0)
-    g.box(-0.4, -(r + 0.8), 0.9, 0.4, -(r - 0.4), 1.55, 1)                  # pointer on the skirt
-    g.box(-0.45, -((r - 0.35) * 0.93 - 1.2), 14.3, 0.45, -2.6, 14.5, 1)      # pointer on the top
-    return g.mesh('knob big' if big else 'knob')
-
-def knob_cap_mesh(colour, big):
-    r = (((8.0 if big else 7.0) - 0.35) * 0.93 - 1.0) - 0.6
-    g = Geo([CAP[colour]]); g.cyl(0, 0, 14.4, 14.7, r, 0, 32)
-    return g.mesh(f'knob cap {colour}')
-
-def swcap_mesh(colour):
-    g = Geo([CAP[colour]]); g.box(-3.7, -3.7, 0, 3.7, 3.7, 5.5, 0, 0.6)
-    return g.mesh(f'PV cap {colour}')
-
 def lens_mesh(state, big):
     k = 5 / 3 if big else 1.0
     g = Geo([M['alu'], LED[state]])
@@ -270,31 +180,33 @@ def lens_mesh(state, big):
     g.cyl(0, 0, 0, 1.6, 1.5 * k, 1, 20); g.cyl(0, 0, 1.6, 2.3, 1.5 * k, 1, 20, r_top=0.6 * k)
     return g.mesh(f'LED lens {state}{" 5 mm" if big else ""}')
 
-def nut_mesh():
-    g = Geo([M['nickel']]); g.cyl(0, 0, 0, 0.5, 8.2, 0, 32); g.cyl(0, 0, 0.5, 3.0, 7.4, 0, 6)
-    return g.mesh('NJ6FD-V nut')
-
-def flange_mesh():
-    """NC3MAV D-size front: 26 x 28 flange with two M3 screws, shell ring, insert and three male pins."""
-    g = Geo([M['nickel'], M['jack'], M['steel']])
-    g.prism(rrect(-13.0, -14.0, 13.0, 14.0, 3.0), 0, 1.2, 0)
-    for sx, sy in ((9.5, -12.0), (-9.5, 12.0)): g.cyl(sx, sy, 1.2, 1.8, 1.7, 2, 16)
-    g.cyl(0, 0, 1.2, 1.6, 9.6, 0, 40); g.cyl(0, 0, 1.2, 1.7, 8.6, 1, 40)
-    for a in (150, 30, 270): g.cyl(4.75 * math.cos(math.radians(a)), -4.75 * math.sin(math.radians(a)), 1.7, 5.5, 0.8, 2, 12)
-    return g.mesh('NC3MAV flange')
-
-def fader_knob_mesh(colour, dual):
-    w = 14.0 if dual else 11.0
-    g = Geo([M['knob'], CAP[colour]])
-    g.box(-w / 2, -6.5, 0, w / 2, 6.5, 10.5, 0, 1.0)
-    g.box(-w / 2 - 0.02, -0.45, 1.0, w / 2 + 0.02, 0.45, 10.55, 1)
-    return g.mesh(f'fader knob {colour}{" dual" if dual else ""}')
-
-def panel(c, name, width, label=None):
-    """Plate in module coordinates: x -1.15 .. width - 1.15, y -11 .. 503; M3 screws on the end rails."""
-    x0 = -1.15
-    g = Geo([M['panel']]); g.box(x0 + 0.15, -11, 0, x0 + width - 0.15, 503, PANEL_Z1 - PANEL_Z0, 0)
-    put(name + ' panel', g.mesh(name + ' panel'), c, 0, 0, PANEL_Z0)
+def panel(c, name, width, label=None, holes=()):
+    """Plate in module coordinates: x -1.15 .. width - 1.15, y -11 .. 503; M3 screws on the end rails. holes: the
+    cut-outs [(kind, x, y, size or rotation)]: 'round' (diameter), 'slot' (fader slot and its two M3 holes, rotation),
+    'xlr' (NC3MAV hole and its two M3 holes, rotation)."""
+    x0 = -1.15; t = PANEL_Z1 - PANEL_Z0
+    g = Geo([M['panel']]); g.box(x0 + 0.15, -11, 0, x0 + width - 0.15, 503, t, 0)
+    plate = put(name + ' panel', g.mesh(name + ' panel'), c, 0, 0, PANEL_Z0)
+    if holes:
+        cut = Geo([M['panel']])
+        for kind, x, y, a in holes:
+            if kind == 'round': cut.cyl(x, y, -1, t + 1, a / 2, 0, 40)
+            else:
+                ca, sa = math.cos(math.radians(a)), -math.sin(math.radians(a))      # footprint x axis on the board
+                rot = lambda u, v: (x + u * ca - v * sa, y + u * sa + v * ca)
+                if kind == 'slot':
+                    cut.prism([rot(u, v) for u, v in rrect(-FADER_SLOT[0] / 2, -FADER_SLOT[1] / 2, FADER_SLOT[0] / 2,
+                                                            FADER_SLOT[1] / 2, FADER_SLOT[1] / 2 - 0.01)], -1, t + 1)
+                    for u in (-FADER_SLOT[2], FADER_SLOT[2]): cut.cyl(*rot(u, 0.0), -1, t + 1, 1.6, 0, 16)
+                else:
+                    cut.cyl(x, y, -1, t + 1, XLR_CUT[0] / 2, 0, 48)
+                    for u, v in XLR_CUT[1]: cut.cyl(*rot(u, v), -1, t + 1, 1.6, 0, 16)
+        co = put(name + ' cutter', cut.mesh(name + ' cutter'), c, 0, 0, PANEL_Z0)
+        bo = plate.modifiers.new('cut-outs', 'BOOLEAN'); bo.operation = 'DIFFERENCE'; bo.object = co; bo.solver = 'EXACT'
+        bpy.context.view_layer.update()
+        me = bpy.data.meshes.new_from_object(plate.evaluated_get(bpy.context.evaluated_depsgraph_get()))
+        plate.modifiers.clear(); old = plate.data; plate.data = me; me.name = name + ' panel'
+        bpy.data.meshes.remove(old); bpy.data.objects.remove(co)
     def screw():
         g = Geo([M['alu']]); g.cyl(0, 0, 0, 1.2, 2.8, 0, 16); return g.mesh('panel screw')
     for yy in (-8, 500):
@@ -303,12 +215,13 @@ def panel(c, name, width, label=None):
     if label: text(name + ' label', label, x0 + width / 2, 494, PANEL_Z1 + 0.02, 3.0, M['legend'], c)
 
 # ---------------------------------------------------------------- legends and colours per module
+# Switch caps are C&K PV: red, grey, black, white (green in the ordering code only); knob caps are placeholders.
 STRIP = {'RV9': ('GAIN', 'red'), 'RV10': ('HF', 'white'), 'RV11': ('HI-MID', 'white'), 'RV12': ('FREQ', 'dblue'),
          'RV13': ('LO-MID', 'white'), 'RV14': ('FREQ', 'dblue'), 'RV15': ('LF', 'white'), 'RV2': ('AUX 1', 'yellow'),
          'RV3': ('AUX 2', 'yellow'), 'RV4': ('AUX 3', 'green'), 'RV5': ('AUX 4', 'green'), 'RV6': ('AUX 5', 'orange'),
          'RV7': ('AUX 6', 'orange'), 'RV8': ('PAN', 'grey'),
-         'SW15': ('Ø', 'grey'), 'SW11': ('HPF', 'grey'), 'SW12': ('EQ', 'grey'), 'SW8': ('PRE', 'yellow'),
-         'SW9': ('PRE', 'green'), 'SW10': ('PRE', 'orange'), 'SW14': ('PAN', 'grey'), 'SW13': ('DIR', 'orange'),
+         'SW15': ('Ø', 'grey'), 'SW11': ('HPF', 'grey'), 'SW12': ('EQ', 'grey'), 'SW8': ('PRE', 'grey'),
+         'SW9': ('PRE', 'grey'), 'SW10': ('PRE', 'grey'), 'SW14': ('PAN', 'grey'), 'SW13': ('DIR', 'black'),
          'SW5': ('L-R', 'white'), 'SW6': ('1-2', 'white'), 'SW7': ('3-4', 'white'), 'SW3': ('PFL', 'red'), 'SW4': ('ON', 'green'),
          'D2': ('OL', 'red'), 'D3': (None, 'off'), 'D4': (None, 'green'), 'D5': (None, 'green'), 'D6': (None, 'yellow'),
          'D7': (None, 'off'), 'D8': (None, 'off'),
@@ -386,10 +299,63 @@ def import_board(c, board, z_top):
     return refs
 
 # ---------------------------------------------------------------- one module
+HOLE = {'alpha_pot': 7.2, 'ck_pva2': 8.0, 'neutrik_nj6fd_v': 12.0}      # panel holes, spec 16.1 / 16.2
+FADER_SLOT = (110.0, 2.4, 60.0)               # PTB: 100 travel + 8.0 blade (BP lever), 1.3 blade; M3 fixings at +-60
+XLR_CUT = (22.2, [(-9.9, -9.9), (9.9, 9.9)])  # NC3MAV (A series, rear mount): >= 22 hole, 2 x 3.2 (footprint frame)
+FADER_POS = 0.75                              # lever position shown: 75 % of the travel
+LATCHED = {'strip': ('SW4', 'SW5')}           # switches shown pressed: ON and L-R (their LEDs are lit)
+LEGEND = {'alpha_pot': (-9.8, 2.0), 'ck_pva2': (-5.8, 1.7), 'neutrik_nj6fd_v': (-10.2, 1.8), 'neutrik_nc3mav': (-16.2, 1.8)}
+BUS = {}                                      # module key: bus-header sockets [(x, y, ribbon z, pin-1 y)] for the motherloom
+
+def part_kw(fn, kw, **extra):
+    """kw plus those of the extra keyword arguments that fn takes."""
+    ps = inspect.signature(fn).parameters
+    return dict(kw, **{k: v for k, v in extra.items() if k in ps})
+
+def link_ribbon(c, name, j, m):
+    """Jack-board link: flat cable from the jack board's IDC socket j to the main board's socket m (dicts: n, x, y,
+    z = ribbon centre, along, y1 = the jack board's far edge, pin1). Long side along x: the cable leaves along y and
+    loops up past the jack board's edge. Along y: it leaves along x, bends down, turns a quarter twist into a run along y
+    below both boards, and twists back up into the main board's socket. Red stripe on the pin-1 edge."""
+    w = 2.54 * j['n']
+    if j['along'] == 'x':
+        r = (m['z'] - j['z']) / 2; yt = max(m['y'], j['y1']) + 4.0
+        arc = [(j['x'], yt + r * math.sin(math.pi * k / 10), j['z'] + r - r * math.cos(math.pi * k / 10)) for k in range(11)]
+        me = cable.ribbon([(j['x'], j['y'], j['z'])] + arc + [(m['x'], m['y'], m['z'])], [(1, 0, 0)], w,
+                          stripe=1 if j['pin1'][0] > j['x'] else -1)
+    else:
+        sj = 1 if j['pin1'][1] > j['y'] else -1; sm = 1 if m['pin1'][1] > m['y'] else -1     # pin-1 edge at each end
+        dj = -1 if m['x'] < j['x'] else 1; xr = (j['x'] + m['x']) / 2; zl = min(j['z'], m['z']) - 8.0
+        ctrl = [((j['x'], j['y'], j['z']), (0, sj, 0)), ((j['x'] + 4 * dj, j['y'], j['z']), (0, sj, 0)),
+                ((j['x'] + 7 * dj, j['y'] + 2, j['z'] - 5), (0, sj, 0)), ((xr, j['y'] + 9, zl), (1, 0, 0)),
+                ((xr, m['y'] - 9, zl), (1, 0, 0)), ((m['x'] - 7 * dj, m['y'] - 2, m['z'] - 5), (0, sm, 0)),
+                ((m['x'] - 4 * dj, m['y'], m['z']), (0, sm, 0)), ((m['x'], m['y'], m['z']), (0, sm, 0))]
+        path = cable.smooth([p for p, _ in ctrl], 8); k = 8
+        wd = []                                   # width direction blended between the control points
+        for i in range(len(path)):
+            a = min(i // k, len(ctrl) - 1); b = min(a + 1, len(ctrl) - 1); t = (i - a * k) / k if a < len(ctrl) - 1 else 0.0
+            wd.append(tuple((1 - t) * ctrl[a][1][q] + t * ctrl[b][1][q] for q in range(3)))
+        me = cable.ribbon(path, wd, w)
+    put(name, to_mesh(me, name), c, 0, 0, 0)
+
+WIRE = ['wire_green', 'wire_red', 'wire_red', 'wire_black', 'wire_black', 'wire_blue', 'wire_blue']   # J1 pins 1-7:
+                                              # CHASSIS, +VBUS x2, GNDA x2, -VBUS x2 (master.net)
+def psu_cable(c, p, e, zb, z_floor=-41.5):
+    """Supply cable to the master's 7-way terminal J1 (bottom side; the wires enter on the footprint's front, board +y):
+    seven wires out of a jacket that comes along the tub floor from the back of the console."""
+    lo = min((ch.matrix_world @ Vector(cr)).z for ch in e.children_recursive if ch.type == 'MESH' for cr in ch.bound_box) / S
+    ze = zb - 0.45 * (zb - lo); ye = p['box'][3] - 0.5; xm = p['x'] - 3 * 5.08
+    me = cable.round_cable(cable.smooth([(xm, -30, z_floor), (xm, 0, z_floor), (xm, 120, z_floor), (xm, ye + 14, z_floor)], 6), 3.5)
+    for k, wm in enumerate(WIRE):
+        xk = p['x'] - 5.08 * k
+        me.merge(cable.round_cable(cable.smooth([(xk, ye - 4, ze), (xk, ye + 4, ze), (xk + 0.5 * (xm - xk), ye + 9, ze - 10),
+                                                 (xm + (k - 3) * 0.9, ye + 13, z_floor + 3), (xm + (k - 3) * 0.6, ye + 15, z_floor)], 6), 1.0, wm, 10))
+    put('power cable', to_mesh(me, 'power cable'), c, 0, 0, 0)
+
 def module(key, names, width, label=None):
     c = coll({'strip': 'channel strip', 'group': 'group module', 'master': 'master module'}[key])
     cb, cp = coll(c.name + ' boards', c), coll(c.name + ' panel', c)
-    pins = Geo([M['tin']])
+    pins = Geo([M['tin']]); holes = []; sockets = []
     for bd in json.load(open(os.path.join(OUTDIR, key + '.json'))):
         board = os.path.splitext(os.path.basename(bd['file']))[0]
         jackboard = bd['y0'] < 10
@@ -399,9 +365,10 @@ def module(key, names, width, label=None):
         for p in bd['parts']:
             fp, ref = p['fp'], p['ref']
             name, colour = names.get(ref, ('', 'grey'))
-            f = p.get('feature')
-            for px, py in p.get('pads', ()):                    # pins of the parts built here
-                pins.cyl(px, py, zb - 1.2, zt + 0.4, 0.45, 0, 8)
+            f = p.get('feature'); reg = lookup(fp); flip = p['side'] == 'B'
+            if not reg:
+                for px, py in p.get('pads', ()):                # pins of the generic parts built here
+                    pins.cyl(px, py, zb - 1.2, zt + 0.4, 0.45, 0, 8)
             if 'LED_D' in fp:
                 big = 'D5.0' in fp
                 if ref in refs:                     # KiCad's model stands on its leads: lift it so its top sits just
@@ -412,57 +379,60 @@ def module(key, names, width, label=None):
                 put(f'{ref} spacer', shared(('spacer', big), lambda: spacer_mesh(big)), cb, f[0], f[1], zt)
                 lg, st = led_state(p, names)
                 put(f'{ref} lens', shared(('lens', st, big), lambda: lens_mesh(st, big)), cp, f[0], f[1], PANEL_Z1)
+                holes.append(('round', f[0], f[1], 5.2 if big else 3.2))
                 if lg: legend(cp, lg, f[0], f[1] - (5.0 if big else 3.8), 1.6)
+            if 'IDC-Header_2x' in fp:               # crimped socket on the header; the cable is added below
+                n = int(fp.split('IDC-Header_2x')[1][:2]); l, t, r, b = p['box']
+                along = 'x' if r - l > b - t else 'y'; cx, cy = (l + r) / 2, (t + b) / 2; px, py = p['pin1']
+                keyside = (1 if py > cy else -1) if along == 'x' else (1 if px > cx else -1)     # the notch: pin-1 column
+                me, zr = cable.idc_socket(n, cx, cy, zb - 3.0 if flip else zt + 3.0, along, flip, keyside)
+                put(f'{ref} IDC socket', to_mesh(me, f'{board} {ref} socket'), cb, 0, 0, 0)
+                sockets.append(dict(n=n, x=cx, y=cy, z=zr, along=along, jack=jackboard, y1=bd['y1'], pin1=(px, py)))
+            if key == 'master' and ref == 'J1' and not jackboard and ref in refs:
+                psu_cable(cb, p, refs[ref], zb)
             if p['model']: continue
+            if reg:                                 # a part from tools/models3d, and its panel piece
+                mod, kw = reg; kind = mod.__name__.rsplit('.', 1)[-1]; short = fp.split(':')[-1]
+                for ch in (refs[ref].children_recursive if ref in refs else ()):     # KiCad's copy (its STEP twin)
+                    bpy.data.objects.remove(ch)
+                lat = ref in LATCHED.get(key, ())
+                me = shared(('part', fp, lat), lambda: to_mesh(mod.build(**part_kw(mod.build, kw, pos=FADER_POS, latched=lat)), short))
+                put(f'{ref} {kind}', me, cb, p['x'], p['y'], zb if flip else zt, p['rot'], flip)
+                if not (mod.FEATURE and f): continue
+                pk = part_kw(mod.panel, kw, colour=colour or 'grey', big=name == 'C/ROOM', pos=FADER_POS, latched=lat)
+                pm = shared(('panel', fp, tuple(sorted(pk.items()))),
+                            lambda: (lambda g: g and to_mesh(g, f'{short} panel {colour or ""}'))(mod.panel(**pk)))
+                if pm:
+                    o = put(f'{ref} {kind} panel', pm, cp, f[0], f[1], PANEL_Z1, p['rot'])
+                    if kind == 'alpha_pot':
+                        o.rotation_euler[2] = math.radians(KNOB_ANGLE.get(name.split()[0] if name else '', 0.0))
+                if kind in HOLE: holes.append(('round', f[0], f[1], HOLE[kind]))
+                elif kind == 'neutrik_nc3mav': holes.append(('xlr', f[0], f[1], p['rot']))
+                elif kind == 'bourns_ptb':
+                    holes.append(('slot', f[0], f[1], p['rot']))
+                    g = Geo([M['legend']])                                      # fader scale beside the slot
+                    for kk in range(11):
+                        w = 3.0 if kk in (0, 3, 10) else 1.8; yy = -50.0 + 10.0 * kk
+                        g.box(-5.5 - w, yy - 0.2, 0, -5.5, yy + 0.2, 0.05, 0)
+                    put(f'{ref} scale', g.mesh(f'{ref} scale'), cp, f[0], f[1], PANEL_Z1)
+                    legend(cp, name, f[0], f[1] + getattr(mod, 'HOLE', 60.0) + 5.0, 2.4 if 'Dual' in fp else 2.0)   # past the M3 head
+                if kind in LEGEND: legend(cp, name, f[0], f[1] + LEGEND[kind][0] - (1.5 if pk.get('big') else 0.0), LEGEND[kind][1])
+                continue
             if 'MountingHole_4.3mm_M4' in fp:
                 put(f'{ref} star stud', shared('stud', stud_mesh), cb, p['x'], p['y'], zt)
             elif 'MountingHole' in fp:
                 h = PANEL_Z0 - zt
                 put(f'{ref} standoff', shared(('standoff', h), lambda: standoff_mesh(h)), cb, p['x'], p['y'], zt)
-            elif 'Potentiometer_Alpha' in fp:
-                dual = 'Dual' in fp
-                put(f'{ref} pot', shared(('pot', dual), lambda: pot_mesh(dual)), cb, p['x'], p['y'], zt, p['rot'])
-                big = name == 'C/ROOM'
-                k = put(f'{ref} knob', shared(('knob', big), lambda: knob_mesh(big)), cp, f[0], f[1], PANEL_Z1)
-                k.rotation_euler[2] = math.radians(KNOB_ANGLE.get(name.split()[0] if name else '', 0.0))
-                put(f'{ref} knob cap', shared(('kcap', colour, big), lambda: knob_cap_mesh(colour, big)), cp, f[0], f[1], PANEL_Z1)
-                legend(cp, name, f[0], f[1] - 9.8)
-            elif 'PVA2' in fp:
-                put(f'{ref} PVA2', shared('pva2', pva2_mesh), cb, p['x'], p['y'], zt, p['rot'])
-                put(f'{ref} cap', shared(('swcap', colour), lambda: swcap_mesh(colour)), cp, f[0], f[1], PANEL_Z1 + 0.5)
-                legend(cp, name, f[0], f[1] - 5.8, 1.7)
-            elif 'NJ6FD-V' in fp:
-                put(f'{ref} NJ6FD-V', shared('jack', jack_mesh), cb, p['x'], p['y'], zt, p['rot'])
-                put(f'{ref} nut', shared('nut', nut_mesh), cp, f[0], f[1], PANEL_Z1)
-                legend(cp, name, f[0], f[1] - 10.2, 1.8)
-            elif 'NC3MAV' in fp:
-                put(f'{ref} NC3MAV', shared('xlr', xlr_mesh), cb, p['x'], p['y'], zt, p['rot'])
-                put(f'{ref} flange', shared('flange', flange_mesh), cp, f[0], f[1], PANEL_Z1)
-                legend(cp, name, f[0], f[1] - 16.2, 1.8)
-            elif 'PTB014' in fp:
-                dual = 'Dual' in fp
-                put(f'{ref} fader', shared('fader', fader_mesh), cb, p['x'], p['y'], zt, p['rot'])
-                y = f[1] + 50.0 - 100.0 * 0.75                              # knob at 75 % travel
-                g = Geo([M['steel']]); g.box(-0.5, -1.5, 7.4, 0.5, 1.5, PANEL_Z1 + 5.0, 0)
-                put(f'{ref} lever', g.mesh(f'{ref} lever'), cb, f[0], y, zt)
-                g = Geo([M['slot'], M['legend']])
-                g.box(-1.0, -50.0, 0, 1.0, 50.0, 0.05, 0)
-                for kk in range(11):
-                    w = 3.0 if kk in (0, 3, 10) else 1.8; yy = -50.0 + 10.0 * kk
-                    g.box(-5.5 - w, yy - 0.2, 0, -5.5, yy + 0.2, 0.05, 1)
-                put(f'{ref} slot', g.mesh(f'{ref} slot'), cp, f[0], f[1], PANEL_Z1)
-                put(f'{ref} knob', shared(('fknob', colour, dual), lambda: fader_knob_mesh(colour or 'grey', dual)), cp, f[0], y, PANEL_Z1 + 2.0)
-                legend(cp, name, f[0], f[1] + 60.0, 2.4 if dual else 2.0)
-            elif 'Keystone_1287' in fp:
-                put(f'{ref} spade', shared('tab', tab_mesh), cb, p['x'], p['y'], zb if p['side'] == 'B' else zt, p['rot'], p['side'] == 'B')
-            elif 'Fuse_Bourns' in fp:
-                put(f'{ref} PTC', shared('ptc', ptc_mesh), cb, p['x'], p['y'], zb if p['side'] == 'B' else zt, p['rot'], p['side'] == 'B')
             elif not ('NetTie' in fp or 'SolderJumper' in fp):
                 l, t, r, b = p['box']
                 g = Geo([M['plastic']]); g.box(l + 0.3, t + 0.3, 0, r - 0.3, b - 0.3, 1.0, 0)
                 put(ref, g.mesh(ref), cb, 0, 0, zt if p['side'] == 'F' else zb - 1.0)
+    for j in (q for q in sockets if q['jack']):
+        m = next((q for q in sockets if not q['jack'] and q['n'] == j['n']), None)
+        if m: link_ribbon(cb, f'{key} jack-board link', j, m)
+    BUS[key] = sorted((q['x'], q['y'], q['z'], q['pin1'][1]) for q in sockets if not q['jack'] and q['n'] == 17)
     put(f'{key} pins', pins.mesh(f'{key} pins'), cb, 0, 0, 0)
-    panel(cp, key, width, label)
+    panel(cp, key, width, label, holes)
     return c
 
 strip = module('strip', STRIP, 8 * HP - 0.34)
@@ -498,6 +468,26 @@ for item in order:
 width = x
 for src in (strip, group, master):                 # the sources; the instances render
     layer_collection(src).exclude = True
+cables = coll('cables', console)
+def motherloom(name, bus):
+    """One wing's 34-way bus ribbon through its modules' bus-header sockets [(x, y, ribbon z, pin-1 y)], sagging
+    between them and cut 1.5 mm past the end sockets (master spec 25: one ribbon per wing)."""
+    y, z = bus[0][1], bus[0][2]; pts = [(bus[0][0] - 4.5, y, z)]
+    for k, (xs, _, _, _) in enumerate(bus):
+        pts += [(xs - 3.0, y, z), (xs + 3.0, y, z)]
+        if k + 1 < len(bus):
+            gap = bus[k + 1][0] - xs - 6.0
+            pts.append(((xs + bus[k + 1][0]) / 2, y, z - min(9.0, 0.16 * gap)))
+    pts.append((bus[-1][0] + 4.5, y, z))
+    me = cable.ribbon(cable.smooth(pts, 6), [(0, 1, 0)], 2.54 * 17, stripe=1 if bus[0][3] > y else -1)   # red: pin 1
+    o = bpy.data.objects.new(name, to_mesh(me, name)); cables.objects.link(o); o.parent = root
+bus, x = [], 0.0
+for item in order:
+    key = {'S': 'strip', 'M': 'master'}.get(item, 'group')
+    bus += [(x + bx, by, bz, p1) for bx, by, bz, p1 in BUS[key]]
+    x += 2 * PITCH if item == 'M' else PITCH
+motherloom('motherloom L', sorted(q for q in bus if q[0] < master_x + PITCH))     # master CN2 ends the left wing,
+motherloom('motherloom R', sorted(q for q in bus if q[0] >= master_x + PITCH))    # CN3 starts the right one
 def box(name, x0, y0, z0, x1, y1, z1, m, c):
     g = Geo([m]); g.box(x0, y0, z0, x1, y1, z1, 0)
     o = bpy.data.objects.new(name, g.mesh(name)); c.objects.link(o); return o

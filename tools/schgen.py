@@ -57,7 +57,7 @@ blocks = []          # (title, [parts])
 def block(title): blocks.append((title, [])); return blocks[-1][1]
 def P(lst, ref, key, value, pins, unit=1, fp=None, mpn=None, dnp=False):
     lst.append(dict(ref=ref, key=key, value=value, pins={str(k): v for k, v in pins.items()}, unit=unit, fp=fp,
-                    mpn=mpn or MPN.get(key, ''), dnp=dnp))
+                    mpn=MPN.get(key, '') if mpn is None else mpn, dnp=dnp))
 
 # ---------------------------------------------------------------- library symbols
 libs = {}

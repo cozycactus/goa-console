@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/master.kicad_sch")
-		(date "2026-10-22T22:06:02")
+		(date "2026-10-23T02:22:23")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -8382,8 +8382,6 @@
 			(footprint "MountingHole:MountingHole_4.3mm_M4_Pad")
 			(fields
 				(field
-					(name "MPN") "Keystone 1287-ST")
-				(field
 					(name "Footprint") "MountingHole:MountingHole_4.3mm_M4_Pad")
 				(field
 					(name "Datasheet")
@@ -8396,10 +8394,6 @@
 				(lib "Connector_Generic")
 				(part "Conn_01x01")
 				(description "Generic connector, single row, 01x01, script generated (kicad-library-utils/schlib/autogen/connector/)")
-			)
-			(property
-				(name "MPN")
-				(value "Keystone 1287-ST")
 			)
 			(property
 				(name "Sheetname")

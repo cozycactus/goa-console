@@ -12,7 +12,7 @@ Qty,Value,Footprint,MPN,References
 1,2.2u film 63V,Capacitor_THT:C_Rect_L7.2mm_W8.5mm_P5.00mm_FKP2_FKP2_MKS2_MKP2,WIMA MKS2 2.2uF 63V,C48
 2,33p C0G,Capacitor_SMD:C_0805_2012Metric,,C73 C76
 1,330n,Capacitor_SMD:C_0805_2012Metric,,C90
-1,Ground bar M4 (star point),MountingHole:MountingHole_4.3mm_M4_Pad,Keystone 1287-ST,CN1
+1,Ground bar M4 (star point),MountingHole:MountingHole_4.3mm_M4_Pad,,CN1
 1,Bus L wing 2x17,Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical,,CN2
 1,Bus R wing 2x17,Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical,,CN3
 1,Remote meter,Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical,,CN4

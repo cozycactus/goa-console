@@ -137,4 +137,5 @@ NOTES = ((134, 'AUX 5 | AUX 6 || C/ROOM'), (156, 'AFL 5 | AFL 6 || PHONES | SOLO
 place(os.path.join(PROJ, 'master.net'), os.path.join(PROJ, 'master.kicad_pcb'),
       dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
            grounds=('GNDA', 'GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'), silk_text_off=('K',), hole_value='M3 standoff 11.5 mm',
-           attach=True, keepout=[(0, 186, EL, 299), (ER, 186, W, 299)]))
+           attach=True, keepout=[(0, 186, EL, 299), (ER, 186, W, 299),
+                                 (21.0, 202.2, 58.0, 220.0, 'B')]))     # J1's wire entries (its +y face): room for the wires

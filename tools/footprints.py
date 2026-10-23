@@ -4,7 +4,9 @@ before ordering boards."""
 import os, uuid
 
 OUT = os.path.join(os.path.dirname(__file__), '..', 'goa-console.pretty')
-U = lambda: str(uuid.uuid4())
+_n = [0]
+def U():                          # deterministic, so regenerating changes only what changed
+    _n[0] += 1; return str(uuid.uuid5(uuid.NAMESPACE_URL, f'goa-console.pretty/{_n[0]}'))
 
 def rect(layer, x0, y0, x1, y1, w):
     return (f'\t(fp_rect (start {x0:.3f} {y0:.3f}) (end {x1:.3f} {y1:.3f}) (stroke (width {w}) (type solid)) '
@@ -28,7 +30,9 @@ def footprint(name, descr, tags, body, ref_xy, val_xy):
          f'\t(descr "{descr}")\n\t(tags "{tags}")\n')
     s += text('Reference', 'REF**', *ref_xy, 'F.SilkS') + text('Value', name, *val_xy, 'F.Fab')
     s += text('Footprint', '', 0, 0, 'F.Fab', hide=True) + text('Datasheet', '', 0, 0, 'F.Fab', hide=True)
-    s += '\t(attr through_hole)\n' + body + ')\n'
+    s += '\t(attr through_hole)\n' + body
+    s += (f'\t(model "${{KIPRJMOD}}/goa-console.3dshapes/{name}.wrl"\n\t\t(offset (xyz 0 0 0))\n\t\t(scale (xyz 1 1 1))\n'
+          '\t\t(rotate (xyz 0 0 0))\n\t)\n)\n')       # tools/models3d/check.py --wrl writes it
     open(os.path.join(OUT, name + '.kicad_mod'), 'w').write(s)
 
 # ---- Bourns PTB0143-2010BPA103: 100 mm travel, single gang, PC pins down, A10K
@@ -69,7 +73,7 @@ footprint('Potentiometer_Bourns_PTB0144_Slide_100mm_Dual',
 
 # ---- Bourns MF-RX160/72 radial PTC (72 V, 1.6 A hold, 3.2 A trip, 40 A max): master wing fuses.
 # https://www.bourns.com/docs/product-datasheets/mf-rx72.pdf, product dimensions: A 13.94 max (width),
-# B 19.94 max (height), C 5.1 +-0.7 lead spacing, E 3.1 max thick, style 2 (kinked), lead 0.81 dia.
+# B 19.94 max (height), C 5.1 +-0.7 lead spacing, E 3.1 max thick, style 2 (straight leads; kinked is -14), lead 0.81 dia.
 # 72 V because a +V-to-−V short on a wing puts up to 34 V across one PTC (MF-R160 is 30 V).
 b = pad(1, 0, 0, 2.0, 1.1, 'rect') + pad(2, 5.08, 0, 2.0, 1.1)
 b += rect('F.Fab', 2.54 - 6.97, -1.55, 2.54 + 6.97, 1.55, 0.1)

@@ -441,7 +441,7 @@ the panel's top edge), placement only:
 | Board | File | Size | Depth under the panel | Parts |
 |-------|------|------|-----------------------|-------|
 | Main | `channel_strip_v4.kicad_pcb` | 38 × 400 mm, y 44–444 | 11.5 mm | 227 + 6 M3 holes (11.5 mm standoffs) |
-| Jack | `jack_board.kicad_pcb` | 38 × 43 mm, y 0–43 | ≈ 24 mm (the NJ6FD-V body) | 6 + 2 M3 holes |
+| Jack | `jack_board.kicad_pcb` | 38 × 43 mm, y 0–43 | 24.0 mm (the NJ6FD-V body) | 6 + 2 M3 holes |
 
 DRC with `--schematic-parity`, both boards: 0 parity issues. The main board has no violations at all;
 the jack board has only 6 hole-clearance + 6 solder-mask items inside KiCad's NJ6FD-V footprint (the
@@ -456,9 +456,10 @@ and CN1's pins. `channel_strip.kicad_pcb` is the old v3.1 placement, kept unchan
 ### 16.4 Jack board and link
 
 The three jacks, plus the input RF caps C8/C9 at J1, are on a separate 38 × 43 mm board
-(`jack_board.kicad_sch`, written by `tools/gen.py` with the main schematic). It sits about 24 mm
-under the panel, set by the jack body: confirm against Neutrik's drawing or a sample before ordering.
-The jack caps hold it on the panel, plus two M3 standoffs of the jack-body height. CN5 (jack board) and
+(`jack_board.kicad_sch`, written by `tools/gen.py` with the main schematic). It sits 24.0 mm
+under the panel, set by the jack body (Neutrik NJ*FD-V drawing: flange front 24.00 above the PCB; see
+`panel_parts_drawings.md`). The jack caps hold it on the panel, plus two M3 female-female standoffs of exactly
+24.0 mm (the jacks are rigid spacers). CN5 (jack board) and
 CN3 (main board) are both on the bottom side, so the ribbon runs behind both boards. CN3 sits
 between the pot columns at y ≈ 77; the ribbon is about 80 mm long.
 
@@ -495,8 +496,10 @@ sleeves go to AGND only through the ribbon. CN3/CN5: Würth 61201021621 2 × 5 b
 
 **Open:** pan dual B10K with centre detent (RV8): none found from Alpha; the stocked B10K dual has no detent,
 ALPS RK097121TD57 has one but a different footprint. Supply current ~85 / 72 mA per strip (master spec §27);
-NJ6FD-V body height (sets the jack-board depth and standoffs). PVA2 sense: settled from the datasheet,
-with an assembly rule (§16.1).
+PVA2 sense: settled from the datasheet, with an assembly rule (§16.1). Jack-board depth: 24.0 mm from Neutrik's
+drawings (2026-10-23). The panel parts checked against their drawings, with what still needs a sample (PTB lever
+style and pin side, PV cap clearance in the Ø8.0 hole, Alpha bushing thread and tab slots, 1/4" knobs on every pot):
+`panel_parts_drawings.md`.
 
 *Document version 4.0 — October 2026*
 *Sources: Soundcraft Delta ED3344A/B/C, ED3151, ED2911A/B, ED2915A, ED2780*

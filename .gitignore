@@ -8,3 +8,5 @@ render/*.blend
 render/*.blend1
 render/*.png
 render/glb/
+render/parts/
+render/kicad/

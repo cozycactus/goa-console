@@ -94,12 +94,12 @@ Options:
 | C | 3.5 mm TRS jacks (Thonkiconn class) directly on the main board | Jack footprints only | Eurorack-native and buildable at the 11.5 mm gap (height to confirm), but 1/4" synth outputs then need adapters |
 
 Recommendation: **A**. Ruslan chose A on 2026-10-22, and it's implemented: `jack_board.kicad_sch` and
-`jack_board.kicad_pcb`, link pinout in strip spec §16.4. Confirm the 24 mm figure with Neutrik's
-DXF/STEP, or with a sample, before ordering: it sets the jack-board standoffs.
+`jack_board.kicad_pcb`, link pinout in strip spec §16.4. The 24 mm figure is confirmed by Neutrik's NJ*FD-V
+drawing (flange front 24.00 above the PCB, `panel_parts_drawings.md`): 24.0 mm standoffs.
 
 ## Open checks
 
-1. NJ6FD-V body height from Neutrik's drawing or a sample (sets the jack-board depth and standoffs).
+1. NJ6FD-V body height: 24.0 mm from Neutrik's NJ*FD-V drawing (2026-10-23, `panel_parts_drawings.md`).
 2. Knob diameter ≤ 14 mm in the two-column rows.
 3. Routing LEDs: no vertical 4PDT from a known maker (the C&K PHB4UEE1A and Alps SPUN/SPUJ are
    right-angle / horizontal-mount). Ruslan chose option b on 2026-10-22: the PVA2 drives a DG413 CMOS

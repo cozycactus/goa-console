@@ -9103,9 +9103,6 @@
     (property "Datasheet" "" (id 3) (at 134.62 50.8 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "MPN" "Keystone 1287-ST" (id 4) (at 134.62 50.8 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
     (pin "1" (uuid 003f2cd1-3e7d-51cb-a2fa-36d1c0ca2ada))
     (instances
       (project "master"

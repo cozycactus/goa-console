@@ -13,7 +13,7 @@ place(net, out, layout) builds a board from a KiCad netlist and a layout:
          summing net at that input pin, output networks at the output pin, and parts joined only to such a part next
          to it. Each IC is placed with room around it and followed at once by its parts.
   limits  (decoupling, input reach) in mm for the placement report (default 5, 6).
-  keepout  [(x0, y0, x1, y1)] areas kept free of parts on both sides.
+  keepout  [(x0, y0, x1, y1)] areas kept free of parts on both sides, or [(x0, y0, x1, y1, side)] on one side.
 After placing, the report gives each decoupler's distance to its supply pin and, per local high-impedance input net
 (an IC input not driven by an output directly or through a coupling cap, not a connector line or a reference shared
 by three or more inputs), the farthest R/C/L/D/FB/JP pad from the pin.
@@ -114,6 +114,9 @@ def place(NET, OUT, L):
         fp = pcbnew.FootprintLoad(path, name)
         if fp is None: raise SystemExit(f'{ref}: footprint {p["fp"]} not found')
         fp.SetFPID(pcbnew.LIB_ID(lib, name))
+        if os.path.exists(os.path.join(PROJ, 'goa-console.3dshapes', name + '.wrl')):     # our model (tools/models3d)
+            fp.Models().clear(); m = pcbnew.FP_3DMODEL()                                     # for a part KiCad has none for
+            m.m_Filename = '${KIPRJMOD}/goa-console.3dshapes/' + name + '.wrl'; fp.Models().push_back(m)
         fp.SetReference(ref); fp.SetValue(p['value'])
         if p['uuid']: fp.SetPath(pcbnew.KIID_PATH('/' + p['uuid']))
         if p['mpn']:
@@ -175,8 +178,9 @@ def place(NET, OUT, L):
         fp.SetOrientationDegrees(rot); fp.SetPosition(pcbnew.VECTOR2I_MM(x, y))
         if side == 'B': flip(fp)
         register(fp, side)
-    for k in L.get('keepout', ()):                      # areas no part may use, either side (e.g. supply channels)
-        occupy('F', k); occupy('B', k); edge_rect(*k, pcbnew.Cmts_User, 0.05)
+    for k in L.get('keepout', ()):                      # areas no part may use (supply channels, wire entries)
+        for sd in (k[4:] or ('F', 'B')): occupy(sd, k[:4])
+        edge_rect(*k[:4], pcbnew.Cmts_User, 0.05)
     for i, (x, y) in enumerate(HOLES, 1):
         h = pcbnew.FootprintLoad(os.path.join(KLIB, 'MountingHole.pretty'), 'MountingHole_3.2mm_M3')
         h.SetFPID(pcbnew.LIB_ID('MountingHole', 'MountingHole_3.2mm_M3')); h.SetReference(f'H{i}'); h.SetValue(HOLE_VALUE)
