@@ -36,8 +36,8 @@ netlists and simulated in ngspice.
 
 <table>
 <tr>
-<td><img src="docs/img/strip_panel.jpg" width="300" alt="Strip panel with Delta-style print"></td>
-<td><img src="docs/img/delta_d201_top.png" width="260" alt="Soundcraft 200 Delta D201 input drawing"></td>
+<td><img src="docs/img/strip_panel.jpg" width="280" alt="Strip panel with Delta-style print"></td>
+<td><img src="docs/img/delta_d201_top.png" width="300" alt="Soundcraft 200 Delta D201 input drawing"></td>
 </tr>
 <tr>
 <td><em>Strip panel print in the Delta's style</em></td>
@@ -124,14 +124,17 @@ The schematics are generated: edit the generator, then regenerate and verify eve
 strip:
 
 ```bash
-.venv/bin/python tools/gen.py channel_strip.kicad_sch            # also writes jack_board.kicad_sch
+# writes channel_strip.kicad_sch and jack_board.kicad_sch
+.venv/bin/python tools/gen.py channel_strip.kicad_sch
 for s in channel_strip jack_board; do
   $KC sch export netlist -o $s.net $s.kicad_sch
   .venv/bin/python tools/verify.py $s.net ${s}_intended.json
-  python3 tools/check_fp.py $s.net                                # symbol pins vs footprint pads
+  # symbol pins vs footprint pads
+  python3 tools/check_fp.py $s.net
   $KC sch erc --severity-all $s.kicad_sch
 done
-python3 tools/sim_netlist.py channel_strip.net jack_board.net     # strip only: both netlists through the ribbon
+# strip only: both netlists joined by the ribbon, simulated in ngspice
+python3 tools/sim_netlist.py channel_strip.net jack_board.net
 ```
 
 The other generators work the same way:
@@ -151,10 +154,13 @@ compares the mid-band tunings for a given pot value.
 Placement only. Each script refuses to overwrite a board that already has routing:
 
 ```bash
-tools/build_strip_pcb.sh                     # strip main board + jack board
-$KPY tools/place_group.py                    # group + its jack board
-$KPY tools/place_master.py                   # master + its jack board (~3 min)
-$KPY tools/place_jig.py; $KPY tools/place_psu.py
+# strip main board + jack board
+tools/build_strip_pcb.sh
+# group, master (~3 min) and their jack boards
+$KPY tools/place_group.py
+$KPY tools/place_master.py
+$KPY tools/place_jig.py
+$KPY tools/place_psu.py
 ```
 
 Each run prints a placement report: decoupler-to-supply-pin distances and the reach of high-impedance input
@@ -163,9 +169,15 @@ networks. Parity DRC needs the board next to a schematic of the same name; see `
 Part models and the 3D console:
 
 ```bash
-python3 tools/models3d/check.py --wrl --kicad          # part models vs footprints; writes goa-console.3dshapes
-$KPY tools/export_3d.py channel_strip_v4.kicad_pcb jack_board.kicad_pcb > render/strip.json   # likewise group, master
-/Applications/Blender.app/Contents/MacOS/Blender -b --factory-startup --python tools/console_3d.py -- render
+# part models vs footprints; writes goa-console.3dshapes
+python3 tools/models3d/check.py --wrl --kicad
+# placed boards to JSON, one file per module
+$KPY tools/export_3d.py channel_strip_v4.kicad_pcb jack_board.kicad_pcb > render/strip.json
+$KPY tools/export_3d.py group.kicad_pcb group_jack_board.kicad_pcb > render/group.json
+$KPY tools/export_3d.py master.kicad_pcb master_jack_board.kicad_pcb > render/master.json
+# builds render/goa_console.blend and renders the views
+BLENDER=/Applications/Blender.app/Contents/MacOS/Blender
+$BLENDER -b --factory-startup --python tools/console_3d.py -- render
 ```
 
 ## Conventions
