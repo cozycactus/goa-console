@@ -1,8 +1,8 @@
-# Test Jig — Specification, v0.4 (draft)
+# Test Jig — Specification, v0.5 (draft)
 ## Bus and grounding tests before ordering 24 strips
 
 Implements `console_architecture.md` section 9 with the designs as they now stand
-(strip spec v4.0 with its jack board, master spec v0.7). Goal: confirm the Delta-style unbalanced bus with ground
+(strip spec v4.2 with its jack board, master spec v0.8). Goal: confirm the Delta-style unbalanced bus with ground
 cancel (config **D**) against the same bus without it (config **A**), and measure noise, hum,
 crosstalk, PSRR, distortion and switching clicks on real hardware.
 
@@ -12,7 +12,7 @@ crosstalk, PSRR, distortion and switching clicks on real hardware.
 
 | Item | Qty | What it is |
 |------|-----|------------|
-| Channel strip | 4 | Real strip main boards (`channel_strip.kicad_sch`) with their jack boards (`jack_board.kicad_sch`) on the 10-way link, fully populated. The jig tests the boards that will be built, not stand-ins. Panels optional: the controls work without them. |
+| Channel strip | 4 | Real strip main boards (`channel_strip.kicad_sch`) with their jack boards (`jack_board.kicad_sch`) on the 10-way link, fully populated. The jig tests the boards that will be built, not stand-ins. Panels optional: the controls work without them. Two are built as the OPA1656 variant for the A/B in 4.2 (U1, U5, U6, U7, U12, U13, U14 = TI OPA1656ID; 7 parts per strip). |
 | Master stub | 1 | Bus side of the master only (section 2). |
 | Load board | 1 | Dummy channels that raise the bus noise gain to the full 24-channel value (section 3). |
 | Ribbon | 2 | 34-way, 28 AWG flat cable with 6 crimped IDC sockets (4 strips, master stub, load board): one 0.6 m (a 12-strip wing, ~0.5 m, plus slack), one 3 m (worst case and the hum-pickup tests). |
@@ -120,6 +120,30 @@ Targets from `tools/sim_netlist.py` (the exported netlists, 30 checks) and `sim/
 | OL LED | lights at about +18 dBu at PRE |
 | Supply current per strip (typical) | about 85 mA +V, 72 mA −V; more than 110 / 90 mA means a fault |
 
+### 4.2 OPA1656 A/B (`strip_noise_proposal.md`, N1)
+
+Two strips as built (**A**, OPA1612 throughout) against two with TI OPA1656ID in U1, U5, U6, U7, U12, U13 and U14
+(**B**; U2, U3 and U8 stay OPA1612).
+- **Why:** the simulation gives B 3.2 dB less PRE noise with EQ in, from removing the OPA1612's current noise in the EQ
+  networks. It can settle neither B's stability (TI's OPA1656 model doesn't solve in the strip deck) nor its
+  CMOS-input distortion. This A/B decides N1.
+- **Setup:** measure every strip at the direct out (J5 tip, 10 kΩ load). Set DIR on, PRE 5-6 latched, aux 6 at the
+  top, so J5 carries PRE through U8.
+- **Common settings:** gain at the detent, EQ in with every band at its centre detent, HPF in (SW11), fader at "0",
+  ON, the strip alone on the bus.
+- **Analyser floor:** record its loopback residual first. A result within 3 dB of it means "at the floor", not a
+  difference.
+
+| # | Test | Method | Target |
+|---|------|--------|--------|
+| A1 | Noise | Input terminated in 50 Ω; 20 Hz–20 kHz unweighted and A-weighted, EQ in and EQ out (SW12), gain at the detent and at +15 dB. Same strips, same jack, back to back. | B quieter than A by about 3 dB with EQ in and about 2 dB with EQ out (sim at PRE: A −92.9 / −102.6 dBu, B −96.1 / −104.6 dBu; the direct-out buffer adds a little to both). |
+| A2 | THD+N | 1 kHz, and a 20 Hz–20 kHz sweep, at +4 dBu and +20 dBu in (22 kHz bandwidth; 80 kHz as well if the analyser has it). Repeat at +20 dBu with every band at full boost and full cut. | B within 3 dB of A at each level and frequency, or both at the analyser floor. B rising with level or towards 20 kHz where A doesn't is the CMOS input-capacitance signature: reject B, or keep OPA1612 in the exposed units (U1A, U5A, U6A/B, U7A, U12A, U13B; that means splitting packages). |
+| A3 | IMD | SMPTE (60 Hz + 7 kHz, 4:1) and CCIF (19 + 20 kHz, 1:1) at +4 dBu and +20 dBu peak-equivalent, HPF in. | B within 3 dB of A, or both at the floor. |
+| A4 | Stability | 100 MHz scope, short ground spring, at every op-amp output: U1A/B, U2A/B, U3A/B, U5A/B, U6A/B, U7A/B, U8A/B, U12A/B, U13A/B, U14A/B. Idle; with a 10 kHz square at +10 dBu; with 470 pF on the insert send and the direct out; with EQ bands, pan and fader at both ends. | No oscillation or ringing at any output, in A or B; step overshoot < 10 %. A strip-review stability cap missing its job on B shows up here: the caps were chosen with TI's OPA1612 model. |
+
+Result: N1 is adopted as a strip revision if B passes A1–A4. If B is quieter but fails A2/A3, the exposed units stay
+OPA1612 and only the inverting and integrator stages move, which takes a package split.
+
 ## 5. Decisions the jig settles
 
 - **Ground cancel (D) vs plain (A).** If D passes tests 2 and 4, it stays as decided and the
@@ -128,6 +152,8 @@ Targets from `tools/sim_netlist.py` (the exported netlists, 30 checks) and `sim/
 - **Master-end tie.** Test 3 confirms the "no tie" decision against hardware.
 - **Power on the ribbon.** Test 6 decides between ribbon power and separate wiring.
 - **PVA2 orientation, fader footprint, panel height, jack-board depth** — from the strips themselves.
+- **OPA1656 in the strip's EQ, KHN and receiver (N1).** Section 4.2: adopt if B is quieter and holds THD+N, IMD and
+  stability.
 - **Ribbon power at the v4.0 strip current** (about 85 mA per strip on +V): test 6 at N = 20, plus the
   measured drop along the 0.6 m ribbon with the load board drawing a 12-strip wing's current.
 

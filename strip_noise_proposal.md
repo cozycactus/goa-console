@@ -161,6 +161,6 @@ these levels (the parts' datasheet THD+N is in the −130s dB), so this can't be
   - `gen.py` part and MPN;
   - regenerate, verify, re-run `sim_netlist.py` and `sim_console.py`;
   - spec §17 noise figures.
-- [ ] **N1a** (now, no design change) Add the A/B to `test_jig_spec.md`, and the strip noise with current noise to
-  spec §17 (already noted there).
+- [x] **N1a** (done 2026-10-24) The A/B is `test_jig_spec.md` 4.2 (tests A1–A4); the strip noise with current noise
+  is in spec §4.
 - [ ] **N2** (not recommended) Scale the EQ network 0.47×, for a further 1.2 dB.
