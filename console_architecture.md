@@ -182,7 +182,8 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
 ### 3.2 Distribution (Delta method)
 - ±V on the ribbon: two conductors per rail (pins 30–33).
 - Heavy audio ground does **not** use the ribbon: each strip has a ¼" spade terminal
-  (Delta CN4) wired to the ground bus bar.
+  (Delta CN4) wired to the ground bus bar: one 14 AWG wire per module, tied under the motherloom to its wing's copper
+  bar under the master's star stud (`ground_study.md` G1, master spec §26).
 - Local decoupling on every strip: 10 Ω series + 220 µF/25 V + 100 nF per rail.
 - Load (strip v4.0, 2026-10-22): about 85 mA (+V) and 72 mA (−V) per strip, typical: 10 × OPA1612
   at 3.6 mA per channel, the DG413 logic supply, and the panel LEDs (ON, EQ, routing; 3.1 mA each).
@@ -219,6 +220,11 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
 - All three meet only at the star point at the PSU / main ground bar.
 - Use **isolated jacks** (e.g. Neutrik NJ6FD-V or other plastic-bodied types) so jack sleeves
   don't short audio ground to the metal panel at every jack.
+- Balanced-input jacks (strip line in and direct out, group returns, master EXT) have their sleeves on **chassis**
+  at the jack board, bonded through plated standoffs to the panel (AES48, as the XLRs' pin 1); inserts and phones keep
+  audio ground (`ground_study.md` G2, 2026-10-25). Cable-shield currents from earthed synths then never flow through an
+  audio ground. The strip's receiver has input followers (1 MΩ common mode, G3) so a synth's output impedance doesn't
+  spoil its rejection; use pseudo-balanced TRS cables from synths.
 - Ground-cancel line (pin 26) per section 2.2.
 
 ---

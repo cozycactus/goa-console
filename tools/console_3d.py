@@ -60,7 +60,8 @@ M = dict(panel=mat('panel anodised', (0.03, 0.032, 0.036), metal=0.3, rough=0.45
          wood=mat('walnut', (0.18, 0.09, 0.045), rough=0.55), hdr=mat('base black', (0.02, 0.02, 0.02), rough=0.6),
          floor=mat('desk', (0.035, 0.035, 0.038), rough=0.7),
          substrate=mat('FR4 edge', (0.42, 0.45, 0.29), rough=0.8), mask=mat('solder mask green', (0.03, 0.2, 0.09), rough=0.3),
-         silk=mat('silkscreen', (0.92, 0.92, 0.9), rough=0.8), pad=mat('HASL', (0.76, 0.76, 0.75), metal=1, rough=0.35))
+         silk=mat('silkscreen', (0.92, 0.92, 0.9), rough=0.8), pad=mat('HASL', (0.76, 0.76, 0.75), metal=1, rough=0.35),
+         copper=mat('copper', (0.93, 0.47, 0.3), metal=1, rough=0.3))
 CAP = {'red': mat('cap red', (0.7, 0.04, 0.03), rough=0.35), 'blue': mat('cap blue', (0.05, 0.2, 0.7), rough=0.35),
        'dblue': mat('cap dark blue', (0.03, 0.06, 0.25), rough=0.35), 'yellow': mat('cap yellow', (0.85, 0.65, 0.05), rough=0.35),
        'green': mat('cap green', (0.05, 0.5, 0.12), rough=0.35), 'white': mat('cap white', (0.85, 0.85, 0.82), rough=0.35),
@@ -624,29 +625,42 @@ for item in order:
 motherloom('motherloom L', sorted(q for q in bus if q[0] < master_x + PITCH))     # master CN2 ends the left wing,
 motherloom('motherloom R', sorted(q for q in bus if q[0] >= master_x + PITCH))    # CN3 starts the right one
 def ground_harness(x_of):
-    """The heavy audio ground (master spec 26, architecture 3.4): one yellow wire per module from its 6.3 mm spade
-    (a receptacle on the tab) down to the tub floor and along it, radially (no daisy chain), to a ring lug on the
-    master's M4 star stud under the master board. The PSU 0 V reaches the same star through J1 and the net ties;
-    GCANCEL (ribbon pin 26) never goes to the bar. x_of: [(module key, its x)]."""
+    """The heavy audio ground (master spec 26, architecture 3.4; route and gauge ground_study.md G1): one 14 AWG wire per
+    module from its 6.3 mm spade (a receptacle on the tab), radially (no daisy chain). Each wire drops to just under
+    its wing's motherloom and runs tied under it to the master, so its loop with the ribbon's ground conductors stays
+    a few cm^2; down the master's free edge strip (x 0.3-4.3 / 74.3-78.3) to below the bottom-side parts, and onto a
+    tab of its wing's copper bar (two rows of seven 6.3 mm tabs) bolted under the M4 star stud on a threaded spacer.
+    The PSU 0 V reaches the same star through J1 and the net ties; GCANCEL (ribbon pin 26) never goes to the bars.
+    x_of: [(module key, its x)]."""
     hc = coll('ground harness', console)
     mx = next(x for k, x in x_of if k == 'master'); sx, sy, szb = STAR['master']; sx += mx
-    tabs = [(x + tx, ty, tz) for k, x in x_of if k != 'master' for tx, ty, tz in SPADES.get(k, ())]
-    g = Geo([M['steel'], M['tin']])
-    g.cyl(sx, sy, szb - 4.4 - 9.0, szb - 4.4, 2.0, 0, 16)                  # the stud's thread on below the head
-    zf = TUB + 4.0
-    for k, (tx, ty, tz) in enumerate(sorted(tabs)):
-        g.box(tx - 3.6, ty - 4.5, tz - 3.0, tx + 3.6, ty + 4.5, tz + 4.0, 1)        # receptacle on the tab
-        zl = szb - 5.0 - 0.35 * (k % 24); a = 2 * math.pi * k / max(1, len(tabs))
-        lx, ly = sx + 2.6 * math.cos(a), sy + 2.6 * math.sin(a)
-        g.cyl(sx, sy, zl - 0.15, zl + 0.15, 4.2, 1, 20)                      # its ring lug on the stud
-        side = -1 if tx < sx else 1
-        yb = sy + (k % 12 - 6) * 0.9                                          # the bundle, wires side by side
-        path = [(tx, ty, tz - 3.0), (tx, ty, zf + 6), (tx, ty, zf), (tx, yb, zf), (sx + side * 25, yb, zf),
-                (sx + side * 8, ly, zf), (lx + side * 3, ly, zl - 6), (lx, ly, zl)]
-        me = cable.round_cable(cable.smooth(path, 6), 1.1, 'wire_yellow', 10)
-        o = bpy.data.objects.new(f'ground wire {k + 1}', to_mesh(me, f'ground wire {k + 1}')); hc.objects.link(o); o.parent = root
-    o = bpy.data.objects.new('star stud lugs', g.mesh('star stud lugs')); hc.objects.link(o); o.parent = root
-    return len(tabs)
+    yr, zr = BUS['strip'][0][1], BUS['strip'][0][2]           # motherloom: header y, ribbon z at the sockets
+    zw, zbar, R = zr - 8.0, -26.0, 1.45                       # bundle under the ribbon's sag, bars, 14 AWG insulated
+    g = Geo([M['steel'], M['tin'], M['copper']])
+    g.cyl(sx, sy, zbar, szb - 4.4, 2.0, 0, 16)                # M4 thread + spacer down to the bars
+    g.cyl(sx, sy, zbar + 2.0, zbar + 14.0, 3.5, 0, 6)         # hex spacer
+    arms = {'L': (sx - 18.0, sx - 8.0), 'R': (sx + 8.0, sx + 18.0)}
+    g.box(sx - 18.0, sy - 6.0, zbar - 2.0, sx + 18.0, sy + 6.0, zbar, 2)     # the bars' common foot under the stud
+    for x0, x1 in arms.values(): g.box(x0, sy - 6.0, zbar - 2.0, x1, sy + 66.0, zbar, 2)
+    n = 0
+    for wing, side in (('L', -1), ('R', 1)):
+        tabs = sorted(((x + tx, ty, tz) for k, x in x_of if k != 'master' for tx, ty, tz in SPADES.get(k, ())
+                       if (x + tx < sx) == (side < 0)), key=lambda q: abs(q[0] - sx))
+        xe = mx + (0.9 if side < 0 else 77.7)                 # the master's edge strip
+        for k, (tx, ty, tz) in enumerate(tabs):
+            g.box(tx - 3.6, ty - 4.5, tz - 3.0, tx + 3.6, ty + 4.5, tz + 4.0, 1)        # receptacle on the spade tab
+            ax = arms[wing][1 if k % 2 else 0]; ay = sy + 4.0 + 9.0 * (k // 2)       # its tab on the bar
+            g.box(ax - 0.4, ay - 3.15, zbar - 10.0, ax + 0.4, ay + 3.15, zbar - 2.0, 1)
+            g.box(ax - 1.8, ay - 3.8, zbar - 14.0, ax + 1.8, ay + 3.8, zbar - 7.0, 1)   # its receptacle
+            ys = yr - 19.0 + 2.9 * k                                                # its place under the ribbon
+            xk, zk = xe - side * 2.4 * (k % 2), -4.0 - 2.9 * (k // 2)              # its place in the edge bundle
+            out = ax + 4.0 * (1 if (k % 2) == (side > 0) else -1)
+            path = [(tx, ty, tz - 3.0), (tx, ty, zw), (tx, ys, zw), (xk - side * 6.0, ys, zw), (xk, ys - 8.0, zk),
+                    (xk, ay + 6.0, zk), (xk, ay, zbar - 16.0), (out, ay, zbar - 16.0), (ax, ay, zbar - 14.0)]
+            me = cable.round_cable(cable.smooth(path, 6), R, 'wire_yellow', 10)
+            n += 1; o = bpy.data.objects.new(f'ground wire {n}', to_mesh(me, f'ground wire {n}')); hc.objects.link(o); o.parent = root
+    o = bpy.data.objects.new('star bars', g.mesh('star bars')); hc.objects.link(o); o.parent = root
+    return n
 def box(name, x0, y0, z0, x1, y1, z1, m, c):
     g = Geo([m]); g.box(x0, y0, z0, x1, y1, z1, 0)
     o = bpy.data.objects.new(name, g.mesh(name)); c.objects.link(o); return o

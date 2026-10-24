@@ -311,4 +311,4 @@ build(OUT, 'master', 'Master section - goa console',
       pages=dict(paper='A4', folder='master_sheets'))      # A4 sub-sheets under a root sheet (prints on A4)
 
 jack_board(os.path.join(os.path.dirname(os.path.abspath(OUT)), 'master_jack_board.kicad_sch'), 'master_jack_board',
-           'Master module jack board - goa console (main XLRs, inserts, EXT, C/Room, phones, aux 5-6)', JACKS, NL, LINK)
+           'Master module jack board - goa console (main XLRs, inserts, EXT, C/Room, phones, aux 5-6)', JACKS, NL, LINK, holes=3)

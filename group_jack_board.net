@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/group_jack_board.kicad_sch")
-		(date "2026-10-24T05:13:51")
+		(date "2026-10-25T01:02:47")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -151,6 +151,114 @@
 						)
 						(pin
 							(num "16")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "H1")
+			(value "M3 standoff to panel")
+			(footprint "MountingHole:MountingHole_3.2mm_M3_Pad")
+			(fields
+				(field
+					(name "Footprint") "MountingHole:MountingHole_3.2mm_M3_Pad")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Mechanical")
+				(part "MountingHole_Pad")
+				(description "Mounting Hole with connection")
+			)
+			(property
+				(name "Sheetname")
+				(value "group_jack_board")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group_jack_board.kicad_sch")
+			)
+			(property
+				(name "exclude_from_bom")
+			)
+			(property
+				(name "ki_keywords")
+				(value "mounting hole")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "MountingHole*Pad*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "f6c8fbb1-e474-5271-ac1d-37778eff3b7c")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "H2")
+			(value "M3 standoff to panel")
+			(footprint "MountingHole:MountingHole_3.2mm_M3_Pad")
+			(fields
+				(field
+					(name "Footprint") "MountingHole:MountingHole_3.2mm_M3_Pad")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Mechanical")
+				(part "MountingHole_Pad")
+				(description "Mounting Hole with connection")
+			)
+			(property
+				(name "Sheetname")
+				(value "group_jack_board")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group_jack_board.kicad_sch")
+			)
+			(property
+				(name "exclude_from_bom")
+			)
+			(property
+				(name "ki_keywords")
+				(value "mounting hole")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "MountingHole*Pad*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "095b488a-d6d5-5627-b99f-6a1b60ead18c")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
 						)
 					)
 				)
@@ -685,6 +793,35 @@
 				)
 			)
 		)
+		(libpart
+			(lib "Mechanical")
+			(part "MountingHole_Pad")
+			(description "Mounting Hole with connection")
+			(footprints
+				(fp "MountingHole*Pad*")
+			)
+			(fields
+				(field
+					(name "Reference") "H")
+				(field
+					(name "Value") "MountingHole_Pad")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Mounting Hole with connection")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "1")
+					(type "input")
+				)
+			)
+		)
 	)
 	(libraries
 		(library
@@ -694,6 +831,10 @@
 		(library
 			(logical "Connector_Generic")
 			(uri "${KICAD10_SYMBOL_DIR}/Connector_Generic.kicad_sym")
+		)
+		(library
+			(logical "Mechanical")
+			(uri "${KICAD10_SYMBOL_DIR}/Mechanical.kicad_sym")
 		)
 	)
 	(nets
@@ -731,6 +872,33 @@
 		)
 		(net
 			(code "3")
+			(name "/CHASSIS")
+			(class "Default")
+			(node
+				(ref "H1")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "input")
+			)
+			(node
+				(ref "H2")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "input")
+			)
+			(node
+				(ref "J4")
+				(pin "S")
+				(pintype "passive")
+			)
+			(node
+				(ref "J5")
+				(pin "S")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "4")
 			(name "/Return_LR")
 			(class "Default")
 			(node
@@ -751,7 +919,7 @@
 			)
 		)
 		(net
-			(code "4")
+			(code "5")
 			(name "/Return_LT")
 			(class "Default")
 			(node
@@ -772,7 +940,7 @@
 			)
 		)
 		(net
-			(code "5")
+			(code "6")
 			(name "/Return_RR")
 			(class "Default")
 			(node
@@ -788,7 +956,7 @@
 			)
 		)
 		(net
-			(code "6")
+			(code "7")
 			(name "/Return_RT")
 			(class "Default")
 			(node
@@ -804,7 +972,7 @@
 			)
 		)
 		(net
-			(code "7")
+			(code "8")
 			(name "/SUB_RETRAW")
 			(class "Default")
 			(node
@@ -820,7 +988,7 @@
 			)
 		)
 		(net
-			(code "8")
+			(code "9")
 			(name "/SUB_SEND")
 			(class "Default")
 			(node
@@ -841,7 +1009,7 @@
 			)
 		)
 		(net
-			(code "9")
+			(code "10")
 			(name "/S_ON")
 			(class "Default")
 			(node
@@ -857,7 +1025,7 @@
 			)
 		)
 		(net
-			(code "10")
+			(code "11")
 			(name "/S_OP")
 			(class "Default")
 			(node
@@ -873,7 +1041,7 @@
 			)
 		)
 		(net
-			(code "11")
+			(code "12")
 			(name "GNDA")
 			(class "Default")
 			(node
@@ -927,19 +1095,9 @@
 				(pin "S")
 				(pintype "passive")
 			)
-			(node
-				(ref "J4")
-				(pin "S")
-				(pintype "passive")
-			)
-			(node
-				(ref "J5")
-				(pin "S")
-				(pintype "passive")
-			)
 		)
 		(net
-			(code "12")
+			(code "13")
 			(name "unconnected-(J1-PadTN)")
 			(class "Default")
 			(node
@@ -949,7 +1107,7 @@
 			)
 		)
 		(net
-			(code "13")
+			(code "14")
 			(name "unconnected-(J4-PadRN)")
 			(class "Default")
 			(node
@@ -959,7 +1117,7 @@
 			)
 		)
 		(net
-			(code "14")
+			(code "15")
 			(name "unconnected-(J4-PadTN)")
 			(class "Default")
 			(node

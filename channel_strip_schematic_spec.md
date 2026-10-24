@@ -1,4 +1,4 @@
-# Channel Strip — Component-Level Specification v4.3
+# Channel Strip — Component-Level Specification v4.4
 ## Soundcraft Delta Theatre input without the mic stage. One PCB per channel, ×24.
 
 Bus pinout, grounding and power: `console_architecture.md`. Stage-by-stage comparison with the
@@ -7,6 +7,19 @@ Reference designators are those of `tools/gen.py`; Delta drawing numbers are giv
 circuit comes from a Delta sheet (ED3344A/B/C = Theatre input RH board, ED3151 = LH board).
 
 ---
+
+## Changes in v4.4 (2026-10-25, signed off; `ground_study.md` G2, G3)
+
+- **Buffered receiver** (§3, G3): U16 OPA1656, both units as followers in front of SW15, each leg biased by 1M to
+  AGND (R10 on IN_T, new R112 on IN_R) and fed through 220R (R110 / R111: fault current into the input diodes, with
+  C8 / C9 an RF filter). 100R build-outs R113 / R114 at the follower outputs. The common-mode input impedance rises
+  from 20 kΩ to 1 MΩ per leg: against a synth's 1 kΩ output on the tip leg, CMRR 26 → 54 dB (0.1 % parts, worst 5 %).
+- **Jack sleeves on CHASSIS** (§16.4, G2): J1 (line in) and J5 (direct out) sleeves, and C8 / C9, go to a CHASSIS net
+  on the jack board, bonded through the two standoff holes (now plated, H1 / H2 in the schematic) to the panel. Cable
+  shield currents stay out of AGND. J2 (insert, single-ended) keeps its sleeve on AGND. J1's normals (TN / RN) now
+  short tip and ring to AGND with nothing plugged in, so the 1M bias doesn't hiss on an empty input.
+- **Supply:** +1 OPA1656, +7.8 mA per rail typical (10 mA maximum): ~100 / 87 mA per strip (master spec §27).
+- Noise: unchanged at main L (−79.2 dBu, 24 strips; the followers add ~0.1 dB to the receiver's 10K network).
 
 ## Changes in v4.3 (2026-10-24, signed off; `hpf_proposal.md` H1–H3)
 
@@ -117,7 +130,7 @@ unlatched = 2–3 (5–6). The latched throw still needs confirming on a real PV
 −V (pins 30, 31) ── R2 10 Ω ── −VA ── C3 220 µF/25 V ── C4 100 nF ── AGND
 ```
 100 nF at every op-amp: C20/C21 (U1), C22/C23 (U2), C24/C25 (U3), C29/C30 (U5), C31/C32 (U6),
-C33/C34 (U7), C35/C36 (U8). Bus pin 34 (+48 V): not connected.
+C33/C34 (U7), C35/C36 (U8), C63–C68 (U12–U14), C89/C90 (U15), C92/C93 (U16). Bus pin 34 (+48 V): not connected.
 
 ### 2.2 Logic rails (ED3344B)
 ```
@@ -129,7 +142,10 @@ D10 BAT54W keeps it within 0.3 V of V+ at power-down (§13).
 
 ### 2.3 Grounds
 - AGND pour and a separate LGND pour, joined at one point: NT1, beside the spade.
-- CN4: ¼" (6.3 mm) spade to the main ground bar.
+- CN4: ¼" (6.3 mm) spade, one 14 AWG wire tied under the motherloom to its wing's bar at the master's star
+  (`ground_study.md` G1, master spec §26).
+- CHASSIS exists only on the jack board (jack sleeves J1 / J5, C8 / C9, plated standoff holes to the panel); it meets
+  AGND only at the master's star (§16.4).
 - Ground cancel: R5 10 Ω from AGND to bus pin 26 (ED3344C R141).
 - Bus even pins 2–16: AGND.
 
@@ -154,18 +170,25 @@ CN1: one 34-pin shrouded keyed header per strip, crimped IDC socket on a daisy-c
 ## 3. Line input and Ø (U1A, SW15)
 
 ```
-J1 tip  ─┬─ C8 100 pF to AGND (jack board) ── ribbon pin 1 ── IN_T: R10 1M to AGND
-J1 ring ─┴─ C9 100 pF to AGND (jack board) ── ribbon pin 2 ── IN_R
-SW15 pole A: INV_IN  = tip (unlatched) or ring (latched, Ø)   ── R6 10K ── U1A (−) ── R7 10K ── RECV
-SW15 pole B: NINV_IN = ring (unlatched) or tip (latched, Ø)   ── R8 10K ── U1A (+) ── R9 10K ── AGND
+J1 tip  ─┬─ C8 100 pF to CHASSIS (jack board) ── ribbon pin 1 ── IN_T: R10 1M to AGND ── R110 220R ── U16A (+)
+J1 ring ─┴─ C9 100 pF to CHASSIS (jack board) ── ribbon pin 2 ── IN_R: R112 1M to AGND ── R111 220R ── U16B (+)
+U16A, U16B (OPA1656) followers ── R113 / R114 100R ── BUF_T / BUF_R
+SW15 pole A: INV_IN  = BUF_T (unlatched) or BUF_R (latched, Ø)   ── R6 10K ── U1A (−) ── R7 10K ── RECV
+SW15 pole B: NINV_IN = BUF_R (unlatched) or BUF_T (latched, Ø)   ── R8 10K ── U1A (+) ── R9 10K ── AGND
 C7 33 pF across R7; C78 33 pF across R9 (v4.1: balances the bridge, CMRR 86 dB flat, 85° phase margin)
 ```
-- Ground-compensated receiver, unity gain, now **inverting** (tip to the inverting leg) so the
+- Buffered ground-compensated receiver, unity gain, **inverting** (tip to the inverting leg) so the
   inverting gain stage after it restores polarity. R6–R9 0.1 % (or a matched network).
+- v4.4 (`ground_study.md` G3): the followers give each leg 1 MΩ to AGND in common mode (20 kΩ before), so a
+  synth's output impedance no longer unbalances the bridge: CMRR 54 dB against a 1 kΩ source (worst 5 % of 0.1 %
+  parts), 59 dB from the resistors alone. Follower phase margin ≥ 48.5° for any load capacitance (the 100R build-outs;
+  52° unloaded, fitted OPA1656 model, `sim/review/ground/follower_stab.py`). `tools/sim_netlist.py` checks −60 dBu at
+  PRE for 0 dBu common mode through 1 kΩ on the tip leg.
 - For ground compensation with unbalanced synths, use a pseudo-balanced cable (TRS at the
-  console, ring joined to sleeve at the synth end). A plain TS cable works as a normal
-  unbalanced input.
-- Ø swaps the two legs before the 10K resistors.
+  console, ring joined to the synth's ground at the synth end, shield at both ends). A plain TS cable works as a normal
+  unbalanced input, but from an earthed synth it carries the full ground-loop hum (`ground_study.md` §5).
+- With nothing plugged in, J1's normals short both legs to AGND.
+- Ø swaps the two legs between the followers and the 10K resistors.
 
 ---
 
@@ -453,6 +476,7 @@ directly; no debounce RC, because the DG413 inputs have no hysteresis.
 | Ref | Part | A | B |
 |-----|------|---|---|
 | U1 | OPA1612 | receiver | gain stage |
+| U16 | OPA1656 | input follower, tip | input follower, ring |
 | U2 | OPA1612 | fader post-amp | pan buffer L |
 | U3 | OPA1612 | pan buffer R | mute output buffer |
 | U4 | LM393 | OL comparator | spare, tied off |
@@ -481,7 +505,7 @@ BOM rules (v4.1):
   GRM21BR71H105KA12, C0G parts 50 V; no X7R in the signal path (v4.2);
 - film: C13 and C49 WIMA MKS2C042201K00KSSD (2.2 µF PET 63 V, 7.2 × 13 × 7.2, bottom side), C48 150 nF MKS2;
 - bipolar electrolytics: Nichicon MUSE ES 25 V, UES1E330MPM (33 µF; C38 + C91 in parallel) and UES1E101MPM (100 µF);
-- OPA1612AIDR, LM393BIDR (the same comparator as the master), onsemi MMBFJ112;
+- OPA1612AIDR, OPA1656IDR (U16), LM393BIDR (the same comparator as the master), onsemi MMBFJ112;
 - Kingbright WP710A10ID red, WP710A10GD green, WP710A10YD yellow;
 - Panasonic ERJ-P06J100V (R1/R2, 10R at up to 0.126 W) and ERJ-P06J750V (R11/R71, ~0.25 W into a shorted lead);
 - Würth 61203421621 bus header.
@@ -593,13 +617,26 @@ so the 10-way ribbon makes one 90° fold (about 136 mm long, was 90).
 | 7 | GNDA | | 8 | DO_T (J5 tip) |
 | 9 | DO_R (J5 ring) | | 10 | GNDA |
 
-Each pair is adjacent, and ground conductors sit between input, send, return and direct out. The
-sleeves go to AGND only through the ribbon. CN3/CN5: Würth 61201021621 2 × 5 box header. Cable:
+Each pair is adjacent, and ground conductors sit between input, send, return and direct out. Since v4.4
+(`ground_study.md` G2) the balanced jacks' sleeves (J1, J5) and C8 / C9 are on CHASSIS, which leaves the jack board
+only through the two plated standoff holes H1 / H2 (M3 female-female standoffs, metal, to the panel; the panel bonds
+to the frame and the frame to the master's CHASSIS at J1 pin 1 / the star). The insert J2's sleeve stays on AGND
+through the ribbon (send and return are single-ended). Mechanical rule: bare metal (no anodising, or a star washer) at
+each standoff's panel end and wherever a panel meets the frame rails. CN3/CN5: Würth 61201021621 2 × 5 box header. Cable:
 10-way 1.27 mm flat ribbon with two IDC sockets (not on the BOMs).
 
 ---
 
-## 17. Status (v4.3, 2026-10-24)
+## 17. Status (v4.4, 2026-10-25)
+
+v4.4 (`ground_study.md` G2 / G3):
+- **Netlist:** 796 pin entries / 0 mismatches, check_fp 268 / 0, ERC 0; jack board 32 pins / 8 parts, 0 / 0 / ERC 0.
+  `tools/sim_netlist.py` 37/37 (new: common mode at 50 Hz / 1 kHz through 1 kΩ on the tip leg, −60.1 / −58.7 dBu at
+  PRE); `tools/sim_console.py` 32/32 (main L noise −79.2 dBu, unchanged).
+- **Placement:** 268 footprints + 6 holes, 0 DRC violations, 0 parity issues; the jack board's H1 / H2 are plated
+  CHASSIS pads in the old hole positions. U16 sits by SW15 in a zone of its own placed first (77 parts moved). Report:
+  decouplers 3.1 / 10.0 / 12 (C92 / C93 8.0 / 8.5 mm: no closer spot between the gain pot's and SW11's pins), high-Z
+  inputs 10.9 / 22.1 / 29 (32 inputs).
 
 v4.3 (sweepable HPF, `hpf_proposal.md` H1–H3):
 - **Netlist:** 774 pin entries / 0 mismatches, check_fp 260 / 0, ERC 0; jack board unchanged. `tools/sim_netlist.py`

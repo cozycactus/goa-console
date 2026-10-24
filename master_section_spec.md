@@ -1,4 +1,4 @@
-# Master Section — Schematic Specification, v0.9 (draft)
+# Master Section — Schematic Specification, v0.10 (draft)
 ## Part 1: stereo mix path, mono, main outputs, power-on mute
 ## Part 2: subgroups, aux masters
 ## Part 3: stereo returns · Part 4: monitoring · Part 5: power entry
@@ -27,6 +27,17 @@ Ribbon conductor = pin number; never 2 × 17, so a link can't be mistaken for th
   aux 5/6 out) + 3 × Neutrik NC3MAV (vertical) main XLRs, 2 × 20 link (CN5 on the master board).
 - The returns' and EXT's 100 pF RF caps and 1M stay on the main boards at the receivers. The strip
   moved its RF caps to its jack board; move these too if the jig shows RF pickup on the ribbon.
+
+**Ground and hum (signed off 2026-10-25, applied in v0.10; `ground_study.md` G1–G3).**
+- Harness (G1, §26): one 14 AWG wire per strip and group, tied under its wing's motherloom, down the master's edge
+  strip to its wing's copper bar under the M4 star stud (two bars, fourteen 6.3 mm tabs each). The wires' loops with
+  the ribbon's ground conductors drop from up to 800 cm² (wires on the tub floor) to at most 33 cm².
+- Balanced-input sleeves on CHASSIS (G2): the groups' return L/R jacks and the master's EXT L/R jacks; each jack
+  board's standoff holes are plated CHASSIS pads (group H1–H2, master H1–H3) that bond it to the panel. On the group
+  jack board CHASSIS stays off the link (`link_pins(skip=)`); on the master it already reaches the star through the
+  link for the XLRs' pin 1. Inserts, the phones and the balanced TRS outputs keep GNDA.
+- The strip's receiver gains input followers (G3, strip spec v4.4): +7.8 mA per strip and rail (§27). The returns'
+  and EXT receivers here are unbuffered still (an open item, §29).
 
 **Parts review (signed off 2026-10-23, applied in v0.7).** The six parts proposed in v0.6 were reviewed in
 `master_parts_review.md` (review sims in `sim/review/`):
@@ -867,9 +878,18 @@ scale badly (below).
 
 ## 26. Grounding (the star point)
 
-- The star point is a copper ground bar on the master. On it, each with its own wire or link:
-  PSU 0 V; the 24 strip spade wires (strip CN4); master AGND; master GNDD (one link); meter
-  ground; PHONESGND; chassis, via the PSU lead's earth pin.
+- The star point is the master's M4 stud (CN1) with its four net ties. Under it, on a threaded spacer, two copper bars
+  (one per wing, ~15 × 2 mm, ≈ 0.1 mΩ), each with fourteen 6.3 mm tabs in two rows. Each strip and group spade
+  (CN4 / CN1) has its own 14 AWG (2.08 mm²) stranded wire to a tab of its wing's bar, blue 6.3 mm insulated
+  receptacles at both ends (`ground_study.md` G1, 2026-10-25).
+- Route: each wire drops from its tab to just under the motherloom and runs tied under it (every ~80 mm) to the
+  master, then down the master's free edge strip (x 0.3–4.3 / 74.3–78.3) to the bars. Never along the tub floor: the
+  loop each wire makes with the ribbon's ground conductors is what picks up hum (up to 800 cm² that way, at most
+  33 cm² under the ribbon). Cut lengths from the module next to the master outwards: left wing 264 mm + 40.6 mm per
+  module (to 792), right wing 237 mm + 40.6 mm (to 765), each with 60 mm for the receptacle and dressing.
+- Also on the star: PSU 0 V; master AGND; master GNDD (one link); meter ground; PHONESGND; chassis, via the PSU lead's
+  earth pin. Every jack board's CHASSIS (balanced-input sleeves, plated standoffs) reaches it through the panels and
+  the frame: bare-metal contact or star washers at each standoff's panel end and where the panels meet the rails.
 - GCANCEL (pin 26) does **not** go to the bar (decision, section 3).
 - The ribbon's GND conductors (even pins 2–16) carry only the strips' local audio ground for
   the group-bus shielding; heavy return current goes through the spades.
@@ -888,8 +908,14 @@ scale badly (below).
 | 6 relay coils (9.1 mA each) | 55 | — |
 | Panel LEDs (AFL, PFL, power, rude solo) | 60 | — |
 | **Master** | **≈ 0.61 A** | **≈ 0.50 A** |
-| 24 strips v4.3 at ≈ 92 / 79 mA (v4.0: 85 / 72) | ≈ 2.21 A | ≈ 1.90 A |
-| **Console** | **≈ 2.82 A** | **≈ 2.40 A** |
+| 24 strips v4.4 at ≈ 100 / 87 mA (v4.3: 92 / 79; v4.0: 85 / 72) | ≈ 2.40 A | ≈ 2.09 A |
+| **Console** | **≈ 3.01 A** | **≈ 2.59 A** |
+
+Strip v4.4 (2026-10-25, `ground_study.md` G3): + U16 OPA1656 input followers, 7.8 mA per rail typical (10 mA at
+the 5 mA-per-channel maximum). Console +V ≈ 3.01 A typical, ≈ 3.64 A with every OPA1612 / OPA1656 at maximum, and
+≈ 4.24 A with every LED lit as well: **over the PSU's 4 A rating in that corner** (it was exactly 4.0 A with v4.3).
+Per wing ≈ 1.34 A typical (MF-RX185/72 hold 1.85 A), ≈ 1.92 A in the same corner. Open (§29): accept the corner
+(it needs every key and LED on at maximum IQ), or a lower-current follower (OPA1642, 1.8 mA per channel: ≈ 4.11 A).
 
 With the M1 split, the subgroups, aux masters 1–4 and returns move to the four group modules. Each
 draws about 61 mA per rail from the ribbon (7 OPA1612, 2 DRV134) plus up to 3 LEDs. The
@@ -930,6 +956,10 @@ choosing.
 
 ## 29. Still open
 
+- Ground and hum (2026-10-25, `ground_study.md`): the PSU's worst corner is now ≈ 4.24 A on +V with the strip's input
+  followers (§27): accept it or use OPA1642 followers. The group return and master EXT receivers are still unbuffered
+  (20 kΩ common mode, 26 dB CMRR against a 1 kΩ source); the balanced TRS outputs (sub, aux, C/Room) keep their
+  sleeves on GNDA. Both are candidates for the same treatment as the strip.
 - Balanced outputs: THAT1646 went end-of-life (THAT memo, 1 September 2026); replaced by
   TI DRV134 on all 15 outputs (decided October 2026, section 7).
 - The same THAT memo also ends the THAT 2180/2181 VCAs (planned for the external SSL bus compressor,

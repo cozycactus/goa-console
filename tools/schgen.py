@@ -33,6 +33,7 @@ SYM = {  # key: (lib, symbol)
  'SW': ('Switch', 'SW_DPDT_x2'), 'SJ2': ('Jumper', 'SolderJumper_2_Bridged'),
  'SJ3': ('Jumper', 'SolderJumper_3_Bridged12'),
  'HDR': ('Connector_Generic', 'Conn_02x17_Odd_Even'), 'TAB': ('Connector_Generic', 'Conn_01x01'),
+ 'OPA1656': ('Amplifier_Operational', 'OPA1656ID'), 'MHPAD': ('Mechanical', 'MountingHole_Pad'),
  'GNDA': ('power', 'GNDA'), 'GNDD': ('power', 'GNDD'), 'GNDM': ('goa-console', 'GNDM'), 'PHONESGND': ('goa-console', 'PHONESGND'), 'FLAG': ('power', 'PWR_FLAG'),
 }
 FP = {
@@ -48,16 +49,19 @@ FP = {
  'POT2': 'Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical',
  'SW': 'Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2',
  'TAB': 'goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm',
+ 'OPA1656': 'Package_SO:SOIC-8_3.9x4.9mm_P1.27mm',
+ 'MHPAD': 'MountingHole:MountingHole_3.2mm_M3_Pad',     # plated: bonds a jack board's CHASSIS to its standoff and the panel
 }
 FADER_FP = 'goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm'
 MPN = {'JACKSW': 'Neutrik NRJ6HF', 'POT': 'Alpha RD901F-40 A10K', 'POT2': 'Alpha RD902F-40 B10K centre detent',
-       'SW': 'C&K PVA2 EE H1 1.7N V2', 'TAB': 'Keystone 1287-ST'}
+       'SW': 'C&K PVA2 EE H1 1.7N V2', 'TAB': 'Keystone 1287-ST',
+       'OPA1656': 'TI OPA1656IDR'}
 CAP_FP = {'220u': 'Capacitor_THT:CP_Radial_D10.0mm_P5.00mm', '47u': 'Capacitor_THT:CP_Radial_D8.0mm_P3.50mm',
           '2.2u': 'Capacitor_SMD:C_1206_3216Metric'}
 AMPS = {'OPA': 3, 'CMP': 3, 'OPA1656': 3, 'TL072': 3, 'LM2901': 5}     # op-amp / comparator keys: power unit
 DGPWR = {'DG': 5}
 POWER_SYMBOL_NETS = ('GNDA', 'GNDD', 'GNDM', 'PHONESGND')
-HIDE_PIN_NUMBERS = {'R', 'C', 'CP', 'POT', 'POT2', 'D', 'LED', 'ZEN', 'SCH', 'NT', 'DS', 'DZ', 'TAB', 'GNDA', 'GNDD', 'FLAG', 'TRIM', 'SJO'}
+HIDE_PIN_NUMBERS = {'R', 'C', 'CP', 'POT', 'POT2', 'D', 'LED', 'ZEN', 'SCH', 'NT', 'DS', 'DZ', 'TAB', 'MHPAD', 'GNDA', 'GNDD', 'FLAG', 'TRIM', 'SJO'}
 HIDE_PIN_NAMES_ONLY = {'SJ3', 'SJ2', 'LME49600', 'JFET'}
 HIDE_PIN_NAMES = HIDE_PIN_NUMBERS | {'SW', 'LINK', 'HDR', 'CONN6', 'CONN2', 'TAB', 'JACK', 'JACKSW', 'HDR5', 'NPN', 'PNP', 'PWRIN'}
 

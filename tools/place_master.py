@@ -29,7 +29,8 @@ JACK_FIX = {'J3': xlr(16, 15), 'J4': xlr(16, 47), 'J5': xlr(16, 79),            
             'J6': jack(JC[0], 72), 'J7': jack(JC[1], 72),                            # AUX 5 / 6 out
             'J12': jack(JC[0], 92),                                                  # PHONES
             'CN1': (15.0, 104.5, 270, 'B')}           # 2x20 link, bottom, pins x 15-63.3, y 104.5 / 107.0, pin 1 left
-JACK_HOLES = [(73.3, 15), (73.3, 90), (8, 97)]
+JACK_HOLES = []                               # plated M3 standoff holes on CHASSIS (ground_study.md G2): bond the panel
+JACK_FIX.update({'H1': (73.3, 15, 0, 'F'), 'H2': (73.3, 90, 0, 'F'), 'H3': (8, 97, 0, 'F')})
 JACK_NOTES = ((15, 'MAIN L (XLR) | MIX L INS | MIX R INS'), (32, 'C/ROOM L | R'), (47, 'MAIN R (XLR)'),
               (52, 'EXT L | R'), (72, 'AUX 5 | AUX 6 OUT'), (79, 'MONO (XLR)'), (92, 'PHONES'),
               (105, 'link CN1 (bottom), pin 1 left'))

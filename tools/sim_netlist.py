@@ -28,7 +28,7 @@ for path, prefix in ((NET, ''), (JNET, 'JB_')):
 
 def node(ref, pin):
     n = pins.get((ref, str(pin)), f'nc_{ref}_{pin}')
-    n = {'GNDA': '0', 'GNDD': '0'}.get(n, n)
+    n = {'GNDA': '0', 'GNDD': '0', 'CHASSIS': '0', 'JB_CHASSIS': '0'}.get(n, n)   # the jack board's CHASSIS: standoffs, panel, star
     return re.sub(r'[^A-Za-z0-9_]', lambda m: {'+': 'P', '-': 'M'}.get(m.group(0), '_'), n)
 
 def value(text):
@@ -49,11 +49,19 @@ POTR = {}                                     # pot values other than 10K
 DG_RON = 25                                   # DG413 on-resistance, typical (Vishay, +/-15 V)
 libname = lambda c: field(next(x for x in c[1:] if isinstance(x, list) and x[0] == 'libsource'), 'part')
 
+# the line-in source: 0 dBu from 50 ohm, unbalanced, ring to sleeve; or common mode (both legs, the tip through a synth's
+# 1K output, the ring through a pseudo-balanced cable's 0.05 ohm) for the receiver's rejection (ground_study.md G3)
+CM = [False]
+def SOURCE():
+    if CM[0]:
+        return [f"VSRC src {node('J1','S')} DC 0 AC 0.7746", f"RST src {node('J1','T')} 1k", f"RSR src {node('J1','R')} 0.05"]
+    return [f"VSRC src {node('J1','S')} DC 0 AC 0.7746", f"RST src {node('J1','T')} 50", f"RSR {node('J1','R')} {node('J1','S')} 50"]
+
 def deck(pos, sw, extra=''):
     L = ['* generated from ' + NET, '.subckt OPA inp inn out', 'G1 0 n1 inp inn 1', 'R1 n1 0 1e6', 'C1 n1 0 3.98n',
          'E1 out 0 n1 0 1', '.ends', '.model JMOD NJF(VTO=-2.5 BETA=6m LAMBDA=0.01)',
          'VPVA PVA 0 DC 16.5', 'VMVA MVA 0 DC -16.5', 'VPVL PVL 0 DC 16.5', 'VMVL MVL 0 DC -16.5',
-         f"VSRC src {node('J1','S')} DC 0 AC 0.7746", f"RST src {node('J1','T')} 50", f"RSR {node('J1','R')} {node('J1','S')} 50"]
+         *SOURCE()]
     L += [f'RLINK{p} {node("CN3", p)} {node("CN5", p)} 0.01' for p in range(1, 11)]     # the ribbon
     # logic level of each net: high if the closed PVA2 contacts join it to +5VL (the DG413 control lines)
     group = {}
@@ -78,7 +86,7 @@ def deck(pos, sw, extra=''):
             for g in ((1, 2, 3), (4, 5, 6)) if lib.endswith('Dual') else ((1, 2, 3),):
                 L.append(f'R{ref}_{g[0]}a {node(ref,g[0])} {node(ref,g[1])} {r*x+0.01}')
                 L.append(f'R{ref}_{g[0]}b {node(ref,g[1])} {node(ref,g[2])} {r*(1-x)+0.01}')
-        elif lib == 'OPA1612AxD':
+        elif lib in ('OPA1612AxD', 'OPA1656ID'):
             for u, (p_, m_, o_) in ((1, (3, 2, 1)), (2, (5, 6, 7))):
                 if (ref, str(o_)) in pins: k += 1; L.append(f'X{ref}_{u} {node(ref,p_)} {node(ref,m_)} {node(ref,o_)} OPA')
         elif lib == 'MMBFJ112': L.append(f'J{ref} {node(ref,1)} {node(ref,3)} {node(ref,2)} JMOD')
@@ -137,6 +145,11 @@ check('MIX L bus out, pan centre', r.get('x_mixl_o'), 3.3, 4.3)
 for th, lo, hi in ((0.0, -15.5, -14.5), (1.0, 14.3, 15.3)):
     r = run({**TOP, 'RV9': th}, ON, AC1K, [dbu('PRE'), 'print x_PRE'])
     check(f'gain pot at {"CCW" if th == 0 else "CW"}', r.get('x_pre'), lo, hi)
+CM[0] = True
+for f in (50, 1000):
+    r = run(TOP, ON, f'ac lin 1 {f} {f}', [dbu('PRE'), 'print x_PRE'])
+    check(f'common mode at {f} Hz, 1K on the tip leg (synth output): PRE (buffered receiver)', r.get('x_pre'), -400, -50, 'dBu')
+CM[0] = False
 r = run(TOP, {**ON, 'SW15': True}, AC1K, ['let ph = ph(v(PRE))*180/pi', 'print ph'])
 check('Ø latched: PRE phase', abs(r.get('ph', 0)), 175, 185, 'deg')
 for th, lo, hi, label in ((0.5, 80, 95, 'mid rotation'), (0.0, 19, 24, 'CCW'), (1.0, 380, 430, 'CW')):

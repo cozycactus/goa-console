@@ -20,7 +20,9 @@ JACK_FIX = {'J1': jack(XL, 12), 'J2': jack(XR, 12), 'J5': jack(XL, 32),         
             # link header, bottom side, pins x 31 / 33.54, y 26.6-36.8 (pin 1 low, so its silk arrow points inboard)
             'CN5': (31.0, 36.8, 180, 'B')}
 # M3 standoffs to the panel, length = jack body height (~24 mm); the jack caps hold the board too
-JACK_HOLES = [(23, 27), (23, 37)]
+# plated, on CHASSIS (H1 / H2 in the jack board schematic, ground_study.md G2): they bond the sleeves to the panel
+JACK_HOLES = []
+JACK_FIX.update({'H1': (23, 27, 0, 'F'), 'H2': (23, 37, 0, 'F')})
 JACK_ZONES = [
  ('input RF caps (bottom, at J1)', (1, 1, 19, 22), ['C8', 'C9'], 'B'),
 ]
@@ -64,6 +66,8 @@ ZONES = [
  ('fader film coupler (bottom)', (1, 330, 37, 444), ['C13'], 'B'),
  # Top side, roughly in signal order
  # stability caps right after their op-amp's decouplers: the placer gives list order the closest spots
+ # input followers (ground_study.md G3) at the top beside SW15: placed first, the receiver and the KHN keep their spots
+ ('input followers', (1, 44, 37, 62), ['U16', 'C92', 'C93', 'R110', 'R111', 'R112', 'R113', 'R114'], 'F'),
  ('input receiver + gain', (1, 45, 37, 100), ['U1', 'C20', 'C21', 'C7', 'C78', 'R6', 'R7', 'R8', 'R9', 'R10',
                                               'R45', 'R46', 'C37', 'R47'], 'F'),
  ('OL detector', (1, 45, 37, 100), ['U4', 'C26', 'R39', 'D1', 'C12', 'R14', 'R40', 'R41', 'R15'], 'F'),
@@ -101,7 +105,7 @@ NEAR = {'C20': 'U1', 'C21': 'U1', 'C22': 'U2', 'C23': 'U2', 'C24': 'U3', 'C25': 
         'C29': 'U5', 'C30': 'U5', 'C31': 'U6', 'C32': 'U6', 'C33': 'U7', 'C34': 'U7', 'C35': 'U8', 'C36': 'U8',
         'C53': 'U9', 'C54': 'U9', 'C55': 'U9', 'C56': 'U10', 'C57': 'U10', 'C58': 'U10',
         'C59': 'U11', 'C60': 'U11', 'C61': 'U11',
-        'C63': 'U12', 'C64': 'U12', 'C65': 'U13', 'C66': 'U13', 'C67': 'U14', 'C68': 'U14',
+        'C63': 'U12', 'C64': 'U12', 'C92': 'U16', 'C93': 'U16', 'C65': 'U13', 'C66': 'U13', 'C67': 'U14', 'C68': 'U14',
         'C44': 'U12', 'R56': 'U12', 'C45': 'U13', 'R57': 'U13', 'C46': 'U14', 'R60': 'U14', 'C47': 'U14', 'R61': 'U14',
         # stability caps at their op-amp's pins (strip_parts_review.md T1-T4), RET's series 1K at U7, the BAT54W at +5VL
         'C78': 'U1', 'C69': 'U6', 'C70': 'U6', 'C71': 'U6', 'C72': 'U6', 'C73': 'U7', 'C74': 'U12', 'C75': 'U12',

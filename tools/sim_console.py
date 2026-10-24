@@ -7,8 +7,9 @@ Model (console_architecture.md 2, master_section_spec.md 24-26):
   master.net + master_jack_board.net); a jack board joins its main board only through its link header, pin for pin.
 - Ground: every module has its own local ground node (GNDA = GNDD = GNDM on that module); the master's star (CN1) is
   the global 0 V. A module's ground reaches the star through the ribbon's eight ground conductors (pins 2-16) and its
-  6.3 mm spade wire. Op-amp outputs, DRV134s and buffers are referenced to their module's ground, so signal currents
-  return through the real ground paths and GCANCEL (pin 26) has something to cancel.
+  6.3 mm spade wire (14 AWG under the motherloom, its real length: SPADE_WIRE). Op-amp outputs, DRV134s and buffers
+  are referenced to their module's ground, so signal currents return through the real ground paths and GCANCEL
+  (pin 26) has something to cancel.
 - Ribbon: the master sits in the middle; each wing runs master header -> group, group, strip 1 ... strip 12. Per
   conductor and 41 mm segment (8 HP): 28 AWG resistance plus inductance, and capacitance to the next conductor
   (ribbon conductor = pin number). Contacts 20 mOhm.
@@ -201,9 +202,17 @@ class Module:
         return []
 
 # ---------------------------------------------------------------- the console
+def SPADE_WIRE(wing, k):
+    """(ohms, henries) of the k-th module's spade wire from the master (ground_study.md G1, cut list): 14 AWG stranded
+    (8.28 mOhm/m, r 0.82 mm) tied under the motherloom; 264 / 237 mm for the first module (left / right wing: the
+    master's headers sit at x 5.5 / 72), +40.64 mm per module."""
+    l = (0.264 if wing == 'L' else 0.237) + 0.04064 * k
+    return 0.00828 * l, 2e-7 * l * (math.log(2 * l / 0.82e-3) - 0.75)
+
 def console(strips, groups, master, gnd_inject=None, spade=None, spade_emf=None):
     """strips: 24 Modules (12 per wing, wing order outward), groups: 4 (2 per wing), master: 1. Returns the deck body.
-    spade: {module name: (ohms, henries)} for its spade wire (default 18 AWG, 0.3 m); spade_emf: {module name: volts AC}
+    spade: {module name: (ohms, henries)} for its spade wire (default: the harness of ground_study.md G1, 14 AWG under
+    the motherloom, SPADE_WIRE); spade_emf: {module name: volts AC}
     induced in series with it (a mains field through the loop of spade wire and ribbon grounds; sim/review/ground)."""
     mods = [master] + groups + strips
     pfl_on = any(m.latched_keys() for m in mods)
@@ -222,8 +231,8 @@ def console(strips, groups, master, gnd_inject=None, spade=None, spade_emf=None)
                 n = m.b.pins.get((HEADER[m.kind], str(p)))
                 if n and n != 'NC': L.append(f'Rhd{m.name}_{p} {here[p]} {m.node(HEADER[m.kind], p)} {CONTACT}')
             prev = here
-            # spade: 18 AWG, ~0.3 m to the master's ground bar (or as given)
-            rs, ls = (spade or {}).get(m.name, (0.0063, 0.3e-6)); emf = (spade_emf or {}).get(m.name)
+            # spade wire to the star's bar: the G1 harness by the module's place on the wing (or as given)
+            rs, ls = (spade or {}).get(m.name) or SPADE_WIRE(wing, k); emf = (spade_emf or {}).get(m.name)
             end = f'{m.name}_spe' if emf else '0'
             L += [f'Rsp{m.name} {m.gnd} {m.name}_spm {rs}', f'Lsp{m.name} {m.name}_spm {end} {ls}']
             if emf: L.append(f'Vemf{m.name} {end} 0 DC 0 AC {emf}')

@@ -18,7 +18,8 @@ JACK_FIX = {'J2': jack(XL, 12), 'J1': jack(XR, 12),          # sub out | sub ins
             'J3': jack(XL, 34),                              # aux out | link header
             'J4': jack(XL, 56), 'J5': jack(XR, 56),          # return L | R
             'CN1': (31.0, 43.3, 180, 'B')}                   # 2x8 link, bottom side, pins x 31 / 33.54, y 25.5-43.3
-JACK_HOLES = [(23, 26), (23, 42)]                            # M3 standoffs to the panel, ~24 mm (jack body height)
+JACK_HOLES = []                                              # M3 standoffs to the panel, ~24 mm (jack body height):
+JACK_FIX.update({'H1': (23, 26, 0, 'F'), 'H2': (23, 42, 0, 'F')})   # plated, on CHASSIS (ground_study.md G2)
 JACK_NOTES = ((12, 'SUB OUT | SUB INSERT'), (34, 'AUX OUT | link CN1 (bottom)'), (56, 'RETURN L | RETURN R'))
 place(os.path.join(PROJ, 'group_jack_board.net'), os.path.join(PROJ, 'group_jack_board.kicad_pcb'),
       dict(board=(0, 0, W, JACK_Y1), fix=JACK_FIX, holes=JACK_HOLES, zones=[], notes=JACK_NOTES,

@@ -94,7 +94,7 @@ for sd in 'LR': chain(b, f'{r}_PRE{sd}', [('s', R(b, '43K', f'{r}_PRE{sd}', r + 
 afl(b, r + '_PFLJ', 'Return PFL')
 spares(b)
 
-JACKS = collected(); NL, LINK = link_pins(JACKS)
+JACKS = collected(); NL, LINK = link_pins(JACKS, skip=('CHASSIS',))   # CHASSIS: standoffs to the panel
 b = block(f'JACK BOARD LINK  2x{NL} IDC ribbon to the group jack board (5 jacks); bottom side, as the strip\'s CN3')
 link_header(b, NL, LINK, f'Jack board link 2x{NL}')
 
@@ -106,4 +106,4 @@ build(OUT, 'group', 'Group module - goa console (sub + return + aux master)',
       pages=dict(paper='A4', folder='group_sheets'))       # A4 sub-sheets under a root sheet (prints on A4)
 
 jack_board(os.path.join(ROOT, 'group_jack_board.kicad_sch'), 'group_jack_board',
-           'Group module jack board - goa console (sub out, insert, aux out, return L/R)', JACKS, NL, LINK)
+           'Group module jack board - goa console (sub out, insert, aux out, return L/R)', JACKS, NL, LINK, holes=2)

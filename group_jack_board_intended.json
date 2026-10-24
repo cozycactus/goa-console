@@ -12,12 +12,12 @@
 "J3.S": "GNDA",
 "J4.T": "Return_LT",
 "J4.R": "Return_LR",
-"J4.S": "GNDA",
+"J4.S": "CHASSIS",
 "J4.TN": "NC",
 "J4.RN": "NC",
 "J5.T": "Return_RT",
 "J5.R": "Return_RR",
-"J5.S": "GNDA",
+"J5.S": "CHASSIS",
 "J5.TN": "Return_LT",
 "J5.RN": "Return_LR",
 "CN1.1": "SUB_SEND",
@@ -36,5 +36,7 @@
 "CN1.14": "Return_RT",
 "CN1.15": "Return_RR",
 "CN1.16": "GNDA",
+"H1.1": "CHASSIS",
+"H2.1": "CHASSIS",
 "#FLG01.1": "GNDA"
 }

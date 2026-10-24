@@ -196,7 +196,8 @@ two cables enclose. Main L per strip in dBu:
 
 ## 7. Recommendations
 
-G1–G3 change the design, so they are proposals for sign-off; nothing has been applied. G4 is practice at the desk.
+G1–G3 were signed off by Ruslan on 2026-10-25 and applied (strip spec v4.4, master spec v0.10); see §9. G4 is practice
+at the desk.
 
 **G1. Harness: route and gauge.**
 - One 14 AWG (2.08 mm²) stranded wire per module, radial as decided (master spec §26). Use blue 6.3 mm insulated
@@ -248,3 +249,31 @@ G1–G3 change the design, so they are proposals for sign-off; nothing has been 
 - Ground currents from the master's own loads.
 - Measurements. Bench checks are the jig's ground tests (test_jig_spec.md) and a hum measurement with a real synth on
   TS and on TRS, before and after G2 / G3.
+
+## 9. Applied (2026-10-25)
+
+- **G1.** `tools/console_3d.py` draws the harness as specified: 14 AWG wires (2.9 mm insulated) tied under each
+  motherloom, down the master's free edge strip, onto two copper bars with fourteen tabs each on a spacer under the
+  star stud. `tools/sim_console.py` now models every spade wire from this harness by default (`SPADE_WIRE`: 14 AWG,
+  the cut-list length). Its ground check at 1 kHz: 10 mA into strip 24 −89.8 dBu, 1 mA into every module −89.2 dBu
+  (at the target; −92.6 at 50 Hz, §2), ground cancel still 20 dB. The 3D route adds a short drop at the master (edge
+  strip to the bars below the bottom-side parts) that §1's loop areas don't include.
+- **G2.** Strip J1 / J5 sleeves and C8 / C9 on CHASSIS; group return and master EXT sleeves on CHASSIS; plated CHASSIS
+  standoff holes on all three jack boards (H1–H2, H1–H2, H1–H3), placed where the plain holes were. The group keeps
+  CHASSIS off its link; every main board's netlist is unchanged but the strip's.
+- **G3.** U16 OPA1656 followers, 1M bias per leg (R10, R112), 220R in (R110, R111) and, added in the implementation,
+  100R build-outs (R113, R114): the follower is the OPA1656's least stable configuration, 52° unloaded and 25° with
+  220 pF on the fitted model; with 100R it keeps ≥ 48.5° for any load (`sim/review/ground/follower_stab.py`).
+  J1's normals go to AGND rather than to the sleeve (now CHASSIS), so an empty input sits exactly at the receiver's
+  reference. `tools/sim_netlist.py` checks the common-mode rejection: −60.1 dBu at PRE for 0 dBu through 1 kΩ on the
+  tip leg (it would be −26 with the unbuffered receiver).
+- **Checks:** strip 796 pins, jack boards 32 / 40 / 89 pins, group and master unchanged: 0 mismatches, check_fp 0,
+  ERC 0. `sim_netlist.py` 37/37, `sim_console.py` 32/32 (noise −79.2 / −91.2 dBu, unchanged). Parity DRC: 0
+  violations on every main board, 0 parity issues on all six boards; the jack boards show only the NJ6FD-V
+  footprint's own items. The strip moved 77 parts to fit U16 (a zone of its own by SW15, placed first); its report
+  is decouplers 3.1 / 10.0 / 12 (C92 / C93 at 8.0 / 8.5 mm), high-Z inputs 10.9 / 22.1 / 29.
+- **Cost:** +7.8 mA per strip and rail typical. The PSU's worst corner (every op-amp at maximum IQ, every LED lit)
+  goes from 4.0 A to about 4.24 A on +V, over the 4 A rating (master spec §27, §29). OPA1642 followers (1.8 mA per
+  channel, JFET, 5.1 nV/√Hz) would bring it to about 4.11 A.
+- **Not done:** the group return and master EXT receivers are still unbuffered (20 kΩ common mode); the balanced
+  TRS outputs (sub, aux, C/Room) keep their sleeves on GNDA.

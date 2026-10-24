@@ -4,21 +4,27 @@ import frags
 
 
 def receiver(d):
-    """CN3 link, Ø switch (SW15), U1A ground-compensated receiver."""
+    """CN3 link, U16 input followers (1M bias, 220R in, 100R build-out), Ø switch (SW15), U1A ground-compensated receiver."""
     d.shift(0, 3)
-    frags.header(d, 'CN3', 14, 22)
-    d.at('SW15', 16, 4, mirror='y', unit=1, text='U'); d.at('SW15', 16, 12, mirror='y', unit=2)
-    d.w(('SW15', 3), (11, 5), (11, 11), ('SW15', 4)); d.w((11, 5), (6, 5)); d.port('IN_T', (6, 5))
-    d.w(('SW15', 1), (9, 3), (9, 13), ('SW15', 6)); d.w((9, 3), (6, 3)); d.port('IN_R', (6, 3))
-    d.at('R10', 12, 6.5)
-    d.at('U1', 30, 8, mirror='x', unit=1)
-    d.at('R6', 22.5, 4, rot=90); d.w(('SW15', 2), ('R6', 1)); d.w(('R6', 2), (25, 4))
-    d.w((25, -1), (25, 7), ('U1', 2))
-    d.at('R7', 30.5, 3, rot=90); d.w((25, 3), ('R7', 1)); d.w(('R7', 2), (35, 3))
-    d.at('C7', 30.5, -1, rot=90); d.w((25, -1), ('C7', 1)); d.w(('C7', 2), (35, -1), (35, 8))
-    d.w(('U1', 1), (38, 8)); d.port('RECV', (38, 8), 'R')
-    d.at('R8', 22.5, 12, rot=90); d.w(('SW15', 5), ('R8', 1)); d.w(('R8', 2), (27, 12), ('U1', 3))
-    d.at('R9', 27, 13.5); d.at('C78', 33, 13.5); d.w((27, 12), ('C78', 1))
+    frags.header(d, 'CN3', 14, 26)
+    for port, rs, rb, (u, n), ro, y in (('IN_T', 'R110', 'R10', ('U16', 1), 'R113', 0),
+                                        ('IN_R', 'R111', 'R112', ('U16', 2), 'R114', 14)):
+        d.at(rs, 7.5, y, rot=90, text='U'); d.at(rb, 4, y + 1.5, text='L')
+        d.w((1, y), (rs, 1)); d.port(port, (1, y))
+        p = follower(d, (u, n), 14, y + 1); d.w((rs, 2), (u, p[0]))
+        d.at(ro, 21.5, y + 1, rot=90, text='U'); d.w((18, y + 1), (ro, 1))
+    S = 16                                       # the receiver, right of the followers
+    d.at('SW15', S + 16, 4, mirror='y', unit=1, text='U'); d.at('SW15', S + 16, 12, mirror='y', unit=2)
+    d.w(('SW15', 3), (S + 11, 5), (S + 11, 11), ('SW15', 4)); d.w(('R113', 2), (S + 11, 1), (S + 11, 5))
+    d.w(('SW15', 1), (S + 9, 3), (S + 9, 13), ('SW15', 6)); d.w(('R114', 2), (S + 9, 15), (S + 9, 13))
+    d.at('U1', S + 30, 8, mirror='x', unit=1)
+    d.at('R6', S + 22.5, 4, rot=90); d.w(('SW15', 2), ('R6', 1)); d.w(('R6', 2), (S + 25, 4))
+    d.w((S + 25, -1), (S + 25, 7), ('U1', 2))
+    d.at('R7', S + 30.5, 3, rot=90); d.w((S + 25, 3), ('R7', 1)); d.w(('R7', 2), (S + 35, 3))
+    d.at('C7', S + 30.5, -1, rot=90); d.w((S + 25, -1), ('C7', 1)); d.w(('C7', 2), (S + 35, -1), (S + 35, 8))
+    d.w(('U1', 1), (S + 38, 8)); d.port('RECV', (S + 38, 8), 'R')
+    d.at('R8', S + 22.5, 12, rot=90); d.w(('SW15', 5), ('R8', 1)); d.w(('R8', 2), (S + 27, 12), ('U1', 3))
+    d.at('R9', S + 27, 13.5); d.at('C78', S + 33, 13.5); d.w((S + 27, 12), ('C78', 1))
 
 
 def gain(d):
@@ -387,7 +393,7 @@ def power_rails(d):
 
 OPS = [('U1', 'C20', 'C21'), ('U2', 'C22', 'C23'), ('U3', 'C24', 'C25'), ('U5', 'C29', 'C30'), ('U6', 'C31', 'C32'),
        ('U7', 'C33', 'C34'), ('U8', 'C35', 'C36'), ('U12', 'C63', 'C64'), ('U13', 'C65', 'C66'),
-       ('U14', 'C67', 'C68'), ('U15', 'C89', 'C90')]
+       ('U14', 'C67', 'C68'), ('U15', 'C89', 'C90'), ('U16', 'C92', 'C93')]
 X0, YP, P = 52, 8, 9                     # op-amp supply rows: origin, pitch
 
 

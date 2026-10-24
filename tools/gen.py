@@ -52,6 +52,8 @@ for i,(ref,cp,cn) in enumerate([('U1','C20','C21'),('U2','C22','C23'),('U3','C24
                                   ('U12','C63','C64'),('U13','C65','C66'),('U14','C67','C68'),('U15','C89','C90')]):
     P(b,ref,'OPA','OPA1612',{8:'+VA',4:'-VA'},unit=3)
     P(b,cp,'C','100n',{1:'+VA',2:'GNDA'}); P(b,cn,'C','100n',{1:'GNDA',2:'-VA'})
+P(b,'U16','OPA1656','OPA1656',{8:'+VA',4:'-VA'},unit=3)   # input followers (ground_study.md G3)
+P(b,'C92','C','100n',{1:'+VA',2:'GNDA'}); P(b,'C93','C','100n',{1:'GNDA',2:'-VA'})
 P(b,'U4','CMP','LM393',{8:'+VL',4:'GNDD'},unit=3); P(b,'C26','C','100n',{1:'+VL',2:'GNDD'})
 for i,n in enumerate(['+VA','-VA','+VL','-VL','GNDA','GNDD']):
     P(b,f'#FLG0{i+1}','FLAG','PWR_FLAG',{1:n})
@@ -63,11 +65,19 @@ hdr.update({k:'GNDA' for k in range(2,17,2)})
 b = block('MOTHERLOOM  (Delta pinout; one header, crimped socket on a daisy-chained ribbon)')
 P(b,'CN1','HDR','Bus 2x17',hdr,mpn='Wurth 61203421621 (2x17 box header)')
 
-b = block('LINE INPUT - ground-compensated receiver (inverting), Ø switch  SW15: latched = phase reversed')
+b = block('LINE INPUT - buffered ground-compensated receiver (inverting), Ø switch  SW15: latched = phase reversed')
 P(b,'CN3','LINK','Jack board link 2x5',LINK,mpn=LINK_MPN)   # J1/J2/J5 and the RF caps C8/C9 are on the jack board
-P(b,'R10','R','1M',{1:'IN_T',2:'GNDA'})
-P(b,'SW15','SW','Phase',{2:'INV_IN',3:'IN_T',1:'IN_R'},unit=1)     # normal: tip to the inverting leg
-P(b,'SW15','SW','Phase',{5:'NINV_IN',6:'IN_R',4:'IN_T'},unit=2)
+# G3 (ground_study.md, signed off 2026-10-25): OPA1656 followers with 1M bias per leg raise the common-mode input
+# impedance from 20K to 1M, so a synth's 1K output no longer unbalances the bridge (CMRR 26 -> 54 dB, worst 5 %);
+# 220R limit the fault current into the inputs' protection diodes. J1's normals short both legs when unplugged.
+P(b,'R10','R','1M',{1:'IN_T',2:'GNDA'}); P(b,'R112','R','1M',{1:'IN_R',2:'GNDA'})
+P(b,'R110','R','220R',{1:'IN_T',2:'IN_TB'}); P(b,'R111','R','220R',{1:'IN_R',2:'IN_RB'})
+P(b,'U16','OPA1656','OPA1656',{3:'IN_TB',2:'U16_OT',1:'U16_OT'},unit=1)
+P(b,'U16','OPA1656','OPA1656',{5:'IN_RB',6:'U16_OR',7:'U16_OR'},unit=2)
+# 100R build-outs: >= 48.5 deg for any load capacitance (52 deg unloaded; sim/review/ground/follower_stab.py)
+P(b,'R113','R','100R',{1:'U16_OT',2:'BUF_T'}); P(b,'R114','R','100R',{1:'U16_OR',2:'BUF_R'})
+P(b,'SW15','SW','Phase',{2:'INV_IN',3:'BUF_T',1:'BUF_R'},unit=1)     # normal: tip to the inverting leg
+P(b,'SW15','SW','Phase',{5:'NINV_IN',6:'BUF_R',4:'BUF_T'},unit=2)
 P(b,'R6','R','10K 0.1%',{1:'INV_IN',2:'U1A_N'}); P(b,'R7','R','10K 0.1%',{1:'U1A_N',2:'RECV'})
 P(b,'C7','C','33p C0G',{1:'U1A_N',2:'RECV'})
 P(b,'R8','R','10K 0.1%',{1:'NINV_IN',2:'U1A_P'}); P(b,'R9','R','10K 0.1%',{1:'U1A_P',2:'GNDA'})
@@ -283,10 +293,14 @@ if os.environ.get('PILOT'):                     # only the drawn blocks, on a sh
 # ---------------------------------------------------------------- jack board (its own PCB; same net names)
 schgen.blocks.clear()
 b = block('JACK BOARD  (3 x NJ6FD-V ~24 mm under the panel; 10-way IDC ribbon to CN3 on the main board)')
-P(b,'J1','JACKSW','Line in TRS',{'T':'IN_T','R':'IN_R','S':'GNDA','TN':'NC','RN':'NC'},fp=JACK_V,mpn=JACK_V_MPN)
-P(b,'C8','C','100p C0G',{1:'IN_T',2:'GNDA'}); P(b,'C9','C','100p C0G',{1:'IN_R',2:'GNDA'})   # RF shunt at the jack
+# G2 (ground_study.md): the balanced jacks' sleeves (line in, direct out) on CHASSIS, bonded through the plated
+# standoff holes H1 / H2 to the panel, so cable-shield currents stay out of GNDA; the insert (single-ended) keeps GNDA.
+# J1's normals short tip and ring to GNDA when nothing is plugged in (the 1M bias would hiss otherwise).
+P(b,'J1','JACKSW','Line in TRS',{'T':'IN_T','R':'IN_R','S':'CHASSIS','TN':'GNDA','RN':'GNDA'},fp=JACK_V,mpn=JACK_V_MPN)
+P(b,'C8','C','100p C0G',{1:'IN_T',2:'CHASSIS'}); P(b,'C9','C','100p C0G',{1:'IN_R',2:'CHASSIS'})   # RF shunt at the jack
 P(b,'J2','JACKSW','Insert TRS switched',{'T':'SEND','RN':'SEND','R':'RET_RAW','TN':'NC','S':'GNDA'},fp=JACK_V,mpn=JACK_V_MPN)
-P(b,'J5','JACKSW','Direct out TRS',{'T':'DO_T','R':'DO_R','S':'GNDA','TN':'NC','RN':'NC'},fp=JACK_V,mpn=JACK_V_MPN)
+P(b,'J5','JACKSW','Direct out TRS',{'T':'DO_T','R':'DO_R','S':'CHASSIS','TN':'NC','RN':'NC'},fp=JACK_V,mpn=JACK_V_MPN)
+P(b,'H1','MHPAD','M3 standoff to panel',{1:'CHASSIS'}); P(b,'H2','MHPAD','M3 standoff to panel',{1:'CHASSIS'})
 P(b,'CN5','LINK','Main board link 2x5',LINK,mpn=LINK_MPN)
 P(b,'#FLG01','FLAG','PWR_FLAG',{1:'GNDA'})
 build(JB_OUT, 'jack_board', 'Jack board - goa console channel strip (line in, insert, direct out)',

@@ -239,8 +239,9 @@ def stereo_in(b, name, outl, outr):                         # two jacks, R norma
     """The outputs must not be named name + '_LR' / '_RR': those are the jack rings (master_group_review.md MG1)."""
     lt, lr, rt, rr = name + '_LT', name + '_LR', name + '_RT', name + '_RR'
     assert not {outl, outr} & {lt, lr, rt, rr}, 'receiver output named like a jack net'
-    jack(b, 'JACKSW', name + ' L in', {'T': lt, 'R': lr, 'S': 'GNDA', 'TN': 'NC', 'RN': 'NC'})
-    jack(b, 'JACKSW', name + ' R in', {'T': rt, 'R': rr, 'S': 'GNDA', 'TN': lt, 'RN': lr})
+    # sleeves on CHASSIS (ground_study.md G2): cable-shield currents go to the panel, not through GNDA
+    jack(b, 'JACKSW', name + ' L in', {'T': lt, 'R': lr, 'S': 'CHASSIS', 'TN': 'NC', 'RN': 'NC'})
+    jack(b, 'JACKSW', name + ' R in', {'T': rt, 'R': rr, 'S': 'CHASSIS', 'TN': lt, 'RN': lr})
     return receiver(b, lt, lr, outl), receiver(b, rt, rr, outr)
 
 # ---------------------------------------------------------------- jack boards
@@ -274,10 +275,11 @@ def jack(b, key, value, pins, split=False):
     if jackboard is None: P(b, ref('J'), key, value, pins)
     else: jackboard.append(dict(key=key, value=value, pins=pins, split=split))
 
-def link_pins(jacks, ground='GNDA', own_ground=('PHONESGND',)):
+def link_pins(jacks, ground='GNDA', own_ground=('PHONESGND',), skip=()):
     """IDC pinout for the jack-board link: each jack's signals adjacent, then a ground; a group that carries its
-    own signal return (phones) gets none. Ribbon conductor = pin number. Returns (n, {pin: net})."""
-    pins, seen = [], set()
+    own signal return (phones) gets none. Ribbon conductor = pin number. skip: nets that stay on the jack board
+    (CHASSIS where the standoffs bond it to the panel). Returns (n, {pin: net})."""
+    pins, seen = [], set(skip)
     for j in jacks:
         nets = [n for n in j['pins'].values() if n not in ('NC', ground) and n not in seen and not seen.add(n)]
         for g in ([[n] for n in nets] if j['split'] else [nets]):
@@ -294,13 +296,15 @@ def link_header(b, n, link, value):
     cn = ref('CN'); P(b, cn, f'LINK{n}', value, link, mpn=f'Wurth 6120{2 * n:02d}21621 (2x{n} box header)')
     frag(b, 44, n + 6, lambda d: frags.header(d, cn, 20, n // 2 + 2))
 
-def jack_board(out, project, title, jacks, n, link):
-    """Build the jack-board schematic: the collected jacks (NJ6FD-V / NC3MAV, vertical) and the mating link."""
+def jack_board(out, project, title, jacks, n, link, holes=0):
+    """Build the jack-board schematic: the collected jacks (NJ6FD-V / NC3MAV, vertical) and the mating link.
+    holes: plated M3 standoff holes H1..Hn on CHASSIS (they bond the sleeves' CHASSIS to the panel)."""
     reset()
     b = block(f'JACK BOARD  panel jacks under the panel (~24 mm deep); 2x{n} IDC ribbon to the main board, pin = conductor')
     for j in jacks:
         P(b, ref('J'), j['key'], j['value'], j['pins'], fp=JB_FP[j['key']], mpn=JB_MPN[j['key']])
     link_header(b, n, link, f'Main board link 2x{n}')
+    for i in range(1, holes + 1): P(b, f'H{i}', 'MHPAD', 'M3 standoff to panel', {1: 'CHASSIS'})
     P(b, '#FLG01', 'FLAG', 'PWR_FLAG', {1: 'GNDA'})
     if any('PHONESGND' in j['pins'].values() for j in jacks):         # a power symbol too: driven here as well
         P(b, '#FLG02', 'FLAG', 'PWR_FLAG', {1: 'PHONESGND'})
