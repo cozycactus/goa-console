@@ -1,5 +1,5 @@
 "Qty","Value","Footprint","MPN","DNP","References"
-"1","Main board link 2x20","Connector_IDC:IDC-Header_2x20_P2.54mm_Vertical","2x20 box header, 2.54 mm","","CN1"
+"1","Main board link 2x20","Connector_IDC:IDC-Header_2x20_P2.54mm_Vertical","Wurth 61204021621 (2x20 box header)","","CN1"
 "1","MIX L insert","Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical","Neutrik NJ6FD-V","","J1"
 "1","MIX R insert","Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical","Neutrik NJ6FD-V","","J2"
 "1","MAIN L out","Connector_Audio:Jack_XLR_Neutrik_NC3MAV_Vertical","Neutrik NC3MAV","","J3"

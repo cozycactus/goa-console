@@ -55,7 +55,9 @@ FIX = {
 JP_Y = [358.0 + 3.5 * k for k in range(4)]
 for k, y in enumerate(JP_Y):
     FIX[f'JP{k + 1}'] = (30.5, y, 0, 'F'); FIX[f'JP{k + 5}'] = (35.0, y, 0, 'F')
-LABELS = [(30.5, 355.2, 'SUB', 1.0), (35.0, 355.2, 'AUX', 1.0)] + [(28.3, y, str(k + 1), 0.9) for k, y in enumerate(JP_Y)]
+# two boards on one bus rail both summers (master_group_review.md MG19): write the board's group number in GRP __
+LABELS = [(32.75, 352.4, 'GRP __', 0.9), (30.5, 355.2, 'SUB', 1.0), (35.0, 355.2, 'AUX', 1.0)] + \
+         [(28.3, y, str(k + 1), 0.9) for k, y in enumerate(JP_Y)]
 HOLES = [(XC, 72), (XC, 140), (XC, 215)] + FADER_HOLES
 
 RADIAL = {r for r, f in FPN.items() if 'CP_Radial' in f}   # electrolytics: too tall for the 11.5 mm panel gap -> bottom
@@ -100,7 +102,7 @@ ZONES = [
  ('bus resistors at the switches', (1, 240, 37, 300), RET_ROUTE + SUB_BUS, 'F'),
 ]
 NOTES = ((84, 'RETURN | PFL'), (166, 'AUX n | AFL'), (252, 'SUB PAN | to MIX'), (274, 'RETURN to MIX  1-2  3-4'),
-         (292, 'SUB AFL'), (305, 'BUS HEADER (bottom, right)'), (356, 'bus select: close one SUB, one AUX'),
+         (292, 'SUB AFL'), (305, 'BUS HEADER (bottom, right)'), (356, 'bus select: close one SUB and one AUX, unique across the four groups; group number in GRP'),
          (372, 'FADER 100 mm'), (75, 'LINK CN3 (bottom) to the jack board'))
 place(os.path.join(PROJ, 'group.net'), os.path.join(PROJ, 'group.kicad_pcb'),
       dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,

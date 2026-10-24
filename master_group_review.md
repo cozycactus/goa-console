@@ -1,7 +1,12 @@
 # Master and group review — op-amp stability and part ratings (master v0.7, group module)
 
-Reviewed 2026-10-24 for sign-off. Nothing in the design has changed yet: the changes wait for sign-off. This is the
-pass the strip review asked for (`strip_parts_review.md`, "Found along the way"). Every op-amp stage on the master and
+Reviewed 2026-10-24 for sign-off. **Signed off by Ruslan the same day:**
+- MG1–MG20 as recommended;
+- MG14: the wing PTCs stay MF-RX160/72;
+- MG20: a spec note, no relays on the aux outputs.
+
+Applied as master spec v0.8 and group revision 0.2; see "After sign-off" at the end. (When written, nothing had been
+changed: the changes waited for sign-off.) This is the pass the strip review asked for (`strip_parts_review.md`, "Found along the way"). Every op-amp stage on the master and
 group boards is simulated with the manufacturers' models in the real network, and the BOM is brought up to the strip's
 signed rules (`channel_strip_schematic_spec.md` §15).
 
@@ -74,60 +79,60 @@ Scripts: `sim/review/master/`, `sim/review/group/` (last section).
 
 ## What to sign
 
-- [ ] **MG1** EXT:
+- [x] **MG1** EXT:
   - rename the receiver outputs (`stereo_in(b, 'EXT', 'EXT_BL', 'EXT_BR')`);
   - add a 100R from each receiver output (feedback stays at the pin) to its 47 µF (C92/C93);
   - regenerate `master_intended.json`.
-- [ ] **MG2** Phones:
+- [x] **MG2** Phones:
   - C136/C142 100p from PH_DRVx (U26 output) to PH_Nx instead of from PHO_x;
   - 22p C0G PH_INx → GNDA at U26 pins 3/5;
   - each LME49600 placed beside U26.
-- [ ] **MG3** Solo: 22p C0G PFL_FIN → GNDA at U19 pin 3; 100R from U19A's output / − input (new net PFL_SIGO) to
+- [x] **MG3** Solo: 22p C0G PFL_FIN → GNDA at U19 pin 3; 100R from U19A's output / − input (new net PFL_SIGO) to
   PFL_SIG.
-- [ ] **MG4** `post_amp()` (master U5A/B, group U3A): 10p C0G from the + input to GNDA; 47R between the output (the
+- [x] **MG4** `post_amp()` (master U5A/B, group U3A): 10p C0G from the + input to GNDA; 47R between the output (the
   feedback tap) and the 220u.
-- [ ] **MG5** + input caps:
+- [x] **MG5** + input caps:
   - 10p C0G in `level_buffer()` (master U13A/B, group U5B, U9A/B);
   - 22p C0G on the C/Room followers' inputs CR_FINL/R;
   - 10p C0G on the group pan buffers' inputs S_PWL/S_PWR.
-- [ ] **MG6** CRS: 100R from U21's output / − input (new nets CRSB_LO/RO) to CRSB_L/R.
-- [ ] **MG7** `insert()` (master U2B/U4A, group U2B):
+- [x] **MG6** CRS: 100R from U21's output / − input (new nets CRSB_LO/RO) to CRSB_L/R.
+- [x] **MG7** `insert()` (master U2B/U4A, group U2B):
   - 1K + 100p C0G at the + input (as strip R99/C84);
   - 75R build-out between the buffer and its 220u;
   - the 47K placed beside the 220u.
-- [ ] **MG8** Meter peak detectors:
+- [x] **MG8** Meter peak detectors:
   - JP1/JP2 pin 1 on M_PK1 (the diode cathode);
   - R134/R170 1K → 220R;
   - 22p C0G from M_U3O to M_N4;
   - spec 22's attack, reading and calibration text.
-- [ ] **MG9** Meter:
+- [x] **MG9** Meter:
   - 22p C0G across the summers' feedback (M_X2 → M_N2), and RV7/RV8 placed beside U29/U36;
   - 470R between U30B/U37B (new net M_DETO, feedback at the pin) and the DET distribution, with R137/R173 (10K to
     M_N4) taken from M_DETO, not DET;
   - TL072 → TI TL072HIDR.
-- [ ] **MG10** Placement and routing:
+- [x] **MG10** Placement and routing:
   - every build-out resistor (MG1, MG3, MG4, MG6, MG7, MG9) recorded with `near()` at its op-amp pin;
   - the routing notes in master spec §7 / group §12 (§10 below).
-- [ ] **MG11** Phones resistors:
+- [x] **MG11** Phones resistors:
   - R119, R123, R3, R4 → Vishay CRCW25122R20FKEGHP (2.2 Ω 2512, 1.5 W);
   - re-place the master with R1–R4 away from F1–F4.
-- [ ] **MG12** R52 → Panasonic ERJ-P06J472V, R48 → ERJ-P06J103V.
-- [ ] **MG13** R113 → ERJ-P06J332V (or 6K8 ERJ-P06J682V for 4.6 mA); D19 Kingbright WP7113ID.
-- [ ] **MG14** Wing PTCs: keep MF-RX160/72, or MF-RX185/72 (§14). **Your decision.**
-- [ ] **MG15** "No phantom on any balanced output" in master spec §7, §12, §13, §20 and in `panel_print.md`.
-- [ ] **MG16** BOM: a `CAP_MPN` map applied to every C / CP in `master_lib` (as `gen.py`), including the jig load
+- [x] **MG12** R52 → Panasonic ERJ-P06J472V, R48 → ERJ-P06J103V.
+- [x] **MG13** R113 → ERJ-P06J332V (or 6K8 ERJ-P06J682V for 4.6 mA); D19 Kingbright WP7113ID.
+- [x] **MG14** Wing PTCs: keep MF-RX160/72, or MF-RX185/72 (§14). **Your decision.**
+- [x] **MG15** "No phantom on any balanced output" in master spec §7, §12, §13, §20 and in `panel_print.md`.
+- [x] **MG16** BOM: a `CAP_MPN` map applied to every C / CP in `master_lib` (as `gen.py`), including the jig load
   board's 1n C0G; the MPNs in §16.
-- [ ] **MG17** Anti-surge resistors:
+- [x] **MG17** Anti-surge resistors:
   - group R1/R2 → ERJ-P06J100V;
   - master R1/R2 → ERJ-P06J1R0V, and fix spec §25's stale 0.5 A;
   - master R16/R24 and group R11 → ERJ-P06J750V.
-- [ ] **MG18** Spec text for the new gain figures: master about −0.18 dB on the main path (−0.081 dB from MG7's 75R
+- [x] **MG18** Spec text for the new gain figures: master about −0.18 dB on the main path (−0.081 dB from MG7's 75R
   into the fader, −0.094 dB from MG4's 47R); group −0.23 dB on the sub out, MIX feed and sub AFL (§4, §7).
-- [ ] **MG19** Group bus-select rule (§19):
+- [x] **MG19** Group bus-select rule (§19):
   - one SUB jumper and one AUX jumper per board, unique across the four;
   - the group number on the silk;
   - a jig check.
-- [ ] **MG20** Aux outputs (§20): a decision note, or mute relays. **Your decision.**
+- [x] **MG20** Aux outputs (§20): a decision note, or mute relays. **Your decision.**
 
 Applying MG1–MG9 changes the master and group netlists. That means:
 - `master_lib.py`, `gen_master.py` and `gen_group.py` edits. The jig stub shares `master_lib` but only its summer,
@@ -763,3 +768,71 @@ Reproduced from the repo folders with the recommended sets:
 - master `p100`: U2B 77.2°, U19A 74.5°.
 
 The skeptics' independent decks stayed in the review scratch; their figures are quoted above.
+
+## After sign-off (applied 2026-10-24)
+
+Signed off by Ruslan on 2026-10-24: MG1–MG20 as recommended; MG14 keeps MF-RX160/72; MG20 is a spec note
+(master spec §13), no relays. Applied in master spec v0.8, group revision 0.2 and test jig spec v0.4.
+
+**Generators:**
+- `master_lib.py`:
+  - `post_amp()`, `level_buffer()`, `insert()`, `receiver()` / `stereo_in()`;
+  - the `CAP_MPN` fill pass and the semiconductor, header and ferrite MPNs;
+  - 0.1 % resistor MPNs in `reinv()` / `receiver()`.
+- `gen_master.py`: EXT, solo, CRS, C/Room, phones, meters, power entry and mute.
+- `gen_group.py`: the ±VA feeds and the pan buffers.
+- `gen_jig.py`: the stub's LED MPN.
+- `stereo_in()` now refuses a receiver output named like a jack net, the cause of §1.
+
+**Schematics** (0 mismatches, check_fp 0, ERC 0 on all six):
+
+| Board | Parts | Pins |
+|---|---|---|
+| Master | 563 | 1642 |
+| Master jack board | 13 | 85 |
+| Group | 170 | 485 |
+| Group jack board | 6 | 38 |
+| Jig master stub (BOM only) | 144 | 364 |
+| Jig load board (BOM only) | 50 | 153 |
+
+A netlist lint (no IC output on a net with a connector pin) is clean on every board; it flags `EXT_RR` on the v0.7
+netlist.
+
+**Stability of the built netlists** (TI models; `sim/review/master` `run_all.py none`, 18 configurations; `sim/review/group`
+`sweep.py ... none 0.08`):
+- **Master:** every unit ≥ 47.7°.
+  - CRS followers U21: 47.7° at the pot top.
+  - Post-amps U5: 51.6°.
+  - Aux level buffers U13: 52.8°.
+  - PFL summer U18A: 55.7°.
+  - EXT receivers U17: 73.1° (42.6° before the build-out).
+  - Solo U19A: 73.5°.
+  - Insert buffers U2B/U4A: 75.5°.
+  - Meter DET followers: 58.6°, and peak detectors 68.1°, with the classic TL072.
+- **Phones composite:** 76.0–86.3° over every load and pot position.
+- **Group:**
+  - ≥ 64.2° in every pot, insert and return state with the board estimate.
+  - ≥ 45.8° with +47 pF on every output (U9B, pot 0.3).
+  - The summers are untouched: ≥ 63.8° with the modelled bead.
+
+**Placement** (placement only; 0 DRC violations and 0 parity issues on the master, group and jig boards; the jack boards
+show only the NJ6FD-V's own items; strip, PSU, jig and jack boards place identically):
+- **Master:**
+  - Report: decouplers 3.1 / 10.5 / 25 (the worst are the phones' 10 µF bulk caps; every 100 nF ≤ 6.4 mm); high-Z
+    inputs 7.2 / 108 / 71.
+  - The worst high-Z row is U11's VREF6 reference: the 4K7 is 108 mm away, up from ~52 mm. It is a DC node.
+  - R1–R4 sit 13–32 mm from the nearest PTC pad.
+  - Build-outs are 2.7–10.3 mm from their op-amp pins (≤ ~1 pF of pin-side trace).
+  - + input caps are within 12.4 mm.
+- **Group:**
+  - Report: decouplers 3.1 / 6.7 / 2; high-Z 9.5 / 20.1 / 18.
+  - Build-outs and caps sit 3.9–8.3 mm from their pins.
+  - "GRP __" on the silk beside the bus-select jumpers.
+- **Placer:** an output feeding a build-out resistor (≤ 100 Ω) now counts as driving the net beyond it. Without that,
+  POST read as a 256 mm high-Z node.
+
+**Docs:**
+- Master spec v0.8: a summary, plus the changes in §4, §5, §7, §12, §13, §17–§22, §24 and §25.
+- `test_jig_spec.md` test 12: the group bus select.
+- `panel_print.md`: "NO PHANTOM" by the balanced outputs; "STEREO ONLY" on the phones jack. The 3D model's panel print
+  isn't regenerated yet.

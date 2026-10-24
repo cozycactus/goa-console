@@ -858,7 +858,7 @@
     (property "Datasheet" "" (id 3) (at 200.66 50.8 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "MPN" "2x8 box header, 2.54 mm" (id 4) (at 200.66 50.8 0)
+    (property "MPN" "Wurth 61201621621 (2x8 box header)" (id 4) (at 200.66 50.8 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 58a371eb-ff51-5d69-8055-cd6ecdc9e927))

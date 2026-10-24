@@ -1,4 +1,4 @@
-# Test Jig — Specification, v0.3 (draft)
+# Test Jig — Specification, v0.4 (draft)
 ## Bus and grounding tests before ordering 24 strips
 
 Implements `console_architecture.md` section 9 with the designs as they now stand
@@ -95,6 +95,7 @@ Levels in dBu, 20 Hz–20 kHz unweighted unless stated. Record every result in c
 | 9 | Soft mute | ON switch off with 1 kHz at +10 dBu. | Depth ≥ 70 dB (netlist sim 76 dB at POST), no click. |
 | 10 | Stability | Square wave 1 kHz and 10 kHz at MIX L with the 3 m ribbon, N = 20. Then, with a 100 MHz scope and a short ground spring, every re-inverter output (MIX L/R, SUB 1, AUX 1/2, PFL), idle and with a 10 kHz square through a strip, and with a 10 kHz square coupled onto GCANCEL through the test-2 transformer; scope GCANCEL_BUF too. | No ringing or oscillation; overshoot < 10 % (GCANCEL_BUF ≤ 20 %). The re-inverters carry 22 pF on both legs (master spec section 3); without them TI's model rings at about 15 MHz. |
 | 11 | Balanced output | DRV134 on MIX L: level, both legs, then one leg grounded. | +6 dB differential and single-ended; no change in THD. |
+| 12 | Group bus select | When group boards join the ribbon: power up with the groups fitted, then measure DC at each group's summer output (S_SUM, A_SUM) and at its insert send tip. Repeat after any jumper change. | Each < 50 mV. Two groups jumpered to one SUB or AUX bus drive both summers to opposite rails (±16.5 V, ~16 V DC on the send): each board closes one SUB and one AUX jumper, unique across the four, with its group number in the silk's GRP box (master spec §12, `master_group_review.md` MG19). |
 
 ### 4.1 Strip function checks (each of the four strips)
 

@@ -21,7 +21,7 @@ Fixed parts go first. Every other part is packed into its zone at the first posi
 clears every courtyard on its side and every through-hole pad on either side (THT pads go through the board),
 so top and bottom parts can share an area. Then the silkscreen references are placed. Each footprint is linked
 to its schematic symbol, so "Update PCB from Schematic" works later. Refuses to overwrite a routed board."""
-import collections, math, os, sys
+import collections, re, math, os, sys
 import pcbnew
 sys.path.insert(0, os.path.dirname(__file__))
 from verify import sexp, field
@@ -196,6 +196,13 @@ def place(NET, OUT, L):
     active = {r for r, ps in pins_of.items() if any(t in ('input', 'output', 'open_collector') for _, _, t in ps)}
     out_pins = {r: [(pn, n) for pn, n, t in pins_of[r] if t in ('output', 'open_collector') and not quiet(n)] for r in active}
     driven = {n for r in active for _, n in out_pins[r]}       # an input on an output's net is not a high-Z node,
+    def ohms(v):                                       # '47R' / '2R2' / '1K' -> ohms (None if not a plain value)
+        m = re.fullmatch(r'(\d+)([RK])(\d*)', v.split()[0]) if v else None
+        return m and float(m.group(1) + '.' + (m.group(3) or '0')) * (1e3 if m.group(2) == 'K' else 1)
+    for (r, pn), n in list(padnet.items()):            # nor one behind an output's build-out resistor (<= 100 ohm)
+        if r.startswith('R') and not r.startswith('RV') and n in driven and (ohms(parts[r]['value']) or 1e9) <= 100:
+            other = padnet.get((r, '2' if pn == '1' else '1'))
+            if other and not quiet(other): driven.add(other)
     def coupled(net):                                  # nor one fed through a coupling cap from an output
         for (r, pn), n in padnet.items():
             if n == net and r.startswith('C') and 'u' in parts[r]['value'].split()[0]:

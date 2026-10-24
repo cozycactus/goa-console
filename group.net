@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/group.kicad_sch")
-		(date "2026-10-23T21:51:10")
+		(date "2026-10-24T05:13:48")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -11,7 +11,7 @@
 			(title_block
 				(title "Group module (sub + stereo return + aux master) - goa console")
 				(company)
-				(rev "0.1")
+				(rev "0.2")
 				(date "2026-10-19")
 				(source "group.kicad_sch")
 				(comment
@@ -60,6 +60,8 @@
 			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 			(fields
 				(field
+					(name "MPN") "Nichicon UPW1V221MPD (35V)")
+				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 				(field
 					(name "Datasheet")
@@ -72,6 +74,10 @@
 				(lib "Device")
 				(part "C_Polarized")
 				(description "Polarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Nichicon UPW1V221MPD (35V)")
 			)
 			(property
 				(name "Sheetname")
@@ -114,6 +120,8 @@
 			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 			(fields
 				(field
+					(name "MPN") "Nichicon UPW1V221MPD (35V)")
+				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 				(field
 					(name "Datasheet")
@@ -126,6 +134,10 @@
 				(lib "Device")
 				(part "C_Polarized")
 				(description "Polarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Nichicon UPW1V221MPD (35V)")
 			)
 			(property
 				(name "Sheetname")
@@ -168,6 +180,8 @@
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
+					(name "MPN") "Nichicon UPW1J470MPD (63V)")
+				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
 					(name "Datasheet")
@@ -180,6 +194,10 @@
 				(lib "Device")
 				(part "C_Polarized")
 				(description "Polarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Nichicon UPW1J470MPD (63V)")
 			)
 			(property
 				(name "Sheetname")
@@ -222,6 +240,8 @@
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
+					(name "MPN") "Nichicon UPW1J470MPD (63V)")
+				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
 					(name "Datasheet")
@@ -234,6 +254,10 @@
 				(lib "Device")
 				(part "C_Polarized")
 				(description "Polarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Nichicon UPW1J470MPD (63V)")
 			)
 			(property
 				(name "Sheetname")
@@ -276,6 +300,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -288,6 +314,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -330,6 +360,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -342,6 +374,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -384,6 +420,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C101J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -396,6 +434,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C101J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -438,6 +480,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C220J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -450,6 +494,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C220J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -492,6 +540,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C220J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -504,6 +554,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C220J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -546,6 +600,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -558,6 +614,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -600,6 +660,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -612,6 +674,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -654,6 +720,8 @@
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
+					(name "MPN") "Panasonic ECE-A1VN470U (35V)")
+				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
 					(name "Datasheet")
@@ -666,6 +734,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ECE-A1VN470U (35V)")
 			)
 			(property
 				(name "Sheetname")
@@ -704,11 +776,13 @@
 		)
 		(comp
 			(ref "C13")
-			(value "220u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+			(value "100p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+					(name "MPN") "KEMET C0805C101J5GACTU")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -720,6 +794,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C101J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -758,11 +836,13 @@
 		)
 		(comp
 			(ref "C14")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "220u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "MPN") "Panasonic ECE-A1EN221U")
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -774,6 +854,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ECE-A1EN221U")
 			)
 			(property
 				(name "Sheetname")
@@ -812,11 +896,13 @@
 		)
 		(comp
 			(ref "C15")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "2.2u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "MPN") "Murata GRM31CR71H225KA88L (X7R 50V)")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -828,6 +914,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Murata GRM31CR71H225KA88L (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -870,6 +960,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -882,6 +974,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -920,9 +1016,11 @@
 		)
 		(comp
 			(ref "C17")
-			(value "100p C0G")
+			(value "100n")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
+				(field
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
@@ -936,6 +1034,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -974,11 +1076,13 @@
 		)
 		(comp
 			(ref "C18")
-			(value "220u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+			(value "10p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+					(name "MPN") "KEMET C0805C100J5GACTU")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -990,6 +1094,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -1028,11 +1136,13 @@
 		)
 		(comp
 			(ref "C19")
-			(value "10u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+			(value "100p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+					(name "MPN") "KEMET C0805C101J5GACTU")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -1044,6 +1154,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C101J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -1082,11 +1196,13 @@
 		)
 		(comp
 			(ref "C20")
-			(value "10u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+			(value "220u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+					(name "MPN") "Panasonic ECE-A1EN221U")
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -1098,6 +1214,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ECE-A1EN221U")
 			)
 			(property
 				(name "Sheetname")
@@ -1136,11 +1256,13 @@
 		)
 		(comp
 			(ref "C21")
-			(value "1u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "10u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "MPN") "Panasonic ECE-A1EN100U")
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -1152,6 +1274,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ECE-A1EN100U")
 			)
 			(property
 				(name "Sheetname")
@@ -1190,11 +1316,13 @@
 		)
 		(comp
 			(ref "C22")
-			(value "1u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "10u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "MPN") "Panasonic ECE-A1EN100U")
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -1206,6 +1334,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ECE-A1EN100U")
 			)
 			(property
 				(name "Sheetname")
@@ -1244,11 +1376,13 @@
 		)
 		(comp
 			(ref "C23")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "1u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "MPN") "Samsung CL31B105KBHNNNE (X7R 50V)")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -1260,6 +1394,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL31B105KBHNNNE (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -1298,11 +1436,13 @@
 		)
 		(comp
 			(ref "C24")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "1u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "MPN") "Samsung CL31B105KBHNNNE (X7R 50V)")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -1314,6 +1454,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL31B105KBHNNNE (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -1352,11 +1496,13 @@
 		)
 		(comp
 			(ref "C25")
-			(value "220u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+			(value "10p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+					(name "MPN") "KEMET C0805C100J5GACTU")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -1368,6 +1514,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -1406,11 +1556,13 @@
 		)
 		(comp
 			(ref "C26")
-			(value "220u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+			(value "10p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+					(name "MPN") "KEMET C0805C100J5GACTU")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -1422,6 +1574,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -1464,6 +1620,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -1476,6 +1634,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -1518,6 +1680,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -1530,6 +1694,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -1568,11 +1736,13 @@
 		)
 		(comp
 			(ref "C29")
-			(value "100p C0G")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "220u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "MPN") "Panasonic ECE-A1EN221U")
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -1584,6 +1754,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ECE-A1EN221U")
 			)
 			(property
 				(name "Sheetname")
@@ -1622,11 +1796,13 @@
 		)
 		(comp
 			(ref "C30")
-			(value "22p C0G 5%")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "220u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "MPN") "Panasonic ECE-A1EN221U")
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -1638,6 +1814,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ECE-A1EN221U")
 			)
 			(property
 				(name "Sheetname")
@@ -1676,9 +1856,11 @@
 		)
 		(comp
 			(ref "C31")
-			(value "22p C0G 5%")
+			(value "100n")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
+				(field
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
@@ -1692,6 +1874,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -1730,11 +1916,13 @@
 		)
 		(comp
 			(ref "C32")
-			(value "47u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -1746,6 +1934,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -1784,11 +1976,13 @@
 		)
 		(comp
 			(ref "C33")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "100p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "MPN") "KEMET C0805C101J5GACTU")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -1800,6 +1994,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C101J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -1838,9 +2036,11 @@
 		)
 		(comp
 			(ref "C34")
-			(value "100p C0G")
+			(value "22p C0G 5%")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
+				(field
+					(name "MPN") "KEMET C0805C220J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
@@ -1854,6 +2054,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C220J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -1892,11 +2096,13 @@
 		)
 		(comp
 			(ref "C35")
-			(value "10u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+			(value "22p C0G 5%")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+					(name "MPN") "KEMET C0805C220J5GACTU")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -1908,6 +2114,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C220J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -1946,11 +2156,13 @@
 		)
 		(comp
 			(ref "C36")
-			(value "10u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+			(value "47u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+					(name "MPN") "Panasonic ECE-A1VN470U (35V)")
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
 					(name "Datasheet")
 				)
@@ -1962,6 +2174,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ECE-A1VN470U (35V)")
 			)
 			(property
 				(name "Sheetname")
@@ -2000,9 +2216,11 @@
 		)
 		(comp
 			(ref "C37")
-			(value "1u")
+			(value "2.2u")
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
+				(field
+					(name "MPN") "Murata GRM31CR71H225KA88L (X7R 50V)")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
@@ -2016,6 +2234,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Murata GRM31CR71H225KA88L (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -2054,11 +2276,13 @@
 		)
 		(comp
 			(ref "C38")
-			(value "1u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "100p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "MPN") "KEMET C0805C101J5GACTU")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -2070,6 +2294,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C101J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -2108,9 +2336,11 @@
 		)
 		(comp
 			(ref "C39")
-			(value "100p C0G")
+			(value "10p C0G")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
+				(field
+					(name "MPN") "KEMET C0805C100J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
@@ -2124,6 +2354,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -2162,11 +2396,13 @@
 		)
 		(comp
 			(ref "C40")
-			(value "100p C0G")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "10u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "MPN") "Panasonic ECE-A1EN100U")
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -2178,6 +2414,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ECE-A1EN100U")
 			)
 			(property
 				(name "Sheetname")
@@ -2216,11 +2456,13 @@
 		)
 		(comp
 			(ref "C41")
-			(value "33p C0G")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "10u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "MPN") "Panasonic ECE-A1EN100U")
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -2232,6 +2474,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ECE-A1EN100U")
 			)
 			(property
 				(name "Sheetname")
@@ -2270,11 +2516,13 @@
 		)
 		(comp
 			(ref "C42")
-			(value "33p C0G")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "1u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "MPN") "Samsung CL31B105KBHNNNE (X7R 50V)")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -2286,6 +2534,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL31B105KBHNNNE (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -2324,11 +2576,13 @@
 		)
 		(comp
 			(ref "C43")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "1u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "MPN") "Samsung CL31B105KBHNNNE (X7R 50V)")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -2340,6 +2594,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL31B105KBHNNNE (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -2378,9 +2636,11 @@
 		)
 		(comp
 			(ref "C44")
-			(value "100n")
+			(value "100p C0G")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
+				(field
+					(name "MPN") "KEMET C0805C101J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
@@ -2394,6 +2654,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C101J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -2436,6 +2700,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C101J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -2448,6 +2714,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C101J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -2486,9 +2756,11 @@
 		)
 		(comp
 			(ref "C46")
-			(value "100p C0G")
+			(value "33p C0G")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
+				(field
+					(name "MPN") "KEMET C0805C330J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
@@ -2502,6 +2774,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C330J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -2544,6 +2820,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C330J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -2556,6 +2834,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C330J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -2594,9 +2876,11 @@
 		)
 		(comp
 			(ref "C48")
-			(value "33p C0G")
+			(value "100n")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
+				(field
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
@@ -2610,6 +2894,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -2648,11 +2936,13 @@
 		)
 		(comp
 			(ref "C49")
-			(value "47u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -2664,6 +2954,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -2702,11 +2996,13 @@
 		)
 		(comp
 			(ref "C50")
-			(value "47u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+			(value "100p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+					(name "MPN") "KEMET C0805C101J5GACTU")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -2718,6 +3014,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C101J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -2756,11 +3056,13 @@
 		)
 		(comp
 			(ref "C51")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "100p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "MPN") "KEMET C0805C101J5GACTU")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -2772,6 +3074,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C101J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -2810,9 +3116,11 @@
 		)
 		(comp
 			(ref "C52")
-			(value "100n")
+			(value "33p C0G")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
+				(field
+					(name "MPN") "KEMET C0805C330J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
@@ -2826,6 +3134,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C330J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -2864,9 +3176,11 @@
 		)
 		(comp
 			(ref "C53")
-			(value "100n")
+			(value "33p C0G")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
+				(field
+					(name "MPN") "KEMET C0805C330J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
@@ -2880,6 +3194,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C330J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -2918,11 +3236,13 @@
 		)
 		(comp
 			(ref "C54")
-			(value "100p C0G")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(value "47u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+					(name "MPN") "Panasonic ECE-A1VN470U (35V)")
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
 					(name "Datasheet")
 				)
@@ -2934,6 +3254,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ECE-A1VN470U (35V)")
 			)
 			(property
 				(name "Sheetname")
@@ -2972,11 +3296,13 @@
 		)
 		(comp
 			(ref "C55")
-			(value "220u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+			(value "47u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+					(name "MPN") "Panasonic ECE-A1VN470U (35V)")
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
 					(name "Datasheet")
 				)
@@ -2988,6 +3314,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ECE-A1VN470U (35V)")
 			)
 			(property
 				(name "Sheetname")
@@ -3030,6 +3360,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "Murata GRM31CR71H225KA88L (X7R 50V)")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -3042,6 +3374,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Murata GRM31CR71H225KA88L (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -3080,9 +3416,11 @@
 		)
 		(comp
 			(ref "C57")
-			(value "100p C0G")
+			(value "100n")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
+				(field
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
@@ -3096,6 +3434,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -3134,11 +3476,13 @@
 		)
 		(comp
 			(ref "C58")
-			(value "220u NP 25V")
-			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -3150,6 +3494,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -3172,6 +3520,426 @@
 				(tstamps "/")
 			)
 			(tstamps "e2b3fe5d-1267-59ad-85c1-9f93181dbd6d")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C59")
+			(value "100p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "KEMET C0805C101J5GACTU")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C101J5GACTU")
+			)
+			(property
+				(name "Sheetname")
+				(value "group")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "8b9887a5-50be-5ee0-b4a4-b17185ed2088")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C60")
+			(value "10p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "KEMET C0805C100J5GACTU")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C100J5GACTU")
+			)
+			(property
+				(name "Sheetname")
+				(value "group")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "83a8157c-f24c-512f-90a4-12ad8764f71d")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C61")
+			(value "220u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+			(fields
+				(field
+					(name "MPN") "Panasonic ECE-A1EN221U")
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ECE-A1EN221U")
+			)
+			(property
+				(name "Sheetname")
+				(value "group")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "4908515a-fa81-5576-8d85-59d98b234bea")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C62")
+			(value "2.2u")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(fields
+				(field
+					(name "MPN") "Murata GRM31CR71H225KA88L (X7R 50V)")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Murata GRM31CR71H225KA88L (X7R 50V)")
+			)
+			(property
+				(name "Sheetname")
+				(value "group")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "477205b3-136e-511c-af5b-4eaa0c26358a")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C63")
+			(value "100p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "KEMET C0805C101J5GACTU")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C101J5GACTU")
+			)
+			(property
+				(name "Sheetname")
+				(value "group")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "7fc9452d-9575-59c1-be17-97067990af54")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C64")
+			(value "10p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "KEMET C0805C100J5GACTU")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C100J5GACTU")
+			)
+			(property
+				(name "Sheetname")
+				(value "group")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "4dfee09e-67cf-5e81-9724-abc8945f8773")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C65")
+			(value "220u NP 25V")
+			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+			(fields
+				(field
+					(name "MPN") "Panasonic ECE-A1EN221U")
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ECE-A1EN221U")
+			)
+			(property
+				(name "Sheetname")
+				(value "group")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "78e47171-d872-5150-a4ea-cdc117a073a6")
 			(units
 				(unit
 					(name "A")
@@ -3249,6 +4017,8 @@
 			(footprint "Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical")
 			(fields
 				(field
+					(name "MPN") "Wurth 61203421621 (2x17 box header)")
+				(field
 					(name "Footprint") "Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical")
 				(field
 					(name "Datasheet")
@@ -3261,6 +4031,10 @@
 				(lib "Connector_Generic")
 				(part "Conn_02x17_Odd_Even")
 				(description "Generic connector, double row, 02x17, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(property
+				(name "MPN")
+				(value "Wurth 61203421621 (2x17 box header)")
 			)
 			(property
 				(name "Sheetname")
@@ -3399,7 +4173,7 @@
 			(footprint "Connector_IDC:IDC-Header_2x08_P2.54mm_Vertical")
 			(fields
 				(field
-					(name "MPN") "2x8 box header, 2.54 mm")
+					(name "MPN") "Wurth 61201621621 (2x8 box header)")
 				(field
 					(name "Footprint") "Connector_IDC:IDC-Header_2x08_P2.54mm_Vertical")
 				(field
@@ -3416,7 +4190,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "2x8 box header, 2.54 mm")
+				(value "Wurth 61201621621 (2x8 box header)")
 			)
 			(property
 				(name "Sheetname")
@@ -3681,7 +4455,7 @@
 			(footprint "Inductor_SMD:L_0805_2012Metric")
 			(fields
 				(field
-					(name "MPN") "220R@100MHz 0805")
+					(name "MPN") "Murata BLM21PG221SN1D")
 				(field
 					(name "Footprint") "Inductor_SMD:L_0805_2012Metric")
 				(field
@@ -3698,7 +4472,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "220R@100MHz 0805")
+				(value "Murata BLM21PG221SN1D")
 			)
 			(property
 				(name "Sheetname")
@@ -3741,7 +4515,7 @@
 			(footprint "Inductor_SMD:L_0805_2012Metric")
 			(fields
 				(field
-					(name "MPN") "220R@100MHz 0805")
+					(name "MPN") "Murata BLM21PG221SN1D")
 				(field
 					(name "Footprint") "Inductor_SMD:L_0805_2012Metric")
 				(field
@@ -3758,7 +4532,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "220R@100MHz 0805")
+				(value "Murata BLM21PG221SN1D")
 			)
 			(property
 				(name "Sheetname")
@@ -4314,6 +5088,8 @@
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Panasonic ERJ-P06J100V")
+				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -4326,6 +5102,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERJ-P06J100V")
 			)
 			(property
 				(name "Sheetname")
@@ -4368,6 +5148,8 @@
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Panasonic ERJ-P06J100V")
+				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -4380,6 +5162,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERJ-P06J100V")
 			)
 			(property
 				(name "Sheetname")
@@ -4638,6 +5424,8 @@
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Panasonic ERA-6AEB222V")
+				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -4650,6 +5438,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB222V")
 			)
 			(property
 				(name "Sheetname")
@@ -4692,6 +5484,8 @@
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Panasonic ERA-6AEB222V")
+				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -4704,6 +5498,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB222V")
 			)
 			(property
 				(name "Sheetname")
@@ -4746,6 +5544,8 @@
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Panasonic ERA-6AEB222V")
+				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -4758,6 +5558,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB222V")
 			)
 			(property
 				(name "Sheetname")
@@ -4800,6 +5604,8 @@
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Panasonic ERA-6AEB222V")
+				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -4812,6 +5618,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB222V")
 			)
 			(property
 				(name "Sheetname")
@@ -4854,6 +5664,8 @@
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Panasonic ERJ-P06J750V")
+				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -4866,6 +5678,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERJ-P06J750V")
 			)
 			(property
 				(name "Sheetname")
@@ -4958,7 +5774,7 @@
 		)
 		(comp
 			(ref "R13")
-			(value "47K")
+			(value "1K")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -5012,7 +5828,7 @@
 		)
 		(comp
 			(ref "R14")
-			(value "100K")
+			(value "75R")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -5066,7 +5882,7 @@
 		)
 		(comp
 			(ref "R15")
-			(value "4K7")
+			(value "47K")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -5120,7 +5936,7 @@
 		)
 		(comp
 			(ref "R16")
-			(value "2K2")
+			(value "100K")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -5174,7 +5990,7 @@
 		)
 		(comp
 			(ref "R17")
-			(value "47K")
+			(value "47R")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -5228,7 +6044,7 @@
 		)
 		(comp
 			(ref "R18")
-			(value "47K")
+			(value "4K7")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -5282,7 +6098,7 @@
 		)
 		(comp
 			(ref "R19")
-			(value "47K")
+			(value "2K2")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -5336,7 +6152,7 @@
 		)
 		(comp
 			(ref "R20")
-			(value "4K7 1%")
+			(value "47K")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -5390,7 +6206,7 @@
 		)
 		(comp
 			(ref "R21")
-			(value "4K7 1%")
+			(value "47K")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -5444,7 +6260,7 @@
 		)
 		(comp
 			(ref "R22")
-			(value "22K")
+			(value "47K")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -5498,7 +6314,7 @@
 		)
 		(comp
 			(ref "R23")
-			(value "100K")
+			(value "4K7 1%")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -5552,7 +6368,7 @@
 		)
 		(comp
 			(ref "R24")
-			(value "4K7")
+			(value "4K7 1%")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -5606,7 +6422,7 @@
 		)
 		(comp
 			(ref "R25")
-			(value "22K 1%")
+			(value "22K")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -5660,7 +6476,7 @@
 		)
 		(comp
 			(ref "R26")
-			(value "2K2 0.1%")
+			(value "100K")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -5714,7 +6530,7 @@
 		)
 		(comp
 			(ref "R27")
-			(value "2K2 0.1%")
+			(value "4K7")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -5768,7 +6584,7 @@
 		)
 		(comp
 			(ref "R28")
-			(value "2K2 0.1%")
+			(value "22K 1%")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -5826,6 +6642,8 @@
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Panasonic ERA-6AEB222V")
+				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -5838,6 +6656,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB222V")
 			)
 			(property
 				(name "Sheetname")
@@ -5876,9 +6698,11 @@
 		)
 		(comp
 			(ref "R30")
-			(value "100K")
+			(value "2K2 0.1%")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
+				(field
+					(name "MPN") "Panasonic ERA-6AEB222V")
 				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
@@ -5892,6 +6716,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB222V")
 			)
 			(property
 				(name "Sheetname")
@@ -5930,9 +6758,11 @@
 		)
 		(comp
 			(ref "R31")
-			(value "4K7")
+			(value "2K2 0.1%")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
+				(field
+					(name "MPN") "Panasonic ERA-6AEB222V")
 				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
@@ -5946,6 +6776,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB222V")
 			)
 			(property
 				(name "Sheetname")
@@ -5984,9 +6818,11 @@
 		)
 		(comp
 			(ref "R32")
-			(value "DNF (2K2 = +10 dB)")
+			(value "2K2 0.1%")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
+				(field
+					(name "MPN") "Panasonic ERA-6AEB222V")
 				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
@@ -6002,15 +6838,16 @@
 				(description "Resistor")
 			)
 			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB222V")
+			)
+			(property
 				(name "Sheetname")
 				(value "group")
 			)
 			(property
 				(name "Sheetfile")
 				(value "group.kicad_sch")
-			)
-			(property
-				(name "dnp")
 			)
 			(property
 				(name "ki_keywords")
@@ -6041,7 +6878,7 @@
 		)
 		(comp
 			(ref "R33")
-			(value "22K")
+			(value "100K")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -6095,7 +6932,7 @@
 		)
 		(comp
 			(ref "R34")
-			(value "100K")
+			(value "4K7")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -6149,7 +6986,7 @@
 		)
 		(comp
 			(ref "R35")
-			(value "4K7")
+			(value "DNF (2K2 = +10 dB)")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -6173,6 +7010,9 @@
 			(property
 				(name "Sheetfile")
 				(value "group.kicad_sch")
+			)
+			(property
+				(name "dnp")
 			)
 			(property
 				(name "ki_keywords")
@@ -6203,7 +7043,7 @@
 		)
 		(comp
 			(ref "R36")
-			(value "1M")
+			(value "22K")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -6257,7 +7097,7 @@
 		)
 		(comp
 			(ref "R37")
-			(value "10K 0.1%")
+			(value "100K")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -6311,7 +7151,7 @@
 		)
 		(comp
 			(ref "R38")
-			(value "10K 0.1%")
+			(value "4K7")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -6365,7 +7205,7 @@
 		)
 		(comp
 			(ref "R39")
-			(value "10K 0.1%")
+			(value "1M")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -6423,6 +7263,8 @@
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Panasonic ERA-6AEB103V")
+				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -6435,6 +7277,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB103V")
 			)
 			(property
 				(name "Sheetname")
@@ -6473,9 +7319,11 @@
 		)
 		(comp
 			(ref "R41")
-			(value "1M")
+			(value "10K 0.1%")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
+				(field
+					(name "MPN") "Panasonic ERA-6AEB103V")
 				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
@@ -6489,6 +7337,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB103V")
 			)
 			(property
 				(name "Sheetname")
@@ -6531,6 +7383,8 @@
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Panasonic ERA-6AEB103V")
+				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -6543,6 +7397,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB103V")
 			)
 			(property
 				(name "Sheetname")
@@ -6585,6 +7443,8 @@
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Panasonic ERA-6AEB103V")
+				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -6597,6 +7457,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB103V")
 			)
 			(property
 				(name "Sheetname")
@@ -6635,7 +7499,7 @@
 		)
 		(comp
 			(ref "R44")
-			(value "10K 0.1%")
+			(value "1M")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -6693,6 +7557,8 @@
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Panasonic ERA-6AEB103V")
+				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -6705,6 +7571,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB103V")
 			)
 			(property
 				(name "Sheetname")
@@ -6743,9 +7613,11 @@
 		)
 		(comp
 			(ref "R46")
-			(value "47K")
+			(value "10K 0.1%")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
+				(field
+					(name "MPN") "Panasonic ERA-6AEB103V")
 				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
@@ -6759,6 +7631,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB103V")
 			)
 			(property
 				(name "Sheetname")
@@ -6797,9 +7673,11 @@
 		)
 		(comp
 			(ref "R47")
-			(value "47K")
+			(value "10K 0.1%")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
+				(field
+					(name "MPN") "Panasonic ERA-6AEB103V")
 				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
@@ -6813,6 +7691,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB103V")
 			)
 			(property
 				(name "Sheetname")
@@ -6851,9 +7733,11 @@
 		)
 		(comp
 			(ref "R48")
-			(value "100K")
+			(value "10K 0.1%")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
+				(field
+					(name "MPN") "Panasonic ERA-6AEB103V")
 				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
@@ -6867,6 +7751,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB103V")
 			)
 			(property
 				(name "Sheetname")
@@ -6905,7 +7793,7 @@
 		)
 		(comp
 			(ref "R49")
-			(value "4K7")
+			(value "47K")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -6959,7 +7847,7 @@
 		)
 		(comp
 			(ref "R50")
-			(value "DNF (2K2 = +10 dB)")
+			(value "47K")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -6983,9 +7871,6 @@
 			(property
 				(name "Sheetfile")
 				(value "group.kicad_sch")
-			)
-			(property
-				(name "dnp")
 			)
 			(property
 				(name "ki_keywords")
@@ -7016,7 +7901,7 @@
 		)
 		(comp
 			(ref "R51")
-			(value "47K")
+			(value "100K")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -7070,7 +7955,7 @@
 		)
 		(comp
 			(ref "R52")
-			(value "100K")
+			(value "4K7")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -7124,60 +8009,6 @@
 		)
 		(comp
 			(ref "R53")
-			(value "4K7")
-			(footprint "Resistor_SMD:R_0805_2012Metric")
-			(fields
-				(field
-					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Device")
-				(part "R")
-				(description "Resistor")
-			)
-			(property
-				(name "Sheetname")
-				(value "group")
-			)
-			(property
-				(name "Sheetfile")
-				(value "group.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "f815951c-6bde-51e6-b8fd-92683932c2e0")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R54")
 			(value "DNF (2K2 = +10 dB)")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
@@ -7218,6 +8049,60 @@
 				(names "/")
 				(tstamps "/")
 			)
+			(tstamps "f815951c-6bde-51e6-b8fd-92683932c2e0")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R54")
+			(value "47K")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "Sheetname")
+				(value "group")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
 			(tstamps "9969d7e8-c289-54e2-94ec-75a26b08bb5d")
 			(units
 				(unit
@@ -7235,7 +8120,7 @@
 		)
 		(comp
 			(ref "R55")
-			(value "47K")
+			(value "100K")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -7289,7 +8174,7 @@
 		)
 		(comp
 			(ref "R56")
-			(value "4K7 1%")
+			(value "4K7")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -7343,7 +8228,7 @@
 		)
 		(comp
 			(ref "R57")
-			(value "4K7 1%")
+			(value "DNF (2K2 = +10 dB)")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -7367,6 +8252,9 @@
 			(property
 				(name "Sheetfile")
 				(value "group.kicad_sch")
+			)
+			(property
+				(name "dnp")
 			)
 			(property
 				(name "ki_keywords")
@@ -7397,7 +8285,7 @@
 		)
 		(comp
 			(ref "R58")
-			(value "4K7 1%")
+			(value "47K")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -7613,7 +8501,7 @@
 		)
 		(comp
 			(ref "R62")
-			(value "43K")
+			(value "4K7 1%")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -7667,7 +8555,7 @@
 		)
 		(comp
 			(ref "R63")
-			(value "43K")
+			(value "4K7 1%")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -7721,7 +8609,7 @@
 		)
 		(comp
 			(ref "R64")
-			(value "100K")
+			(value "4K7 1%")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -7775,7 +8663,7 @@
 		)
 		(comp
 			(ref "R65")
-			(value "4K7")
+			(value "43K")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -7813,6 +8701,168 @@
 				(tstamps "/")
 			)
 			(tstamps "4957027a-3ba4-56a1-8e8a-325bf58b9434")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R66")
+			(value "43K")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "Sheetname")
+				(value "group")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "61ab15e9-ee46-5038-a261-51f1af0cadbc")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R67")
+			(value "100K")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "Sheetname")
+				(value "group")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "099c52f9-a5f7-54ea-9d74-4b593e046c22")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R68")
+			(value "4K7")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "Sheetname")
+				(value "group")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "e761f947-2c07-54c0-9c6f-817d833b19aa")
 			(units
 				(unit
 					(name "A")
@@ -7968,7 +9018,7 @@
 			(footprint "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical")
 			(fields
 				(field
-					(name "MPN") "Alpha RD901F-40 A10K")
+					(name "MPN") "Alpha RD901F-40-15R1-A10K")
 				(field
 					(name "Footprint") "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical")
 				(field
@@ -7985,7 +9035,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Alpha RD901F-40 A10K")
+				(value "Alpha RD901F-40-15R1-A10K")
 			)
 			(property
 				(name "Sheetname")
@@ -8031,7 +9081,7 @@
 			(footprint "Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical")
 			(fields
 				(field
-					(name "MPN") "Alpha RD902F-40 A10K")
+					(name "MPN") "Alpha RD902F-40-15R1-A10K (dual, log)")
 				(field
 					(name "Footprint") "Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical")
 				(field
@@ -8048,7 +9098,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Alpha RD902F-40 A10K")
+				(value "Alpha RD902F-40-15R1-A10K (dual, log)")
 			)
 			(property
 				(name "Sheetname")
@@ -8642,6 +9692,8 @@
 			(footprint "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 			(fields
 				(field
+					(name "MPN") "TI OPA1612AIDR")
+				(field
 					(name "Footprint") "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 				(field
 					(name "Datasheet")
@@ -8654,6 +9706,10 @@
 				(lib "Amplifier_Operational")
 				(part "OPA1612AxD")
 				(description "Dual SoundPlus High Performance, Bipolar-Input Audio Operational Amplifiers, SOIC-8")
+			)
+			(property
+				(name "MPN")
+				(value "TI OPA1612AIDR")
 			)
 			(property
 				(name "Sheetname")
@@ -8675,7 +9731,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "8c7d97eb-8dae-54ba-a095-44d8117f3d3e" "bc38ef18-8c01-52b3-8de4-44367f4b242b"
+			(tstamps "bc38ef18-8c01-52b3-8de4-44367f4b242b" "8c7d97eb-8dae-54ba-a095-44d8117f3d3e"
 				"71988484-c836-550a-9f46-93d59a5a5ef3"
 			)
 			(units
@@ -8726,6 +9782,8 @@
 			(footprint "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 			(fields
 				(field
+					(name "MPN") "TI OPA1612AIDR")
+				(field
 					(name "Footprint") "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 				(field
 					(name "Datasheet")
@@ -8738,6 +9796,10 @@
 				(lib "Amplifier_Operational")
 				(part "OPA1612AxD")
 				(description "Dual SoundPlus High Performance, Bipolar-Input Audio Operational Amplifiers, SOIC-8")
+			)
+			(property
+				(name "MPN")
+				(value "TI OPA1612AIDR")
 			)
 			(property
 				(name "Sheetname")
@@ -8810,6 +9872,8 @@
 			(footprint "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 			(fields
 				(field
+					(name "MPN") "TI OPA1612AIDR")
+				(field
 					(name "Footprint") "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 				(field
 					(name "Datasheet")
@@ -8822,6 +9886,10 @@
 				(lib "Amplifier_Operational")
 				(part "OPA1612AxD")
 				(description "Dual SoundPlus High Performance, Bipolar-Input Audio Operational Amplifiers, SOIC-8")
+			)
+			(property
+				(name "MPN")
+				(value "TI OPA1612AIDR")
 			)
 			(property
 				(name "Sheetname")
@@ -8843,7 +9911,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "fef1618b-a54e-5d61-a86e-42c3b68e5074" "6666f2af-d151-525a-997d-6c4cbece6ff5"
+			(tstamps "6666f2af-d151-525a-997d-6c4cbece6ff5" "fef1618b-a54e-5d61-a86e-42c3b68e5074"
 				"05f27ba1-488f-5298-aea0-d5868b1a284f"
 			)
 			(units
@@ -8972,6 +10040,8 @@
 			(footprint "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 			(fields
 				(field
+					(name "MPN") "TI OPA1612AIDR")
+				(field
 					(name "Footprint") "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 				(field
 					(name "Datasheet")
@@ -8984,6 +10054,10 @@
 				(lib "Amplifier_Operational")
 				(part "OPA1612AxD")
 				(description "Dual SoundPlus High Performance, Bipolar-Input Audio Operational Amplifiers, SOIC-8")
+			)
+			(property
+				(name "MPN")
+				(value "TI OPA1612AIDR")
 			)
 			(property
 				(name "Sheetname")
@@ -9056,6 +10130,8 @@
 			(footprint "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 			(fields
 				(field
+					(name "MPN") "TI OPA1612AIDR")
+				(field
 					(name "Footprint") "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 				(field
 					(name "Datasheet")
@@ -9068,6 +10144,10 @@
 				(lib "Amplifier_Operational")
 				(part "OPA1612AxD")
 				(description "Dual SoundPlus High Performance, Bipolar-Input Audio Operational Amplifiers, SOIC-8")
+			)
+			(property
+				(name "MPN")
+				(value "TI OPA1612AIDR")
 			)
 			(property
 				(name "Sheetname")
@@ -9218,6 +10298,8 @@
 			(footprint "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 			(fields
 				(field
+					(name "MPN") "TI OPA1612AIDR")
+				(field
 					(name "Footprint") "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 				(field
 					(name "Datasheet")
@@ -9230,6 +10312,10 @@
 				(lib "Amplifier_Operational")
 				(part "OPA1612AxD")
 				(description "Dual SoundPlus High Performance, Bipolar-Input Audio Operational Amplifiers, SOIC-8")
+			)
+			(property
+				(name "MPN")
+				(value "TI OPA1612AIDR")
 			)
 			(property
 				(name "Sheetname")
@@ -9302,6 +10388,8 @@
 			(footprint "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 			(fields
 				(field
+					(name "MPN") "TI OPA1612AIDR")
+				(field
 					(name "Footprint") "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 				(field
 					(name "Datasheet")
@@ -9314,6 +10402,10 @@
 				(lib "Amplifier_Operational")
 				(part "OPA1612AxD")
 				(description "Dual SoundPlus High Performance, Bipolar-Input Audio Operational Amplifiers, SOIC-8")
+			)
+			(property
+				(name "MPN")
+				(value "TI OPA1612AIDR")
 			)
 			(property
 				(name "Sheetname")
@@ -10298,12 +11390,7 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C15")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "C21")
+				(ref "C16")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -10318,12 +11405,17 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C37")
+				(ref "C31")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C43")
+				(ref "C42")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C48")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -10333,7 +11425,7 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C52")
+				(ref "C57")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -10467,17 +11559,12 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C16")
+				(ref "C17")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
 				(ref "C2")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "C22")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -10492,17 +11579,22 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C38")
+				(ref "C32")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C44")
+				(ref "C43")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C53")
+				(ref "C49")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C58")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -10720,7 +11812,7 @@
 			(name "/AUX_SEL_VE")
 			(class "Default")
 			(node
-				(ref "C29")
+				(ref "C33")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -10730,7 +11822,7 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "R25")
+				(ref "R28")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -10746,7 +11838,7 @@
 			(name "/A_AFLJ")
 			(class "Default")
 			(node
-				(ref "R33")
+				(ref "R36")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -10762,12 +11854,17 @@
 			(name "/A_LIN")
 			(class "Default")
 			(node
-				(ref "C33")
+				(ref "C37")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R30")
+				(ref "C39")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R33")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -10783,17 +11880,17 @@
 			(name "/A_LN")
 			(class "Default")
 			(node
-				(ref "C34")
+				(ref "C38")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R31")
+				(ref "R34")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R32")
+				(ref "R35")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -10809,17 +11906,17 @@
 			(name "/A_MIX")
 			(class "Default")
 			(node
-				(ref "C30")
+				(ref "C34")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C32")
+				(ref "C36")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R27")
+				(ref "R30")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -10834,17 +11931,17 @@
 			(name "/A_MIX_DN")
 			(class "Default")
 			(node
-				(ref "C30")
+				(ref "C34")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R26")
+				(ref "R29")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R27")
+				(ref "R30")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -10860,17 +11957,17 @@
 			(name "/A_MIX_DP")
 			(class "Default")
 			(node
-				(ref "C31")
+				(ref "C35")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R28")
+				(ref "R31")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R29")
+				(ref "R32")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -10886,7 +11983,7 @@
 			(name "/A_ON")
 			(class "Default")
 			(node
-				(ref "C36")
+				(ref "C41")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -10908,7 +12005,7 @@
 			(name "/A_ON_VO")
 			(class "Default")
 			(node
-				(ref "C36")
+				(ref "C41")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -10924,7 +12021,7 @@
 			(name "/A_OP")
 			(class "Default")
 			(node
-				(ref "C35")
+				(ref "C40")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -10946,7 +12043,7 @@
 			(name "/A_OP_VO")
 			(class "Default")
 			(node
-				(ref "C35")
+				(ref "C40")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -10962,17 +12059,17 @@
 			(name "/A_OUT")
 			(class "Default")
 			(node
-				(ref "C34")
+				(ref "C38")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R31")
+				(ref "R34")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R33")
+				(ref "R36")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -10993,7 +12090,7 @@
 			(name "/A_PT")
 			(class "Default")
 			(node
-				(ref "C32")
+				(ref "C36")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11009,17 +12106,17 @@
 			(name "/A_SUM")
 			(class "Default")
 			(node
-				(ref "C29")
+				(ref "C33")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R25")
+				(ref "R28")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R26")
+				(ref "R29")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11034,7 +12131,7 @@
 			(name "/A_W")
 			(class "Default")
 			(node
-				(ref "C33")
+				(ref "C37")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11084,7 +12181,7 @@
 			(name "/GC_BUF")
 			(class "Default")
 			(node
-				(ref "R28")
+				(ref "R31")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11191,17 +12288,17 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "R23")
+				(ref "R26")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R34")
+				(ref "R37")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R64")
+				(ref "R67")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11211,12 +12308,17 @@
 			(name "/RTL_LIN")
 			(class "Default")
 			(node
-				(ref "C51")
+				(ref "C56")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R48")
+				(ref "C60")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R51")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11232,17 +12334,17 @@
 			(name "/RTL_LN")
 			(class "Default")
 			(node
-				(ref "C54")
+				(ref "C59")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R49")
+				(ref "R52")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R50")
+				(ref "R53")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11258,12 +12360,17 @@
 			(name "/RTR_LIN")
 			(class "Default")
 			(node
-				(ref "C56")
+				(ref "C62")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R52")
+				(ref "C64")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R55")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11279,17 +12386,17 @@
 			(name "/RTR_LN")
 			(class "Default")
 			(node
-				(ref "C57")
+				(ref "C63")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R53")
+				(ref "R56")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R54")
+				(ref "R57")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11305,17 +12412,17 @@
 			(name "/RT_BL")
 			(class "Default")
 			(node
-				(ref "C54")
+				(ref "C59")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C55")
+				(ref "C61")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R49")
+				(ref "R52")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11330,17 +12437,17 @@
 			(name "/RT_BR")
 			(class "Default")
 			(node
-				(ref "C57")
+				(ref "C63")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C58")
+				(ref "C65")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R53")
+				(ref "R56")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11355,17 +12462,17 @@
 			(name "/RT_L")
 			(class "Default")
 			(node
-				(ref "C41")
+				(ref "C46")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C49")
+				(ref "C54")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R38")
+				(ref "R41")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11380,17 +12487,17 @@
 			(name "/RT_L_N")
 			(class "Default")
 			(node
-				(ref "C41")
+				(ref "C46")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R37")
+				(ref "R40")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R38")
+				(ref "R41")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11406,17 +12513,17 @@
 			(name "/RT_L_P")
 			(class "Default")
 			(node
-				(ref "C42")
+				(ref "C47")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R39")
+				(ref "R42")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R40")
+				(ref "R43")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11432,12 +12539,12 @@
 			(name "/RT_PFLJ")
 			(class "Default")
 			(node
-				(ref "R62")
+				(ref "R65")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R63")
+				(ref "R66")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11453,17 +12560,17 @@
 			(name "/RT_PREL")
 			(class "Default")
 			(node
-				(ref "C49")
+				(ref "C54")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R46")
+				(ref "R49")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R62")
+				(ref "R65")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11479,17 +12586,17 @@
 			(name "/RT_PRER")
 			(class "Default")
 			(node
-				(ref "C50")
+				(ref "C55")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R47")
+				(ref "R50")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R63")
+				(ref "R66")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11505,17 +12612,17 @@
 			(name "/RT_R")
 			(class "Default")
 			(node
-				(ref "C47")
+				(ref "C52")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C50")
+				(ref "C55")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R43")
+				(ref "R46")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11530,47 +12637,12 @@
 			(name "/RT_RTNL")
 			(class "Default")
 			(node
-				(ref "C55")
+				(ref "C61")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R51")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "R56")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "R58")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "R60")
-				(pin "1")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "47")
-			(name "/RT_RTNR")
-			(class "Default")
-			(node
-				(ref "C58")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "R55")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "R57")
+				(ref "R54")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11584,23 +12656,58 @@
 				(pin "1")
 				(pintype "passive")
 			)
+			(node
+				(ref "R63")
+				(pin "1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "47")
+			(name "/RT_RTNR")
+			(class "Default")
+			(node
+				(ref "C65")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R58")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R60")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R62")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R64")
+				(pin "1")
+				(pintype "passive")
+			)
 		)
 		(net
 			(code "48")
 			(name "/RT_R_N")
 			(class "Default")
 			(node
-				(ref "C47")
+				(ref "C52")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R42")
+				(ref "R45")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R43")
+				(ref "R46")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11616,17 +12723,17 @@
 			(name "/RT_R_P")
 			(class "Default")
 			(node
-				(ref "C48")
+				(ref "C53")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R44")
+				(ref "R47")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R45")
+				(ref "R48")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11642,7 +12749,7 @@
 			(name "/RT_SW1A")
 			(class "Default")
 			(node
-				(ref "R20")
+				(ref "R23")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11658,7 +12765,7 @@
 			(name "/RT_SW1B")
 			(class "Default")
 			(node
-				(ref "R21")
+				(ref "R24")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11674,7 +12781,7 @@
 			(name "/RT_SW4A")
 			(class "Default")
 			(node
-				(ref "R56")
+				(ref "R59")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11690,7 +12797,7 @@
 			(name "/RT_SW4B")
 			(class "Default")
 			(node
-				(ref "R57")
+				(ref "R60")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11706,7 +12813,7 @@
 			(name "/RT_SW5A")
 			(class "Default")
 			(node
-				(ref "R58")
+				(ref "R61")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11722,7 +12829,7 @@
 			(name "/RT_SW5B")
 			(class "Default")
 			(node
-				(ref "R59")
+				(ref "R62")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11738,7 +12845,7 @@
 			(name "/RT_SW6A")
 			(class "Default")
 			(node
-				(ref "R60")
+				(ref "R63")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11754,7 +12861,7 @@
 			(name "/RT_SW6B")
 			(class "Default")
 			(node
-				(ref "R61")
+				(ref "R64")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11770,7 +12877,7 @@
 			(name "/RT_WL")
 			(class "Default")
 			(node
-				(ref "C51")
+				(ref "C56")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11786,7 +12893,7 @@
 			(name "/RT_WR")
 			(class "Default")
 			(node
-				(ref "C56")
+				(ref "C62")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11802,7 +12909,7 @@
 			(name "/Return_LR")
 			(class "Default")
 			(node
-				(ref "C40")
+				(ref "C45")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11813,7 +12920,7 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "R37")
+				(ref "R40")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11823,7 +12930,7 @@
 			(name "/Return_LT")
 			(class "Default")
 			(node
-				(ref "C39")
+				(ref "C44")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11834,12 +12941,12 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "R36")
+				(ref "R39")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R39")
+				(ref "R42")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11849,7 +12956,7 @@
 			(name "/Return_RR")
 			(class "Default")
 			(node
-				(ref "C46")
+				(ref "C51")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11860,7 +12967,7 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "R42")
+				(ref "R45")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11870,7 +12977,7 @@
 			(name "/Return_RT")
 			(class "Default")
 			(node
-				(ref "C45")
+				(ref "C50")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11881,12 +12988,12 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "R41")
+				(ref "R44")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R44")
+				(ref "R47")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11988,7 +13095,7 @@
 			(name "/SUB_RBUF")
 			(class "Default")
 			(node
-				(ref "C13")
+				(ref "R14")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -12006,6 +13113,21 @@
 		)
 		(net
 			(code "69")
+			(name "/SUB_RBUFO")
+			(class "Default")
+			(node
+				(ref "C14")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R14")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "70")
 			(name "/SUB_RET")
 			(class "Default")
 			(node
@@ -12019,6 +13141,26 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "R13")
+				(pin "1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "71")
+			(name "/SUB_RETIN")
+			(class "Default")
+			(node
+				(ref "C13")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R13")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
 				(ref "U2")
 				(pin "5")
 				(pinfunction "+_5")
@@ -12026,7 +13168,7 @@
 			)
 		)
 		(net
-			(code "70")
+			(code "72")
 			(name "/SUB_RETRAW")
 			(class "Default")
 			(node
@@ -12042,7 +13184,7 @@
 			)
 		)
 		(net
-			(code "71")
+			(code "73")
 			(name "/SUB_SEL")
 			(class "Default")
 			(node
@@ -12076,7 +13218,7 @@
 			)
 		)
 		(net
-			(code "72")
+			(code "74")
 			(name "/SUB_SEL_VE")
 			(class "Default")
 			(node
@@ -12102,7 +13244,7 @@
 			)
 		)
 		(net
-			(code "73")
+			(code "75")
 			(name "/SUB_SEND")
 			(class "Default")
 			(node
@@ -12118,7 +13260,7 @@
 			)
 		)
 		(net
-			(code "74")
+			(code "76")
 			(name "/SW2_LA")
 			(class "Default")
 			(node
@@ -12128,22 +13270,22 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "R24")
+				(ref "R27")
 				(pin "2")
 				(pintype "passive")
 			)
 		)
 		(net
-			(code "75")
+			(code "77")
 			(name "/SW2_ON")
 			(class "Default")
 			(node
-				(ref "R23")
+				(ref "R26")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R24")
+				(ref "R27")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -12155,7 +13297,7 @@
 			)
 		)
 		(net
-			(code "76")
+			(code "78")
 			(name "/SW3_LA")
 			(class "Default")
 			(node
@@ -12165,22 +13307,22 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "R35")
+				(ref "R38")
 				(pin "2")
 				(pintype "passive")
 			)
 		)
 		(net
-			(code "77")
+			(code "79")
 			(name "/SW3_ON")
 			(class "Default")
 			(node
-				(ref "R34")
+				(ref "R37")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R35")
+				(ref "R38")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -12192,7 +13334,7 @@
 			)
 		)
 		(net
-			(code "78")
+			(code "80")
 			(name "/SW7_LA")
 			(class "Default")
 			(node
@@ -12202,22 +13344,22 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "R65")
+				(ref "R68")
 				(pin "2")
 				(pintype "passive")
 			)
 		)
 		(net
-			(code "79")
+			(code "81")
 			(name "/SW7_ON")
 			(class "Default")
 			(node
-				(ref "R64")
+				(ref "R67")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R65")
+				(ref "R68")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -12229,11 +13371,11 @@
 			)
 		)
 		(net
-			(code "80")
+			(code "82")
 			(name "/S_AFLJ")
 			(class "Default")
 			(node
-				(ref "R22")
+				(ref "R25")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -12245,16 +13387,21 @@
 			)
 		)
 		(net
-			(code "81")
+			(code "83")
 			(name "/S_FIN")
 			(class "Default")
 			(node
-				(ref "C14")
+				(ref "C15")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R14")
+				(ref "C18")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R16")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -12266,21 +13413,21 @@
 			)
 		)
 		(net
-			(code "82")
+			(code "84")
 			(name "/S_FN")
 			(class "Default")
 			(node
-				(ref "C17")
+				(ref "C19")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R15")
+				(ref "R18")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R16")
+				(ref "R19")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -12292,21 +13439,21 @@
 			)
 		)
 		(net
-			(code "83")
+			(code "85")
 			(name "/S_FPOST")
 			(class "Default")
 			(node
-				(ref "C17")
+				(ref "C19")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C18")
+				(ref "R17")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R15")
+				(ref "R18")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -12317,7 +13464,22 @@
 			)
 		)
 		(net
-			(code "84")
+			(code "86")
+			(name "/S_FPOSTO")
+			(class "Default")
+			(node
+				(ref "C20")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R17")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "87")
 			(name "/S_MIX")
 			(class "Default")
 			(node
@@ -12342,7 +13504,7 @@
 			)
 		)
 		(net
-			(code "85")
+			(code "88")
 			(name "/S_MIX_DN")
 			(class "Default")
 			(node
@@ -12368,7 +13530,7 @@
 			)
 		)
 		(net
-			(code "86")
+			(code "89")
 			(name "/S_MIX_DP")
 			(class "Default")
 			(node
@@ -12394,11 +13556,11 @@
 			)
 		)
 		(net
-			(code "87")
+			(code "90")
 			(name "/S_ON")
 			(class "Default")
 			(node
-				(ref "C20")
+				(ref "C22")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -12416,11 +13578,11 @@
 			)
 		)
 		(net
-			(code "88")
+			(code "91")
 			(name "/S_ON_VO")
 			(class "Default")
 			(node
-				(ref "C20")
+				(ref "C22")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -12432,11 +13594,11 @@
 			)
 		)
 		(net
-			(code "89")
+			(code "92")
 			(name "/S_OP")
 			(class "Default")
 			(node
-				(ref "C19")
+				(ref "C21")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -12454,11 +13616,11 @@
 			)
 		)
 		(net
-			(code "90")
+			(code "93")
 			(name "/S_OP_VO")
 			(class "Default")
 			(node
-				(ref "C19")
+				(ref "C21")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -12470,37 +13632,12 @@
 			)
 		)
 		(net
-			(code "91")
+			(code "94")
 			(name "/S_PANL")
 			(class "Default")
 			(node
-				(ref "C25")
+				(ref "C29")
 				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "R18")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "R20")
-				(pin "1")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "92")
-			(name "/S_PANR")
-			(class "Default")
-			(node
-				(ref "C26")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "R19")
-				(pin "1")
 				(pintype "passive")
 			)
 			(node
@@ -12508,13 +13645,38 @@
 				(pin "1")
 				(pintype "passive")
 			)
+			(node
+				(ref "R23")
+				(pin "1")
+				(pintype "passive")
+			)
 		)
 		(net
-			(code "93")
+			(code "95")
+			(name "/S_PANR")
+			(class "Default")
+			(node
+				(ref "C30")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R22")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R24")
+				(pin "1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "96")
 			(name "/S_PBL")
 			(class "Default")
 			(node
-				(ref "C25")
+				(ref "C29")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -12531,11 +13693,11 @@
 			)
 		)
 		(net
-			(code "94")
+			(code "97")
 			(name "/S_PBR")
 			(class "Default")
 			(node
-				(ref "C26")
+				(ref "C30")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -12552,21 +13714,21 @@
 			)
 		)
 		(net
-			(code "95")
+			(code "98")
 			(name "/S_POST")
 			(class "Default")
 			(node
-				(ref "C18")
+				(ref "C20")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R17")
+				(ref "R20")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R22")
+				(ref "R25")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -12590,16 +13752,16 @@
 			)
 		)
 		(net
-			(code "96")
+			(code "99")
 			(name "/S_PRE")
 			(class "Default")
 			(node
-				(ref "C13")
+				(ref "C14")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R13")
+				(ref "R15")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -12611,9 +13773,14 @@
 			)
 		)
 		(net
-			(code "97")
+			(code "100")
 			(name "/S_PWL")
 			(class "Default")
+			(node
+				(ref "C25")
+				(pin "1")
+				(pintype "passive")
+			)
 			(node
 				(ref "RV2")
 				(pin "2")
@@ -12628,9 +13795,14 @@
 			)
 		)
 		(net
-			(code "98")
+			(code "101")
 			(name "/S_PWR")
 			(class "Default")
+			(node
+				(ref "C26")
+				(pin "1")
+				(pintype "passive")
+			)
 			(node
 				(ref "RV2")
 				(pin "5")
@@ -12645,7 +13817,7 @@
 			)
 		)
 		(net
-			(code "99")
+			(code "102")
 			(name "/S_SUM")
 			(class "Default")
 			(node
@@ -12670,11 +13842,11 @@
 			)
 		)
 		(net
-			(code "100")
+			(code "103")
 			(name "/S_W")
 			(class "Default")
 			(node
-				(ref "C14")
+				(ref "C15")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -12686,7 +13858,7 @@
 			)
 		)
 		(net
-			(code "101")
+			(code "104")
 			(name "GNDA")
 			(class "Default")
 			(node
@@ -12705,27 +13877,27 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C15")
+				(ref "C13")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
 				(ref "C16")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "C2")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "C21")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C22")
+				(ref "C17")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C18")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C2")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -12737,6 +13909,16 @@
 			(node
 				(ref "C24")
 				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C25")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C26")
+				(pin "2")
 				(pintype "passive")
 			)
 			(node
@@ -12755,22 +13937,17 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C37")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "C38")
+				(ref "C32")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "C39")
+				(ref "C35")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C40")
+				(ref "C39")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -12781,12 +13958,12 @@
 			)
 			(node
 				(ref "C43")
-				(pin "2")
+				(pin "1")
 				(pintype "passive")
 			)
 			(node
 				(ref "C44")
-				(pin "1")
+				(pin "2")
 				(pintype "passive")
 			)
 			(node
@@ -12795,7 +13972,7 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C46")
+				(ref "C47")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -12805,23 +13982,53 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "C49")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "C5")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C52")
+				(ref "C50")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C51")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
 				(ref "C53")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C57")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C58")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
 				(ref "C6")
 				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C60")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C64")
+				(pin "2")
 				(pintype "passive")
 			)
 			(node
@@ -12936,12 +14143,7 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "R13")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "R14")
+				(ref "R15")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -12951,27 +14153,22 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "R17")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "R18")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
 				(ref "R19")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R29")
+				(ref "R20")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R30")
+				(ref "R21")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R22")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -12981,37 +14178,37 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "R36")
+				(ref "R33")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R40")
+				(ref "R35")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R41")
+				(ref "R39")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R45")
+				(ref "R43")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R46")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "R47")
+				(ref "R44")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
 				(ref "R48")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R49")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -13031,7 +14228,7 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "R52")
+				(ref "R53")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -13042,6 +14239,16 @@
 			)
 			(node
 				(ref "R55")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R57")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R58")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -13161,7 +14368,7 @@
 			)
 		)
 		(net
-			(code "102")
+			(code "105")
 			(name "GNDD")
 			(class "Default")
 			(node
@@ -13200,7 +14407,7 @@
 			)
 		)
 		(net
-			(code "103")
+			(code "106")
 			(name "unconnected-(CN2-Pin_1-Pad1)")
 			(class "Default")
 			(node
@@ -13211,7 +14418,7 @@
 			)
 		)
 		(net
-			(code "104")
+			(code "107")
 			(name "unconnected-(CN2-Pin_3-Pad3)")
 			(class "Default")
 			(node
@@ -13222,7 +14429,7 @@
 			)
 		)
 		(net
-			(code "105")
+			(code "108")
 			(name "unconnected-(CN2-Pin_5-Pad5)")
 			(class "Default")
 			(node
@@ -13233,7 +14440,7 @@
 			)
 		)
 		(net
-			(code "106")
+			(code "109")
 			(name "unconnected-(CN2-Pin_7-Pad7)")
 			(class "Default")
 			(node
@@ -13244,7 +14451,7 @@
 			)
 		)
 		(net
-			(code "107")
+			(code "110")
 			(name "unconnected-(CN2-Pin_19-Pad19)")
 			(class "Default")
 			(node
@@ -13255,7 +14462,7 @@
 			)
 		)
 		(net
-			(code "108")
+			(code "111")
 			(name "unconnected-(CN2-Pin_20-Pad20)")
 			(class "Default")
 			(node
@@ -13266,7 +14473,7 @@
 			)
 		)
 		(net
-			(code "109")
+			(code "112")
 			(name "unconnected-(CN2-Pin_21-Pad21)")
 			(class "Default")
 			(node
@@ -13277,7 +14484,7 @@
 			)
 		)
 		(net
-			(code "110")
+			(code "113")
 			(name "unconnected-(CN2-Pin_28-Pad28)")
 			(class "Default")
 			(node
@@ -13288,7 +14495,7 @@
 			)
 		)
 		(net
-			(code "111")
+			(code "114")
 			(name "unconnected-(CN2-Pin_34-Pad34)")
 			(class "Default")
 			(node
@@ -13299,7 +14506,7 @@
 			)
 		)
 		(net
-			(code "112")
+			(code "115")
 			(name "unconnected-(SW2B-C-Pad6)")
 			(class "Default")
 			(node
@@ -13310,7 +14517,7 @@
 			)
 		)
 		(net
-			(code "113")
+			(code "116")
 			(name "unconnected-(SW3B-C-Pad6)")
 			(class "Default")
 			(node
@@ -13321,7 +14528,7 @@
 			)
 		)
 		(net
-			(code "114")
+			(code "117")
 			(name "unconnected-(SW7B-C-Pad6)")
 			(class "Default")
 			(node

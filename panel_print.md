@@ -78,6 +78,12 @@ The 3D model applies this in `tools/console_3d.py` (`panel_print`); see `render/
   - The master meters get the Delta outline box.
 - **Switch legends:** printed on the panel above each switch; the PRE keys read PRE 1-2 / 3-4 / 5-6. The C&K PV caps
   can't carry printing.
+- **Output warnings (2026-10-24):**
+  - Every balanced output (main XLRs, aux 5/6, C/Room, the groups' sub and aux outs) gets "NO PHANTOM" beside its
+    jack legend (master_section_spec.md §7). P48 drives the DRV134's Sense pins above V+ and silences the output.
+  - The strip's insert send and direct out get the same note (strip spec, T11).
+  - The phones jack reads "STEREO ONLY": a mono plug grounds the R driver's feedback tap and holds it in current
+    limit (master spec §21).
 
 ## Photos (pages verified reachable on 2026-10-23)
 

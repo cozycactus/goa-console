@@ -1,5 +1,5 @@
 "Qty","Value","Footprint","MPN","DNP","References"
-"1","Main board link 2x8","Connector_IDC:IDC-Header_2x08_P2.54mm_Vertical","2x8 box header, 2.54 mm","","CN1"
+"1","Main board link 2x8","Connector_IDC:IDC-Header_2x08_P2.54mm_Vertical","Wurth 61201621621 (2x8 box header)","","CN1"
 "1","SUB insert","Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical","Neutrik NJ6FD-V","","J1"
 "1","Sub out TRS","Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical","Neutrik NJ6FD-V","","J2"
 "1","Aux out TRS","Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical","Neutrik NJ6FD-V","","J3"

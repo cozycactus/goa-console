@@ -81,7 +81,7 @@ b = block('PFL DETECT  comparator vs ~0.50 V (one press gives 0.92 V on PFLDET; 
 R(b, '10K', 'PFLDET', 'GNDD'); R(b, '330K', '+VL', 'PFL_REF'); R(b, '10K', 'PFL_REF', 'GNDD')
 D(b, 'PFLDET', 'PFL_CL'); D(b, 'PFL_CL', 'GNDD'); C(b, '1u', 'PFLDET', 'GNDD')
 cmp(b, 'PFL_REF', 'PFLDET', 'PFL_LK')                         # output sinks when PFLDET is above the reference
-R(b, '3K3', '+VL', 'PFL_LA'); P(b, ref('D'), 'LED', 'PFL ACTIVE red', {2: 'PFL_LA', 1: 'PFL_LK'})
+R(b, '3K3', '+VL', 'PFL_LA'); P(b, ref('D'), 'LED', 'PFL ACTIVE red', {2: 'PFL_LA', 1: 'PFL_LK'}, mpn=LED_MPN['red'])
 
 spares(b)
 

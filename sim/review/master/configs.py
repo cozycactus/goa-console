@@ -10,7 +10,10 @@ PLACED = {n: round(v['mst'] * 0.065e-12, 15) for n, v in L.items() if v['mst'] >
            '+5VL', 'RLY_DRV')}
 NONPH = [u for u in UNITS if u not in ('U26A', 'U26B', 'U27', 'U28')]
 OUTS = {u: outnet(u) for u in NONPH}
-FAR = {'MST_L_FPOST': 'POST_L', 'MST_R_FPOST': 'POST_R', 'MIX_L_RBUF': 'PRE_L', 'MIX_R_RBUF': 'PRE_R'}   # the long net is beyond the 220u
+FAR = {'MST_L_FPOST': 'POST_L', 'MST_R_FPOST': 'POST_R', 'MIX_L_RBUF': 'PRE_L', 'MIX_R_RBUF': 'PRE_R',
+       # master v0.8: the long net is beyond each build-out (MG1, MG3, MG6, MG9)
+       'CRSB_LO': 'CRSB_L', 'CRSB_RO': 'CRSB_R', 'PFL_SIGO': 'PFL_SIG', 'EXT_BL': 'EXT_L', 'EXT_BR': 'EXT_R',
+       'ML_DETO': 'ML_DET', 'MR_DETO': 'MR_DET'}   # the long net is beyond the 220u
 def outload(c): return {FAR.get(OUTS[u], OUTS[u]): c for u in NONPH if 'SPARE' not in OUTS[u]}
 INS_UNIT = (100, 300e-12, 10e3, 300e-12)
 CONFIGS = {
@@ -47,4 +50,6 @@ CONFIGS.update({
  'p075_pfl_placed': dict(pos=pots(0.75), pfl_on=True, sw={'SW1': True, 'SW2': True}, loads=PLACED),
  'p100_pfl_out47': dict(pos=pots(1.0), pfl_on=True, sw={'SW1': True, 'SW2': True}, loads=outload(47e-12)),
  'p090_out47': dict(pos=pots(0.9), loads=outload(47e-12)),
+ 'p075_ext600_out47': dict(pos=pots(0.75), sw={'SW3': True}, ext={'L': (600, 1e-9), 'R': (600, 1e-9)}, loads=outload(47e-12)),
+ 'p100_ext600_out47': dict(pos=pots(1.0), sw={'SW3': True}, ext={'L': (600, 1e-9), 'R': (600, 1e-9)}, loads=outload(47e-12)),
 })

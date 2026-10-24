@@ -1,4 +1,4 @@
-# Master Section — Schematic Specification, v0.7 (draft)
+# Master Section — Schematic Specification, v0.8 (draft)
 ## Part 1: stereo mix path, mono, main outputs, power-on mute
 ## Part 2: subgroups, aux masters
 ## Part 3: stereo returns · Part 4: monitoring · Part 5: power entry
@@ -40,6 +40,31 @@ Ribbon conductor = pin number; never 2 × 17, so a link can't be mistaken for th
 
 From the strip review (`strip_parts_review.md`, signed off 2026-10-23): every differential receiver (EXT, returns)
 has 33 pF on both legs, and the master's +5VL has the BAT54W.
+
+**Stability and ratings review (signed off 2026-10-24, applied in v0.8).** `master_group_review.md` (MG1–MG20)
+simulated every op-amp stage with the manufacturers' models (TI OPA161x, OPA1656, TL072, DRV134; a fitted LME49600
+macro) in whole-module decks; scripts in `sim/review/master/`, `sim/review/group/`. Applied:
+- **EXT (§17):** the receiver outputs are EXT_BL/BR. They had been named EXT_RR, the R jack's ring net, so R read
+  −12 dB and U17B oscillated with a source plugged in. 100R build-out from each receiver to its 47 µF.
+- **Phones (§21):** the 100 pF goes from the OPA1612's output, not from PHO; 22 pF at the + input; the LME49600
+  beside its op-amp. The composite was unstable at the pot ends.
+- **Solo follower (§18):** 22 pF at the + input, 100R build-out (it oscillated with a key pressed).
+- **Post-amps (§5, §12):** 10 pF at the + input, 47R build-out to the 220 µF.
+- **Followers on pot wipers:** 10 pF in every level buffer (§13, §16) and on the group's pan buffers (§12); 22 pF on
+  the C/Room followers (§20).
+- **CRS followers (§19):** 100R build-out.
+- **Inserts (§4, §12):** 1K + 100 pF at the return buffer's + input (as strip R99/C84), 75R build-out to the 220 µF,
+  the PRE 47K beside the 220 µF.
+- **Meters (§22):** the follower reads the peak diode's cathode, 1K → 220R, 22 pF across U3; 22 pF across the summer;
+  a 470R build-out on the DET follower with the U3 feedback 10K on its pin side; TI TL072HIDR.
+- **Placement:** every build-out resistor sits at its op-amp pin (`near()`).
+- **Ratings:**
+  - phones 2R2 (output and ±VP feed) in 2512, 1.5 W (§21, §25);
+  - anti-surge 0805 for the mute R52/R48 (§8), the rude-solo 3K3 (§19), the ±VA feeds (§25) and the insert-send 75R;
+  - capacitor and semiconductor MPNs (50 V X7R / C0G ceramics).
+- **Spec notes:** no phantom on any balanced output (§7); the gain changes (§5, §12); the group bus-select rule (§12);
+  aux outputs unmuted (§13).
+- **Kept by decision:** the wing PTCs stay MF-RX160/72 (§25); no mute relays on the aux outputs (§13).
 
 Delta references: ED2780 sheet 2 (MIX SUM AMPS, MIX INSERT, FADER POST AMPS, BALANCED
 OUTPUT AMPS, mono "GC O/P AMP") and sheet 1 (monitor-select differential receivers on MIX
@@ -133,7 +158,12 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
 
 - Neutrik NJ6FD-V, wired as the strip insert: send on tip through 75R, return on ring,
   ring normalled to send.
-- Return: 47 µF NP + 47K bleed, OPA1612 follower (U2A), 220 µF NP + 47K to PRE_L.
+- Return: 47 µF NP + 47K bleed, then 1K + 100 pF C0G at the + input of an OPA1612 follower (U2A), then a 75R
+  build-out, 220 µF NP + 47K to PRE_L (v0.8, `master_group_review.md` MG7).
+  - The 1K bounds the input current from outboard gear driving an unpowered console: ≈ 9.5 mA at a +20 dBu peak.
+  - The 100 pF keeps the follower stable with it (the 1K alone costs 25–45°).
+  - The 75R isolates the follower from PRE and the fader-top wiper run: 75.6° with 47 pF, against 48° without.
+  - Cost: −0.08 dB flat into the fader; +4 nV/√Hz at the return.
 - Nominal level at the insert is the mix level (about 0 dBu with channels at their "0" marks).
   The Delta runs its insert at −10 dBV. Ours stays at console level, because the bus
   compressor is our own design and can be built for it.
@@ -146,6 +176,11 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
   datasheet drawing). Wired with pin 1 = GNDA, as on the strips (A taper).
 - Post-amp U2B: 2.2 µF + 100K input, gain 1 + 4K7/2K2 = +9.9 dB, 100 pF across 4K7. Same as
   the strip, so the "0" mark (−10 dB travel) is unity through the master.
+- v0.8 (MG4): 10 pF C0G from the + input to GNDA, and a 47R build-out at the op-amp pin before the 220 µF.
+  - With 100 pF across the 4K7 the stage is a follower above 339 kHz. The wiper's 1.3–2.5 kΩ against the input
+    capacitance, plus POST's 337 mm run and the DG413's on-capacitance when MIX is monitored, left 2–21° of margin.
+    With the fix it is ≥ 51°.
+  - Cost: −0.094 dB flat. With the insert's 75R, the main path is about −0.18 dB below the v0.7 figures.
 - 220 µF NP + 47K to POST_L.
 
 ## 6. Mono
@@ -186,6 +221,14 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
     track.
 - Output connectors: XLR male, Neutrik NC3MAV (vertical, on the master jack board) or panel-mount with flying
   leads, pin 2 hot. Shell to chassis.
+- **No phantom on any balanced output** (main, aux 5/6, C/Room, and the groups' sub and aux outs; v0.8, MG15). P48
+  through 6.81K per leg forces the DRV134's Sense pins above V+ (its input protection conducting, beyond the abs-max
+  input range) and silences the output. Phantom tolerance would need 50 V DC-blocking caps at the connector, outside
+  the Sense loop.
+- **Placement and routing (v0.8, MG10):**
+  - Every build-out resistor sits at its op-amp pin, keeping the pin-side net pad-length: 22 pF between the pin and
+    the resistor costs 4–10°.
+  - With the build-outs, no master output net needs a length limit. GCANCEL_BUF takes no series R (66° with 47 pF).
 
 ## 8. Power-on / power-off mute
 
@@ -345,7 +388,8 @@ POST_SUBn ─┬─ DRV134 ─ NJ6FD-V TRS output (tip hot, ring cold, sleeve GN
     is an AFL of the group, but it goes dead in SUB mode.
   - Ours taps the same point, POST_SUBn: post-insert, post-fader, mono, pre-pan and pre-MIX
     switch. It works in every routing state and hears what both the sub output and the mix get.
-  - Solo level at the fader's "0" mark is −0.2 dB against a strip PFL. Pressing it moves the 22K's
+  - Solo level at the fader's "0" mark is about −0.43 dB against a strip PFL (v0.8: −0.2 dB before the post-amp's
+    47R and the insert's 75R, which cost −0.23 dB flat on the sub out, the MIX feed and the AFL). Pressing it moves the 22K's
     end between GNDA and a virtual earth, so the sub output does not change.
 - **Ground note.** Since M1 the sub sits on a group module whose GNDA joins GCANCEL through its
   own 10 Ω, like a strip, so its feed into the MIX bus is referenced to one of the averaged
@@ -354,6 +398,18 @@ POST_SUBn ─┬─ DRV134 ─ NJ6FD-V TRS output (tip hot, ring cold, sleeve GN
   into PFL at 0 dB. Measure on the test jig.
 - No mute relay on the sub outputs (they feed recorders and processors, not speakers). Add
   one later if wanted.
+- **v0.8 (MG4, MG5, MG7, MG10):**
+  - The sub's post-amp and insert return are `post_amp()` / `insert()` with the master's fixes.
+  - 10 pF C0G on the pan buffers' + inputs.
+  - Routing: the 47R and 75R at the op-amp pins, so S_FPOST and SUB_RBUF stay pad-length. Keep A_MIX/A_PT,
+    RT_BL/BR + RT_RTNL/R, RT_PREL/R, S_MIX and GC_BUF within ~40 pF of the placement estimate (thin traces, not
+    over long double-sided pour). S_POST and S_PRE are behind the build-outs.
+- **Bus select (v0.8, MG19):**
+  - Close exactly one SUB jumper and one AUX jumper per board, unique across the four groups.
+  - Two boards on one bus share a summing node with separate feedbacks. The difference mode has no feedback, so both
+    summers rail in opposite directions (±16.5 V), and the insert send then carries ~16 V DC.
+  - Write the group number in the silk's "GRP __" box beside the jumpers.
+  - Check it on the jig.
 
 Per sub: 3 × OPA1612 (sum/re-invert, return buffer/post-amp, pan buffers L/R), 1 × DRV134,
 2 × NJ6FD-V (insert, output), PTB0143 fader, RD902F pan, 2 × PVA2 (MIX, AFL), 1 LED.
@@ -400,6 +456,11 @@ AUXn_OUT ─┬─ DRV134 ─ NJ6FD-V TRS output (tip hot, ring cold, sleeve GND
   win on a console with ≤ 9 strips. The summer and its re-inverter share one dual (`new_package`).
   The PFL bus is the opposite case and keeps the OPA1656 (§18). `sim/review/opa1656/noise.py`.
 - Aux 5/6 as a stereo pair needs nothing special: two masters, two outputs.
+- Level buffer (`level_buffer()`, v0.8 MG5): 10 pF C0G from the + input to GNDA, against the wiper's lag
+  (38–41° → 75–87°; ≥ 52° with 47 pF on the output). 22 pF would cost the re-inverter that drives the pot top more.
+- **Aux outputs are unmuted** (decided 2026-10-24, MG20). Unlike the main, C/Room and phones outputs they have no
+  mute relay, so at power-up they carry the §8 rail-skew step: 0.2–0.75 V differential and 1.2–3.0 V
+  common-mode for 10–100 ms. Power monitor and headphone amps fed from an aux after the console, or mute them.
 - AFL is taken after the master level (post-master), as the architecture specifies.
 
 Per aux: 1 × OPA1612 (sum, re-invert), ½ × OPA1612 (output buffer; two auxes share one),
@@ -499,13 +560,13 @@ remote meter connector) and sheet 3 (meters).
 ## 17. Signal flow
 
 ```
-EXT in L/R (2 × NJ6FD-V, R normalled to L) ─ receivers (OPA1612, 33 pF on both legs) ─ 47µ NP + 47K → EXT_L/R
+EXT in L/R (2 × NJ6FD-V, R normalled to L) ─ receivers (OPA1612, 33 pF on both legs) → EXT_BL/BR ─ 100R ─ 47µ NP + 47K → EXT_L/R
 POST_L/R (mix, after the master fader) ──────────────────────────────────────────→ MIX_MON_L/R
 EXT switch (PVA2: latched = EXT) selects MIX_MON or EXT                           → MON_L/R
 
 PFL bus (pin 27) ─ PFL summing amp (OPA1656 A, Rf 22K ∥ 100 pF, + input = GCANCEL)
                  ─ re-inverter (OPA1656 B, 4 × 2K2 0.1 %, + leg from GCANCEL_BUF)
-                 ─ 47µ NP ─ SOLO LEVEL (RD901F A10K) ─ 2.2µ + 100K ─ follower         → PFL_SIG
+                 ─ 47µ NP ─ SOLO LEVEL (RD901F A10K) ─ 2.2µ + 100K ─ follower ─ 100R  → PFL_SIG
 
 PFL switcher (one DG413, break-before-make; CRS on the D side, 100K to GNDA):
    MON_L   ─ 47µ + 1M ─ SW2 (NC) ─┐
@@ -526,7 +587,11 @@ PFL is mono and goes to both sides. The meters follow what is being monitored: m
   −101.2 / −100.6 / −99.5 (review 2026-10-23).
 - Pin 28 ("PFL Audio −VE" in the 200 Delta Technical Manual, p. 134) is not used by the master. The strips only
   pass it through, so it stays a spare.
-- SOLO LEVEL: RD901F A10K, pin 1 = GNDA, then 2.2 µF + 100K and an OPA1612 follower.
+- SOLO LEVEL: RD901F A10K, pin 1 = GNDA, then 2.2 µF + 100K and an OPA1612 follower with 22 pF C0G at its + input
+  and a 100R build-out to PFL_SIG (v0.8, MG3).
+  - With a key pressed, two DG413 on-switches and both CRS inputs hang on PFL_SIG, and the bare follower oscillated
+    (−0.8°). With the fix it is ≥ 73.5°.
+  - Cost: −0.019 dB with a key pressed.
   Fully up = unity: strip PRE at 0 dBu gives 0 dBu in the control room, the same as a channel
   at its "0" mark through the mix.
 
@@ -559,6 +624,11 @@ PFL is mono and goes to both sides. The meters follow what is being monitored: m
     injection, against about 25 pC on S), with 100K to GNDA.
   - The CRS followers are OPA1656: an OPA1612's bias current across 100K ∥ 1M would step CRS by
     5.5 mV typical, 23 mV maximum, at every switch.
+  - Each has a 100R build-out to CRSB (v0.8, MG6), because CRSB runs ~214 mm to C/ROOM, PHONES and the meters.
+    That gives 48–52° with 47 pF, against 25–31° without. Cost: −0.30 dB flat on C/Room, phones and the meter feed;
+    the meter trim takes out its share.
+  - Rude-solo LED: its cathode returns to an LM393B output that sinks to −VL. The 3K3 therefore has ~31 V across it
+    (9.5 mA, 297 mW peak), so it is an anti-surge ERJ-P06J332V (v0.8, MG13).
   - Simulated (`sim/review/pflswitch`, `python3 t2_ac.py dgF J112F` etc.): crosstalk −137 dB at
     1 kHz and −111 dB at 20 kHz, independent of level; THD −100 dB at +20 dBu.
   - The zero-signal click depends on the switch leakage into the 1M source bias. Peak in the
@@ -585,8 +655,8 @@ PFL is mono and goes to both sides. The meters follow what is being monitored: m
 ## 20. Control room outputs
 
 - C/ROOM level: dual A10K (RD902F), pin 1 = GNDA, fed from the CRS followers.
-  Wipers ─ 2.2 µF + 100K ─ OPA1612 followers ─ DRV134 ×2 ─ mute relay ─ NJ6FD-V TRS outputs
-  (tip hot, ring cold, sleeve GNDA).
+  Wipers ─ 2.2 µF + 100K ─ OPA1612 followers (22 pF C0G at the + inputs, v0.8 MG5) ─ DRV134 ×2 ─ mute relay ─
+  NJ6FD-V TRS outputs (tip hot, ring cold, sleeve GNDA).
 - **Mute relay on the CR outputs too** (signed off 2026-10-23). They drive the monitor
   speakers, which matters more than the main outputs. Two more G6K-2F-Y DC12 (L and R, both
   legs, NC to GNDA), driven by the same control as section 8.
@@ -599,7 +669,19 @@ PFL is mono and goes to both sides. The meters follow what is being monitored: m
   composite arrangement). LME49600 datasheet: ±2.25 to ±18 V operating (±20 V absolute),
   ±250 mA output, internal current limit and thermal shutdown, 7.3 mA quiescent with the BW
   pin open (110 MHz mode; use that). TO-263, so give it copper for heat. Non-inverting gain 1 + 4K7/2K2 = +9.9 dB. Feedback taken from the
-  jack side of a 2.2 Ω output resistor; 100 pF across 4K7.
+  jack side of a 2.2 Ω output resistor. The 100 pF goes from the OPA1612's output to its − input (v0.8, MG2), not
+  across the 4K7 from PHO.
+  - From PHO it put the composite's crossover at the OPA1612's unity-gain frequency, inside the LME49600's lag and
+    80–90 MHz resonance. It was unstable at the pot ends.
+  - From the op-amp's output, the op-amp is a local follower at HF and the LME49600 is out of the HF loop (hand-over
+    at 339 kHz): 78–87° with three LME49600 macros and every load.
+  - 22 pF C0G at the + input; each LME49600 beside its op-amp.
+- Output and ±VP feed resistors 2.2 Ω are 2512, 1.5 W (Vishay CRCW25122R20FKEGHP, MG11).
+  - A mono (TS) plug grounds PHO_R. With the feedback tap grounded the composite amplifies the OPA1612's own input
+    offset by ~140, so the LME49600 can sit at its ±490 mA current limit even in silence: 0.53–0.67 W in the output
+    2R2, up to 0.56 W in one rail 2R2.
+  - With both channels shorted, R4 can see 2.2 W until the LME49600s' thermal shutdown cycles them.
+  - The LME49600 is protected. A mono plug in the phones jack is still a fault: say so in the user notes.
   0 dBu at CRS gives 2.4 V rms at full PHONES, 180 mW into 32 Ω, well inside the LME49600's
   250 mA.
 - Supply: separate branch from ±V through 2.2 Ω + 1000 µF per rail (the Delta has its own
@@ -624,12 +706,29 @@ scale badly (below).
   - U1, U2: precision full-wave rectifier (inverting half-wave with two 1N4148, then a summer:
     v and 2 × half-wave). Gain trim in U2's feedback: 10K + 10K trimmer (gain 0.5–1.0).
   - Average (Delta R303/C302): |v| → 33K → 2.2 µF, about 73 ms.
-  - Peak: U3 precision peak detector. 1N4148 inside the loop, 1K into 1 µF (≈1 ms attack),
+  - Peak: U3 precision peak detector. 1N4148 inside the loop, 220R into 1 µF (0.22 ms first-order attack),
     release 330K + 220K (0.55 s, Delta-like). U3's feedback comes from the U4 follower through
     10K, with a 1N4148 clamp from U3's output to its inverting input. The feedback must not
     come from the capacitor itself: then the clamp current discharges it (simulated: 50 Hz
     read 0.95 dB low and the hold collapsed).
-  - PEAK/AVG solder jumper per side (Delta J2), then U4 follower. The 20 LM2901 inputs (about
+  - v0.8 (MG8): the jumper's PEAK side takes the diode's cathode (PK1), not the capacitor end of the series resistor.
+    - With the follower on the capacitor, the loop held two integrators (U3 and 1K / 1 µF): 0–1.5° while the diode
+      conducts, and 10 kHz at −20 dBu read +5 dB high.
+    - Now the loop holds U3 alone, plus 22 pF across U3 (output to − input): 64–79° (classic TL072), 43–52° with
+      TI's pessimistic TL07xH model.
+    - Held readings against the true peak: 1 kHz 0 dBu bursts −0.1 to −0.2 dB, 1 kHz −20 dBu −0.3 to −0.5 dB,
+      10 kHz 0 dBu (2 ms) −0.8 dB, 10 kHz −20 dBu −1.5 to −2.5 dB.
+    - Between peaks DET carries µs conduction spikes up to the true peak, so on HF bursts the next LED up can glow
+      faintly.
+    - A steady 1 kHz reading moves −0.08 dB at 0 dBu (the trim takes it) and −0.18 dB at −20 dBu.
+  - Summer U2: 22 pF C0G across its feedback; the trimmer beside U2, so the summing junction stays short (MG9).
+  - PEAK/AVG solder jumper per side (Delta J2), then U4 follower.
+    - v0.8 (MG9): a 470R build-out from U4 to the DET distribution (20 comparator inputs + ~165 mm): 58–60°
+      classic, ≈ 57–59° datasheet-corrected for the TL07xH die.
+    - The 10K back to U3's − input is taken from U4's pin side. From the far side, the clamp current through the 470R
+      read 0.4 dB low and rippled 0.5 dB.
+    - TL072s: TI TL072HIDR. The H suffix fixes the new die (SLOS080W Table 9-1), which these margins assume; 42 V
+      abs max. The 20 LM2901 inputs (about
     0.5 µA typical, 5 µA max in total) load U4, not the detector capacitor. Directly on the
     Delta's 55K they would be a 27 mV error against a 67 mV bottom threshold.
   - Calibrate after setting the jumper: apply 0 dBu and set the trim so that the 0 dB LED just
@@ -716,7 +815,7 @@ scale badly (below).
   4–5 = 0 V, 6–7 = −V: two contacts per rail, so 10 A per rail against ≈ 2.65 A typical and
   3.8 A worst case on +V (§27). Neutrik makes no 7-pole horizontal-PCB receptacle (only 3–5 poles),
   hence the panel part and wires. The 5-pin NC5MAH (3 A per contact) is too small with strip v4.0.
-- Reverse-polarity protection: a Schottky (SB540, 5 A) from each rail to 0 V, reverse-biased in
+- Reverse-polarity protection: a Schottky (SS54, SMC, 40 V 5 A) from each rail to 0 V, reverse-biased in
   normal use. A wrongly wired lead then puts the PSU into current limit instead of reversing
   every op-amp.
 
@@ -731,6 +830,13 @@ scale badly (below).
   shorts 34 V across the pair, and the first PTC to trip takes almost all of it. Initial resistance
   0.09–0.14 Ω: about 0.1–0.2 V drop at 1 A. Footprint from the Bourns drawing (`tools/footprints.py`).
   Was MF-R075 (0.75 A hold), sized for the v3.1 strips.
+  - **Kept by decision 2026-10-24** (`master_group_review.md` MG14).
+  - Derating: hold falls to 1.30 / 1.15 A at 40 / 50 °C, and a wing's typical 1.16 A is then 89 / 101 % of hold, so
+    a wing can nuisance-trip in a warm room.
+  - The alternative on record is MF-RX185/72: an outline-only footprint change (15.18 × 21.18 mm, same 5.1 mm pitch
+    and pads), 77 / 87 % at 40 / 50 °C. MF-RX250/72 is out: the crimped IDC sockets are rated ~1 A per contact, and
+    it would hold 1.25 A per contact.
+  - Keep F1–F4 away from the ±VP 2R2s and the LME49600s (placement).
 - Master local branches, each with its own series element and reservoir:
 
   | Branch | Feeds | Series | Reservoir |
@@ -741,7 +847,9 @@ scale badly (below).
   | ±VL logic | LM393s, relay control, LEDs | 10 Ω | 47 µF |
   | relay coils | G6K-2F-Y ×6 via one NPN switch | from +V directly (560 Ω each) | — |
 
-  The audio branch uses 1 Ω instead of the strips' 10 Ω because it carries about 0.5 A.
+  The audio branch uses 1 Ω instead of the strips' 10 Ω because it carries more current: ~0.14 A typical, up to
+  ~0.25–0.3 A with every DRV134 at +20 dBu into 600 Ω. It is an anti-surge 0805 (ERJ-P06J1R0V) for the PSU-lead
+  hot-plug pulse. The ±VP 2.2 Ω are 2512, 1.5 W (§21).
 
 ## 26. Grounding (the star point)
 

@@ -38,7 +38,7 @@ elif SET == 'ret':
             C[f'rs{rs}_cc{cc*1e12:.0f}p_l{p}'] = dict(pos=P(p, 0.5), ret=dict(rs=rs, cc=cc), sw=ALLSW)
 elif SET == 'loads':           # extra output C on the long output nets (on top of the board MST estimate)
     for cl in (22e-12, 47e-12):
-        for p, pan in ((0, 0), (0.706, 0.5), (1.0, 1.0), (1.0, 0.0), (0.6, 0.5)):
+        for p, pan in ((0, 0), (0.3, 0.5), (0.706, 0.5), (1.0, 1.0), (1.0, 0.0), (0.6, 0.5)):   # 0.3: worst with extra C
             C[f'cl{cl*1e12:.0f}p_pot{p}_pan{pan}'] = dict(pos=P(p, pan), loads={n: cl for n in (
                 'GC_BUF', 'S_SUM', 'A_SUM', 'S_MIX', 'S_PRE', 'S_POST', 'S_PBL', 'S_PBR', 'A_OUT', 'A_MIX', 'RT_L', 'RT_R', 'RT_BL', 'RT_BR')})
 STAGES = {'bus': ['U1A', 'U1B', 'U6A', 'U2A', 'U6B'], 'ins': ['U2A', 'U2B', 'U3A'], 'ret': ['U8A', 'U8B', 'U9A', 'U9B']}.get(SET)

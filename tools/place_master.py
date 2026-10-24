@@ -125,7 +125,9 @@ ZONES = [
  ('left-wing PTCs at J1 (bottom)', (EL, 186, 22, 236), ['F1', 'F2'], 'B'),
  ('right-wing PTCs at J1 (bottom)', (W - 22, 186, ER, 236), ['F3', 'F4'], 'B'),
  ('rail reservoirs beside J1 (bottom)', (EL, 186, ER, 236), sorted((r for r in PWR_TALL if r[0] == 'C'), key=lambda r: (-dia(r), num(r))), 'B'),
- ('SS54 clamps, branch resistors (top, at J1)', (EL, 186, ER, 236), take('POWER ENTRY', 'DISTRIBUTION'), 'F'),
+ # between the PTC columns (x 4-22 / 56.6-74.6 on the bottom): a phones fault heats the VP 2R2s, and a warm PTC
+ # holds less (master_group_review.md MG11)
+ ('SS54 clamps, branch resistors (top, at J1, clear of the PTCs)', (24, 186, W - 24, 236), take('POWER ENTRY', 'DISTRIBUTION'), 'F'),
  # bottom side: electrolytics, trimmers
  ('balanced-out, monitor and aux coupling caps (bottom)', (0.3, MAIN_Y0, W - 0.3, 186),
   tall('MAIN OUTPUTS', 'AUX MASTER 5', 'AUX MASTER 6', 'EXT INPUT', 'PFL / AFL', 'PFL SWITCHER', 'CONTROL ROOM',
