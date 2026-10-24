@@ -158,9 +158,10 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
             if side == 'L': return (cx - 2.54, cy - 1.27, fa, 'right'), (cx - 2.54, cy + 1.27, fa, 'right')
             return (cx + 2.54, cy - 1.27, fa, 'left'), (cx + 2.54, cy + 1.27, fa, 'left')
         if key in ('OPA', 'CMP'): return (cx, cy + 6.35, fa, None), (cx, cy + 8.89, fa, None)
-        if key in ('LED', 'D', 'ZEN', 'SCH'):
+        if key in ('LED', 'D', 'ZEN', 'SCH', 'DZ', 'DS'):
             if horiz: return (cx + 2.54, cy - 1.27, fa, 'left'), (cx + 2.54, cy + 1.27, fa, 'left')
             return (cx, cy - 3.18, fa, None), (cx, cy + 3.18, fa, None)
+        if key in ('NPN', 'PNP'): return (cx + 5.08, cy - 1.27, fa, 'left'), (cx + 5.08, cy + 1.27, fa, 'left')
         if key == 'SJ2': return (cx, cy - 4.45, fa, None), (cx, cy - 2.54, fa, None)
         if key == 'SJ3': return (cx, cy - 6.35, fa, None), (cx, cy - 4.45, fa, None)
         if key == 'SW': return (cx, cy - 5.08, fa, None), (cx, cy + 5.08, fa, None)

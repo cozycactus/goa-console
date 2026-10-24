@@ -22,7 +22,7 @@ def inv(d, src, out, u, rin, rf, cf, plus, src2=None, rin2=None):
     d.w((20, 2), (20, 9)); d.w((u[0], p[2]), (23, 9)); d.port(out, (23, 9), 'R')
     if rin2:
         d.h(rin2, 3.5, 12, left=src2, text='D'); d.w((0, 12), (2, 12)); d.port(src2, (0, 12)); d.w((5, 12), (9, 12))
-    if plus in ('GNDA', 'GNDD', 'GNDM'): d.w((u[0], p[0]), (12, 10), (12, 11)); d.gnd((12, 11), plus)
+    if plus in ('GNDA', 'GNDD', 'GNDM'): d.w((u[0], p[0]), (12, 10), (12, 11)); ground(d, (12, 11), plus)
     else: d.w((u[0], p[0]), (11, 10)); d.port(plus, (11, 10))
 
 
@@ -184,13 +184,13 @@ def chain(d, start, elems, end=None):
         else:
             d.w((x, 2), (x + 2, 2)); d.v(r, x + 2, 3.5, top=net)
             x += 2
-            if i + 1 < len(elems) and elems[i + 1][0] == 'g': d.w((x, 2), (x + 3, 2)); x += 3   # room for the texts
+            if i + 1 < len(elems) and elems[i + 1][0] == 'g': d.w((x, 2), (x + 4, 2)); x += 4   # room for the texts
     if end: d.w((x, 2), (x + 3, 2)); d.port(end, (x + 3, 2), 'R'); x += 3
     return x
 
 
 def chain_w(elems, end=True):
-    return sum(5 if k == 's' else 5 for k, _ in elems) + (3 if end else 0) + 5
+    return sum(5 if k == 's' else 6 for k, _ in elems) + (3 if end else 0) + 5
 
 
 def pot(d, r, top, wiper):
@@ -202,3 +202,108 @@ def pot(d, r, top, wiper):
 def pot2(d, r):
     """A dual pot, its pins labelled.  14 x 8"""
     d.at(r, 6, 4)
+
+
+GROUNDS = ('GNDA', 'GNDD', 'GNDM')
+
+
+def ground(d, pt, net):
+    """A ground symbol (GNDA / GNDD), or a label pointing down for a ground with no symbol (GNDM)."""
+    if net in ('GNDA', 'GNDD'): d.gnd(pt, net)
+    else: d.port(net, pt, 'D')
+
+
+def comparators(d, units, out=None):
+    """Comparators stacked 8 grid apart, each input wired to its label (or a ground symbol); out: the shared output
+    net of a wired-AND pair, joined on a vertical. units: [((ref, unit), lm2901)].  18 x 8 per unit"""
+    for k, (u, lm) in enumerate(units):
+        y = 4 + 8 * k; p = pins(u, lm); n = d.nets(u[0])
+        d.at(u[0], 8, y, unit=u[1])
+        for pn, yy in ((p[0], y - 1), (p[1], y + 1)):
+            net = n[str(pn)]
+            if net in GROUNDS: d.w((u[0], pn), (4, yy), (4, yy + 1)); ground(d, (4, yy + 1), net)
+            else: d.w((u[0], pn), (1, yy)); d.port(net, (1, yy))
+        if out: d.w((u[0], p[2]), (13, y))
+        else: d.w((u[0], p[2]), (15, y)); d.port(n[str(p[2])], (15, y), 'R')
+    if out:
+        d.w((13, 4), (13, 4 + 8 * (len(units) - 1))); d.w((13, 4), (16, 4)); d.port(out, (16, 4), 'R')
+
+
+def npn(d, q):
+    """NPN switch: base, collector and emitter to their labels (emitter to a ground symbol).  10 x 9"""
+    n = d.nets(q)
+    d.at(q, 4, 4); d.w((q, 1), (1, 4)); d.port(n['1'], (1, 4))
+    d.w((q, 3), (5, 1)); d.port(n['3'], (5, 1), 'U')
+    if n['2'] in GROUNDS: d.w((q, 2), (5, 7)); ground(d, (5, 7), n['2'])
+    else: d.w((q, 2), (5, 8)); d.port(n['2'], (5, 8), 'D')
+
+
+def dg_pair(d, u, a, b):
+    """Two DG413 sections into one D node (PFL switcher): a, b = (unit, S pin, D pin, IN pin); S from the left,
+    the D sides joined on the right, IN labelled.  16 x 12"""
+    for (unit, s, dd, c), y in ((a, 2), (b, 7)):
+        sx = d.pins_of('DG', unit)[str(s)][0]
+        d.at(u, 7, y, mirror='y' if sx > 0 else None, unit=unit)
+        n = d.nets(u)
+        d.w((u, s), (1, y)); d.port(n[str(s)], (1, y))
+        d.w((u, c), (7, y + 3), (3, y + 3)); d.port(n[str(c)], (3, y + 3))
+    d.w((u, a[2]), (12, 2), (12, 7), (u, b[2])); d.w((12, 2), (15, 2)); d.port(d.nets(u)[str(a[2])], (15, 2), 'R')
+
+
+def halfwave(d, u, rin, da, db, rf):
+    """Precision half-wave rectifier: inverting, db in the feedback, da to the HW output, rf from HW back to the
+    - node.  26 x 12"""
+    p = pins(u); n = d.nets(u[0]); node, out = n[str(p[1])], n[str(p[2])]
+    src = d.nets(rin)['1'] if d.nets(rin)['2'] == node else d.nets(rin)['2']
+    hw = d.nets(rf)['1'] if d.nets(rf)['2'] == node else d.nets(rf)['2']
+    d.at(u[0], 12, 8, mirror='x', unit=u[1])
+    d.h(rin, 4.5, 7, left=src, text='D'); d.w((0, 7), (3, 7)); d.port(src, (0, 7)); d.w((6, 7), (u[0], p[1]))
+    d.w((7, 1), (7, 7))
+    d.h(db, 11, 4, left=node); d.w((7, 4), (9.5, 4)); d.w((12.5, 4), (16, 4))
+    d.h(rf, 11, 1, left=node, text='U'); d.w((7, 1), (9.5, 1)); d.w((12.5, 1), (20, 1))
+    d.w((16, 4), (16, 8)); d.w((u[0], p[2]), (16, 8))
+    d.h(da, 18, 6, left=out); d.w((16, 6), (16.5, 6)); d.w((19.5, 6), (20, 6)); d.w((20, 1), (20, 6))
+    d.w((20, 1), (24, 1)); d.port(hw, (24, 1), 'R')
+    d.w((u[0], p[0]), (8, 9), (8, 10)); ground(d, (8, 10), n[str(p[0])])
+
+
+def meter_sum(d, u, ra, rb, rfx, trim, cf):
+    """Meter summer: two inputs, rfx + the calibration trim (as a rheostat) and cf in the feedback.  26 x 15"""
+    p = pins(u); n = d.nets(u[0]); node, out = n[str(p[1])], n[str(p[2])]
+    other = lambda r: d.nets(r)['1'] if d.nets(r)['2'] == node else d.nets(r)['2']
+    d.at(u[0], 16, 9, mirror='x', unit=u[1])
+    d.h(ra, 3.5, 8, left=other(ra), text='D'); d.w((0, 8), (2, 8)); d.port(other(ra), (0, 8)); d.w((5, 8), (u[0], p[1]))
+    d.h(rb, 3.5, 12, left=other(rb), text='D'); d.w((0, 12), (2, 12)); d.port(other(rb), (0, 12)); d.w((5, 12), (9, 12))
+    d.w((9, 2), (9, 12))
+    d.h(cf, 12.5, 2, left=node, text='U'); d.w((9, 2), (11, 2)); d.w((14, 2), (20, 2))
+    d.at(trim, 11.5, 5, rot=270); d.w((9, 5), (trim, 3)); d.w((trim, 2), (11.5, 7), (9, 7))
+    rg = d.nets(trim)['1']
+    d.h(rfx, 15.5, 5, left=rg, text='U'); d.w((trim, 1), (14, 5)); d.w((17, 5), (20, 5))
+    d.w((20, 2), (20, 9)); d.w((u[0], p[2]), (23, 9)); d.port(out, (23, 9), 'R')
+    d.w((u[0], p[0]), (12, 10), (12, 11)); ground(d, (12, 11), n[str(p[0])])
+
+
+def peak(d, u3, dpk, rpk, cpk, c22, r330, r220, r10, dcl, ravg, cavg, jp, u4, rbo):
+    """Meter detector: U3 + diode precision peak (220R / 1u, 330K / 220K bleed), the RC average, the PEAK / AVG jumper,
+    the U4 follower and its 470R build-out to DET; R10K from DETO and the clamp diode close U3's loop.  38 x 19"""
+    p = pins(u3); n = d.nets(u3[0]); x2, node, u3o = n[str(p[0])], n[str(p[1])], n[str(p[2])]
+    d.at(u3[0], 8, 4, unit=u3[1])
+    d.w((0, 3), (u3[0], p[0])); d.port(x2, (0, 3))
+    d.w((u3[0], p[1]), (4, 5), (4, 11))
+    deto = d.nets(r10)['1'] if d.nets(r10)['2'] == node else d.nets(r10)['2']
+    d.h(r10, 1.5, 9, left=deto, text='D'); d.w((-2, 9), (0, 9)); d.port(deto, (-2, 9)); d.w((3, 9), (4, 9))
+    d.h(c22, 7.5, 7, left=node, text='D'); d.w((4, 7), (6, 7)); d.w((9, 7), (13, 7))
+    d.h(dcl, 8, 11, left=node); d.w((4, 11), (6.5, 11)); d.w((9.5, 11), (13, 11))
+    d.w((u3[0], p[2]), (13, 4), (13, 11))
+    pk1 = d.h(dpk, 15.5, 4, left=u3o); d.w((13, 4), (14, 4))
+    pk = d.h(rpk, 19.5, 4, left=pk1, text='U'); d.w((17, 4), (18, 4))
+    d.v(cpk, 23, 5.5, top=pk); pkr = d.h(r330, 25.5, 4, left=pk, text='U'); d.w((21, 4), (24, 4))
+    d.v(r220, 28, 5.5, top=pkr); d.w((27, 4), (28, 4))
+    d.at(jp, 19, 10); d.w((17, 4), (17, 10))
+    av = d.nets(jp)['3']
+    d.w((21, 10), (26, 10)); d.v(cavg, 24, 11.5, top=av)
+    xs = d.h(ravg, 27.5, 10, left=av, text='U'); d.w((29, 10), (32, 10)); d.port(xs, (32, 10), 'R')
+    q = pins(u4)
+    d.at(u4[0], 24, 17, unit=u4[1]); d.w((jp, 2), (19, 16), (u4[0], q[0]))
+    d.w((u4[0], q[2]), (28, 17), (28, 20), (20, 20), (20, 18), (u4[0], q[1])); d.port(deto, (28, 20), 'R')
+    det = d.h(rbo, 30.5, 17, left=deto, text='U'); d.w((28, 17), (29, 17)); d.w((32, 17), (35, 17)); d.port(det, (35, 17), 'R')

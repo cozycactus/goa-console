@@ -82,7 +82,8 @@ sp1, sp2 = R(b, '56K', '+VBUS', 'SENSE_P'), R(b, '47K', 'SENSE_P', 'GNDD')      
 rn = R(b, '22K', 'VREF6', 'SENSE_N'); sn2 = R(b, '51K', 'SENSE_N', '-VBUS')     # -V above -14.4 V -> fault
 chain(b, '+VBUS', [('s', rz), ('g', dz)], 'VREF6'); chain(b, '+VBUS', [('s', sp1), ('g', sp2)], 'SENSE_P')
 chain(b, 'VREF6', [('s', rn), ('g', sn2)], 'SENSE_N')
-uc = cmp(b, 'SENSE_P', 'VREF6', 'RAIL_OK'); cmp(b, 'GNDD', 'SENSE_N', 'RAIL_OK')
+uc = cmp(b, 'SENSE_P', 'VREF6', 'RAIL_OK'); ca = LAST[0]; cmp(b, 'GNDD', 'SENSE_N', 'RAIL_OK'); cb = LAST[0]
+frag(b, 20, 18, lambda d: frags.comparators(d, [(ca, False), (cb, False)], out='RAIL_OK'))     # window: wired-AND
 for x in (dz, rz, rn): near(x, uc)     # the 6.2 V reference beside both comparators that read it (it ran ~110 mm)
 chain(b, '+VL', [('s', R(b, '10K', '+VL', 'RAIL_OK', mpn='Panasonic ERJ-P06J103V'))], 'RAIL_OK')   # ~33 V in a one-rail brown-out (MG12)
 # timer and Schmitt: values from sim/mute.cir (closes 2.6-2.8 s after both rails pass threshold; contacts open
@@ -92,12 +93,13 @@ rt = R(b, '2M2', 'RAIL_OK', 'MUTE_T')
 ct = ref('C'); P(b, ct, 'C', '2.2u film 63V', {1: 'MUTE_T', 2: 'GNDD'}, fp='Capacitor_THT:C_Rect_L7.2mm_W8.5mm_P5.00mm_FKP2_FKP2_MKS2_MKP2', mpn='WIMA MKS2 2.2uF 63V')
 dr, rr_, dc = D(b, 'MUTE_T', 'MUTE_TX'), R(b, '4K7', 'MUTE_TX', 'RAIL_OK'), D(b, 'GNDD', 'MUTE_T')   # reset path, clamp at -0.7 V
 chain(b, 'RAIL_OK', [('s', rt), ('g', ct), ('g', dc)], 'MUTE_T'); chain(b, 'MUTE_T', [('s', dr), ('s', rr_)], 'RAIL_OK')
-near(cmp(b, 'MUTE_T', 'VREF6', 'MUTE_GO'), uc); chain(b, 'MUTE_GO', [('s', R(b, '22M', 'MUTE_GO', 'MUTE_T'))], 'MUTE_T')
+near(cmp(b, 'MUTE_T', 'VREF6', 'MUTE_GO'), uc); cs_ = LAST[0]; frag(b, 20, 10, lambda d: frags.comparators(d, [(cs_, False)]))
+chain(b, 'MUTE_GO', [('s', R(b, '22M', 'MUTE_GO', 'MUTE_T'))], 'MUTE_T')
 chain(b, '+VL', [('s', R(b, '4K7', '+VL', 'MUTE_GO', mpn='Panasonic ERJ-P06J472V'))], 'MUTE_GO')   # sinks to -VL: 230 mW per power-up (MG12)
 rb4 = R(b, '4K7', 'MUTE_GO', 'RLY_B')
 df, rf4, db_ = D(b, 'RLY_B', 'RLY_BX'), R(b, '4K7', 'RLY_BX', 'RAIL_OK'), D(b, 'GNDD', 'RLY_B')      # fast release, base clamp
 chain(b, 'MUTE_GO', [('s', rb4), ('g', db_)], 'RLY_B'); chain(b, 'RLY_B', [('s', df), ('s', rf4)], 'RAIL_OK')
-P(b, ref('Q'), 'NPN', 'MMBT3904', {1: 'RLY_B', 2: 'GNDD', 3: 'RLY_DRV'})
+qd = ref('Q'); P(b, qd, 'NPN', 'MMBT3904', {1: 'RLY_B', 2: 'GNDD', 3: 'RLY_DRV'}); frag(b, 12, 10, lambda d: frags.npn(d, qd))
 
 # ================================================================ PART 2: aux masters 5-6  [13]
 # Subgroups 1-4, aux masters 1-4 and stereo returns 1-4 are on the four group modules (tools/gen_group.py,
@@ -155,6 +157,8 @@ P(b, dg, 'DG', 'DG413', {16: 'PFL_ON', 14: 'SWML_S', 15: 'CRS_L'}, unit=4)   # S
 P(b, dg, 'DG', 'DG413', {8: 'PFL_ON', 6: 'SWPR_S', 7: 'CRS_R'}, unit=2)      # SW4 (NO): PFL to R
 P(b, dg, 'DG', 'DG413', {9: 'PFL_ON', 11: 'SWMR_S', 10: 'CRS_R'}, unit=3)    # SW3 (NC): MON R
 P(b, dg, 'DG', 'DG413', {13: '+VA', 4: '-VA', 12: '+5VL', 5: 'GNDD'}, unit=5)
+frag(b, 18, 13, lambda d: frags.dg_pair(d, dg, (1, 3, 2, 1), (4, 14, 15, 16)))      # L: PFL (NO) / MON (NC) into CRS_L
+frag(b, 18, 13, lambda d: frags.dg_pair(d, dg, (2, 6, 7, 8), (3, 11, 10, 9)))       # R
 for x in [C(b, '100n', '+5VL', 'GNDD'), C(b, '100n', '+VA', 'GNDA'), C(b, '100n', 'GNDA', '-VA')] + net5: near(x, dg)
 for sd in 'LR':                 # FET-input followers: an OPA1612's bias current would step CRS at every switch
     rk_ = R(b, '100K', f'CRS_{sd}', 'GNDA'); chain(b, f'CRS_{sd}', [('g', rk_)])
@@ -171,7 +175,8 @@ pd1, pr1, pr2 = R(b, '10K', 'PFLDET', 'GNDD'), R(b, '330K', '+VL', 'PFL_REF'), R
 pdd1, pdd2, pdc = D(b, 'PFLDET', 'PFL_CL'), D(b, 'PFL_CL', 'GNDD'), C(b, '1u', 'PFLDET', 'GNDD')
 chain(b, '+VL', [('s', pr1), ('g', pr2)], 'PFL_REF'); chain(b, 'PFLDET', [('g', pd1), ('g', pdc), ('s', pdd1), ('g', pdd2)])
 with new_package('LM393', 'VL'):        # one package for both, beside the DG413 so PFL_ON_RAW stays short
-    pc = cmp(b, 'PFLDET', 'PFL_REF', 'PFL_ON_RAW'); cmp(b, 'PFLDET', 'PFL_REF', 'FL_HOLD')
+    pc = cmp(b, 'PFLDET', 'PFL_REF', 'PFL_ON_RAW'); pa = LAST[0]; cmp(b, 'PFLDET', 'PFL_REF', 'FL_HOLD'); pb = LAST[0]
+frag(b, 20, 18, lambda d: frags.comparators(d, [(pa, False), (pb, False)]))
 pu1, ph1 = R(b, '100K', '+5VL', 'PFL_ON_RAW'), R(b, '10M', 'PFL_ON_RAW', 'PFLDET'); near(pu1, pc); near(ph1, pc)   # logic level, hysteresis
 r = R(b, '10K', 'PFL_ON_RAW', 'PFL_ON'); near(r, dg); near(pc, r)    # bounds IN clamp current while rails settle
 chain(b, '+5VL', [('s', pu1)], 'PFL_ON_RAW'); chain(b, 'PFL_ON_RAW', [('s', ph1)], 'PFLDET'); chain(b, 'PFL_ON_RAW', [('s', r)], 'PFL_ON')
@@ -181,7 +186,7 @@ b = block('RUDE SOLO: ~2 Hz flasher, PFL ACTIVE LED; held off through FL_N while
 # press it lets go, the first flash comes ~0.6 s later, then ~0.17 s on every ~0.53 s (sim/flasher.cir)
 f1, f2, f3 = R(b, '100K', '+VL', 'FL_P'), R(b, '100K', 'FL_P', 'GNDD'), R(b, '100K', 'FL_OUT', 'FL_P')
 f4, f5, f6 = R(b, '1M', 'FL_OUT', 'FL_N'), C(b, '330n', 'FL_N', 'GNDD'), D(b, 'FL_N', 'FL_HOLD')
-cmp(b, 'FL_P', 'FL_N', 'FL_OUT')
+cmp(b, 'FL_P', 'FL_N', 'FL_OUT'); fc = LAST[0]; frag(b, 20, 10, lambda d: frags.comparators(d, [(fc, False)]))
 f7 = R(b, '10K', '+VL', 'FL_OUT')
 f8 = R(b, '3K3', '+VL', 'FL_LA', mpn='Panasonic ERJ-P06J332V')     # the LED returns to -VL: ~31 V, 297 mW peak (MG13)
 f9 = ref('D'); P(b, f9, 'LED', 'PFL ACTIVE red 5mm', {2: 'FL_LA', 1: 'FL_OUT'}, fp='LED_THT:LED_D5.0mm', mpn='Kingbright WP7113ID')
@@ -235,28 +240,31 @@ def fmt_r(v): return f'{v}R' if v < 1000 else (f'{v // 1000}K{v % 1000 // 100}' 
 for sd in 'LR':
     m = f'M{sd}'
     b = block(f'METER {sd}: full-wave rectifier, precision peak / average, follower (TL072), 2 dB ladder, 2 x 10-LED strings')
-    R(b, '100R', f'CRSB_{sd}', f'MTR_{sd}')
-    R(b, '10K', f'MTR_{sd}', m + '_N1'); R(b, '10K', m + '_N1', m + '_HW')
-    amp(b, 'GNDM', m + '_N1', m + '_U1O', 'TL072', 'VM')
-    D(b, m + '_HW', m + '_U1O'); D(b, m + '_U1O', m + '_N1')
-    R(b, '20K', f'MTR_{sd}', m + '_N2'); R(b, '10K', m + '_HW', m + '_N2')
-    R(b, '10K', m + '_X2', m + '_RG')
+    chain(b, f'CRSB_{sd}', [('s', R(b, '100R', f'CRSB_{sd}', f'MTR_{sd}'))], f'MTR_{sd}')
+    h1, h2 = R(b, '10K', f'MTR_{sd}', m + '_N1'), R(b, '10K', m + '_N1', m + '_HW')
+    amp(b, 'GNDM', m + '_N1', m + '_U1O', 'TL072', 'VM'); hu = LAST[0]
+    hda, hdb = D(b, m + '_HW', m + '_U1O'), D(b, m + '_U1O', m + '_N1')
+    frag(b, 27, 13, lambda d, a=(hu, h1, hda, hdb, h2): frags.halfwave(d, *a))
+    s1, s2 = R(b, '20K', f'MTR_{sd}', m + '_N2'), R(b, '10K', m + '_HW', m + '_N2')
+    s3 = R(b, '10K', m + '_X2', m + '_RG')
     rv = ref('RV'); P(b, rv, 'TRIM', 'Cal 10K', {1: m + '_RG', 2: m + '_N2', 3: m + '_N2'}, mpn='Bourns 3296W-1-103LF')
-    u2 = amp(b, 'GNDM', m + '_N2', m + '_X2', 'TL072', 'VM')
-    near(rv, u2); near(C(b, '22p C0G', m + '_X2', m + '_N2'), u2)     # short summing junction (MG9)
-    R(b, '33K', m + '_X2', m + '_AV'); C(b, '2.2u', m + '_AV', 'GNDM')
-    u3 = amp(b, m + '_X2', m + '_N4', m + '_U3O', 'TL072', 'VM')
+    u2 = amp(b, 'GNDM', m + '_N2', m + '_X2', 'TL072', 'VM'); su2 = LAST[0]
+    s4 = C(b, '22p C0G', m + '_X2', m + '_N2'); near(rv, u2); near(s4, u2)     # short summing junction (MG9)
+    frag(b, 27, 16, lambda d, a=(su2, s1, s2, s3, rv, s4): frags.meter_sum(d, *a))
+    av1, av2 = R(b, '33K', m + '_X2', m + '_AV'), C(b, '2.2u', m + '_AV', 'GNDM')
+    u3 = amp(b, m + '_X2', m + '_N4', m + '_U3O', 'TL072', 'VM'); pu3 = LAST[0]
     # peak: the follower reads the diode cathode (PK1), so its loop holds one integrator, not the op-amp plus
     # 1K / 1u (0-1.5 deg, +5 dB on 10 kHz at -20 dBu); 220R: 0.22 ms first-order attack (master_group_review.md MG8)
-    D(b, m + '_U3O', m + '_PK1'); R(b, '220R', m + '_PK1', m + '_PK'); C(b, '1u', m + '_PK', 'GNDM')
-    near(C(b, '22p C0G', m + '_U3O', m + '_N4'), u3)
-    R(b, '330K', m + '_PK', m + '_PKR'); R(b, '220K', m + '_PKR', 'GNDM')
+    k1, k2, k3 = D(b, m + '_U3O', m + '_PK1'), R(b, '220R', m + '_PK1', m + '_PK'), C(b, '1u', m + '_PK', 'GNDM')
+    k4 = C(b, '22p C0G', m + '_U3O', m + '_N4'); near(k4, u3)
+    k5, k6 = R(b, '330K', m + '_PK', m + '_PKR'), R(b, '220K', m + '_PKR', 'GNDM')
     # the 10K back to U3's - input from the follower's pin side: through the 470R the clamp current would read
     # 0.4 dB low and ripple 0.5 dB (MG9)
-    R(b, '10K', m + '_DETO', m + '_N4'); D(b, m + '_N4', m + '_U3O')
-    P(b, ref('JP'), 'SJ3', 'PEAK(1-2) / AVG', {1: m + '_PK1', 3: m + '_AV', 2: m + '_JSEL'})
-    u4 = amp(b, m + '_JSEL', m + '_DETO', m + '_DETO', 'TL072', 'VM')
-    near(R(b, '470R', m + '_DETO', m + '_DET'), u4)       # build-out: DET drives 20 comparator inputs + ~165 mm
+    k7, k8 = R(b, '10K', m + '_DETO', m + '_N4'), D(b, m + '_N4', m + '_U3O')
+    kj = ref('JP'); P(b, kj, 'SJ3', 'PEAK(1-2) / AVG', {1: m + '_PK1', 3: m + '_AV', 2: m + '_JSEL'})
+    u4 = amp(b, m + '_JSEL', m + '_DETO', m + '_DETO', 'TL072', 'VM'); pu4 = LAST[0]
+    k9 = R(b, '470R', m + '_DETO', m + '_DET'); near(k9, u4)       # build-out: DET drives 20 comparator inputs + ~165 mm
+    frag(b, 40, 23, lambda d, a=(pu3, k1, k2, k3, k4, k5, k6, k7, k8, av1, av2, kj, pu4, k9): frags.peak(d, *a))
     # threshold ladder: +VM - 16K - T20 ... T1 - 91R - GNDM
     lad = [R(b, '16K', '+VM', f'{m}_T20')]
     for k, rv in zip(range(20, 1, -1), LADDER): lad.append(R(b, fmt_r(rv), f'{m}_T{k}', f'{m}_T{k - 1}'))

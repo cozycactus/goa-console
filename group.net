@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/group.kicad_sch")
-		(date "2026-10-24T20:23:55")
+		(date "2026-10-24T20:44:19")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -9731,7 +9731,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "8c7d97eb-8dae-54ba-a095-44d8117f3d3e" "bc38ef18-8c01-52b3-8de4-44367f4b242b"
+			(tstamps "bc38ef18-8c01-52b3-8de4-44367f4b242b" "8c7d97eb-8dae-54ba-a095-44d8117f3d3e"
 				"71988484-c836-550a-9f46-93d59a5a5ef3"
 			)
 			(units
@@ -10079,7 +10079,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "fc10fd87-a60c-5a84-920b-c6368d98a024" "a5029c1b-ad2f-5304-85e8-5c0521c7514d"
+			(tstamps "a5029c1b-ad2f-5304-85e8-5c0521c7514d" "fc10fd87-a60c-5a84-920b-c6368d98a024"
 				"a2ef85f6-1480-5e08-8a53-ae17a4e4a4dd"
 			)
 			(units

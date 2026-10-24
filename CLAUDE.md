@@ -30,8 +30,10 @@ jack board) done.
   drawing fragment of its own parts (`tools/frags.py`: inverting / difference / non-inverting stages, followers, insert,
   DRV134, relay, routing, AFL, power units, chains, pots; two-pin parts turned by their nets), `schgen.flow()` lays a
   block's fragments out in rows and puts any part no fragment drew in labelled rows under them (`build(flowed=True)`),
-  so a new circuit can't be lost, only undrawn. The master's comparator logic and its 40 meter comparators are such
-  labelled rows. PSU, jig and jack boards keep the row layout. Live view while editing a drawing:
+  so a new circuit can't be lost, only undrawn. Drawn on the master since: the mute window / Schmitt / relay NPN, PFL
+  detect and flasher comparators, the DG413 PFL switcher pairs, the meter half-wave rectifiers, sums and peak detectors.
+  Still labelled rows there: the 40 meter comparators with Q2-Q5, U6 (one unit), SW3, the DG413's supply unit and its
+  +5VL parts, the power entry (J1, CN1, D1/D2, NT1-NT4), PWR_FLAGs and CN4/CN5. PSU, jig and jack boards keep the row layout. Live view while editing a drawing:
   `tools/live.sh [strip|group|master] "note"` regenerates, checks (verify, ERC) and exports SVG for the page served by
   `.claude/launch.json` ("schematic-live", http://localhost:8765).
 - `master.kicad_sch` / `.kicad_pro` — master MODULE (16 HP; 563 parts + its jack board) since the M1 split (2026-10-22).
