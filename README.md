@@ -138,6 +138,10 @@ done
 python3 tools/sim_netlist.py channel_strip.net jack_board.net
 ```
 
+The whole console (24 strips, 4 groups and the master, each with its jack board, on the ribbon) is simulated from the
+generated netlists with `python3 tools/sim_console.py` (32 checks, about 10 s; `--list` names them). It covers
+levels, routing, mutes, PFL, returns, EXT, crosstalk, ground currents and noise. Regenerate the netlists first.
+
 The other generators work the same way:
 
 | Generator | Writes |

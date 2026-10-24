@@ -157,6 +157,11 @@ GOUT ── C38 47 µF NP ── HIN ── R47 47K to AGND
 - RV9: Alpha RD901F-40-15R1-B10K-0CD (10K linear, centre detent).
 - Noise at the gain-stage output, 50 Ω source: −105.2 dBu at 0 dB, −91.4 dBu at +15 dB. The
   Delta line-stage topology recalculated for the same range is 4.7 dB noisier (rejected).
+- Noise at PRE with the OPA1612's input current noise (1.7 pA/√Hz) included (`tools/sim_console.py`, 2026-10-24):
+  - −102.6 dBu with EQ bypassed, −92.9 dBu with EQ in, against −105.2 / −96.7 dBu from the resistors alone (the
+    earlier figures).
+  - Most of the current noise acts in the EQ's 22K networks and the KHN integrators.
+  - A FET-input op-amp in those stages would trade it for higher voltage noise; not evaluated yet.
 
 ---
 

@@ -108,6 +108,7 @@ jack board) done.
   $KC sch export pdf -o channel_strip.pdf channel_strip.kicad_sch
   ```
   python3 tools/sim_netlist.py channel_strip.net jack_board.net   # both netlists joined by the ribbon: 25 checks
+  python3 tools/sim_console.py     # the whole console from the netlists: 24 strips + 4 groups + master + ribbon, 32 checks
   BOM (every board; quoted fields, because some MPNs contain commas; DNP column): `$KC sch export bom -o channel_strip_BOM.csv --fields '${QUANTITY},Value,Footprint,MPN,${DNP},Reference' --labels 'Qty,Value,Footprint,MPN,DNP,References' --group-by 'Value,Footprint,MPN,${DNP}' --ref-delimiter ' ' --ref-range-delimiter '' channel_strip.kicad_sch`
   `.venv/` (gitignored) holds kiutils 1.4.8. gen.py finds the symbol libs at the Linux or macOS
   default path, or `$KICAD_SYMBOL_DIR`. verify.py parses both KiCad 7 and KiCad 8+ netlists
@@ -340,6 +341,19 @@ jack board) done.
   - Re-placed: 0 DRC violations, 0 parity issues on the master, group and jig boards. Reports: master decouplers
     3.1 / 10.5 / 25, high-Z 7.2 / 108 / 71 (U11 VREF6); group 3.1 / 6.7 / 2, 9.5 / 20.1 / 18. Build-outs ≤ 10.3 mm
     from their pins. R1-R4 ≥ 13 mm from the PTCs. Strip, PSU, jig and jack boards place identically.
+- Whole console (`tools/sim_console.py`, 2026-10-24): 24 strips + 4 groups + master from the generated netlists, each
+  module on its own ground through the ribbon's ground conductors and its spade, ribbon R/L/C per 41 mm segment,
+  single-pole op-amps with datasheet noise. 32/32 checks:
+  - Level: 0 dBu in, pan centre, every fader at "0" gives −0.8 dBu at the main XLRs, not 0. Each "0" mark is
+    −10.19 dB (the wiper loaded by the post-amp's 100K), each post-amp +9.93 dB, and the master's build-outs cost
+    0.18 dB. The panel's "0" marks could sit a little higher once the fader's real law is measured.
+  - Mutes and routing: muted strip −87 dB, unassigned −102 dB, pan rejection −116 dB.
+  - Crosstalk at 20 kHz: MIX L → main R −94 dB, → sub −158 dB, → aux −124 dB.
+  - Ground: 10 mA into one strip's ground gives −92 dBu at main L. With 1 mA into every module, main L is −93 dBu with
+    ground cancel against −69 dBu with the summers on master ground (24 dB). The residue is the strips' unequal
+    grounds along the ribbon.
+  - Noise, 20 Hz–20 kHz at main L: 24 strips routed −79 dBu, one strip −91 dBu (strip noise dominates).
+  - Mutation tests: the v0.7 master netlist fails EXT (−12 dB), and a cut GCANCEL conductor fails the ground checks.
 - PSU sim (`sim/psu.cir`, 2026-10-22): soft start 165 ms to 90 %, no overshoot; 5.1 A peak SMPS current;
   crowbar idle margin 2.21 / 2.495 V; fault (pass element shorted) → fires in 17 µs, console bus peak 19.7 V,
   strip/master rails stay 16.9 V; LDO 19 W at 4 A; LC −47 dB at 65 kHz (ESR-limited).
@@ -352,7 +366,8 @@ jack board) done.
 - Delta-clone sims (2026-10-22, `sim/gain_stage.cir`, `sim/delta_eq.cir`, `sim/strip_v4.cir`): gain −15…+14.8 dB,
   0 dB at the detent; HPF (unity Butterworth) −3 dB 87 Hz; EQ HF ±11.5 dB @12k, HI-MID ±14.6 dB 670 Hz–10.5 kHz,
   LO-MID ±14.7 dB 148 Hz–2.3 kHz (Q 1.44), LF ±14.3 dB @54 Hz; flat ±0.16 dB, in phase; 0 dBu in → PRE 0 dBu.
-  PRE noise −105.2 dBu EQ bypassed, −97.2 dBu EQ in (resistor noise; op-amp choice irrelevant).
+  PRE noise −105.2 dBu EQ bypassed, −97.2 dBu EQ in (resistor noise only). With the OPA1612's 1.7 pA/√Hz current
+  noise (tools/sim_console.py, 2026-10-24): −102.6 / −92.9 dBu; the 22K EQ and KHN networks turn it into voltage.
 - Bus noise (OPA1612, 24 ch routed): −97.6 dBu with 10K, −100.4 dBu with 4K7 (20 Hz–20 kHz).
 
 ## Not done / open
