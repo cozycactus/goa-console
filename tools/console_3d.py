@@ -427,6 +427,7 @@ def panel_print(c, key, pots, faders, obst, width):
     put(f'{key} panel print', g.mesh(f'{key} panel print'), c, 0, 0, PANEL_Z1)
 
 BUS = {}                                      # module key: bus-header sockets [(x, y, ribbon z, pin-1 y)] for the motherloom
+SPADES, STAR = {}, {}                         # module key: ground-spade tab tips [(x, y, z)]; the master's M4 star stud (x, y, z)
 
 def part_kw(fn, kw, **extra):
     """kw plus those of the extra keyword arguments that fn takes."""
@@ -495,6 +496,9 @@ def module(key, names, width, label=None):
             fp, ref = p['fp'], p['ref']
             name, colour = names.get(ref, ('', 'grey'))
             f = p.get('feature'); reg = lookup(fp); flip = p['side'] == 'B'
+            if 'Keystone_1287' in fp and not jackboard:      # the module's ground spade: its tab tip
+                SPADES.setdefault(key, []).append((p['x'], p['y'], zb - 10.2 if flip else zt + 10.2))
+            if 'MountingHole_4.3mm_M4' in fp: STAR[key] = (p['x'], p['y'], zb)
             if not reg:
                 for px, py in p.get('pads', ()):                # pins of the generic parts built here
                     pins.cyl(px, py, zb - 1.2, zt + 0.4, 0.45, 0, 8)
@@ -619,11 +623,39 @@ for item in order:
     x += 2 * PITCH if item == 'M' else PITCH
 motherloom('motherloom L', sorted(q for q in bus if q[0] < master_x + PITCH))     # master CN2 ends the left wing,
 motherloom('motherloom R', sorted(q for q in bus if q[0] >= master_x + PITCH))    # CN3 starts the right one
+def ground_harness(x_of):
+    """The heavy audio ground (master spec 26, architecture 3.4): one yellow wire per module from its 6.3 mm spade
+    (a receptacle on the tab) down to the tub floor and along it, radially (no daisy chain), to a ring lug on the
+    master's M4 star stud under the master board. The PSU 0 V reaches the same star through J1 and the net ties;
+    GCANCEL (ribbon pin 26) never goes to the bar. x_of: [(module key, its x)]."""
+    hc = coll('ground harness', console)
+    mx = next(x for k, x in x_of if k == 'master'); sx, sy, szb = STAR['master']; sx += mx
+    tabs = [(x + tx, ty, tz) for k, x in x_of if k != 'master' for tx, ty, tz in SPADES.get(k, ())]
+    g = Geo([M['steel'], M['tin']])
+    g.cyl(sx, sy, szb - 4.4 - 9.0, szb - 4.4, 2.0, 0, 16)                  # the stud's thread on below the head
+    zf = TUB + 4.0
+    for k, (tx, ty, tz) in enumerate(sorted(tabs)):
+        g.box(tx - 3.6, ty - 4.5, tz - 3.0, tx + 3.6, ty + 4.5, tz + 4.0, 1)        # receptacle on the tab
+        zl = szb - 5.0 - 0.35 * (k % 24); a = 2 * math.pi * k / max(1, len(tabs))
+        lx, ly = sx + 2.6 * math.cos(a), sy + 2.6 * math.sin(a)
+        g.cyl(sx, sy, zl - 0.15, zl + 0.15, 4.2, 1, 20)                      # its ring lug on the stud
+        side = -1 if tx < sx else 1
+        yb = sy + (k % 12 - 6) * 0.9                                          # the bundle, wires side by side
+        path = [(tx, ty, tz - 3.0), (tx, ty, zf + 6), (tx, ty, zf), (tx, yb, zf), (sx + side * 25, yb, zf),
+                (sx + side * 8, ly, zf), (lx + side * 3, ly, zl - 6), (lx, ly, zl)]
+        me = cable.round_cable(cable.smooth(path, 6), 1.1, 'wire_yellow', 10)
+        o = bpy.data.objects.new(f'ground wire {k + 1}', to_mesh(me, f'ground wire {k + 1}')); hc.objects.link(o); o.parent = root
+    o = bpy.data.objects.new('star stud lugs', g.mesh('star stud lugs')); hc.objects.link(o); o.parent = root
+    return len(tabs)
 def box(name, x0, y0, z0, x1, y1, z1, m, c):
     g = Geo([m]); g.box(x0, y0, z0, x1, y1, z1, 0)
     o = bpy.data.objects.new(name, g.mesh(name)); c.objects.link(o); return o
 frame = coll('frame', console)
 TUB = -45.0                                       # tub floor: side-B parts reach z -27 (16 mm elko), jack board -14
+xs_, x = [], 0.0
+for item in order:
+    xs_.append(({'S': 'strip', 'M': 'master'}.get(item, 'group'), x)); x += 2 * PITCH if item == 'M' else PITCH
+print('ground wires', ground_harness(xs_))
 for y0, y1 in ((-12, -3), (495, 504)):
     box(f'rail {y0}', -2, y0, PANEL_Z0 - 10, width + 2, y1, PANEL_Z0, M['alu'], frame).parent = root
 box('tub floor', -2, -12, TUB - 2, width + 2, 504, TUB, M['hdr'], frame).parent = root
@@ -674,7 +706,7 @@ def aim(o, target):
 def light(sc, name, kind, loc, target, energy, size=1.0):
     ld = bpy.data.lights.new(name, kind); ld.energy = energy
     if kind == 'AREA': ld.size = size
-    o = bpy.data.objects.new(name, ld); sc.collection.objects.link(o); o.location = loc; aim(o, target)
+    o = bpy.data.objects.new(name, ld); sc.collection.objects.link(o); o.location = loc; aim(o, target); return o
 def camera(sc, name):
     cd = bpy.data.cameras.new(name); cd.clip_start = 0.002; cd.clip_end = 50
     o = bpy.data.objects.new(name, cd); sc.collection.objects.link(o); sc.camera = o; return o
@@ -737,6 +769,12 @@ if 'norender' not in ARGV[1:]:                     # '-- render norender': build
     shot(scene, cam, 'internals.png', c + Vector((-0.42, -0.62, 0.48)), c, lens=40)
     c = W(master_x + 39.3, 150, -5)
     shot(scene, cam, 'internals_closeup.png', c + Vector((-0.16, -0.20, 0.16)), c, lens=35)
+    frame.hide_render = True                       # the wiring from below: tub, frame and desk hidden, lit from below
+    desk = bpy.data.objects['desk']; desk.hide_render = True
+    c = W(master_x + 39.3, 300, -20)
+    under = light(scene, 'under', 'AREA', c + Vector((0.3, -0.4, -0.9)), c, 60, 2.0)
+    shot(scene, cam, 'wiring.png', c + Vector((-0.55, 0.35, -0.55)), c, lens=28, res=(2400, 1350))
+    frame.hide_render = desk.hide_render = False; under.hide_render = True
     panels_visible(True)
     shot(bench, bcam, 'strip_side.png', (-1.0, -0.252, 0.0), None, ortho=0.56, res=(2400, 440),
          rot=(math.radians(90), 0, math.radians(-90)))
