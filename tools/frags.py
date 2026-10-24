@@ -15,11 +15,11 @@ def inv(d, src, out, u, rin, rf, cf, plus, src2=None, rin2=None):
     'plus' (a ground symbol when it is a ground). Parts turned by their nets.  24 x 15"""
     p = pins(u); node = d.nets(u[0])[str(p[1])]
     d.at(u[0], 16, 9, mirror='x', unit=u[1])
-    d.h(rin, 3.5, 8, left=src, text='D'); d.w((0, 8), (2, 8)); d.port(src, (0, 8)); d.w((5, 8), (u[0], p[1]))
-    d.w((9, 2), (9, 12 if rin2 else 8))
-    d.h(rf, 12.5, 5, left=node, text='D'); d.w((9, 5), (11, 5)); d.w((14, 5), (20, 5))
-    d.h(cf, 12.5, 2, left=node, text='U'); d.w((9, 2), (11, 2)); d.w((14, 2), (20, 2))
-    d.w((20, 2), (20, 9)); d.w((u[0], p[2]), (23, 9)); d.port(out, (23, 9), 'R')
+    d.h(rin, 3.5, 8, left=src, text='U' if rin.startswith('FB') else 'D'); d.w((0, 8), (2, 8)); d.port(src, (0, 8)); d.w((5, 8), (9, 8), (u[0], p[1]))
+    d.w((9, 1), (9, 12 if rin2 else 8))
+    d.h(rf, 12.5, 5, left=node, text='U'); d.w((9, 5), (11, 5)); d.w((14, 5), (20, 5))
+    d.h(cf, 12.5, 1, left=node, text='U'); d.w((9, 1), (11, 1)); d.w((14, 1), (20, 1))
+    d.w((20, 1), (20, 9)); d.w((u[0], p[2]), (23, 9)); d.port(out, (23, 9), 'R')
     if rin2:
         d.h(rin2, 3.5, 12, left=src2, text='D'); d.w((0, 12), (2, 12)); d.port(src2, (0, 12)); d.w((5, 12), (9, 12))
     if plus in ('GNDA', 'GNDD', 'GNDM'): d.w((u[0], p[0]), (12, 10), (12, 11)); ground(d, (12, 11), plus)
@@ -29,9 +29,10 @@ def inv(d, src, out, u, rin, rf, cf, plus, src2=None, rin2=None):
 def wiper_follower(d, src, out, u, cin, rsh, csh, rbo=None, final=None):
     """Follower on a pot wiper: src -> cin -> +, rsh and csh to ground; optional build-out rbo to 'final'.  24 x 10"""
     p = pins(u)
-    d.at(u[0], 15, 4, unit=u[1])
+    d.at(u[0], 15, 4, unit=u[1], text='U')
     d.h(cin, 3.5, 3, left=src, text='U'); d.w((0, 3), (2, 3)); d.port(src, (0, 3)); d.w((5, 3), (u[0], p[0]))
-    d.v(rsh, 7, 4.5, top=d.nets(cin)['2'] if d.nets(cin)['1'] == src else d.nets(cin)['1'], text='L'); d.at(csh, 10, 4.5)
+    d.w((5, 3), (5, 4)); d.v(rsh, 5, 5.5, top=d.nets(cin)['2'] if d.nets(cin)['1'] == src else d.nets(cin)['1'], text='L')
+    d.at(csh, 10, 4.5, text='L')
     d.w((u[0], p[2]), (19, 4), (19, 7), (11.5, 7), (11.5, 5), (u[0], p[1]))
     if rbo:
         d.h(rbo, 21.5, 4, left=d.nets(u[0])[str(p[2])], text='U'); d.w((19, 4), (20, 4))
@@ -44,9 +45,9 @@ def phones(d, src, u, cin, rsh, csh, buf, rout, rf, cf, rg, caps, out):
     """Headphone composite: wiper follower-style input, OPA1612 driving the LME49600 inside the loop, 2R2 out; the
     4K7 from the output (after the 2R2) and the 100p from the op-amp's own output to the - node, 2K2 to ground.  40 x 20"""
     p = pins(u); fin = d.nets(u[0])[str(p[0])]; fn = d.nets(u[0])[str(p[1])]; drv = d.nets(u[0])[str(p[2])]
-    d.at(u[0], 16, 4, unit=u[1])
+    d.at(u[0], 16, 4, unit=u[1], text='U')
     d.h(cin, 3.5, 3, left=src, text='U'); d.w((0, 3), (2, 3)); d.port(src, (0, 3)); d.w((5, 3), (u[0], p[0]))
-    d.v(rsh, 7, 4.5, top=fin, text='L'); d.at(csh, 10, 4.5)
+    d.w((5, 3), (5, 4)); d.v(rsh, 5, 5.5, top=fin, text='L'); d.at(csh, 10, 4.5, text='L')
     d.at(buf, 25, 4)                                                   # LME49600: in (2) left, out (4) right
     d.w((u[0], p[2]), (buf, 2))
     d.h(rout, 33.5, 4, left=d.nets(buf)['4'], text='U'); d.w((buf, 4), (32, 4)); d.w((35, 4), (39, 4)); d.port(out, (39, 4), 'R')
@@ -54,7 +55,7 @@ def phones(d, src, u, cin, rsh, csh, buf, rout, rf, cf, rg, caps, out):
     d.h(cf, 16.5, 10, left=fn, text='D'); d.w((13, 10), (15, 10)); d.w((18, 10), (20, 10), (20, 4))
     d.h(rf, 22.5, 14, left=fn, text='D'); d.w((13, 14), (21, 14)); d.w((24, 14), (37, 14), (37, 4))
     d.v(rg, 13, 15.5, top=fn, text='L')
-    for i, c in enumerate(caps): d.at(c, 27 + 4 * i, 18)
+    for i, c in enumerate(caps): d.at(c, 27 + 6 * i, 18, rot=180 if d.nets(c)['1'] in GROUNDS else 0)
 
 
 def part(d, r, x, y, unit=None):
@@ -69,10 +70,10 @@ def diff(d, inn, inp, out, u, r1, r2, r3, r4, c0, c1, shunts=(), c0n=2):
     p = pins(u)
     d.at(u[0], 22, 9, mirror='x', unit=u[1])
     d.at(r1, 10.5, 8, rot=90, text='U'); d.w((0, 8), (r1, 1)); d.port(inn, (0, 8)); d.w((r1, 2), (u[0], p[1]))
-    d.w((14, 2), (14, 8))
-    d.at(r2, 18.5, 5, rot=90, text='D'); d.w((14, 5), (r2, 1)); d.w((r2, 2), (26, 5))
-    d.at(c0, 18.5, 2, rot=270 if c0n == 2 else 90, text='U'); d.w((14, 2), (c0, c0n)); d.w((c0, 3 - c0n), (26, 2))
-    d.w((26, 2), (26, 9)); d.w((u[0], p[2]), (29, 9)); d.port(out, (29, 9), 'R')
+    d.w((14, 1), (14, 8))
+    d.at(r2, 18.5, 5, rot=90, text='U'); d.w((14, 5), (r2, 1)); d.w((r2, 2), (26, 5))
+    d.at(c0, 18.5, 1, rot=270 if c0n == 2 else 90, text='U'); d.w((14, 1), (c0, c0n)); d.w((c0, 3 - c0n), (26, 1))
+    d.w((26, 1), (26, 9)); d.w((u[0], p[2]), (29, 9)); d.port(out, (29, 9), 'R')
     d.at(r3, 10.5, 14, rot=90, text='U'); d.w((0, 14), (r3, 1)); d.port(inp, (0, 14))
     d.w((r3, 2), (15, 14), (15, 10), (u[0], p[0]))
     d.at(r4, 15, 15.5, text='L'); d.w((15, 14), (17, 14)); d.at(c1, 17, 15.5)
@@ -85,9 +86,9 @@ def noninv(d, src, out, u, cin, rsh, csh, rf, cf, rg, rb=None, cout=None, rout=N
     """Non-inverting stage on a pot wiper: src -> cin -> +, rsh and csh to ground; - node with cf and rf to the output
     line below the stage and rg to ground. With rb / cout / rout: 47R build-out, coupler, 47K, then 'post'.  38 x 17"""
     p = pins(u)
-    d.at(u[0], 18, 4, unit=u[1])
+    d.at(u[0], 18, 4, unit=u[1], text='U')
     d.at(cin, 3.5, 3, rot=90, text='U'); d.w((0, 3), (cin, 1)); d.port(src, (0, 3)); d.w((cin, 2), (u[0], p[0]))
-    d.at(rsh, 7, 4.5, text='L'); d.at(csh, 11, 4.5, text='L')
+    d.w((5, 3), (5, 4)); d.at(rsh, 5, 5.5, text='L'); d.at(csh, 11, 4.5, text='L')
     d.w((u[0], p[1]), (13, 5), (13, 13))
     d.at(cf, 16.5, 9, rot=270, text='D'); d.w((13, 9), (cf, 2)); d.w((cf, 1), (22, 9))
     d.at(rf, 16.5, 13, rot=270, text='D'); d.w((13, 13), (rf, 2)); d.w((rf, 1), (22, 13))
@@ -104,7 +105,7 @@ def noninv(d, src, out, u, cin, rsh, csh, rf, cf, rg, rb=None, cout=None, rout=N
 def follower(d, src, out, u, cap=None):
     """Unity follower, + on top, the loop under it; cap: a C from + to ground.  16 x 9"""
     p = pins(u)
-    d.at(u[0], 8, 3, unit=u[1])
+    d.at(u[0], 8, 3, unit=u[1], text='U')
     d.w((0, 2), (u[0], p[0])); d.port(src, (0, 2))
     d.w((u[0], p[2]), (12, 3), (12, 6), (4, 6), (4, 4), (u[0], p[1]))
     d.w((12, 3), (15, 3)); d.port(out, (15, 3), 'R')
@@ -119,7 +120,7 @@ def insert(d, src, send, rr, dst, rs, cin, rin, rprot, cprot, u, rbo, cout, rout
     d.at(rprot, 10.5, 6, rot=90, text='U'); d.w((7, 6), (rprot, 1))
     d.at(cprot, 14, 7.5, text='L')
     p = pins(u)
-    d.at(u[0], 20, 7, unit=u[1]); d.w((rprot, 2), (u[0], p[0]))
+    d.at(u[0], 20, 7, unit=u[1], text='U'); d.w((rprot, 2), (u[0], p[0]))
     d.w((u[0], p[2]), (24, 7), (24, 10), (16, 10), (16, 8), (u[0], p[1]))
     d.at(rbo, 26.5, 7, rot=90, text='U'); d.w((24, 7), (rbo, 1))
     d.at(cout, 31.5, 7, rot=90, text='U'); d.w((rbo, 2), (cout, 1))
@@ -135,7 +136,7 @@ def drv134(d, inp, op, on, u, cs_p, cs_n, cv_p, cv_n):
     d.w((u, 7), (18, 7)); d.w((cs_p, 2), (18, 4), (18, 7)); d.w((18, 7), (21, 7)); d.port(op, (21, 7), 'R')
     d.at(cs_n, 15.5, 12, rot=90, text='D'); d.w((u, 1), (13, 10), (13, 12), (cs_n, 1))
     d.w((u, 2), (18, 9)); d.w((cs_n, 2), (18, 12), (18, 9)); d.w((18, 9), (21, 9)); d.port(on, (21, 9), 'R')
-    d.at(cv_p, 25, 5.5); d.at(cv_n, 28, 5.5, rot=180)
+    d.at(cv_p, 25, 5.5); d.at(cv_n, 30, 5.5, rot=180)
 
 
 def relay(d, k, rcoil, dfly, nc_net):
@@ -143,11 +144,14 @@ def relay(d, k, rcoil, dfly, nc_net):
     contacts labelled (NO = driver side, COM = connector side, NC grounded).  24 x 15"""
     d.at(k, 9, 8)
     d.at(rcoil, 5, 2.5); d.w((rcoil, 1), (5, 0)); d.port('+VBUS', (5, 0), 'U'); d.w((rcoil, 2), (k, 1))
-    d.at(dfly, 1, 8, rot=270); d.w((dfly, 1), (1, 5), (k, 1)); d.w((dfly, 2), (1, 11), (k, 8))
+    d.at(dfly, 1, 8, rot=270, text='L'); d.w((dfly, 1), (1, 5), (k, 1)); d.w((dfly, 2), (1, 11), (k, 8))
     d.w((k, 8), (5, 13)); d.port('RLY_DRV', (5, 13), 'D')
-    for pn in (2, 7):                               # NC contacts: ground (or the relay's own return net)
-        if nc_net in ('GNDA', 'GNDD'): d.gnd((k, pn), nc_net, 'U')
-        else: d.port(nc_net, (k, pn), 'U')
+    if nc_net in ('GNDA', 'GNDD'):                  # NC contacts: ground (or the relay's own return net)
+        for pn in (2, 7): d.gnd((k, pn), nc_net, 'U')
+    else:                                           # a named ground: both contacts lifted clear of the labels, one symbol
+        (x2, y2), (x7, y7) = d.pin(k, 2), d.pin(k, 7)
+        g = lambda x, y: ((x - d.ox) / 2.54, (y - d.oy) / 2.54 - 4)
+        d.w((k, 2), g(x2, y2), g(x7, y7)); d.w((k, 7), g(x7, y7)); d.gnd(g(x7, y7), nc_net, 'U')
 
 
 def routing(d, srcl, srcr, busl, busr, rl, rr, sw):
@@ -184,7 +188,9 @@ def chain(d, start, elems, end=None):
         else:
             d.w((x, 2), (x + 2, 2)); d.v(r, x + 2, 3.5, top=net)
             x += 2
-            if i + 1 < len(elems) and elems[i + 1][0] == 'g': d.w((x, 2), (x + 4, 2)); x += 4   # room for the texts
+            if i + 1 < len(elems):                       # room for the texts
+                gap = max(4, int(0.45 * len(next(p['value'] for p in d.parts if p['ref'] == r))) + 2)
+                d.w((x, 2), (x + gap, 2)); x += gap
     if end: d.w((x, 2), (x + 3, 2)); d.port(end, (x + 3, 2), 'R'); x += 3
     return x
 
@@ -200,17 +206,23 @@ def pot(d, r, top, wiper):
 
 
 def pot2(d, r):
-    """A dual pot, its pins labelled.  14 x 8"""
-    d.at(r, 6, 4)
+    """A dual pot: wipers up, the track ends down, each on a stub to its label or ground.  24 x 12"""
+    val = next(p['value'] for p in d.parts if p['ref'] == r)
+    d.at(r, max(11, round(6 + 0.45 * len(val))), 5); n = d.nets(r)
+    for pn, net in n.items():
+        x, y = d.pin(r, pn); gx = (x - d.ox) / 2.54; gy = (y - d.oy) / 2.54
+        up = gy < 5; ey = gy - 2 if up else gy + 2
+        d.w((gx, gy), (gx, ey))
+        if net in GROUNDS: d.gnd((gx, ey), net, 'U' if up else 'D')
+        else: d.port(net, (gx, ey), 'U' if up else 'D')
 
 
-GROUNDS = ('GNDA', 'GNDD', 'GNDM')
+GROUNDS = ('GNDA', 'GNDD', 'GNDM', 'PHONESGND')
 
 
 def ground(d, pt, net):
-    """A ground symbol (GNDA / GNDD), or a label pointing down for a ground with no symbol (GNDM)."""
-    if net in ('GNDA', 'GNDD'): d.gnd(pt, net)
-    else: d.port(net, pt, 'D')
+    """A ground symbol (GNDM / PHONESGND are project power symbols that show their name)."""
+    d.gnd(pt, net)
 
 
 def comparators(d, units, out=None):
@@ -221,7 +233,7 @@ def comparators(d, units, out=None):
         d.at(u[0], 8, y, unit=u[1])
         for pn, yy in ((p[0], y - 1), (p[1], y + 1)):
             net = n[str(pn)]
-            if net in GROUNDS: d.w((u[0], pn), (4, yy), (4, yy + 1)); ground(d, (4, yy + 1), net)
+            if net in GROUNDS: d.w((u[0], pn), (2, yy)); d.gnd((2, yy), net, 'L')
             else: d.w((u[0], pn), (1, yy)); d.port(net, (1, yy))
         if out: d.w((u[0], p[2]), (13, y))
         else: d.w((u[0], p[2]), (15, y)); d.port(n[str(p[2])], (15, y), 'R')
@@ -241,13 +253,13 @@ def npn(d, q):
 def dg_pair(d, u, a, b):
     """Two DG413 sections into one D node (PFL switcher): a, b = (unit, S pin, D pin, IN pin); S from the left,
     the D sides joined on the right, IN labelled.  16 x 12"""
-    for (unit, s, dd, c), y in ((a, 2), (b, 7)):
+    for (unit, s, dd, c), y in ((a, 2), (b, 8)):
         sx = d.pins_of('DG', unit)[str(s)][0]
         d.at(u, 7, y, mirror='y' if sx > 0 else None, unit=unit)
         n = d.nets(u)
         d.w((u, s), (1, y)); d.port(n[str(s)], (1, y))
         d.w((u, c), (7, y + 3), (3, y + 3)); d.port(n[str(c)], (3, y + 3))
-    d.w((u, a[2]), (12, 2), (12, 7), (u, b[2])); d.w((12, 2), (15, 2)); d.port(d.nets(u)[str(a[2])], (15, 2), 'R')
+    d.w((u, a[2]), (12, 2), (12, 8), (u, b[2])); d.w((12, 2), (15, 2)); d.port(d.nets(u)[str(a[2])], (15, 2), 'R')
 
 
 def halfwave(d, u, rin, da, db, rf):
@@ -272,14 +284,14 @@ def meter_sum(d, u, ra, rb, rfx, trim, cf):
     p = pins(u); n = d.nets(u[0]); node, out = n[str(p[1])], n[str(p[2])]
     other = lambda r: d.nets(r)['1'] if d.nets(r)['2'] == node else d.nets(r)['2']
     d.at(u[0], 16, 9, mirror='x', unit=u[1])
-    d.h(ra, 3.5, 8, left=other(ra), text='D'); d.w((0, 8), (2, 8)); d.port(other(ra), (0, 8)); d.w((5, 8), (u[0], p[1]))
+    d.h(ra, 3.5, 8, left=other(ra), text='D'); d.w((0, 8), (2, 8)); d.port(other(ra), (0, 8)); d.w((5, 8), (9, 8), (u[0], p[1]))
     d.h(rb, 3.5, 12, left=other(rb), text='D'); d.w((0, 12), (2, 12)); d.port(other(rb), (0, 12)); d.w((5, 12), (9, 12))
-    d.w((9, 2), (9, 12))
-    d.h(cf, 12.5, 2, left=node, text='U'); d.w((9, 2), (11, 2)); d.w((14, 2), (20, 2))
+    d.w((9, 0), (9, 12))
+    d.h(cf, 12.5, 0, left=node, text='U'); d.w((9, 0), (11, 0)); d.w((14, 0), (20, 0))
     d.at(trim, 11.5, 5, rot=270); d.w((9, 5), (trim, 3)); d.w((trim, 2), (11.5, 7), (9, 7))
     rg = d.nets(trim)['1']
     d.h(rfx, 15.5, 5, left=rg, text='U'); d.w((trim, 1), (14, 5)); d.w((17, 5), (20, 5))
-    d.w((20, 2), (20, 9)); d.w((u[0], p[2]), (23, 9)); d.port(out, (23, 9), 'R')
+    d.w((20, 0), (20, 9)); d.w((u[0], p[2]), (23, 9)); d.port(out, (23, 9), 'R')
     d.w((u[0], p[0]), (12, 10), (12, 11)); ground(d, (12, 11), n[str(p[0])])
 
 
@@ -287,32 +299,32 @@ def peak(d, u3, dpk, rpk, cpk, c22, r330, r220, r10, dcl, ravg, cavg, jp, u4, rb
     """Meter detector: U3 + diode precision peak (220R / 1u, 330K / 220K bleed), the RC average, the PEAK / AVG jumper,
     the U4 follower and its 470R build-out to DET; R10K from DETO and the clamp diode close U3's loop.  38 x 19"""
     p = pins(u3); n = d.nets(u3[0]); x2, node, u3o = n[str(p[0])], n[str(p[1])], n[str(p[2])]
-    d.at(u3[0], 8, 4, unit=u3[1])
+    d.at(u3[0], 8, 4, unit=u3[1], text='U')
     d.w((0, 3), (u3[0], p[0])); d.port(x2, (0, 3))
-    d.w((u3[0], p[1]), (4, 5), (4, 11))
+    d.w((u3[0], p[1]), (4, 5), (4, 12))
     deto = d.nets(r10)['1'] if d.nets(r10)['2'] == node else d.nets(r10)['2']
     d.h(r10, 1.5, 9, left=deto, text='D'); d.w((-2, 9), (0, 9)); d.port(deto, (-2, 9)); d.w((3, 9), (4, 9))
     d.h(c22, 7.5, 7, left=node, text='D'); d.w((4, 7), (6, 7)); d.w((9, 7), (13, 7))
-    d.h(dcl, 8, 11, left=node); d.w((4, 11), (6.5, 11)); d.w((9.5, 11), (13, 11))
-    d.w((u3[0], p[2]), (13, 4), (13, 11))
+    d.h(dcl, 8, 12, left=node); d.w((4, 12), (6.5, 12)); d.w((9.5, 12), (13, 12))
+    d.w((u3[0], p[2]), (13, 4), (13, 12))
     pk1 = d.h(dpk, 15.5, 4, left=u3o); d.w((13, 4), (14, 4))
     pk = d.h(rpk, 19.5, 4, left=pk1, text='U'); d.w((17, 4), (18, 4))
     d.v(cpk, 23, 5.5, top=pk); pkr = d.h(r330, 25.5, 4, left=pk, text='U'); d.w((21, 4), (24, 4))
     d.v(r220, 28, 5.5, top=pkr); d.w((27, 4), (28, 4))
-    d.at(jp, 19, 10); d.w((17, 4), (17, 10))
+    d.at(jp, 19, 11, text='R'); d.w((17, 4), (17, 11))
     av = d.nets(jp)['3']
-    d.w((21, 10), (26, 10)); d.v(cavg, 24, 11.5, top=av)
-    xs = d.h(ravg, 27.5, 10, left=av, text='U'); d.w((29, 10), (32, 10)); d.port(xs, (32, 10), 'R')
+    d.w((21, 11), (26, 11)); d.v(cavg, 24, 12.5, top=av)
+    xs = d.h(ravg, 30.5, 11, left=av, text='D'); d.w((26, 11), (29, 11)); d.w((32, 11), (35, 11)); d.port(xs, (35, 11), 'R')
     q = pins(u4)
-    d.at(u4[0], 24, 17, unit=u4[1]); d.w((jp, 2), (19, 16), (u4[0], q[0]))
-    d.w((u4[0], q[2]), (28, 17), (28, 20), (20, 20), (20, 18), (u4[0], q[1])); d.port(deto, (28, 20), 'R')
-    det = d.h(rbo, 30.5, 17, left=deto, text='U'); d.w((28, 17), (29, 17)); d.w((32, 17), (35, 17)); d.port(det, (35, 17), 'R')
+    d.at(u4[0], 30, 18, unit=u4[1], text='U'); d.w((jp, 2), (19, 17), (u4[0], q[0]))
+    d.w((u4[0], q[2]), (35, 18), (35, 21), (26, 21), (26, 19), (u4[0], q[1])); d.port(deto, (35, 21), 'R')
+    det = d.h(rbo, 37.5, 18, left=deto, text='U'); d.w((35, 18), (36, 18)); d.w((39, 18), (42, 18)); d.port(det, (42, 18), 'R')
 
 
 def spare(d, u):
     """An unused op-amp half: + to ground, output tied to -.  14 x 8"""
     p = pins(u); n = d.nets(u[0])
-    d.at(u[0], 8, 3, unit=u[1])
+    d.at(u[0], 8, 3, unit=u[1], text='U')
     d.w((u[0], p[0]), (2, 2), (2, 3)); ground(d, (2, 3), n[str(p[0])])
     d.w((u[0], p[2]), (12, 3), (12, 6), (4, 6), (4, 4), (u[0], p[1]))
 
@@ -339,18 +351,27 @@ def bar(d, q, leds, cmps):
 
 def vl_supply(d, r, dz, c, ds, flag):
     """+5VL from +VA: 4K7, BZX84C5V1 and 1u to GNDD, BAT54W back to +VA, PWR_FLAG.  30 x 9"""
-    d.port('+VA', (0, 4)); d.h(r, 3.5, 4, left='+VA', text='U'); d.w((0, 4), (2, 4)); d.w((5, 4), (29, 4))
-    d.port('+5VL', (29, 4), 'R')
+    d.port('+VA', (0, 4)); d.h(r, 3.5, 4, left='+VA', text='U'); d.w((0, 4), (2, 4)); d.w((5, 4), (31, 4))
+    d.port('+5VL', (31, 4), 'R')
     d.at(dz, 7, 5.5, rot=270); d.gnd((dz, 1), 'GNDD')
-    d.v(c, 13, 5.5, top='+5VL'); d.gnd((c, 2), 'GNDD')
-    d.at(ds, 19, 2.5, rot=270); d.w((ds, 3), (19, 0)); d.port('+VA', (19, 0), 'U')
-    d.at(flag, 26, 4)
+    d.v(c, 14, 5.5, top='+5VL'); d.gnd((c, 2), 'GNDD')
+    d.at(ds, 21, 2.5, rot=270); d.w((ds, 3), (21, 0)); d.port('+VA', (21, 0), 'U')
+    d.at(flag, 28, 4)
+
+
+def dg_supply(d, u, x, y):
+    """A DG413's supply unit at (x, y): pins labelled, GND taken left on a stub, clear of the V- label beside it."""
+    d.at(u, x, y, unit=5); d.w((u, 5), (x, y + 6), (x - 2, y + 6), (x - 2, y + 7)); d.gnd((x - 2, y + 7), 'GNDD')
+    n = d.nets(u)                                   # short stubs: a label straight on a pin runs into its number
+    for pn, dy, side in (('13', -1, 'U'), ('12', -1, 'U'), ('4', 1, 'D')):
+        px, py = d.pin(u, pn); gx, gy = (px - d.ox) / 2.54, (py - d.oy) / 2.54
+        d.w((gx, gy), (gx, gy + dy)); d.port(n[pn], (gx, gy + dy), side)
 
 
 def dg_power(d, u, caps):
     """A DG413's supply unit (pins labelled) with its decouplers.  24 x 14"""
-    d.at(u[0], 3, 7, unit=u[1])
-    for i, c in enumerate(caps): d.at(c, 8 + 5 * i, 7, rot=180 if d.nets(c)['2'] not in GROUNDS else 0)
+    dg_supply(d, u[0], 5, 7)
+    for i, c in enumerate(caps): d.at(c, 10 + 5 * i, 7, rot=180 if d.nets(c)['2'] not in GROUNDS else 0)
 
 
 def power_entry(d, j, d1, d2, tab, nts):
@@ -368,9 +389,9 @@ def power_entry(d, j, d1, d2, tab, nts):
     for i, nt in enumerate(nts):
         y = 8 + 5 * i; other = d.nets(nt)['2']
         d.at(nt, 46, y); d.w((44, y), (nt, 1))
-        d.w((nt, 2), (50, y))
-        if other in ('GNDA', 'GNDD'): d.w((50, y), (50, y + 1)); d.gnd((50, y + 1), other)
-        else: d.port(other, (50, y), 'R')
+        d.w((nt, 2), (52, y))
+        if other in GROUNDS: d.w((52, y), (52, y + 1)); d.gnd((52, y + 1), other)
+        else: d.port(other, (52, y), 'R')
 
 
 def flags(d, refs, per=7):
@@ -394,11 +415,29 @@ def header(d, r, x, y, stub=3):
         for py, px, pn in pins_:
             if runs and runs[-1][0] == n[pn] and abs(py - runs[-1][1][-1][0] - G) < 0.01: runs[-1][1].append((py, px, pn))
             else: runs.append((n[pn], [(py, px, pn)]))
+        far = int(max([len(n_) for n_, _ in runs if n_ not in GROUNDS + ('NC',)] or [0]) * 0.45 + 2.5)
         for net, ps in runs:
             if net == 'NC': continue                     # left bare: the builder puts its no-connect flag on the pin
             gx = lambda px: (px - cx) / G + x + (-stub if s == 'L' else stub)
             for py, px, pn in ps: d.w((r, pn), (gx(px), (py - d.oy) / G))
             ex, y0, y1 = gx(ps[0][1]), (ps[0][0] - d.oy) / G, (ps[-1][0] - d.oy) / G
             if len(ps) > 1: d.w((ex, y0), (ex, y1))
-            if net in ('GNDA', 'GNDD'): d.gnd((ex, y0), net, s)
+            if net in GROUNDS:
+                gx = ex - far if s == 'L' else ex + far; d.w((ex, y0), (gx, y0)); d.gnd((gx, y0), net, s)
             else: d.port(net, (ex, y0), s)
+
+
+def grounds(d, nt, tab, rgc):
+    """A module's ground star: the GNDA-GNDD net tie, the ground spade on GNDA and the 10R to the GCANCEL line.  22 x 10"""
+    d.at(nt, 5, 2); d.w((1, 2), (nt, 1)); d.w((1, 2), (1, 3)); d.gnd((1, 3))
+    d.w((nt, 2), (10, 2), (10, 3)); d.gnd((10, 3), 'GNDD')
+    d.at(tab, 5, 7); d.w((tab, 1), (3, 8)); d.gnd((3, 8))
+    top = d.v(rgc, 15, 4, top='GCANCEL'); d.w((15, 1), (15, 2.5)); d.port('GCANCEL', (15, 1), 'U')
+    d.w((15, 5.5), (15, 6)); d.gnd((15, 6))
+
+
+def select(d, jps, common):
+    """Solder jumpers from one common node (a vertical line) to their buses, one per row.  16 x 16"""
+    d.port(common, (0, 2)); d.w((0, 2), (3, 2), (3, 2 + 4 * (len(jps) - 1)))
+    for i, jp in enumerate(jps):
+        y = 2 + 4 * i; d.at(jp, 7, y); d.w((3, y), (jp, 1)); d.w((jp, 2), (12, y)); d.port(d.nets(jp)['2'], (12, y), 'R')

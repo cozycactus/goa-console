@@ -41,11 +41,13 @@ class Drawing:
 
     def at(self, ref, x, y, rot=0, mirror=None, unit=None, text=None):
         """Place a part (unit) with its origin at grid (x, y); text='L' puts a vertical part's fields on its left."""
-        if text: self.textside[ref] = text
+        units = sorted({pt['unit'] for pt in self.parts if pt['ref'] == ref})
         if unit is None:
-            units = sorted({pt['unit'] for pt in self.parts if pt['ref'] == ref})
             if len(units) != 1: raise SystemExit(f'{ref}: give the unit ({units})')
             unit = units[0]
+        if text:                                   # per unit; the whole part only when it has one unit
+            self.textside[(ref, unit)] = text
+            if len(units) == 1: self.textside[ref] = text
         self.place[(ref, unit)] = (snap(self.ox + x * G), snap(self.oy + y * G), rot, mirror)
 
     def nets(self, ref):

@@ -1,12 +1,13 @@
 """Drawn blocks of the channel-strip schematic (schdraw.Drawing). One function per block, keyed by the start of its
 title in gen.py. Grid units (2.54 mm), y down; op-amps mirrored 'x' so the - input is on top, as on the Delta sheets."""
+import frags
 
 
 def receiver(d):
     """CN3 link, Ø switch (SW15), U1A ground-compensated receiver."""
     d.shift(0, 3)
-    d.at('CN3', 6, 22)
-    d.at('SW15', 16, 4, mirror='y', unit=1); d.at('SW15', 16, 12, mirror='y', unit=2)
+    frags.header(d, 'CN3', 14, 22)
+    d.at('SW15', 16, 4, mirror='y', unit=1, text='U'); d.at('SW15', 16, 12, mirror='y', unit=2)
     d.w(('SW15', 3), (11, 5), (11, 11), ('SW15', 4)); d.w((11, 5), (6, 5)); d.port('IN_T', (6, 5))
     d.w(('SW15', 1), (9, 3), (9, 13), ('SW15', 6)); d.w((9, 3), (6, 3)); d.port('IN_R', (6, 3))
     d.at('R10', 12, 6.5)
@@ -149,7 +150,7 @@ def eq(d):
     d.at('R64', 66.5, Y + 13, rot=90); d.w(('RV15', 2), (62, Y + 13), ('R64', 1))
     d.at('C49', 69.5, Y + 13, rot=90, text='U'); d.w(('R64', 2), ('C49', 1))
     d.w(('C49', 2), (77, Y + 13)); d.port('EQ_FP', (77, Y + 13), 'R')
-    d.at('C50', 72, Y + 14.5, text='L'); d.at('R65', 75, Y + 14.5)
+    d.w((72, Y + 13), (72, Y + 14)); d.at('C50', 72, Y + 15.5, text='L'); d.at('R65', 75, Y + 14.5)
     d.w((68, Y), (71, Y)); d.port('EQ_O6', (71, Y), 'R')
     for X, nm in ((0, 'HF'), (18, 'HI-MID'), (36, 'LO-MID'), (54, 'LF')): d.note(nm, (X + 1, -2), 1.5)
 
@@ -204,7 +205,7 @@ def insert(d):
     d.at('R11', 3.5, 0, rot=90); d.w((0, 0), ('R11', 1)); d.port('INS_SRC', (0, 0))
     d.w(('R11', 2), (8, 0)); d.port('SEND', (8, 0), 'R')
     d.at('C10', 3.5, 7, rot=90, text='U'); d.w((0, 7), ('C10', 1)); d.port('RET_RAW', (0, 7))
-    d.at('R12', 6, 8.5, text='L'); d.at('R99', 9.5, 7, rot=90, text='U'); d.w(('C10', 2), ('R99', 1))
+    d.w((6, 7), (6, 8)); d.at('R12', 6, 9.5, text='L'); d.at('R99', 9.5, 7, rot=90, text='U'); d.w(('C10', 2), ('R99', 1))
     d.at('C84', 12, 8.5, text='L')
     p = follower(d, ('U7', 2), 17, 8); d.w(('R99', 2), ('U7', p[0]))
     d.w((21, 8), (24, 8)); d.port('BUF1', (24, 8), 'R')
@@ -217,7 +218,7 @@ def overload(d):
     d.at('R39', 3.5, 4, rot=90); d.w((0, 4), ('R39', 1)); d.port('PRESRC', (0, 4))
     d.at('D1', 6.5, 4, rot=180); d.w(('R39', 2), ('D1', 2))
     d.at('U4', 21, 5, mirror='x', unit=1)
-    d.w(('D1', 1), ('U4', 2)); d.at('C12', 11, 5.5, text='L'); d.at('R14', 14, 5.5)
+    d.w(('D1', 1), ('U4', 2)); d.at('C12', 11, 5.5, text='L'); d.at('R14', 15, 5.5, text='L')
     d.w(('U4', 3), (16, 6), (16, 9)); d.at('R41', 16, 10.5)
     d.at('R40', 12.5, 9, rot=90); d.w((8, 9), ('R40', 1)); d.port('+VL', (8, 9)); d.w(('R40', 2), (16, 9))
     d.at('R15', 26, -1.5); d.w(('R15', 1), (26, -4)); d.port('+VL', (26, -4), 'U')
@@ -253,16 +254,16 @@ def mute(d):
 
 def fader(d):
     d.shift(0, 4)
-    d.at('RV1', 3, 5, mirror='x'); d.w((3, 1), ('RV1', 3)); d.port('MUTEOUT', (3, 1), 'U')
+    d.at('RV1', 3, 5, mirror='x', text='L'); d.w((3, 1), ('RV1', 3)); d.port('MUTEOUT', (3, 1), 'U')
     d.at('C13', 7, 5, rot=90, text='U'); d.w(('RV1', 2), ('C13', 1))
-    d.at('JP1', 11.5, 5); d.w(('C13', 2), ('JP1', 1))
-    d.at('U2', 25, 6, unit=1); d.w(('JP1', 2), ('U2', 3))
-    d.at('R18', 15.5, 6.5, text='L'); d.at('C82', 17.5, 6.5)
-    d.w(('U2', 2), (22, 15)); d.at('R38', 22, 16.5, text='L')
-    d.at('R19', 25.5, 12, rot=270, text='U'); d.w((22, 12), ('R19', 2)); d.w(('R19', 1), (29, 12))
-    d.at('C14', 25.5, 15, rot=270, text='D'); d.w((22, 15), ('C14', 2)); d.w(('C14', 1), (29, 15))
-    d.w((29, 6), (29, 15)); d.at('C15', 32.5, 6, rot=90, text='U'); d.w(('U2', 1), ('C15', 1))
-    d.w(('C15', 2), (38, 6)); d.port('POST', (38, 6), 'R'); d.at('R35', 36, 7.5)
+    d.at('JP1', 14, 5); d.w(('C13', 2), ('JP1', 1))
+    d.at('U2', 27, 6, unit=1, text='U'); d.w(('JP1', 2), ('U2', 3))
+    d.at('R18', 17.5, 6.5, text='L'); d.at('C82', 19.5, 6.5)
+    d.w(('U2', 2), (24, 15)); d.at('R38', 24, 16.5, text='L')
+    d.at('R19', 27.5, 12, rot=270, text='U'); d.w((24, 12), ('R19', 2)); d.w(('R19', 1), (31, 12))
+    d.at('C14', 27.5, 15, rot=270, text='D'); d.w((24, 15), ('C14', 2)); d.w(('C14', 1), (31, 15))
+    d.w((31, 6), (31, 15)); d.at('C15', 34.5, 6, rot=90, text='U'); d.w(('U2', 1), ('C15', 1))
+    d.w(('C15', 2), (40, 6)); d.port('POST', (40, 6), 'R'); d.at('R35', 38, 7.5)
     d.at('J3', 4, 22); d.at('J4', 14, 22); d.at('R44', 20, 22)
     d.note('VCA module option (DNP): J3, J4, R44; JP1 bridged without it', (0, 28), 1.27)
 
@@ -272,25 +273,25 @@ def aux(d):
     pots = (('RV2', 'R20'), ('RV3', 'R21'), ('RV4', 'R22'), ('RV5', 'R23'), ('RV6', 'R24'), ('RV7', 'R25'))
     for k, (jp, sw) in enumerate((('JP2', 'SW8'), ('JP3', 'SW9'), ('JP4', 'SW10'))):
         X = k * 30
-        d.at(jp, X + 3, 3); d.at(sw, X + 7, 8, mirror='y', unit=1); d.at(sw, X + 7, 15, mirror='y', unit=2)
+        d.at(jp, X + 3, 3); d.at(sw, X + 7, 8, mirror='y', unit=1); d.at(sw, X + 7, 17, mirror='y', unit=2, text='D')
         d.w((jp, 2), (X + 3, 7), (sw, 1)); d.w((sw, 3), (X + 2, 9)); d.port('POST', (X + 2, 9))
-        d.w((sw, 2), (X + 21, 8))
-        for j, x in enumerate((X + 12, X + 21)):
+        d.w((sw, 2), (X + 22, 8))
+        for j, x in enumerate((X + 12, X + 22)):
             pot, r = pots[2 * k + j]
-            d.at(pot, x, 12, mirror='x'); d.w((x, 8), (pot, 3))
+            d.at(pot, x, 12, mirror='x', text='L'); d.w((x, 8), (pot, 3))
             if pot == 'RV7':
                 d.at('SW13', x + 6, 12, unit=1); d.w((pot, 2), ('SW13', 2))
                 d.at(r, x + 9, 15.5); d.w(('SW13', 3), 'h', (x + 9, 14)); d.w((r, 2), (x + 9, 18)); d.port('AUX6', (x + 9, 18), 'D')
                 d.at('SW13', x + 6, 22, unit=2)
             else:
-                d.at(r, x + 3.5, 16.5); d.w((pot, 2), (x + 3.5, 12), (r, 1))
-                d.w((r, 2), (x + 3.5, 19)); d.port(f'AUX{2 * k + j + 1}', (x + 3.5, 19), 'D')
+                d.at(r, x + 2, 16.5); d.w((pot, 2), (x + 2, 12), (r, 1))
+                d.w((r, 2), (x + 2, 19)); d.port(f'AUX{2 * k + j + 1}', (x + 2, 19), 'D')
 
 
 def direct_out(d):
     d.shift(8, 3)
     p = follower(d, ('U8', 1), 8, 5); d.w((-9, 4), ('U8', p[0])); d.port('DIRSRC', (-9, 4))
-    d.at('R70', -6, 5.5, text='L'); d.at('C83', -2, 5.5, text='L')
+    d.at('R70', -6, 5.5, text='L'); d.at('C83', -2, 5.5)
     d.at('R71', 14.5, 5, rot=90); d.w((12, 5), ('R71', 1))
     d.at('C52', 18.5, 5, rot=90, text='U'); d.w(('R71', 2), ('C52', 1))
     d.w(('C52', 2), (25, 5)); d.port('DO_T', (25, 5), 'R'); d.at('R72', 22, 6.5)
@@ -302,7 +303,8 @@ def direct_out(d):
 def pan(d):
     d.shift(0, 5)
     d.at('RV8', 12, 14)
-    d.w(('RV8', 1), (8, 17), (16, 17), ('RV8', 6)); d.w((8, 17), (5, 17)); d.port('POST', (5, 17))
+    for pn, x in (('3', 11), ('4', 13)): d.w(('RV8', pn), (x, 16)); d.gnd((x, 16))
+    d.w(('RV8', 1), (8, 18), (16, 18), ('RV8', 6)); d.w((8, 18), (5, 18)); d.port('POST', (5, 18))
     d.at('U2', 8, 6, mirror='x', unit=2)
     d.w(('U2', 7), (12, 6), (12, 3), (4, 3), (4, 5), ('U2', 6))
     d.w(('U2', 5), (3, 7), (3, 10), (9.5, 10), ('RV8', 2)); d.at('C79', 3, 11.5, text='L')
@@ -323,10 +325,10 @@ def pan_switch(d):
 
 def routing(d):
     d.shift(0, 10)
-    d.at('R80', 3.5, -4, rot=90); d.w((0, -4), ('R80', 1)); d.port('+VA', (0, -4))
-    d.w(('R80', 2), (16, -4)); d.port('+5VL', (16, -4), 'R')
-    d.at('D9', 6.5, -2.5, rot=270); d.at('C62', 10.5, -2.5); d.at('#FLG07', 14, -4)
-    d.at('D10', 3.5, -7); d.w(('D10', 3), (2, -7), ('R80', 1)); d.w(('D10', 1), (5, -7), ('R80', 2))
+    d.at('R80', 3.5, -4, rot=90, text='D'); d.w((0, -4), ('R80', 1)); d.port('+VA', (0, -4))
+    d.w(('R80', 2), (20, -4)); d.port('+5VL', (20, -4), 'R')
+    d.at('D9', 6.5, -2.5, rot=270); d.at('C62', 13.5, -2.5); d.at('#FLG07', 17, -4)
+    d.at('D10', 3.5, -7, text='U'); d.w(('D10', 3), (2, -7), ('R80', 1)); d.w(('D10', 1), (5, -7), ('R80', 2))
     for k, (sw, u, rl, rr, sl, sr, bl, br, rpd, rled, dled, cs) in enumerate((
             ('SW5', 'U9', 'R26', 'R27', 'PANL', 'PANR', 'MIXL', 'MIXR', 'R74', 'R75', 'D6', ('C53', 'C54', 'C55')),
             ('SW6', 'U10', 'R28', 'R29', 'SUBSRC_L', 'SUBSRC_R', 'SUB1', 'SUB2', 'R76', 'R77', 'D7', ('C56', 'C57', 'C58')),
@@ -340,12 +342,14 @@ def routing(d):
             d.w((r, 2), (u, ps)); d.w((X + 6, y), (X + 6, y + 5), (u, gs))
             d.w((u, pb), (X + 16, y)); d.port(bl if ub == 1 else br, (X + 16, y), 'R')
             d.w((u, gg), (X + 14, y + 5), (X + 14, y + 6)); d.gnd((X + 14, y + 6))
-            d.w((u, pc), (X + 10, y + 3), (X + 15, y + 3)); d.w((u, gc), (X + 10, y + 8), (X + 15, y + 8))
-        d.w((X + 15, 5), (X + 15, 26)); d.at(sw, X + 19, 26, unit=1); d.w((X + 15, 26), (sw, 2))
-        d.at(rpd, X + 13, 25.5); d.w((X + 15, 24), (X + 13, 24))
+            ctl = d.nets(u)[str(pc)]       # the switch's control line: labelled at each IN, no wire across the bus outputs
+            d.w((u, pc), (X + 10, y + 3), (X + 13, y + 3)); d.port(ctl, (X + 13, y + 3), 'R')
+            d.w((u, gc), (X + 10, y + 8), (X + 13, y + 8)); d.port(ctl, (X + 13, y + 8), 'R')
+        d.at(sw, X + 19, 26, unit=1); d.w((X + 17, 23), (sw, 2)); d.port(ctl, (X + 17, 23), 'U')
+        d.at(rpd, X + 13, 25.5); d.w((X + 17, 24), (X + 13, 24))
         led_chain(d, sw, X + 19, 32, rled, dled)
-        d.at(u, X + 26, 12, unit=5)
-        for j, c in enumerate(cs): d.at(c, X + 31 + 3.5 * j, 12)
+        frags.dg_supply(d, u, X + 26, 12)
+        for j, c in enumerate(cs): d.at(c, X + 30 + 4.5 * j, 10)
         d.note(f'ASSIGN {bl}/{br}' if k == 0 else f'ASSIGN {bl}-{br}', (X, -2), 1.5)
 
 
@@ -381,7 +385,7 @@ def power(d):
 
 
 def motherloom(d):
-    d.at('CN1', 12, 12)
+    frags.header(d, 'CN1', 20, 12)
 
 
 def jumpers(d):

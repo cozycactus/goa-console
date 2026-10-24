@@ -15,13 +15,16 @@ reset(); collect_jacks()                     # panel jacks go on the group's jac
 b = block('POWER AND GROUNDS  (as a strip: 10R + 220u per audio rail, 10R + 47u logic rails, spade, 10R ground cancel)')
 for rail, cv, g in (('VA', '220u 25V', 'GNDA'), ('VL', '47u 25V', 'GNDD')):
     k = dict(mpn='Panasonic ERJ-P06J100V') if rail == 'VA' else {}     # anti-surge, as strip R1/R2 (MG17)
-    R(b, '10R', '+VBUS', '+' + rail, **k); CP(b, cv, '+' + rail, g)
-    R(b, '10R', '-VBUS', '-' + rail, **k); CP(b, cv, g, '-' + rail)
-P(b, ref('NT'), 'NT', 'AGND-LGND star', {1: 'GNDA', 2: 'GNDD'})
-P(b, ref('CN'), 'TAB', 'Ground spade 6.3mm', {1: 'GNDA'})
-R(b, '10R GND cancel', 'GNDA', 'GCANCEL')
+    r1 = R(b, '10R', '+VBUS', '+' + rail, **k); c1 = CP(b, cv, '+' + rail, g)
+    r2 = R(b, '10R', '-VBUS', '-' + rail, **k); c2 = CP(b, cv, g, '-' + rail)
+    chain(b, '+VBUS', [('s', r1), ('g', c1)], '+' + rail); chain(b, '-VBUS', [('s', r2), ('g', c2)], '-' + rail)
+nt = ref('NT'); P(b, nt, 'NT', 'AGND-LGND star', {1: 'GNDA', 2: 'GNDD'})
+tab = ref('CN'); P(b, tab, 'TAB', 'Ground spade 6.3mm', {1: 'GNDA'})
+rgc = R(b, '10R GND cancel', 'GNDA', 'GCANCEL')
+frag(b, 22, 10, lambda d: frags.grounds(d, nt, tab, rgc))
 for i, n in enumerate(['+VBUS', '-VBUS', '+VA', '-VA', '+VL', '-VL', 'GNDA', 'GNDD']):
     P(b, f'#FLG{i + 1:02d}', 'FLAG', 'PWR_FLAG', {1: n})
+frag(b, 40, 9, lambda d: frags.flags(d, [f'#FLG{i + 1:02d}' for i in range(8)], per=8), last=True)
 
 b = block('RIBBON  one 34-pin header, Delta pinout (as a strip); AUX 5-6 are summed on the master module')
 hdr = {1: 'NC', 3: 'NC', 5: 'NC', 7: 'NC', 19: 'NC', 9: 'SUB4', 11: 'SUB3', 13: 'SUB2', 15: 'SUB1',
@@ -33,10 +36,10 @@ cn = ref('CN'); P(b, cn, 'HDR', 'Bus 2x17', hdr); frag(b, 40, 22, lambda d: frag
 # two boards on one bus would share a summing node with separate feedbacks: the difference mode has no feedback and
 # both summers rail (master_group_review.md MG19). One SUB and one AUX jumper per board, unique across the four
 b = block('BUS SELECT  close ONE SUB jumper and ONE AUX jumper: group n sums SUB n and AUX n (all open = summer idle)')
-for k in range(1, 5):
-    P(b, ref('JP'), 'SJO', f'SUB {k} select', {1: 'SUB_SEL', 2: f'SUB{k}'})
-for k in range(1, 5):
-    P(b, ref('JP'), 'SJO', f'AUX {k} select', {1: 'AUX_SEL', 2: f'AUX{k}'})
+for sel in ('SUB', 'AUX'):
+    jps = [ref('JP') for k in range(4)]
+    for k, jp in enumerate(jps, 1): P(b, jp, 'SJO', f'{sel} {k} select', {1: f'{sel}_SEL', 2: f'{sel}{k}'})
+    frag(b, 16, 16, lambda d, j=jps, s=sel: frags.select(d, j, f'{s}_SEL'))
 
 b = block('GROUND CANCEL BUFFER  (local, for this module\'s re-inverters; summing amps use the raw GCANCEL line)')
 amp(b, 'GCANCEL', 'GC_BUF', 'GC_BUF'); gcu = LAST[0]

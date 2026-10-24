@@ -301,6 +301,8 @@ def jack_board(out, project, title, jacks, n, link):
         P(b, ref('J'), j['key'], j['value'], j['pins'], fp=JB_FP[j['key']], mpn=JB_MPN[j['key']])
     link_header(b, n, link, f'Main board link 2x{n}')
     P(b, '#FLG01', 'FLAG', 'PWR_FLAG', {1: 'GNDA'})
+    if any('PHONESGND' in j['pins'].values() for j in jacks):         # a power symbol too: driven here as well
+        P(b, '#FLG02', 'FLAG', 'PWR_FLAG', {1: 'PHONESGND'})
     project_file(out)
     build(out, project, title, {1: 'Generated with its main board (master_lib.jack_board)', 2: 'Link pinout = main board CN'},
           paper='auto', perrow=12, revision='0.1')

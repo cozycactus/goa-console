@@ -83,5 +83,6 @@
 "CN1.38": "PHJ_R",
 "CN1.39": "PHONESGND",
 "CN1.40": "GNDA",
-"#FLG01.1": "GNDA"
+"#FLG01.1": "GNDA",
+"#FLG02.1": "PHONESGND"
 }

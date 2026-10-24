@@ -31,7 +31,7 @@ SYM = {  # key: (lib, symbol)
  'SW': ('Switch', 'SW_DPDT_x2'), 'SJ2': ('Jumper', 'SolderJumper_2_Bridged'),
  'SJ3': ('Jumper', 'SolderJumper_3_Bridged12'),
  'HDR': ('Connector_Generic', 'Conn_02x17_Odd_Even'), 'TAB': ('Connector_Generic', 'Conn_01x01'),
- 'GNDA': ('power', 'GNDA'), 'GNDD': ('power', 'GNDD'), 'FLAG': ('power', 'PWR_FLAG'),
+ 'GNDA': ('power', 'GNDA'), 'GNDD': ('power', 'GNDD'), 'GNDM': ('goa-console', 'GNDM'), 'PHONESGND': ('goa-console', 'PHONESGND'), 'FLAG': ('power', 'PWR_FLAG'),
 }
 FP = {
  'R': 'Resistor_SMD:R_0805_2012Metric', 'C': 'Capacitor_SMD:C_0805_2012Metric',
@@ -52,8 +52,11 @@ MPN = {'JACKSW': 'Neutrik NRJ6HF', 'POT': 'Alpha RD901F-40 A10K', 'POT2': 'Alpha
        'SW': 'C&K PVA2 EE H1 1.7N V2', 'TAB': 'Keystone 1287-ST'}
 CAP_FP = {'220u': 'Capacitor_THT:CP_Radial_D10.0mm_P5.00mm', '47u': 'Capacitor_THT:CP_Radial_D8.0mm_P3.50mm',
           '2.2u': 'Capacitor_SMD:C_1206_3216Metric'}
-POWER_SYMBOL_NETS = ('GNDA', 'GNDD')
-HIDE_PIN_NUMBERS = {'R', 'C', 'CP', 'POT', 'POT2', 'D', 'LED', 'ZEN', 'SCH', 'NT', 'DS', 'DZ', 'TAB', 'GNDA', 'GNDD', 'FLAG'}
+AMPS = {'OPA': 3, 'CMP': 3, 'OPA1656': 3, 'TL072': 3, 'LM2901': 5}     # op-amp / comparator keys: power unit
+DGPWR = {'DG': 5}
+POWER_SYMBOL_NETS = ('GNDA', 'GNDD', 'GNDM', 'PHONESGND')
+HIDE_PIN_NUMBERS = {'R', 'C', 'CP', 'POT', 'POT2', 'D', 'LED', 'ZEN', 'SCH', 'NT', 'DS', 'DZ', 'TAB', 'GNDA', 'GNDD', 'FLAG', 'TRIM', 'SJO'}
+HIDE_PIN_NAMES_ONLY = {'SJ3', 'SJ2', 'LME49600'}
 HIDE_PIN_NAMES = HIDE_PIN_NUMBERS | {'SW', 'LINK', 'HDR', 'CONN6', 'CONN2', 'TAB', 'JACK', 'JACKSW', 'HDR5', 'NPN', 'PNP', 'PWRIN'}
 
 # ---------------------------------------------------------------- netlist
@@ -65,11 +68,27 @@ def frag(b, w, h, fn, last=False): FRAGS.setdefault(id(b), []).append((w, h, fn,
 def flow(frags, maxw=110, cell=(13, 11)):
     """A block's draw function from its fragments: rows of fragments (left to right, wrapping at maxw grid units),
     then every part no fragment placed, labelled, in rows of cells under them."""
+    def extent(d, fn):
+        """Grid-unit box of what fn draws, label texts included (~0.45 grid per character)."""
+        s = schdraw.Drawing(d.parts, d.pins_of, (0, 0)); fn(s)
+        xs, ys = [0.0], [0.0]
+        for a, b in s.wires: xs += [a[0], b[0]]; ys += [a[1], b[1]]
+        for (cx, cy, *_) in s.place.values(): xs += [cx - 5.08, cx + 5.08]; ys += [cy - 5.08, cy + 5.08]
+        for net, (px, py), side in s.ports:
+            n = (len(net) * 0.45 + 0.6) * schdraw.G
+            xs.append(px - n if side == 'L' else px + n if side == 'R' else px)
+            ys.append(py - n if side == 'U' else py + n if side == 'D' else py)
+        g = schdraw.G
+        return min(xs) / g, max(xs) / g, min(ys) / g, max(ys) / g
+
     def draw(d):
         x = y = rowh = 0
         for w, h, fn, _ in [f for f in frags if not f[3]] + [f for f in frags if f[3]]:
+            x0, x1, y0, y1 = extent(d, fn)
+            ox, oy = math.ceil(max(0, -x0)), math.ceil(max(0, -y0))   # labels sticking out left / up
+            w, h = math.ceil(max(w, x1) + ox), math.ceil(max(h, y1) + oy)
             if x and x + w > maxw: x, y, rowh = 0, y + rowh + 4, 0
-            d.shift(x, y); fn(d); d.shift(-x, -y)
+            d.shift(x + ox, y + oy); fn(d); d.shift(-x - ox, -y - oy)
             x += w + 4; rowh = max(rowh, h)
         rest = [pt for pt in d.parts if (pt['ref'], pt['unit']) not in d.place]
         if rest:
@@ -107,7 +126,7 @@ def libsym(key):
     f.libraryNickname = lib
     # KiCad 10's (pin_numbers / pin_names (hide yes)) isn't read by kiutils: restore what the library hides
     if key in HIDE_PIN_NUMBERS: f.hidePinNumbers = True
-    if key in HIDE_PIN_NAMES or key.startswith('LINK'): f.pinNamesHide = True
+    if key in HIDE_PIN_NAMES or key in HIDE_PIN_NAMES_ONLY or key.startswith('LINK'): f.pinNamesHide = True
     return f
 
 def pins_of(sym, unit):
@@ -116,6 +135,15 @@ def pins_of(sym, unit):
         if u.unitId in (0, unit):
             for p in u.pins: out[p.number] = (p.position.X, p.position.Y)
     return out
+
+def pin_out(sym, unit, pn):
+    """Unit vector (library coordinates) pointing away from the body at pin pn: opposite the pin's own direction."""
+    for u in sym.units:
+        if u.unitId in (0, unit):
+            for p in u.pins:
+                if p.number == pn:
+                    a = math.radians(p.position.angle or 0); return -round(math.cos(a)), -round(math.sin(a))
+    return None
 
 def outward(px, py):
     if abs(px) >= abs(py): return 'R' if px > 0 else 'L'
@@ -151,30 +179,49 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
         """Reference and value positions for a drawn part: (x, y, angle, justify) each, None = keep the default.
         Text angles: KiCad turns a field with its symbol, so a 90 / 270 symbol gets 90 to read horizontally."""
         horiz = (ang % 180) == 90; fa = 90 if horiz else 0
+        if key in ('FB', 'PTC') and horiz:                         # clear of the slanted body
+            if side == 'U': return (cx, cy - 6.6, fa, None), (cx, cy - 4.7, fa, None)
+            return (cx, cy - 4.7, fa, None), (cx, cy + 4.7, fa, None)
+        if key in ('C', 'CP') and horiz:                           # clear of the plates
+            if side == 'U': return (cx, cy - 5.2, fa, None), (cx, cy - 3.3, fa, None)
+            if side == 'D': return (cx, cy + 3.3, fa, None), (cx, cy + 5.2, fa, None)
+            return (cx, cy - 3.3, fa, None), (cx, cy + 3.3, fa, None)
         if key in ('R', 'C', 'CP', 'FB'):
             if horiz and side == 'U': return (cx, cy - 4.45, fa, None), (cx, cy - 2.54, fa, None)
             if horiz and side == 'D': return (cx, cy + 2.54, fa, None), (cx, cy + 4.45, fa, None)
             if horiz: return (cx, cy - 2.54, fa, None), (cx, cy + 2.54, fa, None)
             if side == 'L': return (cx - 2.54, cy - 1.27, fa, 'right'), (cx - 2.54, cy + 1.27, fa, 'right')
             return (cx + 2.54, cy - 1.27, fa, 'left'), (cx + 2.54, cy + 1.27, fa, 'left')
-        if key in ('OPA', 'CMP'): return (cx, cy + 6.35, fa, None), (cx, cy + 8.89, fa, None)
+        if key in AMPS:
+            if side == 'U': return (cx, cy - 8.89, fa, None), (cx, cy - 6.35, fa, None)
+            return (cx, cy + 6.35, fa, None), (cx, cy + 8.89, fa, None)
         if key in ('LED', 'D', 'ZEN', 'SCH', 'DZ', 'DS'):
+            if horiz and side == 'L': return (cx - 2.54, cy - 1.27, fa, 'right'), (cx - 2.54, cy + 1.27, fa, 'right')
             if horiz: return (cx + 2.54, cy - 1.27, fa, 'left'), (cx + 2.54, cy + 1.27, fa, 'left')
+            if side == 'U': return (cx, cy - 4.45, fa, None), (cx, cy - 2.8, fa, None)
             return (cx, cy - 3.18, fa, None), (cx, cy + 3.18, fa, None)
         if key in ('NPN', 'PNP'): return (cx + 5.08, cy - 1.27, fa, 'left'), (cx + 5.08, cy + 1.27, fa, 'left')
         if key == 'HDR' or (key.startswith('LINK') and key[4:].isdigit()):
             h = ((17 if key == 'HDR' else int(key[4:])) + 2) * 1.27
             return (cx, cy - h, fa, None), (cx, cy + h, fa, None)
+        if key == 'CONN6': return (cx, cy - 10.16, fa, None), (cx, cy + 10.16, fa, None)
+        if key == 'LME49600': return (cx + 2.54, cy - 6.35, fa, 'left'), (cx + 2.54, cy - 4.83, fa, 'left')
         if key == 'PWRIN': return (cx, cy - 11.43, fa, None), (cx, cy + 11.43, fa, None)
         if key == 'TAB': return (cx + 2.54, cy - 1.27, fa, 'left'), (cx + 2.54, cy + 1.27, fa, 'left')
         if key == 'NT': return (cx, cy - 2.54, fa, None), (cx, cy + 2.54, fa, None)
-        if key == 'SJ2': return (cx, cy - 4.45, fa, None), (cx, cy - 2.54, fa, None)
+        if key == 'SJ3' and side == 'R': return (cx + 2.54, cy - 4.45, fa, 'left'), (cx + 2.54, cy - 2.67, fa, 'left')
+        if key in ('SJ2', 'SJO'): return (cx, cy - 4.45, fa, None), (cx, cy - 2.54, fa, None)
         if key == 'SJ3': return (cx, cy - 6.35, fa, None), (cx, cy - 4.45, fa, None)
+        if key == 'SW' and side == 'D': return (cx, cy + 5.08, fa, None), (cx, cy + 6.85, fa, None)
+        if key == 'SW' and side == 'U': return (cx, cy - 6.85, fa, None), (cx, cy - 5.08, fa, None)
         if key == 'SW': return (cx, cy - 5.08, fa, None), (cx, cy + 5.08, fa, None)
-        if key == 'DRV134': return (cx - 6.35, cy - 6.35, fa, 'right'), (cx - 6.35, cy - 5.08, fa, 'right')
+        if key == 'DRV134': return (cx - 2.54, cy - 11.43, fa, 'right'), (cx - 2.54, cy - 9.53, fa, 'right')
+        if key == 'TRIM' and horiz: return (cx, cy - 4.6, fa, None), (cx, cy - 2.9, fa, None)
+        if key == 'TRIM': return (cx - 2.54, cy - 1.27, fa, 'right'), (cx - 2.54, cy + 1.27, fa, 'right')
         if key == 'RELAY': return (cx + 16.51, cy - 1.27, fa, 'left'), (cx + 16.51, cy + 1.27, fa, 'left')
         if key == 'POT' and horiz: return (cx, cy - 3.81, fa, None), (cx, cy - 6.35, fa, None)
-        if key == 'POT': return (cx, cy + 7.62, fa, None), (cx, cy + 8.89, fa, None)
+        if key == 'POT' and side == 'L': return (cx - 2.54, cy - 1.27, fa, 'right'), (cx - 2.54, cy + 1.27, fa, 'right')
+        if key == 'POT': return (cx + 4.45, cy - 1.9, fa, 'left'), (cx + 4.45, cy + 1.9, fa, 'left')
         if key == 'POT2': return (cx - 13.97, cy - 1.27, fa, 'right'), (cx - 13.97, cy + 1.27, fa, 'right')
         return None, None
 
@@ -193,12 +240,12 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
         vhide = is_pwr
         if drawn:
             fr, fv = field_layout(pt['key'], ang, cx, cy, side)
-            if pt['key'] in ('OPA', 'CMP', 'DG') and pt['unit'] in (3, 5):    # power units: reference only
+            if pt['unit'] == AMPS.get(pt['key'], DGPWR.get(pt['key'])):           # power units: reference only
                 fr, fv, vhide = (cx - 3.81, cy, 0, 'right'), None, True
             if is_pwr: fv = (cx, cy - 4.45, 0, None)
             if pt['key'] == 'DG' and pt['unit'] in (1, 2, 3, 4):              # switch sections: reference above
-                fr, fv, vhide = (cx, cy - 3.18, 0, None), None, True
-            if ang % 360 == 180 or (ang % 360 == 90 and pt['key'] in ('LED', 'D', 'ZEN', 'SCH', 'DZ', 'DS')):
+                fr, fv, vhide = (cx - 3.81, cy - 3.0, 0, 'right'), None, True    # above the S pin and its number
+            if (ang % 360 == 180 or (ang % 360 == 90 and pt['key'] in ('LED', 'D', 'ZEN', 'SCH', 'DZ', 'DS', 'TRIM'))) != (mirror == 'y'):
                 # KiCad flips a field's justification with the symbol (a 90-degree diode's 90-degree text reads at 180)
                 sw = {'left': 'right', 'right': 'left'}
                 fr = fr and fr[:3] + (sw.get(fr[3], fr[3]),); fv = fv and fv[:3] + (sw.get(fv[3], fv[3]),)
@@ -225,10 +272,13 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
         pwr_n[0] += 1; gs = used.setdefault(('power', net), None)
         if gs is None: used[('power', net)] = gs = libsym(net); sch.libSymbols.append(gs)
         ref = f'#PWR{pwr_n[0]:03d}'
-        sch.schematicSymbols.append(SchematicSymbol(libraryNickname='power', entryName=net, position=Position(ax, ay, ang), unit=1,
+        # KiCad turns and flips a field with its symbol: these read upright, beside the symbol
+        vx, vy, va, vj = {0: (ax + 1.9, ay + 2.0, 0, 'left'), 180: (ax + 1.9, ay - 2.0, 0, 'right'),
+                          90: (ax + 3.8, ay, 90, 'right'), 270: (ax - 3.8, ay, 90, 'right')}[ang % 360]
+        sch.schematicSymbols.append(SchematicSymbol(libraryNickname=SYM[net][0], entryName=net, position=Position(ax, ay, ang), unit=1,
             inBom=True, onBoard=True, uuid=K(*key),
             properties=[Property(key='Reference', value=ref, id=0, position=Position(ax, ay + 5, 0), effects=Effects(font=Font(height=1.27, width=1.27), hide=True)),
-                        Property(key='Value', value=net, id=1, position=Position(ax, ay + 4.5, 0), effects=Effects(font=Font(height=1.0, width=1.0), hide=True)),
+                        Property(key='Value', value=net, id=1, position=Position(vx, vy, va), effects=Effects(font=Font(height=1.0, width=1.0), justify=Justify(horizontally=vj), hide=net in ('GNDA', 'GNDD') and ang % 360 != 180)),
                         Property(key='Footprint', value='', id=2, position=Position(ax, ay, 0), effects=Effects(font=Font(height=1.27, width=1.27), hide=True)),
                         Property(key='Datasheet', value='', id=3, position=Position(ax, ay, 0), effects=Effects(font=Font(height=1.27, width=1.27), hide=True))],
             pins={'1': K(*key, 'pin')},
@@ -262,11 +312,13 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
             pin_nets, side_of = [], {}
             for pt in parts:
                 cx, cy, ang, mir = d.place[(pt['ref'], pt['unit'])]
-                pp = add_symbol(pt, cx, cy, ang, mir, drawn=True, side=d.textside.get(pt['ref']))
+                pp = add_symbol(pt, cx, cy, ang, mir, drawn=True, side=d.textside.get((pt['ref'], pt['unit']), d.textside.get(pt['ref'])))
                 for pn, net in pt['pins'].items():
                     px, py = pp[pn]; dx, dy = schdraw.xform(px, py, ang, mir)
                     ax, ay = schdraw.snap(cx + dx), schdraw.snap(cy + dy)
-                    pin_nets.append((pt['ref'], pn, net, (ax, ay))); side_of[(pt['ref'], pn)] = outward(dx, -dy)
+                    o = pin_out(used[SYM[pt['key']]], pt['unit'], pn)       # the way the pin points, not where it sits
+                    if o: ox_, oy_ = schdraw.xform(o[0], o[1], ang, mir); o = outward(ox_, -oy_)
+                    pin_nets.append((pt['ref'], pn, net, (ax, ay))); side_of[(pt['ref'], pn)] = o or outward(dx, -dy)
             groups, junctions = schdraw.check(d, pin_nets)
             byref = {(pt['ref'], pn): pt for pt in parts for pn in pt['pins']}
             for net, its in groups:
@@ -288,7 +340,7 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
             for p in sorted(junctions):
                 sch.junctions.append(Junction(position=Position(*p), diameter=0, uuid=S('junc')))
             for net, p, side in d.ports:
-                ang, just = LBL[{'L': 'L', 'R': 'R', 'U': 'B', 'D': 'T'}[side]]
+                ang, just = LBL[{'L': 'L', 'R': 'R', 'U': 'T', 'D': 'B'}[side]]
                 sch.labels.append(LocalLabel(text=net, position=Position(p[0], p[1], ang), uuid=S('port'),
                     effects=Effects(font=Font(height=1.27, width=1.27), justify=Justify(horizontally=just, vertically='bottom'))))
             for net, p, dirn in d.gnds:
