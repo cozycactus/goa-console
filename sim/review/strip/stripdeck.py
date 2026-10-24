@@ -13,16 +13,17 @@ OPA1656_LIB = os.environ.get('OPA1656_LIB', os.path.join(HERE, 'OPA1656.LIB'))
 OPA1656_UNITS = set(filter(None, os.environ.get('OPA1656_UNITS', '').split(',')))
 sys.path.insert(0, os.path.join(REPO, 'tools'))
 from verify import sexp, field
+import netnames
 
 NET, JNET = os.path.join(REPO, 'channel_strip.net'), os.path.join(REPO, 'jack_board.net')
 comps, pins = {}, {}
 for path, prefix in ((NET, ''), (JNET, 'JB_')):
-    tree = sexp(open(path).read())
+    tree = sexp(open(path).read()); rn = netnames.renames(path)     # unlabelled nets of a drawn schematic
     for c in next(x for x in tree[1:] if isinstance(x, list) and x[0] == 'components')[1:]:
         if field(c, 'ref') in comps: raise SystemExit(f"{field(c, 'ref')} is on both boards")
         comps[field(c, 'ref')] = c
     for n in next(x for x in tree[1:] if isinstance(x, list) and x[0] == 'nets')[1:]:
-        name = prefix + field(n, 'name').lstrip('/')
+        name = field(n, 'name').lstrip('/'); name = prefix + rn.get(name, name)
         for nd in n[1:]:
             if isinstance(nd, list) and nd[0] == 'node': pins[(field(nd, 'ref'), field(nd, 'pin'))] = name
 

@@ -1,8 +1,9 @@
 """Generate the channel-strip schematic from its netlist (the P(...) calls below), and the jack-board
 schematic (jack_board.kicad_sch, written next to it). Builder and part maps are in schgen.py."""
 import os, sys
-import schgen
-from schgen import block, P, build, FADER_FP, CAP_FP, SYM, FP
+import schgen, strip_draw
+from schgen import P, build, FADER_FP, CAP_FP, SYM, FP
+def block(title): return schgen.block(title, draw=strip_draw.for_title(title))   # drawn blocks: strip_draw.py
 
 SYM.update({'CONN6': ('Connector_Generic', 'Conn_01x06'), 'CONN2': ('Connector_Generic', 'Conn_01x02'),
             'LINK': ('Connector_Generic', 'Conn_02x05_Odd_Even'),
@@ -122,6 +123,16 @@ P(b,'C71','C','10p C0G',{1:'EQ_O4',2:'EQ_L4'},fp=C0G); P(b,'C72','C','10p C0G',{
 P(b,'U6','OPA','OPA1612',{5:'EQ_LP',6:'EQ_L4',7:'EQ_O5'},unit=2)
 P(b,'RV13','POT','LO-MID gain 10K lin CD',{3:'EQ_O5',2:'EQ_WLM',1:'EQ_O4'},mpn=POTB)
 
+# LF (U7A): + input from the RV15 bridge network
+P(b,'R66','R','22K',{1:'EQ_O5',2:'EQ_F4'}); P(b,'R67','R','22K',{1:'EQ_O6',2:'EQ_F4'})
+P(b,'C73','C','22p C0G',{1:'EQ_O6',2:'EQ_F4'},fp=C0G)   # one 22p (not a pair): it drives the insert send, cables
+P(b,'U7','OPA','OPA1612',{3:'EQ_FP',2:'EQ_F4',1:'EQ_O6'},unit=1)
+P(b,'R62','R','3K3',{1:'EQ_O5',2:'EQ_F1'}); P(b,'R63','R','3K3',{1:'EQ_F2',2:'EQ_O6'})
+P(b,'RV15','POT','LF 10K lin CD',{1:'EQ_F1',2:'EQ_WLF',3:'EQ_F2'},mpn=POTB)
+P(b,'C48','C','150n film',{1:'EQ_F1',2:'EQ_F2'},fp=FILM_S)
+P(b,'R64','R','1K5',{1:'EQ_WLF',2:'EQ_F3'}); P(b,'C49','C','2.2u film',{1:'EQ_F3',2:'EQ_FP'},fp=FILM_L)   # MPN from CAP_MPN
+P(b,'C50','C','100n C0G',{1:'EQ_FP',2:'GNDA'},fp=C0G); P(b,'R65','R','5K1',{1:'EQ_FP',2:'GNDA'})
+
 # Mid bands: the Delta's Wien band-pass (needs a 100K C-law dual, not stocked) replaced by a KHN state-variable
 # band-pass with the same response (peak 0.407, Q 0.275, in phase) into U6A/U6B's + input, tuned by a stocked
 # A10K dual: each gang a divider from the driving op-amp (pin 3) to 430R (pin 1), 13K wiper-to-top, wiper -> 4K7
@@ -149,15 +160,6 @@ for (nm, wip, bp, sm, sp, hp, lp, d1, d2, r1, r2, i1, i2, pot, ci1, ci2, c1v, c2
     P(b,ci1,'C',c1v,{1:bp,2:i1},fp=C0G); P(b,ci2,'C',c2v,{1:lp,2:i2},fp=C0G)
     P(b,ui1[0],'OPA','OPA1612',dict(zip(pp[ui1[1]], ('GNDA', i1, bp))),unit=ui1[1])
     P(b,ui2[0],'OPA','OPA1612',dict(zip(pp[ui2[1]], ('GNDA', i2, lp))),unit=ui2[1])
-P(b,'R66','R','22K',{1:'EQ_O5',2:'EQ_F4'}); P(b,'R67','R','22K',{1:'EQ_O6',2:'EQ_F4'})
-P(b,'C73','C','22p C0G',{1:'EQ_O6',2:'EQ_F4'},fp=C0G)   # one 22p (not a pair): it drives the insert send, cables
-P(b,'U7','OPA','OPA1612',{3:'EQ_FP',2:'EQ_F4',1:'EQ_O6'},unit=1)
-P(b,'R62','R','3K3',{1:'EQ_O5',2:'EQ_F1'}); P(b,'R63','R','3K3',{1:'EQ_F2',2:'EQ_O6'})
-P(b,'RV15','POT','LF 10K lin CD',{1:'EQ_F1',2:'EQ_WLF',3:'EQ_F2'},mpn=POTB)
-P(b,'C48','C','150n film',{1:'EQ_F1',2:'EQ_F2'},fp=FILM_S)
-P(b,'R64','R','1K5',{1:'EQ_WLF',2:'EQ_F3'}); P(b,'C49','C','2.2u film',{1:'EQ_F3',2:'EQ_FP'},fp=FILM_L)   # MPN from CAP_MPN
-P(b,'C50','C','100n C0G',{1:'EQ_FP',2:'GNDA'},fp=C0G); P(b,'R65','R','5K1',{1:'EQ_FP',2:'GNDA'})
-
 b = block('EQ IN  SW12: latched = EQ in (unlatched = bypass from the EQ input); green EQ LED')
 P(b,'SW12','SW','EQ',{2:'EQSEL',1:'EQ_O6',3:'EQIN'},unit=1)
 P(b,'SW12','SW','EQ',{5:'+VL',4:'EQ_ON',6:'NC'},unit=2)
@@ -269,8 +271,11 @@ for _, ps in schgen.blocks:                     # ceramic MPNs by value (X7R 50 
     for pt in ps:
         if pt['key'] == 'C' and not pt['mpn']: pt['mpn'] = CAP_MPN.get(pt['value'], '')
 build(OUT, 'channel_strip', 'Channel strip - goa console (Delta Theatre input without the mic stage)',
-      {1: 'Generated from channel_strip_schematic_spec.md v4.3', 2: 'Nets joined by labels; tidy wiring in Eeschema as needed'},
-      paper='auto', revision='4.3')
+      {1: 'Generated from channel_strip_schematic_spec.md v4.3', 2: 'Drawn by tools/strip_draw.py; labels join the blocks'},
+      paper='auto', revision='4.3', **strip_draw.SHEET)
+if os.environ.get('PILOT'):                     # only the drawn blocks, on a sheet of their own (layout review)
+    build(os.environ['PILOT'], 'pilot', 'Channel strip - drawn blocks (pilot)', {1: 'tools/strip_draw.py', 2: ''},
+          paper='auto', revision='4.3', only=lambda t: strip_draw.for_title(t) is not None, **strip_draw.SHEET)
 
 # ---------------------------------------------------------------- jack board (its own PCB; same net names)
 schgen.blocks.clear()

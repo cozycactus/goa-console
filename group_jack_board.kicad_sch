@@ -609,7 +609,7 @@
     (property "Datasheet" "" (id 3) (at 40.64 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 348cbeed-a0b0-539d-a47c-9a747bd2b41c))
+    (pin "1" (uuid 077804b9-274d-588e-b9d7-981ca6d28693))
     (instances
       (project "group_jack_board"
         (path "/dc93a766-ddd5-5372-9bee-1e55f9b8879c"
@@ -664,7 +664,7 @@
     (property "Datasheet" "" (id 3) (at 73.66 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 3f8824b2-0f69-5c3d-9e6c-3cd5d83a2c7f))
+    (pin "1" (uuid ecc5b307-ed2b-5e39-8d75-b349705cfdd4))
     (instances
       (project "group_jack_board"
         (path "/dc93a766-ddd5-5372-9bee-1e55f9b8879c"
@@ -719,7 +719,7 @@
     (property "Datasheet" "" (id 3) (at 106.68 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 086106db-277c-59fe-bf29-a162536d0ab1))
+    (pin "1" (uuid a777f6d2-1d73-54ea-93ff-58b38b7871cd))
     (instances
       (project "group_jack_board"
         (path "/dc93a766-ddd5-5372-9bee-1e55f9b8879c"
@@ -776,7 +776,7 @@
     (property "Datasheet" "" (id 3) (at 139.7 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid fa57a464-846d-58a8-b457-f175e4605d94))
+    (pin "1" (uuid 06e9c5b7-3398-5589-aad2-283ae231efd3))
     (instances
       (project "group_jack_board"
         (path "/dc93a766-ddd5-5372-9bee-1e55f9b8879c"
@@ -833,7 +833,7 @@
     (property "Datasheet" "" (id 3) (at 172.72 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid adc772e3-3a1e-542e-8721-ce0e579bcbc5))
+    (pin "1" (uuid e975b1e7-9380-5611-a7b3-fd99e9253566))
     (instances
       (project "group_jack_board"
         (path "/dc93a766-ddd5-5372-9bee-1e55f9b8879c"
@@ -901,7 +901,7 @@
     (property "Datasheet" "" (id 3) (at 208.28 43.18 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 44280f07-90d5-5e2b-b46c-b59844a7524f))
+    (pin "1" (uuid 4aec2f6f-e4b3-5ee6-911c-48d8991671ad))
     (instances
       (project "group_jack_board"
         (path "/dc93a766-ddd5-5372-9bee-1e55f9b8879c"
@@ -926,7 +926,7 @@
     (property "Datasheet" "" (id 3) (at 208.28 45.72 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 49c5bac0-7483-5718-b4c5-475dfdcea8d9))
+    (pin "1" (uuid 43b5b72a-72f8-539d-bcf1-41824a57bfe9))
     (instances
       (project "group_jack_board"
         (path "/dc93a766-ddd5-5372-9bee-1e55f9b8879c"
@@ -951,7 +951,7 @@
     (property "Datasheet" "" (id 3) (at 195.58 50.8 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 211cb941-6c11-5ea0-9578-4b08a69993e8))
+    (pin "1" (uuid 70aaa767-e56f-5c75-b0ef-bf133da56158))
     (instances
       (project "group_jack_board"
         (path "/dc93a766-ddd5-5372-9bee-1e55f9b8879c"
@@ -976,7 +976,7 @@
     (property "Datasheet" "" (id 3) (at 208.28 53.34 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 4e18d820-7c1c-503a-bc4d-42ffbfbc912c))
+    (pin "1" (uuid ab0c021c-5fd1-5b61-94b4-cf4b4dca7a77))
     (instances
       (project "group_jack_board"
         (path "/dc93a766-ddd5-5372-9bee-1e55f9b8879c"
@@ -1001,7 +1001,7 @@
     (property "Datasheet" "" (id 3) (at 195.58 58.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 9bf3e4e2-04fb-5ab2-944b-daac284c361d))
+    (pin "1" (uuid 9102d974-6398-5e1d-8ead-25a0d23335b2))
     (instances
       (project "group_jack_board"
         (path "/dc93a766-ddd5-5372-9bee-1e55f9b8879c"
@@ -1026,7 +1026,7 @@
     (property "Datasheet" "" (id 3) (at 208.28 60.96 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid be3223f1-fd8f-5ee1-9341-80feb1f46f9a))
+    (pin "1" (uuid dd2e6fcc-aa28-5cd6-be6e-810bce35eaff))
     (instances
       (project "group_jack_board"
         (path "/dc93a766-ddd5-5372-9bee-1e55f9b8879c"
@@ -1040,7 +1040,7 @@
     (in_bom no) (on_board no)
     (uuid 8b4307e8-a6b5-5519-9130-dd12b74c4eed)
     (property "Reference" "#FLG01" (id 0) (at 236.22 41.91 0)
-      (effects (font (size 1.27 1.27)))
+      (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "PWR_FLAG" (id 1) (at 236.22 59.69 0)
       (effects (font (size 1.27 1.27)))
@@ -1076,7 +1076,7 @@
     (property "Datasheet" "" (id 3) (at 233.68 50.8 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 414254f3-07ed-59f7-a08a-687f9793394c))
+    (pin "1" (uuid 038f648e-a898-5a74-a7af-fa5e5e84d44a))
     (instances
       (project "group_jack_board"
         (path "/dc93a766-ddd5-5372-9bee-1e55f9b8879c"

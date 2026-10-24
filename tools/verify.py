@@ -20,6 +20,17 @@ if __name__ == '__main__':
         name = field(n, 'name').lstrip('/')
         for nd in n[1:]:
             if isinstance(nd, list) and nd[0] == 'node': got[f"{field(nd, 'ref')}.{field(nd, 'pin')}"] = name
+    # a drawn schematic leaves nets local to a drawing unlabelled: KiCad names them Net-(...). Such a net counts as the
+    # intended one when it holds exactly that net's pins, no more, no fewer
+    members = collections.defaultdict(set)
+    for k, n in got.items(): members[n].add(k)
+    wanted = collections.defaultdict(set)
+    for k, n in want.items():
+        if n != 'NC' and not k.startswith('#FLG'): wanted[n].add(k)
+    by_pins = {frozenset(v): n for n, v in wanted.items()}
+    for n, pins in members.items():
+        if n.startswith('Net-(') and frozenset(pins) in by_pins:
+            for k in pins: got[k] = by_pins[frozenset(pins)]
     bad = []
     for k, n in want.items():
         if k.startswith('#FLG'): continue

@@ -179,7 +179,7 @@
       )
     )
 
-    (symbol "Device:C" (pin_names (offset 0.254)) (in_bom yes) (on_board yes)
+    (symbol "Device:C" (pin_numbers hide) (pin_names (offset 0.254) hide) (in_bom yes) (on_board yes)
       (property "Reference" "C" (at 0.635 2.54 0) (show_name)
         (effects (font (size 1.27 1.27)) (justify left))
       )
@@ -231,7 +231,7 @@
       )
     )
 
-    (symbol "Connector_Generic:Conn_02x05_Odd_Even" (pin_names (offset 1.016)) (in_bom yes) (on_board yes)
+    (symbol "Connector_Generic:Conn_02x05_Odd_Even" (pin_names (offset 1.016) hide) (in_bom yes) (on_board yes)
       (property "Reference" "J" (at 1.27 7.62 0) (show_name)
         (effects (font (size 1.27 1.27)))
       )
@@ -503,7 +503,7 @@
     (property "Datasheet" "" (id 3) (at 40.64 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 8ffd13f0-5d24-5c9e-a45a-4e7977c40f44))
+    (pin "1" (uuid 80f16e13-72c0-501d-a5d4-7366f1800319))
     (instances
       (project "jack_board"
         (path "/bb35f04f-432d-53c4-b864-2be090389fed"
@@ -516,11 +516,11 @@
   (symbol (lib_id "Device:C") (at 68.58 50.8 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid b99bb803-79ee-5705-bb0f-6800eea8dbb6)
-    (property "Reference" "C8" (id 0) (at 71.12 41.91 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "C8" (id 0) (at 71.12 49.529999999999994 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "100p C0G" (id 1) (at 71.12 59.69 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "100p C0G" (id 1) (at 71.12 52.07 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Capacitor_SMD:C_0805_2012Metric" (id 2) (at 68.58 50.8 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -554,7 +554,7 @@
     (property "Datasheet" "" (id 3) (at 68.58 54.61 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 64b5c356-3a19-512d-854e-9352e8fd555c))
+    (pin "1" (uuid 6e31d502-c21e-5628-bdc5-5feba67f368c))
     (instances
       (project "jack_board"
         (path "/bb35f04f-432d-53c4-b864-2be090389fed"
@@ -567,11 +567,11 @@
   (symbol (lib_id "Device:C") (at 101.6 50.8 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid ede9b222-6345-581b-af09-696f022923e7)
-    (property "Reference" "C9" (id 0) (at 104.14 41.91 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "C9" (id 0) (at 104.14 49.529999999999994 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "100p C0G" (id 1) (at 104.14 59.69 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "100p C0G" (id 1) (at 104.14 52.07 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Capacitor_SMD:C_0805_2012Metric" (id 2) (at 101.6 50.8 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -605,7 +605,7 @@
     (property "Datasheet" "" (id 3) (at 101.6 54.61 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 8a12e1ca-b6fd-52b9-b5b7-60531be24148))
+    (pin "1" (uuid ee638815-4ae2-5a63-9eca-ea54a77d4281))
     (instances
       (project "jack_board"
         (path "/bb35f04f-432d-53c4-b864-2be090389fed"
@@ -662,7 +662,7 @@
     (property "Datasheet" "" (id 3) (at 139.7 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 9e6b92bd-c4bf-5b3c-9cbc-ca7e8c4ca736))
+    (pin "1" (uuid 79302eb5-7056-50ee-b4ee-bca35d5d0cd7))
     (instances
       (project "jack_board"
         (path "/bb35f04f-432d-53c4-b864-2be090389fed"
@@ -719,7 +719,7 @@
     (property "Datasheet" "" (id 3) (at 172.72 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 536d834d-8a17-5f3f-94e0-165bb6850493))
+    (pin "1" (uuid c2d95241-bbeb-5fe5-ac89-3976f9b11435))
     (instances
       (project "jack_board"
         (path "/bb35f04f-432d-53c4-b864-2be090389fed"
@@ -781,7 +781,7 @@
     (property "Datasheet" "" (id 3) (at 195.58 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 555a2570-b2a5-50fb-80e2-2b672cd1b474))
+    (pin "1" (uuid 57481602-ce62-5967-9cf0-06dad7c7fa79))
     (instances
       (project "jack_board"
         (path "/bb35f04f-432d-53c4-b864-2be090389fed"
@@ -806,7 +806,7 @@
     (property "Datasheet" "" (id 3) (at 195.58 50.8 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 18be734d-c302-56e7-a6c8-872c15aa60ab))
+    (pin "1" (uuid 3ed56b4a-8f04-54f7-9b05-cbc0ce3c81aa))
     (instances
       (project "jack_board"
         (path "/bb35f04f-432d-53c4-b864-2be090389fed"
@@ -831,7 +831,7 @@
     (property "Datasheet" "" (id 3) (at 195.58 53.34 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 96838cb8-5460-5ef6-81ec-8d0906742be7))
+    (pin "1" (uuid 1adae68d-e360-56c6-8a4c-734ecd6c6a89))
     (instances
       (project "jack_board"
         (path "/bb35f04f-432d-53c4-b864-2be090389fed"
@@ -856,7 +856,7 @@
     (property "Datasheet" "" (id 3) (at 208.28 55.88 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 7949b33c-c9e0-5103-a43d-7832fbcbeb7e))
+    (pin "1" (uuid fb1a61a4-0ab4-5091-b883-8cfebcc968c8))
     (instances
       (project "jack_board"
         (path "/bb35f04f-432d-53c4-b864-2be090389fed"
@@ -870,7 +870,7 @@
     (in_bom no) (on_board no)
     (uuid c81666ee-651c-5494-b6d5-c1ec7e970c2e)
     (property "Reference" "#FLG01" (id 0) (at 236.22 41.91 0)
-      (effects (font (size 1.27 1.27)))
+      (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "PWR_FLAG" (id 1) (at 236.22 59.69 0)
       (effects (font (size 1.27 1.27)))
@@ -906,7 +906,7 @@
     (property "Datasheet" "" (id 3) (at 233.68 50.8 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 190cf57c-caf9-5fc9-8af8-e9e6e98fd6d8))
+    (pin "1" (uuid 52acd987-2237-58b5-927e-384e12ae94b4))
     (instances
       (project "jack_board"
         (path "/bb35f04f-432d-53c4-b864-2be090389fed"

@@ -10,3 +10,5 @@ render/*.png
 render/glb/
 render/parts/
 render/kicad/
+render/live/
+render/kicad3d/

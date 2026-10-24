@@ -22,6 +22,7 @@ Stability is not checked here (single-pole models): it is done per module with T
 import os, re, sys, math, subprocess, tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from verify import sexp, field
+import netnames
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 GROUNDS = {'GNDA', 'GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'}
@@ -30,14 +31,15 @@ OMIT = {'LED', '1N4148', 'BZX84Cxx', 'BAT54W', 'D_Zener', 'D_Schottky', 'LM393',
 FADER0 = 0.5 + (10 ** (-10 / 20) - 0.15) / 1.7       # A-law position of the fader's "0" mark (-10 dB, then +10 dB)
 
 def load(path):
-    tree = sexp(open(path).read()); comps, pins = {}, {}
+    tree = sexp(open(path).read()); comps, pins = {}, {}; rn = netnames.renames(path)   # drawn schematics' unlabelled nets
     for c in next(x for x in tree[1:] if isinstance(x, list) and x[0] == 'components')[1:]:
         ls = next(x for x in c[1:] if isinstance(x, list) and x[0] == 'libsource')
         dnp = any(isinstance(x, list) and x[0] == 'property' and field(x, 'name') == 'dnp' for x in c[1:])
         comps[field(c, 'ref')] = dict(value=field(c, 'value') or '', lib=field(ls, 'part'), dnp=dnp)
     for n in next(x for x in tree[1:] if isinstance(x, list) and x[0] == 'nets')[1:]:
         for nd in n[1:]:
-            if isinstance(nd, list) and nd[0] == 'node': pins[(field(nd, 'ref'), field(nd, 'pin'))] = field(n, 'name').lstrip('/')
+            if isinstance(nd, list) and nd[0] == 'node':
+                nm = field(n, 'name').lstrip('/'); pins[(field(nd, 'ref'), field(nd, 'pin'))] = rn.get(nm, nm)
     return comps, pins
 
 def value(text):

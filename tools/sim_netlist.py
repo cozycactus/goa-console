@@ -11,17 +11,18 @@ pin 2 common, latched = 2-1 (and 5-4), unlatched = 2-3 (and 5-6). Solder jumpers
 import os, re, sys, math, subprocess, tempfile
 sys.path.insert(0, os.path.dirname(__file__))
 from verify import sexp, field
+import netnames
 
 if len(sys.argv) != 3: raise SystemExit(__doc__)
 NET, JNET = sys.argv[1], sys.argv[2]
 comps, pins = {}, {}
 for path, prefix in ((NET, ''), (JNET, 'JB_')):
-    tree = sexp(open(path).read())
+    tree = sexp(open(path).read()); rn = netnames.renames(path)     # unlabelled nets of a drawn schematic
     for c in next(x for x in tree[1:] if isinstance(x, list) and x[0] == 'components')[1:]:
         if field(c, 'ref') in comps: raise SystemExit(f"{field(c, 'ref')} is on both boards")
         comps[field(c, 'ref')] = c
     for n in next(x for x in tree[1:] if isinstance(x, list) and x[0] == 'nets')[1:]:
-        name = prefix + field(n, 'name').lstrip('/')
+        name = field(n, 'name').lstrip('/'); name = prefix + rn.get(name, name)
         for nd in n[1:]:
             if isinstance(nd, list) and nd[0] == 'node': pins[(field(nd, 'ref'), field(nd, 'pin'))] = name
 

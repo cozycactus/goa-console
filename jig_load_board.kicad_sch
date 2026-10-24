@@ -14,7 +14,7 @@
   )
 
   (lib_symbols
-    (symbol "Connector_Generic:Conn_02x17_Odd_Even" (pin_names (offset 1.016)) (in_bom yes) (on_board yes)
+    (symbol "Connector_Generic:Conn_02x17_Odd_Even" (pin_names (offset 1.016) hide) (in_bom yes) (on_board yes)
       (property "Reference" "J" (at 1.27 22.86 0) (show_name)
         (effects (font (size 1.27 1.27)))
       )
@@ -357,7 +357,7 @@
       )
     )
 
-    (symbol "Connector_Generic:Conn_01x01" (pin_names (offset 1.016)) (in_bom yes) (on_board yes)
+    (symbol "Connector_Generic:Conn_01x01" (pin_names (offset 1.016) hide) (in_bom yes) (on_board yes)
       (property "Reference" "J" (at 0 2.54 0) (show_name)
         (effects (font (size 1.27 1.27)))
       )
@@ -395,7 +395,7 @@
       )
     )
 
-    (symbol "Device:R" (pin_names (offset 0)) (in_bom yes) (on_board yes)
+    (symbol "Device:R" (pin_numbers hide) (pin_names (offset 0) hide) (in_bom yes) (on_board yes)
       (property "Reference" "R" (at 2.032 0 90) (show_name)
         (effects (font (size 1.27 1.27)))
       )
@@ -583,7 +583,7 @@
       )
     )
 
-    (symbol "Device:C" (pin_names (offset 0.254)) (in_bom yes) (on_board yes)
+    (symbol "Device:C" (pin_numbers hide) (pin_names (offset 0.254) hide) (in_bom yes) (on_board yes)
       (property "Reference" "C" (at 0.635 2.54 0) (show_name)
         (effects (font (size 1.27 1.27)) (justify left))
       )
@@ -1181,7 +1181,7 @@
     (property "Datasheet" "" (id 3) (at 58.42 40.64 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid fc209883-ad46-5ad4-88fc-c0cb1ea046a2))
+    (pin "1" (uuid 40cb5328-8249-5c26-a8d8-cf678097a90f))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -1206,7 +1206,7 @@
     (property "Datasheet" "" (id 3) (at 58.42 43.18 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 65102cb8-7032-53ec-8a4b-934de097b4e2))
+    (pin "1" (uuid d3ba7397-08bf-5f1c-a545-6aafc7a06b46))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -1231,7 +1231,7 @@
     (property "Datasheet" "" (id 3) (at 58.42 45.72 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid e9a84bee-4ae5-5c56-99c6-a42295d3a8df))
+    (pin "1" (uuid e605f42d-3866-5034-9cda-532659ba90e2))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -1256,7 +1256,7 @@
     (property "Datasheet" "" (id 3) (at 58.42 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid f258c6ed-5850-501a-88c3-26e9dcf63e03))
+    (pin "1" (uuid b19ff174-e2f3-5d87-955f-f810ba03405a))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -1281,7 +1281,7 @@
     (property "Datasheet" "" (id 3) (at 58.42 50.8 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 03bbd200-b04f-5e25-9c8e-2bede2255702))
+    (pin "1" (uuid ff82f422-669c-5edb-b27b-205bf6a22021))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -1306,7 +1306,7 @@
     (property "Datasheet" "" (id 3) (at 58.42 53.34 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 01b068b8-25aa-5859-8ec6-ded331197989))
+    (pin "1" (uuid 6cc25da4-d455-594d-88fb-95984e89da9a))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -1331,7 +1331,7 @@
     (property "Datasheet" "" (id 3) (at 58.42 55.88 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 642269f5-4085-57e1-b5c6-444f74b6c7cd))
+    (pin "1" (uuid 33a581f4-5900-5a79-b768-cad050b9ab3a))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -1356,7 +1356,7 @@
     (property "Datasheet" "" (id 3) (at 58.42 58.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid af0378eb-5fb6-5c5f-8112-50afce5839aa))
+    (pin "1" (uuid c2a4be80-64d0-55ed-ac84-bb36e45a48b9))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -1409,7 +1409,7 @@
     (property "Datasheet" "" (id 3) (at 63.5 50.8 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid b0e69f07-67ae-531b-991c-80a534076f42))
+    (pin "1" (uuid 24b2ae48-347f-55cf-9048-a86f24b3d925))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -1422,11 +1422,11 @@
   (symbol (lib_id "Device:R") (at 101.6 50.8 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid da0c1a31-5e67-5d06-b847-7bb14e54916d)
-    (property "Reference" "R1" (id 0) (at 104.14 41.91 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R1" (id 0) (at 104.14 49.529999999999994 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "10R" (id 1) (at 104.14 59.69 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "10R" (id 1) (at 104.14 52.07 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 101.6 50.8 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -1460,7 +1460,7 @@
     (property "Datasheet" "" (id 3) (at 101.6 46.99 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 9113dba2-e8b3-5cc3-a0a1-7d0b1bf3a9e1))
+    (pin "1" (uuid b577513a-b2de-5e7f-83eb-103844fff995))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -1474,7 +1474,7 @@
     (in_bom no) (on_board no)
     (uuid ba69ee1b-d2a3-5093-afc4-0773f7747aec)
     (property "Reference" "#FLG01" (id 0) (at 137.16 41.91 0)
-      (effects (font (size 1.27 1.27)))
+      (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "PWR_FLAG" (id 1) (at 137.16 59.69 0)
       (effects (font (size 1.27 1.27)))
@@ -1510,7 +1510,7 @@
     (property "Datasheet" "" (id 3) (at 134.62 50.8 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 17ef4108-5065-5a79-88d5-917131803327))
+    (pin "1" (uuid e9f1b09f-d272-5bfe-9322-c5fa4e64e484))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -1523,11 +1523,11 @@
   (symbol (lib_id "Device:R") (at 35.56 124.46000000000001 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid f64e3201-deeb-5ff5-92bd-ddff2b9f35c5)
-    (property "Reference" "R2" (id 0) (at 38.1 115.57000000000001 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R2" (id 0) (at 38.1 123.19000000000001 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "4K7 1%" (id 1) (at 38.1 133.35000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "4K7 1%" (id 1) (at 38.1 125.73 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 35.56 124.46000000000001 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -1561,7 +1561,7 @@
     (property "Datasheet" "" (id 3) (at 35.56 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 25349901-aca1-565b-a9d8-8f855e038a67))
+    (pin "1" (uuid be88cb0c-9228-551b-bf01-f2a26d27a35f))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -1616,7 +1616,7 @@
     (property "Datasheet" "" (id 3) (at 73.66 127.0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 557067ff-5f6c-5869-8714-c56f542b8b2a))
+    (pin "1" (uuid 1cf53c05-495f-5dd4-9c49-0fa0c46578b8))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -1629,11 +1629,11 @@
   (symbol (lib_id "Device:R") (at 101.6 124.46000000000001 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid dae2f3ff-0baf-5dfb-bcc4-1c785193d16e)
-    (property "Reference" "R3" (id 0) (at 104.14 115.57000000000001 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R3" (id 0) (at 104.14 123.19000000000001 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "1K58 1%" (id 1) (at 104.14 133.35000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "1K58 1%" (id 1) (at 104.14 125.73 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 101.6 124.46000000000001 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -1667,7 +1667,7 @@
     (property "Datasheet" "" (id 3) (at 101.6 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 48ad5632-f820-5d9c-af78-bf403e776dac))
+    (pin "1" (uuid be1049ac-04dc-5009-b054-d11ac2ac9785))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -1722,7 +1722,7 @@
     (property "Datasheet" "" (id 3) (at 139.7 127.0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 7ca8e0e3-dde0-550f-8653-b3b3ba390e43))
+    (pin "1" (uuid b259b196-a84c-56ff-9806-143af31843e5))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -1735,11 +1735,11 @@
   (symbol (lib_id "Device:R") (at 167.64000000000001 124.46000000000001 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid a5b073b1-6f31-5c6f-b8f2-678b92e82860)
-    (property "Reference" "R4" (id 0) (at 170.18 115.57000000000001 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R4" (id 0) (at 170.18 123.19000000000001 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "1K18 1%" (id 1) (at 170.18 133.35000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "1K18 1%" (id 1) (at 170.18 125.73 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 167.64000000000001 124.46000000000001 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -1773,7 +1773,7 @@
     (property "Datasheet" "" (id 3) (at 167.64 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 83356bcf-07e1-52da-b583-6461c79413ee))
+    (pin "1" (uuid 17995043-2a60-5d3b-af46-6f34290f8d44))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -1828,7 +1828,7 @@
     (property "Datasheet" "" (id 3) (at 205.74 127.0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid cb02042a-cfd0-5852-bfe9-9b4f41d42e46))
+    (pin "1" (uuid 6225fccc-b0fd-5ffd-bdfe-062bce48785c))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -1841,11 +1841,11 @@
   (symbol (lib_id "Device:R") (at 233.68 124.46000000000001 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 89115693-1cce-5b96-b3c7-0919bb0b970e)
-    (property "Reference" "R5" (id 0) (at 236.22 115.57000000000001 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R5" (id 0) (at 236.22 123.19000000000001 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "392R 1%" (id 1) (at 236.22 133.35000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "392R 1%" (id 1) (at 236.22 125.73 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 233.68 124.46000000000001 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -1879,7 +1879,7 @@
     (property "Datasheet" "" (id 3) (at 233.68 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 9927f266-a2f0-5190-a662-306b759dd35a))
+    (pin "1" (uuid a8eb108f-c671-5d25-bb72-a367fd480edb))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -1934,7 +1934,7 @@
     (property "Datasheet" "" (id 3) (at 271.78 127.0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 058b4c50-eee0-5c3d-ae31-f5f4fddd7c3e))
+    (pin "1" (uuid 2d0a8007-7ff8-5d7e-9130-600dd7a83dc7))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -1947,11 +1947,11 @@
   (symbol (lib_id "Device:R") (at 299.72 124.46000000000001 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid ea77078c-26dd-5b00-a37e-28c5cba46899)
-    (property "Reference" "R6" (id 0) (at 302.26000000000005 115.57000000000001 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R6" (id 0) (at 302.26000000000005 123.19000000000001 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "4K7 1%" (id 1) (at 302.26000000000005 133.35000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "4K7 1%" (id 1) (at 302.26000000000005 125.73 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 299.72 124.46000000000001 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -1985,7 +1985,7 @@
     (property "Datasheet" "" (id 3) (at 299.72 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 924ed95f-aba9-519e-8576-2603ab56d44d))
+    (pin "1" (uuid cc70687b-3f2e-5331-9aea-57119aed327f))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -2040,7 +2040,7 @@
     (property "Datasheet" "" (id 3) (at 337.82 127.0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid f8f45d43-4ebf-55d5-a28b-4ba402437ff8))
+    (pin "1" (uuid ec3af95c-175c-5bfe-a491-9517368e587b))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -2053,11 +2053,11 @@
   (symbol (lib_id "Device:R") (at 365.76 124.46000000000001 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 5806dd7a-53e5-5f33-985b-40dce1c7c93c)
-    (property "Reference" "R7" (id 0) (at 368.3 115.57000000000001 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R7" (id 0) (at 368.3 123.19000000000001 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "1K58 1%" (id 1) (at 368.3 133.35000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "1K58 1%" (id 1) (at 368.3 125.73 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 365.76 124.46000000000001 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -2091,7 +2091,7 @@
     (property "Datasheet" "" (id 3) (at 365.76 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 24366f72-7492-53ad-ba97-ec7e65b11b91))
+    (pin "1" (uuid 61c6dc33-0fe5-5d0c-a69d-2ebfc8cf18ef))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -2146,7 +2146,7 @@
     (property "Datasheet" "" (id 3) (at 403.86 127.0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 7fff08ba-f297-53f9-b65e-ba0eff394b89))
+    (pin "1" (uuid 1f17cdc0-aebc-5cff-b4f6-5d65695ecbf3))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -2159,11 +2159,11 @@
   (symbol (lib_id "Device:R") (at 431.8 124.46000000000001 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 7c6a7823-aa3c-5d12-bcb5-9c6ccdc8de93)
-    (property "Reference" "R8" (id 0) (at 434.34000000000003 115.57000000000001 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R8" (id 0) (at 434.34000000000003 123.19000000000001 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "1K18 1%" (id 1) (at 434.34000000000003 133.35000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "1K18 1%" (id 1) (at 434.34000000000003 125.73 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 431.8 124.46000000000001 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -2197,7 +2197,7 @@
     (property "Datasheet" "" (id 3) (at 431.8 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid ba7d753c-5e70-5280-b539-97f716b58262))
+    (pin "1" (uuid 06b8c26a-692b-5a22-a574-a122e41906bd))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -2252,7 +2252,7 @@
     (property "Datasheet" "" (id 3) (at 469.9 127.0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 003d6b25-182b-50bb-8540-ae5ddd6e82c9))
+    (pin "1" (uuid c8f1b48e-baf8-5845-a86d-782e65979cf4))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -2265,11 +2265,11 @@
   (symbol (lib_id "Device:R") (at 497.84000000000003 124.46000000000001 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 35fe273e-e5dd-51bc-82df-a10ac66d5c7e)
-    (property "Reference" "R9" (id 0) (at 500.38000000000005 115.57000000000001 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R9" (id 0) (at 500.38000000000005 123.19000000000001 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "392R 1%" (id 1) (at 500.38000000000005 133.35000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "392R 1%" (id 1) (at 500.38000000000005 125.73 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 497.84000000000003 124.46000000000001 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -2303,7 +2303,7 @@
     (property "Datasheet" "" (id 3) (at 497.84 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 9cff388c-1025-52b1-a2e5-00fa2abf9a7f))
+    (pin "1" (uuid a6362a9f-50b3-53fa-a194-aff848f90807))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -2358,7 +2358,7 @@
     (property "Datasheet" "" (id 3) (at 535.94 127.0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 14969c5d-9573-5bd2-a003-2c7a0fdffbf9))
+    (pin "1" (uuid 8657dc01-3ee8-569e-a9e7-86043cf136a3))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -2371,11 +2371,11 @@
   (symbol (lib_id "Device:R") (at 563.88 124.46000000000001 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid c2b4bf1d-746b-5263-b71c-49d8b0a3231a)
-    (property "Reference" "R10" (id 0) (at 566.42 115.57000000000001 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R10" (id 0) (at 566.42 123.19000000000001 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "4K7 1%" (id 1) (at 566.42 133.35000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "4K7 1%" (id 1) (at 566.42 125.73 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 563.88 124.46000000000001 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -2409,7 +2409,7 @@
     (property "Datasheet" "" (id 3) (at 563.88 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 594f2204-8afb-5555-86f2-35f21fa297d6))
+    (pin "1" (uuid bb2e3be8-32d4-579a-aca6-f83dacfbb686))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -2464,7 +2464,7 @@
     (property "Datasheet" "" (id 3) (at 601.98 127.0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid b183b29d-8202-5f3f-b2c1-1f895123cf10))
+    (pin "1" (uuid cb7c8744-dcd8-5fbc-8f13-cee19fd2ceee))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -2477,11 +2477,11 @@
   (symbol (lib_id "Device:R") (at 629.92 124.46000000000001 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 3080d558-6896-5ba0-954d-787f5653284c)
-    (property "Reference" "R11" (id 0) (at 632.4599999999999 115.57000000000001 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R11" (id 0) (at 632.4599999999999 123.19000000000001 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "1K58 1%" (id 1) (at 632.4599999999999 133.35000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "1K58 1%" (id 1) (at 632.4599999999999 125.73 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 629.92 124.46000000000001 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -2515,7 +2515,7 @@
     (property "Datasheet" "" (id 3) (at 629.92 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid eaf32c4d-eb86-5d55-b44b-f14e1347a639))
+    (pin "1" (uuid b4aa4473-5a44-5160-8e54-b72a3d46de81))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -2570,7 +2570,7 @@
     (property "Datasheet" "" (id 3) (at 668.02 127.0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid aaf24452-5347-5649-8967-35c4ff13d846))
+    (pin "1" (uuid 3b39d680-3842-5331-b40f-885d7ed52877))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -2583,11 +2583,11 @@
   (symbol (lib_id "Device:R") (at 695.96 124.46000000000001 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 3a34b46e-f221-5987-b768-de8778735512)
-    (property "Reference" "R12" (id 0) (at 698.5 115.57000000000001 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R12" (id 0) (at 698.5 123.19000000000001 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "1K18 1%" (id 1) (at 698.5 133.35000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "1K18 1%" (id 1) (at 698.5 125.73 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 695.96 124.46000000000001 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -2621,7 +2621,7 @@
     (property "Datasheet" "" (id 3) (at 695.96 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 3435c9ea-4ee7-5f80-b9fb-0374c3962210))
+    (pin "1" (uuid 83e45fbb-def9-548f-9f98-9644382497fa))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -2676,7 +2676,7 @@
     (property "Datasheet" "" (id 3) (at 734.06 127.0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 8a50bfc3-ddb3-57af-857d-1ad67e1fe7b5))
+    (pin "1" (uuid 78aef2cc-9160-5485-8dea-c4d9f95b6fb5))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -2689,11 +2689,11 @@
   (symbol (lib_id "Device:R") (at 762.0 124.46000000000001 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid e888235b-5aa0-5967-94ce-9a6d2f21666c)
-    (property "Reference" "R13" (id 0) (at 764.54 115.57000000000001 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R13" (id 0) (at 764.54 123.19000000000001 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "392R 1%" (id 1) (at 764.54 133.35000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "392R 1%" (id 1) (at 764.54 125.73 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 762.0 124.46000000000001 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -2727,7 +2727,7 @@
     (property "Datasheet" "" (id 3) (at 762.0 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 5b1a9cea-daec-532c-af42-b8713d3e77da))
+    (pin "1" (uuid 4c6552c0-7e77-5d6b-849b-7fe7006cbf15))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -2782,7 +2782,7 @@
     (property "Datasheet" "" (id 3) (at 800.1 127.0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid fafb6cb1-a5ac-5338-a6fa-f333133cdb91))
+    (pin "1" (uuid 56046f78-44f8-5ef4-a6a0-f140f76a4b8d))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -2795,11 +2795,11 @@
   (symbol (lib_id "Device:R") (at 35.56 152.4 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid bd2f7fcd-4a7f-5949-a58b-13d764858a68)
-    (property "Reference" "R14" (id 0) (at 38.1 143.51 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R14" (id 0) (at 38.1 151.13 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "22K 1%" (id 1) (at 38.1 161.29000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "22K 1%" (id 1) (at 38.1 153.67000000000002 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 35.56 152.4 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -2833,7 +2833,7 @@
     (property "Datasheet" "" (id 3) (at 35.56 148.59 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 1d600ac3-2c6b-5ca9-8d12-2655f6b1a126))
+    (pin "1" (uuid 8eeed46f-c2c8-576e-bae9-92326ea29110))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -2888,7 +2888,7 @@
     (property "Datasheet" "" (id 3) (at 73.66 154.94 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 1d1d02bc-d43c-5b8e-aa99-d5650dae814f))
+    (pin "1" (uuid b71b1da8-9d61-5e2a-9e9c-e1a3802ee377))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -2901,11 +2901,11 @@
   (symbol (lib_id "Device:R") (at 101.6 152.4 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 13a6a1cb-7ad6-5e10-a3a1-54fbcfb36a1f)
-    (property "Reference" "R15" (id 0) (at 104.14 143.51 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R15" (id 0) (at 104.14 151.13 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "7K32 1%" (id 1) (at 104.14 161.29000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "7K32 1%" (id 1) (at 104.14 153.67000000000002 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 101.6 152.4 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -2939,7 +2939,7 @@
     (property "Datasheet" "" (id 3) (at 101.6 148.59 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 7ef88552-eceb-5154-ab0a-e4d11ef5d361))
+    (pin "1" (uuid 2c3ad522-52c8-58d0-8d85-d2f87d17fda5))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -2994,7 +2994,7 @@
     (property "Datasheet" "" (id 3) (at 139.7 154.94 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 20e26cb9-9e6d-5ae6-9385-5551db0b76fe))
+    (pin "1" (uuid d2d90fff-eaa2-5592-a339-2d9e2d0b5f36))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -3007,11 +3007,11 @@
   (symbol (lib_id "Device:R") (at 167.64000000000001 152.4 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 0ce3e383-7204-5545-8a5d-eaf4d7d4a1d6)
-    (property "Reference" "R16" (id 0) (at 170.18 143.51 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R16" (id 0) (at 170.18 151.13 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "5K49 1%" (id 1) (at 170.18 161.29000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "5K49 1%" (id 1) (at 170.18 153.67000000000002 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 167.64000000000001 152.4 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -3045,7 +3045,7 @@
     (property "Datasheet" "" (id 3) (at 167.64 148.59 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid ad7c1f22-6c3a-5364-b30c-418e5c1ba485))
+    (pin "1" (uuid cdff5b03-0206-5ad1-baf2-d3a5ca771288))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -3100,7 +3100,7 @@
     (property "Datasheet" "" (id 3) (at 205.74 154.94 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid fdff3183-9cca-52b9-8906-9ae118c333e2))
+    (pin "1" (uuid 05cc7011-c09a-5a35-8c12-e32b6446092a))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -3113,11 +3113,11 @@
   (symbol (lib_id "Device:R") (at 233.68 152.4 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 040bbe98-35d9-508c-9da7-5ea868787d89)
-    (property "Reference" "R17" (id 0) (at 236.22 143.51 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R17" (id 0) (at 236.22 151.13 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "1K82 1%" (id 1) (at 236.22 161.29000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "1K82 1%" (id 1) (at 236.22 153.67000000000002 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 233.68 152.4 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -3151,7 +3151,7 @@
     (property "Datasheet" "" (id 3) (at 233.68 148.59 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid f51d3275-6555-5061-9ce8-cb2d4a3b0150))
+    (pin "1" (uuid 6afd085e-28b3-5f88-9a95-3285335cf685))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -3206,7 +3206,7 @@
     (property "Datasheet" "" (id 3) (at 271.78 154.94 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid dae8e9b8-cd69-5650-8c8e-325aafa6d778))
+    (pin "1" (uuid e1095312-dea0-58da-a60f-8f9f36fb8c66))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -3219,11 +3219,11 @@
   (symbol (lib_id "Device:R") (at 299.72 152.4 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 0e2437d0-3fda-5a18-9a13-7ceda2da2765)
-    (property "Reference" "R18" (id 0) (at 302.26000000000005 143.51 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R18" (id 0) (at 302.26000000000005 151.13 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "22K 1%" (id 1) (at 302.26000000000005 161.29000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "22K 1%" (id 1) (at 302.26000000000005 153.67000000000002 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 299.72 152.4 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -3257,7 +3257,7 @@
     (property "Datasheet" "" (id 3) (at 299.72 148.59 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid fc5ed502-b876-5ce1-81e4-8da59fa3e223))
+    (pin "1" (uuid f851494c-a091-54bc-adc2-564d3c9fc40d))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -3312,7 +3312,7 @@
     (property "Datasheet" "" (id 3) (at 337.82 154.94 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid e5daefc8-3c32-5dee-8f53-6a27aafc5fdd))
+    (pin "1" (uuid 422520c8-4108-588d-adef-bef52e7bf79f))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -3325,11 +3325,11 @@
   (symbol (lib_id "Device:R") (at 365.76 152.4 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 76399abe-36e6-547b-839b-e0d95270fcb9)
-    (property "Reference" "R19" (id 0) (at 368.3 143.51 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R19" (id 0) (at 368.3 151.13 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "7K32 1%" (id 1) (at 368.3 161.29000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "7K32 1%" (id 1) (at 368.3 153.67000000000002 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 365.76 152.4 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -3363,7 +3363,7 @@
     (property "Datasheet" "" (id 3) (at 365.76 148.59 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 8e24f074-1daf-51b9-bb5c-24a6731fd96d))
+    (pin "1" (uuid 4aeb8a47-0fca-5cfb-b942-dbeb81788304))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -3418,7 +3418,7 @@
     (property "Datasheet" "" (id 3) (at 403.86 154.94 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 618b4bb8-2ffa-5967-8d74-ac71c06ad282))
+    (pin "1" (uuid d040e47d-b1d2-5828-96e1-ef77dd040df5))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -3431,11 +3431,11 @@
   (symbol (lib_id "Device:R") (at 431.8 152.4 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid c72b122f-6324-5bcd-b185-bd568e8d6c65)
-    (property "Reference" "R20" (id 0) (at 434.34000000000003 143.51 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R20" (id 0) (at 434.34000000000003 151.13 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "5K49 1%" (id 1) (at 434.34000000000003 161.29000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "5K49 1%" (id 1) (at 434.34000000000003 153.67000000000002 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 431.8 152.4 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -3469,7 +3469,7 @@
     (property "Datasheet" "" (id 3) (at 431.8 148.59 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid ba096ff7-44c2-5209-a7a6-407465e86ec9))
+    (pin "1" (uuid 427869f8-98aa-567c-9208-9fad9f203f7b))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -3524,7 +3524,7 @@
     (property "Datasheet" "" (id 3) (at 469.9 154.94 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 6062af4f-0cdd-56d7-835a-6d3ea2f4be66))
+    (pin "1" (uuid ad8ffd97-c063-50bd-bb33-6ecf9224c95e))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -3537,11 +3537,11 @@
   (symbol (lib_id "Device:R") (at 497.84000000000003 152.4 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 5df932af-57bf-5a6a-8c42-7fec1d0bca2e)
-    (property "Reference" "R21" (id 0) (at 500.38000000000005 143.51 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "R21" (id 0) (at 500.38000000000005 151.13 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "1K82 1%" (id 1) (at 500.38000000000005 161.29000000000002 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "1K82 1%" (id 1) (at 500.38000000000005 153.67000000000002 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 497.84000000000003 152.4 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -3575,7 +3575,7 @@
     (property "Datasheet" "" (id 3) (at 497.84 148.59 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 3893ec16-319b-5b6e-95a6-95d045ce7b48))
+    (pin "1" (uuid 27c6fbb9-0412-597c-8da4-103f4ac15fe0))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -3630,7 +3630,7 @@
     (property "Datasheet" "" (id 3) (at 535.94 154.94 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid ffd778da-b9a4-5c07-84a9-1c21f5494839))
+    (pin "1" (uuid 532c6f8d-2e57-5642-aa8d-5e88110e9102))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -3672,11 +3672,11 @@
   (symbol (lib_id "Device:C") (at 68.58 195.58 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 85643a3f-0a47-54cc-85a3-69c01d953a10)
-    (property "Reference" "C1" (id 0) (at 71.12 186.69 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "C1" (id 0) (at 71.12 194.31 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "1n C0G" (id 1) (at 71.12 204.47000000000003 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "1n C0G" (id 1) (at 71.12 196.85000000000002 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Capacitor_SMD:C_0805_2012Metric" (id 2) (at 68.58 195.58 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -3713,7 +3713,7 @@
     (property "Datasheet" "" (id 3) (at 68.58 199.39 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 606882cb-e570-5ca9-a0fd-b93f7f5c580a))
+    (pin "1" (uuid 50f33873-3102-500b-9785-a759fd603c65))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -3755,11 +3755,11 @@
   (symbol (lib_id "Device:C") (at 134.62 195.58 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 0e0e2dee-a406-5108-8aff-f7202d9bb287)
-    (property "Reference" "C2" (id 0) (at 137.16 186.69 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "C2" (id 0) (at 137.16 194.31 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "1n C0G" (id 1) (at 137.16 204.47000000000003 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "1n C0G" (id 1) (at 137.16 196.85000000000002 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Capacitor_SMD:C_0805_2012Metric" (id 2) (at 134.62 195.58 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -3796,7 +3796,7 @@
     (property "Datasheet" "" (id 3) (at 134.62 199.39 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid fe6972b3-30b1-5d06-ab90-528a20001e59))
+    (pin "1" (uuid 6a4086c1-3606-5c68-8fbd-18faa98f7bca))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -3838,11 +3838,11 @@
   (symbol (lib_id "Device:C") (at 200.66 195.58 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid d4dbc430-ef21-5c1e-afda-f14d05b8390a)
-    (property "Reference" "C3" (id 0) (at 203.2 186.69 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Reference" "C3" (id 0) (at 203.2 194.31 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "1n C0G" (id 1) (at 203.2 204.47000000000003 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "1n C0G" (id 1) (at 203.2 196.85000000000002 0)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Capacitor_SMD:C_0805_2012Metric" (id 2) (at 200.66 195.58 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -3879,7 +3879,7 @@
     (property "Datasheet" "" (id 3) (at 200.66 199.39 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 98d75f43-11b8-59a8-9792-7d315baeceed))
+    (pin "1" (uuid 283a7e53-51db-5c02-bfdb-31ad9d3c7aab))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"
@@ -3934,7 +3934,7 @@
     (property "Datasheet" "" (id 3) (at 30.48 241.3 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid a10551ce-c689-503b-af59-02d8ef408872))
+    (pin "1" (uuid 2a9aa05a-1180-504d-a2f6-eed9497e23f3))
     (instances
       (project "jig_load_board"
         (path "/d64f6f6b-2040-5b50-b8e6-1a6ab592d536"

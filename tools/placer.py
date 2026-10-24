@@ -25,6 +25,7 @@ import collections, re, math, os, sys
 import pcbnew
 sys.path.insert(0, os.path.dirname(__file__))
 from verify import sexp, field
+import netnames
 
 PROJ = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 KLIB = '/Applications/KiCad/KiCad.app/Contents/SharedSupport/footprints/'
@@ -76,6 +77,7 @@ def place(NET, OUT, L):
         props = {field(x, 'name'): field(x, 'value') for x in c[1:] if isinstance(x, list) and x[0] == 'property'}
         parts[field(c, 'ref')] = dict(value=field(c, 'value'), fp=field(c, 'footprint'), uuid=ts[1] if ts else None,
                                       mpn=props.get('MPN'), dnp='dnp' in props, nobom='exclude_from_bom' in props)
+    SHOW = netnames.renames(NET)          # report names for a drawn schematic's unlabelled nets (the pads keep KiCad's)
     padnet, pintype = {}, {}
     for n in nets[1:]:
         name = field(n, 'name')
@@ -410,7 +412,7 @@ def place(NET, OUT, L):
             if any(r.startswith(('CN', 'J')) and not r.startswith('JP') for r in members[n]): continue   # off-board
             pin_xy = next(((mm(p.GetPosition().x), mm(p.GetPosition().y)) for p in ic.Pads() if p.GetNumber() == pn), None)
             far = [(min(math.dist(pin_xy, v) for v in pad_of(r, n)), r) for r in members[n] if passive(r)]
-            if far: reach.append((max(far)[0], f'{a}.{pn} {n.lstrip("/")} {max(far)[1]}'))
+            if far: reach.append((max(far)[0], f'{a}.{pn} {SHOW.get(n.lstrip("/"), n.lstrip("/"))} {max(far)[1]}'))
     def summary(rows, lim, what):
         if not rows: return f'{what}: none'
         ds = sorted(x[0] for x in rows); bad = sorted((x for x in rows if x[0] > lim), reverse=True)

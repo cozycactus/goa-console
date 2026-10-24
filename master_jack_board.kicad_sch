@@ -1029,7 +1029,7 @@
     (property "Datasheet" "" (id 3) (at 40.64 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid c9ee24e5-cae1-55a8-a82e-8afab94782eb))
+    (pin "1" (uuid b572b7a9-649a-5439-84a5-3093b4d807e8))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1086,7 +1086,7 @@
     (property "Datasheet" "" (id 3) (at 73.66 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid df605e43-0762-5eb7-afba-1192f75684e1))
+    (pin "1" (uuid 414f48f5-e227-5b27-912c-1bf5168a2f9f))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1231,7 +1231,7 @@
     (property "Datasheet" "" (id 3) (at 205.74 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 97ae263c-ffde-5282-8d35-59367b02c635))
+    (pin "1" (uuid 9c29c6a4-9e97-5471-9c96-08ffb8515144))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1286,7 +1286,7 @@
     (property "Datasheet" "" (id 3) (at 238.76 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 005ce9d9-4e12-51bf-b746-2349b7999be4))
+    (pin "1" (uuid 89e5d483-bd90-5437-a504-cdc9739ab148))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1343,7 +1343,7 @@
     (property "Datasheet" "" (id 3) (at 271.78 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 15147fdd-bfcb-5ea1-88a7-44f43cd1e6b4))
+    (pin "1" (uuid 2db17b44-2b30-55a2-8c4d-9a1c598a0998))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1400,7 +1400,7 @@
     (property "Datasheet" "" (id 3) (at 304.8 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid e297fd1c-9120-501d-91fe-cf14948db5c5))
+    (pin "1" (uuid 26f133e0-639c-56f8-a31a-9afc0e0625e9))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1455,7 +1455,7 @@
     (property "Datasheet" "" (id 3) (at 337.82 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 6eccc529-d9c4-5d2f-88b9-451c7485e9ca))
+    (pin "1" (uuid 20880905-0c4d-5c4e-a8f1-399be2c23021))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1510,7 +1510,7 @@
     (property "Datasheet" "" (id 3) (at 370.84 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 284ee422-b57a-5fbe-adf3-cc2d03c85f9e))
+    (pin "1" (uuid 069b6732-f0d6-5718-94c4-a0043c3faab8))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1632,7 +1632,7 @@
     (property "Datasheet" "" (id 3) (at 43.18 55.88 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid e1205f0a-bb04-55f3-b467-60f90b468f68))
+    (pin "1" (uuid 1a9ff024-c1a0-5694-a9e2-8cf96754f9bf))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1657,7 +1657,7 @@
     (property "Datasheet" "" (id 3) (at 43.18 58.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid c05f572f-860d-5352-9c20-5fc373d324f5))
+    (pin "1" (uuid 1b7f4bc7-060f-5eeb-b5f7-1a1d70e7131a))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1682,7 +1682,7 @@
     (property "Datasheet" "" (id 3) (at 43.18 60.96 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 58351052-bc91-5488-8c6e-8182ddb5f401))
+    (pin "1" (uuid 1232665a-a1a9-52a2-9072-0cdb40a2935b))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1707,7 +1707,7 @@
     (property "Datasheet" "" (id 3) (at 43.18 63.5 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 5c8bbf54-a592-5899-8d56-edd015afb2f9))
+    (pin "1" (uuid 181704b3-7c86-58e3-bf2f-2cf1a023eb53))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1732,7 +1732,7 @@
     (property "Datasheet" "" (id 3) (at 43.18 68.58 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid ec8e22a7-100b-5d95-a90c-9c50c7d2f695))
+    (pin "1" (uuid 0f077920-c8ac-5be1-a4f0-1904ed47109c))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1757,7 +1757,7 @@
     (property "Datasheet" "" (id 3) (at 30.48 73.66 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 9a9c436a-c31a-5456-b07f-e54e7278bae1))
+    (pin "1" (uuid 54b222f9-9608-5d5c-9644-8c8c6608d875))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1782,7 +1782,7 @@
     (property "Datasheet" "" (id 3) (at 43.18 76.2 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 2d9647f9-8cdc-5168-9cce-f2d585de539c))
+    (pin "1" (uuid 62f7f94d-a98f-5b0a-b6d3-75ad6946c993))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1807,7 +1807,7 @@
     (property "Datasheet" "" (id 3) (at 30.48 81.28 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 87181c50-ba17-5476-906a-cdfbd10c071a))
+    (pin "1" (uuid 8ffdab1d-0e8d-5680-9053-624a996f364e))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1832,7 +1832,7 @@
     (property "Datasheet" "" (id 3) (at 43.18 83.82 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 1123a23f-351f-5970-b161-4423fb36e3e9))
+    (pin "1" (uuid c2a079c3-b376-522d-a8b8-56cb0af53bb3))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1857,7 +1857,7 @@
     (property "Datasheet" "" (id 3) (at 30.48 88.9 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid a8692a5b-41e6-5c9a-a21d-ac330279c89e))
+    (pin "1" (uuid da4291c8-7c3e-5a91-a857-a865b4b883c5))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1882,7 +1882,7 @@
     (property "Datasheet" "" (id 3) (at 43.18 91.44 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 3b6807dc-067e-596c-91eb-74cc41109e7f))
+    (pin "1" (uuid 1a002579-4b5e-57ef-b2c7-597217e1d01a))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1907,7 +1907,7 @@
     (property "Datasheet" "" (id 3) (at 30.48 96.52 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 7805385d-7da1-5986-b266-9e7a809f5362))
+    (pin "1" (uuid e30fd130-9d57-5b83-95e1-7017c5899a6d))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1932,7 +1932,7 @@
     (property "Datasheet" "" (id 3) (at 43.18 99.06 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid b0e92c26-ef3b-5477-9892-79ad4f10775f))
+    (pin "1" (uuid 07e2f38c-0d56-5d57-aecc-e28317a99543))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1957,7 +1957,7 @@
     (property "Datasheet" "" (id 3) (at 43.18 104.14 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 0e21060c-0d17-515d-8339-7857cdc33f1d))
+    (pin "1" (uuid 6d1d313e-c823-56e3-8d62-e11810108d72))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1971,7 +1971,7 @@
     (in_bom no) (on_board no)
     (uuid fe17a6c6-7b2a-5d63-9fec-ddd4f0ab5637)
     (property "Reference" "#FLG01" (id 0) (at 71.12 69.85 0)
-      (effects (font (size 1.27 1.27)))
+      (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "PWR_FLAG" (id 1) (at 71.12 87.63 0)
       (effects (font (size 1.27 1.27)))
@@ -2007,7 +2007,7 @@
     (property "Datasheet" "" (id 3) (at 68.58 78.74 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 28fd577f-92a4-50aa-a8b3-136bf3a7e917))
+    (pin "1" (uuid e52c7853-3ea5-5d1a-837f-3a6fe1e9e8ab))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
