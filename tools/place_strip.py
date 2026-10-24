@@ -37,7 +37,7 @@ FIX = {
  'RV4': pot(XL, 188), 'RV5': pot(XR, 188, right=True),                                    # aux 3, 4
  'RV6': pot(XL, 210), 'RV7': pot(XR, 210, right=True),                                    # aux 5, 6
  'SW8': sw(XR - 22, 230), 'SW9': sw(XR - 11, 230), 'SW10': sw(XR, 230),                   # PRE 1-2, 3-4, 5-6
- 'RV8': pot(XL, 252, dual=True), 'SW14': sw(XR, 246), 'SW13': sw(XR, 258),                # pan, PAN, DIR
+ 'RV8': pot(XL, 252, dual=True, sx=10), 'SW14': sw(XR, 246), 'SW13': sw(XR, 258),                # pan, PAN, DIR
  'SW5': sw(XR - 22, 274), 'SW6': sw(XR - 11, 274), 'SW7': sw(XR, 274),                    # L-R, 1-2, 3-4 (key rows end
  'D6': led(XR - 22, 283), 'D7': led(XR - 11, 283), 'D8': led(XR, 283),                    # routing LEDs   in the right
  'SW3': sw(XR - 22, 292), 'D3': led(XR - 13.8, 292), 'SW4': sw(XR - 4, 292), 'D4': led(XR + 4.2, 292),  # PFL, ON  (column)

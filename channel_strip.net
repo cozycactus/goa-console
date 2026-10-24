@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/channel_strip.kicad_sch")
-		(date "2026-10-25T00:25:53")
+		(date "2026-10-25T00:43:14")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -12065,13 +12065,13 @@
 		)
 		(comp
 			(ref "RV8")
-			(value "Pan 10K dual")
-			(footprint "Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical")
+			(value "Pan 10K lin dual CD")
+			(footprint "Potentiometer_THT:Potentiometer_Alps_RK09L_Double_Vertical")
 			(fields
 				(field
-					(name "MPN") "Alpha RD902F-40 B10K centre detent")
+					(name "MPN") "ALPS RK09L1240015")
 				(field
-					(name "Footprint") "Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical")
+					(name "Footprint") "Potentiometer_THT:Potentiometer_Alps_RK09L_Double_Vertical")
 				(field
 					(name "Datasheet")
 				)
@@ -12086,7 +12086,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Alpha RD902F-40 B10K centre detent")
+				(value "ALPS RK09L1240015")
 			)
 			(property
 				(name "Sheetname")

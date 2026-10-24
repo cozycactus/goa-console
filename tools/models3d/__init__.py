@@ -20,7 +20,7 @@ and the NC3MAV drawing (index C: PCB to housing front 24), so 24.0 mm standoffs.
 import importlib
 
 STACK = dict(panel_z0=11.5, panel_t=1.5, jack_z0=24.0)
-MODULES = ['alpha_pot', 'ck_pva2', 'neutrik_nj6fd_v', 'neutrik_nc3mav', 'bourns_ptb', 'keystone_1287', 'bourns_mfrx']
+MODULES = ['alpha_pot', 'alps_rk09l', 'ck_pva2', 'neutrik_nj6fd_v', 'neutrik_nc3mav', 'bourns_ptb', 'keystone_1287', 'bourns_mfrx']
 
 
 def registry():

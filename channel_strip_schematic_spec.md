@@ -382,7 +382,7 @@ DOUT ── R71 75R ── C52 33 µF NP ── J5 tip ── R72 47K to AGND;  
 ## 12. Pan, pan buffers, PAN switch
 
 ```
-POST ── RV8 (10K B dual, centre detent) ── wipers (C79 / C80 10 pF) ── U2B / U3A followers ── C16 / C17 100 µF NP ── PANL / PANR (R36/R37 47K)
+POST ── RV8 (10K B dual, centre detent: ALPS RK09L1240015) ── wipers (C79 / C80 10 pF) ── U2B / U3A followers ── C16 / C17 100 µF NP ── PANL / PANR (R36/R37 47K)
 SW14 pole A: SUBSRC_L = PANL (latched, PAN) or POST (unlatched)
 SW14 pole B: SUBSRC_R = PANR (latched)       or POST (unlatched)
 ```
@@ -486,7 +486,7 @@ BOM rules (v4.1):
 - Panasonic ERJ-P06J100V (R1/R2, 10R at up to 0.126 W) and ERJ-P06J750V (R11/R71, ~0.25 W into a shorted lead);
 - Würth 61203421621 bus header.
 
-Still open: the pots' full order codes (shaft and bushing) and RV8's centre-detent part (pan pot).
+Still open: the pots' full order codes (shaft and bushing). RV8 (pan) is the ALPS RK09L1240015 (decided 2026-10-25).
 
 ---
 
@@ -508,7 +508,7 @@ AI scope: component placement only. Ruslan routes copper and pours grounds in Ki
 | RV1 | Bourns PTB0143-2010BPA103 | `goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm` | 100 mm, A10K; pin 1 (ground end) to the operator. BP lever: 8.0 × 1.3 mm flat blade, 10 mm above the cover (5.0 mm above the panel). Cap: Sifam LK110 with tang 01 (8.0 × 1.2, socket 4.0 deep, so it sits 1.0 mm above the panel; 26 along the travel × 11.6 × 10), the Delta's own "SIF low profile" fader knob: RS 281-7197 (black), coloured from pot4audio / D&R; try two on a real blade first (the BP thickness is not dimensioned, the socket is 1.2). The AP 4 mm-fork audio codes are not sold (factory order, MOQ ~800), and no stocked 100 mm A10K fader with a 4 mm lever exists (2026-10-23, `panel_parts_drawings.md`). |
 | RV2–RV7 | Alpha RD901F-40, A10K | `Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical` | Pin 1 = AGND (A-law runs from pin 1). |
 | RV9–RV11, RV13, RV15 | Alpha RD901F-40-15R1-B10K-0CD | same | 10K linear, centre detent (Alpha spec SP26020021). In stock 2026-10-22 as Alpha 9 mm vertical linear "centre notch" 10K (Cedist / Amplified Parts R-VAV-B10K-CN), but with a 1/4" (6.35 mm) shaft: knobs must match. |
-| RV8 | Alpha RD902F-40, B10K, centre detent | `Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical` | Confirm a detent version is stocked. |
+| RV8 | ALPS RK09L1240015 (10K 1B dual, centre detent) | `Potentiometer_THT:Potentiometer_Alps_RK09L_Double_Vertical` | The vertical dual centre-detent 10K B that is stocked (Mouser, Verical; no Alpha one exists). ALPS catalogue RV01 Drawing No.7: **M9 × 0.75** bushing 5 long, **Ø6 shaft with a flat** (4.5 across, 7 long) 15 from the face, face 10 above the board like the Alpha, snap-in legs. Panel hole **Ø9.5**; the knob is the **6 mm D** version of the strip's knob; M9 nut (not dimensioned: assumed 12 AF × 2.0) and a 9.5 / 11 × 1.5 spacer washer. The footprint's pin rows sit 7.5 / 10 mm from the shaft like the Alpha's, gangs swapped (pins 4-6 nearer the shaft); shaft at (10, 2.5) from pin 1. Check on a sample: nut thickness, pin 1 at the CCW end, the detent at the electrical centre. |
 | RV12, RV14 | Alpha RD902F-40-15R1-A10K dual (log) | same | Stocked (Tayda). Replaces the Delta's 100K C-law dual, which isn't stocked; works with the KHN mid-band tuning (§6.2). |
 | SW3–SW15 | C&K PVA2 EE H1 1.7N V2 | `Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2` | DPDT push-push, 32 V / 100 mA; PV caps. Datasheet (rev. 02/2025, p. 3): common 0 is the middle pin; released 0–1, pressed/latched 0–2; terminals moulded "2 0 1" on the body. **Fit each switch with its moulded "2" pins in the square-pad column (pads 1 and 4)**, so latched = 2–1 / 5–4 as drawn. The footprint is symmetric under 180°, so a switch fitted the other way round works inverted. Check one sample with a meter. |
 | D2–D8 | 3 mm LEDs | `LED_THT:LED_D3.0mm` | 7.6 mm spacers. D6–D8 (routing, yellow) at y 283, centred under SW5–SW7. |
@@ -646,8 +646,8 @@ v4.0 (2026-10-22):
 - Hand-written decks: `sim/gain_stage.cir`, `sim/delta_eq.cir`, `sim/strip_v4.cir`
   (results in `delta_clone_comparison.md` §6), `sim/routing_switch.cir` (§13), `sim/mid_tuning.py` (§6.2). `sim/strip.cir` is the v3.1 path.
 
-**Open:** pan dual B10K with centre detent (RV8): none found from Alpha; the stocked B10K dual has no detent,
-ALPS RK09L1240015 (vertical, M9 bushing, 6 mm D shaft) has one (RK097121TD57 is a right-angle part). Supply current ~85 / 72 mA per strip (master spec §27);
+**Pan RV8** (2026-10-25): ALPS RK09L1240015, the stocked vertical dual 10K B with a centre detent (§16.1; no Alpha one
+exists; RK097121TD57 is a right-angle part). Supply current ~85 / 72 mA per strip (master spec §27);
 PVA2 sense: settled from the datasheet, with an assembly rule (§16.1). Jack-board depth: 24.0 mm from Neutrik's
 drawings (2026-10-23). The panel parts checked against their drawings, with what still needs a sample (PTB lever
 style and pin side, PV cap clearance in the Ø8.0 hole, Alpha bushing thread and tab slots, 1/4" knobs on every pot):

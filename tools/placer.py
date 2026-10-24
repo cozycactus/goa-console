@@ -42,12 +42,12 @@ BUS = (31.46, 345.64, 180, 'B')             # 2x17 bus header, bottom side, pins
 SPADE, NETTIE = (5.0, 358.0, 0, 'B'), (5.0, 351.0, 0, 'F')
 FADER_HOLES = [(5, 330), (5, 425), (34, 425)]
 
-def pot(x, y, dual=False, right=None):
-    """RD901F/RD902F with the shaft at (x, y): shaft at (7.5, 2.5) from pin 1. Every pot turns its pins towards the
+def pot(x, y, dual=False, right=None, sx=7.5):
+    """RD901F/RD902F with the shaft at (x, y): shaft at (sx, 2.5) from pin 1 (7.5; the ALPS RK09L dual: 10). Every pot turns its pins towards the
     module's centre line (at x 8.84 / 29.16 outward pins would sit 1.3 mm from the board edge): left column 180 deg,
     right column 0 deg, so a dual's second row of pins also lies inboard. right: column, by default from x."""
     if right is None: right = x % 40.64 > XC
-    return (x - 7.5, y - 2.5, 0, 'F') if right else (x + 7.5, y + 2.5, 180, 'F')
+    return (x - sx, y - 2.5, 0, 'F') if right else (x + sx, y + 2.5, 180, 'F')
 sw = lambda x, y: (x - 2.5, y - 3.0, 0, 'F')          # PVA2: actuator centre at (2.5, 3.0) from pin 1
 led = lambda x, y: (x - 1.27, y, 0, 'F')               # 3 mm LED: centre at (1.27, 0)
 jack = lambda x, y: (x, y - 5.72, 0, 'F')              # NJ6FD-V: nose centre at (0, 5.72) from the tip pin

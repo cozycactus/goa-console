@@ -310,12 +310,13 @@ def import_board(c, board, z_top):
     return refs
 
 # ---------------------------------------------------------------- one module
-HOLE = {'alpha_pot': 7.2, 'ck_pva2': 8.0, 'neutrik_nj6fd_v': 12.0}      # panel holes, spec 16.1 / 16.2
+HOLE = {'alpha_pot': 7.2, 'alps_rk09l': 9.5, 'ck_pva2': 8.0, 'neutrik_nj6fd_v': 12.0}      # panel holes, spec 16.1 / 16.2
+POTS = ('alpha_pot', 'alps_rk09l')                 # knob-and-legend parts (the pan pot RV8 is the ALPS)
 FADER_SLOT = (110.0, 2.4, 60.0)               # PTB: 100 travel + 8.0 blade (BP lever), 1.3 blade; M3 fixings at +-60
 XLR_CUT = (22.2, [(-9.9, -9.9), (9.9, 9.9)])  # NC3MAV (A series, rear mount): >= 22 hole, 2 x 3.2 (footprint frame)
 FADER_POS = 0.75                              # lever position shown: 75 % of the travel
 LATCHED = {'strip': ('SW4', 'SW5')}           # switches shown pressed: ON and L-R (their LEDs are lit)
-LEGEND = {'alpha_pot': (-9.8, 2.0), 'ck_pva2': (-5.8, 1.7), 'neutrik_nj6fd_v': (-10.2, 1.8), 'neutrik_nc3mav': (-16.2, 1.8)}
+LEGEND = {'alpha_pot': (-9.8, 2.0), 'alps_rk09l': (-9.8, 2.0), 'ck_pva2': (-5.8, 1.7), 'neutrik_nj6fd_v': (-10.2, 1.8), 'neutrik_nc3mav': (-16.2, 1.8)}
 # ---------------------------------------------------------------- panel print in the Delta's style (ref/delta200_panels)
 # Each pot: name above, a ring of 11 dots over the 300-degree rotation and numbers at chosen positions; numbers that
 # would hit a neighbouring knob, switch, LED, jack or label are left out (two pot columns 20.32 mm apart, rows 22 mm).
@@ -532,19 +533,19 @@ def module(key, names, width, label=None):
                             lambda: (lambda g: g and to_mesh(g, f'{short} panel {colour or ""}'))(mod.panel(**pk)))
                 if pm:
                     o = put(f'{ref} {kind} panel', pm, cp, f[0], f[1], PANEL_Z1, p['rot'])
-                    if kind == 'alpha_pot':
+                    if kind in POTS:
                         o.rotation_euler[2] = math.radians(KNOB_ANGLE.get(name.split()[0] if name else '', 0.0))
                 big = pk.get('big', False)
-                rp = {'alpha_pot': (D_BIG if big else D_KNOB) / 2 + 0.3, 'ck_pva2': 4.2, 'neutrik_nj6fd_v': 7.3,
+                rp = {'alpha_pot': (D_BIG if big else D_KNOB) / 2 + 0.3, 'alps_rk09l': D_KNOB / 2 + 0.3, 'ck_pva2': 4.2, 'neutrik_nj6fd_v': 7.3,
                       'neutrik_nc3mav': 12.0}.get(kind, 0.0)
-                obst.append((f[0], f[1], rp + 2.5 if kind == 'alpha_pot' else rp, ref, rp))   # pots: keep their ring clear
+                obst.append((f[0], f[1], rp + 2.5 if kind in POTS else rp, ref, rp))   # pots: keep their ring clear
                 if kind == 'ck_pva2': obst.append((f[0], f[1] - 5.8, 0.4 * len(name) + 0.4, ref, 0.0))     # its legend
                 if kind in HOLE: holes.append(('round', f[0], f[1], HOLE[kind]))
                 elif kind == 'neutrik_nc3mav': holes.append(('xlr', f[0], f[1], p['rot']))
                 elif kind == 'bourns_ptb':
                     holes.append(('slot', f[0], f[1], p['rot']))
                     faders.append((name, f[0], f[1], 'Dual' in fp))
-                if kind == 'alpha_pot': pots.append((ref, name, f[0], f[1], big))
+                if kind in POTS: pots.append((ref, name, f[0], f[1], big))
                 elif kind in LEGEND: legend(cp, name, f[0], f[1] + LEGEND[kind][0], LEGEND[kind][1])
                 continue
             if 'MountingHole_4.3mm_M4' in fp:

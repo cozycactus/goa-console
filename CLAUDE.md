@@ -119,7 +119,7 @@ jack board) done.
   boards). 24 strips + 4 groups + master as instanced collections, 9° tub, ten PNG views incl. internals.png.
   .blend, PNGs and GLBs are gitignored.
 - `tools/models3d/` — part models from the manufacturers' drawings for the footprints KiCad has no model for (Alpha
-  RD901F/RD902F + knob, C&K PVA2 + PV cap, Neutrik NJ6FD-V and NC3MAV, Bourns PTB0143/0144 + fader knob, Keystone
+  RD901F/RD902F + knob, ALPS RK09L1240015 (pan), C&K PVA2 + PV cap, Neutrik NJ6FD-V and NC3MAV, Bourns PTB0143/0144 + fader knob, Keystone
   1287-ST, Bourns MF-RX160/72): one module per part (`build()` on the board up through the panel, `panel()` on the
   panel top, `pins()`), shared geometry (`geom.py`), Blender adapter (`blend.py`), cables (`cable.py`).
   `python3 tools/models3d/check.py --wrl`: leads vs footprint pads, body vs courtyard, and writes
@@ -288,6 +288,12 @@ jack board) done.
 - All balanced outputs use TI DRV134 (2026-10-19), Sense pins after a 10 µF NP per leg, mute
   relay after that. Replaced THAT1646, which went EOL (THAT memo 2026-09-01). The same memo
   kills THAT 2180/2181 (bus-compressor VCA, strip VCA option) and THAT 124x.
+- Pan pot RV8 (2026-10-25, Ruslan): ALPS RK09L1240015, vertical dual 10K 1B with a centre detent (no Alpha B10K dual
+  with a detent exists; the Alpha without one was the alternative). Stocked at Mouser (177) / Verical (565) on
+  2026-10-25. M9 x 0.75 bushing (panel hole Ø9.5, M9 nut), Ø6 flatted shaft (the 6 mm D version of the strip's knob),
+  mounting face 10 above the board like the Alpha; footprint Potentiometer_Alps_RK09L_Double_Vertical, shaft at (10, 2.5)
+  from pin 1 (`placer.pot(..., sx=10)`); model `tools/models3d/alps_rk09l.py` (catalogue RV01 Drawing No.7). Netlist
+  unchanged. RK097121TD57, named before, is a right-angle part.
 - Faders (2026-10-23): Bourns PTB0143-2010BPA103 (strips, groups) / PTB0144-2010BPA103 (master), stocked, BP lever
   (8.0 x 1.3 mm flat blade, 5.0 mm above the panel), caps Sifam LK110 tang 01 (8.0 x 1.2, socket 4.0 deep: 1.0 mm
   above the panel; the Delta's "SIF low profile" knob; RS 281-7197 black, colours from pot4audio / D&R; white inputs,
@@ -458,11 +464,8 @@ jack board) done.
   case specified (psu_spec.md §8). Routing is Ruslan's; build the case.
 - PSU headroom (strip v4.3): the worst corner (every OPA1612 at max IQ, every LED lit) is ~4.0 A on +V, the PSU's
   rating. Typical 2.82 A. Revisit if anything else adds load (master spec §27).
-- Pan RV8: no Alpha B10K dual with a centre detent found; options are the stocked Alpha B10K dual with no
-  detent (Amplified Parts R-VAV-B10K-DUAL, M7, 1/4"), or the ALPS RK09L1240015 (vertical dual 10K 1B, centre detent,
-  M9 x 0.75 bushing 5 long, 6 mm D-flat shaft 15 long; Mouser 177 / Verical 565 on 2026-10-25; KiCad footprint
-  Potentiometer_Alps_RK09L_Double_Vertical with STEP: pin rows at the same 7.5 / 10 mm from the shaft, gangs swapped,
-  shaft at (10, 2.5) from pin 1). RK097121TD57, listed here before, is a horizontal (right-angle) part: unusable.
+- Pan RV8: decided (ALPS RK09L1240015, see Decisions). Check on a sample: the M9 nut's thickness against the 5 mm
+  bushing, pin 1 at the CCW end, the detent at the electrical centre.
 - Input buffer/receiver question settled: differential receiver fitted (pseudo-balanced cables recommended).
 
 ## Next steps
@@ -471,7 +474,7 @@ jack board) done.
    Panel parts vs their drawings: `panel_parts_drawings.md` (faders: stocked PTB BP blade kept 2026-10-23, Sifam LK110
    caps, check two on a real blade; open: PTB0143 pin
    side of the slot; PV cap 0.3 mm in the 8.0 hole; Alpha bushing has no spare thread; every
-   pot shaft is 1/4"). Open: pan B10K dual with detent; custom 12U frame with
+   pot shaft is 1/4" except the pan pot's 6 mm D). Open: custom 12U frame with
    end rails only. Routing is Ruslan's.
 1. Confirm panel parts against samples (see spec 13.1 checklist).
 2. Master section: M1 modules and their jack boards generated and placed (group ×4 + master, 2026-10-22,

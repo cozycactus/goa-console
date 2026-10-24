@@ -233,7 +233,9 @@ P(b,'R72','R','47K',{1:'DO_T',2:'GNDA'}); P(b,'R73','R','75R',{1:'DO_R',2:'GNDA'
 P(b,'U8','OPA','OPA1612',{5:'GNDA',6:'U8B_O',7:'U8B_O'},unit=2)   # spare half, tied off
 
 b = block('PAN + PAN BUFFERS (AC-coupled outputs)')
-P(b,'RV8','POT2','Pan 10K dual',{1:'POST',3:'GNDA',2:'PANWL',4:'GNDA',6:'POST',5:'PANWR'})
+# ALPS RK09L1240015: the stocked vertical dual 10K B with a centre detent (no Alpha one exists); M9 bushing, 6 mm D shaft
+P(b,'RV8','POT2','Pan 10K lin dual CD',{1:'POST',3:'GNDA',2:'PANWL',4:'GNDA',6:'POST',5:'PANWR'},
+  fp='Potentiometer_THT:Potentiometer_Alps_RK09L_Double_Vertical',mpn='ALPS RK09L1240015')
 P(b,'U2','OPA','OPA1612',{5:'PANWL',6:'PBL',7:'PBL'},unit=2); P(b,'C79','C','10p C0G',{1:'PANWL',2:'GNDA'},fp=C0G)
 P(b,'U3','OPA','OPA1612',{3:'PANWR',2:'PBR',1:'PBR'},unit=1); P(b,'C80','C','10p C0G',{1:'PANWR',2:'GNDA'},fp=C0G)
 P(b,'C16','C','100u NP 25V',{1:'PBL',2:'PANL'},fp=CAP_FP['220u']); P(b,'R36','R','47K',{1:'PANL',2:'GNDA'})
