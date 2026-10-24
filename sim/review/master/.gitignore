@@ -1,0 +1,9 @@
+raw/
+res/
+models/
+*.cir
+*.LIB
+*.lib
+*.json
+!master_len.json
+log_*.txt

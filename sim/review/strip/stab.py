@@ -70,7 +70,8 @@ def analyse(tag, s):
         pm, fc = min(pms); res.update(pm=round(float(pm), 1), fc=round(float(fc) / 1e6, 2), ncross=len(pms))
     # gain margin: |T| where phase crosses -180 (first one above the last 0 dB crossing region)
     w = lambda x: (x + 180) % 360 - 180
-    gms = [(-mag[k], f[k]) for k in range(len(f) - 1) if mag[k] < 0 and w(ph[k] + 180) * w(ph[k + 1] + 180) <= 0 and abs(ph[k+1]-ph[k]) < 90]
+    u = w(ph + 180)          # 0 where T = -|T| (phase -180 mod 360); the wrapped step skips the wrap at phase 0 mod 360
+    gms = [(-mag[k], f[k]) for k in range(len(f) - 1) if mag[k] < 0 and u[k] * u[k + 1] <= 0 and abs(u[k + 1] - u[k]) < 90]
     if gms: res['gm'] = round(float(min(gms)[0]), 1); res['fgm'] = round(float(min(gms)[1]) / 1e6, 1)
     cl = 20 * np.log10(np.abs(T / (1 + T)))
     sel = f >= 1e6
