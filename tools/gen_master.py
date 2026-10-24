@@ -68,10 +68,11 @@ for src, nm in (('POST_L', 'MAIN_L'), ('POST_R', 'MAIN_R'), ('MONO', 'MAIN_M')):
     jack(b, 'XLR3', nm.replace('_', ' ') + ' out', {1: 'CHASSIS', 2: nm + '_XP', 3: nm + '_XN'})
 
 b = block('POWER-ON MUTE: rails > ~14 V for ~2.7 s closes all six relays; either rail low opens them at once')
-P(b, ref('D'), 'DZ', 'BZT52C6V2', {2: 'GNDD', 1: 'VREF6'}, mpn='Diodes BZT52C6V2-7-F'); R(b, '4K7', '+VBUS', 'VREF6')
+dz = ref('D'); P(b, dz, 'DZ', 'BZT52C6V2', {2: 'GNDD', 1: 'VREF6'}, mpn='Diodes BZT52C6V2-7-F'); rz = R(b, '4K7', '+VBUS', 'VREF6')
 R(b, '56K', '+VBUS', 'SENSE_P'); R(b, '47K', 'SENSE_P', 'GNDD')       # +V < 13.6 V -> fault
-R(b, '22K', 'VREF6', 'SENSE_N'); R(b, '51K', 'SENSE_N', '-VBUS')     # -V above -14.4 V -> fault
-cmp(b, 'SENSE_P', 'VREF6', 'RAIL_OK'); cmp(b, 'GNDD', 'SENSE_N', 'RAIL_OK')
+rn = R(b, '22K', 'VREF6', 'SENSE_N'); R(b, '51K', 'SENSE_N', '-VBUS')     # -V above -14.4 V -> fault
+uc = cmp(b, 'SENSE_P', 'VREF6', 'RAIL_OK'); cmp(b, 'GNDD', 'SENSE_N', 'RAIL_OK')
+for x in (dz, rz, rn): near(x, uc)     # the 6.2 V reference beside both comparators that read it (it ran ~110 mm)
 R(b, '10K', '+VL', 'RAIL_OK', mpn='Panasonic ERJ-P06J103V')   # ~33 V across in a one-rail brown-out (MG12)
 # timer and Schmitt: values from sim/mute.cir (closes 2.6-2.8 s after both rails pass threshold; contacts open
 # <= ~8.5 ms after either rail drops; any fault longer than ~8 ms re-arms the full delay). The reset and fast-release
@@ -79,7 +80,7 @@ R(b, '10K', '+VL', 'RAIL_OK', mpn='Panasonic ERJ-P06J103V')   # ~33 V across in 
 R(b, '2M2', 'RAIL_OK', 'MUTE_T')
 P(b, ref('C'), 'C', '2.2u film 63V', {1: 'MUTE_T', 2: 'GNDD'}, fp='Capacitor_THT:C_Rect_L7.2mm_W8.5mm_P5.00mm_FKP2_FKP2_MKS2_MKP2', mpn='WIMA MKS2 2.2uF 63V')
 D(b, 'MUTE_T', 'MUTE_TX'); R(b, '4K7', 'MUTE_TX', 'RAIL_OK'); D(b, 'GNDD', 'MUTE_T')   # reset path, clamp at -0.7 V
-cmp(b, 'MUTE_T', 'VREF6', 'MUTE_GO'); R(b, '22M', 'MUTE_GO', 'MUTE_T')
+near(cmp(b, 'MUTE_T', 'VREF6', 'MUTE_GO'), uc); R(b, '22M', 'MUTE_GO', 'MUTE_T')
 R(b, '4K7', '+VL', 'MUTE_GO', mpn='Panasonic ERJ-P06J472V')   # MUTE_GO sinks to -VL: 230 mW per power-up (MG12)
 R(b, '4K7', 'MUTE_GO', 'RLY_B')
 D(b, 'RLY_B', 'RLY_BX'); R(b, '4K7', 'RLY_BX', 'RAIL_OK'); D(b, 'GNDD', 'RLY_B')      # fast release, base clamp

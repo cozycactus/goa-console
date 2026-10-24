@@ -414,7 +414,8 @@ jack board) done.
    reservoirs and SS54 clamps at y 186-236 between the controls and the summers; M4 star stud with the four net ties
    (GNDA pads towards it); wing supplies along 4 mm edge keep-outs to the headers; J1's wire entries (its +y face) kept
    free on the bottom (x 21-58, y 202-220, one-sided keep-out), so the reservoirs no longer block them. Remaining placement hot spots
-   (report): meter ladder taps (up to ~46 mm; harmless, they are DC nodes of 91 Ω-4.9 kΩ), U11 VREF6 (~52 mm), the
+   (report): meter ladder taps (up to ~39 mm; harmless, they are DC nodes of 91 Ω-4.9 kΩ), U11 VREF6 (fixed 2026-10-24: the
+   zener, its 4K7 and U11 sit beside U10, VREF6 ≤ 21 mm, was ~108 mm), the
    group's narrow summer strip (re-inverter parts up to ~13 mm), strip U7 (EQ_FP via the big C49 film cap 21.5 mm and
    RET via C10 22.7 mm since the pots turned inward: no room beside U7), strip KHN/EQ.
    Every function is specified (spec v0.5). Ruslan decided: DRV134
