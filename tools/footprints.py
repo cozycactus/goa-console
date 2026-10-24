@@ -71,17 +71,20 @@ footprint('Potentiometer_Bourns_PTB0144_Slide_100mm_Dual',
           'Bourns PTB series slide potentiometer, 100 mm travel, dual gang (pins 4/5/6 = 1\'/2\'/3\'), https://www.bourns.com/docs/Product-Datasheets/ptb.pdf',
           'fader slide potentiometer 100mm dual Bourns PTB', b, (xc, by0 - 1.5), (xc, by1 + 1.5))
 
-# ---- Bourns MF-RX160/72 radial PTC (72 V, 1.6 A hold, 3.2 A trip, 40 A max): master wing fuses.
-# https://www.bourns.com/docs/product-datasheets/mf-rx72.pdf, product dimensions: A 13.94 max (width),
-# B 19.94 max (height), C 5.1 +-0.7 lead spacing, E 3.1 max thick, style 2 (straight leads; kinked is -14), lead 0.81 dia.
-# 72 V because a +V-to-−V short on a wing puts up to 34 V across one PTC (MF-R160 is 30 V).
-b = pad(1, 0, 0, 2.0, 1.1, 'rect') + pad(2, 5.08, 0, 2.0, 1.1)
-b += rect('F.Fab', 2.54 - 6.97, -1.55, 2.54 + 6.97, 1.55, 0.1)
-b += rect('F.SilkS', 2.54 - 7.09, -1.67, 2.54 + 7.09, 1.67, 0.12)
-b += rect('F.CrtYd', 2.54 - 7.35, -1.9, 2.54 + 7.35, 1.9, 0.05)
-footprint('Fuse_Bourns_MF-RX160-72_Radial_P5.08mm',
-          'Bourns MF-RX160/72 radial PTC resettable fuse, 72 V, 1.6 A hold, lead spacing 5.1 mm, https://www.bourns.com/docs/product-datasheets/mf-rx72.pdf',
-          'PTC polyfuse resettable Bourns MF-RX', b, (2.54, -3.0), (2.54, 3.0))
+# ---- Bourns MF-RX/72 radial PTCs (72 V, 40 A max): MF-RX185/72 (1.85 A hold, 3.7 A trip) master wing fuses
+# (2026-10-24, hpf_proposal.md H4), MF-RX160/72 (1.6 A hold, 3.2 A trip) on the jig's master stub.
+# https://www.bourns.com/docs/product-datasheets/mf-rx72.pdf, product dimensions: A 13.94 / 15.18 max (width),
+# B 19.94 / 21.18 max (height), C 5.1 +-0.7 lead spacing, E 3.1 max thick, style 2 (straight leads; kinked is -14),
+# lead 0.81 dia. 72 V because a +V-to-−V short on a wing puts up to 34 V across one PTC (MF-R160 is 30 V).
+def mf_rx(part, a, hold, cy=0.38):
+    b = pad(1, 0, 0, 2.0, 1.1, 'rect') + pad(2, 5.08, 0, 2.0, 1.1)
+    b += rect('F.Fab', 2.54 - a / 2, -1.55, 2.54 + a / 2, 1.55, 0.1)
+    b += rect('F.SilkS', 2.54 - a / 2 - 0.12, -1.67, 2.54 + a / 2 + 0.12, 1.67, 0.12)
+    b += rect('F.CrtYd', 2.54 - a / 2 - cy, -1.9, 2.54 + a / 2 + cy, 1.9, 0.05)
+    footprint(f'Fuse_Bourns_MF-RX{part}-72_Radial_P5.08mm',
+              f'Bourns MF-RX{part}/72 radial PTC resettable fuse, 72 V, {hold} A hold, lead spacing 5.1 mm, https://www.bourns.com/docs/product-datasheets/mf-rx72.pdf',
+              'PTC polyfuse resettable Bourns MF-RX', b, (2.54, -3.0), (2.54, 3.0))
+mf_rx('160', 13.94, '1.6')
 
 # ---- Keystone 1287-ST: 0.250" (6.35 mm) quick-fit male PCB tab, Sturdi-Mount
 # https://www.keyelco.com/userAssets/file/K75p65.pdf (catalog p.65): two legs 0.200" (5.08) apart,
@@ -95,4 +98,7 @@ b += rect('F.CrtYd', -4.2, -2.0, 4.2, 2.0, 0.05)
 footprint('Keystone_1287-ST_FastOn_Tab_6.35mm',
           'Keystone 1287-ST quick-fit male PCB terminal, 0.250 in (6.35 mm) tab, Sturdi-Mount, https://www.keyelco.com/userAssets/file/K75p65.pdf',
           'faston spade tab ground 6.35mm Keystone', b, (0, -3.2), (0, 3.2))
+# last: footprints added later keep the UUID sequence of the earlier ones. Courtyard 0.25 mm (KLC): on the master the
+# MF-RX185/72 sits between J1 and top-side diode leads where the 160's 0.38 mm doesn't fit (place_master.py)
+mf_rx('185', 15.18, '1.85', cy=0.25)
 print('wrote', sorted(os.listdir(OUT)))

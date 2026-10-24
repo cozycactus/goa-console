@@ -43,7 +43,7 @@ def law(taper, th):
     return {'A': a(th), 'B': th, 'C': 1 - a(1 - th)}[taper]
 
 TAPER = {'RV1': 'A', 'RV2': 'A', 'RV3': 'A', 'RV4': 'A', 'RV5': 'A', 'RV6': 'A', 'RV7': 'A',
-         'RV8': 'B', 'RV9': 'B', 'RV10': 'B', 'RV11': 'B', 'RV12': 'A', 'RV13': 'B', 'RV14': 'A', 'RV15': 'B'}
+         'RV8': 'B', 'RV9': 'B', 'RV10': 'B', 'RV11': 'B', 'RV12': 'A', 'RV13': 'B', 'RV14': 'A', 'RV15': 'B', 'RV16': 'A'}
 POTR = {}                                     # pot values other than 10K
 DG_RON = 25                                   # DG413 on-resistance, typical (Vishay, +/-15 V)
 libname = lambda c: field(next(x for x in c[1:] if isinstance(x, list) and x[0] == 'libsource'), 'part')
@@ -138,8 +138,11 @@ for th, lo, hi in ((0.0, -15.5, -14.5), (1.0, 14.3, 15.3)):
     check(f'gain pot at {"CCW" if th == 0 else "CW"}', r.get('x_pre'), lo, hi)
 r = run(TOP, {**ON, 'SW15': True}, AC1K, ['let ph = ph(v(PRE))*180/pi', 'print ph'])
 check('Ø latched: PRE phase', abs(r.get('ph', 0)), 175, 185, 'deg')
-r = run(TOP, {**ON, 'SW11': True}, 'ac dec 100 5 20k', ['let g = db(v(PRE)/0.7746)', 'meas ac f3 when g=-3 rise=1'])
-check('HPF in: -3 dB frequency at PRE', r.get('f3'), 80, 95, 'Hz')
+for th, lo, hi, label in ((0.5, 80, 95, 'mid rotation'), (0.0, 19, 24, 'CCW'), (1.0, 380, 430, 'CW')):
+    r = run({**TOP, 'RV16': th}, {**ON, 'SW11': True}, 'ac dec 100 5 20k',
+            ['let g = db(v(PRE)/0.7746)', 'meas ac f3 when g=-3 rise=1', 'meas ac gmax max g'])
+    check(f'HPF in, freq {label}: -3 dB frequency at PRE', r.get('f3'), lo, hi, 'Hz')
+    check(f'HPF in, freq {label}: no peaking', r.get('gmax'), -0.5, 0.3)
 for ref, pos_, at, lo, hi, label in (('RV10', 1, 12e3, 10.5, 12.5, 'HF CW at 12 kHz'), ('RV10', 0, 12e3, -12.5, -10.5, 'HF CCW at 12 kHz'),
                                      ('RV11', 1, 670, 13.5, 15.5, 'HI-MID CW, freq CCW, at 670 Hz'),
                                      ('RV13', 1, 148, 13.5, 15.5, 'LO-MID CW, freq CCW, at 148 Hz'),

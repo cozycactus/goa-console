@@ -43,7 +43,7 @@ def law(taper, th):
     return {'A': a(th), 'B': th, 'C': 1 - a(1 - th)}[taper]
 
 TAPER = {'RV1': 'A', 'RV2': 'A', 'RV3': 'A', 'RV4': 'A', 'RV5': 'A', 'RV6': 'A', 'RV7': 'A',
-         'RV8': 'B', 'RV9': 'B', 'RV10': 'B', 'RV11': 'B', 'RV12': 'A', 'RV13': 'B', 'RV14': 'A', 'RV15': 'B'}
+         'RV8': 'B', 'RV9': 'B', 'RV10': 'B', 'RV11': 'B', 'RV12': 'A', 'RV13': 'B', 'RV14': 'A', 'RV15': 'B', 'RV16': 'A'}
 POTR = {}
 DG_RON = 25
 libname = lambda c: field(next(x for x in c[1:] if isinstance(x, list) and x[0] == 'libsource'), 'part')

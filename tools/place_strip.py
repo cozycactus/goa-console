@@ -28,8 +28,8 @@ JACK_NOTES = ((12, 'LINE IN | INSERT'), (32, 'DIRECT OUT | link CN5 (bottom)'))
 
 # ================================================================ main board
 FIX = {
- 'SW15': sw(XR, 50), 'RV9': pot(XL, 54), 'D2': led(XR, 61),                               # Ø, gain, OL
- 'RV10': pot(XL, 76), 'SW11': sw(XR, 76),                                                 # HF, HPF
+ 'SW15': sw(XR, 50), 'RV9': pot(XL, 54), 'SW11': sw(XR, 61), 'D2': led(20.6, 50),           # Ø, gain, HPF in, OL
+ 'RV10': pot(XL, 76), 'RV16': pot(XR, 76, dual=True, right=True),                        # HF, HPF freq
  'RV11': pot(XL, 98), 'RV12': pot(XR, 98, dual=True, right=True),                         # HI-MID gain, freq
  'RV13': pot(XL, 120), 'RV14': pot(XR, 120, dual=True, right=True),                       # LO-MID gain, freq
  'RV15': pot(XL, 142), 'SW12': sw(26, 142), 'D5': led(34.5, 142),                         # LF, EQ + LED
@@ -53,9 +53,9 @@ HOLES = [(XC, 65.5), (XC, 154), (XC, 221), (5, 330), (5, 425), (34, 425)]   # 65
 # ---------------------------------------------------------------- zones: (x0, y0, x1, y1), refs, side
 # Bottom side: radial electrolytics (too tall for the 11.5 mm panel gap), VCA socket. Placed first.
 ZONES = [
- ('jack-board link (bottom)', (12, 44, 37, 120), ['CN3'], 'B'),     # across the strip between pot rows
+ ('jack-board link (bottom)', (12, 120, 37, 142), ['CN3'], 'B'),    # across the strip, LO-MID row to LF row
  ('rail reservoir caps (bottom)', (1, 360, 37, 444), ['C1', 'C3', 'C5', 'C6'], 'B'),
- ('gain-out coupling (bottom)',  (1, 45, 37, 80), ['C38'], 'B'),
+ ('gain-out coupling (bottom)',  (1, 44, 37, 100), ['C38', 'C91'], 'B'),
  ('insert / EQ coupling (bottom)', (1, 75, 37, 160), ['C51', 'C10', 'C11'], 'B'),
  ('post / pan / direct-out coupling (bottom)', (1, 160, 37, 300), ['C15', 'C16', 'C17', 'C52'], 'B'),
  ('VCA module socket (bottom)', (1, 380, 37, 444), ['J3', 'J4'], 'B'),
@@ -67,16 +67,17 @@ ZONES = [
  ('input receiver + gain', (1, 45, 37, 100), ['U1', 'C20', 'C21', 'C7', 'C78', 'R6', 'R7', 'R8', 'R9', 'R10',
                                               'R45', 'R46', 'C37', 'R47'], 'F'),
  ('OL detector', (1, 45, 37, 100), ['U4', 'C26', 'R39', 'D1', 'C12', 'R14', 'R40', 'R41', 'R15'], 'F'),
- ('HPF', (1, 60, 37, 100), ['U5', 'C29', 'C30', 'C39', 'C40', 'R48', 'R49'], 'F'),
- ('EQ', (1, 82, 37, 162), ['U6', 'C31', 'C32', 'C69', 'C70', 'C71', 'C72', 'U7', 'C33', 'C34', 'C73', 'C48',
+ ('HPF', (1, 44, 37, 135), ['U5', 'C29', 'C30', 'C85', 'C86', 'R100', 'R101', 'R102', 'R103',
+                             'U15', 'C89', 'C90', 'C87', 'C88', 'R104', 'R105', 'R106', 'R107', 'R108', 'R109'], 'F'),
+ ('EQ', (1, 82, 37, 200), ['U6', 'C31', 'C32', 'C69', 'C70', 'C71', 'C72', 'U7', 'C33', 'C34', 'C73', 'C48',
                            'R50', 'R51', 'C41', 'C42', 'R52', 'C43', 'R53', 'R54', 'R55', 'R58', 'R59',
                            'R62', 'R63', 'R64', 'C50', 'R65', 'R66', 'R67', 'R68', 'R69'], 'F'),
- ('EQ mid tuning (KHN)', (1, 82, 37, 200), ['U12', 'C63', 'C64', 'C74', 'C75', 'C44', 'R56',
+ ('EQ mid tuning (KHN)', (1, 82, 37, 215), ['U12', 'C63', 'C64', 'C74', 'C75', 'C44', 'R56',
                                           'U13', 'C65', 'C66', 'C76', 'C77', 'C45', 'R57',
                                           'U14', 'C67', 'C68', 'C46', 'R60', 'C47', 'R61',
                                           'R81', 'R82', 'R83', 'R84', 'R85', 'R86', 'R87', 'R88', 'R89',
                                           'R90', 'R91', 'R92', 'R93', 'R94', 'R95', 'R96', 'R97', 'R98'], 'F'),
- ('insert + position jumpers', (1, 120, 37, 175), ['R11', 'R12', 'R99', 'C84', 'R13', 'JP5', 'JP6', 'JP7'], 'F'),
+ ('insert + position jumpers', (1, 120, 37, 200), ['R11', 'R12', 'R99', 'C84', 'R13', 'JP5', 'JP6', 'JP7'], 'F'),
  ('aux / PRE jumpers / direct out', (1, 150, 37, 270), ['JP2', 'JP3', 'JP4', 'U8', 'C35', 'C36', 'C83', 'R70', 'R71',
                                                         'R72', 'R73'], 'F'),
  ('pan buffers + mute', (1, 236, 37, 306), ['U3', 'C24', 'C25', 'C80', 'C81', 'R35', 'R36', 'R37', 'R16', 'R17',

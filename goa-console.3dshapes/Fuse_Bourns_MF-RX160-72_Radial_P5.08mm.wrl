@@ -1,5 +1,5 @@
 #VRML V2.0 utf8
-# Bourns MF-RX160/72 PTC - goa-console part model (tools/models3d), 1 unit = 0.1 in
+# Bourns MF-RX/72 PTC - goa-console part model (tools/models3d), 1 unit = 0.1 in
 Shape {
  appearance Appearance { material Material { diffuseColor 0.906 0.906 0.896 specularColor 0.906 0.906 0.896 shininess 0.70 ambientIntensity 0.3 } }
  geometry IndexedFaceSet { solid FALSE creaseAngle 0.6

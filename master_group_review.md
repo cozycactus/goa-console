@@ -119,6 +119,8 @@ Scripts: `sim/review/master/`, `sim/review/group/` (last section).
 - [x] **MG12** R52 → Panasonic ERJ-P06J472V, R48 → ERJ-P06J103V.
 - [x] **MG13** R113 → ERJ-P06J332V (or 6K8 ERJ-P06J682V for 4.6 mA); D19 Kingbright WP7113ID.
 - [x] **MG14** Wing PTCs: keep MF-RX160/72, or MF-RX185/72 (§14). **Your decision.**
+  Kept MF-RX160/72 on 2026-10-24; changed to MF-RX185/72 the same day with the strip's sweepable HPF
+  (`hpf_proposal.md` H4, master spec v0.9).
 - [x] **MG15** "No phantom on any balanced output" in master spec §7, §12, §13, §20 and in `panel_print.md`.
 - [x] **MG16** BOM: a `CAP_MPN` map applied to every C / CP in `master_lib` (as `gen.py`), including the jig load
   board's 1n C0G; the MPNs in §16.

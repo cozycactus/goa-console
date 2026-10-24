@@ -1,28 +1,29 @@
-"""Bourns MF-RX160/72 Multifuse PPTC, radial leaded: MF-RX/72 series data sheet rev. W 09/26,
+"""Bourns MF-RX160/72 and MF-RX185/72 Multifuse PPTC, radial leaded: MF-RX/72 series data sheet rev. W 09/26,
 https://www.bourns.com/docs/product-datasheets/mf-rx72.pdf, p. 2 (product dimensions, style 2) and p. 1 (photo).
 Style 2 = square epoxy-coated chip on STRAIGHT leads (kinked leads are the -14 option): A 13.94 max wide, B 19.94 max
 from the top to the end of the lead coating, E 3.1 max thick over the coated leads, C 5.1 +-0.7 lead spacing, D 7.6 min
 bare lead, leads 0.81 tinned copper. Each lead is soldered to one face of the chip (front lead diagonal up the face, as
 in the photo), so the two leads leave the coating about 1.9 mm apart front to back; they are joggled into the in-line
-holes 5.08 apart, with the coating ending 1.5 mm above the board (no seating feature on straight leads)."""
+holes 5.08 apart, with the coating ending 1.5 mm above the board (no seating feature on straight leads).
+MF-RX185/72 (master wing fuses since 2026-10-24): the same, A 15.18 / B 21.18 max."""
 import math
 from .geom import Mesh, rrect
 
-NAME = 'Bourns MF-RX160/72 PTC'
-FOOTPRINTS = {'Fuse_Bourns_MF-RX160-72_Radial_P5.08mm': {}}
+NAME = 'Bourns MF-RX/72 PTC'
+FOOTPRINTS = {'Fuse_Bourns_MF-RX160-72_Radial_P5.08mm': dict(a=13.94, b=19.94),
+              'Fuse_Bourns_MF-RX185-72_Radial_P5.08mm': dict(a=15.18, b=21.18)}
 FEATURE = None
 MOUNT = 'main'
 
-A, B, E, LEAD = 13.94, 19.94, 3.1, 0.81    # max outline, lead diameter
+E, LEAD = 3.1, 0.81                        # max thickness, lead diameter (A, B: the outline, per footprint)
 CX = 2.54                                  # body centred between the leads
 TB = 0.9                                   # half thickness of the coated chip; the coated leads bulge out to E / 2
 YL = E / 2 - 0.2 - LEAD / 2                # lead centre off the mid-plane: 0.2 coating over the lead
 ZC = 1.5                                   # end of the lead coating above the board
-ZB = ZC + B - A                            # body bottom (B - A = 6.0 of coated lead, drawing)
 COAT = 'ptc_yellow'
 
 
-def pins():
+def pins(**kw):
     return [(0.0, 0.0), (5.08, 0.0)]
 
 
@@ -40,7 +41,7 @@ def _sweep(m, path, ra, rb, mat, seg=12):
     m.loft(rings, mat)
 
 
-def _body(m):
+def _body(m, A, ZB):
     """Coated chip: A x A rounded square (front view), edges fully rounded over the thickness (side view)."""
     x0, x1, z0, z1 = CX - A / 2, CX + A / 2, ZB, ZB + A
     rings = []
@@ -53,9 +54,10 @@ def _body(m):
     m.merge(body)
 
 
-def build():
+def build(a=13.94, b=19.94):
+    ZB = ZC + b - a                                                            # body bottom (B - A = 6.0 of coated lead)
     m = Mesh()
-    _body(m)
+    _body(m, a, ZB)
     for x, side, x_top in ((5.08, -1, CX - 2.0), (0.0, 1, CX + 2.0)):           # front lead runs up-left (photo)
         y = side * YL
         z_top = ZB + 5.6
@@ -73,5 +75,5 @@ def build():
     return m
 
 
-def panel():
+def panel(**kw):
     return None

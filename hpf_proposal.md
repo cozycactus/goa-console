@@ -1,8 +1,12 @@
 # Sweepable HPF — proposal
 
-Proposal for sign-off, 2026-10-24. **Nothing in the design has changed.** The generator and layout edits are in
-`hpf_proposal.patch`. They were trial-applied in a throwaway worktree, then regenerated, verified, simulated and
-re-placed (results below). The design study is `sim/review/hpf/khn_hpf.py`.
+Proposal for sign-off, 2026-10-24. **Signed off by Ruslan the same day (H1–H4 as proposed, MF-RX185/72 for H4) and
+applied:** strip v4.3, master spec v0.9. Strip 260 parts / 774 pins and master 1642 pins, 0 mismatches, check_fp 0,
+ERC 0; `sim_netlist.py` 35/35, `sim_console.py` 32/32; strip and master re-placed with 0 DRC violations and 0 parity
+issues. The master's F1–F4 are fixed in place so the wider body goes outward and the rest of the board keeps its
+layout (only D8 / D9 moved, 7.5 mm down their column). (When written, nothing in the design had changed.) The
+generator and layout edits are in `hpf_proposal.patch`. They were trial-applied in a throwaway worktree, then
+regenerated, verified, simulated and re-placed (results below). The design study is `sim/review/hpf/khn_hpf.py`.
 
 It replaces the signed decision "HPF unity-gain Butterworth 87 Hz" (Delta clone, 2026-10-22) with a swept one.
 
@@ -240,11 +244,12 @@ Placement report, current board → trial (median / max / count over the limit):
 
 ## What to sign
 
-- [ ] **H1** Sweepable HPF as above: KHN on U5A + U15, RV16 A10K dual, 21–403 Hz, SW11 selects HIN or HP. Replaces
+- [x] **H1** Sweepable HPF as above: KHN on U5A + U15, RV16 A10K dual, 21–403 Hz, SW11 selects HIN or HP. Replaces
   the signed 87 Hz Sallen-Key.
-- [ ] **H2** Panel and board:
+- [x] **H2** Panel and board:
   - SW11 to y 61 and RV16 at the right column y 76;
   - OL LED D2 to (20.6, 50);
   - CN3 to y ≈ 131.5 (ribbon about 136 mm).
-- [ ] **H3** C91 33 µF MUSE ES in parallel with C38 (or keep C38 alone and accept the 1.9 Hz corner).
-- [ ] **H4** Wing PTCs: revisit MG14, MF-RX185/72 (recommended with H1), or keep MF-RX160/72. **Your call.**
+- [x] **H3** C91 33 µF MUSE ES in parallel with C38 (or keep C38 alone and accept the 1.9 Hz corner).
+- [x] **H4** Wing PTCs: revisit MG14, MF-RX185/72 (recommended with H1), or keep MF-RX160/72. **Your call:**
+  MF-RX185/72.

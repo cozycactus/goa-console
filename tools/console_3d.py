@@ -230,7 +230,7 @@ def panel(c, name, width, label=None, holes=()):
 STRIP = {'RV9': ('GAIN', 'red'), 'RV10': ('HF', 'white'), 'RV11': ('HI-MID', 'white'), 'RV12': ('FREQ', 'dblue'),
          'RV13': ('LO-MID', 'white'), 'RV14': ('FREQ', 'dblue'), 'RV15': ('LF', 'white'), 'RV2': ('AUX 1', 'yellow'),
          'RV3': ('AUX 2', 'yellow'), 'RV4': ('AUX 3', 'green'), 'RV5': ('AUX 4', 'green'), 'RV6': ('AUX 5', 'orange'),
-         'RV7': ('AUX 6', 'orange'), 'RV8': ('PAN', 'grey'),
+         'RV7': ('AUX 6', 'orange'), 'RV8': ('PAN', 'grey'), 'RV16': ('', 'dblue'),     # HPF FREQ: the key above names it
          'SW15': ('Ø', 'grey'), 'SW11': ('HPF', 'grey'), 'SW12': ('EQ', 'grey'), 'SW8': ('PRE 1-2', 'grey'),
          'SW9': ('PRE 3-4', 'grey'), 'SW10': ('PRE 5-6', 'grey'), 'SW14': ('PAN', 'grey'), 'SW13': ('DIR', 'black'),
          'SW5': ('L-R', 'white'), 'SW6': ('1-2', 'white'), 'SW7': ('3-4', 'white'), 'SW3': ('PFL', 'red'), 'SW4': ('ON', 'green'),
@@ -327,7 +327,8 @@ def both(*pairs):
     """Labels in priority order: each (theta, text) and its mirror (1 - theta, text)."""
     return [q for t, a in pairs for q in ((t, a), (1 - t, a))][:None]
 KHN = {'RV12': [(0.0, '0.7'), (1.0, '10KHz'), (0.5, '2.2'), (0.25, '1.6'), (0.75, '4.8')],   # sim/mid_tuning.py 10e3:
-       'RV14': [(0.0, '0.15'), (1.0, '2.3KHz'), (0.5, '0.48'), (0.25, '0.34'), (0.75, '1.0')]}  # KHN f0 at theta 0..1
+       'RV14': [(0.0, '0.15'), (1.0, '2.3KHz'), (0.5, '0.48'), (0.25, '0.34'), (0.75, '1.0')],  # KHN f0 at theta 0..1
+       'RV16': [(0.0, '20'), (1.0, '400Hz'), (0.5, '85'), (0.2, '50'), (0.7, '170')]}   # HPF -3 dB, khn_hpf.py law
 SCALES = {   # (dots, labels in priority order, unit at 6 o'clock); as the real Delta panels (ref/delta200_panels, photos)
     'gain': ([k / 20 for k in range(21)], [(gain_theta(d), f'{d:+d}' if d else '0') for d in (-15, 15, 0, -10, 10, -5, 5)], 'dB'),
     'eq': (EVEN11, both((0.0, '15'), (0.2, '9')) + [(0.5, '-0+')] + both((0.1, '12'), (0.3, '6'), (0.4, '3')), 'dB'),
@@ -383,7 +384,7 @@ def panel_print(c, key, pots, faders, obst, width):
     pairs = PAIRS.get(key, {}); paired = {gref for gref, _ in pairs.values()} | set(pairs)
     at = {ref: (x, y, big) for ref, name, x, y, big in pots}
     for ref, name, x, y, big in pots:                # names first: ring numbers give way to them
-        if ref not in paired:
+        if ref not in paired and name:
             put_text(name, x, y - (D_BIG if big else D_KNOB) / 2 - 4.2, 2.0 if not big else 2.2, ref, force=True, bold=True)
     for fref, (gref, band) in pairs.items():         # bracket over a gain / frequency pair, band name in its middle
         (xg, y, _), (xf, _, _) = at[gref], at[fref]; yb, xm = y - D_KNOB / 2 - 4.2, (xg + xf) / 2
@@ -727,6 +728,7 @@ if 'norender' not in ARGV[1:]:                     # '-- render norender': build
     c = W(master_x + 39.3, 235, PANEL_Z1)
     shot(scene, cam, 'closeup_master.png', c + Vector((0.06, -0.46, 0.42)), c, lens=34)
     for fn, xc, yc, sc_, res in (('panel_strip.png', strip_x[0] + 19.0, 172.0, 0.30, (1300, 2800)),
+                                 ('panel_strip_top.png', strip_x[0] + 19.0, 95.0, 0.12, (900, 1500)),   # gain to LF
                                  ('panel_master.png', master_x + 39.3, 168.0, 0.30, (1700, 2800))):
         shot(scene, cam, fn, W(xc, yc, PANEL_Z1) + nrm * 1.0, None, ortho=sc_, res=res, rot=(math.radians(TILT), 0, 0))
     panels_visible(False)                          # the inside: panel layer hidden

@@ -41,6 +41,9 @@ MPN.update({'DRV134': 'TI DRV134UA', 'RELAY': 'Omron G6K-2F-Y DC12', 'XLR3': 'Ne
             # the ferrite is a stability part: the aux summer's margin follows its inductance (MG16)
             'FB': 'Murata BLM21PG221SN1D'})
 MPN['DS'] = 'onsemi SS54'
+# wing PTCs MF-RX185/72 (hpf_proposal.md H4, 2026-10-24): same pads as the MF-RX160/72 (kept on the jig stub), a
+# 1.24 mm wider body; hold 1.50 / 1.33 A at 40 / 50 C against a 1.25 A wing
+PTC185 = dict(fp='goa-console:Fuse_Bourns_MF-RX185-72_Radial_P5.08mm', mpn='Bourns MF-RX185/72')
 # ceramics >= 25 V (50 V X7R; C0G 50 V) and electrolytics that fit the current footprints, filled by value before
 # build() (master_group_review.md MG16; strip_parts_review.md T9). Value strings keep the minimum rating
 CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Samsung CL31B105KBHNNNE (X7R 50V)',

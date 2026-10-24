@@ -7,9 +7,9 @@
   (title_block
     (title "Channel strip - goa console (Delta Theatre input without the mic stage)")
     (date "2026-10-19")
-    (rev "4.1")
+    (rev "4.3")
     (company "")
-    (comment 1 "Generated from channel_strip_schematic_spec.md v4.1")
+    (comment 1 "Generated from channel_strip_schematic_spec.md v4.3")
     (comment 2 "Nets joined by labels; tidy wiring in Eeschema as needed")
   )
 
@@ -1130,102 +1130,6 @@
       )
     )
 
-    (symbol "Jumper:SolderJumper_3_Bridged12" (pin_names (offset 0)) (in_bom no) (on_board yes)
-      (property "Reference" "JP" (at -2.54 -2.54 0) (show_name)
-        (effects (font (size 1.27 1.27)))
-      )
-      (property "Value" "SolderJumper_3_Bridged12" (at 0 2.794 0) (show_name)
-        (effects (font (size 1.27 1.27)))
-      )
-      (property "Footprint" "" (at 0 0 0) (show_name)
-        (effects (font (size 1.27 1.27)))
-      )
-      (property "Datasheet" "" (at 0 -15.24 0) (show_name)
-        (effects (font (size 1.27 1.27)))
-      )
-      (property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged" (at 0 -12.7 0) (show_name)
-        (effects (font (size 1.27 1.27)))
-      )
-      (property "ki_keywords" "Solder Jumper SPDT" (at 0 0 0) (show_name)
-        (effects (font (size 1.27 1.27)))
-      )
-      (property "ki_fp_filters" "SolderJumper*Bridged12*" (at 0 0 0) (show_name)
-        (effects (font (size 1.27 1.27)))
-      )
-      (symbol "SolderJumper_3_Bridged12_0_1"
-        (polyline
-          (pts
-            (xy -2.54 0)
-            (xy -2.032 0)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy -1.016 1.016)
-            (xy -1.016 -1.016)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (rectangle (start -1.016 0.508) (end -0.508 -0.508)
-          (stroke (width 0) (type default))
-          (fill (type outline))
-        )
-        (arc (start -1.016 -1.016) (mid -2.0276 0) (end -1.016 1.016)
-          (stroke (width 0) (type default))
-          (fill (type outline))
-        )
-        (rectangle (start -0.508 1.016) (end 0.508 -1.016)
-          (stroke (width 0) (type default))
-          (fill (type outline))
-        )
-        (polyline
-          (pts
-            (xy 0 -1.27)
-            (xy 0 -1.016)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (arc (start 1.016 1.016) (mid 2.0276 0) (end 1.016 -1.016)
-          (stroke (width 0) (type default))
-          (fill (type outline))
-        )
-        (polyline
-          (pts
-            (xy 1.016 1.016)
-            (xy 1.016 -1.016)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 2.54 0)
-            (xy 2.032 0)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-      )
-      (symbol "SolderJumper_3_Bridged12_1_1"
-        (pin passive line (at -5.08 0 0) (length 2.54)
-          (name "A" (effects (font (size 1.27 1.27))))
-          (number "1" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at 0 -3.81 90) (length 2.54)
-          (name "C" (effects (font (size 1.27 1.27))))
-          (number "2" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at 5.08 0 180) (length 2.54)
-          (name "B" (effects (font (size 1.27 1.27))))
-          (number "3" (effects (font (size 1.27 1.27))))
-        )
-      )
-    )
-
     (symbol "Device:R_Potentiometer_Dual" (pin_names (offset 1.016)) (in_bom yes) (on_board yes)
       (property "Reference" "RV" (at 0 3.81 0) (show_name)
         (effects (font (size 1.27 1.27)))
@@ -1462,6 +1366,102 @@
         (pin passive line (at 10.16 -2.54 180) (length 1.27)
           (name "6" (effects (font (size 1.27 1.27))))
           (number "6" (effects (font (size 1.27 1.27))))
+        )
+      )
+    )
+
+    (symbol "Jumper:SolderJumper_3_Bridged12" (pin_names (offset 0)) (in_bom no) (on_board yes)
+      (property "Reference" "JP" (at -2.54 -2.54 0) (show_name)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "Value" "SolderJumper_3_Bridged12" (at 0 2.794 0) (show_name)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "Footprint" "" (at 0 0 0) (show_name)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "Datasheet" "" (at 0 -15.24 0) (show_name)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged" (at 0 -12.7 0) (show_name)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "ki_keywords" "Solder Jumper SPDT" (at 0 0 0) (show_name)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "ki_fp_filters" "SolderJumper*Bridged12*" (at 0 0 0) (show_name)
+        (effects (font (size 1.27 1.27)))
+      )
+      (symbol "SolderJumper_3_Bridged12_0_1"
+        (polyline
+          (pts
+            (xy -2.54 0)
+            (xy -2.032 0)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -1.016 1.016)
+            (xy -1.016 -1.016)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (rectangle (start -1.016 0.508) (end -0.508 -0.508)
+          (stroke (width 0) (type default))
+          (fill (type outline))
+        )
+        (arc (start -1.016 -1.016) (mid -2.0276 0) (end -1.016 1.016)
+          (stroke (width 0) (type default))
+          (fill (type outline))
+        )
+        (rectangle (start -0.508 1.016) (end 0.508 -1.016)
+          (stroke (width 0) (type default))
+          (fill (type outline))
+        )
+        (polyline
+          (pts
+            (xy 0 -1.27)
+            (xy 0 -1.016)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (arc (start 1.016 1.016) (mid 2.0276 0) (end 1.016 -1.016)
+          (stroke (width 0) (type default))
+          (fill (type outline))
+        )
+        (polyline
+          (pts
+            (xy 1.016 1.016)
+            (xy 1.016 -1.016)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 2.54 0)
+            (xy 2.032 0)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+      )
+      (symbol "SolderJumper_3_Bridged12_1_1"
+        (pin passive line (at -5.08 0 0) (length 2.54)
+          (name "A" (effects (font (size 1.27 1.27))))
+          (number "1" (effects (font (size 1.27 1.27))))
+        )
+        (pin passive line (at 0 -3.81 90) (length 2.54)
+          (name "C" (effects (font (size 1.27 1.27))))
+          (number "2" (effects (font (size 1.27 1.27))))
+        )
+        (pin passive line (at 5.08 0 180) (length 2.54)
+          (name "B" (effects (font (size 1.27 1.27))))
+          (number "3" (effects (font (size 1.27 1.27))))
         )
       )
     )
@@ -2498,10 +2498,9 @@
   (no_connect (at 45.72 162.56) (uuid b990b86d-77bb-594c-bdb0-e84537be2c9a))
   (no_connect (at 58.42 172.72) (uuid e2a45f9f-38a2-5df0-b690-01ea1d791f5f))
   (no_connect (at 58.42 180.34) (uuid d555ce92-52f7-576a-b13d-9199b6f354d5))
-  (no_connect (at 205.74 309.88) (uuid 48749d85-29a6-5de4-9533-de10c4088c1e))
-  (no_connect (at 228.6 312.42) (uuid 1ae3cac6-2944-55c4-bd5e-ed74159df7d1))
-  (no_connect (at 238.76 309.88) (uuid e9fdea3e-497f-5b93-a37b-04eb25974c7b))
-  (no_connect (at 238.76 314.96) (uuid bc72645f-e29c-5eb2-90ed-3a704c5218bc))
+  (no_connect (at 657.86 312.42) (uuid 1ae3cac6-2944-55c4-bd5e-ed74159df7d1))
+  (no_connect (at 668.02 309.88) (uuid e9fdea3e-497f-5b93-a37b-04eb25974c7b))
+  (no_connect (at 668.02 314.96) (uuid bc72645f-e29c-5eb2-90ed-3a704c5218bc))
   (no_connect (at 73.66 546.1) (uuid e779f681-d6eb-5084-aef8-17a799e6ada9))
   (no_connect (at 340.36 632.46) (uuid cbaba503-44ea-5533-bce7-75b782c2767e))
   (no_connect (at 106.68 678.18) (uuid 9123fee6-321d-5173-8b3b-f10c5f20fbfb))
@@ -2541,7 +2540,7 @@
     (effects (font (size 2.0 2.0)) (justify left))
     (uuid f1fa9f6b-c3de-59fe-ae1d-56fb7451bd7f)
   )
-  (text "HPF  unity Sallen-Key Butterworth, -3 dB 87 Hz  SW11: latched = HPF in (unlatched shorts the caps)"
+  (text "HPF  sweepable 21-403 Hz, state-variable (KHN) high-pass, Q 0.707  SW11: latched = HPF in, else HIN"
     (at 30.48 293.39000000000004 0)
     (effects (font (size 2.0 2.0)) (justify left))
     (uuid 227d5b6a-53d1-50d3-a607-418c48fe74a3)
@@ -2834,27 +2833,43 @@
     (effects (font (size 1.0 1.0)) (justify right bottom))
     (uuid 4fb20b22-4538-5969-9331-8f45f33b152e)
   )
-  (label "+VL" (at 726.44 71.12 90)
+  (label "+VA" (at 726.44 71.12 90)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid 4cc97ce0-b799-5423-9fdc-bc95a9c554cb)
+  )
+  (label "-VA" (at 726.44 86.36 270)
+    (effects (font (size 1.0 1.0)) (justify right bottom))
+    (uuid 81034aa3-ff40-5e1c-ad75-bbf747585e79)
+  )
+  (label "+VA" (at 35.56 102.87 90)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid 7b04c064-3c29-54f5-9711-8e171c8f122d)
+  )
+  (label "-VA" (at 68.58 110.49 270)
+    (effects (font (size 1.0 1.0)) (justify right bottom))
+    (uuid ed22cc56-de06-50d3-8e07-f697cca89632)
+  )
+  (label "+VL" (at 99.06 99.06 90)
     (effects (font (size 1.0 1.0)) (justify left bottom))
     (uuid 443c8835-2252-50b7-86b5-bbc6d6ca2e7e)
   )
-  (label "+VL" (at 35.56 102.87 90)
+  (label "+VL" (at 134.62 102.87 90)
     (effects (font (size 1.0 1.0)) (justify left bottom))
     (uuid 741f2b4b-b37e-50e1-b1ba-5ab82d81c5f0)
   )
-  (label "+VA" (at 68.58 106.68 180)
+  (label "+VA" (at 167.64 106.68 180)
     (effects (font (size 1.0 1.0)) (justify right bottom))
     (uuid a2b8e990-dd53-59c8-b7a4-b522aa5139c0)
   )
-  (label "-VA" (at 101.6 106.68 180)
+  (label "-VA" (at 200.66 106.68 180)
     (effects (font (size 1.0 1.0)) (justify right bottom))
     (uuid 8b7402f4-55d3-5ca2-9f48-ff908f47393a)
   )
-  (label "+VL" (at 134.62 106.68 180)
+  (label "+VL" (at 233.68 106.68 180)
     (effects (font (size 1.0 1.0)) (justify right bottom))
     (uuid 5a1b5fd6-0757-55ff-abb4-733f60e2816d)
   )
-  (label "-VL" (at 167.64 106.68 180)
+  (label "-VL" (at 266.7 106.68 180)
     (effects (font (size 1.0 1.0)) (justify right bottom))
     (uuid a0b94f3c-1a4c-57c3-a11d-9564ac738a7e)
   )
@@ -3090,55 +3105,179 @@
     (effects (font (size 1.0 1.0)) (justify right bottom))
     (uuid 53165ad5-caa9-57f2-bec9-f635c9aa26b4)
   )
-  (label "HIN" (at 233.68 265.43 90)
+  (label "GOUT" (at 233.68 265.43 90)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid 10aaf699-51a5-5742-b6ac-3d196052eb41)
+  )
+  (label "HIN" (at 233.68 273.05 270)
+    (effects (font (size 1.0 1.0)) (justify right bottom))
+    (uuid 096c9d9e-ea84-5614-a796-18c7e756712d)
+  )
+  (label "HIN" (at 266.7 265.43 90)
     (effects (font (size 1.0 1.0)) (justify left bottom))
     (uuid 7475361d-87e3-566c-8084-1c394aa050f0)
   )
   (label "HIN" (at 35.56 308.61 90)
     (effects (font (size 1.0 1.0)) (justify left bottom))
-    (uuid ebc6dd90-0fb0-5862-90ab-4be3dbc268e7)
+    (uuid deb3c023-c88d-582e-a543-6bd3fc4743cb)
   )
-  (label "H1" (at 35.56 316.23 270)
+  (label "H_SP" (at 35.56 316.23 270)
     (effects (font (size 1.0 1.0)) (justify right bottom))
-    (uuid 1d22b28a-d64f-58c4-9a82-2cc9cd92a49c)
+    (uuid 4538d763-7d24-52c0-a32b-4b2d9828d752)
   )
-  (label "H1" (at 68.58 308.61 90)
+  (label "H_BP" (at 68.58 308.61 90)
     (effects (font (size 1.0 1.0)) (justify left bottom))
-    (uuid f11a9db3-cabc-5f44-9583-6d137fa5cae0)
+    (uuid 4461a0b6-1f18-5af2-a608-9d95d34988f8)
   )
-  (label "HP" (at 68.58 316.23 270)
+  (label "H_SP" (at 68.58 316.23 270)
     (effects (font (size 1.0 1.0)) (justify right bottom))
-    (uuid b8cfd002-8f65-584c-848b-d1926512184b)
+    (uuid b8b7274e-38db-58fb-8e42-9cbeb37b8998)
   )
-  (label "H1" (at 101.6 308.61 90)
+  (label "H_SP" (at 101.6 308.61 90)
     (effects (font (size 1.0 1.0)) (justify left bottom))
-    (uuid 62b76911-5295-5d2d-8fba-fa2762efa342)
+    (uuid eb05a3ec-77da-5875-89ab-0edd0a59d53b)
   )
-  (label "HOUT" (at 101.6 316.23 270)
+  (label "H_LP" (at 134.62 308.61 90)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid 288913a5-d98d-5ecb-abd4-d7b0eb55418a)
+  )
+  (label "H_SM" (at 134.62 316.23 270)
     (effects (font (size 1.0 1.0)) (justify right bottom))
-    (uuid a67d2b85-ed7c-5e69-adab-91aae689b5de)
+    (uuid 3e853861-61a0-5c6a-9526-6b9d029a4727)
   )
-  (label "HP" (at 134.62 308.61 90)
+  (label "HP" (at 167.64 308.61 90)
     (effects (font (size 1.0 1.0)) (justify left bottom))
-    (uuid 254491e5-5bdc-502c-8ea5-9bc93092fddb)
+    (uuid 10c47427-ffaf-5c20-b2a4-51cef88df9bc)
   )
-  (label "HP" (at 160.02 309.88 180)
+  (label "H_SM" (at 167.64 316.23 270)
+    (effects (font (size 1.0 1.0)) (justify right bottom))
+    (uuid ca7fda34-9574-5e93-88de-b80f21615995)
+  )
+  (label "HP" (at 200.66 308.61 90)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid 04d42302-f1ed-57a2-96ee-9bf275f6e20d)
+  )
+  (label "H_SM" (at 200.66 316.23 270)
+    (effects (font (size 1.0 1.0)) (justify right bottom))
+    (uuid 149a03fd-8fa2-591a-b27e-d29565442a30)
+  )
+  (label "H_SP" (at 226.06 309.88 180)
     (effects (font (size 1.0 1.0)) (justify right bottom))
     (uuid b3394bca-9db5-5dbf-a9c3-d14fc8adb6da)
   )
-  (label "HOUT" (at 160.02 314.96 180)
+  (label "H_SM" (at 226.06 314.96 180)
     (effects (font (size 1.0 1.0)) (justify right bottom))
     (uuid f207cd78-d24d-5fff-bdf9-79f185588594)
   )
-  (label "HOUT" (at 175.26 312.42 0)
+  (label "HP" (at 241.3 312.42 0)
     (effects (font (size 1.0 1.0)) (justify left bottom))
     (uuid 3a54175c-0d28-5305-87d8-27d11ef64303)
   )
-  (label "HIN" (at 195.58 312.42 180)
+  (label "HP" (at 264.16 314.96 180)
+    (effects (font (size 1.0 1.0)) (justify right bottom))
+    (uuid 6f48bed6-30cc-5e1e-b154-c3e15a3c1330)
+  )
+  (label "H_D1" (at 260.35 309.88 180)
+    (effects (font (size 1.0 1.0)) (justify right bottom))
+    (uuid 1d5eab73-1e0e-5da6-99e2-3a331498353b)
+  )
+  (label "H_R1" (at 256.54 314.96 180)
+    (effects (font (size 1.0 1.0)) (justify right bottom))
+    (uuid ce4640dd-4a72-523d-9d93-d0faf8174a73)
+  )
+  (label "H_BP" (at 276.86 314.96 0)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid c2f0bd61-c436-5cc6-9798-fedaa08f2509)
+  )
+  (label "H_D2" (at 273.05 309.88 0)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid 61d5143d-8f45-5a03-9957-fd885ed84f9f)
+  )
+  (label "H_R2" (at 269.24 314.96 0)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid 107e9458-7af9-5dab-9ef7-1361293cf0d6)
+  )
+  (label "H_R1" (at 299.72 308.61 90)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid 32b6da03-a7f4-5793-b64d-b787b156b54f)
+  )
+  (label "H_R2" (at 332.74 308.61 90)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid 60a048ff-6b12-5cc2-ad5a-e2954bfd9746)
+  )
+  (label "HP" (at 365.76 308.61 90)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid cf347865-c271-569b-836e-447339128a99)
+  )
+  (label "H_D1" (at 365.76 316.23 270)
+    (effects (font (size 1.0 1.0)) (justify right bottom))
+    (uuid 66dc6d1c-821d-5acf-91b4-f1d94483d709)
+  )
+  (label "H_BP" (at 398.78 308.61 90)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid c738e3d7-3d6b-557b-bea5-f739428d3b88)
+  )
+  (label "H_D2" (at 398.78 316.23 270)
+    (effects (font (size 1.0 1.0)) (justify right bottom))
+    (uuid 29965253-6ac7-5289-9fbc-fd584a7acca3)
+  )
+  (label "H_D1" (at 431.8 308.61 90)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid 0977056e-958c-5b5a-9331-b5b1e606f591)
+  )
+  (label "H_I1" (at 431.8 316.23 270)
+    (effects (font (size 1.0 1.0)) (justify right bottom))
+    (uuid 3a307181-3da7-5344-84dc-5b9629b9e42d)
+  )
+  (label "H_D2" (at 464.82 308.61 90)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid a8d1ee5d-b844-5bc0-a87e-a35520825e3e)
+  )
+  (label "H_I2" (at 464.82 316.23 270)
+    (effects (font (size 1.0 1.0)) (justify right bottom))
+    (uuid 87ca106f-926c-5deb-9601-f38f6a9bb29f)
+  )
+  (label "H_BP" (at 497.84 308.61 90)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid 5a97351c-5db5-55b4-80f3-dc515ff63b42)
+  )
+  (label "H_I1" (at 497.84 316.23 270)
+    (effects (font (size 1.0 1.0)) (justify right bottom))
+    (uuid 12071962-cc9a-5bbc-bf37-8e979b158aa7)
+  )
+  (label "H_LP" (at 530.86 308.61 90)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid 9b97dd79-a46b-5c8e-a27b-4ac177b2f942)
+  )
+  (label "H_I2" (at 530.86 316.23 270)
+    (effects (font (size 1.0 1.0)) (justify right bottom))
+    (uuid dc130679-0008-50c9-b3bf-f3fcad495701)
+  )
+  (label "H_I1" (at 556.26 314.96 180)
+    (effects (font (size 1.0 1.0)) (justify right bottom))
+    (uuid 69321d87-c742-5cec-9ff4-8addf7ee9889)
+  )
+  (label "H_BP" (at 571.5 312.42 0)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid ba7ce748-4532-50b0-9ef7-5ac7e2f49f52)
+  )
+  (label "H_I2" (at 589.28 314.96 180)
+    (effects (font (size 1.0 1.0)) (justify right bottom))
+    (uuid 78e60046-76d7-5a11-81fe-1626fd0da478)
+  )
+  (label "H_LP" (at 604.52 312.42 0)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid 6816e3d9-6ce5-5665-8fdb-fa903407aec7)
+  )
+  (label "HOUT" (at 624.84 312.42 180)
     (effects (font (size 1.0 1.0)) (justify right bottom))
     (uuid 0222eb71-664e-562a-a24e-e73ab77f9cd1)
   )
-  (label "HP" (at 205.74 314.96 0)
+  (label "HP" (at 635.0 309.88 0)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid 45333305-185a-534b-a284-e6b64e7ee7fe)
+  )
+  (label "HIN" (at 635.0 314.96 0)
     (effects (font (size 1.0 1.0)) (justify left bottom))
     (uuid c50e23d4-defa-5bce-81cc-e22c7e8aaf5c)
   )
@@ -6843,13 +6982,13 @@
     )
   )
 
-  (symbol (lib_id "Comparator:LM393") (at 728.98 78.74 0) (unit 3)
+  (symbol (lib_id "Amplifier_Operational:OPA1612AxD") (at 728.98 78.74 0) (unit 3)
     (in_bom yes) (on_board yes)
-    (uuid 23d93cc7-d41c-56a0-82c4-11a1f5ad7112)
-    (property "Reference" "U4" (id 0) (at 731.52 69.85 0)
+    (uuid 51d45a0c-e948-52db-80aa-ffa6dd351465)
+    (property "Reference" "U15" (id 0) (at 731.52 69.85 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "LM393" (id 1) (at 731.52 87.63 0)
+    (property "Value" "OPA1612" (id 1) (at 731.52 87.63 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Footprint" "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" (id 2) (at 728.98 78.74 0)
@@ -6858,40 +6997,15 @@
     (property "Datasheet" "" (id 3) (at 728.98 78.74 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "MPN" "TI LM393BIDR" (id 4) (at 728.98 78.74 0)
+    (property "MPN" "TI OPA1612AIDR" (id 4) (at 728.98 78.74 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "4" (uuid 3be9f48a-40dd-515f-9057-5fbfcfdf2be2))
-    (pin "8" (uuid 216e09d1-8c68-51c0-89a4-0f5013265d16))
+    (pin "4" (uuid 9a95c88a-7786-5adc-bdee-4005868c504e))
+    (pin "8" (uuid 3729c97c-724e-5b21-b56c-c64699fda103))
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "U4") (unit 3)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "power:GNDD") (at 726.44 86.36 0) (unit 1)
-    (in_bom yes) (on_board yes)
-    (uuid cfda8e32-73a3-5469-8094-d2cb5b7e7d8b)
-    (property "Reference" "#PWR031" (id 0) (at 726.44 91.36 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "GNDD" (id 1) (at 726.44 90.86 0)
-      (effects (font (size 1.0 1.0)) hide)
-    )
-    (property "Footprint" "" (id 2) (at 726.44 86.36 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (id 3) (at 726.44 86.36 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid abda9468-03c9-5ed8-9572-64e551c6bf2b))
-    (instances
-      (project "channel_strip"
-        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR031") (unit 1)
+          (reference "U15") (unit 3)
         )
       )
     )
@@ -6899,8 +7013,8 @@
 
   (symbol (lib_id "Device:C") (at 35.56 106.68 0) (unit 1)
     (in_bom yes) (on_board yes)
-    (uuid 138ef146-336c-54c2-aa4e-ec0c58061953)
-    (property "Reference" "C26" (id 0) (at 38.1 97.79 0)
+    (uuid b2bdd815-bdfa-5f99-b38b-52da411d3734)
+    (property "Reference" "C89" (id 0) (at 38.1 97.79 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "100n" (id 1) (at 38.1 115.57000000000001 0)
@@ -6915,6 +7029,168 @@
     (property "MPN" "Samsung CL21B104KBCNNNC (X7R 50V)" (id 4) (at 35.56 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
+    (pin "1" (uuid 2642db30-e1ed-59b5-94f1-72b1828c8f0e))
+    (pin "2" (uuid 00056e29-1e7f-53e0-8fa6-2c5928aaaabd))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "C89") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:GNDA") (at 35.56 110.49 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 605cb757-ef0d-5a59-8d3a-fd797da3a5ab)
+    (property "Reference" "#PWR031" (id 0) (at 35.56 115.49 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GNDA" (id 1) (at 35.56 114.99 0)
+      (effects (font (size 1.0 1.0)) hide)
+    )
+    (property "Footprint" "" (id 2) (at 35.56 110.49 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 35.56 110.49 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 210ec436-273e-5cdc-9924-20b88f039cbd))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "#PWR031") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:C") (at 68.58 106.68 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 149d58ab-e3e3-523e-aedc-4343121d11cd)
+    (property "Reference" "C90" (id 0) (at 71.12 97.79 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "100n" (id 1) (at 71.12 115.57000000000001 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Capacitor_SMD:C_0805_2012Metric" (id 2) (at 68.58 106.68 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 68.58 106.68 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "MPN" "Samsung CL21B104KBCNNNC (X7R 50V)" (id 4) (at 68.58 106.68 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 21c7f257-95aa-5f27-9d7b-111c411ba988))
+    (pin "2" (uuid f0d70a61-8ac4-5d3f-b438-46324605305c))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "C90") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:GNDA") (at 68.58 102.87 180) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 4128a78a-9383-510f-b78c-c57f860bceda)
+    (property "Reference" "#PWR032" (id 0) (at 68.58 107.87 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GNDA" (id 1) (at 68.58 107.37 0)
+      (effects (font (size 1.0 1.0)) hide)
+    )
+    (property "Footprint" "" (id 2) (at 68.58 102.87 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 68.58 102.87 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid ed3f4416-9df9-5b0a-be96-d4ea748b5779))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "#PWR032") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Comparator:LM393") (at 101.6 106.68 0) (unit 3)
+    (in_bom yes) (on_board yes)
+    (uuid 23d93cc7-d41c-56a0-82c4-11a1f5ad7112)
+    (property "Reference" "U4" (id 0) (at 104.14 97.79 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "LM393" (id 1) (at 104.14 115.57000000000001 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" (id 2) (at 101.6 106.68 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 101.6 106.68 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "MPN" "TI LM393BIDR" (id 4) (at 101.6 106.68 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "4" (uuid 3be9f48a-40dd-515f-9057-5fbfcfdf2be2))
+    (pin "8" (uuid 216e09d1-8c68-51c0-89a4-0f5013265d16))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "U4") (unit 3)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:GNDD") (at 99.06 114.3 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid cfda8e32-73a3-5469-8094-d2cb5b7e7d8b)
+    (property "Reference" "#PWR033" (id 0) (at 99.06 119.3 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GNDD" (id 1) (at 99.06 118.8 0)
+      (effects (font (size 1.0 1.0)) hide)
+    )
+    (property "Footprint" "" (id 2) (at 99.06 114.3 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 99.06 114.3 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid abda9468-03c9-5ed8-9572-64e551c6bf2b))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "#PWR033") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:C") (at 134.62 106.68 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 138ef146-336c-54c2-aa4e-ec0c58061953)
+    (property "Reference" "C26" (id 0) (at 137.16 97.79 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "100n" (id 1) (at 137.16 115.57000000000001 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Capacitor_SMD:C_0805_2012Metric" (id 2) (at 134.62 106.68 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 134.62 106.68 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "MPN" "Samsung CL21B104KBCNNNC (X7R 50V)" (id 4) (at 134.62 106.68 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
     (pin "1" (uuid dc77b786-1d2c-5e56-98de-86f8dc93a2e9))
     (pin "2" (uuid c1a58192-ae00-5691-9892-4be6b46712a0))
     (instances
@@ -6926,44 +7202,44 @@
     )
   )
 
-  (symbol (lib_id "power:GNDD") (at 35.56 110.49 0) (unit 1)
+  (symbol (lib_id "power:GNDD") (at 134.62 110.49 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 6d553d3e-ef64-5e21-a9db-a7fa86b04a7c)
-    (property "Reference" "#PWR032" (id 0) (at 35.56 115.49 0)
+    (property "Reference" "#PWR034" (id 0) (at 134.62 115.49 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Value" "GNDD" (id 1) (at 35.56 114.99 0)
+    (property "Value" "GNDD" (id 1) (at 134.62 114.99 0)
       (effects (font (size 1.0 1.0)) hide)
     )
-    (property "Footprint" "" (id 2) (at 35.56 110.49 0)
+    (property "Footprint" "" (id 2) (at 134.62 110.49 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (id 3) (at 35.56 110.49 0)
+    (property "Datasheet" "" (id 3) (at 134.62 110.49 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid cbf37b5b-2644-5201-84be-64f1b79f6cdb))
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR032") (unit 1)
+          (reference "#PWR034") (unit 1)
         )
       )
     )
   )
 
-  (symbol (lib_id "power:PWR_FLAG") (at 68.58 106.68 0) (unit 1)
+  (symbol (lib_id "power:PWR_FLAG") (at 167.64000000000001 106.68 0) (unit 1)
     (in_bom no) (on_board no)
     (uuid 0450ecc8-9173-5b5d-8fb4-010f43cdcb0d)
-    (property "Reference" "#FLG01" (id 0) (at 71.12 97.79 0)
+    (property "Reference" "#FLG01" (id 0) (at 170.18 97.79 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "PWR_FLAG" (id 1) (at 71.12 115.57000000000001 0)
+    (property "Value" "PWR_FLAG" (id 1) (at 170.18 115.57000000000001 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (id 2) (at 68.58 106.68 0)
+    (property "Footprint" "" (id 2) (at 167.64000000000001 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (id 3) (at 68.58 106.68 0)
+    (property "Datasheet" "" (id 3) (at 167.64000000000001 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 88faa978-e9c5-57c0-829b-6887ceeb0604))
@@ -6976,19 +7252,19 @@
     )
   )
 
-  (symbol (lib_id "power:PWR_FLAG") (at 101.6 106.68 0) (unit 1)
+  (symbol (lib_id "power:PWR_FLAG") (at 200.66 106.68 0) (unit 1)
     (in_bom no) (on_board no)
     (uuid 63a10167-70d4-5a2d-aefc-c81218ae6d4a)
-    (property "Reference" "#FLG02" (id 0) (at 104.14 97.79 0)
+    (property "Reference" "#FLG02" (id 0) (at 203.2 97.79 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "PWR_FLAG" (id 1) (at 104.14 115.57000000000001 0)
+    (property "Value" "PWR_FLAG" (id 1) (at 203.2 115.57000000000001 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (id 2) (at 101.6 106.68 0)
+    (property "Footprint" "" (id 2) (at 200.66 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (id 3) (at 101.6 106.68 0)
+    (property "Datasheet" "" (id 3) (at 200.66 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 593285ff-a032-5aba-a8a5-5ae18fe1d00f))
@@ -7001,19 +7277,19 @@
     )
   )
 
-  (symbol (lib_id "power:PWR_FLAG") (at 134.62 106.68 0) (unit 1)
+  (symbol (lib_id "power:PWR_FLAG") (at 233.68 106.68 0) (unit 1)
     (in_bom no) (on_board no)
     (uuid 636911bd-b818-544e-9b93-2229f7fe242a)
-    (property "Reference" "#FLG03" (id 0) (at 137.16 97.79 0)
+    (property "Reference" "#FLG03" (id 0) (at 236.22 97.79 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "PWR_FLAG" (id 1) (at 137.16 115.57000000000001 0)
+    (property "Value" "PWR_FLAG" (id 1) (at 236.22 115.57000000000001 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (id 2) (at 134.62 106.68 0)
+    (property "Footprint" "" (id 2) (at 233.68 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (id 3) (at 134.62 106.68 0)
+    (property "Datasheet" "" (id 3) (at 233.68 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 9ae3daea-5d23-562a-b0d9-9d78f89bc82a))
@@ -7026,19 +7302,19 @@
     )
   )
 
-  (symbol (lib_id "power:PWR_FLAG") (at 167.64000000000001 106.68 0) (unit 1)
+  (symbol (lib_id "power:PWR_FLAG") (at 266.7 106.68 0) (unit 1)
     (in_bom no) (on_board no)
     (uuid bff7d0af-2afc-58cf-bb06-c01b3c1e917e)
-    (property "Reference" "#FLG04" (id 0) (at 170.18 97.79 0)
+    (property "Reference" "#FLG04" (id 0) (at 269.24 97.79 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "PWR_FLAG" (id 1) (at 170.18 115.57000000000001 0)
+    (property "Value" "PWR_FLAG" (id 1) (at 269.24 115.57000000000001 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (id 2) (at 167.64000000000001 106.68 0)
+    (property "Footprint" "" (id 2) (at 266.7 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (id 3) (at 167.64000000000001 106.68 0)
+    (property "Datasheet" "" (id 3) (at 266.7 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid c90b763a-0677-5584-829a-00615c650513))
@@ -7051,19 +7327,19 @@
     )
   )
 
-  (symbol (lib_id "power:PWR_FLAG") (at 200.66 106.68 0) (unit 1)
+  (symbol (lib_id "power:PWR_FLAG") (at 299.72 106.68 0) (unit 1)
     (in_bom no) (on_board no)
     (uuid df43ec9b-5952-5a4f-9eda-570f8532588c)
-    (property "Reference" "#FLG05" (id 0) (at 203.2 97.79 0)
+    (property "Reference" "#FLG05" (id 0) (at 302.26000000000005 97.79 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "PWR_FLAG" (id 1) (at 203.2 115.57000000000001 0)
+    (property "Value" "PWR_FLAG" (id 1) (at 302.26000000000005 115.57000000000001 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (id 2) (at 200.66 106.68 0)
+    (property "Footprint" "" (id 2) (at 299.72 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (id 3) (at 200.66 106.68 0)
+    (property "Datasheet" "" (id 3) (at 299.72 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid f21af86c-3db3-5d32-9ec3-3e729cd1c4b8))
@@ -7076,44 +7352,44 @@
     )
   )
 
-  (symbol (lib_id "power:GNDA") (at 200.66 106.68 270) (unit 1)
+  (symbol (lib_id "power:GNDA") (at 299.72 106.68 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 7f4014dd-2d24-52db-9c7a-23f1547e3dc5)
-    (property "Reference" "#PWR033" (id 0) (at 200.66 111.68 0)
+    (property "Reference" "#PWR035" (id 0) (at 299.72 111.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Value" "GNDA" (id 1) (at 200.66 111.18 0)
+    (property "Value" "GNDA" (id 1) (at 299.72 111.18 0)
       (effects (font (size 1.0 1.0)) hide)
     )
-    (property "Footprint" "" (id 2) (at 200.66 106.68 0)
+    (property "Footprint" "" (id 2) (at 299.72 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (id 3) (at 200.66 106.68 0)
+    (property "Datasheet" "" (id 3) (at 299.72 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 23f5c7c8-4d5f-5c30-961b-807d0935cfb6))
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR033") (unit 1)
+          (reference "#PWR035") (unit 1)
         )
       )
     )
   )
 
-  (symbol (lib_id "power:PWR_FLAG") (at 233.68 106.68 0) (unit 1)
+  (symbol (lib_id "power:PWR_FLAG") (at 332.74 106.68 0) (unit 1)
     (in_bom no) (on_board no)
     (uuid b2087019-458e-5dde-a6c3-4c9dd124e1db)
-    (property "Reference" "#FLG06" (id 0) (at 236.22 97.79 0)
+    (property "Reference" "#FLG06" (id 0) (at 335.28000000000003 97.79 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "PWR_FLAG" (id 1) (at 236.22 115.57000000000001 0)
+    (property "Value" "PWR_FLAG" (id 1) (at 335.28000000000003 115.57000000000001 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (id 2) (at 233.68 106.68 0)
+    (property "Footprint" "" (id 2) (at 332.74 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (id 3) (at 233.68 106.68 0)
+    (property "Datasheet" "" (id 3) (at 332.74 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 2d7f86c5-3cae-5a8f-a286-ca99daaa23d5))
@@ -7126,26 +7402,26 @@
     )
   )
 
-  (symbol (lib_id "power:GNDD") (at 233.68 106.68 270) (unit 1)
+  (symbol (lib_id "power:GNDD") (at 332.74 106.68 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid b20aa6b0-0cb4-5e2e-a49b-b81d8c0006cc)
-    (property "Reference" "#PWR034" (id 0) (at 233.68 111.68 0)
+    (property "Reference" "#PWR036" (id 0) (at 332.74 111.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Value" "GNDD" (id 1) (at 233.68 111.18 0)
+    (property "Value" "GNDD" (id 1) (at 332.74 111.18 0)
       (effects (font (size 1.0 1.0)) hide)
     )
-    (property "Footprint" "" (id 2) (at 233.68 106.68 0)
+    (property "Footprint" "" (id 2) (at 332.74 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (id 3) (at 233.68 106.68 0)
+    (property "Datasheet" "" (id 3) (at 332.74 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 24883bec-2f69-5a1e-adf3-ba2391af8778))
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR034") (unit 1)
+          (reference "#PWR036") (unit 1)
         )
       )
     )
@@ -7215,7 +7491,7 @@
   (symbol (lib_id "power:GNDA") (at 58.42 139.7 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 1a91e019-75df-5511-80db-d20095f9b2cb)
-    (property "Reference" "#PWR035" (id 0) (at 58.42 144.7 0)
+    (property "Reference" "#PWR037" (id 0) (at 58.42 144.7 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 58.42 144.2 0)
@@ -7231,7 +7507,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR035") (unit 1)
+          (reference "#PWR037") (unit 1)
         )
       )
     )
@@ -7240,7 +7516,7 @@
   (symbol (lib_id "power:GNDA") (at 58.42 142.24 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 045b3b72-8013-5fd3-8366-3fcc964d0585)
-    (property "Reference" "#PWR036" (id 0) (at 58.42 147.24 0)
+    (property "Reference" "#PWR038" (id 0) (at 58.42 147.24 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 58.42 146.74 0)
@@ -7256,7 +7532,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR036") (unit 1)
+          (reference "#PWR038") (unit 1)
         )
       )
     )
@@ -7265,7 +7541,7 @@
   (symbol (lib_id "power:GNDA") (at 58.42 144.78 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 09c21ae6-119a-5c36-ac72-451683112d95)
-    (property "Reference" "#PWR037" (id 0) (at 58.42 149.78 0)
+    (property "Reference" "#PWR039" (id 0) (at 58.42 149.78 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 58.42 149.28 0)
@@ -7281,7 +7557,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR037") (unit 1)
+          (reference "#PWR039") (unit 1)
         )
       )
     )
@@ -7290,7 +7566,7 @@
   (symbol (lib_id "power:GNDA") (at 58.42 147.32 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 0caf8c24-9cfd-5b9b-a3f0-325425c57404)
-    (property "Reference" "#PWR038" (id 0) (at 58.42 152.32 0)
+    (property "Reference" "#PWR040" (id 0) (at 58.42 152.32 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 58.42 151.82 0)
@@ -7306,7 +7582,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR038") (unit 1)
+          (reference "#PWR040") (unit 1)
         )
       )
     )
@@ -7315,7 +7591,7 @@
   (symbol (lib_id "power:GNDA") (at 58.42 149.86 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 81a40ecd-7be0-5653-901f-97dc40674fb0)
-    (property "Reference" "#PWR039" (id 0) (at 58.42 154.86 0)
+    (property "Reference" "#PWR041" (id 0) (at 58.42 154.86 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 58.42 154.36 0)
@@ -7331,7 +7607,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR039") (unit 1)
+          (reference "#PWR041") (unit 1)
         )
       )
     )
@@ -7340,7 +7616,7 @@
   (symbol (lib_id "power:GNDA") (at 58.42 152.4 90) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid c6cedf35-6af7-5e8d-b4fb-f941e8b46dd0)
-    (property "Reference" "#PWR040" (id 0) (at 58.42 157.4 0)
+    (property "Reference" "#PWR042" (id 0) (at 58.42 157.4 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 58.42 156.9 0)
@@ -7356,7 +7632,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR040") (unit 1)
+          (reference "#PWR042") (unit 1)
         )
       )
     )
@@ -7365,7 +7641,7 @@
   (symbol (lib_id "power:GNDA") (at 58.42 154.94 90) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid b7376291-348c-5ffe-a1f3-2a75a42e0193)
-    (property "Reference" "#PWR041" (id 0) (at 58.42 159.94 0)
+    (property "Reference" "#PWR043" (id 0) (at 58.42 159.94 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 58.42 159.44 0)
@@ -7381,7 +7657,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR041") (unit 1)
+          (reference "#PWR043") (unit 1)
         )
       )
     )
@@ -7390,7 +7666,7 @@
   (symbol (lib_id "power:GNDA") (at 58.42 157.48 90) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 99f905ca-aec2-537c-8c5d-64337a1845a9)
-    (property "Reference" "#PWR042" (id 0) (at 58.42 162.48 0)
+    (property "Reference" "#PWR044" (id 0) (at 58.42 162.48 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 58.42 161.98 0)
@@ -7406,7 +7682,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR042") (unit 1)
+          (reference "#PWR044") (unit 1)
         )
       )
     )
@@ -7452,7 +7728,7 @@
   (symbol (lib_id "power:GNDA") (at 30.48 220.98 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid bb6b2182-7b10-5fa4-9928-c37323e24020)
-    (property "Reference" "#PWR043" (id 0) (at 30.48 225.98 0)
+    (property "Reference" "#PWR045" (id 0) (at 30.48 225.98 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 30.48 225.48 0)
@@ -7468,7 +7744,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR043") (unit 1)
+          (reference "#PWR045") (unit 1)
         )
       )
     )
@@ -7477,7 +7753,7 @@
   (symbol (lib_id "power:GNDA") (at 30.48 223.52 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 21f5c3fd-b54a-559c-9269-aca134668a00)
-    (property "Reference" "#PWR044" (id 0) (at 30.48 228.52 0)
+    (property "Reference" "#PWR046" (id 0) (at 30.48 228.52 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 30.48 228.02 0)
@@ -7493,7 +7769,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR044") (unit 1)
+          (reference "#PWR046") (unit 1)
         )
       )
     )
@@ -7502,7 +7778,7 @@
   (symbol (lib_id "power:GNDA") (at 30.48 226.06 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid ea55bdc2-5904-56b3-9674-7c230f8d1591)
-    (property "Reference" "#PWR045" (id 0) (at 30.48 231.06 0)
+    (property "Reference" "#PWR047" (id 0) (at 30.48 231.06 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 30.48 230.56 0)
@@ -7518,7 +7794,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR045") (unit 1)
+          (reference "#PWR047") (unit 1)
         )
       )
     )
@@ -7527,7 +7803,7 @@
   (symbol (lib_id "power:GNDA") (at 43.18 228.6 90) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 401fa2f7-2073-5648-9d2c-6f2576c5854e)
-    (property "Reference" "#PWR046" (id 0) (at 43.18 233.6 0)
+    (property "Reference" "#PWR048" (id 0) (at 43.18 233.6 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 43.18 233.1 0)
@@ -7543,7 +7819,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR046") (unit 1)
+          (reference "#PWR048") (unit 1)
         )
       )
     )
@@ -7578,7 +7854,7 @@
   (symbol (lib_id "power:GNDA") (at 68.58 227.33 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 2544af53-bccc-5444-bc47-1425d6f418ab)
-    (property "Reference" "#PWR047" (id 0) (at 68.58 232.33 0)
+    (property "Reference" "#PWR049" (id 0) (at 68.58 232.33 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 68.58 231.83 0)
@@ -7594,7 +7870,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR047") (unit 1)
+          (reference "#PWR049") (unit 1)
         )
       )
     )
@@ -7793,7 +8069,7 @@
   (symbol (lib_id "power:GNDA") (at 299.72 227.33 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid f78e04d9-b747-5bb8-b005-55fb3b7ce474)
-    (property "Reference" "#PWR048" (id 0) (at 299.72 232.33 0)
+    (property "Reference" "#PWR050" (id 0) (at 299.72 232.33 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 299.72 231.83 0)
@@ -7809,7 +8085,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR048") (unit 1)
+          (reference "#PWR050") (unit 1)
         )
       )
     )
@@ -7844,7 +8120,7 @@
   (symbol (lib_id "power:GNDA") (at 332.74 227.33 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid b392e4c4-fa95-56f8-91df-f8b608f88191)
-    (property "Reference" "#PWR049" (id 0) (at 332.74 232.33 0)
+    (property "Reference" "#PWR051" (id 0) (at 332.74 232.33 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 332.74 231.83 0)
@@ -7860,7 +8136,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR049") (unit 1)
+          (reference "#PWR051") (unit 1)
         )
       )
     )
@@ -8037,7 +8313,7 @@
   (symbol (lib_id "power:GNDA") (at 160.02 266.7 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 006f6205-10dd-59bd-94ea-e396639bef8a)
-    (property "Reference" "#PWR050" (id 0) (at 160.02 271.7 0)
+    (property "Reference" "#PWR052" (id 0) (at 160.02 271.7 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 160.02 271.2 0)
@@ -8053,7 +8329,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR050") (unit 1)
+          (reference "#PWR052") (unit 1)
         )
       )
     )
@@ -8088,19 +8364,48 @@
     )
   )
 
-  (symbol (lib_id "Device:R") (at 233.68 269.24 0) (unit 1)
+  (symbol (lib_id "Device:C") (at 233.68 269.24 0) (unit 1)
     (in_bom yes) (on_board yes)
-    (uuid 963437fb-88a4-51df-a3bb-e7dd37978af9)
-    (property "Reference" "R47" (id 0) (at 236.22 260.35 0)
+    (uuid 0763a403-5229-587f-b068-d4c0ddafc19a)
+    (property "Reference" "C91" (id 0) (at 236.22 260.35 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "47K" (id 1) (at 236.22 278.13 0)
+    (property "Value" "33u NP 25V" (id 1) (at 236.22 278.13 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 233.68 269.24 0)
+    (property "Footprint" "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm" (id 2) (at 233.68 269.24 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (id 3) (at 233.68 269.24 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "MPN" "Nichicon UES1E330MPM (MUSE ES)" (id 4) (at 233.68 269.24 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 49b9ee5b-4b5a-5860-8500-0929f519fa7e))
+    (pin "2" (uuid 4a1e2497-5a19-59cc-b5c8-3d36a86cdacc))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "C91") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:R") (at 266.7 269.24 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 963437fb-88a4-51df-a3bb-e7dd37978af9)
+    (property "Reference" "R47" (id 0) (at 269.24 260.35 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "47K" (id 1) (at 269.24 278.13 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 266.7 269.24 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 266.7 269.24 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 14fd73ce-0d3a-5212-8e21-e2d8f30586fb))
@@ -8114,104 +8419,129 @@
     )
   )
 
-  (symbol (lib_id "power:GNDA") (at 233.68 273.05 0) (unit 1)
+  (symbol (lib_id "power:GNDA") (at 266.7 273.05 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid c136c8a3-6d50-5f3a-9885-16e947b310c2)
-    (property "Reference" "#PWR051" (id 0) (at 233.68 278.05 0)
+    (property "Reference" "#PWR053" (id 0) (at 266.7 278.05 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Value" "GNDA" (id 1) (at 233.68 277.55 0)
+    (property "Value" "GNDA" (id 1) (at 266.7 277.55 0)
       (effects (font (size 1.0 1.0)) hide)
     )
-    (property "Footprint" "" (id 2) (at 233.68 273.05 0)
+    (property "Footprint" "" (id 2) (at 266.7 273.05 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (id 3) (at 233.68 273.05 0)
+    (property "Datasheet" "" (id 3) (at 266.7 273.05 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 21e400fc-ece5-5d39-86c2-58cf2d8eb777))
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR051") (unit 1)
+          (reference "#PWR053") (unit 1)
         )
       )
     )
   )
 
-  (symbol (lib_id "Device:C") (at 35.56 312.42 0) (unit 1)
+  (symbol (lib_id "Device:R") (at 35.56 312.42 0) (unit 1)
     (in_bom yes) (on_board yes)
-    (uuid 73b50e05-6071-520c-bb01-6490cd2216a2)
-    (property "Reference" "C39" (id 0) (at 38.1 303.53000000000003 0)
+    (uuid c5f8272a-8a3f-50a1-96d6-3021efbe0497)
+    (property "Reference" "R100" (id 0) (at 38.1 303.53000000000003 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "47n C0G" (id 1) (at 38.1 321.31 0)
+    (property "Value" "4K99 1%" (id 1) (at 38.1 321.31 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Capacitor_SMD:C_1206_3216Metric" (id 2) (at 35.56 312.42 0)
+    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 35.56 312.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (id 3) (at 35.56 312.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid db6b7f44-8731-5c21-add2-4a6dfaee31e7))
-    (pin "2" (uuid 47f83f61-f07a-5d08-b018-9b091342d59b))
+    (pin "1" (uuid 613a85dc-fc62-5b85-ad0e-195b09cc4189))
+    (pin "2" (uuid d2daa32c-e0e3-5f57-bc48-21b89c13f9d8))
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "C39") (unit 1)
+          (reference "R100") (unit 1)
         )
       )
     )
   )
 
-  (symbol (lib_id "Device:C") (at 68.58 312.42 0) (unit 1)
+  (symbol (lib_id "Device:R") (at 68.58 312.42 0) (unit 1)
     (in_bom yes) (on_board yes)
-    (uuid 3d43a3d1-5d84-570c-aa51-6f9e83cf42b5)
-    (property "Reference" "C40" (id 0) (at 71.12 303.53000000000003 0)
+    (uuid 7f2b7d27-f079-5a2c-8b88-b6bda1339009)
+    (property "Reference" "R101" (id 0) (at 71.12 303.53000000000003 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "47n C0G" (id 1) (at 71.12 321.31 0)
+    (property "Value" "2K49 1%" (id 1) (at 71.12 321.31 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Capacitor_SMD:C_1206_3216Metric" (id 2) (at 68.58 312.42 0)
+    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 68.58 312.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (id 3) (at 68.58 312.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid fdc4025a-6a14-57f5-9e0f-736deedddccb))
-    (pin "2" (uuid 2ceab3a1-a167-5eee-a08f-1cec52f6b8a0))
+    (pin "1" (uuid 44569d45-1e67-5ada-8ab7-2d64d66736a1))
+    (pin "2" (uuid b99b56b1-4889-58e3-b337-6d7ed888eb8c))
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "C40") (unit 1)
+          (reference "R101") (unit 1)
         )
       )
     )
   )
 
-  (symbol (lib_id "Device:R") (at 101.6 312.42 0) (unit 1)
+  (symbol (lib_id "Device:C") (at 101.6 312.42 0) (unit 1)
     (in_bom yes) (on_board yes)
-    (uuid 06f8b6e1-d4b7-58bc-adb5-0eb1fc1c3c69)
-    (property "Reference" "R48" (id 0) (at 104.14 303.53000000000003 0)
+    (uuid 9b0ffe04-f0a2-52d3-937a-00e8535302d4)
+    (property "Reference" "C85" (id 0) (at 104.14 303.53000000000003 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "27K" (id 1) (at 104.14 321.31 0)
+    (property "Value" "22p C0G" (id 1) (at 104.14 321.31 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 101.6 312.42 0)
+    (property "Footprint" "Capacitor_SMD:C_1206_3216Metric" (id 2) (at 101.6 312.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (id 3) (at 101.6 312.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid ceaa8b4d-97e4-5770-99ef-2da8f10af7f3))
-    (pin "2" (uuid 6a51c9ff-2106-5079-b0e5-d84cd4b56cea))
+    (pin "1" (uuid bf67b8cb-4616-59eb-a8e8-d58b43ec3e02))
+    (pin "2" (uuid 2174ff74-5d7a-55cb-b42f-b56409225d64))
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "R48") (unit 1)
+          (reference "C85") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:GNDA") (at 101.6 316.23 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid f63f1203-1b80-5ab8-ba55-004f77f77884)
+    (property "Reference" "#PWR054" (id 0) (at 101.6 321.23 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GNDA" (id 1) (at 101.6 320.73 0)
+      (effects (font (size 1.0 1.0)) hide)
+    )
+    (property "Footprint" "" (id 2) (at 101.6 316.23 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 101.6 316.23 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid e3eb9397-bf29-5511-bad5-cccd38935b77))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "#PWR054") (unit 1)
         )
       )
     )
@@ -8219,11 +8549,11 @@
 
   (symbol (lib_id "Device:R") (at 134.62 312.42 0) (unit 1)
     (in_bom yes) (on_board yes)
-    (uuid a278f75f-3d0c-5561-8200-238475a1441d)
-    (property "Reference" "R49" (id 0) (at 137.16 303.53000000000003 0)
+    (uuid ff9198f4-c10f-5a51-a14b-496b6666078a)
+    (property "Reference" "R102" (id 0) (at 137.16 303.53000000000003 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "56K" (id 1) (at 137.16 321.31 0)
+    (property "Value" "2K49 1%" (id 1) (at 137.16 321.31 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 134.62 312.42 0)
@@ -8232,58 +8562,85 @@
     (property "Datasheet" "" (id 3) (at 134.62 312.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 6f36da88-1e13-5627-9aab-2c4c5cf0f768))
-    (pin "2" (uuid c5b2b9ce-f75b-5793-acbb-e1771b2bd093))
+    (pin "1" (uuid 9469f615-15a7-508a-8f7f-a412001b6e2a))
+    (pin "2" (uuid 6f499423-d758-5208-9366-de0a5e079ba5))
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "R49") (unit 1)
+          (reference "R102") (unit 1)
         )
       )
     )
   )
 
-  (symbol (lib_id "power:GNDA") (at 134.62 316.23 0) (unit 1)
+  (symbol (lib_id "Device:R") (at 167.64000000000001 312.42 0) (unit 1)
     (in_bom yes) (on_board yes)
-    (uuid 3cd0b5bf-94ea-5bb2-8cb7-b24b551321fb)
-    (property "Reference" "#PWR052" (id 0) (at 134.62 321.23 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "GNDA" (id 1) (at 134.62 320.73 0)
-      (effects (font (size 1.0 1.0)) hide)
-    )
-    (property "Footprint" "" (id 2) (at 134.62 316.23 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (id 3) (at 134.62 316.23 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid febed3dc-51c0-5c96-92fa-70b0479ad61e))
-    (instances
-      (project "channel_strip"
-        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR052") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "Amplifier_Operational:OPA1612AxD") (at 167.64000000000001 312.42 0) (unit 1)
-    (in_bom yes) (on_board yes)
-    (uuid 94de0a28-36eb-57b2-a84a-9161c6570cda)
-    (property "Reference" "U5" (id 0) (at 170.18 303.53000000000003 0)
+    (uuid 20f6fc59-64be-51b0-8afd-a0bce7af1cfc)
+    (property "Reference" "R103" (id 0) (at 170.18 303.53000000000003 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "OPA1612" (id 1) (at 170.18 321.31 0)
+    (property "Value" "4K99 1%" (id 1) (at 170.18 321.31 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" (id 2) (at 167.64000000000001 312.42 0)
+    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 167.64000000000001 312.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (id 3) (at 167.64000000000001 312.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "MPN" "TI OPA1612AIDR" (id 4) (at 167.64000000000001 312.42 0)
+    (pin "1" (uuid bed8fe8e-0a3b-5d8d-bac7-82de0aa55cd2))
+    (pin "2" (uuid 3def5837-a054-5809-b2f0-a37ac594b599))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "R103") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:C") (at 200.66 312.42 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 583f94e7-906b-50d5-b8e5-cca29d5a10b6)
+    (property "Reference" "C86" (id 0) (at 203.2 303.53000000000003 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "10p C0G" (id 1) (at 203.2 321.31 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Capacitor_SMD:C_1206_3216Metric" (id 2) (at 200.66 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 200.66 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 98d9c3b4-e0ce-5e08-b0ba-066ee770c202))
+    (pin "2" (uuid 3c1780f7-65b1-529a-969a-f413efb71238))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "C86") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Amplifier_Operational:OPA1612AxD") (at 233.68 312.42 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 94de0a28-36eb-57b2-a84a-9161c6570cda)
+    (property "Reference" "U5" (id 0) (at 236.22 303.53000000000003 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "OPA1612" (id 1) (at 236.22 321.31 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" (id 2) (at 233.68 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 233.68 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "MPN" "TI OPA1612AIDR" (id 4) (at 233.68 312.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 3155082a-0784-58b7-8b46-83c78836cace))
@@ -8298,22 +8655,423 @@
     )
   )
 
-  (symbol (lib_id "Switch:SW_DPDT_x2") (at 200.66 312.42 0) (unit 1)
+  (symbol (lib_id "Device:R_Potentiometer_Dual") (at 266.7 312.42 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid dedd75c1-b9bf-5d40-a68d-0a5cb35783a7)
+    (property "Reference" "RV16" (id 0) (at 269.24 303.53000000000003 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "HPF freq 10K A dual" (id 1) (at 269.24 321.31 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical" (id 2) (at 266.7 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 266.7 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "MPN" "Alpha RD902F-40-15R1-A10K (dual, log)" (id 4) (at 266.7 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 865191a1-c9c9-578e-af6e-01b21c4fcd56))
+    (pin "2" (uuid 9503ffb9-87ec-5665-8840-0a6cfddf2759))
+    (pin "3" (uuid e43a3248-85fc-56e2-ab95-9d77b2b6537d))
+    (pin "4" (uuid 8ec5f9de-fcbb-5c17-a251-52884cdf21ff))
+    (pin "5" (uuid ae7377dc-dc37-58b7-83ff-b795b8b58757))
+    (pin "6" (uuid bb10df08-9460-5a33-8932-fe4867fada76))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "RV16") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:R") (at 299.72 312.42 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 5eff7c63-bc24-555e-8d1e-a8e50d5d286f)
+    (property "Reference" "R104" (id 0) (at 302.26000000000005 303.53000000000003 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "330R 1%" (id 1) (at 302.26000000000005 321.31 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 299.72 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 299.72 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid abb782be-996f-5329-9ab7-29be0e8a24cb))
+    (pin "2" (uuid 925c5359-7d33-5be8-be44-1ebf5a8a63f6))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "R104") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:GNDA") (at 299.72 316.23 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid fd498c52-04a8-5cce-b089-3fb644fd956a)
+    (property "Reference" "#PWR055" (id 0) (at 299.72 321.23 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GNDA" (id 1) (at 299.72 320.73 0)
+      (effects (font (size 1.0 1.0)) hide)
+    )
+    (property "Footprint" "" (id 2) (at 299.72 316.23 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 299.72 316.23 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 3f92187c-8f07-5b80-b000-15ec508197e4))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "#PWR055") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:R") (at 332.74 312.42 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid fd99b01f-d840-5c6d-bbed-2db478f6c6b9)
+    (property "Reference" "R107" (id 0) (at 335.28000000000003 303.53000000000003 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "330R 1%" (id 1) (at 335.28000000000003 321.31 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 332.74 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 332.74 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 069eb56b-cc1a-56af-94fc-fa11bb9590c0))
+    (pin "2" (uuid bb2de54e-0070-57f3-8be0-8b7cb0895b5d))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "R107") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:GNDA") (at 332.74 316.23 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 29765365-0128-55f7-b858-caf74a99c99d)
+    (property "Reference" "#PWR056" (id 0) (at 332.74 321.23 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GNDA" (id 1) (at 332.74 320.73 0)
+      (effects (font (size 1.0 1.0)) hide)
+    )
+    (property "Footprint" "" (id 2) (at 332.74 316.23 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 332.74 316.23 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 94fb215d-6e9d-52ef-a8f2-bdd16f4defef))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "#PWR056") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:R") (at 365.76 312.42 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 694293eb-1038-54aa-aecb-4588e8d7c1f3)
+    (property "Reference" "R105" (id 0) (at 368.3 303.53000000000003 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "13K 1%" (id 1) (at 368.3 321.31 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 365.76 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 365.76 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 3fac67b7-4d9f-5dca-9f93-0170fa6151f5))
+    (pin "2" (uuid 85edb2b3-1464-5dee-98ac-ed7c6cf04aed))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "R105") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:R") (at 398.78000000000003 312.42 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 2d445d6f-2b87-5ed1-baa2-a390cb3597e7)
+    (property "Reference" "R108" (id 0) (at 401.32000000000005 303.53000000000003 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "13K 1%" (id 1) (at 401.32000000000005 321.31 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 398.78000000000003 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 398.78000000000003 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 6ebff57b-0736-5b38-ac99-56c6e0981fb9))
+    (pin "2" (uuid bdbfc01b-85f6-58ef-ab48-a1eb3fc5e47c))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "R108") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:R") (at 431.8 312.42 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 881c97b1-b5be-571a-a26c-a26d682a8034)
+    (property "Reference" "R106" (id 0) (at 434.34000000000003 303.53000000000003 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "5K6 1%" (id 1) (at 434.34000000000003 321.31 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 431.8 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 431.8 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 30ebe7fc-c0f5-5fd1-85ac-f45f87dead90))
+    (pin "2" (uuid b75f9fac-d325-5a56-9083-eda254a85a4e))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "R106") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:R") (at 464.82 312.42 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid e664b277-55e2-5eaf-9696-0f02db7f18d5)
+    (property "Reference" "R109" (id 0) (at 467.36 303.53000000000003 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "5K6 1%" (id 1) (at 467.36 321.31 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (id 2) (at 464.82 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 464.82 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid d431add2-be51-53a1-8511-89f618f67311))
+    (pin "2" (uuid 92b24623-92a3-5ddf-92d0-8d29538a5bdc))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "R109") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:C") (at 497.84000000000003 312.42 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 0ff51d61-8839-59b1-bf2d-256b565a3bfc)
+    (property "Reference" "C87" (id 0) (at 500.38000000000005 303.53000000000003 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "100n C0G" (id 1) (at 500.38000000000005 321.31 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Capacitor_SMD:C_1206_3216Metric" (id 2) (at 497.84000000000003 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 497.84000000000003 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 42482a69-a852-55ef-87eb-0e3363dbb4d4))
+    (pin "2" (uuid a3aef9fb-bba5-513c-8bce-63f3f3038249))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "C87") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:C") (at 530.86 312.42 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 67483b68-48e5-58a3-b755-82282f29f253)
+    (property "Reference" "C88" (id 0) (at 533.4 303.53000000000003 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "100n C0G" (id 1) (at 533.4 321.31 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Capacitor_SMD:C_1206_3216Metric" (id 2) (at 530.86 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 530.86 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid f3613de2-9005-56c9-85ff-7d3fea0a971f))
+    (pin "2" (uuid 7cee91eb-67a3-5388-9dd7-5f9aea19e4b6))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "C88") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Amplifier_Operational:OPA1612AxD") (at 563.88 312.42 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid d981a65c-03a4-5d43-8da0-24a7d8cb03e9)
+    (property "Reference" "U15" (id 0) (at 566.42 303.53000000000003 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "OPA1612" (id 1) (at 566.42 321.31 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" (id 2) (at 563.88 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 563.88 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "MPN" "TI OPA1612AIDR" (id 4) (at 563.88 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 891d9bff-d8d1-5368-b329-fbad6c97a68f))
+    (pin "2" (uuid 89eadc7a-b8fe-5f0e-a167-66d8aaa4dfdf))
+    (pin "3" (uuid 5cdb8356-b458-5c64-9739-5bceb4180b01))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "U15") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:GNDA") (at 556.26 309.88 270) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 1c06e510-33dd-5f7f-8b2f-ae360651381b)
+    (property "Reference" "#PWR057" (id 0) (at 556.26 314.88 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GNDA" (id 1) (at 556.26 314.38 0)
+      (effects (font (size 1.0 1.0)) hide)
+    )
+    (property "Footprint" "" (id 2) (at 556.26 309.88 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 556.26 309.88 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid fb899cd8-08dc-5d59-a608-5750805881c1))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "#PWR057") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Amplifier_Operational:OPA1612AxD") (at 596.9 312.42 0) (unit 2)
+    (in_bom yes) (on_board yes)
+    (uuid f2dfef28-6021-56c3-860e-0a4a77e125a4)
+    (property "Reference" "U15" (id 0) (at 599.4399999999999 303.53000000000003 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "OPA1612" (id 1) (at 599.4399999999999 321.31 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" (id 2) (at 596.9 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 596.9 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "MPN" "TI OPA1612AIDR" (id 4) (at 596.9 312.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "5" (uuid 66dca381-1b27-5737-9155-755ccedff545))
+    (pin "6" (uuid 5a77e86f-d902-5350-ae7d-c5f2ef86f868))
+    (pin "7" (uuid 50b7f3a8-fda2-5bfd-9d09-7dd3124662af))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "U15") (unit 2)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:GNDA") (at 589.28 309.88 270) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 1c8be454-a17a-5473-93ed-2fa2e4acb17e)
+    (property "Reference" "#PWR058" (id 0) (at 589.28 314.88 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GNDA" (id 1) (at 589.28 314.38 0)
+      (effects (font (size 1.0 1.0)) hide)
+    )
+    (property "Footprint" "" (id 2) (at 589.28 309.88 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 589.28 309.88 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 7f79f03a-8373-5314-8859-9cfc85732c87))
+    (instances
+      (project "channel_strip"
+        (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
+          (reference "#PWR058") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Switch:SW_DPDT_x2") (at 629.92 312.42 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 5e19d4e9-71f8-5cf0-804d-51eaecb0d521)
-    (property "Reference" "SW11" (id 0) (at 203.2 303.53000000000003 0)
+    (property "Reference" "SW11" (id 0) (at 632.4599999999999 303.53000000000003 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "HPF" (id 1) (at 203.2 321.31 0)
+    (property "Value" "HPF" (id 1) (at 632.4599999999999 321.31 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2" (id 2) (at 200.66 312.42 0)
+    (property "Footprint" "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2" (id 2) (at 629.92 312.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (id 3) (at 200.66 312.42 0)
+    (property "Datasheet" "" (id 3) (at 629.92 312.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "MPN" "C&K PVA2 EE H1 1.7N V2" (id 4) (at 200.66 312.42 0)
+    (property "MPN" "C&K PVA2 EE H1 1.7N V2" (id 4) (at 629.92 312.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid b7effc1a-5932-5a07-a43e-475184fb0006))
@@ -8328,22 +9086,22 @@
     )
   )
 
-  (symbol (lib_id "Switch:SW_DPDT_x2") (at 233.68 312.42 0) (unit 2)
+  (symbol (lib_id "Switch:SW_DPDT_x2") (at 662.94 312.42 0) (unit 2)
     (in_bom yes) (on_board yes)
     (uuid 0e3ef3c5-f09b-5f67-b33a-71c165b00b5d)
-    (property "Reference" "SW11" (id 0) (at 236.22 303.53000000000003 0)
+    (property "Reference" "SW11" (id 0) (at 665.48 303.53000000000003 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "HPF" (id 1) (at 236.22 321.31 0)
+    (property "Value" "HPF" (id 1) (at 665.48 321.31 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2" (id 2) (at 233.68 312.42 0)
+    (property "Footprint" "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2" (id 2) (at 662.94 312.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (id 3) (at 233.68 312.42 0)
+    (property "Datasheet" "" (id 3) (at 662.94 312.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "MPN" "C&K PVA2 EE H1 1.7N V2" (id 4) (at 233.68 312.42 0)
+    (property "MPN" "C&K PVA2 EE H1 1.7N V2" (id 4) (at 662.94 312.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "4" (uuid 1e0e12ab-5cc0-51ca-beda-f0177931fb0b))
@@ -8550,7 +9308,7 @@
   (symbol (lib_id "power:GNDA") (at 127.0 398.78 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 33beee50-082f-58e3-984b-a6e0ff90adab)
-    (property "Reference" "#PWR053" (id 0) (at 127.0 403.78 0)
+    (property "Reference" "#PWR059" (id 0) (at 127.0 403.78 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 127.0 403.28 0)
@@ -8566,7 +9324,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR053") (unit 1)
+          (reference "#PWR059") (unit 1)
         )
       )
     )
@@ -8657,7 +9415,7 @@
   (symbol (lib_id "power:GNDA") (at 233.68 405.13 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 9028ef03-61c2-594e-b314-002741dad132)
-    (property "Reference" "#PWR054" (id 0) (at 233.68 410.13 0)
+    (property "Reference" "#PWR060" (id 0) (at 233.68 410.13 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 233.68 409.63 0)
@@ -8673,7 +9431,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR054") (unit 1)
+          (reference "#PWR060") (unit 1)
         )
       )
     )
@@ -9192,7 +9950,7 @@
   (symbol (lib_id "power:GNDA") (at 167.64 448.31 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid e8565178-2334-587a-ac9d-faf45c43c0e9)
-    (property "Reference" "#PWR055" (id 0) (at 167.64 453.31 0)
+    (property "Reference" "#PWR061" (id 0) (at 167.64 453.31 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 167.64 452.81 0)
@@ -9208,7 +9966,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR055") (unit 1)
+          (reference "#PWR061") (unit 1)
         )
       )
     )
@@ -9269,7 +10027,7 @@
   (symbol (lib_id "power:GNDA") (at 233.68 448.31 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 9755d172-d3d8-5277-9a99-e8d9728cbc93)
-    (property "Reference" "#PWR056" (id 0) (at 233.68 453.31 0)
+    (property "Reference" "#PWR062" (id 0) (at 233.68 453.31 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 233.68 452.81 0)
@@ -9285,7 +10043,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR056") (unit 1)
+          (reference "#PWR062") (unit 1)
         )
       )
     )
@@ -9383,7 +10141,7 @@
   (symbol (lib_id "power:GNDA") (at 332.74 448.31 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid b9becac9-a278-5ad5-b29e-8dc7fba060ff)
-    (property "Reference" "#PWR057" (id 0) (at 332.74 453.31 0)
+    (property "Reference" "#PWR063" (id 0) (at 332.74 453.31 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 332.74 452.81 0)
@@ -9399,7 +10157,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR057") (unit 1)
+          (reference "#PWR063") (unit 1)
         )
       )
     )
@@ -9434,7 +10192,7 @@
   (symbol (lib_id "power:GNDA") (at 365.76 448.31 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid ac8303cf-bb8e-5500-bf0b-03cb0a07f271)
-    (property "Reference" "#PWR058" (id 0) (at 365.76 453.31 0)
+    (property "Reference" "#PWR064" (id 0) (at 365.76 453.31 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 365.76 452.81 0)
@@ -9450,7 +10208,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR058") (unit 1)
+          (reference "#PWR064") (unit 1)
         )
       )
     )
@@ -9645,7 +10403,7 @@
   (symbol (lib_id "power:GNDA") (at 589.28 441.96 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 04375a7b-05bf-512b-8d8d-31c8f920eb27)
-    (property "Reference" "#PWR059" (id 0) (at 589.28 446.96 0)
+    (property "Reference" "#PWR065" (id 0) (at 589.28 446.96 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 589.28 446.46 0)
@@ -9661,7 +10419,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR059") (unit 1)
+          (reference "#PWR065") (unit 1)
         )
       )
     )
@@ -9700,7 +10458,7 @@
   (symbol (lib_id "power:GNDA") (at 622.3 441.96 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid e2a4f709-39bc-5ae5-a6f6-824b372600e5)
-    (property "Reference" "#PWR060" (id 0) (at 622.3 446.96 0)
+    (property "Reference" "#PWR066" (id 0) (at 622.3 446.96 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 622.3 446.46 0)
@@ -9716,7 +10474,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR060") (unit 1)
+          (reference "#PWR066") (unit 1)
         )
       )
     )
@@ -9855,7 +10613,7 @@
   (symbol (lib_id "power:GNDA") (at 68.58 476.25 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 2d90e8ff-c7cd-51bd-9552-3974cb9443a8)
-    (property "Reference" "#PWR061" (id 0) (at 68.58 481.25 0)
+    (property "Reference" "#PWR067" (id 0) (at 68.58 481.25 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 68.58 480.75 0)
@@ -9871,7 +10629,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR061") (unit 1)
+          (reference "#PWR067") (unit 1)
         )
       )
     )
@@ -9932,7 +10690,7 @@
   (symbol (lib_id "power:GNDA") (at 134.62 476.25 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 700816ce-2e0b-541d-bcec-793818180ee5)
-    (property "Reference" "#PWR062" (id 0) (at 134.62 481.25 0)
+    (property "Reference" "#PWR068" (id 0) (at 134.62 481.25 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 134.62 480.75 0)
@@ -9948,7 +10706,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR062") (unit 1)
+          (reference "#PWR068") (unit 1)
         )
       )
     )
@@ -10046,7 +10804,7 @@
   (symbol (lib_id "power:GNDA") (at 233.68 476.25 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 94b05584-fdb3-5fa4-88b6-69ce5bdae557)
-    (property "Reference" "#PWR063" (id 0) (at 233.68 481.25 0)
+    (property "Reference" "#PWR069" (id 0) (at 233.68 481.25 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 233.68 480.75 0)
@@ -10062,7 +10820,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR063") (unit 1)
+          (reference "#PWR069") (unit 1)
         )
       )
     )
@@ -10097,7 +10855,7 @@
   (symbol (lib_id "power:GNDA") (at 266.7 476.25 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid d6a75dda-c241-5354-a93f-a234bfffd785)
-    (property "Reference" "#PWR064" (id 0) (at 266.7 481.25 0)
+    (property "Reference" "#PWR070" (id 0) (at 266.7 481.25 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 266.7 480.75 0)
@@ -10113,7 +10871,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR064") (unit 1)
+          (reference "#PWR070") (unit 1)
         )
       )
     )
@@ -10308,7 +11066,7 @@
   (symbol (lib_id "power:GNDA") (at 490.22 469.9 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 8456ba6f-9ce8-5f59-905e-d452927b6a4e)
-    (property "Reference" "#PWR065" (id 0) (at 490.22 474.9 0)
+    (property "Reference" "#PWR071" (id 0) (at 490.22 474.9 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 490.22 474.4 0)
@@ -10324,7 +11082,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR065") (unit 1)
+          (reference "#PWR071") (unit 1)
         )
       )
     )
@@ -10363,7 +11121,7 @@
   (symbol (lib_id "power:GNDA") (at 523.24 469.9 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 9a05f22c-fa97-532b-824e-bb2c8e97b6a2)
-    (property "Reference" "#PWR066" (id 0) (at 523.24 474.9 0)
+    (property "Reference" "#PWR072" (id 0) (at 523.24 474.9 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 523.24 474.4 0)
@@ -10379,7 +11137,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR066") (unit 1)
+          (reference "#PWR072") (unit 1)
         )
       )
     )
@@ -10685,7 +11443,7 @@
   (symbol (lib_id "power:GNDA") (at 167.64 504.19 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 50502947-848c-5e07-b199-937f058624c7)
-    (property "Reference" "#PWR067" (id 0) (at 167.64 509.19 0)
+    (property "Reference" "#PWR073" (id 0) (at 167.64 509.19 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 167.64 508.69 0)
@@ -10701,7 +11459,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR067") (unit 1)
+          (reference "#PWR073") (unit 1)
         )
       )
     )
@@ -10736,7 +11494,7 @@
   (symbol (lib_id "power:GNDA") (at 200.66 504.19 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid fc0afced-8323-581e-a15a-4e091ee98003)
-    (property "Reference" "#PWR068" (id 0) (at 200.66 509.19 0)
+    (property "Reference" "#PWR074" (id 0) (at 200.66 509.19 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 200.66 508.69 0)
@@ -10752,7 +11510,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR068") (unit 1)
+          (reference "#PWR074") (unit 1)
         )
       )
     )
@@ -10876,7 +11634,7 @@
   (symbol (lib_id "power:GNDD") (at 130.81 543.56 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 244fcc38-f7c8-5ff9-beff-b34429e02008)
-    (property "Reference" "#PWR069" (id 0) (at 130.81 548.56 0)
+    (property "Reference" "#PWR075" (id 0) (at 130.81 548.56 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 130.81 548.06 0)
@@ -10892,7 +11650,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR069") (unit 1)
+          (reference "#PWR075") (unit 1)
         )
       )
     )
@@ -10956,7 +11714,7 @@
   (symbol (lib_id "power:GNDA") (at 200.66 547.37 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 931b5026-08d8-58d8-a6f5-65c70bc34a7d)
-    (property "Reference" "#PWR070" (id 0) (at 200.66 552.37 0)
+    (property "Reference" "#PWR076" (id 0) (at 200.66 552.37 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 200.66 551.87 0)
@@ -10972,7 +11730,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR070") (unit 1)
+          (reference "#PWR076") (unit 1)
         )
       )
     )
@@ -11065,7 +11823,7 @@
   (symbol (lib_id "power:GNDA") (at 101.6 593.09 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 56847ae9-7aa3-513e-be13-50f20cfedc05)
-    (property "Reference" "#PWR071" (id 0) (at 101.6 598.09 0)
+    (property "Reference" "#PWR077" (id 0) (at 101.6 598.09 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 101.6 597.59 0)
@@ -11081,7 +11839,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR071") (unit 1)
+          (reference "#PWR077") (unit 1)
         )
       )
     )
@@ -11142,7 +11900,7 @@
   (symbol (lib_id "power:GNDA") (at 167.64 593.09 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 95e0672f-0c74-527c-b52c-9179754d1c70)
-    (property "Reference" "#PWR072" (id 0) (at 167.64 598.09 0)
+    (property "Reference" "#PWR078" (id 0) (at 167.64 598.09 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 167.64 597.59 0)
@@ -11158,7 +11916,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR072") (unit 1)
+          (reference "#PWR078") (unit 1)
         )
       )
     )
@@ -11252,7 +12010,7 @@
   (symbol (lib_id "power:GNDA") (at 266.7 593.09 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 54bf702b-1ea9-5faa-a800-e34d501c2679)
-    (property "Reference" "#PWR073" (id 0) (at 266.7 598.09 0)
+    (property "Reference" "#PWR079" (id 0) (at 266.7 598.09 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 266.7 597.59 0)
@@ -11268,7 +12026,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR073") (unit 1)
+          (reference "#PWR079") (unit 1)
         )
       )
     )
@@ -11358,7 +12116,7 @@
   (symbol (lib_id "power:GNDA") (at 101.6 636.27 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 3a3668a9-a447-5f54-a753-765494d3ff67)
-    (property "Reference" "#PWR074" (id 0) (at 101.6 641.27 0)
+    (property "Reference" "#PWR080" (id 0) (at 101.6 641.27 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 101.6 640.77 0)
@@ -11374,7 +12132,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR074") (unit 1)
+          (reference "#PWR080") (unit 1)
         )
       )
     )
@@ -11409,7 +12167,7 @@
   (symbol (lib_id "power:GNDA") (at 134.62 636.27 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 6bf21f70-2557-5c60-a69e-258ac5358ee1)
-    (property "Reference" "#PWR075" (id 0) (at 134.62 641.27 0)
+    (property "Reference" "#PWR081" (id 0) (at 134.62 641.27 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 134.62 640.77 0)
@@ -11425,7 +12183,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR075") (unit 1)
+          (reference "#PWR081") (unit 1)
         )
       )
     )
@@ -11486,7 +12244,7 @@
   (symbol (lib_id "power:GNDA") (at 200.66 636.27 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 8947d37d-4aca-5a48-a22d-2ab4ed97c0b1)
-    (property "Reference" "#PWR076" (id 0) (at 200.66 641.27 0)
+    (property "Reference" "#PWR082" (id 0) (at 200.66 641.27 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 200.66 640.77 0)
@@ -11502,7 +12260,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR076") (unit 1)
+          (reference "#PWR082") (unit 1)
         )
       )
     )
@@ -11626,7 +12384,7 @@
   (symbol (lib_id "power:GNDD") (at 325.12 629.92 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 8bc0c2ad-85fe-57f6-9399-61e74cad5234)
-    (property "Reference" "#PWR077" (id 0) (at 325.12 634.92 0)
+    (property "Reference" "#PWR083" (id 0) (at 325.12 634.92 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 325.12 634.42 0)
@@ -11642,7 +12400,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR077") (unit 1)
+          (reference "#PWR083") (unit 1)
         )
       )
     )
@@ -11707,7 +12465,7 @@
   (symbol (lib_id "power:GNDA") (at 73.66 678.18 90) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 0a9d7a55-d3bf-5e87-9595-b8fc22761b36)
-    (property "Reference" "#PWR078" (id 0) (at 73.66 683.18 0)
+    (property "Reference" "#PWR084" (id 0) (at 73.66 683.18 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 73.66 682.68 0)
@@ -11723,7 +12481,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR078") (unit 1)
+          (reference "#PWR084") (unit 1)
         )
       )
     )
@@ -11843,7 +12601,7 @@
   (symbol (lib_id "power:GNDD") (at 196.85 675.64 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 557abf4a-8a32-5009-bf00-210cb5d03e14)
-    (property "Reference" "#PWR079" (id 0) (at 196.85 680.64 0)
+    (property "Reference" "#PWR085" (id 0) (at 196.85 680.64 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 196.85 680.14 0)
@@ -11859,7 +12617,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR079") (unit 1)
+          (reference "#PWR085") (unit 1)
         )
       )
     )
@@ -11924,7 +12682,7 @@
   (symbol (lib_id "power:GNDA") (at 71.12 723.9 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 51cf61a4-8288-5f70-ad7b-c374ca8dcd7d)
-    (property "Reference" "#PWR080" (id 0) (at 71.12 728.9 0)
+    (property "Reference" "#PWR086" (id 0) (at 71.12 728.9 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 71.12 728.4 0)
@@ -11940,7 +12698,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR080") (unit 1)
+          (reference "#PWR086") (unit 1)
         )
       )
     )
@@ -12005,7 +12763,7 @@
   (symbol (lib_id "power:GNDA") (at 137.16 723.9 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 46f78f57-2f43-57f7-bb5e-553fd90c5d2a)
-    (property "Reference" "#PWR081" (id 0) (at 137.16 728.9 0)
+    (property "Reference" "#PWR087" (id 0) (at 137.16 728.9 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 137.16 728.4 0)
@@ -12021,7 +12779,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR081") (unit 1)
+          (reference "#PWR087") (unit 1)
         )
       )
     )
@@ -12086,7 +12844,7 @@
   (symbol (lib_id "power:GNDA") (at 200.66 722.63 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid d96f5cd5-a5ca-546d-aeda-fa5eb19ed81a)
-    (property "Reference" "#PWR082" (id 0) (at 200.66 727.63 0)
+    (property "Reference" "#PWR088" (id 0) (at 200.66 727.63 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 200.66 727.13 0)
@@ -12102,7 +12860,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR082") (unit 1)
+          (reference "#PWR088") (unit 1)
         )
       )
     )
@@ -12141,7 +12899,7 @@
   (symbol (lib_id "power:GNDD") (at 238.76 721.36 90) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 08f0784a-adfa-5a42-92f0-0b33ac0afd66)
-    (property "Reference" "#PWR083" (id 0) (at 238.76 726.36 0)
+    (property "Reference" "#PWR089" (id 0) (at 238.76 726.36 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 238.76 725.86 0)
@@ -12157,7 +12915,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR083") (unit 1)
+          (reference "#PWR089") (unit 1)
         )
       )
     )
@@ -12221,7 +12979,7 @@
   (symbol (lib_id "power:GNDA") (at 299.72 722.63 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 8a22f385-8bc7-5df0-8990-3374da8a7b72)
-    (property "Reference" "#PWR084" (id 0) (at 299.72 727.63 0)
+    (property "Reference" "#PWR090" (id 0) (at 299.72 727.63 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 299.72 727.13 0)
@@ -12237,7 +12995,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR084") (unit 1)
+          (reference "#PWR090") (unit 1)
         )
       )
     )
@@ -12331,7 +13089,7 @@
   (symbol (lib_id "power:GNDD") (at 394.97 718.82 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 026ff478-8926-53e8-bd35-3470dfe353df)
-    (property "Reference" "#PWR085" (id 0) (at 394.97 723.82 0)
+    (property "Reference" "#PWR091" (id 0) (at 394.97 723.82 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 394.97 723.32 0)
@@ -12347,7 +13105,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR085") (unit 1)
+          (reference "#PWR091") (unit 1)
         )
       )
     )
@@ -12386,7 +13144,7 @@
   (symbol (lib_id "power:GNDA") (at 35.56 760.73 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid bbd1cc88-01a8-5ea3-803f-fbdb9c5920b3)
-    (property "Reference" "#PWR086" (id 0) (at 35.56 765.73 0)
+    (property "Reference" "#PWR092" (id 0) (at 35.56 765.73 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 35.56 765.23 0)
@@ -12402,7 +13160,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR086") (unit 1)
+          (reference "#PWR092") (unit 1)
         )
       )
     )
@@ -12492,7 +13250,7 @@
   (symbol (lib_id "power:GNDA") (at 134.62 768.35 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 387d2c98-4b5e-5abe-af4c-6206b3cbd642)
-    (property "Reference" "#PWR087" (id 0) (at 134.62 773.35 0)
+    (property "Reference" "#PWR093" (id 0) (at 134.62 773.35 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 134.62 772.85 0)
@@ -12508,7 +13266,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR087") (unit 1)
+          (reference "#PWR093") (unit 1)
         )
       )
     )
@@ -12547,7 +13305,7 @@
   (symbol (lib_id "power:GNDA") (at 162.56 769.62 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid cfe65c51-1c7a-5bbd-9fc9-297fa8456dc4)
-    (property "Reference" "#PWR088" (id 0) (at 162.56 774.62 0)
+    (property "Reference" "#PWR094" (id 0) (at 162.56 774.62 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 162.56 774.12 0)
@@ -12563,7 +13321,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR088") (unit 1)
+          (reference "#PWR094") (unit 1)
         )
       )
     )
@@ -12598,7 +13356,7 @@
   (symbol (lib_id "power:GNDA") (at 195.58 767.08 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 6229895e-1757-5bb7-9358-710d0011cc42)
-    (property "Reference" "#PWR089" (id 0) (at 195.58 772.08 0)
+    (property "Reference" "#PWR095" (id 0) (at 195.58 772.08 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 195.58 771.58 0)
@@ -12614,7 +13372,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR089") (unit 1)
+          (reference "#PWR095") (unit 1)
         )
       )
     )
@@ -12649,7 +13407,7 @@
   (symbol (lib_id "power:GNDA") (at 233.68 768.35 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 0cea2385-55dc-551a-867b-59e4fe36637d)
-    (property "Reference" "#PWR090" (id 0) (at 233.68 773.35 0)
+    (property "Reference" "#PWR096" (id 0) (at 233.68 773.35 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 233.68 772.85 0)
@@ -12665,7 +13423,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR090") (unit 1)
+          (reference "#PWR096") (unit 1)
         )
       )
     )
@@ -12730,7 +13488,7 @@
   (symbol (lib_id "power:GNDA") (at 299.72 768.35 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 6d9eb0dd-b7d4-5848-91d4-607ef3b1657e)
-    (property "Reference" "#PWR091" (id 0) (at 299.72 773.35 0)
+    (property "Reference" "#PWR097" (id 0) (at 299.72 773.35 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 299.72 772.85 0)
@@ -12746,7 +13504,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR091") (unit 1)
+          (reference "#PWR097") (unit 1)
         )
       )
     )
@@ -12833,7 +13591,7 @@
   (symbol (lib_id "power:GNDA") (at 398.78 768.35 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 2ebc2c63-be20-5776-b160-eca79c5a5814)
-    (property "Reference" "#PWR092" (id 0) (at 398.78 773.35 0)
+    (property "Reference" "#PWR098" (id 0) (at 398.78 773.35 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 398.78 772.85 0)
@@ -12849,7 +13607,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR092") (unit 1)
+          (reference "#PWR098") (unit 1)
         )
       )
     )
@@ -12913,7 +13671,7 @@
   (symbol (lib_id "power:GNDA") (at 464.82 768.35 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid cd12f600-d668-5e54-8820-d5ed03411941)
-    (property "Reference" "#PWR093" (id 0) (at 464.82 773.35 0)
+    (property "Reference" "#PWR099" (id 0) (at 464.82 773.35 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 464.82 772.85 0)
@@ -12929,7 +13687,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR093") (unit 1)
+          (reference "#PWR099") (unit 1)
         )
       )
     )
@@ -13229,7 +13987,7 @@
   (symbol (lib_id "power:GNDA") (at 332.74 803.91 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid ad2d2ac2-1ed9-532c-8656-0d7e740c9882)
-    (property "Reference" "#PWR094" (id 0) (at 332.74 808.91 0)
+    (property "Reference" "#PWR100" (id 0) (at 332.74 808.91 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 332.74 808.41 0)
@@ -13245,7 +14003,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR094") (unit 1)
+          (reference "#PWR100") (unit 1)
         )
       )
     )
@@ -13310,7 +14068,7 @@
   (symbol (lib_id "power:GNDA") (at 398.78 803.91 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 0954e69f-34c7-56fd-a173-81c347bf2bfd)
-    (property "Reference" "#PWR095" (id 0) (at 398.78 808.91 0)
+    (property "Reference" "#PWR101" (id 0) (at 398.78 808.91 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 398.78 808.41 0)
@@ -13326,7 +14084,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR095") (unit 1)
+          (reference "#PWR101") (unit 1)
         )
       )
     )
@@ -13391,7 +14149,7 @@
   (symbol (lib_id "power:GNDA") (at 464.82 803.91 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid db9e8ce1-ab01-58d5-b918-3fd690c08484)
-    (property "Reference" "#PWR096" (id 0) (at 464.82 808.91 0)
+    (property "Reference" "#PWR102" (id 0) (at 464.82 808.91 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 464.82 808.41 0)
@@ -13407,7 +14165,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR096") (unit 1)
+          (reference "#PWR102") (unit 1)
         )
       )
     )
@@ -13472,7 +14230,7 @@
   (symbol (lib_id "power:GNDA") (at 530.86 803.91 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid fdeac80c-bb03-5bad-b202-cce4e1c54d1a)
-    (property "Reference" "#PWR097" (id 0) (at 530.86 808.91 0)
+    (property "Reference" "#PWR103" (id 0) (at 530.86 808.91 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 530.86 808.41 0)
@@ -13488,7 +14246,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR097") (unit 1)
+          (reference "#PWR103") (unit 1)
         )
       )
     )
@@ -13553,7 +14311,7 @@
   (symbol (lib_id "power:GNDA") (at 596.9 803.91 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid eddc68aa-47b8-5372-b20c-79772ce9021d)
-    (property "Reference" "#PWR098" (id 0) (at 596.9 808.91 0)
+    (property "Reference" "#PWR104" (id 0) (at 596.9 808.91 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 596.9 808.41 0)
@@ -13569,7 +14327,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR098") (unit 1)
+          (reference "#PWR104") (unit 1)
         )
       )
     )
@@ -13634,7 +14392,7 @@
   (symbol (lib_id "power:GNDA") (at 662.94 803.91 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid a15a6b44-8039-5190-829d-fc5b2ac96309)
-    (property "Reference" "#PWR099" (id 0) (at 662.94 808.91 0)
+    (property "Reference" "#PWR105" (id 0) (at 662.94 808.91 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 662.94 808.41 0)
@@ -13650,7 +14408,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR099") (unit 1)
+          (reference "#PWR105") (unit 1)
         )
       )
     )
@@ -13745,7 +14503,7 @@
   (symbol (lib_id "power:GNDA") (at 40.64 833.12 90) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 7ff7fcc5-31e0-5e0f-925a-16a19c238809)
-    (property "Reference" "#PWR100" (id 0) (at 40.64 838.12 0)
+    (property "Reference" "#PWR106" (id 0) (at 40.64 838.12 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 40.64 837.62 0)
@@ -13761,7 +14519,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR100") (unit 1)
+          (reference "#PWR106") (unit 1)
         )
       )
     )
@@ -13796,7 +14554,7 @@
   (symbol (lib_id "power:GNDA") (at 35.56 882.65 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 0594dc24-5d6a-5dc1-ab3b-da96b6d7c7f0)
-    (property "Reference" "#PWR101" (id 0) (at 35.56 887.65 0)
+    (property "Reference" "#PWR107" (id 0) (at 35.56 887.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 35.56 887.15 0)
@@ -13812,7 +14570,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR101") (unit 1)
+          (reference "#PWR107") (unit 1)
         )
       )
     )
@@ -13877,7 +14635,7 @@
   (symbol (lib_id "power:GNDA") (at 101.6 882.65 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid d402f953-6e9a-5991-ae50-46cf8131c042)
-    (property "Reference" "#PWR102" (id 0) (at 101.6 887.65 0)
+    (property "Reference" "#PWR108" (id 0) (at 101.6 887.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 101.6 887.15 0)
@@ -13893,7 +14651,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR102") (unit 1)
+          (reference "#PWR108") (unit 1)
         )
       )
     )
@@ -13986,7 +14744,7 @@
   (symbol (lib_id "power:GNDA") (at 200.66 882.65 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 3e6e4550-e69a-5647-a346-0c7ae360ddc0)
-    (property "Reference" "#PWR103" (id 0) (at 200.66 887.65 0)
+    (property "Reference" "#PWR109" (id 0) (at 200.66 887.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 200.66 887.15 0)
@@ -14002,7 +14760,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR103") (unit 1)
+          (reference "#PWR109") (unit 1)
         )
       )
     )
@@ -14037,7 +14795,7 @@
   (symbol (lib_id "power:GNDA") (at 233.68 882.65 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid dbbffe2f-06a9-5a17-b9bf-120e0a4588c2)
-    (property "Reference" "#PWR104" (id 0) (at 233.68 887.65 0)
+    (property "Reference" "#PWR110" (id 0) (at 233.68 887.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 233.68 887.15 0)
@@ -14053,7 +14811,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR104") (unit 1)
+          (reference "#PWR110") (unit 1)
         )
       )
     )
@@ -14092,7 +14850,7 @@
   (symbol (lib_id "power:GNDA") (at 259.08 876.3 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 55c649ac-fb86-5ad1-b9cf-890cc1b882ad)
-    (property "Reference" "#PWR105" (id 0) (at 259.08 881.3 0)
+    (property "Reference" "#PWR111" (id 0) (at 259.08 881.3 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 259.08 880.8 0)
@@ -14108,7 +14866,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR105") (unit 1)
+          (reference "#PWR111") (unit 1)
         )
       )
     )
@@ -14150,7 +14908,7 @@
   (symbol (lib_id "power:GNDA") (at 33.02 927.1 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 158fe2b6-8857-5c8b-8c9d-0f07ea3d3ac9)
-    (property "Reference" "#PWR106" (id 0) (at 33.02 932.1 0)
+    (property "Reference" "#PWR112" (id 0) (at 33.02 932.1 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 33.02 931.6 0)
@@ -14166,7 +14924,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR106") (unit 1)
+          (reference "#PWR112") (unit 1)
         )
       )
     )
@@ -14175,7 +14933,7 @@
   (symbol (lib_id "power:GNDA") (at 38.1 927.1 90) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 6f883950-7703-5b7d-9b87-1d6b6083ea7c)
-    (property "Reference" "#PWR107" (id 0) (at 38.1 932.1 0)
+    (property "Reference" "#PWR113" (id 0) (at 38.1 932.1 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 38.1 931.6 0)
@@ -14191,7 +14949,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR107") (unit 1)
+          (reference "#PWR113") (unit 1)
         )
       )
     )
@@ -14256,7 +15014,7 @@
   (symbol (lib_id "power:GNDA") (at 101.6 928.37 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid d994be67-d9a6-5a32-a97b-74ac95a72f18)
-    (property "Reference" "#PWR108" (id 0) (at 101.6 933.37 0)
+    (property "Reference" "#PWR114" (id 0) (at 101.6 933.37 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 101.6 932.87 0)
@@ -14272,7 +15030,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR108") (unit 1)
+          (reference "#PWR114") (unit 1)
         )
       )
     )
@@ -14337,7 +15095,7 @@
   (symbol (lib_id "power:GNDA") (at 167.64 928.37 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 3345ac7e-f7ce-571f-92cf-68141adf6bbc)
-    (property "Reference" "#PWR109" (id 0) (at 167.64 933.37 0)
+    (property "Reference" "#PWR115" (id 0) (at 167.64 933.37 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 167.64 932.87 0)
@@ -14353,7 +15111,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR109") (unit 1)
+          (reference "#PWR115") (unit 1)
         )
       )
     )
@@ -14417,7 +15175,7 @@
   (symbol (lib_id "power:GNDA") (at 233.68 928.37 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid f058faf6-2c19-51e2-b1fd-d0364f573736)
-    (property "Reference" "#PWR110" (id 0) (at 233.68 933.37 0)
+    (property "Reference" "#PWR116" (id 0) (at 233.68 933.37 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 233.68 932.87 0)
@@ -14433,7 +15191,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR110") (unit 1)
+          (reference "#PWR116") (unit 1)
         )
       )
     )
@@ -14497,7 +15255,7 @@
   (symbol (lib_id "power:GNDA") (at 299.72 928.37 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 3eaa5346-8d48-5938-a88d-5f3e3dbc5297)
-    (property "Reference" "#PWR111" (id 0) (at 299.72 933.37 0)
+    (property "Reference" "#PWR117" (id 0) (at 299.72 933.37 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 299.72 932.87 0)
@@ -14513,7 +15271,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR111") (unit 1)
+          (reference "#PWR117") (unit 1)
         )
       )
     )
@@ -14638,7 +15396,7 @@
   (symbol (lib_id "power:GNDD") (at 72.39 1010.92 90) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 798b893d-05dc-5b8b-a8d0-ceea06f75b29)
-    (property "Reference" "#PWR112" (id 0) (at 72.39 1015.92 0)
+    (property "Reference" "#PWR118" (id 0) (at 72.39 1015.92 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 72.39 1015.42 0)
@@ -14654,7 +15412,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR112") (unit 1)
+          (reference "#PWR118") (unit 1)
         )
       )
     )
@@ -14692,7 +15450,7 @@
   (symbol (lib_id "power:GNDD") (at 101.6 1014.73 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 1f01b65c-b0a8-5538-842b-8f2433c23a6e)
-    (property "Reference" "#PWR113" (id 0) (at 101.6 1019.73 0)
+    (property "Reference" "#PWR119" (id 0) (at 101.6 1019.73 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 101.6 1019.23 0)
@@ -14708,7 +15466,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR113") (unit 1)
+          (reference "#PWR119") (unit 1)
         )
       )
     )
@@ -14884,7 +15642,7 @@
   (symbol (lib_id "power:GNDA") (at 292.1 1010.92 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid abe1ea61-bdd8-5290-a899-71f0b42f3375)
-    (property "Reference" "#PWR114" (id 0) (at 292.1 1015.92 0)
+    (property "Reference" "#PWR120" (id 0) (at 292.1 1015.92 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 292.1 1015.42 0)
@@ -14900,7 +15658,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR114") (unit 1)
+          (reference "#PWR120") (unit 1)
         )
       )
     )
@@ -14969,7 +15727,7 @@
   (symbol (lib_id "power:GNDA") (at 358.14 1010.92 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 0a86e776-6901-520c-b28e-0beadcc40b71)
-    (property "Reference" "#PWR115" (id 0) (at 358.14 1015.92 0)
+    (property "Reference" "#PWR121" (id 0) (at 358.14 1015.92 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 358.14 1015.42 0)
@@ -14985,7 +15743,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR115") (unit 1)
+          (reference "#PWR121") (unit 1)
         )
       )
     )
@@ -15025,7 +15783,7 @@
   (symbol (lib_id "power:GNDD") (at 398.78 1023.62 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 9a74da26-4747-5c26-adae-e985f489834c)
-    (property "Reference" "#PWR116" (id 0) (at 398.78 1028.62 0)
+    (property "Reference" "#PWR122" (id 0) (at 398.78 1028.62 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 398.78 1028.12 0)
@@ -15041,7 +15799,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR116") (unit 1)
+          (reference "#PWR122") (unit 1)
         )
       )
     )
@@ -15079,7 +15837,7 @@
   (symbol (lib_id "power:GNDA") (at 431.8 1014.73 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 6426b45e-9fe0-5b27-87f3-9bbe9c2be44c)
-    (property "Reference" "#PWR117" (id 0) (at 431.8 1019.73 0)
+    (property "Reference" "#PWR123" (id 0) (at 431.8 1019.73 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 431.8 1019.23 0)
@@ -15095,7 +15853,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR117") (unit 1)
+          (reference "#PWR123") (unit 1)
         )
       )
     )
@@ -15133,7 +15891,7 @@
   (symbol (lib_id "power:GNDA") (at 464.82 1007.11 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 40f96815-d850-51d0-9589-07e80fb68bf2)
-    (property "Reference" "#PWR118" (id 0) (at 464.82 1012.11 0)
+    (property "Reference" "#PWR124" (id 0) (at 464.82 1012.11 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 464.82 1011.61 0)
@@ -15149,7 +15907,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR118") (unit 1)
+          (reference "#PWR124") (unit 1)
         )
       )
     )
@@ -15187,7 +15945,7 @@
   (symbol (lib_id "power:GNDD") (at 497.84 1014.73 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 2ba257b4-c0d9-5dc2-b31c-345e0e6a7616)
-    (property "Reference" "#PWR119" (id 0) (at 497.84 1019.73 0)
+    (property "Reference" "#PWR125" (id 0) (at 497.84 1019.73 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 497.84 1019.23 0)
@@ -15203,7 +15961,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR119") (unit 1)
+          (reference "#PWR125") (unit 1)
         )
       )
     )
@@ -15242,7 +16000,7 @@
   (symbol (lib_id "power:GNDD") (at 535.94 1013.46 90) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 420c814d-dd16-5672-a828-4836ad347c23)
-    (property "Reference" "#PWR120" (id 0) (at 535.94 1018.46 0)
+    (property "Reference" "#PWR126" (id 0) (at 535.94 1018.46 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 535.94 1017.96 0)
@@ -15258,7 +16016,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR120") (unit 1)
+          (reference "#PWR126") (unit 1)
         )
       )
     )
@@ -15323,7 +16081,7 @@
   (symbol (lib_id "power:GNDD") (at 596.9 1014.73 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid bf13d53b-ace7-5866-b8af-644b3b6eef01)
-    (property "Reference" "#PWR121" (id 0) (at 596.9 1019.73 0)
+    (property "Reference" "#PWR127" (id 0) (at 596.9 1019.73 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 596.9 1019.23 0)
@@ -15339,7 +16097,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR121") (unit 1)
+          (reference "#PWR127") (unit 1)
         )
       )
     )
@@ -15403,7 +16161,7 @@
   (symbol (lib_id "power:GNDD") (at 659.13 1010.92 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 96b6a767-1d15-5815-b6cc-4814b4ac2fd8)
-    (property "Reference" "#PWR122" (id 0) (at 659.13 1015.92 0)
+    (property "Reference" "#PWR128" (id 0) (at 659.13 1015.92 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 659.13 1015.42 0)
@@ -15419,7 +16177,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR122") (unit 1)
+          (reference "#PWR128") (unit 1)
         )
       )
     )
@@ -15540,7 +16298,7 @@
   (symbol (lib_id "power:GNDA") (at 60.96 1038.86 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 2cf04a60-7fad-5171-8a60-d9bc7ef89ae5)
-    (property "Reference" "#PWR123" (id 0) (at 60.96 1043.86 0)
+    (property "Reference" "#PWR129" (id 0) (at 60.96 1043.86 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 60.96 1043.36 0)
@@ -15556,7 +16314,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR123") (unit 1)
+          (reference "#PWR129") (unit 1)
         )
       )
     )
@@ -15625,7 +16383,7 @@
   (symbol (lib_id "power:GNDA") (at 127.0 1038.86 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 84b5fd98-7a6a-58ca-af64-6f212def83af)
-    (property "Reference" "#PWR124" (id 0) (at 127.0 1043.86 0)
+    (property "Reference" "#PWR130" (id 0) (at 127.0 1043.86 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 127.0 1043.36 0)
@@ -15641,7 +16399,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR124") (unit 1)
+          (reference "#PWR130") (unit 1)
         )
       )
     )
@@ -15681,7 +16439,7 @@
   (symbol (lib_id "power:GNDD") (at 167.64 1051.56 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid c6af981d-59ee-518d-9833-65b4b28b29ad)
-    (property "Reference" "#PWR125" (id 0) (at 167.64 1056.56 0)
+    (property "Reference" "#PWR131" (id 0) (at 167.64 1056.56 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 167.64 1056.06 0)
@@ -15697,7 +16455,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR125") (unit 1)
+          (reference "#PWR131") (unit 1)
         )
       )
     )
@@ -15735,7 +16493,7 @@
   (symbol (lib_id "power:GNDA") (at 200.66 1042.67 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 386f7f54-5a4b-5b19-b0d8-7e53863b894a)
-    (property "Reference" "#PWR126" (id 0) (at 200.66 1047.67 0)
+    (property "Reference" "#PWR132" (id 0) (at 200.66 1047.67 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 200.66 1047.17 0)
@@ -15751,7 +16509,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR126") (unit 1)
+          (reference "#PWR132") (unit 1)
         )
       )
     )
@@ -15789,7 +16547,7 @@
   (symbol (lib_id "power:GNDA") (at 233.68 1035.05 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 851c81d1-d4a7-5870-98b2-44eca851168f)
-    (property "Reference" "#PWR127" (id 0) (at 233.68 1040.05 0)
+    (property "Reference" "#PWR133" (id 0) (at 233.68 1040.05 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 233.68 1039.55 0)
@@ -15805,7 +16563,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR127") (unit 1)
+          (reference "#PWR133") (unit 1)
         )
       )
     )
@@ -15843,7 +16601,7 @@
   (symbol (lib_id "power:GNDD") (at 266.7 1042.67 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 97655476-d140-5777-8a99-764b74f21d69)
-    (property "Reference" "#PWR128" (id 0) (at 266.7 1047.67 0)
+    (property "Reference" "#PWR134" (id 0) (at 266.7 1047.67 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 266.7 1047.17 0)
@@ -15859,7 +16617,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR128") (unit 1)
+          (reference "#PWR134") (unit 1)
         )
       )
     )
@@ -15898,7 +16656,7 @@
   (symbol (lib_id "power:GNDD") (at 304.8 1041.4 90) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 3d02871a-cc6c-5f73-8e9a-de40afda0750)
-    (property "Reference" "#PWR129" (id 0) (at 304.8 1046.4 0)
+    (property "Reference" "#PWR135" (id 0) (at 304.8 1046.4 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 304.8 1045.9 0)
@@ -15914,7 +16672,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR129") (unit 1)
+          (reference "#PWR135") (unit 1)
         )
       )
     )
@@ -15979,7 +16737,7 @@
   (symbol (lib_id "power:GNDD") (at 365.76 1042.67 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 0749a5f5-7b66-5665-866c-2a89c26cf76a)
-    (property "Reference" "#PWR130" (id 0) (at 365.76 1047.67 0)
+    (property "Reference" "#PWR136" (id 0) (at 365.76 1047.67 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 365.76 1047.17 0)
@@ -15995,7 +16753,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR130") (unit 1)
+          (reference "#PWR136") (unit 1)
         )
       )
     )
@@ -16059,7 +16817,7 @@
   (symbol (lib_id "power:GNDD") (at 427.99 1038.86 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 65f6b76f-1d2e-5e84-9dd5-825752f03486)
-    (property "Reference" "#PWR131" (id 0) (at 427.99 1043.86 0)
+    (property "Reference" "#PWR137" (id 0) (at 427.99 1043.86 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 427.99 1043.36 0)
@@ -16075,7 +16833,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR131") (unit 1)
+          (reference "#PWR137") (unit 1)
         )
       )
     )
@@ -16196,7 +16954,7 @@
   (symbol (lib_id "power:GNDA") (at 556.26 1038.86 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 0fab692b-07f2-5b4a-a3ac-f15f0ef5673d)
-    (property "Reference" "#PWR132" (id 0) (at 556.26 1043.86 0)
+    (property "Reference" "#PWR138" (id 0) (at 556.26 1043.86 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 556.26 1043.36 0)
@@ -16212,7 +16970,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR132") (unit 1)
+          (reference "#PWR138") (unit 1)
         )
       )
     )
@@ -16281,7 +17039,7 @@
   (symbol (lib_id "power:GNDA") (at 622.3 1038.86 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 634d5e02-a281-5db9-912f-ec9d79acd6f6)
-    (property "Reference" "#PWR133" (id 0) (at 622.3 1043.86 0)
+    (property "Reference" "#PWR139" (id 0) (at 622.3 1043.86 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 622.3 1043.36 0)
@@ -16297,7 +17055,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR133") (unit 1)
+          (reference "#PWR139") (unit 1)
         )
       )
     )
@@ -16337,7 +17095,7 @@
   (symbol (lib_id "power:GNDD") (at 662.94 1051.56 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid a834e767-8c22-5454-8cc2-4c4bdee380f1)
-    (property "Reference" "#PWR134" (id 0) (at 662.94 1056.56 0)
+    (property "Reference" "#PWR140" (id 0) (at 662.94 1056.56 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 662.94 1056.06 0)
@@ -16353,7 +17111,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR134") (unit 1)
+          (reference "#PWR140") (unit 1)
         )
       )
     )
@@ -16391,7 +17149,7 @@
   (symbol (lib_id "power:GNDA") (at 695.96 1042.67 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 0d0e70f9-17cf-57a4-b8a0-3d3fc8965d2f)
-    (property "Reference" "#PWR135" (id 0) (at 695.96 1047.67 0)
+    (property "Reference" "#PWR141" (id 0) (at 695.96 1047.67 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 695.96 1047.17 0)
@@ -16407,7 +17165,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR135") (unit 1)
+          (reference "#PWR141") (unit 1)
         )
       )
     )
@@ -16445,7 +17203,7 @@
   (symbol (lib_id "power:GNDA") (at 728.98 1035.05 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 540ab717-8566-533d-bb15-8284154a5231)
-    (property "Reference" "#PWR136" (id 0) (at 728.98 1040.05 0)
+    (property "Reference" "#PWR142" (id 0) (at 728.98 1040.05 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 728.98 1039.55 0)
@@ -16461,7 +17219,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR136") (unit 1)
+          (reference "#PWR142") (unit 1)
         )
       )
     )
@@ -16499,7 +17257,7 @@
   (symbol (lib_id "power:GNDD") (at 35.56 1070.61 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 0bc2dbbd-3cbc-51ad-a833-5aa2dae949a9)
-    (property "Reference" "#PWR137" (id 0) (at 35.56 1075.61 0)
+    (property "Reference" "#PWR143" (id 0) (at 35.56 1075.61 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 35.56 1075.11 0)
@@ -16515,7 +17273,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR137") (unit 1)
+          (reference "#PWR143") (unit 1)
         )
       )
     )
@@ -16554,7 +17312,7 @@
   (symbol (lib_id "power:GNDD") (at 73.66 1069.34 90) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 95b0ee31-2619-5e8e-96b9-b20e44a18e00)
-    (property "Reference" "#PWR138" (id 0) (at 73.66 1074.34 0)
+    (property "Reference" "#PWR144" (id 0) (at 73.66 1074.34 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 73.66 1073.84 0)
@@ -16570,7 +17328,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR138") (unit 1)
+          (reference "#PWR144") (unit 1)
         )
       )
     )
@@ -16635,7 +17393,7 @@
   (symbol (lib_id "power:GNDD") (at 134.62 1070.61 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 852fccf0-2367-5bce-8efe-66fcdb79516e)
-    (property "Reference" "#PWR139" (id 0) (at 134.62 1075.61 0)
+    (property "Reference" "#PWR145" (id 0) (at 134.62 1075.61 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 134.62 1075.11 0)
@@ -16651,7 +17409,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR139") (unit 1)
+          (reference "#PWR145") (unit 1)
         )
       )
     )
@@ -16715,7 +17473,7 @@
   (symbol (lib_id "power:GNDD") (at 196.85 1066.8 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid d036ea28-06c9-5dd1-bf1d-cf470a2b38fd)
-    (property "Reference" "#PWR140" (id 0) (at 196.85 1071.8 0)
+    (property "Reference" "#PWR146" (id 0) (at 196.85 1071.8 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDD" (id 1) (at 196.85 1071.3 0)
@@ -16731,7 +17489,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5"
-          (reference "#PWR140") (unit 1)
+          (reference "#PWR146") (unit 1)
         )
       )
     )

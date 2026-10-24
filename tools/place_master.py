@@ -74,6 +74,12 @@ FIX = {
  'CN1': (XF, 214.0, 0, 'F'),                  # M4 star stud
  'NT1': (XF - 6.5, 214.0, 180, 'F'), 'NT2': (XF + 6.5, 214.0, 0, 'F'),        # GNDA-GNDD | GNDA-GNDM, GNDA pads
  'NT3': (XF, 214.0 - 6.5, 90, 'F'), 'NT4': (XF, 214.0 + 6.5, 270, 'F'),       # GNDA-PHONESGND | GNDA-CHASSIS  to the stud
+ # wing PTCs MF-RX185/72 (bottom; hpf_proposal.md H4), fixed. The body is 1.24 mm wider than the MF-RX160/72's the
+ # packer had placed here, and the top side must keep clear of their bodies (D5 / D8 leads) and pads (R121, R123):
+ # F1/F2 keep their pads (courtyard x 4.05-19.73); F3 moves 0.055 mm left, between R121 and D8's lead (56.1-71.78);
+ # F4 0.7 mm right, clear of J1 (58.36-74.04). So the rest of the board places as before.
+ 'F1': (14.435, 187.945, 0, 'B'), 'F2': (14.435, 192.445, 0, 'B'),
+ 'F3': (66.48, 187.945, 0, 'B'), 'F4': (68.74, 192.445, 0, 'B'),
 }
 for k, (l, r) in enumerate(zip(mL, mR)):      # D28..D49 / D56..D77 in ladder order: -20 dB at the bottom, +18 dB at the top
     FIX[l] = led(18.0, 422.0 - 5.0 * k); FIX[r] = led(60.6, 422.0 - 5.0 * k)
@@ -122,8 +128,6 @@ EL, ER = 4.0, W - 4.0                          # edge channels for the wing supp
 PWR_TALL = tall('POWER ENTRY', 'DISTRIBUTION')
 ZONES = [
  # power entry first, so it gets its area around J1 and the star stud
- ('left-wing PTCs at J1 (bottom)', (EL, 186, 22, 236), ['F1', 'F2'], 'B'),
- ('right-wing PTCs at J1 (bottom)', (W - 22, 186, ER, 236), ['F3', 'F4'], 'B'),
  ('rail reservoirs beside J1 (bottom)', (EL, 186, ER, 236), sorted((r for r in PWR_TALL if r[0] == 'C'), key=lambda r: (-dia(r), num(r))), 'B'),
  # between the PTC columns (x 4-22 / 56.6-74.6 on the bottom): a phones fault heats the VP 2R2s, and a warm PTC
  # holds less (master_group_review.md MG11)

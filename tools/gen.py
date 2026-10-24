@@ -48,7 +48,7 @@ P(b,'CN4','TAB','Ground spade 6.3mm',{1:'GNDA'})
 P(b,'R5','R','10R GND cancel',{1:'GNDA',2:'GCANCEL'})
 for i,(ref,cp,cn) in enumerate([('U1','C20','C21'),('U2','C22','C23'),('U3','C24','C25'),('U5','C29','C30'),
                                   ('U6','C31','C32'),('U7','C33','C34'),('U8','C35','C36'),
-                                  ('U12','C63','C64'),('U13','C65','C66'),('U14','C67','C68')]):
+                                  ('U12','C63','C64'),('U13','C65','C66'),('U14','C67','C68'),('U15','C89','C90')]):
     P(b,ref,'OPA','OPA1612',{8:'+VA',4:'-VA'},unit=3)
     P(b,cp,'C','100n',{1:'+VA',2:'GNDA'}); P(b,cn,'C','100n',{1:'GNDA',2:'-VA'})
 P(b,'U4','CMP','LM393',{8:'+VL',4:'GNDD'},unit=3); P(b,'C26','C','100n',{1:'+VL',2:'GNDD'})
@@ -78,13 +78,27 @@ P(b,'R45','R','2K2 1%',{1:'RECV',2:'GA'})
 P(b,'RV9','POT','Gain 10K lin CD',{3:'GA',2:'GV',1:'GC'},mpn=POTB)
 P(b,'R46','R','2K2 1%',{1:'GC',2:'GOUT'}); P(b,'C37','C','22p C0G',{1:'GOUT',2:'GV'})
 P(b,'U1','OPA','OPA1612',{5:'GNDA',6:'GV',7:'GOUT'},unit=2)
-P(b,'C38','C','33u NP 25V',{1:'GOUT',2:'HIN'},fp=CAP_FP['47u']); P(b,'R47','R','47K',{1:'HIN',2:'GNDA'})
+P(b,'C38','C','33u NP 25V',{1:'GOUT',2:'HIN'},fp=CAP_FP['47u'])
+# C91 doubles C38: with the HPF out SW11 feeds HIN straight to the EQ (~2.5 kohm), 66 uF keeps PRE's LF corner ~1 Hz
+P(b,'C91','C','33u NP 25V',{1:'GOUT',2:'HIN'},fp=CAP_FP['47u']); P(b,'R47','R','47K',{1:'HIN',2:'GNDA'})
 
-b = block('HPF  unity Sallen-Key Butterworth, -3 dB 87 Hz  SW11: latched = HPF in (unlatched shorts the caps)')
-P(b,'C39','C','47n C0G',{1:'HIN',2:'H1'},fp=C0G); P(b,'C40','C','47n C0G',{1:'H1',2:'HP'},fp=C0G)
-P(b,'R48','R','27K',{1:'H1',2:'HOUT'}); P(b,'R49','R','56K',{1:'HP',2:'GNDA'})
-P(b,'U5','OPA','OPA1612',{3:'HP',2:'HOUT',1:'HOUT'},unit=1)
-P(b,'SW11','SW','HPF',{2:'HIN',3:'HP',1:'NC'},unit=1)
+# Sweepable HPF (hpf_proposal.md): a state-variable high-pass, unity gain, non-inverting, Q 0.707, 21-403 Hz, tuned by
+# an A10K dual as the mid bands (430R -> 330R for a 19:1 range). Summer: + from HIN (4K99) and BP (2K49), - from LP
+# (2K49) and HP (4K99): gain 1, Q 1/sqrt2. 10p / 22p: 6.6 deg phase margin without them (TI OPA161x), 80 with
+b = block('HPF  sweepable 21-403 Hz, state-variable (KHN) high-pass, Q 0.707  SW11: latched = HPF in, else HIN')
+P(b,'R100','R','4K99 1%',{1:'HIN',2:'H_SP'}); P(b,'R101','R','2K49 1%',{1:'H_BP',2:'H_SP'})
+P(b,'C85','C','22p C0G',{1:'H_SP',2:'GNDA'},fp=C0G)
+P(b,'R102','R','2K49 1%',{1:'H_LP',2:'H_SM'}); P(b,'R103','R','4K99 1%',{1:'HP',2:'H_SM'})
+P(b,'C86','C','10p C0G',{1:'HP',2:'H_SM'},fp=C0G)
+P(b,'U5','OPA','OPA1612',{3:'H_SP',2:'H_SM',1:'HP'},unit=1)
+P(b,'RV16','POT2','HPF freq 10K A dual',{3:'HP',2:'H_D1',1:'H_R1',6:'H_BP',5:'H_D2',4:'H_R2'},mpn=POT2A)
+P(b,'R104','R','330R 1%',{1:'H_R1',2:'GNDA'}); P(b,'R107','R','330R 1%',{1:'H_R2',2:'GNDA'})
+P(b,'R105','R','13K 1%',{1:'HP',2:'H_D1'}); P(b,'R108','R','13K 1%',{1:'H_BP',2:'H_D2'})
+P(b,'R106','R','5K6 1%',{1:'H_D1',2:'H_I1'}); P(b,'R109','R','5K6 1%',{1:'H_D2',2:'H_I2'})
+P(b,'C87','C','100n C0G',{1:'H_BP',2:'H_I1'},fp=C0G); P(b,'C88','C','100n C0G',{1:'H_LP',2:'H_I2'},fp=C0G)
+P(b,'U15','OPA','OPA1612',{3:'GNDA',2:'H_I1',1:'H_BP'},unit=1)
+P(b,'U15','OPA','OPA1612',{5:'GNDA',6:'H_I2',7:'H_LP'},unit=2)
+P(b,'SW11','SW','HPF',{2:'HOUT',1:'HP',3:'HIN'},unit=1)
 P(b,'SW11','SW','HPF',{5:'NC',4:'NC',6:'NC'},unit=2)
 
 b = block('INSERT POSITION JUMPERS  1-2 = insert post-EQ (default);  2-3 on all three = insert pre-EQ')
@@ -255,8 +269,8 @@ for _, ps in schgen.blocks:                     # ceramic MPNs by value (X7R 50 
     for pt in ps:
         if pt['key'] == 'C' and not pt['mpn']: pt['mpn'] = CAP_MPN.get(pt['value'], '')
 build(OUT, 'channel_strip', 'Channel strip - goa console (Delta Theatre input without the mic stage)',
-      {1: 'Generated from channel_strip_schematic_spec.md v4.2', 2: 'Nets joined by labels; tidy wiring in Eeschema as needed'},
-      paper='auto', revision='4.2')
+      {1: 'Generated from channel_strip_schematic_spec.md v4.3', 2: 'Nets joined by labels; tidy wiring in Eeschema as needed'},
+      paper='auto', revision='4.3')
 
 # ---------------------------------------------------------------- jack board (its own PCB; same net names)
 schgen.blocks.clear()

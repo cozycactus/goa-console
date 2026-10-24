@@ -1,4 +1,4 @@
-# Channel Strip — Component-Level Specification v4.2
+# Channel Strip — Component-Level Specification v4.3
 ## Soundcraft Delta Theatre input without the mic stage. One PCB per channel, ×24.
 
 Bus pinout, grounding and power: `console_architecture.md`. Stage-by-stage comparison with the
@@ -7,6 +7,19 @@ Reference designators are those of `tools/gen.py`; Delta drawing numbers are giv
 circuit comes from a Delta sheet (ED3344A/B/C = Theatre input RH board, ED3151 = LH board).
 
 ---
+
+## Changes in v4.3 (2026-10-24, signed off; `hpf_proposal.md` H1–H3)
+
+- **Sweepable HPF** (§5): a state-variable (KHN) high-pass, 21–403 Hz, unity gain, non-inverting, Q 0.707, tuned by
+  RV16, the mid bands' stocked Alpha A10K dual. U5A is the summer, a new U15 holds the integrators. SW11 now selects the
+  source of HOUT: HP (latched, HPF in) or HIN (released, a wire). It replaces the fixed 87 Hz Sallen-Key
+  (C39, C40, R48, R49 removed); mid rotation is 85 Hz.
+- **C91** 33 µF MUSE ES in parallel with C38: with the HPF out, HIN feeds the EQ input directly (~2.5 kΩ). PRE's LF
+  corner stays at 1.0–1.1 Hz (C38 alone: 1.9–2.1 Hz).
+- **Panel** (§16.3): the right column reads Ø key (y 50), HPF IN key (y 61), HPF FREQ knob (y 76). The OL LED moves
+  to (20.6, 50) between the GAIN knob and the Ø key. **CN3** moves to y ≈ 131.5 (§16.4).
+- **Supply:** +1 OPA1612, ~92 / 79 mA per strip. The master's wing PTCs become MF-RX185/72 (H4, master spec v0.9).
+- Cost in noise with the HPF in: +0.2 dB with EQ in, +1.4–1.9 dB with EQ bypassed; none with it out.
 
 ## Changes in v4.2 (2026-10-24, signed off; `film_np_proposal.md` F1–F4)
 
@@ -70,7 +83,7 @@ and +10 dB post-amp, VCA option, pan buffers, 4K7 routing with grounded off-posi
 
 ```
 J1 line in ─ SW15 Ø ─ U1A receiver (unity, inverting) ─ U1B gain (−15…+15 dB, inverting) ─ C38 ─ HIN
- ─ U5A HPF (SW11 in/out) ─ HOUT ──────────────────────────── pre-EQ tap (aux jumpers, JP5/JP6)
+ ─ HPF U5A + U15, RV16 21–403 Hz (SW11: HP or HIN) ─ HOUT ─── pre-EQ tap (aux jumpers, JP5/JP6)
  ─ JP6 ─ EQIN ─ U5B HF ─ U6A HI-MID ─ U6B LO-MID ─ U7A LF ─┐
                          └──────────── SW12 EQ IN: EQ out or EQIN ┘─ C51 ─ EQOUT
  ─ JP5 ─ R11 75R ─ J2 insert send / return (normalled) ─ U7B buffer ─ BUF1
@@ -176,17 +189,30 @@ GOUT ── C38 33 µF NP ── HIN ── R47 47K to AGND
 
 ---
 
-## 5. HPF (U5A, SW11)
+## 5. HPF (U5A, U15, RV16, SW11) — sweepable, v4.3
 
 ```
-HIN ── C39 47 nF ── H1 ── C40 47 nF ── HP ── U5A (+);  U5A out = HOUT, follower
-H1 ── R48 27K ── HOUT;   HP ── R49 56K ── AGND
-SW11 pole A: HIN ─ HP when unlatched (caps shorted, HPF out); open when latched (HPF in)
+HIN ─ R100 4K99 ─┬─ U5A (+)   (H_SP: C85 22p to AGND)
+H_BP ─ R101 2K49 ┘
+H_LP ─ R102 2K49 ─┬─ U5A (−)  U5A out = HP;  R103 4K99 ∥ C86 10p from HP to (−)
+HP ─ RV16A pin 3 (pin 1 ─ R104 330R ─ AGND; R105 13K pin 3 → wiper) ─ wiper ─ R106 5K6 ─ U15A (−); C87 100n to H_BP
+H_BP ─ RV16B pin 6 (pin 4 ─ R107 330R ─ AGND; R108 13K pin 6 → wiper) ─ wiper ─ R109 5K6 ─ U15B (−); C88 100n to H_LP
+U15A / U15B (+) = AGND
+SW11 pole A: common HOUT; latched = HP (HPF in), released = HIN (HPF out)
 ```
-- Unity-gain Sallen-Key Butterworth: −3 dB at 87 Hz, −10 dB at 50 Hz, 12 dB/oct, no peaking.
-  The Delta's (ED3344A IC3A, 33K/39K with +3 dB gain, −3 dB at 91 Hz) has +3 dB of passband gain,
-  which our 0 dBu structure doesn't want.
-- C39, C40: C0G 1206. HOUT is also the pre-EQ tap.
+- State-variable (KHN) high-pass: RF = 2 RLP and RIN = 2 RBP give unity gain, non-inverting, Q = 1/√2 (Butterworth,
+  12 dB/oct, no peaking). Tuned as the mid bands (§6.2): each gang is a divider (330R here, for a 19:1 range) into an
+  integrator's virtual earth. CW = higher.
+- −3 dB at the 11 dial positions: 21, 37, 51, 64, 75, 85, 132, 171, 216, 280, 403 Hz (`sim/review/hpf/khn_hpf.py
+  law`; the netlist gives 21.2 / 85.9 / 406 Hz). Gang mismatch ±20 %: ≤ 0.09 dB peaking, corner unchanged.
+- No internal node exceeds the input (BP / LP −6 dB, summer inputs −9.6 dB): no headroom cost.
+- C85 / C86 are stability parts: without them the summer has 6.6° (TI OPA161x), with them 84°.
+- With the HPF out SW11 connects HIN straight to HOUT: no added noise. HIN then drives the EQ input; C91 doubles C38
+  for that (§1, v4.3). The DC step at switching is ≤ 0.9 mV (CCW, typical Vos / Ib), as HIN follows HP's DC through
+  the summer's input network.
+- Was a unity-gain Sallen-Key at 87 Hz (C39/C40 47n, R48 27K, R49 56K, U5A follower). The Delta's (ED3344A IC3A) has
+  +3 dB of passband gain, which our 0 dBu structure doesn't want.
+- C85–C88: C0G 1206. HOUT is also the pre-EQ tap.
 
 ---
 
@@ -430,7 +456,7 @@ directly; no debounce RC, because the DG413 inputs have no hysteresis.
 | U2 | OPA1612 | fader post-amp | pan buffer L |
 | U3 | OPA1612 | pan buffer R | mute output buffer |
 | U4 | LM393 | OL comparator | spare, tied off |
-| U5 | OPA1612 | HPF | EQ HF |
+| U5 | OPA1612 | HPF summer | EQ HF |
 | U6 | OPA1612 | EQ HI-MID | EQ LO-MID |
 | U7 | OPA1612 | EQ LF | insert return buffer |
 | U8 | OPA1612 | direct out | spare, tied off |
@@ -438,22 +464,23 @@ directly; no debounce RC, because the DG413 inputs have no hysteresis.
 | U12 | OPA1612 | HI-MID KHN summer | HI-MID integrator 1 (BP) |
 | U13 | OPA1612 | HI-MID integrator 2 (LP) | LO-MID KHN summer |
 | U14 | OPA1612 | LO-MID integrator 1 (BP) | LO-MID integrator 2 (LP) |
+| U15 | OPA1612 | HPF integrator 1 (BP) | HPF integrator 2 (LP) |
 | Q1, Q2 | MMBFJ112 (J112 in SOT-23) | soft mute | |
 
 ---
 
 ## 15. Bill of materials
 
-`channel_strip_BOM.csv` (main board, exported from the schematic, with a DNP column): 237 parts per channel, of which
-three are the DNP VCA-option parts (J3, J4, R44), so 234 fitted; `jack_board_BOM.csv`: 6. Panel parts per channel:
-15 pots (fader, 6 aux, pan, gain, 4 EQ gain, 2 dual EQ frequency), 13 switches, 7 LEDs (OL, PFL, ON, EQ,
-3 routing), 3 jacks, 1 bus header.
+`channel_strip_BOM.csv` (main board, exported from the schematic, with a DNP column): 252 parts per channel, of which
+three are the DNP VCA-option parts (J3, J4, R44), so 249 fitted; `jack_board_BOM.csv`: 6. Panel parts per channel:
+16 pots (fader, 6 aux, pan, gain, 4 EQ gain, 2 dual EQ frequency, dual HPF frequency), 13 switches, 7 LEDs (OL, PFL,
+ON, EQ, 3 routing), 3 jacks, 1 bus header.
 
 BOM rules (v4.1):
 - every ceramic ≥ 25 V, 50 V preferred: 100n Samsung CL21B104KBCNNNC (X7R 50 V 0805), C12 / C62 1 µF Murata
   GRM21BR71H105KA12, C0G parts 50 V; no X7R in the signal path (v4.2);
 - film: C13 and C49 WIMA MKS2C042201K00KSSD (2.2 µF PET 63 V, 7.2 × 13 × 7.2, bottom side), C48 150 nF MKS2;
-- bipolar electrolytics: Nichicon MUSE ES 25 V, UES1E330MPM (33 µF) and UES1E101MPM (100 µF);
+- bipolar electrolytics: Nichicon MUSE ES 25 V, UES1E330MPM (33 µF; C38 + C91 in parallel) and UES1E101MPM (100 µF);
 - OPA1612AIDR, LM393BIDR (the same comparator as the master), onsemi MMBFJ112;
 - Kingbright WP710A10ID red, WP710A10GD green, WP710A10YD yellow;
 - Panasonic ERJ-P06J100V (R1/R2, 10R at up to 0.126 W) and ERJ-P06J750V (R11/R71, ~0.25 W into a shorted lead);
@@ -513,7 +540,7 @@ the panel's top edge), placement only:
 
 | Board | File | Size | Depth under the panel | Parts |
 |-------|------|------|-----------------------|-------|
-| Main | `channel_strip_v4.kicad_pcb` | 38 × 400 mm, y 44–444 | 11.5 mm | 245 + 6 M3 holes (11.5 mm standoffs) |
+| Main | `channel_strip_v4.kicad_pcb` | 38 × 400 mm, y 44–444 | 11.5 mm | 260 + 6 M3 holes (11.5 mm standoffs) |
 | Jack | `jack_board.kicad_pcb` | 38 × 43 mm, y 0–43 | 24.0 mm (the NJ6FD-V body) | 6 + 2 M3 holes |
 
 DRC with `--schematic-parity`, both boards: 0 parity issues. The main board has no violations at all;
@@ -522,7 +549,11 @@ SN pad sits close to the footprint's own locating peg). Plus unrouted connection
 references are 0.8 mm text, each placed by the script at the nearest spot clear of pads, silk, other
 references, other parts' courtyards and the edge. The bus header CN1 is turned 180° (pin 1 at
 y 345.6, same pin field x 31.46/34, y 305–345.6), so its pin-1 arrow stays on the board. The Ø switch moved from the jack row to the main board, right
-of the gain pot (above the OL LED). Decoupling caps sit beside their IC's supply pins (place_strip.py
+of the gain pot. v4.3: the right column's top reads Ø key (y 50), HPF IN key SW11 (y 61, the PRE keys' 11 mm pitch),
+HPF FREQ dual RV16 (y 76, beside HF); the OL LED D2 sits between the GAIN knob and the Ø key at (20.6, 50), 3.8 mm from
+the knob and 3.2 mm from the key cap. The HPF knob's numerals (20 50 85 170 400Hz) need a panel-print check: there
+are 4.6 mm between the HPF key cap and the knob, so the key's legend names it (`panel_print.md`). U5 and U15 sit
+between the HF / HI-MID and HI-MID / LO-MID rows; every HPF input network is within 13 mm of its pin. Decoupling caps sit beside their IC's supply pins (place_strip.py
 `DECOUPLE`); the DG413s (U9–U11) are beside the fader just below CN1, the routing 4K7s between the fader
 and CN1's pins. `channel_strip.kicad_pcb` is the old v3.1 placement, kept unchanged.
 
@@ -549,8 +580,10 @@ under the panel, set by the jack body (Neutrik NJ*FD-V drawing: flange front 24.
 `panel_parts_drawings.md`). The jack caps hold it on the panel, plus two M3 female-female standoffs of exactly
 24.0 mm (the jacks are rigid spacers). CN5 (jack board) and
 CN3 (main board) are both on the bottom side, so the ribbon runs behind both boards. Since the pots turned their pins
-to the centre line (16.3), CN3 lies across the strip at y ≈ 85.5 (pins x 17.6–27.8), between the HF and HI-MID rows;
-CN5 on the jack board stays along y, so the 10-way ribbon makes one 90° fold (about 90 mm long).
+to the centre line (16.3), CN3 lies across the strip. Since v4.3 it sits at y ≈ 131.5, between the LO-MID and LF rows:
+the HPF FREQ dual's mounting tabs closed the gap at y ≈ 85.5 it had used (every gap between two pot rows is 9.2 mm,
+the boxed header needs ~10; the LF row has the EQ key on the right, 11.7 mm). CN5 on the jack board stays along y,
+so the 10-way ribbon makes one 90° fold (about 136 mm long, was 90).
 
 | Pin | Net | | Pin | Net |
 |-----|-----|-|-----|-----|
@@ -566,7 +599,18 @@ sleeves go to AGND only through the ribbon. CN3/CN5: Würth 61201021621 2 × 5 b
 
 ---
 
-## 17. Status (v4.2, 2026-10-24)
+## 17. Status (v4.3, 2026-10-24)
+
+v4.3 (sweepable HPF, `hpf_proposal.md` H1–H3):
+- **Netlist:** 774 pin entries / 0 mismatches, check_fp 260 / 0, ERC 0; jack board unchanged. `tools/sim_netlist.py`
+  35/35 (the HPF check is now −3 dB at CCW / mid / CW, 21.2 / 85.9 / 406 Hz, and no peaking at each);
+  `tools/sim_console.py` 32/32.
+- **Stability (TI OPA161x, full strip, HPF in at CCW / mid / CW with EQ in, mid with EQ bypassed):** U5A 84.3°,
+  U15A/B ≥ 87.4°, U5B 82.6°, U1B 86.0°; peaking ≤ 0.31 dB.
+- **Noise (PRE, 20 Hz–20 kHz):** HPF out −92.9 / −102.6 dBu (EQ in / bypassed, unchanged); HPF in −92.6 to −92.7 /
+  −100.7 to −101.2 dBu.
+- **Placement:** 260 footprints + 6 holes, 0 DRC violations, 0 parity issues. Report: decouplers 3.1 / 10.0 / 10,
+  high-Z inputs 11.0 / 23.1 / 29 (30 inputs; the worst is U5B's HF network, 23.1 mm, which moved with U5A).
 
 v4.2 (film couplers, MUSE ES bipolars):
 - **Netlist:** 734 pin entries / 0 mismatches, check_fp 245 / 0, ERC 0; `tools/sim_netlist.py` 30/30;
@@ -609,5 +653,5 @@ drawings (2026-10-23). The panel parts checked against their drawings, with what
 style and pin side, PV cap clearance in the Ø8.0 hole, Alpha bushing thread and tab slots, 1/4" knobs on every pot):
 `panel_parts_drawings.md`.
 
-*Document version 4.0 — October 2026*
+*Document version 4.3 — October 2026*
 *Sources: Soundcraft Delta ED3344A/B/C, ED3151, ED2911A/B, ED2915A, ED2780*

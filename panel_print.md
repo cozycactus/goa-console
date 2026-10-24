@@ -71,6 +71,10 @@ The 3D model applies this in `tools/console_3d.py` (`panel_print`); see `render/
     - LO: 0.15 0.34 0.48 1.0 2.3KHz.
 
     The law is two-slope, not log, so the numerals are uneven.
+  - HPF FREQ (strip v4.3, `hpf_proposal.md`): the −3 dB frequencies at θ 0 / .2 / .5 / .7 / 1 from
+    `sim/review/hpf/khn_hpf.py law`: 20 50 85 170 400Hz. The knob has no name of its own: there are only 4.6 mm
+    between the HPF key cap and the knob, so the key's "HPF" legend names the pair, as the Delta prints "100Hz" beside
+    its HPF key.
 - **Faders:** the Delta input scale (10 5 0 5 … 60 ∞), placed with a two-slope A taper (15 % at mid travel) plus the
   +9.9 dB post-amp. This is approximate until the chosen fader's own law is known.
 - **Rules and meters:**

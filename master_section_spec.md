@@ -1,4 +1,4 @@
-# Master Section — Schematic Specification, v0.8 (draft)
+# Master Section — Schematic Specification, v0.9 (draft)
 ## Part 1: stereo mix path, mono, main outputs, power-on mute
 ## Part 2: subgroups, aux masters
 ## Part 3: stereo returns · Part 4: monitoring · Part 5: power entry
@@ -64,7 +64,13 @@ macro) in whole-module decks; scripts in `sim/review/master/`, `sim/review/group
   - capacitor and semiconductor MPNs (50 V X7R / C0G ceramics).
 - **Spec notes:** no phantom on any balanced output (§7); the gain changes (§5, §12); the group bus-select rule (§12);
   aux outputs unmuted (§13).
-- **Kept by decision:** the wing PTCs stay MF-RX160/72 (§25); no mute relays on the aux outputs (§13).
+- **Kept by decision:** the wing PTCs stay MF-RX160/72 (§25; changed to MF-RX185/72 in v0.9); no mute relays on the
+  aux outputs (§13).
+
+**Wing PTCs MF-RX185/72 (v0.9, signed off 2026-10-24, `hpf_proposal.md` H4).** The strip's sweepable HPF (strip
+v4.3) adds an OPA1612 per strip: a wing's typical +V load goes 1.16 → 1.25 A, which on the MF-RX160/72 would be 96 / 109 %
+of hold at 40 / 50 °C. F1–F4 are now MF-RX185/72 (§25), same pads, fixed in place (`place_master.py`). The jig's master
+stub keeps the MF-RX160/72 (4 strips).
 
 **Film couplers and audio bipolars (signed off 2026-10-24, `film_np_proposal.md` F1–F4).**
 - **Film:** every 2.2 µF wiper coupler (fader, aux 5/6, solo, C/Room, phones) and the meter's averaging caps are WIMA
@@ -830,19 +836,20 @@ scale badly (below).
 
 - Two 34-pin headers on the master, one per wing (12 strips each), carrying the buses and
   power on pins 30–33.
-- Each wing gets its own PTC fuse per rail, **Bourns MF-RX160/72** (1.6 A hold, 3.2 A trip, 72 V,
-  40 A max). It protects the 28 AWG ribbon conductors (two per rail, 0.5 A each typical) from a
-  shorted strip. A wing draws about 1.0 A typical on +V, up to 1.5 A worst case (§27). 72 V rather
+- Each wing gets its own PTC fuse per rail, **Bourns MF-RX185/72** (1.85 A hold, 3.7 A trip, 72 V,
+  40 A max; v0.9, `hpf_proposal.md` H4). It protects the 28 AWG ribbon conductors (two per rail, ~0.6 A each typical)
+  from a shorted strip. A wing draws about 1.25 A typical on +V, up to 1.8 A worst case (§27). 72 V rather
   than the 30 V MF-R160: −V (pins 30–31) sits next to +V (32–33), so a bent pin or crimp fault
   shorts 34 V across the pair, and the first PTC to trip takes almost all of it. Initial resistance
-  0.09–0.14 Ω: about 0.1–0.2 V drop at 1 A. Footprint from the Bourns drawing (`tools/footprints.py`).
-  Was MF-R075 (0.75 A hold), sized for the v3.1 strips.
-  - **Kept by decision 2026-10-24** (`master_group_review.md` MG14).
-  - Derating: hold falls to 1.30 / 1.15 A at 40 / 50 °C, and a wing's typical 1.16 A is then 89 / 101 % of hold, so
-    a wing can nuisance-trip in a warm room.
-  - The alternative on record is MF-RX185/72: an outline-only footprint change (15.18 × 21.18 mm, same 5.1 mm pitch
-    and pads), 77 / 87 % at 40 / 50 °C. MF-RX250/72 is out: the crimped IDC sockets are rated ~1 A per contact, and
-    it would hold 1.25 A per contact.
+  about 0.1 Ω (the MF-RX160/72's is 0.09–0.14 Ω; the larger part's is lower): about 0.1–0.2 V drop at 1 A. Footprint from the Bourns drawing (`tools/footprints.py`): 15.18 × 21.18 mm max, the
+  MF-RX160/72's pads and 5.1 mm pitch, courtyard 0.25 mm.
+  Was MF-R075 (0.75 A hold), sized for the v3.1 strips; then MF-RX160/72 (kept in MG14), changed with strip v4.3.
+  - Derating: hold 1.50 / 1.33 A at 40 / 50 °C. A wing's typical 1.25 A is 83 / 94 % of hold (the MF-RX160/72 would be
+    96 / 109 %). The worst case, 1.8 A, is above hold from 23 °C; it needs every op-amp at maximum current.
+  - Per IDC contact at hold: 0.93 A, against the crimped socket's ~1 A. MF-RX250/72 stays out (1.25 A per contact).
+  - Placement: fixed (`place_master.py`) so the extra 1.24 mm of body goes outward. The top side keeps its layout:
+    D5 / D8 leads and R121 / R123 clear the bodies and pads; the left pair's body ends 0.3 mm from the 4 mm edge
+    channel.
   - Keep F1–F4 away from the ±VP 2R2s and the LME49600s (placement).
 - Master local branches, each with its own series element and reservoir:
 
@@ -881,20 +888,25 @@ scale badly (below).
 | 6 relay coils (9.1 mA each) | 55 | — |
 | Panel LEDs (AFL, PFL, power, rude solo) | 60 | — |
 | **Master** | **≈ 0.61 A** | **≈ 0.50 A** |
-| 24 strips v4.0 at ≈ 85 / 72 mA | ≈ 2.04 A | ≈ 1.73 A |
-| **Console** | **≈ 2.65 A** | **≈ 2.23 A** |
+| 24 strips v4.3 at ≈ 92 / 79 mA (v4.0: 85 / 72) | ≈ 2.21 A | ≈ 1.90 A |
+| **Console** | **≈ 2.82 A** | **≈ 2.40 A** |
 
 With the M1 split, the subgroups, aux masters 1–4 and returns move to the four group modules. Each
 draws about 61 mA per rail from the ribbon (7 OPA1612, 2 DRV134) plus up to 3 LEDs. The
 master module's op-amps and drivers drop to about 174 mA per rail. The console total is unchanged
-(same circuits). Two groups per wing: about 1.16 A per wing on +V typical, inside the MF-RX160/72's
-1.6 A hold. Only the absolute worst case (every LED lit, op-amps at maximum current) reaches about
-1.7 A.
+(same circuits). Two groups per wing: about 1.25 A per wing on +V typical with strip v4.3 (1.16 A with v4.0), inside
+the MF-RX185/72's 1.85 A hold. Only the absolute worst case (every LED lit, op-amps at maximum current) reaches about
+1.8 A.
 
 Strip v4.0 (2026-10-22): 10 × OPA1612 (with the KHN mid bands), DG413 logic supply 2.4 mA, LEDs on
 +VL (ON, EQ and routing lit: about 9 mA). The strips were 33 / 23 mA in v3.1, when this budget was
 first written. With the OPA1612 at its 4.5 mA maximum the console reaches about 3.2 A on +V. With
 every LED on every strip lit as well, it reaches 3.8 A.
+
+Strip v4.3 (2026-10-24, sweepable HPF): 11 × OPA1612, +7.2 mA per rail typical. The console's +V is about 2.82 A
+typical, 3.4 A with every OPA1612 at maximum, and about 4.0 A with every LED lit as well: the PSU's 4 A rating, with
+no margin left in that corner (a real console never has every key and every LED on at once at maximum IQ, but the
+PSU's current limit and the LDOs' heatsink, sized for 4 A, are now exactly at it).
 
 **Consequences (applied 2026-10-22):**
 
