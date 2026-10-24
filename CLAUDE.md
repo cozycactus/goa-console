@@ -37,7 +37,7 @@ jack board) done.
   row layout. GNDM and PHONESGND are power symbols in `goa-console.kicad_sym` (GNDA's triangle with the name shown).
   `schgen.flow()` measures each fragment (label texts included) so neighbours' labels don't collide; field layouts per
   symbol key (`field_layout`, text side per unit via `text=`), unwired pins labelled in the direction the pin points.
-  Legibility was proof-read tile by tile on all three sheets (2026-10-24, two passes); crops with
+  Legibility was proof-read tile by tile on all three sheets (2026-10-24, three passes); crops with
   `rsvg-convert` of the `kicad-cli sch export svg` output (viewBox in mm) are the quickest check after a drawing change. Live view while editing a drawing: `tools/live.sh [strip|group|master] "note"` regenerates, checks (verify, ERC) and exports SVG for the page served by
   `.claude/launch.json` ("schematic-live", http://localhost:8765).
 - `master.kicad_sch` / `.kicad_pro` — master MODULE (16 HP; 563 parts + its jack board) since the M1 split (2026-10-22).

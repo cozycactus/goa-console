@@ -32,8 +32,8 @@ def wiper_follower(d, src, out, u, cin, rsh, csh, rbo=None, final=None):
     d.at(u[0], 15, 4, unit=u[1], text='U')
     d.h(cin, 3.5, 3, left=src, text='U'); d.w((0, 3), (2, 3)); d.port(src, (0, 3)); d.w((5, 3), (u[0], p[0]))
     d.w((5, 3), (5, 4)); d.v(rsh, 5, 5.5, top=d.nets(cin)['2'] if d.nets(cin)['1'] == src else d.nets(cin)['1'], text='L')
-    d.at(csh, 10, 4.5, text='L')
-    d.w((u[0], p[2]), (19, 4), (19, 7), (11.5, 7), (11.5, 5), (u[0], p[1]))
+    d.at(csh, 10.5, 4.5, text='L')
+    d.w((u[0], p[2]), (19, 4), (19, 7), (12, 7), (u[0], p[1]))
     if rbo:
         d.h(rbo, 21.5, 4, left=d.nets(u[0])[str(p[2])], text='U'); d.w((19, 4), (20, 4))
         d.w((23, 4), (26, 4)); d.port(final, (26, 4), 'R')
@@ -47,7 +47,7 @@ def phones(d, src, u, cin, rsh, csh, buf, rout, rf, cf, rg, caps, out):
     p = pins(u); fin = d.nets(u[0])[str(p[0])]; fn = d.nets(u[0])[str(p[1])]; drv = d.nets(u[0])[str(p[2])]
     d.at(u[0], 16, 4, unit=u[1], text='U')
     d.h(cin, 3.5, 3, left=src, text='U'); d.w((0, 3), (2, 3)); d.port(src, (0, 3)); d.w((5, 3), (u[0], p[0]))
-    d.w((5, 3), (5, 4)); d.v(rsh, 5, 5.5, top=fin, text='L'); d.at(csh, 10, 4.5, text='L')
+    d.w((5, 3), (5, 4)); d.v(rsh, 5, 5.5, top=fin, text='L'); d.at(csh, 11, 4.5, text='L')
     d.at(buf, 25, 4)                                                   # LME49600: in (2) left, out (4) right
     d.w((u[0], p[2]), (buf, 2))
     d.h(rout, 33.5, 4, left=d.nets(buf)['4'], text='U'); d.w((buf, 4), (32, 4)); d.w((35, 4), (39, 4)); d.port(out, (39, 4), 'R')
@@ -55,7 +55,7 @@ def phones(d, src, u, cin, rsh, csh, buf, rout, rf, cf, rg, caps, out):
     d.h(cf, 16.5, 10, left=fn, text='D'); d.w((13, 10), (15, 10)); d.w((18, 10), (20, 10), (20, 4))
     d.h(rf, 22.5, 14, left=fn, text='D'); d.w((13, 14), (21, 14)); d.w((24, 14), (37, 14), (37, 4))
     d.v(rg, 13, 15.5, top=fn, text='L')
-    for i, c in enumerate(caps): d.at(c, 27 + 6 * i, 18, rot=180 if d.nets(c)['1'] in GROUNDS else 0)
+    for i, c in enumerate(caps): d.at(c, 27 + 7 * i, 18, rot=180 if d.nets(c)['1'] in GROUNDS else 0)
 
 
 def part(d, r, x, y, unit=None):
@@ -136,7 +136,7 @@ def drv134(d, inp, op, on, u, cs_p, cs_n, cv_p, cv_n):
     d.w((u, 7), (18, 7)); d.w((cs_p, 2), (18, 4), (18, 7)); d.w((18, 7), (21, 7)); d.port(op, (21, 7), 'R')
     d.at(cs_n, 15.5, 12, rot=90, text='D'); d.w((u, 1), (13, 10), (13, 12), (cs_n, 1))
     d.w((u, 2), (18, 9)); d.w((cs_n, 2), (18, 12), (18, 9)); d.w((18, 9), (21, 9)); d.port(on, (21, 9), 'R')
-    d.at(cv_p, 25, 5.5); d.at(cv_n, 30, 5.5, rot=180)
+    d.at(cv_p, 28, 5.5); d.at(cv_n, 33, 5.5, rot=180)
 
 
 def relay(d, k, rcoil, dfly, nc_net):
@@ -146,9 +146,7 @@ def relay(d, k, rcoil, dfly, nc_net):
     d.at(rcoil, 5, 2.5); d.w((rcoil, 1), (5, 0)); d.port('+VBUS', (5, 0), 'U'); d.w((rcoil, 2), (k, 1))
     d.at(dfly, 1, 8, rot=270, text='L'); d.w((dfly, 1), (1, 5), (k, 1)); d.w((dfly, 2), (1, 11), (k, 8))
     d.w((k, 8), (5, 13)); d.port('RLY_DRV', (5, 13), 'D')
-    if nc_net in ('GNDA', 'GNDD'):                  # NC contacts: ground (or the relay's own return net)
-        for pn in (2, 7): d.gnd((k, pn), nc_net, 'U')
-    else:                                           # a named ground: both contacts lifted clear of the labels, one symbol
+    if True:                                        # NC contacts to ground: lifted clear of the contact labels, one symbol
         (x2, y2), (x7, y7) = d.pin(k, 2), d.pin(k, 7)
         g = lambda x, y: ((x - d.ox) / 2.54, (y - d.oy) / 2.54 - 4)
         d.w((k, 2), g(x2, y2), g(x7, y7)); d.w((k, 7), g(x7, y7)); d.gnd(g(x7, y7), nc_net, 'U')
@@ -184,7 +182,11 @@ def chain(d, start, elems, end=None):
     d.port(start, (0, 2)); x = 0; net = start
     for i, (kind, r) in enumerate(elems):
         if kind == 's':
-            nxt = d.h(r, x + 3.5, 2, left=net, text='U'); d.w((x, 2), (x + 2, 2)); x += 5; net = nxt
+            val = next(p['value'] for p in d.parts if p['ref'] == r); pad = max(0, int(0.45 * len(val) / 2 - 1.5))
+            led = next(p['key'] for p in d.parts if p['ref'] == r) == 'LED'    # its light arrows rise into texts above
+            nxt = d.h(r, x + pad + 3.5, 2, left=net, text=None if led else 'U'); d.w((x, 2), (x + pad + 2, 2))
+            if pad: d.w((x + pad + 5, 2), (x + 2 * pad + 5, 2))
+            x += 5 + 2 * pad; net = nxt
         else:
             d.w((x, 2), (x + 2, 2)); d.v(r, x + 2, 3.5, top=net)
             x += 2
@@ -201,8 +203,9 @@ def chain_w(elems, end=True):
 
 def pot(d, r, top, wiper):
     """A pot (pin 1 = ground end) drawn vertically: hot end up, wiper to the right.  12 x 9"""
-    d.at(r, 3, 4, mirror='x'); d.w((r, 3), (3, 1)); d.port(top, (3, 1), 'U')
-    d.w((r, 2), (8, 4)); d.port(wiper, (8, 4), 'R')
+    val = next(p['value'] for p in d.parts if p['ref'] == r); x = max(3, int(0.45 * len(val)) + 2)
+    d.at(r, x, 4, mirror='x', text='L'); d.w((r, 3), (x, 1)); d.port(top, (x, 1), 'U')
+    d.w((r, 2), (x + 5, 4)); d.port(wiper, (x + 5, 4), 'R')
 
 
 def pot2(d, r):
@@ -307,7 +310,7 @@ def peak(d, u3, dpk, rpk, cpk, c22, r330, r220, r10, dcl, ravg, cavg, jp, u4, rb
     d.h(c22, 7.5, 7, left=node, text='D'); d.w((4, 7), (6, 7)); d.w((9, 7), (13, 7))
     d.h(dcl, 8, 12, left=node); d.w((4, 12), (6.5, 12)); d.w((9.5, 12), (13, 12))
     d.w((u3[0], p[2]), (13, 4), (13, 12))
-    pk1 = d.h(dpk, 15.5, 4, left=u3o); d.w((13, 4), (14, 4))
+    pk1 = d.h(dpk, 15.5, 4, left=u3o, text='U'); d.w((13, 4), (14, 4))
     pk = d.h(rpk, 19.5, 4, left=pk1, text='U'); d.w((17, 4), (18, 4))
     d.v(cpk, 23, 5.5, top=pk); pkr = d.h(r330, 25.5, 4, left=pk, text='U'); d.w((21, 4), (24, 4))
     d.v(r220, 28, 5.5, top=pkr); d.w((27, 4), (28, 4))
@@ -379,19 +382,19 @@ def power_entry(d, j, d1, d2, tab, nts):
     and the net ties from GNDA to each other ground.  58 x 26"""
     d.at(j, 4, 8, mirror='y')
     d.w((j, 1), (8, 5)); d.port('CHASSIS', (8, 5), 'R')
-    d.w((j, 3), (10, 7), (10, 2)); d.w((j, 2), (10, 6)); d.w((10, 2), (30, 2)); d.port('+VBUS', (30, 2), 'R')
-    d.w((j, 5), (12, 9), (12, 8)); d.w((j, 4), (44, 8)); d.w((30, 8), (30, 9)); d.gnd((30, 9))
-    d.w((j, 7), (10, 11), (10, 10)); d.w((j, 6), (10, 10)); d.w((10, 11), (10, 14), (26, 14)); d.port('-VBUS', (26, 14), 'R')
+    d.w((j, 3), (12, 7), (12, 2)); d.w((j, 2), (12, 6)); d.w((12, 2), (30, 2)); d.port('+VBUS', (30, 2), 'R')
+    d.w((j, 5), (14, 9), (14, 8)); d.w((j, 4), (44, 8)); d.w((30, 8), (30, 9)); d.gnd((30, 9))
+    d.w((j, 7), (12, 11), (12, 10)); d.w((j, 6), (12, 10)); d.w((12, 11), (12, 14), (26, 14)); d.port('-VBUS', (26, 14), 'R')
     d.v(d1, 16, 5, top='+VBUS'); d.w((16, 2), (16, 3.5)); d.w((16, 6.5), (16, 8))
     d.v(d2, 16, 11, top='GNDA'); d.w((16, 8), (16, 9.5)); d.w((16, 12.5), (16, 14))
     d.at(tab, 24, 11); d.w((22, 8), (tab, 1))
     d.w((44, 8), (44, 8 + 5 * (len(nts) - 1)))
     for i, nt in enumerate(nts):
         y = 8 + 5 * i; other = d.nets(nt)['2']
-        d.at(nt, 46, y); d.w((44, y), (nt, 1))
-        d.w((nt, 2), (52, y))
-        if other in GROUNDS: d.w((52, y), (52, y + 1)); d.gnd((52, y + 1), other)
-        else: d.port(other, (52, y), 'R')
+        d.at(nt, 46, y, text='R'); d.w((44, y), (nt, 1))
+        d.w((nt, 2), (57, y))
+        if other in GROUNDS: d.w((57, y), (57, y + 1)); d.gnd((57, y + 1), other)
+        else: d.port(other, (57, y), 'R')
 
 
 def flags(d, refs, per=7):

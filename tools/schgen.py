@@ -56,7 +56,7 @@ AMPS = {'OPA': 3, 'CMP': 3, 'OPA1656': 3, 'TL072': 3, 'LM2901': 5}     # op-amp 
 DGPWR = {'DG': 5}
 POWER_SYMBOL_NETS = ('GNDA', 'GNDD', 'GNDM', 'PHONESGND')
 HIDE_PIN_NUMBERS = {'R', 'C', 'CP', 'POT', 'POT2', 'D', 'LED', 'ZEN', 'SCH', 'NT', 'DS', 'DZ', 'TAB', 'GNDA', 'GNDD', 'FLAG', 'TRIM', 'SJO'}
-HIDE_PIN_NAMES_ONLY = {'SJ3', 'SJ2', 'LME49600'}
+HIDE_PIN_NAMES_ONLY = {'SJ3', 'SJ2', 'LME49600', 'JFET'}
 HIDE_PIN_NAMES = HIDE_PIN_NUMBERS | {'SW', 'LINK', 'HDR', 'CONN6', 'CONN2', 'TAB', 'JACK', 'JACKSW', 'HDR5', 'NPN', 'PNP', 'PWRIN'}
 
 # ---------------------------------------------------------------- netlist
@@ -145,6 +145,9 @@ def pin_out(sym, unit, pn):
                     a = math.radians(p.position.angle or 0); return -round(math.cos(a)), -round(math.sin(a))
     return None
 
+def pin_type(sym, unit, pn):
+    return next((p.electricalType for u in sym.units if u.unitId in (0, unit) for p in u.pins if p.number == pn), None)
+
 def outward(px, py):
     if abs(px) >= abs(py): return 'R' if px > 0 else 'L'
     return 'T' if py > 0 else 'B'
@@ -208,6 +211,7 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
         if key == 'LME49600': return (cx + 2.54, cy - 6.35, fa, 'left'), (cx + 2.54, cy - 4.83, fa, 'left')
         if key == 'PWRIN': return (cx, cy - 11.43, fa, None), (cx, cy + 11.43, fa, None)
         if key == 'TAB': return (cx + 2.54, cy - 1.27, fa, 'left'), (cx + 2.54, cy + 1.27, fa, 'left')
+        if key == 'NT' and side == 'R': return (cx - 2.54, cy - 1.9, fa, 'left'), (cx - 2.54, cy + 1.9, fa, 'left')
         if key == 'NT': return (cx, cy - 2.54, fa, None), (cx, cy + 2.54, fa, None)
         if key == 'SJ3' and side == 'R': return (cx + 2.54, cy - 4.45, fa, 'left'), (cx + 2.54, cy - 2.67, fa, 'left')
         if key in ('SJ2', 'SJO'): return (cx, cy - 4.45, fa, None), (cx, cy - 2.54, fa, None)
@@ -219,9 +223,11 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
         if key == 'TRIM' and horiz: return (cx, cy - 4.6, fa, None), (cx, cy - 2.9, fa, None)
         if key == 'TRIM': return (cx - 2.54, cy - 1.27, fa, 'right'), (cx - 2.54, cy + 1.27, fa, 'right')
         if key == 'RELAY': return (cx + 16.51, cy - 1.27, fa, 'left'), (cx + 16.51, cy + 1.27, fa, 'left')
+        if key == 'POT' and horiz and side == 'R': return (cx - 2.54, cy - 3.81, fa, 'left'), (cx - 2.54, cy - 6.35, fa, 'left')
         if key == 'POT' and horiz: return (cx, cy - 3.81, fa, None), (cx, cy - 6.35, fa, None)
         if key == 'POT' and side == 'L': return (cx - 2.54, cy - 1.27, fa, 'right'), (cx - 2.54, cy + 1.27, fa, 'right')
         if key == 'POT': return (cx + 4.45, cy - 1.9, fa, 'left'), (cx + 4.45, cy + 1.9, fa, 'left')
+        if key == 'POT2' and side == 'W': return (cx - 24.13, cy - 1.27, fa, 'right'), (cx - 24.13, cy + 1.27, fa, 'right')
         if key == 'POT2': return (cx - 13.97, cy - 1.27, fa, 'right'), (cx - 13.97, cy + 1.27, fa, 'right')
         return None, None
 
@@ -244,7 +250,7 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
                 fr, fv, vhide = (cx - 3.81, cy, 0, 'right'), None, True
             if is_pwr: fv = (cx, cy - 4.45, 0, None)
             if pt['key'] == 'DG' and pt['unit'] in (1, 2, 3, 4):              # switch sections: reference above
-                fr, fv, vhide = (cx - 3.81, cy - 3.0, 0, 'right'), None, True    # above the S pin and its number
+                fr, fv, vhide = (cx - 3.81, cy - 3.8, 0, 'right'), None, True    # above the S pin and its number
             if (ang % 360 == 180 or (ang % 360 == 90 and pt['key'] in ('LED', 'D', 'ZEN', 'SCH', 'DZ', 'DS', 'TRIM'))) != (mirror == 'y'):
                 # KiCad flips a field's justification with the symbol (a 90-degree diode's 90-degree text reads at 180)
                 sw = {'left': 'right', 'right': 'left'}
@@ -287,6 +293,7 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
     def attach(pt, pn, net, ax, ay, side):
         """An unwired pin: no-connect flag, power symbol or net label, pointing away from the symbol."""
         if net == 'NC':
+            if pin_type(used[SYM[pt['key']]], pt['unit'], pn) == 'no_connect': return   # an NC pin by type: no flag
             sch.noConnects.append(NoConnect(position=Position(ax, ay), uuid=K('nc', pt['ref'], pt['unit'], pn)))
         elif net in POWER_SYMBOL_NETS:
             power(net, ax, ay, PWR_ANG[side], ('pwr', pt['ref'], pt['unit'], pn))

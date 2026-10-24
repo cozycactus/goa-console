@@ -26,7 +26,7 @@ def gain(d):
     d.w((1, 4), (3, 4)); d.port('RECV', (1, 4))
     d.at('R45', 4.5, 4, rot=90); d.w((3, 4), ('R45', 1))
     d.at('RV9', 9.5, 4, rot=270); d.w(('R45', 2), ('RV9', 3))
-    d.at('R46', 13.5, 4, rot=90); d.w(('RV9', 1), ('R46', 1))
+    d.at('R46', 13.5, 4, rot=90, text='U'); d.w(('RV9', 1), ('R46', 1))
     d.at('U1', 17, 10, mirror='x', unit=2)
     d.w(('R46', 2), (20, 4), (20, 10)); d.w(('U1', 7), (23, 10))
     d.w(('RV9', 2), (9.5, 9), ('U1', 6))
@@ -57,7 +57,7 @@ def svf_core(d, ui1, ui2, rb1, ci1, rb2, ci2, pot, r0a, r0b, rta, rtb, lp_end, b
     d.w((u2, p2[2]), (51, 8)); d.w((u2, p2[0]), (43, 9), (43, 10)); d.gnd((43, 10))
     d.w((51, 4), (51, -3), 'h', lp_end)
     d.w((37, 4), (37, 24), 'h', bp_end)
-    d.at(pot, 28.5, 15)
+    d.at(pot, 28.5, 15, text='W')                   # value left of the summer's output line
     d.w((pot, 2), (rb1, 1))
     d.w((pot, 5), (31, 12), (40, 12), (rb2, 1))
     d.w((pot, 1), (24.5, 17)); d.at(r0a, 24.5, 18.5, text='L')
@@ -126,10 +126,11 @@ def eq(d):
     d.shift(0, 9); Y = 8
     # HF: shelf network from the wiper into the virtual earth
     p = inv_stage(d, 0, Y, ('U5', 2), 'R50', 'R51', cf='C41', pot='RV10', pot_in=3)
+    d.textside[('RV10', 1)] = d.textside['RV10'] = 'R'   # texts run right, clear of R53's line
     d.w((-3, Y - 1), (1, Y - 1)); d.port('EQIN', (-3, Y - 1))
     d.w(('U5', p[0]), (7, Y + 2)); d.gnd((7, Y + 2))
     d.w((5, Y - 1), (5, Y + 13)); d.at('R53', 5, Y + 14.5, rot=180, text='L')
-    d.at('C43', 6.5, Y + 16, rot=270, text='U'); d.at('C42', 11.5, Y + 16, rot=270, text='U')
+    d.at('C43', 6.5, Y + 16, rot=270, text='D'); d.at('C42', 11.5, Y + 16, rot=270, text='U')
     d.w(('C43', 1), ('C42', 2)); d.at('R52', 9, Y + 17.5)
     d.w(('RV10', 2), (7.5, Y + 13), (13, Y + 13), ('C42', 1))
     # HI-MID and LO-MID: + input from the KHN band-pass, gain pot between input and output
@@ -308,12 +309,12 @@ def pan(d):
     d.at('U2', 8, 6, mirror='x', unit=2)
     d.w(('U2', 7), (12, 6), (12, 3), (4, 3), (4, 5), ('U2', 6))
     d.w(('U2', 5), (3, 7), (3, 10), (9.5, 10), ('RV8', 2)); d.at('C79', 3, 11.5, text='L')
-    d.at('C16', 14.5, 6, rot=90, text='U'); d.w((12, 6), ('C16', 1))
+    d.at('C16', 15.5, 6, rot=90, text='U'); d.w((12, 6), ('C16', 1))
     d.w(('C16', 2), (21, 6)); d.port('PANL', (21, 6), 'R'); d.at('R36', 18, 7.5)
     d.at('U3', 36, 6, mirror='x', unit=1)
     d.w(('U3', 1), (40, 6), (40, 3), (32, 3), (32, 5), ('U3', 2))
     d.w(('U3', 3), (31, 7), (31, 11), (14.5, 11), ('RV8', 5)); d.at('C80', 31, 12.5)
-    d.at('C17', 42.5, 6, rot=90, text='U'); d.w((40, 6), ('C17', 1))
+    d.at('C17', 43.5, 6, rot=90, text='U'); d.w((40, 6), ('C17', 1))
     d.w(('C17', 2), (49, 6)); d.port('PANR', (49, 6), 'R'); d.at('R37', 46, 7.5)
 
 
@@ -328,7 +329,7 @@ def routing(d):
     d.at('R80', 3.5, -4, rot=90, text='D'); d.w((0, -4), ('R80', 1)); d.port('+VA', (0, -4))
     d.w(('R80', 2), (20, -4)); d.port('+5VL', (20, -4), 'R')
     d.at('D9', 6.5, -2.5, rot=270); d.at('C62', 13.5, -2.5); d.at('#FLG07', 17, -4)
-    d.at('D10', 3.5, -7, text='U'); d.w(('D10', 3), (2, -7), ('R80', 1)); d.w(('D10', 1), (5, -7), ('R80', 2))
+    d.at('D10', 3.5, -7, mirror='x', text='U'); d.w(('D10', 3), (2, -7), ('R80', 1)); d.w(('D10', 1), (5, -7), ('R80', 2))
     for k, (sw, u, rl, rr, sl, sr, bl, br, rpd, rled, dled, cs) in enumerate((
             ('SW5', 'U9', 'R26', 'R27', 'PANL', 'PANR', 'MIXL', 'MIXR', 'R74', 'R75', 'D6', ('C53', 'C54', 'C55')),
             ('SW6', 'U10', 'R28', 'R29', 'SUBSRC_L', 'SUBSRC_R', 'SUB1', 'SUB2', 'R76', 'R77', 'D7', ('C56', 'C57', 'C58')),
@@ -344,7 +345,7 @@ def routing(d):
             d.w((u, gg), (X + 14, y + 5), (X + 14, y + 6)); d.gnd((X + 14, y + 6))
             ctl = d.nets(u)[str(pc)]       # the switch's control line: labelled at each IN, no wire across the bus outputs
             d.w((u, pc), (X + 10, y + 3), (X + 13, y + 3)); d.port(ctl, (X + 13, y + 3), 'R')
-            d.w((u, gc), (X + 10, y + 8), (X + 13, y + 8)); d.port(ctl, (X + 13, y + 8), 'R')
+            d.w((u, gc), (X + 10, y + 8), (X + 8, y + 8)); d.port(ctl, (X + 8, y + 8), 'L')    # left, clear of the ground
         d.at(sw, X + 19, 26, unit=1); d.w((X + 17, 23), (sw, 2)); d.port(ctl, (X + 17, 23), 'U')
         d.at(rpd, X + 13, 25.5); d.w((X + 17, 24), (X + 13, 24))
         led_chain(d, sw, X + 19, 32, rled, dled)
