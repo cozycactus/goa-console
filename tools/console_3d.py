@@ -781,5 +781,50 @@ if 'norender' not in ARGV[1:]:                     # '-- render norender': build
     shot(bench, bcam, 'strip_under.png', (-0.16, 0.07, -0.14), (0.019, -0.11, 0.0), lens=30)
     shot(mbench, mcam, 'master_under.png', (-0.17, 0.09, -0.21), (0.039, -0.17, -0.005), lens=30)
 
+def flythrough(sc, fps=30):
+    """Fly camera (30 s): establishing shot and an arc across the front, a low glide along the strips over the knobs, the
+    master up close, straight down over it while the panels vanish, the inside, then under the console (tub, frame
+    and desk hidden, lit from below) for the ground harness and the PSU cable. The camera tracks an empty; both are
+    keyframed with smooth (auto-clamped) curves. tools/fly_render.py renders it (preview / final)."""
+    mc = master_x + 39.3; Z = PANEL_Z1; V = Vector
+    keys = [   # frame, camera, target, lens
+        (1, mid + V((-1.7, -1.7, 1.3)), mid, 35),
+        (150, mid + V((0.0, -2.0, 1.1)), mid, 35),
+        (260, mid + V((1.5, -1.3, 0.75)), W(width * 0.7, 250, Z), 40),
+        (340, W(width + 60, 570, Z + 45), W(width - 160, 300, Z), 26),
+        (480, W(-60, 570, Z + 45), W(160, 300, Z), 26),
+        (560, W(mc, 560, Z) + nrm * 0.14, W(mc, 250, Z), 30),
+        (640, W(mc, 250, Z) + nrm * 0.95, W(mc, 252, Z), 35),
+        (700, W(mc, 250, Z) + nrm * 0.80, W(mc, 252, Z), 35),
+        (770, W(mc, 250, 0) + V((-0.42, -0.62, 0.48)), W(mc, 250, 0), 40),
+        (820, W(mc, 760, -30), W(mc, 300, -20), 30),
+        (870, W(mc, 300, -20) + V((-0.55, 0.35, -0.55)), W(mc, 300, -20), 28),
+        (900, W(mc, 300, -20) + V((0.45, 0.45, -0.70)), W(mc, 300, -20), 28)]
+    cam_d = bpy.data.cameras.new('fly camera'); cam_d.clip_start = 0.005; cam_d.clip_end = 50
+    fc = bpy.data.objects.new('fly camera', cam_d); sc.collection.objects.link(fc)
+    ft = bpy.data.objects.new('fly target', None); sc.collection.objects.link(ft)
+    tr = fc.constraints.new('TRACK_TO'); tr.target = ft; tr.track_axis = 'TRACK_NEGATIVE_Z'; tr.up_axis = 'UP_Y'
+    ed = bpy.context.preferences.edit                    # smooth moves: Bezier keys with auto-clamped handles
+    ed.keyframe_new_interpolation_type = 'BEZIER'; ed.keyframe_new_handle_type = 'AUTO_CLAMPED'
+    for f, cl, tg, lens in keys:
+        fc.location = cl; fc.keyframe_insert('location', frame=f)
+        ft.location = tg; ft.keyframe_insert('location', frame=f)
+        cam_d.lens = lens; cam_d.keyframe_insert('lens', frame=f)
+    def hide(ids, on_from, off_from=None):
+        """Hidden (render and viewport) from frame on_from (to off_from); booleans step."""
+        for it in ids:
+            for f, h in ((1, False), (on_from, True)) + (((off_from, False),) if off_from else ()):
+                it.hide_render = h; it.keyframe_insert('hide_render', frame=f)
+                if hasattr(it, 'hide_viewport'): it.hide_viewport = h; it.keyframe_insert('hide_viewport', frame=f)
+    objs = lambda c: list(c.all_objects)                 # collections' own flags can't be keyframed: their objects'
+    hide([o for s in (strip, group, master) for o in objs(bpy.data.collections[s.name + ' panel'])] +
+         [o for o in modules.objects if o.type == 'FONT'], 610)                        # the reveal
+    hide(objs(frame) + [bpy.data.objects['desk']], 800)                                # under the console
+    ul = light(sc, 'fly under light', 'AREA', W(mc, 300, -20) + V((0.3, -0.4, -0.9)), W(mc, 300, -20), 60, 2.0)
+    ul.hide_render = True; ul.keyframe_insert('hide_render', frame=1)
+    ul.hide_render = False; ul.keyframe_insert('hide_render', frame=800)
+    sc.frame_start, sc.frame_end, sc.render.fps = 1, 900, fps
+    sc.camera = fc; sc.frame_set(1)
+flythrough(scene)
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(OUTDIR, 'goa_console.blend'))
 print('saved', os.path.join(OUTDIR, 'goa_console.blend'), 'width', round(width, 1), 'mm')
