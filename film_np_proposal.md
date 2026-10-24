@@ -1,6 +1,9 @@
 # Film couplers and audio bipolar electrolytics — proposal
 
-Proposal for sign-off, 2026-10-24. Nothing in the design has changed. The generator and layout edits are in
+Proposal for sign-off, 2026-10-24. **Signed off by Ruslan the same day (F1–F4 as proposed) and applied:** strip v4.2,
+master spec v0.8 note, every board regenerated (0 mismatches, check_fp 0, ERC 0), `sim_netlist.py` 30/30,
+`sim_console.py` 32/32, strip / group / master / jig re-placed with 0 DRC violations and 0 parity issues. (When written,
+nothing in the design had changed.) The generator and layout edits are in
 `film_np_proposal.patch`. They were trial-applied in a throwaway worktree: regenerated, verified, simulated and
 re-placed (results below).
 
@@ -115,15 +118,15 @@ Schematic checks in the trial:
 
 ## What to sign
 
-- [ ] **F1** X7R 2.2 µF couplers → WIMA MKS2C042201K00KSSD film, THT on the bottom side. That's strip C13; group C15,
+- [x] **F1** X7R 2.2 µF couplers → WIMA MKS2C042201K00KSSD film, THT on the bottom side. That's strip C13; group C15,
   C37, C56, C62; master C29, C35, C66, C81, C106, C124, C128, C138, C147, and the meter averaging caps C157, C175.
   Strip C49 gets the MPN.
-- [ ] **F2** Bipolar electrolytics → Nichicon MUSE ES 25 V in the current footprints: 47 µF → 33 µF (UES1E330MPM),
+- [x] **F2** Bipolar electrolytics → Nichicon MUSE ES 25 V in the current footprints: 47 µF → 33 µF (UES1E330MPM),
   220 µF → 100 µF (UES1E101MPM), 10 µF → UES1E100MDM. This changes the signed "AC coupling 220 µF NP + 47K" value
   to 100 µF, for the LF costs above.
-- [ ] **F3** Layout rules: strip C13 / C49 on the bottom, the group's tall-part rule including film. Re-place strip,
+- [x] **F3** Layout rules: strip C13 / C49 on the bottom, the group's tall-part rule including film. Re-place strip,
   group and master (placement only), with parity DRC.
-- [ ] **F4** Docs:
+- [x] **F4** Docs:
   - strip spec §15 (BOM) and §17 (LF response);
   - master spec §15 / §23 parts summaries;
   - CLAUDE.md (the AC-coupling decision's values);

@@ -66,6 +66,13 @@ macro) in whole-module decks; scripts in `sim/review/master/`, `sim/review/group
   aux outputs unmuted (§13).
 - **Kept by decision:** the wing PTCs stay MF-RX160/72 (§25); no mute relays on the aux outputs (§13).
 
+**Film couplers and audio bipolars (signed off 2026-10-24, `film_np_proposal.md` F1–F4).**
+- **Film:** every 2.2 µF wiper coupler (fader, aux 5/6, solo, C/Room, phones) and the meter's averaging caps are WIMA
+  MKS2C042201K00KSSD PET film (THT, bottom side), not X7R.
+- **Bipolar electrolytics:** Nichicon MUSE ES 25 V in the existing footprints: 47 µF → 33 µF (UES1E330MPM), 220 µF →
+  100 µF (UES1E101MPM), 10 µF UES1E100MDM. The values in the diagrams below are the new ones.
+- **LF response:** end to end, a strip's input to the main XLR is −3 dB at 2.3 Hz and −0.04 dB at 20 Hz.
+
 Delta references: ED2780 sheet 2 (MIX SUM AMPS, MIX INSERT, FADER POST AMPS, BALANCED
 OUTPUT AMPS, mono "GC O/P AMP") and sheet 1 (monitor-select differential receivers on MIX
 L+/L−, master ground-cancel resistor).
@@ -81,8 +88,8 @@ MIX L bus (pin 18) ─ ferrite ─┬─ U1A summing amp, OPA1612, inverting, Rf
 SUM_L, GCANCEL_BUF ─ U1B differential re-inverter, unity, 4 × 2K2 0.1 %
                  output MIX_L (= +Σ channels, referenced to master AGND)
 MIX_L ─ 75R ─ master insert send (tip) ─ [bus compressor] ─ return (ring, normalled to send)
-      ─ 47µ NP + 47K ─ U2A buffer ─ 220µ NP + 47K ─ PRE_L
-PRE_L ─ master fader (dual 100 mm, A10K) ─ 2.2µ + 100K ─ U2B post-amp +10 dB ─ 220µ NP + 47K ─ POST_L
+      ─ 33µ NP + 47K ─ U2A buffer ─ 100µ NP + 47K ─ PRE_L
+PRE_L ─ master fader (dual 100 mm, A10K) ─ 2.2µ film + 100K ─ U2B post-amp +10 dB ─ 100µ NP + 47K ─ POST_L
 POST_L ─┬─ U4 DRV134 balanced driver (+6 dB) ─ mute relay (NO in series, NC grounds the line) ─ XLR male MIX L OUT
         ├─ mono sum (with POST_R)
         └─ to monitoring and meters (later parts)
@@ -158,8 +165,8 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
 
 - Neutrik NJ6FD-V, wired as the strip insert: send on tip through 75R, return on ring,
   ring normalled to send.
-- Return: 47 µF NP + 47K bleed, then 1K + 100 pF C0G at the + input of an OPA1612 follower (U2A), then a 75R
-  build-out, 220 µF NP + 47K to PRE_L (v0.8, `master_group_review.md` MG7).
+- Return: 33 µF NP + 47K bleed, then 1K + 100 pF C0G at the + input of an OPA1612 follower (U2A), then a 75R
+  build-out, 100 µF NP + 47K to PRE_L (v0.8, `master_group_review.md` MG7).
   - The 1K bounds the input current from outboard gear driving an unpowered console: ≈ 9.5 mA at a +20 dBu peak.
   - The 100 pF keeps the follower stable with it (the 1K alone costs 25–45°).
   - The 75R isolates the follower from PRE and the fader-top wiper run: 75.6° with 47 pF, against 48° without.
@@ -174,14 +181,14 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
   and groups; the AP 4 mm-fork audio parts are factory-only, 2026-10-23). The dual-gang
   footprint is the PTB0143 one plus pins 1′ 2′ 3′ mirrored about the body centreline (same
   datasheet drawing). Wired with pin 1 = GNDA, as on the strips (A taper).
-- Post-amp U2B: 2.2 µF + 100K input, gain 1 + 4K7/2K2 = +9.9 dB, 100 pF across 4K7. Same as
+- Post-amp U2B: 2.2 µF film + 100K input, gain 1 + 4K7/2K2 = +9.9 dB, 100 pF across 4K7. Same as
   the strip, so the "0" mark (−10 dB travel) is unity through the master.
 - v0.8 (MG4): 10 pF C0G from the + input to GNDA, and a 47R build-out at the op-amp pin before the 220 µF.
   - With 100 pF across the 4K7 the stage is a follower above 339 kHz. The wiper's 1.3–2.5 kΩ against the input
     capacitance, plus POST's 337 mm run and the DG413's on-capacitance when MIX is monitored, left 2–21° of margin.
     With the fix it is ≥ 51°.
   - Cost: −0.094 dB flat. With the insert's 75R, the main path is about −0.18 dB below the v0.7 figures.
-- 220 µF NP + 47K to POST_L.
+- 100 µF NP + 47K to POST_L.
 
 ## 6. Mono
 
@@ -362,13 +369,13 @@ mix path's first half, plus a pan into the mix.
 ```
 SUBn bus ─ ferrite ─ summing amp (OPA1612 A), Rf 4K7 ∥ 100 pF, + input = GCANCEL
          ─ re-inverter (OPA1612 B), 4 × 2K2 0.1 %, + leg from GCANCEL_BUF   → SUBn_MIX
-SUBn_MIX ─ 75R ─ insert send (tip) ─ return (ring, normalled) ─ 47µ NP + 47K
-         ─ return buffer (OPA1612 A) ─ 220µ NP + 47K ─ PRE_SUBn
-PRE_SUBn ─ fader PTB0143 A10K (pin 1 = GNDA) ─ 2.2µ + 100K ─ post-amp +9.9 dB (OPA1612 B,
-           4K7 / 2K2, 100 pF) ─ 220µ NP + 47K ─ POST_SUBn
+SUBn_MIX ─ 75R ─ insert send (tip) ─ return (ring, normalled) ─ 33µ NP + 47K
+         ─ return buffer (OPA1612 A) ─ 100µ NP + 47K ─ PRE_SUBn
+PRE_SUBn ─ fader PTB0143 A10K (pin 1 = GNDA) ─ 2.2µ film + 100K ─ post-amp +9.9 dB (OPA1612 B,
+           4K7 / 2K2, 100 pF) ─ 100µ NP + 47K ─ POST_SUBn
 POST_SUBn ─┬─ DRV134 ─ NJ6FD-V TRS output (tip hot, ring cold, sleeve GNDA)
            ├─ pan pot RD902F B10K centre detent ─ pan buffers (OPA1612 A/B)
-           │    ─ 220µ NP + 47K each ─ MIX switch (PVA2, A-B = on)
+           │    ─ 100µ NP + 47K each ─ MIX switch (PVA2, A-B = on)
            │    ─ 4K7 1 % to MIX L / MIX R (switch off grounds the resistor's bus end)
            └─ AFL switch (PVA2): pole A 22K to PFL bus (off: resistor end grounded),
                                   pole B +VL → 100K → PFLDET, 4K7 → AFL LED (red)
@@ -422,8 +429,8 @@ these buses through 22K.
 ```
 AUXn bus ─ ferrite ─ summing amp (OPA1612 A), Rf 22K 1 % ∥ 100 pF, + input = GCANCEL
          ─ re-inverter (OPA1612 B), 4 × 2K2 0.1 % + 2 × 22 pF, + leg from GCANCEL_BUF   → AUXn_SUM
-AUXn_SUM ─ 47µ NP ─ master level RD901F A10K (pin 1 = GNDA, pin 3 = signal)
-         ─ wiper ─ 2.2µ + 100K ─ output buffer (OPA1612, non-inverting:
+AUXn_SUM ─ 33µ NP ─ master level RD901F A10K (pin 1 = GNDA, pin 3 = signal)
+         ─ wiper ─ 2.2µ film + 100K ─ output buffer (OPA1612, non-inverting:
            Rf 4K7 ∥ 100 pF, Rg not fitted = unity; fit 4K7 for +6 dB, 2K2 for +10 dB)  → AUXn_OUT
 AUXn_OUT ─┬─ DRV134 ─ NJ6FD-V TRS output (tip hot, ring cold, sleeve GNDA)
           └─ AFL switch (PVA2): pole A 22K to PFL bus (off: resistor end grounded),
@@ -524,10 +531,10 @@ with the same receiver, routing and PFL circuits as the strip.
 RET n L in (NJ6FD-V) ─ differential receiver (OPA1612 A, 4 × 10K 0.1 %, 33 pF on both legs, 100 pF + 1M on inputs) → RETn_L
 RET n R in (NJ6FD-V, tip and ring normals wired to the L jack's tip and ring:
            with no plug in R, the R receiver sees the L signal)        ─ receiver (OPA1612 B) → RETn_R
-RETn_L/R ─ 47µ NP + 47K ─ PREn_L/R ─┬─ level, dual A10K (RD902F), pin 1 = GNDA
-                                    │    ─ wipers ─ 2.2µ + 100K ─ buffers (OPA1612 A/B;
+RETn_L/R ─ 33µ NP + 47K ─ PREn_L/R ─┬─ level, dual A10K (RD902F), pin 1 = GNDA
+                                    │    ─ wipers ─ 2.2µ film + 100K ─ buffers (OPA1612 A/B;
                                     │      Rf 4K7 ∥ 100 pF, Rg not fitted = unity, fit 2K2 for +10 dB)
-                                    │    ─ 220µ NP + 47K ─ RTNn_L/R
+                                    │    ─ 100µ NP + 47K ─ RTNn_L/R
                                     │       ─ routing: MIX, 1-2, 3-4 (3 × PVA2, A-B = on)
                                     │         L via 4K7 1 % to MIX L / SUB1 / SUB3,
                                     │         R via 4K7 1 % to MIX R / SUB2 / SUB4,
@@ -560,13 +567,13 @@ remote meter connector) and sheet 3 (meters).
 ## 17. Signal flow
 
 ```
-EXT in L/R (2 × NJ6FD-V, R normalled to L) ─ receivers (OPA1612, 33 pF on both legs) → EXT_BL/BR ─ 100R ─ 47µ NP + 47K → EXT_L/R
+EXT in L/R (2 × NJ6FD-V, R normalled to L) ─ receivers (OPA1612, 33 pF on both legs) → EXT_BL/BR ─ 100R ─ 33µ NP + 47K → EXT_L/R
 POST_L/R (mix, after the master fader) ──────────────────────────────────────────→ MIX_MON_L/R
 EXT switch (PVA2: latched = EXT) selects MIX_MON or EXT                           → MON_L/R
 
 PFL bus (pin 27) ─ PFL summing amp (OPA1656 A, Rf 22K ∥ 100 pF, + input = GCANCEL)
                  ─ re-inverter (OPA1656 B, 4 × 2K2 0.1 %, + leg from GCANCEL_BUF)
-                 ─ 47µ NP ─ SOLO LEVEL (RD901F A10K) ─ 2.2µ + 100K ─ follower ─ 100R  → PFL_SIG
+                 ─ 33µ NP ─ SOLO LEVEL (RD901F A10K) ─ 2.2µ film + 100K ─ follower ─ 100R  → PFL_SIG
 
 PFL switcher (one DG413, break-before-make; CRS on the D side, 100K to GNDA):
    MON_L   ─ 47µ + 1M ─ SW2 (NC) ─┐
@@ -587,7 +594,7 @@ PFL is mono and goes to both sides. The meters follow what is being monitored: m
   −101.2 / −100.6 / −99.5 (review 2026-10-23).
 - Pin 28 ("PFL Audio −VE" in the 200 Delta Technical Manual, p. 134) is not used by the master. The strips only
   pass it through, so it stays a spare.
-- SOLO LEVEL: RD901F A10K, pin 1 = GNDA, then 2.2 µF + 100K and an OPA1612 follower with 22 pF C0G at its + input
+- SOLO LEVEL: RD901F A10K, pin 1 = GNDA, then 2.2 µF film + 100K and an OPA1612 follower with 22 pF C0G at its + input
   and a 100R build-out to PFL_SIG (v0.8, MG3).
   - With a key pressed, two DG413 on-switches and both CRS inputs hang on PFL_SIG, and the bare follower oscillated
     (−0.8°). With the fix it is ≥ 73.5°.
@@ -655,7 +662,7 @@ PFL is mono and goes to both sides. The meters follow what is being monitored: m
 ## 20. Control room outputs
 
 - C/ROOM level: dual A10K (RD902F), pin 1 = GNDA, fed from the CRS followers.
-  Wipers ─ 2.2 µF + 100K ─ OPA1612 followers (22 pF C0G at the + inputs, v0.8 MG5) ─ DRV134 ×2 ─ mute relay ─
+  Wipers ─ 2.2 µF film + 100K ─ OPA1612 followers (22 pF C0G at the + inputs, v0.8 MG5) ─ DRV134 ×2 ─ mute relay ─
   NJ6FD-V TRS outputs (tip hot, ring cold, sleeve GNDA).
 - **Mute relay on the CR outputs too** (signed off 2026-10-23). They drive the monitor
   speakers, which matters more than the main outputs. Two more G6K-2F-Y DC12 (L and R, both
@@ -735,7 +742,7 @@ scale badly (below).
     lights, i.e. U4 at the 0 dB tap. That tap is about 0.63 V, not 0.649 V: the meter branch's
     10R drops VM to about 16.45 V, and calibrating to 0.649 V would read 0.27–0.29 dB high. Peak
     mode needs a gain of about 0.58, average mode about 0.90; the trim covers both.
-  - The ballistics capacitors (2.2 µF average, 1 µF peak) are 1206 MLCCs: use film, C0G or
+  - The ballistics capacitors: the 2.2 µF average caps are MKS2 film (v0.8, F1); the 1 µF peak caps are 1206 MLCCs: use film, C0G or
     50 V X7R. A small X7R loses 10–25 % to DC bias and shifts the 73 ms / 0.55 s times.
 - Simulated (single-pole op-amps at 3 MHz GBW, 1N4148 model):
 

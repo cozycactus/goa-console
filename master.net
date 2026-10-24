@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/master.kicad_sch")
-		(date "2026-10-24T05:13:40")
+		(date "2026-10-24T08:07:31")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -956,11 +956,11 @@
 		)
 		(comp
 			(ref "C16")
-			(value "47u NP 25V")
+			(value "33u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1VN470U (35V)")
+					(name "MPN") "Nichicon UES1E330MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
@@ -977,7 +977,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1VN470U (35V)")
+				(value "Nichicon UES1E330MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -1076,11 +1076,11 @@
 		)
 		(comp
 			(ref "C18")
-			(value "220u NP 25V")
+			(value "100u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN221U")
+					(name "MPN") "Nichicon UES1E101MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 				(field
@@ -1097,7 +1097,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN221U")
+				(value "Nichicon UES1E101MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -1436,11 +1436,11 @@
 		)
 		(comp
 			(ref "C24")
-			(value "47u NP 25V")
+			(value "33u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1VN470U (35V)")
+					(name "MPN") "Nichicon UES1E330MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
@@ -1457,7 +1457,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1VN470U (35V)")
+				(value "Nichicon UES1E330MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -1676,11 +1676,11 @@
 		)
 		(comp
 			(ref "C28")
-			(value "220u NP 25V")
+			(value "100u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN221U")
+					(name "MPN") "Nichicon UES1E101MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 				(field
@@ -1697,7 +1697,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN221U")
+				(value "Nichicon UES1E101MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -1736,13 +1736,13 @@
 		)
 		(comp
 			(ref "C29")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "2.2u film")
+			(footprint "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
-					(name "MPN") "Murata GRM31CR71H225KA88L (X7R 50V)")
+					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
 					(name "Datasheet")
 				)
@@ -1757,7 +1757,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Murata GRM31CR71H225KA88L (X7R 50V)")
+				(value "WIMA MKS2C042201K00KSSD (PET 63V)")
 			)
 			(property
 				(name "Sheetname")
@@ -2036,11 +2036,11 @@
 		)
 		(comp
 			(ref "C34")
-			(value "220u NP 25V")
+			(value "100u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN221U")
+					(name "MPN") "Nichicon UES1E101MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 				(field
@@ -2057,7 +2057,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN221U")
+				(value "Nichicon UES1E101MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -2096,13 +2096,13 @@
 		)
 		(comp
 			(ref "C35")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "2.2u film")
+			(footprint "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
-					(name "MPN") "Murata GRM31CR71H225KA88L (X7R 50V)")
+					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
 					(name "Datasheet")
 				)
@@ -2117,7 +2117,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Murata GRM31CR71H225KA88L (X7R 50V)")
+				(value "WIMA MKS2C042201K00KSSD (PET 63V)")
 			)
 			(property
 				(name "Sheetname")
@@ -2276,11 +2276,11 @@
 		)
 		(comp
 			(ref "C38")
-			(value "220u NP 25V")
+			(value "100u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN221U")
+					(name "MPN") "Nichicon UES1E101MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 				(field
@@ -2297,7 +2297,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN221U")
+				(value "Nichicon UES1E101MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -2580,7 +2580,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -2597,7 +2597,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -2640,7 +2640,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -2657,7 +2657,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -2820,7 +2820,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -2837,7 +2837,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -2880,7 +2880,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -2897,7 +2897,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -3060,7 +3060,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -3077,7 +3077,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -3120,7 +3120,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -3137,7 +3137,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -3896,11 +3896,11 @@
 		)
 		(comp
 			(ref "C65")
-			(value "47u NP 25V")
+			(value "33u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1VN470U (35V)")
+					(name "MPN") "Nichicon UES1E330MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
@@ -3917,7 +3917,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1VN470U (35V)")
+				(value "Nichicon UES1E330MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -3956,13 +3956,13 @@
 		)
 		(comp
 			(ref "C66")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "2.2u film")
+			(footprint "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
-					(name "MPN") "Murata GRM31CR71H225KA88L (X7R 50V)")
+					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
 					(name "Datasheet")
 				)
@@ -3977,7 +3977,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Murata GRM31CR71H225KA88L (X7R 50V)")
+				(value "WIMA MKS2C042201K00KSSD (PET 63V)")
 			)
 			(property
 				(name "Sheetname")
@@ -4260,7 +4260,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -4277,7 +4277,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -4320,7 +4320,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -4337,7 +4337,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -4796,11 +4796,11 @@
 		)
 		(comp
 			(ref "C80")
-			(value "47u NP 25V")
+			(value "33u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1VN470U (35V)")
+					(name "MPN") "Nichicon UES1E330MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
@@ -4817,7 +4817,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1VN470U (35V)")
+				(value "Nichicon UES1E330MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -4856,13 +4856,13 @@
 		)
 		(comp
 			(ref "C81")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "2.2u film")
+			(footprint "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
-					(name "MPN") "Murata GRM31CR71H225KA88L (X7R 50V)")
+					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
 					(name "Datasheet")
 				)
@@ -4877,7 +4877,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Murata GRM31CR71H225KA88L (X7R 50V)")
+				(value "WIMA MKS2C042201K00KSSD (PET 63V)")
 			)
 			(property
 				(name "Sheetname")
@@ -5040,7 +5040,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -5057,7 +5057,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -5100,7 +5100,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -5117,7 +5117,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -5876,11 +5876,11 @@
 		)
 		(comp
 			(ref "C98")
-			(value "47u NP 25V")
+			(value "33u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1VN470U (35V)")
+					(name "MPN") "Nichicon UES1E330MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
@@ -5897,7 +5897,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1VN470U (35V)")
+				(value "Nichicon UES1E330MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -5936,11 +5936,11 @@
 		)
 		(comp
 			(ref "C99")
-			(value "47u NP 25V")
+			(value "33u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1VN470U (35V)")
+					(name "MPN") "Nichicon UES1E330MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
@@ -5957,7 +5957,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1VN470U (35V)")
+				(value "Nichicon UES1E330MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -6296,11 +6296,11 @@
 		)
 		(comp
 			(ref "C105")
-			(value "47u NP 25V")
+			(value "33u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1VN470U (35V)")
+					(name "MPN") "Nichicon UES1E330MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
@@ -6317,7 +6317,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1VN470U (35V)")
+				(value "Nichicon UES1E330MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -6356,13 +6356,13 @@
 		)
 		(comp
 			(ref "C106")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "2.2u film")
+			(footprint "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
-					(name "MPN") "Murata GRM31CR71H225KA88L (X7R 50V)")
+					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
 					(name "Datasheet")
 				)
@@ -6377,7 +6377,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Murata GRM31CR71H225KA88L (X7R 50V)")
+				(value "WIMA MKS2C042201K00KSSD (PET 63V)")
 			)
 			(property
 				(name "Sheetname")
@@ -6656,11 +6656,11 @@
 		)
 		(comp
 			(ref "C111")
-			(value "47u NP 25V")
+			(value "33u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1VN470U (35V)")
+					(name "MPN") "Nichicon UES1E330MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
@@ -6677,7 +6677,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1VN470U (35V)")
+				(value "Nichicon UES1E330MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -6716,11 +6716,11 @@
 		)
 		(comp
 			(ref "C112")
-			(value "47u NP 25V")
+			(value "33u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1VN470U (35V)")
+					(name "MPN") "Nichicon UES1E330MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
@@ -6737,7 +6737,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1VN470U (35V)")
+				(value "Nichicon UES1E330MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -6776,11 +6776,11 @@
 		)
 		(comp
 			(ref "C113")
-			(value "47u NP 25V")
+			(value "33u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1VN470U (35V)")
+					(name "MPN") "Nichicon UES1E330MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
@@ -6797,7 +6797,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1VN470U (35V)")
+				(value "Nichicon UES1E330MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -6836,11 +6836,11 @@
 		)
 		(comp
 			(ref "C114")
-			(value "47u NP 25V")
+			(value "33u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1VN470U (35V)")
+					(name "MPN") "Nichicon UES1E330MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
@@ -6857,7 +6857,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1VN470U (35V)")
+				(value "Nichicon UES1E330MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -7436,13 +7436,13 @@
 		)
 		(comp
 			(ref "C124")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "2.2u film")
+			(footprint "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
-					(name "MPN") "Murata GRM31CR71H225KA88L (X7R 50V)")
+					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
 					(name "Datasheet")
 				)
@@ -7457,7 +7457,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Murata GRM31CR71H225KA88L (X7R 50V)")
+				(value "WIMA MKS2C042201K00KSSD (PET 63V)")
 			)
 			(property
 				(name "Sheetname")
@@ -7676,13 +7676,13 @@
 		)
 		(comp
 			(ref "C128")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "2.2u film")
+			(footprint "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
-					(name "MPN") "Murata GRM31CR71H225KA88L (X7R 50V)")
+					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
 					(name "Datasheet")
 				)
@@ -7697,7 +7697,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Murata GRM31CR71H225KA88L (X7R 50V)")
+				(value "WIMA MKS2C042201K00KSSD (PET 63V)")
 			)
 			(property
 				(name "Sheetname")
@@ -7800,7 +7800,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -7817,7 +7817,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -7860,7 +7860,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -7877,7 +7877,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -8040,7 +8040,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -8057,7 +8057,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -8100,7 +8100,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -8117,7 +8117,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -8276,13 +8276,13 @@
 		)
 		(comp
 			(ref "C138")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "2.2u film")
+			(footprint "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
-					(name "MPN") "Murata GRM31CR71H225KA88L (X7R 50V)")
+					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
 					(name "Datasheet")
 				)
@@ -8297,7 +8297,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Murata GRM31CR71H225KA88L (X7R 50V)")
+				(value "WIMA MKS2C042201K00KSSD (PET 63V)")
 			)
 			(property
 				(name "Sheetname")
@@ -8640,7 +8640,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -8657,7 +8657,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -8700,7 +8700,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -8717,7 +8717,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -8816,13 +8816,13 @@
 		)
 		(comp
 			(ref "C147")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "2.2u film")
+			(footprint "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
-					(name "MPN") "Murata GRM31CR71H225KA88L (X7R 50V)")
+					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
 					(name "Datasheet")
 				)
@@ -8837,7 +8837,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Murata GRM31CR71H225KA88L (X7R 50V)")
+				(value "WIMA MKS2C042201K00KSSD (PET 63V)")
 			)
 			(property
 				(name "Sheetname")
@@ -9060,7 +9060,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -9077,7 +9077,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -9120,7 +9120,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -9137,7 +9137,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -9416,13 +9416,13 @@
 		)
 		(comp
 			(ref "C157")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "2.2u film")
+			(footprint "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
-					(name "MPN") "Murata GRM31CR71H225KA88L (X7R 50V)")
+					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
 					(name "Datasheet")
 				)
@@ -9437,7 +9437,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Murata GRM31CR71H225KA88L (X7R 50V)")
+				(value "WIMA MKS2C042201K00KSSD (PET 63V)")
 			)
 			(property
 				(name "Sheetname")
@@ -10496,13 +10496,13 @@
 		)
 		(comp
 			(ref "C175")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "2.2u film")
+			(footprint "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
-					(name "MPN") "Murata GRM31CR71H225KA88L (X7R 50V)")
+					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
 					(name "Datasheet")
 				)
@@ -10517,7 +10517,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Murata GRM31CR71H225KA88L (X7R 50V)")
+				(value "WIMA MKS2C042201K00KSSD (PET 63V)")
 			)
 			(property
 				(name "Sheetname")
@@ -32439,7 +32439,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "fcab5c55-2e7e-55e9-8fa8-ea7c846a4ebf" "d978d042-8f51-5dc2-96f2-2209e3431594"
+			(tstamps "d978d042-8f51-5dc2-96f2-2209e3431594" "fcab5c55-2e7e-55e9-8fa8-ea7c846a4ebf"
 				"820c87a4-8fe7-587f-a6c3-8d0f1527bc9b"
 			)
 			(units
@@ -32529,8 +32529,8 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "b3517bc9-ed34-56b8-af2d-42959ae4f8fb" "32100191-0516-52f9-b033-1902e6871749"
-				"684d59b9-e076-5076-a0e8-2e1230526d3d" "31ca9043-dba9-538d-a7f2-61c10872f49e"
+			(tstamps "b3517bc9-ed34-56b8-af2d-42959ae4f8fb" "684d59b9-e076-5076-a0e8-2e1230526d3d"
+				"32100191-0516-52f9-b033-1902e6871749" "31ca9043-dba9-538d-a7f2-61c10872f49e"
 				"1157c472-b07d-58f4-9d73-9d256d19fce6"
 			)
 			(units
@@ -32834,7 +32834,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "67d6e2b9-0534-56da-963d-cf0efddba6cc" "222c390d-961a-5ff3-b9cf-45dd9b430592"
+			(tstamps "222c390d-961a-5ff3-b9cf-45dd9b430592" "67d6e2b9-0534-56da-963d-cf0efddba6cc"
 				"1aaf8e37-bac4-58b4-ae88-31772a06338c"
 			)
 			(units
@@ -33080,7 +33080,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "5d99fc74-84f3-5187-9d95-4020da748ba4" "63b9d019-a0dc-524c-b564-b737946b03d7"
+			(tstamps "63b9d019-a0dc-524c-b564-b737946b03d7" "5d99fc74-84f3-5187-9d95-4020da748ba4"
 				"068b97c3-a866-5d4f-badd-881320b58e21"
 			)
 			(units

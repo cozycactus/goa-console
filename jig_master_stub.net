@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/jig_master_stub.kicad_sch")
-		(date "2026-10-24T05:13:54")
+		(date "2026-10-24T08:07:45")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -2220,7 +2220,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -2237,7 +2237,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -2280,7 +2280,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Nichicon UES1E100MDM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -2297,7 +2297,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Nichicon UES1E100MDM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")

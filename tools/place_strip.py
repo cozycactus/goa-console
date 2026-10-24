@@ -59,13 +59,16 @@ ZONES = [
  ('insert / EQ coupling (bottom)', (1, 75, 37, 160), ['C51', 'C10', 'C11'], 'B'),
  ('post / pan / direct-out coupling (bottom)', (1, 160, 37, 300), ['C15', 'C16', 'C17', 'C52'], 'B'),
  ('VCA module socket (bottom)', (1, 380, 37, 444), ['J3', 'J4'], 'B'),
+ # 2.2 uF MKS2 film is 13 mm tall (WIMA, 63 V): more than the 11.5 mm under the panel
+ ('LF film cap (bottom)', (1, 82, 37, 175), ['C49'], 'B'),
+ ('fader film coupler (bottom)', (1, 330, 37, 444), ['C13'], 'B'),
  # Top side, roughly in signal order
  # stability caps right after their op-amp's decouplers: the placer gives list order the closest spots
  ('input receiver + gain', (1, 45, 37, 100), ['U1', 'C20', 'C21', 'C7', 'C78', 'R6', 'R7', 'R8', 'R9', 'R10',
                                               'R45', 'R46', 'C37', 'R47'], 'F'),
  ('OL detector', (1, 45, 37, 100), ['U4', 'C26', 'R39', 'D1', 'C12', 'R14', 'R40', 'R41', 'R15'], 'F'),
  ('HPF', (1, 60, 37, 100), ['U5', 'C29', 'C30', 'C39', 'C40', 'R48', 'R49'], 'F'),
- ('EQ', (1, 82, 37, 162), ['U6', 'C31', 'C32', 'C69', 'C70', 'C71', 'C72', 'U7', 'C33', 'C34', 'C73', 'C48', 'C49',
+ ('EQ', (1, 82, 37, 162), ['U6', 'C31', 'C32', 'C69', 'C70', 'C71', 'C72', 'U7', 'C33', 'C34', 'C73', 'C48',
                            'R50', 'R51', 'C41', 'C42', 'R52', 'C43', 'R53', 'R54', 'R55', 'R58', 'R59',
                            'R62', 'R63', 'R64', 'C50', 'R65', 'R66', 'R67', 'R68', 'R69'], 'F'),
  ('EQ mid tuning (KHN)', (1, 82, 37, 200), ['U12', 'C63', 'C64', 'C74', 'C75', 'C44', 'R56',
@@ -85,7 +88,7 @@ ZONES = [
  ('bus resistors (at the header)', (22, 296, 37, 362), ['R20', 'R21', 'R22', 'R23', 'R24', 'R25', 'R26', 'R27',
                                                         'R28', 'R29', 'R30', 'R31'], 'F'),
  ('power entry', (1, 340, 37, 380), ['R1', 'R2', 'R3', 'R4', 'R5', 'C2', 'C4'], 'F'),
- ('fader post-amp', (27, 340, 37, 444), ['U2', 'C22', 'C23', 'C82', 'C79', 'R19', 'C14', 'R38', 'C13', 'JP1', 'R18',
+ ('fader post-amp', (27, 340, 37, 444), ['U2', 'C22', 'C23', 'C82', 'C79', 'R19', 'C14', 'R38', 'JP1', 'R18',
                                          'R44'], 'F'),
 ]
 NOTES = ((50, 'GAIN | PHASE, OL'), (76, 'HF | HPF'), (98, 'HI-MID gain | freq'), (120, 'LO-MID gain | freq'),

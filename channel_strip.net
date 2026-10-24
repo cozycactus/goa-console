@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/channel_strip.kicad_sch")
-		(date "2026-10-23T22:03:05")
+		(date "2026-10-24T08:07:23")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -446,9 +446,11 @@
 		)
 		(comp
 			(ref "C10")
-			(value "47u NP 25V")
+			(value "33u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
+				(field
+					(name "MPN") "Nichicon UES1E330MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
@@ -462,6 +464,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Nichicon UES1E330MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -500,9 +506,11 @@
 		)
 		(comp
 			(ref "C11")
-			(value "220u NP 25V")
+			(value "100u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 			(fields
+				(field
+					(name "MPN") "Nichicon UES1E101MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 				(field
@@ -516,6 +524,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Nichicon UES1E101MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -614,13 +626,13 @@
 		)
 		(comp
 			(ref "C13")
-			(value "2.2u")
-			(footprint "Capacitor_SMD:C_1206_3216Metric")
+			(value "2.2u film")
+			(footprint "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
-					(name "MPN") "Murata GRM31CR71H225KA88 (X7R 50V)")
+					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
 				(field
-					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
+					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
 					(name "Datasheet")
 				)
@@ -635,7 +647,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Murata GRM31CR71H225KA88 (X7R 50V)")
+				(value "WIMA MKS2C042201K00KSSD (PET 63V)")
 			)
 			(property
 				(name "Sheetname")
@@ -728,9 +740,11 @@
 		)
 		(comp
 			(ref "C15")
-			(value "220u NP 25V")
+			(value "100u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 			(fields
+				(field
+					(name "MPN") "Nichicon UES1E101MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 				(field
@@ -744,6 +758,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Nichicon UES1E101MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -782,9 +800,11 @@
 		)
 		(comp
 			(ref "C16")
-			(value "220u NP 25V")
+			(value "100u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 			(fields
+				(field
+					(name "MPN") "Nichicon UES1E101MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 				(field
@@ -798,6 +818,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Nichicon UES1E101MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -836,9 +860,11 @@
 		)
 		(comp
 			(ref "C17")
-			(value "220u NP 25V")
+			(value "100u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 			(fields
+				(field
+					(name "MPN") "Nichicon UES1E101MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 				(field
@@ -852,6 +878,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Nichicon UES1E101MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -1904,9 +1934,11 @@
 		)
 		(comp
 			(ref "C38")
-			(value "47u NP 25V")
+			(value "33u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
+				(field
+					(name "MPN") "Nichicon UES1E330MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
@@ -1920,6 +1952,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Nichicon UES1E330MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -2502,6 +2538,8 @@
 			(footprint "Capacitor_THT:C_Rect_L7.2mm_W8.5mm_P5.00mm_FKP2_FKP2_MKS2_MKP2")
 			(fields
 				(field
+					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
+				(field
 					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W8.5mm_P5.00mm_FKP2_FKP2_MKS2_MKP2")
 				(field
 					(name "Datasheet")
@@ -2514,6 +2552,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "WIMA MKS2C042201K00KSSD (PET 63V)")
 			)
 			(property
 				(name "Sheetname")
@@ -2606,9 +2648,11 @@
 		)
 		(comp
 			(ref "C51")
-			(value "47u NP 25V")
+			(value "33u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
+				(field
+					(name "MPN") "Nichicon UES1E330MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
@@ -2622,6 +2666,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Nichicon UES1E330MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")
@@ -2660,9 +2708,11 @@
 		)
 		(comp
 			(ref "C52")
-			(value "47u NP 25V")
+			(value "33u NP 25V")
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
+				(field
+					(name "MPN") "Nichicon UES1E330MPM (MUSE ES)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
@@ -2676,6 +2726,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Nichicon UES1E330MPM (MUSE ES)")
 			)
 			(property
 				(name "Sheetname")

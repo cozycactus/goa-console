@@ -51,7 +51,12 @@ CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Samsung CL31B105K
            '470u 25V': 'Nichicon UPW1E471MPD', '1000u 25V': 'Nichicon UPW1E102MHD',
            '47u 25V': 'Nichicon UPW1J470MPD (63V)', '220u 25V': 'Nichicon UPW1V221MPD (35V)',
            '10u NP 25V': 'Panasonic ECE-A1EN100U', '47u NP 25V': 'Panasonic ECE-A1VN470U (35V)',
-           '220u NP 25V': 'Panasonic ECE-A1EN221U'}
+           '220u NP 25V': 'Panasonic ECE-A1EN221U',
+           # film couplers and audio bipolars (film_np_proposal.md): MUSE ES 25 V in the existing footprints
+           '2.2u film': 'WIMA MKS2C042201K00KSSD (PET 63V)', '10u NP 25V': 'Nichicon UES1E100MDM (MUSE ES)',
+           '33u NP 25V': 'Nichicon UES1E330MPM (MUSE ES)', '100u NP 25V': 'Nichicon UES1E101MPM (MUSE ES)'}
+FILM_2U2 = 'Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2'          # MKS2 2.2u 63V: 7.2 x 13 x 7.2
+NP_VALUE = {'47u NP 25V': '33u NP 25V', '220u NP 25V': '100u NP 25V'}             # MUSE ES 8x11.5 / 10x16 cans
 RES_2512 = 'Resistor_SMD:R_2512_6332Metric'
 # 3 mm diffused LEDs, Vf <= 2.6 V max (GaP / GaAsP): ten in series must fit a meter string's ~31 V, so no InGaN
 LED_MPN = {'green': 'Kingbright WP710A10GD', 'amber': 'Kingbright WP710A10ND', 'red': 'Kingbright WP710A10ID'}
@@ -61,6 +66,7 @@ NPCAP = {'10u': 'Capacitor_THT:CP_Radial_D5.0mm_P2.00mm', '22u': 'Capacitor_THT:
          '47u': CAP_FP['47u'], '220u': CAP_FP['220u'], '470u': 'Capacitor_THT:CP_Radial_D10.0mm_P5.00mm',
          '1000u': 'Capacitor_THT:CP_Radial_D12.5mm_P5.00mm', '1u': 'Capacitor_SMD:C_1206_3216Metric',
          '2.2u': CAP_FP['2.2u']}
+NP_FP = {'10u': NPCAP['10u'], '33u': NPCAP['47u'], '100u': NPCAP['220u']}   # MUSE ES in the 47u / 220u footprints
 
 # ---------------------------------------------------------------- reference and unit allocation
 cnt = collections.Counter()
@@ -104,7 +110,11 @@ def cmp(b, inp, inn, out, part='LM393', rail='VL'):
     P(b, r, DUAL[part][0], part, {p: inp, n: inn, o: out}, unit=u); return r
 
 def R(b, v, a, c, **k): r = ref('R'); P(b, r, 'R', v, {1: a, 2: c}, **k); return r
-def C(b, v, a, c): r = ref('C'); P(b, r, 'C', v, {1: a, 2: c}, fp=NPCAP.get(v.split()[0])); return r
+def C(b, v, a, c):
+    """A capacitor: '2.2u' is a film coupler, an 'NP' value an audio bipolar (MUSE ES), the rest by value."""
+    v = '2.2u film' if v == '2.2u' else NP_VALUE.get(v, v)
+    fp = FILM_2U2 if v == '2.2u film' else NP_FP.get(v.split()[0]) if ' NP' in v else NPCAP.get(v.split()[0])
+    r = ref('C'); P(b, r, 'C', v, {1: a, 2: c}, fp=fp); return r
 def CP(b, v, plus, minus): r = ref('C'); P(b, r, 'CP', v, {1: plus, 2: minus}, fp=NPCAP.get(v.split()[0])); return r
 def D(b, anode, cathode, v='1N4148'): r = ref('D'); P(b, r, 'D', v, {2: anode, 1: cathode}); return r
 

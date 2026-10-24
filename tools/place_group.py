@@ -60,7 +60,7 @@ LABELS = [(32.75, 352.4, 'GRP __', 0.9), (30.5, 355.2, 'SUB', 1.0), (35.0, 355.2
          [(28.3, y, str(k + 1), 0.9) for k, y in enumerate(JP_Y)]
 HOLES = [(XC, 72), (XC, 140), (XC, 215)] + FADER_HOLES
 
-RADIAL = {r for r, f in FPN.items() if 'CP_Radial' in f}   # electrolytics: too tall for the 11.5 mm panel gap -> bottom
+RADIAL = {r for r, f in FPN.items() if 'CP_Radial' in f or 'C_Rect' in f}   # electrolytics, 2.2u film: too tall for the 11.5 mm panel gap -> bottom
 RESERVOIR = sorted(RADIAL & set(B['POWER AND GROUNDS']), key=num)
 take = lambda name, *drop: [r for r in B[name] if r not in FIX and r not in RADIAL and r not in drop]
 switch_rs = lambda *sws: sorted({r for n, rs in ON.items() for s in sws if n.startswith(f'RT_{s}') for r in rs

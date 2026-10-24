@@ -4,7 +4,7 @@
 "16","100n","Capacitor_SMD:C_0805_2012Metric","Samsung CL21B104KBCNNNC (X7R 50V)","","C5 C6 C7 C8 C12 C13 C17 C18 C22 C23 C27 C28 C32 C33 C42 C43"
 "6","100p C0G","Capacitor_SMD:C_0805_2012Metric","KEMET C0805C101J5GACTU","","C9 C14 C19 C24 C29 C34"
 "12","22p C0G 5%","Capacitor_SMD:C_0805_2012Metric","KEMET C0805C220J5GACTU","","C10 C11 C15 C16 C20 C21 C25 C26 C30 C31 C35 C36"
-"2","10u NP 25V","Capacitor_THT:CP_Radial_D5.0mm_P2.00mm","Panasonic ECE-A1EN100U","","C37 C38"
+"2","10u NP 25V","Capacitor_THT:CP_Radial_D5.0mm_P2.00mm","Nichicon UES1E100MDM (MUSE ES)","","C37 C38"
 "3","1u","Capacitor_SMD:C_1206_3216Metric","Samsung CL31B105KBHNNNE (X7R 50V)","","C39 C40 C41"
 "1","Ground spade 6.3mm (to the ground bar)","goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm","Keystone 1287-ST","","CN1"
 "1","Bus 2x17 (ribbon)","Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical","Wurth 61203421621 (2x17 box header)","","CN2"

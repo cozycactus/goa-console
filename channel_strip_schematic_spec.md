@@ -1,4 +1,4 @@
-# Channel Strip — Component-Level Specification v4.1
+# Channel Strip — Component-Level Specification v4.2
 ## Soundcraft Delta Theatre input without the mic stage. One PCB per channel, ×24.
 
 Bus pinout, grounding and power: `console_architecture.md`. Stage-by-stage comparison with the
@@ -7,6 +7,17 @@ Reference designators are those of `tools/gen.py`; Delta drawing numbers are giv
 circuit comes from a Delta sheet (ED3344A/B/C = Theatre input RH board, ED3151 = LH board).
 
 ---
+
+## Changes in v4.2 (2026-10-24, signed off; `film_np_proposal.md` F1–F4)
+
+- **Film coupler:** C13 (fader wiper → FPIN) is a WIMA MKS2C042201K00KSSD 2.2 µF PET film (63 V), THT on the bottom
+  side; it was an X7R 1206. C49 (2.2 µF film, LF band) gets the same part and moves to the bottom side: the MKS2 is
+  13 mm tall, and on the top side it sat under the 11.5 mm panel gap.
+- **Bipolar electrolytics:** Nichicon MUSE ES 25 V in the existing footprints:
+  - C10, C38, C51, C52: 47 µF → 33 µF (UES1E330MPM, 8 × 11.5);
+  - C11, C15, C16, C17: 220 µF → 100 µF (UES1E101MPM, 10 × 16).
+- **LF response:** end to end (strip input to the main XLR) −3 dB at 2.3 Hz (was 1.5 Hz), −0.04 dB and +14° at 20 Hz.
+  The direct out into 600 Ω is −0.53 dB at 20 Hz, flat into 10 kΩ.
 
 ## Changes in v4.1 (2026-10-23, signed off; `strip_parts_review.md`)
 
@@ -150,7 +161,7 @@ C7 33 pF across R7; C78 33 pF across R9 (v4.1: balances the bridge, CMRR 86 dB f
 ```
 RECV ── R45 2K2 ── RV9 pin 3 (CW end)    RV9 wiper ── U1B (−);  U1B (+) ── AGND
 GOUT ── R46 2K2 ── RV9 pin 1 (CCW end)   C37 22 pF from GOUT to U1B (−)
-GOUT ── C38 47 µF NP ── HIN ── R47 47K to AGND
+GOUT ── C38 33 µF NP ── HIN ── R47 47K to AGND
 ```
 - Gain = (2K2 + R_wiper–pin1) / (2K2 + R_wiper–pin3): −15.0 dB fully CCW, 0 dB at the centre
   detent, +14.8 dB fully CW, symmetric in dB (≈ 2.5 dB per 10 % of rotation).
@@ -255,7 +266,7 @@ because the 1.8 kΩ + node lags through the input capacitance.
 ### 6.1 EQ IN (SW12, D5)
 ```
 SW12 pole A: EQSEL = U7A out (latched, EQ in) or EQIN (unlatched, bypass)
-EQSEL ── C51 47 µF NP ── EQOUT ── R68 47K to AGND
+EQSEL ── C51 33 µF NP ── EQOUT ── R68 47K to AGND
 SW12 pole B: +VL to EQ_ON when latched ── R69 4K7 ── D5 green ── LGND
 ```
 The bypass takes the EQ's own input, so it works in both insert positions.
@@ -266,9 +277,9 @@ The bypass takes the EQ's own input, so it works in both insert positions.
 
 ```
 JP5: INS_SRC = EQOUT (1-2, default) or HOUT (2-3)      ── R11 75R ── J2 tip (send)
-J2 ring (return) normalled to tip with no plug ── C10 47 µF NP ── RET (R12 47K to AGND) ── R99 1K ── RET_IN (C84 100 pF) ── U7B follower ── BUF1
+J2 ring (return) normalled to tip with no plug ── C10 33 µF NP ── RET (R12 47K to AGND) ── R99 1K ── RET_IN (C84 100 pF) ── U7B follower ── BUF1
 JP6: EQIN   = HOUT (1-2, default) or BUF1 (2-3)
-JP7: PRESRC = BUF1 (1-2, default) or EQOUT (2-3)       ── C11 220 µF NP ── PRE ── R13 47K
+JP7: PRESRC = BUF1 (1-2, default) or EQOUT (2-3)       ── C11 100 µF NP ── PRE ── R13 47K
 ```
 - All three on 1-2 (as supplied, bridged): insert **post-EQ**, the Delta default.
 - All three on 2-3: insert **pre-EQ** (HPF → insert → EQ → PRE).
@@ -310,8 +321,8 @@ SW4 pole B: +VL to ON_SW when latched ── R43 4K7 ── D4 green ── LGND
 ## 10. Fader, post-amp, VCA option
 
 ```
-MUTEOUT ── RV1 fader top (pin 3), pin 1 AGND ── wiper ── C13 2.2 µF ── JP1 (VCA bypass) ── FPIN ── R18 100K, C82 10 pF
-U2A: (+) FPIN, R19 4K7 ∥ C14 100 pF feedback, R38 2K2 to AGND: +10 dB ── C15 220 µF NP ── POST ── R35 47K
+MUTEOUT ── RV1 fader top (pin 3), pin 1 AGND ── wiper ── C13 2.2 µF film ── JP1 (VCA bypass) ── FPIN ── R18 100K, C82 10 pF
+U2A: (+) FPIN, R19 4K7 ∥ C14 100 pF feedback, R38 2K2 to AGND: +10 dB ── C15 100 µF NP ── POST ── R35 47K
 ```
 - The fader's "0" mark sits 10 dB below the top. Omit R38 for unity at the top.
 - C82 (v4.1): the fader wiper (up to 2.5 kΩ) against the op-amp's input capacitance left U2A at 40°; 10 pF to AGND
@@ -330,14 +341,14 @@ RV2…RV7 10K A: pin 3 = SRCn, pin 1 = AGND, wiper ── R20…R24 22K ── A
 RV7 wiper ── SW13 pole A ── A6R (unlatched) ── R25 22K ── AUX 6
                          └─ DIRSRC (latched, DIR) ── R70 100K to AGND, C83 22 pF ── U8A follower ── DOUT
 SW13 pole B: A6R to AGND when latched (no floating resistor on the aux 6 bus)
-DOUT ── R71 75R ── C52 47 µF NP ── J5 tip ── R72 47K to AGND;   J5 ring ── R73 75R ── AGND
+DOUT ── R71 75R ── C52 33 µF NP ── J5 tip ── R72 47K to AGND;   J5 ring ── R73 75R ── AGND
 ```
 - Direct out: impedance-balanced TRS, level = aux 6 pot, source = the aux 5/6 PRE selection.
   0 dBu at the jack with the pot fully up. U8B spare, tied off as a grounded follower.
 - C83 22 pF (v4.1): with DIR on and a short lead, U8A was down to 19–21°; with it, 70°. Not more: it loads U7B (PRE)
   when aux 6 is at the top.
 - No phantom: neither the direct out nor the insert send may feed a phantom-powered input (a TRS-to-XLR lead into a
-  mic preamp). C52 and C51 (47 µF NP 25 V) would see about 42 V.
+  mic preamp). C52 and C51 (33 µF NP 25 V) would see about 42 V.
 - SW8–SW10 pole B unused.
 
 ---
@@ -345,7 +356,7 @@ DOUT ── R71 75R ── C52 47 µF NP ── J5 tip ── R72 47K to AGND;  
 ## 12. Pan, pan buffers, PAN switch
 
 ```
-POST ── RV8 (10K B dual, centre detent) ── wipers (C79 / C80 10 pF) ── U2B / U3A followers ── C16 / C17 220 µF NP ── PANL / PANR (R36/R37 47K)
+POST ── RV8 (10K B dual, centre detent) ── wipers (C79 / C80 10 pF) ── U2B / U3A followers ── C16 / C17 100 µF NP ── PANL / PANR (R36/R37 47K)
 SW14 pole A: SUBSRC_L = PANL (latched, PAN) or POST (unlatched)
 SW14 pole B: SUBSRC_R = PANR (latched)       or POST (unlatched)
 ```
@@ -440,7 +451,9 @@ three are the DNP VCA-option parts (J3, J4, R44), so 234 fitted; `jack_board_BOM
 
 BOM rules (v4.1):
 - every ceramic ≥ 25 V, 50 V preferred: 100n Samsung CL21B104KBCNNNC (X7R 50 V 0805), C12 / C62 1 µF Murata
-  GRM21BR71H105KA12, C13 2.2 µF Murata GRM31CR71H225KA88, C0G parts 50 V;
+  GRM21BR71H105KA12, C0G parts 50 V; no X7R in the signal path (v4.2);
+- film: C13 and C49 WIMA MKS2C042201K00KSSD (2.2 µF PET 63 V, 7.2 × 13 × 7.2, bottom side), C48 150 nF MKS2;
+- bipolar electrolytics: Nichicon MUSE ES 25 V, UES1E330MPM (33 µF) and UES1E101MPM (100 µF);
 - OPA1612AIDR, LM393BIDR (the same comparator as the master), onsemi MMBFJ112;
 - Kingbright WP710A10ID red, WP710A10GD green, WP710A10YD yellow;
 - Panasonic ERJ-P06J100V (R1/R2, 10R at up to 0.126 W) and ERJ-P06J750V (R11/R71, ~0.25 W into a shorted lead);
@@ -553,7 +566,13 @@ sleeves go to AGND only through the ribbon. CN3/CN5: Würth 61201021621 2 × 5 b
 
 ---
 
-## 17. Status (v4.1, 2026-10-23)
+## 17. Status (v4.2, 2026-10-24)
+
+v4.2 (film couplers, MUSE ES bipolars):
+- **Netlist:** 734 pin entries / 0 mismatches, check_fp 245 / 0, ERC 0; `tools/sim_netlist.py` 30/30;
+  `tools/sim_console.py` 32/32.
+- **Placement:** re-placed with C13 and C49 on the bottom side: 0 DRC violations, 0 parity issues; report unchanged
+  (decouplers 3.1 / 10.0 / 11, high-Z inputs 10.4 / 19.7 / 25; C49 now 17 mm from U7 pin 3, was 21.5 mm).
 
 v4.1:
 - **Netlist:** `tools/verify.py` main 734 pin entries / 0 mismatches, `tools/check_fp.py` 245 parts / 0, ERC 0;
