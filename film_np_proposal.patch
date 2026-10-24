@@ -1,0 +1,173 @@
+diff --git a/tools/gen.py b/tools/gen.py
+index 1dfed73..95b29fc 100644
+--- a/tools/gen.py
++++ b/tools/gen.py
+@@ -11,7 +11,10 @@ schgen.MPN.update({'DG': 'Vishay DG413DY-E3', 'ZEN': 'BZX84C5V1', 'SCH': 'Nexper
+                    'OPA': 'TI OPA1612AIDR', 'CMP': 'TI LM393BIDR', 'JFET': 'onsemi MMBFJ112'})
+ # strip_parts_review.md T9/T10: ceramics >= 25 V (50 V X7R here), anti-surge resistors where the power is marginal
+ CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Murata GRM21BR71H105KA12 (X7R 50V)',
+-           '2.2u': 'Murata GRM31CR71H225KA88 (X7R 50V)'}
++           '2.2u film': 'WIMA MKS2C042201K00KSSD (PET 63V)',
++           # audio bipolars, Nichicon MUSE ES 25 V, in the existing footprints (film_np_proposal.md)
++           '33u NP 25V': 'Nichicon UES1E330MPM (MUSE ES)', '100u NP 25V': 'Nichicon UES1E101MPM (MUSE ES)'}
++FILM_2U2 = 'Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2'
+ LED_MPN = {'red': 'Kingbright WP710A10ID', 'green': 'Kingbright WP710A10GD', 'yellow': 'Kingbright WP710A10YD'}
+ FP.update({'CONN6': 'Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical',
+            'CONN2': 'Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical',
+@@ -75,7 +78,7 @@ P(b,'R45','R','2K2 1%',{1:'RECV',2:'GA'})
+ P(b,'RV9','POT','Gain 10K lin CD',{3:'GA',2:'GV',1:'GC'},mpn=POTB)
+ P(b,'R46','R','2K2 1%',{1:'GC',2:'GOUT'}); P(b,'C37','C','22p C0G',{1:'GOUT',2:'GV'})
+ P(b,'U1','OPA','OPA1612',{5:'GNDA',6:'GV',7:'GOUT'},unit=2)
+-P(b,'C38','C','47u NP 25V',{1:'GOUT',2:'HIN'},fp=CAP_FP['47u']); P(b,'R47','R','47K',{1:'HIN',2:'GNDA'})
++P(b,'C38','C','33u NP 25V',{1:'GOUT',2:'HIN'},fp=CAP_FP['47u']); P(b,'R47','R','47K',{1:'HIN',2:'GNDA'})
+ 
+ b = block('HPF  unity Sallen-Key Butterworth, -3 dB 87 Hz  SW11: latched = HPF in (unlatched shorts the caps)')
+ P(b,'C39','C','47n C0G',{1:'HIN',2:'H1'},fp=C0G); P(b,'C40','C','47n C0G',{1:'H1',2:'HP'},fp=C0G)
+@@ -138,22 +141,22 @@ P(b,'U7','OPA','OPA1612',{3:'EQ_FP',2:'EQ_F4',1:'EQ_O6'},unit=1)
+ P(b,'R62','R','3K3',{1:'EQ_O5',2:'EQ_F1'}); P(b,'R63','R','3K3',{1:'EQ_F2',2:'EQ_O6'})
+ P(b,'RV15','POT','LF 10K lin CD',{1:'EQ_F1',2:'EQ_WLF',3:'EQ_F2'},mpn=POTB)
+ P(b,'C48','C','150n film',{1:'EQ_F1',2:'EQ_F2'},fp=FILM_S)
+-P(b,'R64','R','1K5',{1:'EQ_WLF',2:'EQ_F3'}); P(b,'C49','C','2.2u film',{1:'EQ_F3',2:'EQ_FP'},fp=FILM_L)
++P(b,'R64','R','1K5',{1:'EQ_WLF',2:'EQ_F3'}); P(b,'C49','C','2.2u film',{1:'EQ_F3',2:'EQ_FP'},fp=FILM_L)   # MPN from CAP_MPN
+ P(b,'C50','C','100n C0G',{1:'EQ_FP',2:'GNDA'},fp=C0G); P(b,'R65','R','5K1',{1:'EQ_FP',2:'GNDA'})
+ 
+ b = block('EQ IN  SW12: latched = EQ in (unlatched = bypass from the EQ input); green EQ LED')
+ P(b,'SW12','SW','EQ',{2:'EQSEL',1:'EQ_O6',3:'EQIN'},unit=1)
+ P(b,'SW12','SW','EQ',{5:'+VL',4:'EQ_ON',6:'NC'},unit=2)
+ P(b,'R69','R','4K7',{1:'EQ_ON',2:'EQ_LA'}); P(b,'D5','LED','EQ green',{2:'EQ_LA',1:'GNDD'},mpn=LED_MPN['green'])
+-P(b,'C51','C','47u NP 25V',{1:'EQSEL',2:'EQOUT'},fp=CAP_FP['47u']); P(b,'R68','R','47K',{1:'EQOUT',2:'GNDA'})
++P(b,'C51','C','33u NP 25V',{1:'EQSEL',2:'EQOUT'},fp=CAP_FP['47u']); P(b,'R68','R','47K',{1:'EQOUT',2:'GNDA'})
+ 
+ b = block('INSERT (send = tip, return = ring, ring normalled to send) + return buffer')
+ P(b,'R11','R','75R',{1:'INS_SRC',2:'SEND'},mpn='Panasonic ERJ-P06J750V')
+-P(b,'C10','C','47u NP 25V',{1:'RET_RAW',2:'RET'},fp=CAP_FP['47u']); P(b,'R12','R','47K',{1:'RET',2:'GNDA'})
++P(b,'C10','C','33u NP 25V',{1:'RET_RAW',2:'RET'},fp=CAP_FP['47u']); P(b,'R12','R','47K',{1:'RET',2:'GNDA'})
+ P(b,'R99','R','1K',{1:'RET',2:'RET_IN'})   # bounds the input-diode current on a jack fault (+0.013 dB noise)
+ P(b,'C84','C','100p C0G',{1:'RET_IN',2:'GNDA'},fp=C0G)   # with R99 a follower on 1K: lags without it (40 deg); RF too
+ P(b,'U7','OPA','OPA1612',{5:'RET_IN',6:'BUF1',7:'BUF1'},unit=2)
+-P(b,'C11','C','220u NP 25V',{1:'PRESRC',2:'PRE'},fp=CAP_FP['220u']); P(b,'R13','R','47K',{1:'PRE',2:'GNDA'})
++P(b,'C11','C','100u NP 25V',{1:'PRESRC',2:'PRE'},fp=CAP_FP['220u']); P(b,'R13','R','47K',{1:'PRE',2:'GNDA'})
+ 
+ b = block('OVERLOAD DETECTOR (~+18 dBu)')
+ P(b,'R39','R','1K',{1:'PRESRC',2:'PKA'}); P(b,'D1','D','1N4148',{2:'PKA',1:'PK'})
+@@ -182,7 +185,7 @@ P(b,'R43','R','4K7',{1:'ON_SW',2:'ON_LA'}); P(b,'D4','LED','ON green',{2:'ON_LA'
+ 
+ b = block('FADER + POST-AMP (+10 dB; omit R38 for unity)  JP1 = VCA bypass')
+ P(b,'RV1','POT','Fader 10K log 100mm',{1:'GNDA',3:'MUTEOUT',2:'WIPER'},fp=FADER_FP,mpn='Bourns PTB0143-2010BPA103')
+-P(b,'C13','C','2.2u',{1:'WIPER',2:'VCAIN'},fp=CAP_FP['2.2u'])
++P(b,'C13','C','2.2u film',{1:'WIPER',2:'VCAIN'},fp=FILM_2U2)
+ P(b,'JP1','SJ2','VCA bypass',{1:'VCAIN',2:'FPIN'}); P(b,'R18','R','100K',{1:'FPIN',2:'GNDA'})
+ # VCA module option (spec 7.1): SSI2162 + I/V + inverter on a plug-in module; JP1 bridged when not fitted
+ P(b,'J3','CONN6','VCA module socket',{1:'VCAIN',2:'FPIN',3:'VCA_CTRL',4:'+VA',5:'GNDA',6:'-VA'},dnp=True)
+@@ -191,7 +194,7 @@ P(b,'U2','OPA','OPA1612',{3:'FPIN',2:'U2A_N',1:'FPOST'},unit=1)
+ P(b,'C82','C','10p C0G',{1:'FPIN',2:'GNDA'},fp=C0G)   # not above 22p: it sits on U3B's output with the fader at top
+ P(b,'R19','R','4K7',{1:'FPOST',2:'U2A_N'}); P(b,'C14','C','100p C0G',{1:'FPOST',2:'U2A_N'})
+ P(b,'R38','R','2K2',{1:'U2A_N',2:'GNDA'})
+-P(b,'C15','C','220u NP 25V',{1:'FPOST',2:'POST'},fp=CAP_FP['220u']); P(b,'R35','R','47K',{1:'POST',2:'GNDA'})
++P(b,'C15','C','100u NP 25V',{1:'FPOST',2:'POST'},fp=CAP_FP['220u']); P(b,'R35','R','47K',{1:'POST',2:'GNDA'})
+ 
+ b = block('AUX SENDS  PRE switch per pair (latched = pre); jumpers 1-2 = pre-fader, 2-3 = pre-EQ.  SW13 DIR: aux 6 pot -> direct out')
+ for jp,sw,n in (('JP2','SW8','12'),('JP3','SW9','34'),('JP4','SW10','56')):
+@@ -209,7 +212,7 @@ b = block('DIRECT OUT  (level = aux 6 pot when DIR is latched; impedance-balance
+ P(b,'R70','R','100K',{1:'DIRSRC',2:'GNDA'})
+ P(b,'U8','OPA','OPA1612',{3:'DIRSRC',2:'DOUT',1:'DOUT'},unit=1)
+ P(b,'C83','C','22p C0G',{1:'DIRSRC',2:'GNDA'},fp=C0G)   # 22p (short direct-out leads); more would load U7B
+-P(b,'R71','R','75R',{1:'DOUT',2:'DO1'},mpn='Panasonic ERJ-P06J750V'); P(b,'C52','C','47u NP 25V',{1:'DO1',2:'DO_T'},fp=CAP_FP['47u'])
++P(b,'R71','R','75R',{1:'DOUT',2:'DO1'},mpn='Panasonic ERJ-P06J750V'); P(b,'C52','C','33u NP 25V',{1:'DO1',2:'DO_T'},fp=CAP_FP['47u'])
+ P(b,'R72','R','47K',{1:'DO_T',2:'GNDA'}); P(b,'R73','R','75R',{1:'DO_R',2:'GNDA'})
+ P(b,'U8','OPA','OPA1612',{5:'GNDA',6:'U8B_O',7:'U8B_O'},unit=2)   # spare half, tied off
+ 
+@@ -217,8 +220,8 @@ b = block('PAN + PAN BUFFERS (AC-coupled outputs)')
+ P(b,'RV8','POT2','Pan 10K dual',{1:'POST',3:'GNDA',2:'PANWL',4:'GNDA',6:'POST',5:'PANWR'})
+ P(b,'U2','OPA','OPA1612',{5:'PANWL',6:'PBL',7:'PBL'},unit=2); P(b,'C79','C','10p C0G',{1:'PANWL',2:'GNDA'},fp=C0G)
+ P(b,'U3','OPA','OPA1612',{3:'PANWR',2:'PBR',1:'PBR'},unit=1); P(b,'C80','C','10p C0G',{1:'PANWR',2:'GNDA'},fp=C0G)
+-P(b,'C16','C','220u NP 25V',{1:'PBL',2:'PANL'},fp=CAP_FP['220u']); P(b,'R36','R','47K',{1:'PANL',2:'GNDA'})
+-P(b,'C17','C','220u NP 25V',{1:'PBR',2:'PANR'},fp=CAP_FP['220u']); P(b,'R37','R','47K',{1:'PANR',2:'GNDA'})
++P(b,'C16','C','100u NP 25V',{1:'PBL',2:'PANL'},fp=CAP_FP['220u']); P(b,'R36','R','47K',{1:'PANL',2:'GNDA'})
++P(b,'C17','C','100u NP 25V',{1:'PBR',2:'PANR'},fp=CAP_FP['220u']); P(b,'R37','R','47K',{1:'PANR',2:'GNDA'})
+ 
+ b = block('PAN SWITCH  SW14: latched = subgroups panned; unlatched = subgroups get POST, unpanned (MIX always panned)')
+ P(b,'SW14','SW','PAN',{2:'SUBSRC_L',1:'PANL',3:'POST'},unit=1)
+diff --git a/tools/master_lib.py b/tools/master_lib.py
+index d0d9c90..93c5f45 100644
+--- a/tools/master_lib.py
++++ b/tools/master_lib.py
+@@ -51,7 +51,12 @@ CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Samsung CL31B105K
+            '470u 25V': 'Nichicon UPW1E471MPD', '1000u 25V': 'Nichicon UPW1E102MHD',
+            '47u 25V': 'Nichicon UPW1J470MPD (63V)', '220u 25V': 'Nichicon UPW1V221MPD (35V)',
+            '10u NP 25V': 'Panasonic ECE-A1EN100U', '47u NP 25V': 'Panasonic ECE-A1VN470U (35V)',
+-           '220u NP 25V': 'Panasonic ECE-A1EN221U'}
++           '220u NP 25V': 'Panasonic ECE-A1EN221U',
++           # film couplers and audio bipolars (film_np_proposal.md): MUSE ES 25 V in the existing footprints
++           '2.2u film': 'WIMA MKS2C042201K00KSSD (PET 63V)', '10u NP 25V': 'Nichicon UES1E100MDM (MUSE ES)',
++           '33u NP 25V': 'Nichicon UES1E330MPM (MUSE ES)', '100u NP 25V': 'Nichicon UES1E101MPM (MUSE ES)'}
++FILM_2U2 = 'Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2'          # MKS2 2.2u 63V: 7.2 x 13 x 7.2
++NP_VALUE = {'47u NP 25V': '33u NP 25V', '220u NP 25V': '100u NP 25V'}             # MUSE ES 8x11.5 / 10x16 cans
+ RES_2512 = 'Resistor_SMD:R_2512_6332Metric'
+ # 3 mm diffused LEDs, Vf <= 2.6 V max (GaP / GaAsP): ten in series must fit a meter string's ~31 V, so no InGaN
+ LED_MPN = {'green': 'Kingbright WP710A10GD', 'amber': 'Kingbright WP710A10ND', 'red': 'Kingbright WP710A10ID'}
+@@ -61,6 +66,7 @@ NPCAP = {'10u': 'Capacitor_THT:CP_Radial_D5.0mm_P2.00mm', '22u': 'Capacitor_THT:
+          '47u': CAP_FP['47u'], '220u': CAP_FP['220u'], '470u': 'Capacitor_THT:CP_Radial_D10.0mm_P5.00mm',
+          '1000u': 'Capacitor_THT:CP_Radial_D12.5mm_P5.00mm', '1u': 'Capacitor_SMD:C_1206_3216Metric',
+          '2.2u': CAP_FP['2.2u']}
++NP_FP = {'10u': NPCAP['10u'], '33u': NPCAP['47u'], '100u': NPCAP['220u']}   # MUSE ES in the 47u / 220u footprints
+ 
+ # ---------------------------------------------------------------- reference and unit allocation
+ cnt = collections.Counter()
+@@ -104,7 +110,11 @@ def cmp(b, inp, inn, out, part='LM393', rail='VL'):
+     P(b, r, DUAL[part][0], part, {p: inp, n: inn, o: out}, unit=u); return r
+ 
+ def R(b, v, a, c, **k): r = ref('R'); P(b, r, 'R', v, {1: a, 2: c}, **k); return r
+-def C(b, v, a, c): r = ref('C'); P(b, r, 'C', v, {1: a, 2: c}, fp=NPCAP.get(v.split()[0])); return r
++def C(b, v, a, c):
++    """A capacitor: '2.2u' is a film coupler, an 'NP' value an audio bipolar (MUSE ES), the rest by value."""
++    v = '2.2u film' if v == '2.2u' else NP_VALUE.get(v, v)
++    fp = FILM_2U2 if v == '2.2u film' else NP_FP.get(v.split()[0]) if ' NP' in v else NPCAP.get(v.split()[0])
++    r = ref('C'); P(b, r, 'C', v, {1: a, 2: c}, fp=fp); return r
+ def CP(b, v, plus, minus): r = ref('C'); P(b, r, 'CP', v, {1: plus, 2: minus}, fp=NPCAP.get(v.split()[0])); return r
+ def D(b, anode, cathode, v='1N4148'): r = ref('D'); P(b, r, 'D', v, {2: anode, 1: cathode}); return r
+ 
+diff --git a/tools/place_group.py b/tools/place_group.py
+index 5e15174..35fa974 100644
+--- a/tools/place_group.py
++++ b/tools/place_group.py
+@@ -60,7 +60,7 @@ LABELS = [(32.75, 352.4, 'GRP __', 0.9), (30.5, 355.2, 'SUB', 1.0), (35.0, 355.2
+          [(28.3, y, str(k + 1), 0.9) for k, y in enumerate(JP_Y)]
+ HOLES = [(XC, 72), (XC, 140), (XC, 215)] + FADER_HOLES
+ 
+-RADIAL = {r for r, f in FPN.items() if 'CP_Radial' in f}   # electrolytics: too tall for the 11.5 mm panel gap -> bottom
++RADIAL = {r for r, f in FPN.items() if 'CP_Radial' in f or 'C_Rect' in f}   # electrolytics, 2.2u film: too tall for the 11.5 mm panel gap -> bottom
+ RESERVOIR = sorted(RADIAL & set(B['POWER AND GROUNDS']), key=num)
+ take = lambda name, *drop: [r for r in B[name] if r not in FIX and r not in RADIAL and r not in drop]
+ switch_rs = lambda *sws: sorted({r for n, rs in ON.items() for s in sws if n.startswith(f'RT_{s}') for r in rs
+diff --git a/tools/place_strip.py b/tools/place_strip.py
+index 5f61d16..9a693d0 100644
+--- a/tools/place_strip.py
++++ b/tools/place_strip.py
+@@ -59,13 +59,16 @@ ZONES = [
+  ('insert / EQ coupling (bottom)', (1, 75, 37, 160), ['C51', 'C10', 'C11'], 'B'),
+  ('post / pan / direct-out coupling (bottom)', (1, 160, 37, 300), ['C15', 'C16', 'C17', 'C52'], 'B'),
+  ('VCA module socket (bottom)', (1, 380, 37, 444), ['J3', 'J4'], 'B'),
++ # 2.2 uF MKS2 film is 13 mm tall (WIMA, 63 V): more than the 11.5 mm under the panel
++ ('LF film cap (bottom)', (1, 82, 37, 175), ['C49'], 'B'),
++ ('fader film coupler (bottom)', (1, 330, 37, 444), ['C13'], 'B'),
+  # Top side, roughly in signal order
+  # stability caps right after their op-amp's decouplers: the placer gives list order the closest spots
+  ('input receiver + gain', (1, 45, 37, 100), ['U1', 'C20', 'C21', 'C7', 'C78', 'R6', 'R7', 'R8', 'R9', 'R10',
+                                               'R45', 'R46', 'C37', 'R47'], 'F'),
+  ('OL detector', (1, 45, 37, 100), ['U4', 'C26', 'R39', 'D1', 'C12', 'R14', 'R40', 'R41', 'R15'], 'F'),
+  ('HPF', (1, 60, 37, 100), ['U5', 'C29', 'C30', 'C39', 'C40', 'R48', 'R49'], 'F'),
+- ('EQ', (1, 82, 37, 162), ['U6', 'C31', 'C32', 'C69', 'C70', 'C71', 'C72', 'U7', 'C33', 'C34', 'C73', 'C48', 'C49',
++ ('EQ', (1, 82, 37, 162), ['U6', 'C31', 'C32', 'C69', 'C70', 'C71', 'C72', 'U7', 'C33', 'C34', 'C73', 'C48',
+                            'R50', 'R51', 'C41', 'C42', 'R52', 'C43', 'R53', 'R54', 'R55', 'R58', 'R59',
+                            'R62', 'R63', 'R64', 'C50', 'R65', 'R66', 'R67', 'R68', 'R69'], 'F'),
+  ('EQ mid tuning (KHN)', (1, 82, 37, 200), ['U12', 'C63', 'C64', 'C74', 'C75', 'C44', 'R56',
+@@ -85,7 +88,7 @@ ZONES = [
+  ('bus resistors (at the header)', (22, 296, 37, 362), ['R20', 'R21', 'R22', 'R23', 'R24', 'R25', 'R26', 'R27',
+                                                         'R28', 'R29', 'R30', 'R31'], 'F'),
+  ('power entry', (1, 340, 37, 380), ['R1', 'R2', 'R3', 'R4', 'R5', 'C2', 'C4'], 'F'),
+- ('fader post-amp', (27, 340, 37, 444), ['U2', 'C22', 'C23', 'C82', 'C79', 'R19', 'C14', 'R38', 'C13', 'JP1', 'R18',
++ ('fader post-amp', (27, 340, 37, 444), ['U2', 'C22', 'C23', 'C82', 'C79', 'R19', 'C14', 'R38', 'JP1', 'R18',
+                                          'R44'], 'F'),
+ ]
+ NOTES = ((50, 'GAIN | PHASE, OL'), (76, 'HF | HPF'), (98, 'HI-MID gain | freq'), (120, 'LO-MID gain | freq'),
