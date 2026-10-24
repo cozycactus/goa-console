@@ -459,7 +459,10 @@ jack board) done.
 - PSU headroom (strip v4.3): the worst corner (every OPA1612 at max IQ, every LED lit) is ~4.0 A on +V, the PSU's
   rating. Typical 2.82 A. Revisit if anything else adds load (master spec §27).
 - Pan RV8: no Alpha B10K dual with a centre detent found; options are the stocked Alpha B10K dual with no
-  detent, or an ALPS RK097121TD57 (9 mm dual, centre detent; different footprint).
+  detent (Amplified Parts R-VAV-B10K-DUAL, M7, 1/4"), or the ALPS RK09L1240015 (vertical dual 10K 1B, centre detent,
+  M9 x 0.75 bushing 5 long, 6 mm D-flat shaft 15 long; Mouser 177 / Verical 565 on 2026-10-25; KiCad footprint
+  Potentiometer_Alps_RK09L_Double_Vertical with STEP: pin rows at the same 7.5 / 10 mm from the shaft, gangs swapped,
+  shaft at (10, 2.5) from pin 1). RK097121TD57, listed here before, is a horizontal (right-angle) part: unusable.
 - Input buffer/receiver question settled: differential receiver fitted (pseudo-balanced cables recommended).
 
 ## Next steps

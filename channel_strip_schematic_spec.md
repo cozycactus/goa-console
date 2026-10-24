@@ -647,7 +647,7 @@ v4.0 (2026-10-22):
   (results in `delta_clone_comparison.md` §6), `sim/routing_switch.cir` (§13), `sim/mid_tuning.py` (§6.2). `sim/strip.cir` is the v3.1 path.
 
 **Open:** pan dual B10K with centre detent (RV8): none found from Alpha; the stocked B10K dual has no detent,
-ALPS RK097121TD57 has one but a different footprint. Supply current ~85 / 72 mA per strip (master spec §27);
+ALPS RK09L1240015 (vertical, M9 bushing, 6 mm D shaft) has one (RK097121TD57 is a right-angle part). Supply current ~85 / 72 mA per strip (master spec §27);
 PVA2 sense: settled from the datasheet, with an assembly rule (§16.1). Jack-board depth: 24.0 mm from Neutrik's
 drawings (2026-10-23). The panel parts checked against their drawings, with what still needs a sample (PTB lever
 style and pin side, PV cap clearance in the Ø8.0 hole, Alpha bushing thread and tab slots, 1/4" knobs on every pot):
