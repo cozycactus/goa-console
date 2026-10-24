@@ -48,6 +48,36 @@ class Drawing:
             unit = units[0]
         self.place[(ref, unit)] = (snap(self.ox + x * G), snap(self.oy + y * G), rot, mirror)
 
+    def nets(self, ref):
+        """{pin: net} of a part (all its units)."""
+        return {pn: net for pt in self.parts if pt['ref'] == ref for pn, net in pt['pins'].items()}
+
+    def h(self, ref, x, y, left=None, text=None):
+        """A two-pin part placed horizontally, the pin on net 'left' (default pin 1) on the left. Returns the net
+        on its right."""
+        n = self.nets(ref); first = '1' if left is None or n.get('1') == left else '2'
+        if self.lib_horizontal(ref): rot = 0 if first == '1' else 180
+        else: rot = 90 if first == '1' else 270
+        self.at(ref, x, y, rot=rot, text=text)
+        return n['2' if first == '1' else '1']
+
+    def lib_horizontal(self, ref):
+        """True when the library symbol has its two pins left and right (diodes, LEDs), not top and bottom."""
+        pt = next(pt for pt in self.parts if pt['ref'] == ref)
+        px, py = self.pins_of(pt['key'], pt['unit'])['1']
+        return abs(px) > abs(py)
+
+    def v(self, ref, x, y, top=None, text=None):
+        """A two-pin part placed vertically, the pin on net 'top' (default pin 1) at the top. Returns the bottom net."""
+        n = self.nets(ref); key = next(pt['key'] for pt in self.parts if pt['ref'] == ref)
+        first = '1' if top is None or n.get('1') == top else '2'
+        if self.lib_horizontal(ref):                              # diodes: K (1) on the left at rot 0
+            rot = 270 if first == '1' else 90
+        else:
+            rot = 0 if first == '1' else 180
+        self.at(ref, x, y, rot=rot, text=text)
+        return n['2' if first == '1' else '1']
+
     def pin(self, ref, pn):
         pn = str(pn); unit = self.unit[(ref, pn)]
         cx, cy, rot, mir = self.place[(ref, unit)]

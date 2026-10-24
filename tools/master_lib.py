@@ -136,7 +136,7 @@ def summer(b, bus, out, rf, cf, part='OPA1612', gref='GCANCEL'):   # [2, 12, 13,
     u = amp(b, gref, n, out, part); uu = LAST[0]
     rr, cc = R(b, rf + ' 1%', out, n), C(b, cf + ' C0G', out, n)
     for x in (fb, rr, cc): near(x, u)   # summing junction short
-    frag(b, 24, 13, lambda d: frags.inv(d, bus, out, uu, fb, rr, cc, gref))
+    frag(b, 24, 15, lambda d: frags.inv(d, bus, out, uu, fb, rr, cc, gref))
     return u
 
 def reinv(b, src, out, part='OPA1612', gref='GCANCEL_BUF'):  # [3]

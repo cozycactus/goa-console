@@ -10,16 +10,57 @@ def pins(u, lm2901=False):
     return (CPP if lm2901 else PP)[u[1]]
 
 
-def inv(d, src, out, u, rin, rf, cf, plus, rin_label=None):
-    """Inverting stage (summer): src -> rin -> - input, rf // cf over the top, + to the net 'plus'.  24 x 13"""
-    p = pins(u)
+def inv(d, src, out, u, rin, rf, cf, plus, src2=None, rin2=None):
+    """Inverting stage (summer): src -> rin -> - input (and src2 -> rin2), rf // cf over the top, + to the net
+    'plus' (a ground symbol when it is a ground). Parts turned by their nets.  24 x 15"""
+    p = pins(u); node = d.nets(u[0])[str(p[1])]
     d.at(u[0], 16, 9, mirror='x', unit=u[1])
-    d.at(rin, 3.5, 8, rot=90, text='D'); d.w((0, 8), (rin, 1)); d.port(src, (0, 8)); d.w((rin, 2), (u[0], p[1]))
-    d.w((9, 2), (9, 8))
-    d.at(rf, 12.5, 5, rot=270, text='D'); d.w((9, 5), (rf, 2)); d.w((rf, 1), (20, 5))
-    d.at(cf, 12.5, 2, rot=270, text='U'); d.w((9, 2), (cf, 2)); d.w((cf, 1), (20, 2))
+    d.h(rin, 3.5, 8, left=src, text='D'); d.w((0, 8), (2, 8)); d.port(src, (0, 8)); d.w((5, 8), (u[0], p[1]))
+    d.w((9, 2), (9, 12 if rin2 else 8))
+    d.h(rf, 12.5, 5, left=node, text='D'); d.w((9, 5), (11, 5)); d.w((14, 5), (20, 5))
+    d.h(cf, 12.5, 2, left=node, text='U'); d.w((9, 2), (11, 2)); d.w((14, 2), (20, 2))
     d.w((20, 2), (20, 9)); d.w((u[0], p[2]), (23, 9)); d.port(out, (23, 9), 'R')
-    d.w((u[0], p[0]), (11, 10)); d.port(plus, (11, 10))
+    if rin2:
+        d.h(rin2, 3.5, 12, left=src2, text='D'); d.w((0, 12), (2, 12)); d.port(src2, (0, 12)); d.w((5, 12), (9, 12))
+    if plus in ('GNDA', 'GNDD', 'GNDM'): d.w((u[0], p[0]), (12, 10), (12, 11)); d.gnd((12, 11), plus)
+    else: d.w((u[0], p[0]), (11, 10)); d.port(plus, (11, 10))
+
+
+def wiper_follower(d, src, out, u, cin, rsh, csh, rbo=None, final=None):
+    """Follower on a pot wiper: src -> cin -> +, rsh and csh to ground; optional build-out rbo to 'final'.  24 x 10"""
+    p = pins(u)
+    d.at(u[0], 15, 4, unit=u[1])
+    d.h(cin, 3.5, 3, left=src, text='U'); d.w((0, 3), (2, 3)); d.port(src, (0, 3)); d.w((5, 3), (u[0], p[0]))
+    d.v(rsh, 7, 4.5, top=d.nets(cin)['2'] if d.nets(cin)['1'] == src else d.nets(cin)['1'], text='L'); d.at(csh, 10, 4.5)
+    d.w((u[0], p[2]), (19, 4), (19, 7), (11.5, 7), (11.5, 5), (u[0], p[1]))
+    if rbo:
+        d.h(rbo, 21.5, 4, left=d.nets(u[0])[str(p[2])], text='U'); d.w((19, 4), (20, 4))
+        d.w((23, 4), (26, 4)); d.port(final, (26, 4), 'R')
+    else:
+        d.w((19, 4), (22, 4)); d.port(out, (22, 4), 'R')
+
+
+def phones(d, src, u, cin, rsh, csh, buf, rout, rf, cf, rg, caps, out):
+    """Headphone composite: wiper follower-style input, OPA1612 driving the LME49600 inside the loop, 2R2 out; the
+    4K7 from the output (after the 2R2) and the 100p from the op-amp's own output to the - node, 2K2 to ground.  40 x 20"""
+    p = pins(u); fin = d.nets(u[0])[str(p[0])]; fn = d.nets(u[0])[str(p[1])]; drv = d.nets(u[0])[str(p[2])]
+    d.at(u[0], 16, 4, unit=u[1])
+    d.h(cin, 3.5, 3, left=src, text='U'); d.w((0, 3), (2, 3)); d.port(src, (0, 3)); d.w((5, 3), (u[0], p[0]))
+    d.v(rsh, 7, 4.5, top=fin, text='L'); d.at(csh, 10, 4.5)
+    d.at(buf, 25, 4)                                                   # LME49600: in (2) left, out (4) right
+    d.w((u[0], p[2]), (buf, 2))
+    d.h(rout, 33.5, 4, left=d.nets(buf)['4'], text='U'); d.w((buf, 4), (32, 4)); d.w((35, 4), (39, 4)); d.port(out, (39, 4), 'R')
+    d.w((u[0], p[1]), (13, 5), (13, 14))
+    d.h(cf, 16.5, 10, left=fn, text='D'); d.w((13, 10), (15, 10)); d.w((18, 10), (20, 10), (20, 4))
+    d.h(rf, 22.5, 14, left=fn, text='D'); d.w((13, 14), (21, 14)); d.w((24, 14), (37, 14), (37, 4))
+    d.v(rg, 13, 15.5, top=fn, text='L')
+    for i, c in enumerate(caps): d.at(c, 27 + 4 * i, 18)
+
+
+def part(d, r, x, y, unit=None):
+    """One part, its pins labelled (connectors, headers, single parts)."""
+    d.at(r, x, y, unit=unit)
+
 
 
 def diff(d, inn, inp, out, u, r1, r2, r3, r4, c0, c1, shunts=(), c0n=2):
@@ -134,20 +175,22 @@ def power_unit(d, u, cp, cn):
 
 
 def chain(d, start, elems, end=None):
-    """A signal line from the net 'start': ('s', ref) a series part (pin 1 upstream), ('g', ref) a part from the line
-    to ground (pin 1 on the line); 'end' labels the far end. Returns its width (grid)."""
-    d.port(start, (0, 2)); x = 0
-    for kind, r in elems:
+    """A signal line from the net 'start': ('s', ref) a series part, ('g', ref) a part from the line to its other net
+    (ground or a rail, drawn down from the line); parts are turned by their nets. 'end' labels the far end."""
+    d.port(start, (0, 2)); x = 0; net = start
+    for i, (kind, r) in enumerate(elems):
         if kind == 's':
-            d.at(r, x + 3.5, 2, rot=90, text='U'); d.w((x, 2), (r, 1)); x += 5
+            nxt = d.h(r, x + 3.5, 2, left=net, text='U'); d.w((x, 2), (x + 2, 2)); x += 5; net = nxt
         else:
-            d.w((x, 2), (x + 3, 2)); d.at(r, x + 2, 3.5); x += 3
+            d.w((x, 2), (x + 2, 2)); d.v(r, x + 2, 3.5, top=net)
+            x += 2
+            if i + 1 < len(elems) and elems[i + 1][0] == 'g': d.w((x, 2), (x + 3, 2)); x += 3   # room for the texts
     if end: d.w((x, 2), (x + 3, 2)); d.port(end, (x + 3, 2), 'R'); x += 3
     return x
 
 
 def chain_w(elems, end=True):
-    return sum(5 if k == 's' else 3 for k, _ in elems) + (3 if end else 0) + 4
+    return sum(5 if k == 's' else 5 for k, _ in elems) + (3 if end else 0) + 5
 
 
 def pot(d, r, top, wiper):
