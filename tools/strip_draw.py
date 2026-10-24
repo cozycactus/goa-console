@@ -156,13 +156,16 @@ def eq(d):
     for X, nm in ((0, 'HF'), (18, 'HI-MID'), (36, 'LO-MID'), (54, 'LF')): d.note(nm, (X + 1, -2), 1.5)
 
 
-def khn(d):
-    """Mid-band tuning: a KHN band-pass per mid band (summer, two integrators, A10K dual), BP out to U6's + inputs."""
-    for k, (nm, wip, bp, sm_u, ui1, ui2, rs, pot, ci1, ci2, rb1, rb2, cs) in enumerate((
-            ('HI-MID', 'EQ_WHM', 'EQ_MP', ('U12', 1), ('U12', 2), ('U13', 1),
-             ('R81', 'R82', 'R83', 'R84', 'R85', 'R86', 'R87', 'R88', 'R89'), 'RV12', 'C44', 'C45', 'R56', 'R57', ('C74', 'C75')),
-            ('LO-MID', 'EQ_WLM', 'EQ_LP', ('U13', 2), ('U14', 1), ('U14', 2),
-             ('R90', 'R91', 'R92', 'R93', 'R94', 'R95', 'R96', 'R97', 'R98'), 'RV14', 'C46', 'C47', 'R60', 'R61', ('C76', 'C77')))):
+KHN_BANDS = (('HI-MID', 'EQ_WHM', 'EQ_MP', ('U12', 1), ('U12', 2), ('U13', 1),
+              ('R81', 'R82', 'R83', 'R84', 'R85', 'R86', 'R87', 'R88', 'R89'), 'RV12', 'C44', 'C45', 'R56', 'R57', ('C74', 'C75')),
+             ('LO-MID', 'EQ_WLM', 'EQ_LP', ('U13', 2), ('U14', 1), ('U14', 2),
+              ('R90', 'R91', 'R92', 'R93', 'R94', 'R95', 'R96', 'R97', 'R98'), 'RV14', 'C46', 'C47', 'R60', 'R61', ('C76', 'C77')))
+
+
+def khn_band(k):
+    """Mid-band tuning, one band: a KHN band-pass (summer, two integrators, A10K dual), BP out to U6's + input."""
+    def draw(d):
+        nm, wip, bp, sm_u, ui1, ui2, rs, pot, ci1, ci2, rb1, rb2, cs = KHN_BANDS[k]
         d.shift(0, 9 if k == 0 else 46)
         rin, rlp, rfb, r4, r5, r0a, r0b, rta, rtb = rs
         p = summer_top(d, sm_u, rfb, cs[0], rlp)
@@ -173,6 +176,7 @@ def khn(d):
         d.w((37, 24), (41, 24)); d.port(bp, (41, 24), 'R')
         d.note(f'{nm} BAND-PASS (KHN), {pot} {nm} FREQ: A10K dual, CW = higher', (0, -9), 1.5)
         d.shift(0, -9 if k == 0 else -46)
+    return draw
 
 
 def led_chain(d, sw, X, Y, rled, dled, src='+VL', mirror=None):
@@ -324,16 +328,25 @@ def pan_switch(d):
     d.w(('SW14', 3), (1, 4), (1, 10), ('SW14', 6)); d.w((1, 4), (-2, 4)); d.port('POST', (-2, 4))
 
 
-def routing(d):
+def routing_vl(d):
+    """+5VL for the DG413 logic: 4K7 from +VA, BZX84C5V1, 1u, BAT54W back to +VA."""
     d.shift(0, 10)
     d.at('R80', 3.5, -4, rot=90, text='D'); d.w((0, -4), ('R80', 1)); d.port('+VA', (0, -4))
     d.w(('R80', 2), (20, -4)); d.port('+5VL', (20, -4), 'R')
     d.at('D9', 6.5, -2.5, rot=270); d.at('C62', 13.5, -2.5); d.at('#FLG07', 17, -4)
     d.at('D10', 3.5, -7, mirror='x', text='U'); d.w(('D10', 3), (2, -7), ('R80', 1)); d.w(('D10', 1), (5, -7), ('R80', 2))
-    for k, (sw, u, rl, rr, sl, sr, bl, br, rpd, rled, dled, cs) in enumerate((
-            ('SW5', 'U9', 'R26', 'R27', 'PANL', 'PANR', 'MIXL', 'MIXR', 'R74', 'R75', 'D6', ('C53', 'C54', 'C55')),
-            ('SW6', 'U10', 'R28', 'R29', 'SUBSRC_L', 'SUBSRC_R', 'SUB1', 'SUB2', 'R76', 'R77', 'D7', ('C56', 'C57', 'C58')),
-            ('SW7', 'U11', 'R30', 'R31', 'SUBSRC_L', 'SUBSRC_R', 'SUB3', 'SUB4', 'R78', 'R79', 'D8', ('C59', 'C60', 'C61')))):
+
+
+ASSIGNS = (('SW5', 'U9', 'R26', 'R27', 'PANL', 'PANR', 'MIXL', 'MIXR', 'R74', 'R75', 'D6', ('C53', 'C54', 'C55')),
+           ('SW6', 'U10', 'R28', 'R29', 'SUBSRC_L', 'SUBSRC_R', 'SUB1', 'SUB2', 'R76', 'R77', 'D7', ('C56', 'C57', 'C58')),
+           ('SW7', 'U11', 'R30', 'R31', 'SUBSRC_L', 'SUBSRC_R', 'SUB3', 'SUB4', 'R78', 'R79', 'D8', ('C59', 'C60', 'C61')))
+
+
+def routing_assign(k):
+    """One assign key: two DG413 pairs move the 4K7s' bus ends between bus and ground, the key's LED."""
+    def draw(d):
+        sw, u, rl, rr, sl, sr, bl, br, rpd, rled, dled, cs = ASSIGNS[k]
+        d.shift(0, 10)
         X = 22 + k * 44
         for (r, net, y, ub, ug, pb, ps, pc, gs, gg, gc) in (
                 (rl, sl, 2, 1, 4, 2, 3, 1, 14, 15, 16), (rr, sr, 14, 2, 3, 7, 6, 8, 11, 10, 9)):
@@ -352,9 +365,11 @@ def routing(d):
         frags.dg_supply(d, u, X + 26, 12)
         for j, c in enumerate(cs): d.at(c, X + 30 + 4.5 * j, 10)
         d.note(f'ASSIGN {bl}/{br}' if k == 0 else f'ASSIGN {bl}-{br}', (X, -2), 1.5)
+    return draw
 
 
-def power(d):
+def power_rails(d):
+    """Rail filters (10R + reservoir per rail) with their PWR_FLAGs, grounds, the spade and the GCANCEL 10R."""
     d.shift(0, 6)
     for k, (r, cb, cs, src, out, flag, neg) in enumerate((
             ('R1', 'C1', 'C2', '+VBUS', '+VA', '#FLG01', False), ('R2', 'C3', 'C4', '-VBUS', '-VA', '#FLG02', True),
@@ -368,18 +383,32 @@ def power(d):
     d.at('#FLG05', 24, 2); d.at('#FLG06', 24, 10)
     d.at('NT1', 30, 2); d.at('CN4', 38, 10); d.at('R5', 30, 17)
     d.note('GNDA-GNDD: one net tie (NT1) beside the spade', (26, 22), 1.27)
-    ops = [('U1', 'C20', 'C21'), ('U2', 'C22', 'C23'), ('U3', 'C24', 'C25'), ('U5', 'C29', 'C30'), ('U6', 'C31', 'C32'),
-           ('U7', 'C33', 'C34'), ('U8', 'C35', 'C36'), ('U12', 'C63', 'C64'), ('U13', 'C65', 'C66'),
-           ('U14', 'C67', 'C68'), ('U15', 'C89', 'C90')]
-    X0, Y, P = 52, 8, 9
-    d.w((X0 - 3, Y - 5), (X0 + P * (len(ops) - 1) + 3, Y - 5)); d.port('+VA', (X0 - 3, Y - 5))
-    d.w((X0 - 3, Y + 5), (X0 + P * (len(ops) - 1) + 3, Y + 5)); d.port('-VA', (X0 - 3, Y + 5))
-    for k, (u, cp, cn) in enumerate(ops):
-        X = X0 + P * k
-        d.at(u, X, Y, unit=3); d.w((u, 8), (X - 1, Y - 5)); d.w((u, 4), (X - 1, Y + 5))
-        d.at(cp, X + 3, Y - 3.5); d.at(cn, X + 3, Y + 3.5)
-        d.w((cp, 2), (cn, 1)); d.w((X + 3, Y), (X + 1.5, Y), (X + 1.5, Y + 0.5)); d.gnd((X + 1.5, Y + 0.5))
-    X = X0 + P * len(ops) + 2
+
+
+OPS = [('U1', 'C20', 'C21'), ('U2', 'C22', 'C23'), ('U3', 'C24', 'C25'), ('U5', 'C29', 'C30'), ('U6', 'C31', 'C32'),
+       ('U7', 'C33', 'C34'), ('U8', 'C35', 'C36'), ('U12', 'C63', 'C64'), ('U13', 'C65', 'C66'),
+       ('U14', 'C67', 'C68'), ('U15', 'C89', 'C90')]
+X0, YP, P = 52, 8, 9                     # op-amp supply rows: origin, pitch
+
+
+def power_ops(lo, hi):
+    """Op-amp supply units lo..hi-1 on +VA / -VA, each with its two decouplers."""
+    def draw(d):
+        d.shift(0, 6); Y = YP
+        d.w((X0 + P * lo - 3, Y - 5), (X0 + P * (hi - 1) + 3, Y - 5)); d.port('+VA', (X0 + P * lo - 3, Y - 5))
+        d.w((X0 + P * lo - 3, Y + 5), (X0 + P * (hi - 1) + 3, Y + 5)); d.port('-VA', (X0 + P * lo - 3, Y + 5))
+        for k, (u, cp, cn) in enumerate(OPS[lo:hi], lo):
+            X = X0 + P * k
+            d.at(u, X, Y, unit=3); d.w((u, 8), (X - 1, Y - 5)); d.w((u, 4), (X - 1, Y + 5))
+            d.at(cp, X + 3, Y - 3.5); d.at(cn, X + 3, Y + 3.5)
+            d.w((cp, 2), (cn, 1)); d.w((X + 3, Y), (X + 1.5, Y), (X + 1.5, Y + 0.5)); d.gnd((X + 1.5, Y + 0.5))
+    return draw
+
+
+def power_vl(d):
+    """The comparator U4's logic supply."""
+    d.shift(0, 6); Y = YP
+    X = X0 + P * len(OPS) + 2
     d.at('U4', X, Y, unit=3); d.at('C26', X + 3, Y)
     d.w(('U4', 8), (X - 1, Y - 5), (X + 3, Y - 5), ('C26', 1)); d.port('+VL', (X + 3, Y - 5), 'R')
     d.w(('U4', 4), (X - 1, Y + 5), (X + 3, Y + 5), ('C26', 2)); d.gnd((X + 3, Y + 5), 'GNDD')
@@ -394,10 +423,13 @@ def jumpers(d):
     for k, jp in enumerate(('JP6', 'JP5', 'JP7')): d.at(jp, 6 + 20 * k, 2)
 
 
-DRAWINGS = {'LINE INPUT': receiver, 'GAIN': gain, 'HPF': hpf, 'EQ  ': eq, 'EQ MID TUNING': khn, 'EQ IN': eq_in,
-            'INSERT (': insert, 'OVERLOAD': overload, 'PFL': pfl, 'ON / SOFT MUTE': mute, 'FADER': fader, 'AUX SENDS': aux,
-            'DIRECT OUT': direct_out, 'PAN + PAN': pan, 'PAN SWITCH': pan_switch, 'ROUTING': routing,
-            'POWER ENTRY': power, 'MOTHERLOOM': motherloom, 'INSERT POSITION': jumpers}
+# a list: the block's pieces, drawn in turn on one sheet, packed separately on pages (schgen.build pages=)
+DRAWINGS = {'LINE INPUT': receiver, 'GAIN': gain, 'HPF': hpf, 'EQ  ': eq, 'EQ MID TUNING': [khn_band(0), khn_band(1)],
+            'EQ IN': eq_in, 'INSERT (': insert, 'OVERLOAD': overload, 'PFL': pfl, 'ON / SOFT MUTE': mute, 'FADER': fader,
+            'AUX SENDS': aux, 'DIRECT OUT': direct_out, 'PAN + PAN': pan, 'PAN SWITCH': pan_switch,
+            'ROUTING': [routing_vl] + [routing_assign(k) for k in range(3)],
+            'POWER ENTRY': [power_rails, power_ops(0, 6), power_ops(6, len(OPS)), power_vl], 'MOTHERLOOM': motherloom,
+            'INSERT POSITION': jumpers}
 
 
 def for_title(title):

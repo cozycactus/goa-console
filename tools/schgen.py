@@ -67,19 +67,23 @@ DRAW = {}            # id(parts list) -> draw function (schdraw.Drawing): the bl
 FRAGS = {}           # id(parts list) -> [(w, h, fn)]: drawn fragments of a block, laid out by flow() (tools/frags.py)
 def frag(b, w, h, fn, last=False): FRAGS.setdefault(id(b), []).append((w, h, fn, last))   # last: after the others (power units)
 
-def frag_box(parts, pins_of, w, h, fn):
+def frag_box(parts, pins_of, w, h, fn, tight=False):
     """(ox, oy, w, h) in grid units: where to put a fragment's origin so labels sticking out left / up stay inside its
-    box, and the box's size; measured from what fn draws, label texts included (~0.45 grid per character)."""
+    box, and the box's size; measured from what fn draws, label texts included (~0.45 grid per character).
+    tight: the box starts at what is drawn, not at the origin (a piece of a larger drawing)."""
     s = schdraw.Drawing(parts, pins_of, (0, 0)); fn(s)
-    xs, ys = [0.0], [0.0]
+    xs, ys = ([], []) if tight else ([0.0], [0.0])
     for a, b in s.wires: xs += [a[0], b[0]]; ys += [a[1], b[1]]
     for (cx, cy, *_) in s.place.values(): xs += [cx - 5.08, cx + 5.08]; ys += [cy - 5.08, cy + 5.08]
     for net, (px, py), side in s.ports:
         n = (len(net) * 0.45 + 0.6) * schdraw.G
         xs.append(px - n if side == 'L' else px + n if side == 'R' else px)
         ys.append(py - n if side == 'U' else py + n if side == 'D' else py)
+    for text, (px, py), size in s.notes:                  # notes: left-justified text above their point
+        xs += [px, px + len(text) * size * 0.85]; ys += [py - size * 1.2, py]
     g = schdraw.G; x0, x1, y0, y1 = min(xs) / g, max(xs) / g, min(ys) / g, max(ys) / g
-    ox, oy = math.ceil(max(0, -x0)), math.ceil(max(0, -y0))
+    if tight: ox, oy = -math.floor(x0), -math.floor(y0)
+    else: ox, oy = math.ceil(max(0, -x0)), math.ceil(max(0, -y0))
     return ox, oy, math.ceil(max(w, x1) + ox), math.ceil(max(h, y1) + oy)
 
 def flow(frags, maxw=110, cell=(13, 11)):
@@ -98,8 +102,15 @@ def flow(frags, maxw=110, cell=(13, 11)):
             for i, pt in enumerate(rest):
                 d.at(pt['ref'], 2 + (i % per) * cell[0], y0 + (i // per) * cell[1], unit=pt['unit'])
     return draw
+PIECES = {}          # id(parts list) -> a drawn block's pieces (each drawn from the block's origin; packed apart on pages)
 def block(title, draw=None):
     blocks.append((title, []))
+    if isinstance(draw, list):
+        def keep(f):                     # a piece leaves the drawing's origin where it found it
+            def run(d): o = (d.ox, d.oy); f(d); d.ox, d.oy = o
+            return run
+        PIECES[id(blocks[-1][1])] = ps = [keep(f) for f in draw]
+        draw = lambda d: [f(d) for f in ps]
     if draw: DRAW[id(blocks[-1][1])] = draw
     return blocks[-1][1]
 def P(lst, ref, key, value, pins, unit=1, fp=None, mpn=None, dnp=False):
@@ -364,14 +375,15 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
         PX0, PY0 = pages.get('x0', 7), pages.get('y0', 8)
         pagelist, segs, py = [], [], 0
         for btitle, parts in order:
-            fr = FRAGS.get(id(parts), [])
+            drawn = id(parts) in DRAW and id(parts) not in FRAGS                  # a drawn block: its pieces, or itself
+            fr = FRAGS.get(id(parts)) or [(0, 0, f, False) for f in PIECES.get(id(parts), [DRAW.get(id(parts))]) if f]
             items = [f for f in fr if not f[3]] + [f for f in fr if f[3]]
             s = schdraw.Drawing(parts, pinsf, (0, 0))
             for f in items: f[2](s)
             for pt in [pt for pt in parts if (pt['ref'], pt['unit']) not in s.place]:      # undrawn: a labelled cell each
                 items.append((13, 11, lambda d, pt=pt: d.at(pt['ref'], 3, 5, unit=pt['unit']), True))
             seg, x, rowh, cont = None, 0, 0, False
-            queue = [frag_box(parts, pinsf, w, h, fn) + (fn,) for w, h, fn, _ in items]
+            queue = [frag_box(parts, pinsf, w, h, fn, tight=drawn) + (fn,) for w, h, fn, _ in items]
             def fits(w, h):                      # where the next box goes on this page: same row, next row, or None
                 top = py + (0 if seg else 4)
                 if seg is None or not x: return 'row' if top + h <= H or not (segs or seg) else None
@@ -385,6 +397,7 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
                     pagelist.append(segs); segs, py, seg, x, rowh = [], 0, None, 0, 0
                     continue
                 ox, oy, w, h, fn = queue.pop(k)
+                if w > W or h > H: print(f'PAGE OVERFLOW {btitle[:40]!r}: {w} x {h} grid on a {W} x {H} page')
                 if fits(w, h) == 'next': py += rowh + 3; x = rowh = 0
                 if seg is None:
                     seg = [btitle.split('  ')[0] + ' (cont.)' if cont else btitle, parts, [], py]; segs.append(seg); py += 4
@@ -396,7 +409,7 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
         for f in os.listdir(os.path.join(base, folder)):                 # stale pages of an earlier layout
             if f.endswith('.kicad_sch'): os.remove(os.path.join(base, folder, f))
         root_uuid = K('root'); files = []
-        short = lambda s: re.split(r'  |:|\(', s)[0].strip().replace(' / ', '-').replace('/', '-')   # '/' separates sheet paths
+        short = lambda s: re.split(r'  |:|\(|,| - ', s)[0].strip().replace(' / ', '-').replace('/', '-')   # '/' separates sheet paths
         for i, segs_ in enumerate(pagelist):
             names = list(dict.fromkeys(short(s_[0]) for s_ in segs_))      # every block on the page, in order
             uid = K('sheetsym', i); pname = f'{i + 2:02d} ' + ', '.join(names)

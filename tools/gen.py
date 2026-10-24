@@ -270,9 +270,10 @@ for sw,u,rl,rr,sl,sr,bl,br,nm,rpd,rled,dled,cs in [
 for _, ps in schgen.blocks:                     # ceramic MPNs by value (X7R 50 V; C0G parts keep their value text)
     for pt in ps:
         if pt['key'] == 'C' and not pt['mpn']: pt['mpn'] = CAP_MPN.get(pt['value'], '')
-build(OUT, 'channel_strip', 'Channel strip - goa console (Delta Theatre input without the mic stage)',
-      {1: 'Generated from channel_strip_schematic_spec.md v4.3', 2: 'Drawn by tools/strip_draw.py; labels join the blocks'},
-      paper='auto', revision='4.3', **strip_draw.SHEET)
+build(OUT, 'channel_strip', 'Channel strip - goa console',
+      {1: 'Generated from channel_strip_schematic_spec.md v4.3', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
+       3: 'A Delta Theatre input without the mic stage'},
+      paper='auto', revision='4.3', pages=dict(paper='A4', folder='strip_sheets'), **strip_draw.SHEET)   # A4 sub-sheets
 if os.environ.get('PILOT'):                     # only the drawn blocks, on a sheet of their own (layout review)
     build(os.environ['PILOT'], 'pilot', 'Channel strip - drawn blocks (pilot)', {1: 'tools/strip_draw.py', 2: ''},
           paper='auto', revision='4.3', only=lambda t: strip_draw.for_title(t) is not None, **strip_draw.SHEET)
