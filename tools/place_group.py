@@ -8,6 +8,7 @@ the strips' pan / routing / PFL rows, a few cm from the bus header. Zones follow
 import collections, json, os, re, sys
 sys.path.insert(0, os.path.dirname(__file__))
 from verify import sexp, field
+import netnames
 from placer import place, PROJ, W8 as W, XL, XR, XC, pot, sw, led, jack, FADER, BUS, SPADE, NETTIE, FADER_HOLES
 
 JACK_Y1, MAIN_Y0, MAIN_Y1 = 65.0, 66.0, 444.0
@@ -37,6 +38,8 @@ FPN = {field(c, 'ref'): field(c, 'footprint') for c in comps[1:]}
 VAL = {field(c, 'ref'): field(c, 'value') for c in comps[1:]}
 ON = {field(n, 'name').lstrip('/'): {field(x, 'ref') for x in n[1:] if isinstance(x, list) and x[0] == 'node'}
       for n in next(c for c in net[1:] if isinstance(c, list) and c[0] == 'nets')[1:]}
+_rn = netnames.renames(os.path.join(PROJ, 'group.net'))    # a drawn schematic leaves nets inside a drawing unlabelled
+ON = {_rn.get(k, k): v for k, v in ON.items()}
 num = lambda r: int(re.sub(r'\D', '', r))
 byval = lambda v: next(r for r, x in VAL.items() if x == v)
 ic_on = lambda n: next(r for r in sorted(ON[n], key=num) if r.startswith('U'))

@@ -12,6 +12,7 @@ import collections, json, os, re, sys
 sys.path.insert(0, os.path.dirname(__file__))
 from placer import place, PROJ, XL, XR, pot, sw, led, jack, BUS
 from verify import sexp, field
+import netnames
 
 W = 78.6                                      # 16 HP board: 2 x 40.64 mm pitch
 H8 = 40.64                                    # second 8 HP half: columns at XL + H8, XR + H8
@@ -50,6 +51,8 @@ FPN = {field(c, 'ref'): field(c, 'footprint') for c in comps[1:]}
 VAL = {field(c, 'ref'): field(c, 'value') for c in comps[1:]}
 ON = {field(n, 'name').lstrip('/'): {field(x, 'ref') for x in n[1:] if isinstance(x, list) and x[0] == 'node'}
       for n in next(c for c in net[1:] if isinstance(c, list) and c[0] == 'nets')[1:]}
+_rn = netnames.renames(os.path.join(PROJ, 'master.net'))    # a drawn schematic leaves nets inside a drawing unlabelled
+ON = {_rn.get(k, k): v for k, v in ON.items()}
 num = lambda r: int(re.sub(r'\D', '', r))
 byval = lambda v: next(r for r, x in VAL.items() if x == v)
 

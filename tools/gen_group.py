@@ -39,49 +39,55 @@ for k in range(1, 5):
     P(b, ref('JP'), 'SJO', f'AUX {k} select', {1: 'AUX_SEL', 2: f'AUX{k}'})
 
 b = block('GROUND CANCEL BUFFER  (local, for this module\'s re-inverters; summing amps use the raw GCANCEL line)')
-amp(b, 'GCANCEL', 'GC_BUF', 'GC_BUF')
+amp(b, 'GCANCEL', 'GC_BUF', 'GC_BUF'); gcu = LAST[0]
+frag(b, 16, 9, lambda d: frags.follower(d, 'GCANCEL', 'GC_BUF', gcu))
 
 b = block('SUBGROUP: sum (selected SUB bus), re-invert, insert, fader + post-amp, DRV134 out, pan to MIX, AFL  [spec 12]')
 s = 'S'
 summer(b, 'SUB_SEL', s + '_SUM', '4K7', '100p')
 reinv(b, s + '_SUM', s + '_MIX', gref='GC_BUF')
 insert(b, s + '_MIX', s + '_PRE', 'SUB')
-P(b, ref('RV'), 'POT', 'Sub fader 10K log 100mm', {1: 'GNDA', 3: s + '_PRE', 2: s + '_W'}, fp=FADER_FP, mpn='Bourns PTB0143-2010BPA103')
+rv = ref('RV'); P(b, rv, 'POT', 'Sub fader 10K log 100mm', {1: 'GNDA', 3: s + '_PRE', 2: s + '_W'}, fp=FADER_FP, mpn='Bourns PTB0143-2010BPA103')
+frag(b, 12, 9, lambda d: frags.pot(d, rv, s + '_PRE', s + '_W'))
 post_amp(b, s + '_W', s + '_POST', s)
 drv134(b, s + '_POST', s + '_OP', s + '_ON')
 jack(b, 'JACK', 'Sub out TRS', {'T': s + '_OP', 'R': s + '_ON', 'S': 'GNDA'})
-P(b, ref('RV'), 'POT2', 'Sub pan 10K dual', {1: s + '_POST', 3: 'GNDA', 2: s + '_PWL', 4: 'GNDA', 6: s + '_POST', 5: s + '_PWR'})
+rp = ref('RV'); P(b, rp, 'POT2', 'Sub pan 10K dual', {1: s + '_POST', 3: 'GNDA', 2: s + '_PWL', 4: 'GNDA', 6: s + '_POST', 5: s + '_PWR'})
+frag(b, 14, 8, lambda d: frags.pot2(d, rp))
 for sd in 'LR':                 # 10p against the pan wiper's Cdiff lag (MG5)
-    near(C(b, '10p C0G', f'{s}_PW{sd}', 'GNDA'), amp(b, f'{s}_PW{sd}', f'{s}_PB{sd}', f'{s}_PB{sd}'))
-C(b, '220u NP 25V', s + '_PBL', s + '_PANL'); R(b, '47K', s + '_PANL', 'GNDA')
-C(b, '220u NP 25V', s + '_PBR', s + '_PANR'); R(b, '47K', s + '_PANR', 'GNDA')
+    pc = C(b, '10p C0G', f'{s}_PW{sd}', 'GNDA'); near(pc, amp(b, f'{s}_PW{sd}', f'{s}_PB{sd}', f'{s}_PB{sd}'))
+    frag(b, 16, 9, lambda d, u=LAST[0], c=pc, sd=sd: frags.follower(d, f'{s}_PW{sd}', f'{s}_PB{sd}', u, cap=c))
+for sd in 'LR':
+    chain(b, f'{s}_PB{sd}', [('s', C(b, '220u NP 25V', f'{s}_PB{sd}', f'{s}_PAN{sd}')), ('g', R(b, '47K', f'{s}_PAN{sd}', 'GNDA'))], f'{s}_PAN{sd}')
 routing(b, s + '_PANL', s + '_PANR', 'MIXL', 'MIXR', 'Sub to MIX')
-R(b, '22K', s + '_POST', s + '_AFLJ'); afl(b, s + '_AFLJ', 'Sub AFL')
+chain(b, s + '_POST', [('s', R(b, '22K', s + '_POST', s + '_AFLJ'))], s + '_AFLJ'); afl(b, s + '_AFLJ', 'Sub AFL')
 
 b = block('AUX MASTER: OPA1612 sum (selected AUX bus, 22K || 100p) + re-invert, level, buffer, DRV134 out, AFL  [spec 13]')
 a = 'A'
 with new_package():                     # every strip's 22K is always on the aux bus: noise gain 25, so the OPA1612
     summer(b, 'AUX_SEL', a + '_SUM', '22K', '100p')
     reinv(b, a + '_SUM', a + '_MIX', gref='GC_BUF')
-C(b, '47u NP 25V', a + '_MIX', a + '_PT')
-P(b, ref('RV'), 'POT', 'Aux master 10K log', {1: 'GNDA', 3: a + '_PT', 2: a + '_W'})
+chain(b, a + '_MIX', [('s', C(b, '47u NP 25V', a + '_MIX', a + '_PT'))], a + '_PT')
+ra = ref('RV'); P(b, ra, 'POT', 'Aux master 10K log', {1: 'GNDA', 3: a + '_PT', 2: a + '_W'})
+frag(b, 12, 9, lambda d: frags.pot(d, ra, a + '_PT', a + '_W'))
 level_buffer(b, a + '_W', a + '_OUT', a)
 drv134(b, a + '_OUT', a + '_OP', a + '_ON')
 jack(b, 'JACK', 'Aux out TRS', {'T': a + '_OP', 'R': a + '_ON', 'S': 'GNDA'})
-R(b, '22K', a + '_OUT', a + '_AFLJ'); afl(b, a + '_AFLJ', 'Aux AFL')
+chain(b, a + '_OUT', [('s', R(b, '22K', a + '_OUT', a + '_AFLJ'))], a + '_AFLJ'); afl(b, a + '_AFLJ', 'Aux AFL')
 
 b = block('STEREO RETURN: receivers (R normalled to L), level, buffers, MIX / 1-2 / 3-4 onto the ribbon, PFL  [spec 16]')
 r = 'RT'
 stereo_in(b, 'Return', r + '_L', r + '_R')
 for sd in 'LR':
-    C(b, '47u NP 25V', f'{r}_{sd}', f'{r}_PRE{sd}'); R(b, '47K', f'{r}_PRE{sd}', 'GNDA')
-P(b, ref('RV'), 'POT2', 'Return level 10K log dual', {1: 'GNDA', 3: r + '_PREL', 2: r + '_WL', 4: 'GNDA', 6: r + '_PRER', 5: r + '_WR'}, mpn=POT2A_MPN)
+    chain(b, f'{r}_{sd}', [('s', C(b, '47u NP 25V', f'{r}_{sd}', f'{r}_PRE{sd}')), ('g', R(b, '47K', f'{r}_PRE{sd}', 'GNDA'))], f'{r}_PRE{sd}')
+rr2 = ref('RV'); P(b, rr2, 'POT2', 'Return level 10K log dual', {1: 'GNDA', 3: r + '_PREL', 2: r + '_WL', 4: 'GNDA', 6: r + '_PRER', 5: r + '_WR'}, mpn=POT2A_MPN)
+frag(b, 14, 8, lambda d: frags.pot2(d, rr2))
 for sd in 'LR':
     level_buffer(b, f'{r}_W{sd}', f'{r}_B{sd}', f'{r}{sd}')
-    C(b, '220u NP 25V', f'{r}_B{sd}', f'{r}_RTN{sd}'); R(b, '47K', f'{r}_RTN{sd}', 'GNDA')
+    chain(b, f'{r}_B{sd}', [('s', C(b, '220u NP 25V', f'{r}_B{sd}', f'{r}_RTN{sd}')), ('g', R(b, '47K', f'{r}_RTN{sd}', 'GNDA'))], f'{r}_RTN{sd}')
 for busl, busr, nm in (('MIXL', 'MIXR', 'MIX'), ('SUB1', 'SUB2', '1-2'), ('SUB3', 'SUB4', '3-4')):
     routing(b, r + '_RTNL', r + '_RTNR', busl, busr, f'Return {nm}')
-R(b, '43K', r + '_PREL', r + '_PFLJ'); R(b, '43K', r + '_PRER', r + '_PFLJ')
+for sd in 'LR': chain(b, f'{r}_PRE{sd}', [('s', R(b, '43K', f'{r}_PRE{sd}', r + '_PFLJ'))], r + '_PFLJ')
 afl(b, r + '_PFLJ', 'Return PFL')
 spares(b)
 
@@ -93,7 +99,7 @@ project_file(OUT); parts_sidecar(OUT)
 build(OUT, 'group', 'Group module (sub + stereo return + aux master) - goa console',
       {1: 'Generated by tools/gen_group.py; circuits from master_section_spec.md 12, 13, 16 (master_lib.py)',
        2: 'Four identical boards; close one SUB and one AUX select jumper per board'},
-      paper='auto', perrow=22, revision='0.2')
+      paper='auto', perrow=22, revision='0.2', flowed=True, col_height=520, last=('POWER AND GROUNDS', 'RIBBON'))
 
 jack_board(os.path.join(ROOT, 'group_jack_board.kicad_sch'), 'group_jack_board',
            'Group module jack board - goa console (sub out, insert, aux out, return L/R)', JACKS, NL, LINK)

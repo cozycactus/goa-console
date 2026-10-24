@@ -3,7 +3,8 @@
 allocation with decoupling, and one function per master circuit (spec sections in brackets).
 reset() clears the reference counters so one script can build several schematics."""
 import collections
-import schgen
+import schgen, frags
+from schgen import frag
 from schgen import block, P, build, SYM, FP, MPN, CAP_FP, FADER_FP
 
 # ---------------------------------------------------------------- extra parts for the master
@@ -88,8 +89,11 @@ def unit_of(part, rail, b):
         g = GND_OF[rail]
         if part == 'LM2901': P(b, r, k, part, {3: '+' + rail, 12: '-' + rail}, unit=5)
         else: P(b, r, k, part, {8: '+' + rail, 4: '-' + rail}, unit=3)
+        cs = []
         for a, c in (('+' + rail, g), (g, '-' + rail)):
-            cr = ref('C'); decoupling[cr] = r; P(b, cr, 'C', '100n', {1: a, 2: c})
+            cr = ref('C'); decoupling[cr] = r; P(b, cr, 'C', '100n', {1: a, 2: c}); cs.append(cr)
+        pu = (r, 5 if part == 'LM2901' else 3)
+        frag(b, 12, 10, lambda d: frags.power_unit(d, pu, *cs), last=True)
     return free[key].pop(0)
 
 class new_package:
@@ -105,14 +109,18 @@ def near(part, anchor):
 
 PINS = {1: (3, 2, 1), 2: (5, 6, 7)}                    # op-amp unit: (+, -, out)
 CPINS = {1: (5, 4, 2), 2: (7, 6, 1), 3: (11, 10, 13), 4: (9, 8, 14)}   # LM2901 unit: (+, -, out)
+LAST = [None]                                           # (ref, unit) of the last amp() / cmp(), for the drawings
 def amp(b, inp, inn, out, part='OPA1612', rail='VA'):
     r, u = unit_of(part, rail, b); p, n, o = PINS[u]
-    P(b, r, DUAL[part][0], part, {p: inp, n: inn, o: out}, unit=u); return r
+    P(b, r, DUAL[part][0], part, {p: inp, n: inn, o: out}, unit=u); LAST[0] = (r, u); return r
 def cmp(b, inp, inn, out, part='LM393', rail='VL'):
     r, u = unit_of(part, rail, b); p, n, o = (CPINS if part == 'LM2901' else PINS)[u]
-    P(b, r, DUAL[part][0], part, {p: inp, n: inn, o: out}, unit=u); return r
+    P(b, r, DUAL[part][0], part, {p: inp, n: inn, o: out}, unit=u); LAST[0] = (r, u); return r
 
 def R(b, v, a, c, **k): r = ref('R'); P(b, r, 'R', v, {1: a, 2: c}, **k); return r
+def chain(b, start, elems, end=None):
+    """Draw a series / shunt line (frags.chain) of parts already created: elems [('s' | 'g', ref)]."""
+    frag(b, frags.chain_w(elems, end is not None), 6, lambda d: frags.chain(d, start, elems, end))
 def C(b, v, a, c):
     """A capacitor: '2.2u' is a film coupler, an 'NP' value an audio bipolar (MUSE ES), the rest by value."""
     v = '2.2u film' if v == '2.2u' else NP_VALUE.get(v, v)
@@ -125,8 +133,10 @@ def D(b, anode, cathode, v='1N4148'): r = ref('D'); P(b, r, 'D', v, {2: anode, 1
 def summer(b, bus, out, rf, cf, part='OPA1612', gref='GCANCEL'):   # [2, 12, 13, 18]
     n = bus + '_VE'; fb = ref('FB')
     P(b, fb, 'FB', 'Ferrite 220R@100MHz', {1: bus, 2: n})
-    u = amp(b, gref, n, out, part)
-    for x in (fb, R(b, rf + ' 1%', out, n), C(b, cf + ' C0G', out, n)): near(x, u)   # summing junction short
+    u = amp(b, gref, n, out, part); uu = LAST[0]
+    rr, cc = R(b, rf + ' 1%', out, n), C(b, cf + ' C0G', out, n)
+    for x in (fb, rr, cc): near(x, u)   # summing junction short
+    frag(b, 24, 13, lambda d: frags.inv(d, bus, out, uu, fb, rr, cc, gref))
     return u
 
 def reinv(b, src, out, part='OPA1612', gref='GCANCEL_BUF'):  # [3]
@@ -136,48 +146,54 @@ def reinv(b, src, out, part='OPA1612', gref='GCANCEL_BUF'):  # [3]
     # the op-amp's pins, ahead of the resistors: they only work at the pins
     cs = C(b, '22p C0G 5%', out, dn), C(b, '22p C0G 5%', dp, 'GNDA')
     k = dict(mpn='Panasonic ERA-6AEB222V')          # 0.1 % 25 ppm: they set the GCANCEL rejection
-    R(b, '2K2 0.1%', src, dn, **k); R(b, '2K2 0.1%', dn, out, **k)
-    R(b, '2K2 0.1%', gref, dp, **k); R(b, '2K2 0.1%', dp, 'GNDA', **k)
-    u = amp(b, dp, dn, out, part)
+    rs = (R(b, '2K2 0.1%', src, dn, **k), R(b, '2K2 0.1%', dn, out, **k),
+          R(b, '2K2 0.1%', gref, dp, **k), R(b, '2K2 0.1%', dp, 'GNDA', **k))
+    u = amp(b, dp, dn, out, part); uu = LAST[0]
     for c in cs: near(c, u)
+    frag(b, 30, 18, lambda d: frags.diff(d, src, gref, out, uu, *rs, cs[0], cs[1]))
     return u
 
 def insert(b, src, dst, name):                              # [4]
     s, rr, rt, ri, bf = name + '_SEND', name + '_RETRAW', name + '_RET', name + '_RETIN', name + '_RBUF'
-    R(b, '75R', src, s, mpn='Panasonic ERJ-P06J750V')       # anti-surge: 258 mW into a shorted send lead
+    rs_ = R(b, '75R', src, s, mpn='Panasonic ERJ-P06J750V')       # anti-surge: 258 mW into a shorted send lead
     jack(b, 'JACKSW', name.replace('_', ' ') + ' insert', {'T': s, 'RN': s, 'R': rr, 'TN': 'NC', 'S': 'GNDA'}, split=True)
-    C(b, '47u NP 25V', rr, rt); R(b, '47K', rt, 'GNDA')
+    cin, rin = C(b, '47u NP 25V', rr, rt), R(b, '47K', rt, 'GNDA')
     # input protection as strip R99/C84, never the 1K alone (it costs the follower 25-45 deg); 75R build-out at the pin:
     # the follower otherwise drives PRE and, at the fader top, the wiper run (master_group_review.md MG7)
-    R(b, '1K', rt, ri); ci = C(b, '100p C0G', ri, 'GNDA')
-    u = amp(b, ri, bf, bf)
-    near(ci, u); near(R(b, '75R', bf, bf + 'O'), u)
-    c = C(b, '220u NP 25V', bf + 'O', dst); near(R(b, '47K', dst, 'GNDA'), c)
+    rp = R(b, '1K', rt, ri); ci = C(b, '100p C0G', ri, 'GNDA')
+    u = amp(b, ri, bf, bf); uu = LAST[0]
+    rbo = R(b, '75R', bf, bf + 'O'); near(ci, u); near(rbo, u)
+    c = C(b, '220u NP 25V', bf + 'O', dst); ro = R(b, '47K', dst, 'GNDA'); near(ro, c)
+    frag(b, 39, 12, lambda d: frags.insert(d, src, s, rr, dst, rs_, cin, rin, rp, ci, uu, rbo, c, ro))
 
 def post_amp(b, wiper, post, name):                         # [5] fader wiper -> +10 dB -> POST
     fin, fn, fo = name + '_FIN', name + '_FN', name + '_FPOST'
-    C(b, '2.2u', wiper, fin); R(b, '100K', fin, 'GNDA')
-    u = amp(b, fin, fn, fo)
+    cin, rsh = C(b, '2.2u', wiper, fin), R(b, '100K', fin, 'GNDA')
+    u = amp(b, fin, fn, fo); uu = LAST[0]
     # 10p: the wiper's 1-2.5 kohm against Cdiff; 47R build-out at the pin, outside the loop, so POST's run and the
     # DG413 on-capacitance (master) or the pan pot (group) don't load the follower (master_group_review.md MG4)
-    near(C(b, '10p C0G', fin, 'GNDA'), u); near(R(b, '47R', fo, fo + 'O'), u)
-    R(b, '4K7', fo, fn); C(b, '100p C0G', fo, fn); R(b, '2K2', fn, 'GNDA')
-    C(b, '220u NP 25V', fo + 'O', post); R(b, '47K', post, 'GNDA')
+    csh, rb = C(b, '10p C0G', fin, 'GNDA'), R(b, '47R', fo, fo + 'O'); near(csh, u); near(rb, u)
+    rf, cf, rg = R(b, '4K7', fo, fn), C(b, '100p C0G', fo, fn), R(b, '2K2', fn, 'GNDA')
+    cout, rout = C(b, '220u NP 25V', fo + 'O', post), R(b, '47K', post, 'GNDA')
+    frag(b, 38, 17, lambda d: frags.noninv(d, wiper, fo, uu, cin, rsh, csh, rf, cf, rg, rb, cout, rout, post))
 
 def level_buffer(b, wiper, out, name, unity=True):          # [13, 16] pot wiper -> buffer, Rg not fitted
     fin, fn = name + '_LIN', name + '_LN'
-    C(b, '2.2u', wiper, fin); R(b, '100K', fin, 'GNDA')
-    u = amp(b, fin, fn, out)
+    cin, rsh = C(b, '2.2u', wiper, fin), R(b, '100K', fin, 'GNDA')
+    u = amp(b, fin, fn, out); uu = LAST[0]
     # 100p as post_amp(): without it the follower rings at ~15 MHz (TI OPA161x model). 10p at the + input against
     # the wiper's Cdiff lag; 22p would cost the stage driving the pot top more (master_group_review.md MG5)
-    for x in (R(b, '4K7', out, fn), C(b, '100p C0G', out, fn), C(b, '10p C0G', fin, 'GNDA')): near(x, u)
-    R(b, 'DNF (2K2 = +10 dB)', fn, 'GNDA', dnp=True)
+    rf, cf, csh = R(b, '4K7', out, fn), C(b, '100p C0G', out, fn), C(b, '10p C0G', fin, 'GNDA')
+    for x in (rf, cf, csh): near(x, u)
+    rg = R(b, 'DNF (2K2 = +10 dB)', fn, 'GNDA', dnp=True)
+    frag(b, 26, 17, lambda d: frags.noninv(d, wiper, out, uu, cin, rsh, csh, rf, cf, rg))
 
 def drv134(b, inp, op, on):                                 # [7]
     vop, von, u = op + '_VO', on + '_VO', ref('U')
     P(b, u, 'DRV134', 'DRV134', {4: inp, 3: 'GNDA', 6: '+VA', 5: '-VA', 8: vop, 1: von, 7: op, 2: on})
-    for c in (C(b, '10u NP 25V', vop, op), C(b, '10u NP 25V', von, on), C(b, '1u', '+VA', 'GNDA'), C(b, '1u', 'GNDA', '-VA')):
-        near(c, u)
+    cs = (C(b, '10u NP 25V', vop, op), C(b, '10u NP 25V', von, on), C(b, '1u', '+VA', 'GNDA'), C(b, '1u', 'GNDA', '-VA'))
+    for c in cs: near(c, u)
+    frag(b, 30, 15, lambda d: frags.drv134(d, inp, op, on, u, *cs))
     return u
 
 def relay(b, a_in, a_out, b_in, b_out, gnd='GNDA', anchor=None):   # [8] G6K-2F-Y: COM 3/6, NC 2/7, NO 4/5
@@ -185,33 +201,37 @@ def relay(b, a_in, a_out, b_in, b_out, gnd='GNDA', anchor=None):   # [8] G6K-2F-
     shorts the line to ground instead of leaving it floating. anchor: the driver it sits beside."""
     k = ref('K'); coil = k + '_COIL'
     P(b, k, 'RELAY', 'G6K-2F-Y DC12', {1: coil, 8: 'RLY_DRV', 3: a_out, 4: a_in, 2: gnd, 6: b_out, 5: b_in, 7: gnd})
-    near(R(b, '560R', '+VBUS', coil), k); near(D(b, 'RLY_DRV', coil), k)
+    rc, df = R(b, '560R', '+VBUS', coil), D(b, 'RLY_DRV', coil); near(rc, k); near(df, k)
     if anchor: near(k, anchor)
+    frag(b, 24, 15, lambda d: frags.relay(d, k, rc, df, gnd))
     return k
 
 def routing(b, srcl, srcr, busl, busr, name):               # strip-style routing switch, off grounds the resistor
     sw = ref('SW'); a, c = f'RT_{sw}A', f'RT_{sw}B'
-    R(b, '4K7 1%', srcl, a); R(b, '4K7 1%', srcr, c)
+    rl, rr = R(b, '4K7 1%', srcl, a), R(b, '4K7 1%', srcr, c)
     P(b, sw, 'SW', name, {2: a, 1: busl, 3: 'GNDA'}, unit=1)
     P(b, sw, 'SW', name, {5: c, 4: busr, 6: 'GNDA'}, unit=2)
+    frag(b, 16, 11, lambda d: frags.routing(d, srcl, srcr, busl, busr, rl, rr, sw))
 
 def afl(b, junction, name):                                 # PFL/AFL switch: 22K (or 43K pair) junction -> PFL bus
     sw = ref('SW'); on, la = f'{sw}_ON', f'{sw}_LA'
     P(b, sw, 'SW', name, {2: junction, 1: 'PFL', 3: 'GNDA'}, unit=1)
     P(b, sw, 'SW', name, {5: '+VL', 4: on, 6: 'NC'}, unit=2)
-    R(b, '100K', on, 'PFLDET'); R(b, '4K7', on, la)
-    P(b, ref('D'), 'LED', name + ' red', {2: la, 1: 'GNDD'}, mpn=LED_MPN['red'])
+    rd, rl = R(b, '100K', on, 'PFLDET'), R(b, '4K7', on, la); led = ref('D')
+    P(b, led, 'LED', name + ' red', {2: la, 1: 'GNDD'}, mpn=LED_MPN['red'])
+    frag(b, 20, 15, lambda d: frags.afl(d, junction, sw, rd, rl, led))
 
 def receiver(b, tip, ring, out):                            # strip-style ground-compensated receiver
     n, p = out + '_N', out + '_P'
-    C(b, '100p C0G', tip, 'GNDA'); C(b, '100p C0G', ring, 'GNDA'); R(b, '1M', tip, 'GNDA')
+    ct, cr, rt = C(b, '100p C0G', tip, 'GNDA'), C(b, '100p C0G', ring, 'GNDA'), R(b, '1M', tip, 'GNDA')
     k = dict(mpn='Panasonic ERA-6AEB103V')          # 0.1 %: they set the CMRR
-    R(b, '10K 0.1%', ring, n, **k); R(b, '10K 0.1%', n, out, **k); cn = C(b, '33p C0G', n, out)
+    r1, r2, cn = R(b, '10K 0.1%', ring, n, **k), R(b, '10K 0.1%', n, out, **k), C(b, '33p C0G', n, out)
     # 33p on the + leg too: with only the feedback cap the bridge is unbalanced (CMRR 60 / 40 / 34 dB at 1 / 10 / 20 kHz)
     # and the 5 kohm + node lags through Cdiff (45 deg); balanced: 86 dB flat, 85 deg (strip_parts_review.md, T3)
-    R(b, '10K 0.1%', tip, p, **k); R(b, '10K 0.1%', p, 'GNDA', **k); cp = C(b, '33p C0G', p, 'GNDA')
-    u = amp(b, p, n, out)
+    r3, r4, cp = R(b, '10K 0.1%', tip, p, **k), R(b, '10K 0.1%', p, 'GNDA', **k), C(b, '33p C0G', p, 'GNDA')
+    u = amp(b, p, n, out); uu = LAST[0]
     near(cn, u); near(cp, u)
+    frag(b, 30, 18, lambda d: frags.diff(d, ring, tip, out, uu, r1, r2, r3, r4, cn, cp, (cr, ct, rt), c0n=1))
     return u
 
 def stereo_in(b, name, outl, outr):                         # two jacks, R normalled to L

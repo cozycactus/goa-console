@@ -59,6 +59,24 @@ HIDE_PIN_NAMES = HIDE_PIN_NUMBERS | {'SW', 'LINK', 'HDR', 'CONN6', 'CONN2', 'TAB
 # ---------------------------------------------------------------- netlist
 blocks = []          # (title, [parts])
 DRAW = {}            # id(parts list) -> draw function (schdraw.Drawing): the block is drawn, not laid out in rows
+FRAGS = {}           # id(parts list) -> [(w, h, fn)]: drawn fragments of a block, laid out by flow() (tools/frags.py)
+def frag(b, w, h, fn, last=False): FRAGS.setdefault(id(b), []).append((w, h, fn, last))   # last: after the others (power units)
+
+def flow(frags, maxw=110, cell=(13, 11)):
+    """A block's draw function from its fragments: rows of fragments (left to right, wrapping at maxw grid units),
+    then every part no fragment placed, labelled, in rows of cells under them."""
+    def draw(d):
+        x = y = rowh = 0
+        for w, h, fn, _ in [f for f in frags if not f[3]] + [f for f in frags if f[3]]:
+            if x and x + w > maxw: x, y, rowh = 0, y + rowh + 4, 0
+            d.shift(x, y); fn(d); d.shift(-x, -y)
+            x += w + 4; rowh = max(rowh, h)
+        rest = [pt for pt in d.parts if (pt['ref'], pt['unit']) not in d.place]
+        if rest:
+            y0 = y + rowh + (6 if frags else 3); per = max(1, maxw // cell[0])
+            for i, pt in enumerate(rest):
+                d.at(pt['ref'], 2 + (i % per) * cell[0], y0 + (i // per) * cell[1], unit=pt['unit'])
+    return draw
 def block(title, draw=None):
     blocks.append((title, []))
     if draw: DRAW[id(blocks[-1][1])] = draw
@@ -106,7 +124,7 @@ PWR_ANG = {'B': 0, 'T': 180, 'R': 90, 'L': 270}
 LBL = {'R': (0, 'left'), 'L': (180, 'right'), 'T': (90, 'left'), 'B': (270, 'right')}
 
 # ---------------------------------------------------------------- build
-def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', date='2026-10-19', only=None, drawn=True, col_height=None, last=()):
+def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', date='2026-10-19', only=None, drawn=True, col_height=None, last=(), flowed=False):
     """Write the schematic. paper='auto' sizes a User page to fit. only: a predicate on block titles (pilot sheets)."""
     sch = Schematic.create_new()
     K = lambda *a: str(uuid.uuid5(NS, project + '/' + '/'.join(map(str, a))))
@@ -133,7 +151,7 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
         """Reference and value positions for a drawn part: (x, y, angle, justify) each, None = keep the default.
         Text angles: KiCad turns a field with its symbol, so a 90 / 270 symbol gets 90 to read horizontally."""
         horiz = (ang % 180) == 90; fa = 90 if horiz else 0
-        if key in ('R', 'C', 'CP'):
+        if key in ('R', 'C', 'CP', 'FB'):
             if horiz and side == 'U': return (cx, cy - 4.45, fa, None), (cx, cy - 2.54, fa, None)
             if horiz and side == 'D': return (cx, cy + 2.54, fa, None), (cx, cy + 4.45, fa, None)
             if horiz: return (cx, cy - 2.54, fa, None), (cx, cy + 2.54, fa, None)
@@ -146,6 +164,8 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
         if key == 'SJ2': return (cx, cy - 4.45, fa, None), (cx, cy - 2.54, fa, None)
         if key == 'SJ3': return (cx, cy - 6.35, fa, None), (cx, cy - 4.45, fa, None)
         if key == 'SW': return (cx, cy - 5.08, fa, None), (cx, cy + 5.08, fa, None)
+        if key == 'DRV134': return (cx - 6.35, cy - 6.35, fa, 'right'), (cx - 6.35, cy - 5.08, fa, 'right')
+        if key == 'RELAY': return (cx + 16.51, cy - 1.27, fa, 'left'), (cx + 16.51, cy + 1.27, fa, 'left')
         if key == 'POT' and horiz: return (cx, cy - 3.81, fa, None), (cx, cy - 6.35, fa, None)
         if key == 'POT': return (cx, cy + 7.62, fa, None), (cx, cy + 8.89, fa, None)
         if key == 'POT2': return (cx - 13.97, cy - 1.27, fa, 'right'), (cx - 13.97, cy + 1.27, fa, 'right')
@@ -225,7 +245,7 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
             col_x[0] = math.ceil((col_x[0] + col_w[0] + 40) / 2.54) * 2.54; col_w[0] = 0.0; y = Y0
         X0 = col_x[0]
         sch.texts.append(Text(text=btitle, position=Position(X0, y - 8.89, 0), effects=Effects(font=Font(height=2.0, width=2.0), justify=Justify(horizontally='left')), uuid=S('txt')))
-        draw = DRAW.get(id(parts)) if drawn else None
+        draw = (DRAW.get(id(parts)) or (flow(FRAGS.get(id(parts), [])) if flowed else None)) if drawn else None
         if draw:
             d = schdraw.Drawing(parts, lambda k, un: pins_of(libsym(k), un), (X0, y))
             draw(d)
