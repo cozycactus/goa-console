@@ -8,6 +8,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..', '..'))
 # TI's OPA161x PSpice macromodel (SBOM396G, ti.com): its licence keeps it out of the repo; point OPA161X_LIB at it
 TI_LIB = os.environ.get('OPA161X_LIB', os.path.join(HERE, 'OPA161x.LIB'))
+# OPA1656_UNITS=U1,U5,...: those packages use TI's OPA1656 model instead (OPA1656_LIB points at it; same pinout)
+OPA1656_LIB = os.environ.get('OPA1656_LIB', os.path.join(HERE, 'OPA1656.LIB'))
+OPA1656_UNITS = set(filter(None, os.environ.get('OPA1656_UNITS', '').split(',')))
 sys.path.insert(0, os.path.join(REPO, 'tools'))
 from verify import sexp, field
 
@@ -59,6 +62,7 @@ def deck(pos, sw, extra_ctl='', model='ti', extra=(), src='50', loads=()):
          'VPVA PVA 0 DC 16.5', 'VMVA MVA 0 DC -16.5', 'VPVL PVL 0 DC 16.5', 'VMVL MVL 0 DC -16.5',
          'VCC17 vcc17 0 DC 17', 'VEE17 vee17 0 DC -17']
     if model == 'ti': L.insert(1, f'.include {TI_LIB}')
+    if model == 'ti' and OPA1656_UNITS: L.insert(2, f'.include {OPA1656_LIB}')   # after OPA161x: the libraries share global model names
     if src == 'open':     # nothing plugged: the jack's tip/ring left to the jack board (C8/C9, R10)
         L += [f"VSRC src 0 DC 0 AC 0"]
     else:
@@ -90,7 +94,7 @@ def deck(pos, sw, extra_ctl='', model='ti', extra=(), src='50', loads=()):
                 if (ref, str(o_)) in pins:
                     nm = f'{ref}{"AB"[u-1]}'
                     if model == 'ti':
-                        L.append(f'X{nm} {nm}_pp {node(ref,m_)} vcc17 vee17 {nm}_ox OPA161x')
+                        L.append(f'X{nm} {nm}_pp {node(ref,m_)} vcc17 vee17 {nm}_ox {"OPA1656" if ref in OPA1656_UNITS else "OPA161x"}')
                     else:
                         L.append(f'X{nm} {nm}_pp {node(ref,m_)} {nm}_ox OPA')
                     L.append(f'VST_{nm} {nm}_pp {node(ref,p_)} DC 0 AC 0 PULSE(0 0 0 1n 1n 1 2)')
@@ -122,7 +126,7 @@ def deck(pos, sw, extra_ctl='', model='ti', extra=(), src='50', loads=()):
         if t and t[0][0] in 'RCJXVI' and not line.startswith(('.', '*')):
             nodes.update(t[1:4] if t[0][0] == 'J' else t[1:-1] if t[0][0] == 'X' else t[1:3])
     nodes = {n for n in nodes if not n.replace('.', '').replace('e', '').replace('-', '').isdigit()}
-    L += [f'RLEAK{i} {n} 0 1e9' for i, n in enumerate(sorted(nodes - {'0', 'inp', 'inn', 'out', 'n1', 'OPA', 'JMOD', 'OPA161x'}))]
+    L += [f'RLEAK{i} {n} 0 1e9' for i, n in enumerate(sorted(nodes - {'0', 'inp', 'inn', 'out', 'n1', 'OPA', 'JMOD', 'OPA161x', 'OPA1656'}))]
     L += ['.options srcsteps=50 gminsteps=50', extra_ctl, '.end']
     return '\n'.join(L)
 

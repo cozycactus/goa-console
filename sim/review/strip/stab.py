@@ -6,7 +6,7 @@ Per configuration (pot positions / switch states) and per unit:
   noise-gain run (VST ac 1 in series with + input): v(out)/vst, peak above 1 MHz relative to its 100 kHz value
   optional transient: 10 mV step on VST, overshoot % of the settled step.
 usage (lib): from stab import run_config"""
-import os, json, numpy as np
+import glob, os, json, numpy as np
 from stripdeck import deck, ngspice, units, node, HERE
 
 U = units()
@@ -98,7 +98,11 @@ def overshoot(tag, s):
 def run_config(tag, pos, sw, extra=(), src='50', loads=(), stages=None, tran=False):
     stages = stages or [u[0] for u in U]
     os.makedirs(f'{HERE}/raw', exist_ok=True)
+    for f in glob.glob(f'{HERE}/raw/{tag}_*'): os.unlink(f)     # never analyse a previous run's files
     out = ngspice(deck(pos, sw, ctl_ac(stages, tag), extra=extra, src=src, loads=loads), tag)
+    if 'could not be simulated' in out:
+        print(f'{tag}: operating point failed', flush=True)
+        return {s: {'err': 'operating point failed'} for s in stages}
     res = {}
     for s in stages:
         try: res[s] = analyse(tag, s)
