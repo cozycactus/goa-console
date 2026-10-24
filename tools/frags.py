@@ -170,8 +170,8 @@ def afl(d, junction, sw, r_det, r_led, led):
 
 
 def power_unit(d, u, cp, cn):
-    """An IC's power unit with its two decouplers (labels and ground symbols).  12 x 10"""
-    d.at(u[0], 3, 5, unit=u[1]); d.at(cp, 7, 5); d.at(cn, 10, 5, rot=180)
+    """An IC's power unit with its two decouplers (labels and ground symbols).  16 x 10"""
+    d.at(u[0], 3, 5, unit=u[1]); d.at(cp, 7, 5); d.at(cn, 12, 5, rot=180)
 
 
 def chain(d, start, elems, end=None):
@@ -307,3 +307,98 @@ def peak(d, u3, dpk, rpk, cpk, c22, r330, r220, r10, dcl, ravg, cavg, jp, u4, rb
     d.at(u4[0], 24, 17, unit=u4[1]); d.w((jp, 2), (19, 16), (u4[0], q[0]))
     d.w((u4[0], q[2]), (28, 17), (28, 20), (20, 20), (20, 18), (u4[0], q[1])); d.port(deto, (28, 20), 'R')
     det = d.h(rbo, 30.5, 17, left=deto, text='U'); d.w((28, 17), (29, 17)); d.w((32, 17), (35, 17)); d.port(det, (35, 17), 'R')
+
+
+def spare(d, u):
+    """An unused op-amp half: + to ground, output tied to -.  14 x 8"""
+    p = pins(u); n = d.nets(u[0])
+    d.at(u[0], 8, 3, unit=u[1])
+    d.w((u[0], p[0]), (2, 2), (2, 3)); ground(d, (2, 3), n[str(p[0])])
+    d.w((u[0], p[2]), (12, 3), (12, 6), (4, 6), (4, 4), (u[0], p[1]))
+
+
+def bar(d, q, leds, cmps):
+    """Meter LED string: the PNP current source on top (emitter up, collector into the string), LEDs down to -VM;
+    comparator k beside the anode of LED k, its output pulling that node; + inputs on one DET line.  26 x 93"""
+    n = d.nets(q)
+    d.at(q, 17, 3, mirror='x'); d.w((q, 3), (18, -1), (21, -1)); d.port(n['3'], (21, -1), 'R')
+    d.w((q, 1), (13, 3)); d.port(n['1'], (13, 3))
+    y0 = 9; d.w((q, 2), (18, y0)); d.w((q, 4), (19, 6), (18, 6))
+    det = d.nets(cmps[0][0])[str(pins(cmps[0], True)[0])]
+    for i, (led, u) in enumerate(zip(leds, cmps)):
+        y = y0 + 8 * i; p = pins(u, True); nu = d.nets(u[0])
+        d.at(u[0], 8, y, unit=u[1])
+        d.w((u[0], p[0]), (3, y - 1)); d.w((u[0], p[1]), (0, y + 1)); d.port(nu[str(p[1])], (0, y + 1))
+        d.w((u[0], p[2]), (18, y))
+        node = d.nets(led)['2']; d.v(led, 18, y + 4, top=node)
+        d.w((18, y), (18, y + 2.5)); d.w((18, y + 5.5), (18, y + 8))
+    yl = y0 + 8 * (len(leds) - 1)
+    d.w((0, y0 - 3), (3, y0 - 3), (3, yl - 1)); d.port(det, (0, y0 - 3))
+    d.port(d.nets(leds[-1])['1'], (18, yl + 8), 'D')
+
+
+def vl_supply(d, r, dz, c, ds, flag):
+    """+5VL from +VA: 4K7, BZX84C5V1 and 1u to GNDD, BAT54W back to +VA, PWR_FLAG.  30 x 9"""
+    d.port('+VA', (0, 4)); d.h(r, 3.5, 4, left='+VA', text='U'); d.w((0, 4), (2, 4)); d.w((5, 4), (29, 4))
+    d.port('+5VL', (29, 4), 'R')
+    d.at(dz, 7, 5.5, rot=270); d.gnd((dz, 1), 'GNDD')
+    d.v(c, 13, 5.5, top='+5VL'); d.gnd((c, 2), 'GNDD')
+    d.at(ds, 19, 2.5, rot=270); d.w((ds, 3), (19, 0)); d.port('+VA', (19, 0), 'U')
+    d.at(flag, 26, 4)
+
+
+def dg_power(d, u, caps):
+    """A DG413's supply unit (pins labelled) with its decouplers.  24 x 14"""
+    d.at(u[0], 3, 7, unit=u[1])
+    for i, c in enumerate(caps): d.at(c, 8 + 5 * i, 7, rot=180 if d.nets(c)['2'] not in GROUNDS else 0)
+
+
+def power_entry(d, j, d1, d2, tab, nts):
+    """PSU terminal (pin 1 chassis, 2-3 +VBUS, 4-5 GNDA, 6-7 -VBUS), SS54 reverse clamps, the M4 star tab on GNDA
+    and the net ties from GNDA to each other ground.  58 x 26"""
+    d.at(j, 4, 8, mirror='y')
+    d.w((j, 1), (8, 5)); d.port('CHASSIS', (8, 5), 'R')
+    d.w((j, 3), (10, 7), (10, 2)); d.w((j, 2), (10, 6)); d.w((10, 2), (30, 2)); d.port('+VBUS', (30, 2), 'R')
+    d.w((j, 5), (12, 9), (12, 8)); d.w((j, 4), (44, 8)); d.w((30, 8), (30, 9)); d.gnd((30, 9))
+    d.w((j, 7), (10, 11), (10, 10)); d.w((j, 6), (10, 10)); d.w((10, 11), (10, 14), (26, 14)); d.port('-VBUS', (26, 14), 'R')
+    d.v(d1, 16, 5, top='+VBUS'); d.w((16, 2), (16, 3.5)); d.w((16, 6.5), (16, 8))
+    d.v(d2, 16, 11, top='GNDA'); d.w((16, 8), (16, 9.5)); d.w((16, 12.5), (16, 14))
+    d.at(tab, 24, 11); d.w((22, 8), (tab, 1))
+    d.w((44, 8), (44, 8 + 5 * (len(nts) - 1)))
+    for i, nt in enumerate(nts):
+        y = 8 + 5 * i; other = d.nets(nt)['2']
+        d.at(nt, 46, y); d.w((44, y), (nt, 1))
+        d.w((nt, 2), (50, y))
+        if other in ('GNDA', 'GNDD'): d.w((50, y), (50, y + 1)); d.gnd((50, y + 1), other)
+        else: d.port(other, (50, y), 'R')
+
+
+def flags(d, refs, per=7):
+    """PWR_FLAGs in rows, each on a short wire to its power symbol or label.  5 x 7 per flag"""
+    for i, r in enumerate(refs):
+        x, y = 2 + 5 * (i % per), 2 + 7 * (i // per); net = d.nets(r)['1']
+        d.at(r, x, y); d.w((x, y), (x, y + 2))
+        if net in GROUNDS: ground(d, (x, y + 2), net)
+        else: d.port(net, (x, y + 2), 'D')
+
+
+def header(d, r, x, y, stub=3):
+    """A connector with every pin on a short stub to a horizontal label (left pins left, right pins right); a run of
+    neighbouring pins on one net is joined on a vertical and labelled once (grounds get one symbol)."""
+    d.at(r, x, y); cx = d.xy(x, y)[0]; n = d.nets(r)
+    G = 2.54; side = {'L': [], 'R': []}
+    for pn in n:
+        px, py = d.pin(r, pn); side['L' if px < cx else 'R'].append((py, px, pn))
+    for s, pins_ in side.items():
+        pins_.sort(); runs = []
+        for py, px, pn in pins_:
+            if runs and runs[-1][0] == n[pn] and abs(py - runs[-1][1][-1][0] - G) < 0.01: runs[-1][1].append((py, px, pn))
+            else: runs.append((n[pn], [(py, px, pn)]))
+        for net, ps in runs:
+            if net == 'NC': continue                     # left bare: the builder puts its no-connect flag on the pin
+            gx = lambda px: (px - cx) / G + x + (-stub if s == 'L' else stub)
+            for py, px, pn in ps: d.w((r, pn), (gx(px), (py - d.oy) / G))
+            ex, y0, y1 = gx(ps[0][1]), (ps[0][0] - d.oy) / G, (ps[-1][0] - d.oy) / G
+            if len(ps) > 1: d.w((ex, y0), (ex, y1))
+            if net in ('GNDA', 'GNDD'): d.gnd((ex, y0), net, s)
+            else: d.port(net, (ex, y0), s)

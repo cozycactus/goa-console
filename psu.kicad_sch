@@ -408,7 +408,7 @@
       )
     )
 
-    (symbol "Device:D_Schottky" (pin_names (offset 1.016)) (in_bom yes) (on_board yes)
+    (symbol "Device:D_Schottky" (pin_numbers hide) (pin_names (offset 1.016) hide) (in_bom yes) (on_board yes)
       (property "Reference" "D" (at 0 2.54 0) (show_name)
         (effects (font (size 1.27 1.27)))
       )
@@ -638,7 +638,7 @@
       )
     )
 
-    (symbol "Transistor_BJT:MMBT3906" (pin_names (offset 0)) (in_bom yes) (on_board yes)
+    (symbol "Transistor_BJT:MMBT3906" (pin_names (offset 0) hide) (in_bom yes) (on_board yes)
       (property "Reference" "Q" (at 5.08 1.905 0) (show_name)
         (effects (font (size 1.27 1.27)) (justify left))
       )
@@ -999,7 +999,7 @@
       )
     )
 
-    (symbol "power:PWR_FLAG" (power) (pin_names (offset 0)) (in_bom yes) (on_board yes)
+    (symbol "power:PWR_FLAG" (power) (pin_numbers hide) (pin_names (offset 0) hide) (in_bom yes) (on_board yes)
       (property "Reference" "#FLG" (at 0 1.905 0) (show_name)
         (effects (font (size 1.27 1.27)))
       )

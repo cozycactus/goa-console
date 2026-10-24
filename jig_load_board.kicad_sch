@@ -316,7 +316,7 @@
       )
     )
 
-    (symbol "power:GNDA" (power) (pin_names (offset 0)) (in_bom yes) (on_board yes)
+    (symbol "power:GNDA" (power) (pin_numbers hide) (pin_names (offset 0) hide) (in_bom yes) (on_board yes)
       (property "Reference" "#PWR" (at 0 -6.35 0) (show_name)
         (effects (font (size 1.27 1.27)))
       )
@@ -357,7 +357,7 @@
       )
     )
 
-    (symbol "Connector_Generic:Conn_01x01" (pin_names (offset 1.016) hide) (in_bom yes) (on_board yes)
+    (symbol "Connector_Generic:Conn_01x01" (pin_numbers hide) (pin_names (offset 1.016) hide) (in_bom yes) (on_board yes)
       (property "Reference" "J" (at 0 2.54 0) (show_name)
         (effects (font (size 1.27 1.27)))
       )
@@ -435,7 +435,7 @@
       )
     )
 
-    (symbol "power:PWR_FLAG" (power) (pin_names (offset 0)) (in_bom yes) (on_board yes)
+    (symbol "power:PWR_FLAG" (power) (pin_numbers hide) (pin_names (offset 0) hide) (in_bom yes) (on_board yes)
       (property "Reference" "#FLG" (at 0 1.905 0) (show_name)
         (effects (font (size 1.27 1.27)))
       )

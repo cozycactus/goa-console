@@ -53,8 +53,8 @@ MPN = {'JACKSW': 'Neutrik NRJ6HF', 'POT': 'Alpha RD901F-40 A10K', 'POT2': 'Alpha
 CAP_FP = {'220u': 'Capacitor_THT:CP_Radial_D10.0mm_P5.00mm', '47u': 'Capacitor_THT:CP_Radial_D8.0mm_P3.50mm',
           '2.2u': 'Capacitor_SMD:C_1206_3216Metric'}
 POWER_SYMBOL_NETS = ('GNDA', 'GNDD')
-HIDE_PIN_NUMBERS = {'R', 'C', 'CP', 'POT', 'POT2', 'D', 'LED', 'ZEN', 'SCH', 'NT'}
-HIDE_PIN_NAMES = HIDE_PIN_NUMBERS | {'SW', 'LINK', 'HDR', 'CONN6', 'CONN2', 'TAB', 'JACK', 'JACKSW'}
+HIDE_PIN_NUMBERS = {'R', 'C', 'CP', 'POT', 'POT2', 'D', 'LED', 'ZEN', 'SCH', 'NT', 'DS', 'DZ', 'TAB', 'GNDA', 'GNDD', 'FLAG'}
+HIDE_PIN_NAMES = HIDE_PIN_NUMBERS | {'SW', 'LINK', 'HDR', 'CONN6', 'CONN2', 'TAB', 'JACK', 'JACKSW', 'HDR5', 'NPN', 'PNP', 'PWRIN'}
 
 # ---------------------------------------------------------------- netlist
 blocks = []          # (title, [parts])
@@ -107,7 +107,7 @@ def libsym(key):
     f.libraryNickname = lib
     # KiCad 10's (pin_numbers / pin_names (hide yes)) isn't read by kiutils: restore what the library hides
     if key in HIDE_PIN_NUMBERS: f.hidePinNumbers = True
-    if key in HIDE_PIN_NAMES: f.pinNamesHide = True
+    if key in HIDE_PIN_NAMES or key.startswith('LINK'): f.pinNamesHide = True
     return f
 
 def pins_of(sym, unit):
@@ -162,6 +162,12 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
             if horiz: return (cx + 2.54, cy - 1.27, fa, 'left'), (cx + 2.54, cy + 1.27, fa, 'left')
             return (cx, cy - 3.18, fa, None), (cx, cy + 3.18, fa, None)
         if key in ('NPN', 'PNP'): return (cx + 5.08, cy - 1.27, fa, 'left'), (cx + 5.08, cy + 1.27, fa, 'left')
+        if key == 'HDR' or (key.startswith('LINK') and key[4:].isdigit()):
+            h = ((17 if key == 'HDR' else int(key[4:])) + 2) * 1.27
+            return (cx, cy - h, fa, None), (cx, cy + h, fa, None)
+        if key == 'PWRIN': return (cx, cy - 11.43, fa, None), (cx, cy + 11.43, fa, None)
+        if key == 'TAB': return (cx + 2.54, cy - 1.27, fa, 'left'), (cx + 2.54, cy + 1.27, fa, 'left')
+        if key == 'NT': return (cx, cy - 2.54, fa, None), (cx, cy + 2.54, fa, None)
         if key == 'SJ2': return (cx, cy - 4.45, fa, None), (cx, cy - 2.54, fa, None)
         if key == 'SJ3': return (cx, cy - 6.35, fa, None), (cx, cy - 4.45, fa, None)
         if key == 'SW': return (cx, cy - 5.08, fa, None), (cx, cy + 5.08, fa, None)
@@ -192,7 +198,8 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
             if is_pwr: fv = (cx, cy - 4.45, 0, None)
             if pt['key'] == 'DG' and pt['unit'] in (1, 2, 3, 4):              # switch sections: reference above
                 fr, fv, vhide = (cx, cy - 3.18, 0, None), None, True
-            if ang % 360 == 180:                                  # KiCad flips a field's justification with the symbol
+            if ang % 360 == 180 or (ang % 360 == 90 and pt['key'] in ('LED', 'D', 'ZEN', 'SCH', 'DZ', 'DS')):
+                # KiCad flips a field's justification with the symbol (a 90-degree diode's 90-degree text reads at 180)
                 sw = {'left': 'right', 'right': 'left'}
                 fr = fr and fr[:3] + (sw.get(fr[3], fr[3]),); fv = fv and fv[:3] + (sw.get(fv[3], fv[3]),)
             if fr: rx, ry, ra, j = fr; rj = Justify(horizontally=j) if j else Justify()

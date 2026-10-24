@@ -18,6 +18,8 @@ P(b, ref('D'), 'DS', 'SS54', {1: '+VBUS', 2: 'GNDA'}); P(b, ref('D'), 'DS', 'SS5
 P(b, ref('CN'), 'TAB', 'Ground bar M4 (star point)', {1: 'GNDA'}, fp='MountingHole:MountingHole_4.3mm_M4_Pad', mpn='')
 for n in ('GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'):
     P(b, ref('NT'), 'NT', f'Star GNDA-{n}', {1: 'GNDA', 2: n})
+pe = [pt['ref'] for pt in b]
+frag(b, 58, 26, lambda d: frags.power_entry(d, pe[0], pe[1], pe[2], pe[3], pe[4:]))
 b = block('DISTRIBUTION  (PTC per wing per rail, 1.85 A hold, 72 V; local branches VA audio, VP phones, VM meters, VL logic)')
 for w in 'LR':
     f1 = ref('F'); P(b, f1, 'PTC', 'MF-RX185/72', {1: '+VBUS', 2: f'+VBUS_{w}'}, **PTC185)
@@ -35,6 +37,7 @@ rl = R(b, '4K7', '+VL', 'PWR_LA'); led = ref('D'); P(b, led, 'LED', 'Power green
 chain(b, '+VL', [('s', rl), ('g', led)])
 for i, n in enumerate(['+VBUS', '-VBUS', '+VA', '-VA', '+VP', '-VP', '+VM', '-VM', '+VL', '-VL', 'GNDA', 'GNDD', 'GNDM', 'PHONESGND']):
     P(b, f'#FLG{i + 1:02d}', 'FLAG', 'PWR_FLAG', {1: n})
+frag(b, 36, 16, lambda d: frags.flags(d, [f'#FLG{i + 1:02d}' for i in range(14)]), last=True)
 
 b = block('MOTHERLOOM  (master in the centre: CN1 = left wing, CN2 = right wing; Delta pinout)')
 for w in 'LR':
@@ -42,7 +45,7 @@ for w in 'LR':
            17: 'MIXR', 18: 'MIXL', 20: 'AUX6', 21: 'AUX5', 22: 'AUX4', 23: 'AUX3', 24: 'AUX1', 25: 'AUX2', 26: 'GCANCEL',
            27: 'PFL', 28: 'PFLN', 29: 'PFLDET', 30: f'-VBUS_{w}', 31: f'-VBUS_{w}', 32: f'+VBUS_{w}', 33: f'+VBUS_{w}', 34: 'P48V_NC'}
     hdr.update({k: 'GNDA' for k in range(2, 17, 2)})
-    cn = ref('CN'); P(b, cn, 'HDR', f'Bus {w} wing 2x17', hdr); frag(b, 26, 22, lambda d, r=cn: frags.part(d, r, 8, 10))
+    cn = ref('CN'); P(b, cn, 'HDR', f'Bus {w} wing 2x17', hdr); frag(b, 40, 22, lambda d, r=cn: frags.header(d, r, 18, 10))
 
 b = block('GROUND CANCEL BUFFER  (feeds every re-inverter; summing amps use the raw GCANCEL line; 100K keeper)')
 amp(b, 'GCANCEL', 'GCANCEL_BUF', 'GCANCEL_BUF')     # output straight to the net: no series R outside the loop, <= 50 pF
@@ -128,6 +131,7 @@ for sd, u in zip('LR', stereo_in(b, 'EXT', 'EXT_BL', 'EXT_BR')):
 sw = ref('SW')
 P(b, sw, 'SW', 'EXT select', {2: 'MON_L', 1: 'EXT_L', 3: 'POST_L'}, unit=1)
 P(b, sw, 'SW', 'EXT select', {5: 'MON_R', 4: 'EXT_R', 6: 'POST_R'}, unit=2)
+frag(b, 14, 14, lambda d: (frags.part(d, sw, 6, 3, 1), frags.part(d, sw, 6, 10, 2)))
 
 b = block('PFL / AFL: OPA1656 sum (22K || 100p) + re-invert, SOLO LEVEL, follower')
 summer(b, 'PFL', 'PFL_SUM', '22K', '100p', 'OPA1656')      # switched bus, 1-4 sources: the CMOS part is quieter
@@ -148,6 +152,7 @@ net5 = [R(b, '4K7', '+VA', '+5VL'), ref('D')]
 P(b, net5[1], 'ZEN', 'BZX84C5V1', {3: '+5VL', 1: 'GNDD', 2: 'NC'}); net5.append(C(b, '1u', '+5VL', 'GNDD'))
 net5.append(ref('D')); P(b, net5[-1], 'SCH', 'BAT54W', {1: '+5VL', 3: '+VA', 2: 'NC'})   # VL <= V+ + 0.3 V at power-down
 P(b, '#FLG15', 'FLAG', 'PWR_FLAG', {1: '+5VL'})
+frag(b, 30, 9, lambda d, a=tuple(net5): frags.vl_supply(d, *a, '#FLG15'))
 for src, s in (('MON_L', 'SWML_S'), ('PFL_SIG', 'SWPL_S'), ('MON_R', 'SWMR_S'), ('PFL_SIG', 'SWPR_S')):
     net5 += [C(b, '47u NP 25V', src, s), R(b, '1M', s, 'GNDA')]
     chain(b, src, [('s', net5[-2]), ('g', net5[-1])], s)
@@ -159,7 +164,9 @@ P(b, dg, 'DG', 'DG413', {9: 'PFL_ON', 11: 'SWMR_S', 10: 'CRS_R'}, unit=3)    # S
 P(b, dg, 'DG', 'DG413', {13: '+VA', 4: '-VA', 12: '+5VL', 5: 'GNDD'}, unit=5)
 frag(b, 18, 13, lambda d: frags.dg_pair(d, dg, (1, 3, 2, 1), (4, 14, 15, 16)))      # L: PFL (NO) / MON (NC) into CRS_L
 frag(b, 18, 13, lambda d: frags.dg_pair(d, dg, (2, 6, 7, 8), (3, 11, 10, 9)))       # R
-for x in [C(b, '100n', '+5VL', 'GNDD'), C(b, '100n', '+VA', 'GNDA'), C(b, '100n', 'GNDA', '-VA')] + net5: near(x, dg)
+dgc = [C(b, '100n', '+5VL', 'GNDD'), C(b, '100n', '+VA', 'GNDA'), C(b, '100n', 'GNDA', '-VA')]
+frag(b, 24, 14, lambda d: frags.dg_power(d, (dg, 5), dgc), last=True)
+for x in dgc + net5: near(x, dg)
 for sd in 'LR':                 # FET-input followers: an OPA1612's bias current would step CRS at every switch
     rk_ = R(b, '100K', f'CRS_{sd}', 'GNDA'); chain(b, f'CRS_{sd}', [('g', rk_)])
     u = amp(b, f'CRS_{sd}', f'CRSB_{sd}O', f'CRSB_{sd}O', 'OPA1656'); near(u, dg)
@@ -232,7 +239,8 @@ relay(b, 'PHO_L', 'PHJ_L', 'PHO_R', 'PHJ_R', gnd='PHONESGND')
 jack(b, 'JACK', 'Phones TRS', {'T': 'PHJ_L', 'R': 'PHJ_R', 'S': 'PHONESGND'})
 
 b = block('REMOTE METER HEADER (for a meter bridge)')
-P(b, ref('CN'), 'HDR5', 'Remote meter', {1: 'MTR_L', 2: 'MTR_R', 3: '+VM', 4: 'GNDM', 5: '-VM'})
+cnm = ref('CN'); P(b, cnm, 'HDR5', 'Remote meter', {1: 'MTR_L', 2: 'MTR_R', 3: '+VM', 4: 'GNDM', 5: '-VM'})
+frag(b, 22, 9, lambda d: frags.header(d, cnm, 10, 4))
 
 LADDER = [1500, 1100, 910, 680, 620, 470, 330, 300, 220, 180, 150, 110, 91, 68, 62, 47, 33, 27, 20]   # Delta R310-R328
 COLOUR = ['green'] * 11 + ['amber'] * 5 + ['red'] * 4                                                  # LED 1 (-20 dB) .. 20 (+18 dB)
@@ -278,14 +286,14 @@ for sd in 'LR':
         src = f'{m}{s0}_0'; base, emit = f'{m}{s0}_QB', f'{m}{s0}_QE'
         e1, e2, e3, e4 = R(b, '120R', '+VM', emit), D(b, '+VM', f'{m}{s0}_D1'), D(b, f'{m}{s0}_D1', base), R(b, '27K', base, '-VM')
         chain(b, '+VM', [('s', e1)], emit); chain(b, '+VM', [('s', e2), ('s', e3), ('g', e4)], base)
-        q = ref('Q'); P(b, q, 'PNP', 'BCP53-16', {1: base, 2: src, 3: emit, 4: src}); leds = []
+        q = ref('Q'); P(b, q, 'PNP', 'BCP53-16', {1: base, 2: src, 3: emit, 4: src}); leds, cus = [], []
         for i, k in enumerate(ks):
             node = f'{m}{s0}_{i}'; nxt = f'{m}{s0}_{i + 1}' if i < 9 else '-VM'
             led = ref('D'); P(b, led, 'LED', f'{COLOUR[k - 1]} {-20 + 2 * (k - 1):+d} dB', {2: node, 1: nxt}, mpn=LED_MPN[COLOUR[k - 1]]); leds.append(led)
             if i == 0: near(q, led)     # current source at the top of its string (the collector node is the string's)
-            u = cmp(b, f'{m}_DET', f'{m}_T{k}', node, 'LM2901', 'VM')
+            u = cmp(b, f'{m}_DET', f'{m}_T{k}', node, 'LM2901', 'VM'); cus.append(LAST[0])
             if u not in decoupling: near(u, led)        # each LM2901 beside the first LED it drives
-        chain(b, src, [('s', l) for l in leds], '-VM')    # the string: each node also goes to its comparator's output
+        frag(b, 26, 93, lambda d, a=(q, leds, cus): frags.bar(d, *a))     # the string, each node on its comparator's output
 spares(b)
 
 import os

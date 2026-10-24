@@ -93,7 +93,7 @@ def unit_of(part, rail, b):
         for a, c in (('+' + rail, g), (g, '-' + rail)):
             cr = ref('C'); decoupling[cr] = r; P(b, cr, 'C', '100n', {1: a, 2: c}); cs.append(cr)
         pu = (r, 5 if part == 'LM2901' else 3)
-        frag(b, 12, 10, lambda d: frags.power_unit(d, pu, *cs), last=True)
+        frag(b, 16, 10, lambda d: frags.power_unit(d, pu, *cs), last=True)
     return free[key].pop(0)
 
 class new_package:
@@ -290,7 +290,8 @@ def link_pins(jacks, ground='GNDA', own_ground=('PHONESGND',)):
 def link_header(b, n, link, value):
     SYM[f'LINK{n}'] = ('Connector_Generic', f'Conn_02x{n:02d}_Odd_Even')
     FP[f'LINK{n}'] = f'Connector_IDC:IDC-Header_2x{n:02d}_P2.54mm_Vertical'
-    P(b, ref('CN'), f'LINK{n}', value, link, mpn=f'Wurth 6120{2 * n:02d}21621 (2x{n} box header)')
+    cn = ref('CN'); P(b, cn, f'LINK{n}', value, link, mpn=f'Wurth 6120{2 * n:02d}21621 (2x{n} box header)')
+    frag(b, 44, n + 6, lambda d: frags.header(d, cn, 20, n // 2 + 2))
 
 def jack_board(out, project, title, jacks, n, link):
     """Build the jack-board schematic: the collected jacks (NJ6FD-V / NC3MAV, vertical) and the mating link."""
@@ -316,6 +317,7 @@ def spares(b):
             else:
                 p, n, o = PINS[u]
                 P(b, r, DUAL[part][0], part, {p: g, n: f'{r}_SPARE{u}', o: f'{r}_SPARE{u}'}, unit=u)
+                frag(b, 14, 8, lambda d, ru=(r, u): frags.spare(d, ru), last=True)
         units.clear()
 
 def fill_mpns():

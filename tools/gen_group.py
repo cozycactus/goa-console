@@ -28,7 +28,7 @@ hdr = {1: 'NC', 3: 'NC', 5: 'NC', 7: 'NC', 19: 'NC', 9: 'SUB4', 11: 'SUB3', 13: 
        17: 'MIXR', 18: 'MIXL', 20: 'NC', 21: 'NC', 22: 'AUX4', 23: 'AUX3', 24: 'AUX1', 25: 'AUX2', 26: 'GCANCEL',
        27: 'PFL', 28: 'NC', 29: 'PFLDET', 30: '-VBUS', 31: '-VBUS', 32: '+VBUS', 33: '+VBUS', 34: 'NC'}
 hdr.update({k: 'GNDA' for k in range(2, 17, 2)})
-P(b, ref('CN'), 'HDR', 'Bus 2x17', hdr)
+cn = ref('CN'); P(b, cn, 'HDR', 'Bus 2x17', hdr); frag(b, 40, 22, lambda d: frags.header(d, cn, 18, 10))
 
 # two boards on one bus would share a summing node with separate feedbacks: the difference mode has no feedback and
 # both summers rail (master_group_review.md MG19). One SUB and one AUX jumper per board, unique across the four
