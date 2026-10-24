@@ -274,6 +274,6 @@ at the desk.
   is decouplers 3.1 / 10.0 / 12 (C92 / C93 at 8.0 / 8.5 mm), high-Z inputs 10.9 / 22.1 / 29.
 - **Cost:** +7.8 mA per strip and rail typical. The PSU's worst corner (every op-amp at maximum IQ, every LED lit)
   goes from 4.0 A to about 4.24 A on +V, over the 4 A rating (master spec §27, §29). OPA1642 followers (1.8 mA per
-  channel, JFET, 5.1 nV/√Hz) would bring it to about 4.11 A.
+  channel, JFET, 5.1 nV/√Hz) would bring it to about 4.11 A. Accepted with the OPA1656 (Ruslan, 2026-10-25).
 - **Not done:** the group return and master EXT receivers are still unbuffered (20 kΩ common mode); the balanced
   TRS outputs (sub, aux, C/Room) keep their sleeves on GNDA.

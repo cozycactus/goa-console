@@ -309,7 +309,7 @@ jack board) done.
     DRV134 TRS outputs keep GNDA. Group: CHASSIS off the link (`link_pins(skip=)`).
   - G3 strip receiver buffered: U16 OPA1656 followers, 1M per leg (R10, R112), 220R in (R110, R111), 100R build-outs
     (R113, R114; ≥ 48.5° for any load); J1's normals short both legs to GNDA when empty. CMRR vs a 1K synth output
-    26 -> 54 dB (worst 5 %).
+    26 -> 54 dB (worst 5 %). U16 stays OPA1656: the PSU worst corner of ~4.24 A on +V is accepted (Ruslan, 2026-10-25).
 - Faders (2026-10-23): Bourns PTB0143-2010BPA103 (strips, groups) / PTB0144-2010BPA103 (master), stocked, BP lever
   (8.0 x 1.3 mm flat blade, 5.0 mm above the panel), caps Sifam LK110 tang 01 (8.0 x 1.2, socket 4.0 deep: 1.0 mm
   above the panel; the Delta's "SIF low profile" knob; RS 281-7197 black, colours from pot4audio / D&R; white inputs,
@@ -485,13 +485,13 @@ jack board) done.
   tuning with a stocked A10K dual (Decisions, spec 6.2).
 - External PSU: schematic and placement done; heatsink (shared, ≤ 1.2 °C/W at 4 A, insulated tabs) and
   case specified (psu_spec.md §8). Routing is Ruslan's; build the case.
-- Ground and hum (`ground_study.md`): G1-G3 applied 2026-10-25. Open: (1) the PSU's worst corner is now ~4.24 A on +V
-  (U16 adds 7.8 mA typ / 10 mA max per strip and rail), over the 4 A rating: accept it, or OPA1642 followers (~4.11 A);
+- Ground and hum (`ground_study.md`): G1-G3 applied 2026-10-25. The PSU's worst corner of ~4.24 A on +V (U16 adds
+  7.8 mA typ / 10 mA max per strip and rail) is accepted (Ruslan, 2026-10-25; master spec §27). Open:
   (2) the group return and master EXT receivers are still unbuffered (26 dB CMRR vs a 1K source) and the DRV134 TRS
   outputs keep sleeves on GNDA; (3) earthed synths on TS cables hum whatever the console does (use pseudo-balanced
   cables, one mains distribution point). Bench: hum with a real synth on TS / TRS; panel-to-frame bonding.
 - PSU headroom (strip v4.3): the worst corner (every OPA1612 at max IQ, every LED lit) is ~4.0 A on +V, the PSU's
-  rating (~4.24 A with strip v4.4's input followers, see Ground and hum below). Typical 2.82 A. Revisit if anything else adds load (master spec §27).
+  rating (~4.24 A with strip v4.4's input followers: accepted 2026-10-25, U16 stays OPA1656). Typical 2.82 A. Revisit if anything else adds load (master spec §27).
 - Pan RV8: decided (ALPS RK09L1240015, see Decisions). Check on a sample: the M9 nut's thickness against the 5 mm
   bushing, pin 1 at the CCW end, the detent at the electrical centre.
 - Input buffer/receiver question settled: differential receiver fitted (pseudo-balanced cables recommended).

@@ -914,8 +914,10 @@ scale badly (below).
 Strip v4.4 (2026-10-25, `ground_study.md` G3): + U16 OPA1656 input followers, 7.8 mA per rail typical (10 mA at
 the 5 mA-per-channel maximum). Console +V ≈ 3.01 A typical, ≈ 3.64 A with every OPA1612 / OPA1656 at maximum, and
 ≈ 4.24 A with every LED lit as well: **over the PSU's 4 A rating in that corner** (it was exactly 4.0 A with v4.3).
-Per wing ≈ 1.34 A typical (MF-RX185/72 hold 1.85 A), ≈ 1.92 A in the same corner. Open (§29): accept the corner
-(it needs every key and LED on at maximum IQ), or a lower-current follower (OPA1642, 1.8 mA per channel: ≈ 4.11 A).
+Per wing ≈ 1.34 A typical (MF-RX185/72 hold 1.85 A), ≈ 1.92 A in the same corner. **Accepted (Ruslan, 2026-10-25):**
+U16 stays OPA1656. The corner needs every op-amp at maximum IQ and every key and LED on at once, which a console in use
+never reaches; typical 3.01 A leaves 1 A of the PSU's 4 A. If it is ever reached, the LM1084s current-limit and the wing
+PTCs warm towards their trip, nothing is damaged (OPA1642 followers, ≈ 4.11 A, were the alternative).
 
 With the M1 split, the subgroups, aux masters 1–4 and returns move to the four group modules. Each
 draws about 61 mA per rail from the ribbon (7 OPA1612, 2 DRV134) plus up to 3 LEDs. The
@@ -956,8 +958,8 @@ choosing.
 
 ## 29. Still open
 
-- Ground and hum (2026-10-25, `ground_study.md`): the PSU's worst corner is now ≈ 4.24 A on +V with the strip's input
-  followers (§27): accept it or use OPA1642 followers. The group return and master EXT receivers are still unbuffered
+- Ground and hum (2026-10-25, `ground_study.md`): the PSU's worst corner of ≈ 4.24 A on +V with the strip's input
+  followers is accepted (§27, Ruslan 2026-10-25). The group return and master EXT receivers are still unbuffered
   (20 kΩ common mode, 26 dB CMRR against a 1 kΩ source); the balanced TRS outputs (sub, aux, C/Room) keep their
   sleeves on GNDA. Both are candidates for the same treatment as the strip.
 - Balanced outputs: THAT1646 went end-of-life (THAT memo, 1 September 2026); replaced by
