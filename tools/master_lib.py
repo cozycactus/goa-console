@@ -118,9 +118,10 @@ def cmp(b, inp, inn, out, part='LM393', rail='VL'):
     P(b, r, DUAL[part][0], part, {p: inp, n: inn, o: out}, unit=u); LAST[0] = (r, u); return r
 
 def R(b, v, a, c, **k): r = ref('R'); P(b, r, 'R', v, {1: a, 2: c}, **k); return r
-def chain(b, start, elems, end=None):
-    """Draw a series / shunt line (frags.chain) of parts already created: elems [('s' | 'g', ref)]."""
-    frag(b, frags.chain_w(elems, end is not None), 6, lambda d: frags.chain(d, start, elems, end))
+def chain(b, start, elems, end=None, flag=None):
+    """Draw a series / shunt line (frags.chain) of parts already created: elems [('s' | 'g', ref)]; flag: a PWR_FLAG
+    on the end node."""
+    frag(b, frags.chain_w(elems, end is not None), 6, lambda d: frags.chain(d, start, elems, end, flag))
 def C(b, v, a, c):
     """A capacitor: '2.2u' is a film coupler, an 'NP' value an audio bipolar (MUSE ES), the rest by value."""
     v = '2.2u film' if v == '2.2u' else NP_VALUE.get(v, v)

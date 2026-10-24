@@ -176,7 +176,7 @@ def power_unit(d, u, cp, cn):
     d.at(u[0], 3, 5, unit=u[1]); d.at(cp, 7, 5); d.at(cn, 12, 5, rot=180)
 
 
-def chain(d, start, elems, end=None):
+def chain(d, start, elems, end=None, flag=None):
     """A signal line from the net 'start': ('s', ref) a series part, ('g', ref) a part from the line to its other net
     (ground or a rail, drawn down from the line); parts are turned by their nets. 'end' labels the far end."""
     d.port(start, (0, 2)); x = 0; net = start
@@ -193,6 +193,7 @@ def chain(d, start, elems, end=None):
             if i + 1 < len(elems):                       # room for the texts
                 gap = max(4, int(0.45 * len(next(p['value'] for p in d.parts if p['ref'] == r))) + 2)
                 d.w((x, 2), (x + gap, 2)); x += gap
+    if flag: d.w((x, 2), (x + 3, 2)); d.at(flag, x + 2, 2); x += 3          # PWR_FLAG on the end node
     if end: d.w((x, 2), (x + 3, 2)); d.port(end, (x + 3, 2), 'R'); x += 3
     return x
 
@@ -332,24 +333,30 @@ def spare(d, u):
     d.w((u[0], p[2]), (12, 3), (12, 6), (4, 6), (4, 4), (u[0], p[1]))
 
 
-def bar(d, q, leds, cmps):
+def bar(d, q, leds, cmps, per=10):
     """Meter LED string: the PNP current source on top (emitter up, collector into the string), LEDs down to -VM;
-    comparator k beside the anode of LED k, its output pulling that node; + inputs on one DET line.  26 x 93"""
+    comparator k beside the anode of LED k, its output pulling that node; + inputs on one DET line per column.
+    per: LEDs per column; a longer string continues at the top of the next column, the node between joined by its
+    label.  26 x 93 (per=10), 58 x 53 (per=5)"""
     n = d.nets(q)
     d.at(q, 17, 3, mirror='x'); d.w((q, 3), (18, -1), (21, -1)); d.port(n['3'], (21, -1), 'R')
     d.w((q, 1), (13, 3)); d.port(n['1'], (13, 3))
     y0 = 9; d.w((q, 2), (18, y0)); d.w((q, 4), (19, 6), (18, 6))
     det = d.nets(cmps[0][0])[str(pins(cmps[0], True)[0])]
-    for i, (led, u) in enumerate(zip(leds, cmps)):
-        y = y0 + 8 * i; p = pins(u, True); nu = d.nets(u[0])
-        d.at(u[0], 8, y, unit=u[1])
-        d.w((u[0], p[0]), (3, y - 1)); d.w((u[0], p[1]), (0, y + 1)); d.port(nu[str(p[1])], (0, y + 1))
-        d.w((u[0], p[2]), (18, y))
-        node = d.nets(led)['2']; d.v(led, 18, y + 4, top=node)
-        d.w((18, y), (18, y + 2.5)); d.w((18, y + 5.5), (18, y + 8))
-    yl = y0 + 8 * (len(leds) - 1)
-    d.w((0, y0 - 3), (3, y0 - 3), (3, yl - 1)); d.port(det, (0, y0 - 3))
-    d.port(d.nets(leds[-1])['1'], (18, yl + 8), 'D')
+    for c in range(0, len(leds), per):
+        X = 32 * (c // per); col = list(zip(leds, cmps))[c:c + per]
+        if c:                                                    # the string's node from the previous column, by label
+            d.port(d.nets(col[0][0])['2'], (X + 18, y0 - 2), 'U'); d.w((X + 18, y0 - 2), (X + 18, y0))
+        for i, (led, u) in enumerate(col):
+            y = y0 + 8 * i; p = pins(u, True); nu = d.nets(u[0])
+            d.at(u[0], X + 8, y, unit=u[1])
+            d.w((u[0], p[0]), (X + 3, y - 1)); d.w((u[0], p[1]), (X, y + 1)); d.port(nu[str(p[1])], (X, y + 1))
+            d.w((u[0], p[2]), (X + 18, y))
+            node = d.nets(led)['2']; d.v(led, X + 18, y + 4, top=node)
+            d.w((X + 18, y), (X + 18, y + 2.5)); d.w((X + 18, y + 5.5), (X + 18, y + 8))
+        yl = y0 + 8 * (len(col) - 1)
+        d.w((X, y0 - 3), (X + 3, y0 - 3), (X + 3, yl - 1)); d.port(det, (X, y0 - 3))
+        d.port(d.nets(col[-1][0])['1'], (X + 18, yl + 8), 'D')
 
 
 def vl_supply(d, r, dz, c, ds, flag):
@@ -377,7 +384,7 @@ def dg_power(d, u, caps):
     for i, c in enumerate(caps): d.at(c, 10 + 5 * i, 7, rot=180 if d.nets(c)['2'] not in GROUNDS else 0)
 
 
-def power_entry(d, j, d1, d2, tab, nts):
+def power_entry(d, j, d1, d2, tab, nts, flags=None):
     """PSU terminal (pin 1 chassis, 2-3 +VBUS, 4-5 GNDA, 6-7 -VBUS), SS54 reverse clamps, the M4 star tab on GNDA
     and the net ties from GNDA to each other ground.  58 x 26"""
     d.at(j, 4, 8, mirror='y')
@@ -388,6 +395,9 @@ def power_entry(d, j, d1, d2, tab, nts):
     d.v(d1, 16, 5, top='+VBUS'); d.w((16, 2), (16, 3.5)); d.w((16, 6.5), (16, 8))
     d.v(d2, 16, 11, top='GNDA'); d.w((16, 8), (16, 9.5)); d.w((16, 12.5), (16, 14))
     d.at(tab, 24, 11); d.w((22, 8), (tab, 1))
+    fl = flags or {}
+    for net, pt in (('+VBUS', (21, 2)), ('-VBUS', (21, 14)), ('GNDA', (38, 8))):
+        if net in fl: d.at(fl[net], *pt)
     d.w((44, 8), (44, 8 + 5 * (len(nts) - 1)))
     for i, nt in enumerate(nts):
         y = 8 + 5 * i; other = d.nets(nt)['2']
@@ -395,6 +405,7 @@ def power_entry(d, j, d1, d2, tab, nts):
         d.w((nt, 2), (57, y))
         if other in GROUNDS: d.w((57, y), (57, y + 1)); d.gnd((57, y + 1), other)
         else: d.port(other, (57, y), 'R')
+        if other in fl: d.at(fl[other], 54, y)
 
 
 def flags(d, refs, per=7):

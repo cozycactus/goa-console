@@ -2,12 +2,14 @@
 A design is a list of blocks of parts; each part lists its pins and the net on each pin.
 Each pin gets a net label (or a GNDA/GNDD power symbol, or a no-connect flag); blocks are laid out
 in rows. Writes the .kicad_sch (KiCad 7 file format) and <name>_intended.json for tools/verify.py."""
-import copy, uuid, os, json, collections, math
+import copy, uuid, os, json, collections, math, re
 from kiutils.schematic import Schematic
 from kiutils.symbol import SymbolLib
 from kiutils.items.common import Position, Property, Effects, Font, PageSettings, TitleBlock, Justify
 from kiutils.items.schitems import (SchematicSymbol, LocalLabel, NoConnect, Text, Connection, Junction,
-                                    SymbolProjectInstance, SymbolProjectPath, HierarchicalSheetInstance)
+                                    SymbolProjectInstance, SymbolProjectPath, HierarchicalSheetInstance,
+                                    GlobalLabel, HierarchicalSheet, HierarchicalSheetProjectInstance,
+                                    HierarchicalSheetProjectPath)
 from kiutils.items.common import Stroke
 import schdraw
 
@@ -65,28 +67,28 @@ DRAW = {}            # id(parts list) -> draw function (schdraw.Drawing): the bl
 FRAGS = {}           # id(parts list) -> [(w, h, fn)]: drawn fragments of a block, laid out by flow() (tools/frags.py)
 def frag(b, w, h, fn, last=False): FRAGS.setdefault(id(b), []).append((w, h, fn, last))   # last: after the others (power units)
 
+def frag_box(parts, pins_of, w, h, fn):
+    """(ox, oy, w, h) in grid units: where to put a fragment's origin so labels sticking out left / up stay inside its
+    box, and the box's size; measured from what fn draws, label texts included (~0.45 grid per character)."""
+    s = schdraw.Drawing(parts, pins_of, (0, 0)); fn(s)
+    xs, ys = [0.0], [0.0]
+    for a, b in s.wires: xs += [a[0], b[0]]; ys += [a[1], b[1]]
+    for (cx, cy, *_) in s.place.values(): xs += [cx - 5.08, cx + 5.08]; ys += [cy - 5.08, cy + 5.08]
+    for net, (px, py), side in s.ports:
+        n = (len(net) * 0.45 + 0.6) * schdraw.G
+        xs.append(px - n if side == 'L' else px + n if side == 'R' else px)
+        ys.append(py - n if side == 'U' else py + n if side == 'D' else py)
+    g = schdraw.G; x0, x1, y0, y1 = min(xs) / g, max(xs) / g, min(ys) / g, max(ys) / g
+    ox, oy = math.ceil(max(0, -x0)), math.ceil(max(0, -y0))
+    return ox, oy, math.ceil(max(w, x1) + ox), math.ceil(max(h, y1) + oy)
+
 def flow(frags, maxw=110, cell=(13, 11)):
     """A block's draw function from its fragments: rows of fragments (left to right, wrapping at maxw grid units),
     then every part no fragment placed, labelled, in rows of cells under them."""
-    def extent(d, fn):
-        """Grid-unit box of what fn draws, label texts included (~0.45 grid per character)."""
-        s = schdraw.Drawing(d.parts, d.pins_of, (0, 0)); fn(s)
-        xs, ys = [0.0], [0.0]
-        for a, b in s.wires: xs += [a[0], b[0]]; ys += [a[1], b[1]]
-        for (cx, cy, *_) in s.place.values(): xs += [cx - 5.08, cx + 5.08]; ys += [cy - 5.08, cy + 5.08]
-        for net, (px, py), side in s.ports:
-            n = (len(net) * 0.45 + 0.6) * schdraw.G
-            xs.append(px - n if side == 'L' else px + n if side == 'R' else px)
-            ys.append(py - n if side == 'U' else py + n if side == 'D' else py)
-        g = schdraw.G
-        return min(xs) / g, max(xs) / g, min(ys) / g, max(ys) / g
-
     def draw(d):
         x = y = rowh = 0
         for w, h, fn, _ in [f for f in frags if not f[3]] + [f for f in frags if f[3]]:
-            x0, x1, y0, y1 = extent(d, fn)
-            ox, oy = math.ceil(max(0, -x0)), math.ceil(max(0, -y0))   # labels sticking out left / up
-            w, h = math.ceil(max(w, x1) + ox), math.ceil(max(h, y1) + oy)
+            ox, oy, w, h = frag_box(d.parts, d.pins_of, w, h, fn)
             if x and x + w > maxw: x, y, rowh = 0, y + rowh + 4, 0
             d.shift(x + ox, y + oy); fn(d); d.shift(-x - ox, -y - oy)
             x += w + 4; rowh = max(rowh, h)
@@ -155,8 +157,11 @@ PWR_ANG = {'B': 0, 'T': 180, 'R': 90, 'L': 270}
 LBL = {'R': (0, 'left'), 'L': (180, 'right'), 'T': (90, 'left'), 'B': (270, 'right')}
 
 # ---------------------------------------------------------------- build
-def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', date='2026-10-19', only=None, drawn=True, col_height=None, last=(), flowed=False):
-    """Write the schematic. paper='auto' sizes a User page to fit. only: a predicate on block titles (pilot sheets)."""
+def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', date='2026-10-19', only=None, drawn=True, col_height=None, last=(), flowed=False, pages=None):
+    """Write the schematic. paper='auto' sizes a User page to fit. only: a predicate on block titles (pilot sheets).
+    pages: dict(paper, folder) writes a hierarchy instead: the blocks' fragments packed onto pages of that size (a block
+    runs on to the next page when it doesn't fit), one sub-sheet file per page in folder, global labels between them,
+    and a root sheet (out) holding the sheet symbols."""
     sch = Schematic.create_new()
     K = lambda *a: str(uuid.uuid5(NS, project + '/' + '/'.join(map(str, a))))
     seq = collections.Counter()
@@ -300,9 +305,130 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
         else:
             ang, just = LBL[side]
             eff = Effects(font=Font(height=1.0, width=1.0), justify=Justify(horizontally=just, vertically='bottom'))
-            sch.labels.append(LocalLabel(text=net, position=Position(ax, ay, ang), effects=eff, uuid=K('lbl', pt['ref'], pt['unit'], pn)))
+            add_label(net, ax, ay, ang, eff, K('lbl', pt['ref'], pt['unit'], pn))
+
+    def add_label(net, x, y, ang, eff, uid):
+        if pages: sch.globalLabels.append(GlobalLabel(text=net, shape='passive', position=Position(x, y, ang), effects=eff, uuid=uid))
+        else: sch.labels.append(LocalLabel(text=net, position=Position(x, y, ang), effects=eff, uuid=uid))
+
+    def emit(d, parts):
+        """Write what the drawing d placed: symbols, wires, junctions, labels, power symbols, notes; label or flag every
+        pin the drawing left bare. Returns the x and y coordinates used (mm)."""
+        placed = [pt for pt in parts if (pt['ref'], pt['unit']) in d.place]
+        pin_nets, side_of = [], {}
+        for pt in placed:
+            cx, cy, ang, mir = d.place[(pt['ref'], pt['unit'])]
+            pp = add_symbol(pt, cx, cy, ang, mir, drawn=True, side=d.textside.get((pt['ref'], pt['unit']), d.textside.get(pt['ref'])))
+            for pn, net in pt['pins'].items():
+                px, py = pp[pn]; dx, dy = schdraw.xform(px, py, ang, mir)
+                ax, ay = schdraw.snap(cx + dx), schdraw.snap(cy + dy)
+                o = pin_out(used[SYM[pt['key']]], pt['unit'], pn)       # the way the pin points, not where it sits
+                if o: ox_, oy_ = schdraw.xform(o[0], o[1], ang, mir); o = outward(ox_, -oy_)
+                pin_nets.append((pt['ref'], pn, net, (ax, ay))); side_of[(pt['ref'], pn)] = o or outward(dx, -dy)
+        groups, junctions = schdraw.check(d, pin_nets)
+        byref = {(pt['ref'], pn): pt for pt in placed for pn in pt['pins']}
+        for net, its in groups:
+            pins = [it for it in its if it[0] == 'pin']
+            wired = any(it[0] != 'pin' for it in its) or len(pins) > 1
+            labelled = any(it[0] in ('port', 'gnd') for it in its)
+            for k, it in enumerate(pins):
+                (ref, pn), p = it[3], it[2]
+                if not wired:
+                    attach(byref[(ref, pn)], pn, net, p[0], p[1], side_of[(ref, pn)])
+                elif not labelled and k == 0 and net != 'NC':
+                    # a wired group with no label of its own: label it where it is local to this block only
+                    # if the net also reaches pins outside the group
+                    if net in POWER_SYMBOL_NETS or allpins[net] - {i[3] for i in pins}:
+                        attach(byref[(ref, pn)], pn, net, p[0], p[1], side_of[(ref, pn)])
+        for a, b in d.wires:
+            sch.graphicalItems.append(Connection(type='wire', points=[Position(*a), Position(*b)],
+                                                 stroke=Stroke(width=0, type='default'), uuid=S('wire')))
+        for p in sorted(junctions):
+            sch.junctions.append(Junction(position=Position(*p), diameter=0, uuid=S('junc')))
+        for net, p, side in d.ports:
+            ang, just = LBL[{'L': 'L', 'R': 'R', 'U': 'T', 'D': 'B'}[side]]
+            add_label(net, p[0], p[1], ang, Effects(font=Font(height=1.27, width=1.27), justify=Justify(horizontally=just, vertically='bottom')), S('port'))
+        for net, p, dirn in d.gnds:
+            power(net, p[0], p[1], {'D': 0, 'U': 180, 'L': 270, 'R': 90}[dirn], ('gnd', S('g')))
+        for text, p, size in d.notes:
+            sch.texts.append(Text(text=text, position=Position(p[0], p[1], 0), uuid=S('note'),
+                                  effects=Effects(font=Font(height=size, width=size), justify=Justify(horizontally='left'))))
+        ys = [p_[1] for *_, p_ in pin_nets] + [q[1] for w_ in d.wires for q in w_] + [g[1][1] for g in d.gnds]
+        xs = [p_[0] for *_, p_ in pin_nets] + [q[0] for w_ in d.wires for q in w_]
+        return xs, ys
 
     order = [b_ for b_ in blocks if not b_[0].startswith(last or ('\0',))] + [b_ for b_ in blocks if last and b_[0].startswith(last)]
+    if pages:
+        G = schdraw.G; pinsf = lambda k, un: pins_of(libsym(k), un)
+        W, H = pages.get('width', 104), pages.get('height', 57)            # usable area, grid units (A4: 264 x 145 mm, above the title block)
+        PX0, PY0 = pages.get('x0', 7), pages.get('y0', 8)
+        pagelist, segs, py = [], [], 0
+        for btitle, parts in order:
+            fr = FRAGS.get(id(parts), [])
+            items = [f for f in fr if not f[3]] + [f for f in fr if f[3]]
+            s = schdraw.Drawing(parts, pinsf, (0, 0))
+            for f in items: f[2](s)
+            for pt in [pt for pt in parts if (pt['ref'], pt['unit']) not in s.place]:      # undrawn: a labelled cell each
+                items.append((13, 11, lambda d, pt=pt: d.at(pt['ref'], 3, 5, unit=pt['unit']), True))
+            seg, x, rowh, cont = None, 0, 0, False
+            queue = [frag_box(parts, pinsf, w, h, fn) + (fn,) for w, h, fn, _ in items]
+            def fits(w, h):                      # where the next box goes on this page: same row, next row, or None
+                top = py + (0 if seg else 4)
+                if seg is None or not x: return 'row' if top + h <= H or not (segs or seg) else None
+                if x + w <= W and top + h <= H: return 'row'
+                return 'next' if py + rowh + 3 + h <= H else None
+            while queue:
+                # in order, but when the next box doesn't fit, a later (smaller) one of the same block may fill the page
+                k = next((i for i, (_, _, w, h, _) in enumerate(queue) if fits(w, h)), None)
+                if k is None:                                              # page full: the block runs on overleaf
+                    cont = seg is not None
+                    pagelist.append(segs); segs, py, seg, x, rowh = [], 0, None, 0, 0
+                    continue
+                ox, oy, w, h, fn = queue.pop(k)
+                if fits(w, h) == 'next': py += rowh + 3; x = rowh = 0
+                if seg is None:
+                    seg = [btitle.split('  ')[0] + ' (cont.)' if cont else btitle, parts, [], py]; segs.append(seg); py += 4
+                seg[2].append((fn, x + ox, py + oy)); x += w + 4; rowh = max(rowh, h)
+            py += rowh + 5
+        if segs: pagelist.append(segs)
+        base = os.path.dirname(os.path.abspath(out)); folder = pages['folder']
+        os.makedirs(os.path.join(base, folder), exist_ok=True)
+        for f in os.listdir(os.path.join(base, folder)):                 # stale pages of an earlier layout
+            if f.endswith('.kicad_sch'): os.remove(os.path.join(base, folder, f))
+        root_uuid = K('root'); files = []
+        short = lambda s: re.split(r'  |:|\(', s)[0].strip().replace(' / ', '-').replace('/', '-')   # '/' separates sheet paths
+        for i, segs_ in enumerate(pagelist):
+            names = list(dict.fromkeys(short(s_[0]) for s_ in segs_))      # every block on the page, in order
+            uid = K('sheetsym', i); pname = f'{i + 2:02d} ' + ', '.join(names)
+            sch = Schematic.create_new(); sch.version = 20230121; sch.generator = 'eeschema'; sch.uuid = K('page', i)
+            sch.titleBlock = TitleBlock(title=', '.join(names), date=date, revision=revision, company=title, comments=comments)
+            sch.paper = PageSettings(paperSize=pages.get('paper', 'A4'))
+            used = {}; root = f'/{root_uuid}/{uid}'
+            for stitle, parts, places, sy in segs_:
+                sch.texts.append(Text(text=stitle, position=Position(PX0 * G, (PY0 + sy + 1.5) * G, 0), uuid=S('txt'),
+                                      effects=Effects(font=Font(height=2.0, width=2.0), justify=Justify(horizontally='left'))))
+                d = schdraw.Drawing(parts, pinsf, (PX0 * G, PY0 * G))
+                for fn, fx, fy in places: d.shift(fx, fy); fn(d); d.shift(-fx, -fy)
+                emit(d, parts)
+            fname = f"{folder}/{i + 2:02d}_{re.sub(r'[^a-z0-9]+', '_', short(segs_[0][0]).lower()).strip('_')}.kicad_sch"
+            sch.filePath = os.path.join(base, fname); sch.to_file(); files.append((uid, pname, fname))
+        sch = Schematic.create_new(); sch.version = 20230121; sch.generator = 'eeschema'; sch.uuid = root_uuid
+        sch.titleBlock = TitleBlock(title=title, date=date, revision=revision, company='', comments=comments)
+        sch.paper = PageSettings(paperSize=pages.get('paper', 'A4'))
+        sch.sheetInstances = [HierarchicalSheetInstance(instancePath='/', page='1')]
+        for i, (uid, pname, fname) in enumerate(files):
+            x, y_ = 17.78 + (i % 5) * 53.34, 30.48 + (i // 5) * 22.86
+            sch.sheets.append(HierarchicalSheet(position=Position(x, y_), width=45.72, height=12.7, uuid=uid,
+                stroke=Stroke(width=0.1524, type='solid'),
+                sheetName=Property(key='Sheetname', value=pname, id=0, position=Position(x, y_ - 0.71, 0),
+                                   effects=Effects(font=Font(height=1.27, width=1.27), justify=Justify(horizontally='left', vertically='bottom'))),
+                fileName=Property(key='Sheetfile', value=fname, id=1, position=Position(x, y_ + 13.3, 0),
+                                  effects=Effects(font=Font(height=1.0, width=1.0), justify=Justify(horizontally='left', vertically='top'))),
+                instances=[HierarchicalSheetProjectInstance(name=project, paths=[HierarchicalSheetProjectPath(sheetInstancePath='/' + root_uuid, page=str(i + 2))])]))
+        sch.filePath = out; sch.to_file()
+        print('parts:', sum(len(p) for _, p in blocks), 'pages:', len(files) + 1)
+        write_intended(out)
+        return
     col_x, col_w = [X0], [0.0]
     for btitle, parts in order:
         if only and not only(btitle): continue
@@ -316,47 +442,7 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
             draw(d)
             missing = [(pt['ref'], pt['unit']) for pt in parts if (pt['ref'], pt['unit']) not in d.place]
             if missing: raise SystemExit(f'{btitle}: not placed {missing}')
-            pin_nets, side_of = [], {}
-            for pt in parts:
-                cx, cy, ang, mir = d.place[(pt['ref'], pt['unit'])]
-                pp = add_symbol(pt, cx, cy, ang, mir, drawn=True, side=d.textside.get((pt['ref'], pt['unit']), d.textside.get(pt['ref'])))
-                for pn, net in pt['pins'].items():
-                    px, py = pp[pn]; dx, dy = schdraw.xform(px, py, ang, mir)
-                    ax, ay = schdraw.snap(cx + dx), schdraw.snap(cy + dy)
-                    o = pin_out(used[SYM[pt['key']]], pt['unit'], pn)       # the way the pin points, not where it sits
-                    if o: ox_, oy_ = schdraw.xform(o[0], o[1], ang, mir); o = outward(ox_, -oy_)
-                    pin_nets.append((pt['ref'], pn, net, (ax, ay))); side_of[(pt['ref'], pn)] = o or outward(dx, -dy)
-            groups, junctions = schdraw.check(d, pin_nets)
-            byref = {(pt['ref'], pn): pt for pt in parts for pn in pt['pins']}
-            for net, its in groups:
-                pins = [it for it in its if it[0] == 'pin']
-                wired = any(it[0] != 'pin' for it in its) or len(pins) > 1
-                labelled = any(it[0] in ('port', 'gnd') for it in its)
-                for k, it in enumerate(pins):
-                    (ref, pn), p = it[3], it[2]
-                    if not wired:
-                        attach(byref[(ref, pn)], pn, net, p[0], p[1], side_of[(ref, pn)])
-                    elif not labelled and k == 0 and net != 'NC':
-                        # a wired group with no label of its own: label it where it is local to this block only
-                        # if the net also reaches pins outside the group
-                        if net in POWER_SYMBOL_NETS or allpins[net] - {i[3] for i in pins}:
-                            attach(byref[(ref, pn)], pn, net, p[0], p[1], side_of[(ref, pn)])
-            for a, b in d.wires:
-                sch.graphicalItems.append(Connection(type='wire', points=[Position(*a), Position(*b)],
-                                                     stroke=Stroke(width=0, type='default'), uuid=S('wire')))
-            for p in sorted(junctions):
-                sch.junctions.append(Junction(position=Position(*p), diameter=0, uuid=S('junc')))
-            for net, p, side in d.ports:
-                ang, just = LBL[{'L': 'L', 'R': 'R', 'U': 'T', 'D': 'B'}[side]]
-                sch.labels.append(LocalLabel(text=net, position=Position(p[0], p[1], ang), uuid=S('port'),
-                    effects=Effects(font=Font(height=1.27, width=1.27), justify=Justify(horizontally=just, vertically='bottom'))))
-            for net, p, dirn in d.gnds:
-                power(net, p[0], p[1], {'D': 0, 'U': 180, 'L': 270, 'R': 90}[dirn], ('gnd', S('g')))
-            for text, p, size in d.notes:
-                sch.texts.append(Text(text=text, position=Position(p[0], p[1], 0), uuid=S('note'),
-                                      effects=Effects(font=Font(height=size, width=size), justify=Justify(horizontally='left'))))
-            ys = [p_[1] for *_, p_ in pin_nets] + [q[1] for w_ in d.wires for q in w_] + [g[1][1] for g in d.gnds]
-            xs = [p_[0] for *_, p_ in pin_nets] + [q[0] for w_ in d.wires for q in w_]
+            xs, ys = emit(d, parts)
             col_w[0] = max(col_w[0], max(xs) - X0 + 10)
             wide[0] = max(wide[0], col_x[0] + col_w[0] - 30.48)
             y = math.ceil((max(ys) + 30) / 2.54) * 2.54                # block origins on the 2.54 grid
@@ -384,7 +470,10 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
     sch.to_file()
     n = sum(len(p) for b_, p in blocks if not only or only(b_))
     print('parts:', n, 'labels:', len(sch.labels), 'sheet height used (mm):', round(y))
+    write_intended(out, only)
 
+
+def write_intended(out, only=None):
     intended = {}
     for b_, parts in blocks:
         if only and not only(b_): continue
