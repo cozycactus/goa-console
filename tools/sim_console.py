@@ -201,8 +201,10 @@ class Module:
         return []
 
 # ---------------------------------------------------------------- the console
-def console(strips, groups, master, gnd_inject=None):
-    """strips: 24 Modules (12 per wing, wing order outward), groups: 4 (2 per wing), master: 1. Returns the deck body."""
+def console(strips, groups, master, gnd_inject=None, spade=None, spade_emf=None):
+    """strips: 24 Modules (12 per wing, wing order outward), groups: 4 (2 per wing), master: 1. Returns the deck body.
+    spade: {module name: (ohms, henries)} for its spade wire (default 18 AWG, 0.3 m); spade_emf: {module name: volts AC}
+    induced in series with it (a mains field through the loop of spade wire and ribbon grounds; sim/review/ground)."""
     mods = [master] + groups + strips
     pfl_on = any(m.latched_keys() for m in mods)
     L = ['* goa-console: whole console (tools/sim_console.py)', OPA_DEF, 'VPBUS PVBUS 0 DC 17', 'VMBUS MVBUS 0 DC -17']
@@ -220,8 +222,11 @@ def console(strips, groups, master, gnd_inject=None):
                 n = m.b.pins.get((HEADER[m.kind], str(p)))
                 if n and n != 'NC': L.append(f'Rhd{m.name}_{p} {here[p]} {m.node(HEADER[m.kind], p)} {CONTACT}')
             prev = here
-            # spade: 18 AWG, ~0.3 m to the master's ground bar
-            L += [f'Rsp{m.name} {m.gnd} {m.name}_spm 0.0063', f'Lsp{m.name} {m.name}_spm 0 0.3u']
+            # spade: 18 AWG, ~0.3 m to the master's ground bar (or as given)
+            rs, ls = (spade or {}).get(m.name, (0.0063, 0.3e-6)); emf = (spade_emf or {}).get(m.name)
+            end = f'{m.name}_spe' if emf else '0'
+            L += [f'Rsp{m.name} {m.gnd} {m.name}_spm {rs}', f'Lsp{m.name} {m.name}_spm {end} {ls}']
+            if emf: L.append(f'Vemf{m.name} {end} 0 DC 0 AC {emf}')
     master_rails = ['RJ1P PVBUS ' + master.net('+VBUS') + ' 0.005', 'RJ1M MVBUS ' + master.net('-VBUS') + ' 0.005']
     L += master_rails
     for i, (mname, amps) in enumerate(gnd_inject or ()):   # AC current into a module's ground, returning via 0 V
