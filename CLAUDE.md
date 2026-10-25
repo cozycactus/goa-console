@@ -589,6 +589,11 @@ jack board) done.
   bushing, pin 1 at the CCW end, the detent at the electrical centre.
 - Input buffer/receiver question settled: differential receiver fitted (pseudo-balanced cables recommended).
 
+- Front panels (2026-10-26, `panel_makers.md`): Ruslan is getting quotes and a prototype strip panel first. When the
+  maker's minimum printed line is known: if it is above ~0.11 mm, switch the small text (1.5-1.7 mm Arial Narrow,
+  0.108-0.122 mm strokes) to Arial Narrow Bold in `panel_layout.py` (0.17 mm at 1.5 mm) and regenerate `panels/`.
+  The prototype also settles the PV-cap clearance and the fader slot; measure the fader law before the batch is printed.
+
 ## Next steps
 0. Delta clone: spec v4.0, schematics and placement (main board + jack board) done (2026-10-22).
    Jack-board depth 24.0 mm confirmed from Neutrik's drawings (NJ6FD-V and NC3MAV, 2026-10-23; 24.0 M3 standoffs).
