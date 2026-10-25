@@ -195,6 +195,8 @@ jack board) done.
   checks (web, edge, rails, print clear of cut-outs). The layout is `tools/panel_layout.py`, shared with console_3d.py
   (cut-outs, screws, the Delta-style print). Open: measure the fader law before printing (`panels/README.md`).
 - `frame/` — frame rail drawing (DXF, hole table, A3 PDF) from `python3 tools/frame_fab.py`; one part, two off.
+- `psu_case/` — PSU case drilling (front / rear panels, heatsink, base; DXF, hole table, A3 PDF) from
+  `python3 tools/psu_case_fab.py`.
 - `offboard_bom.md` — everything not on a board BOM (knobs, caps, washers, spacers, standoffs, panels, frame, IDC
   sockets and ribbon, the G1 harness, PSU chassis parts), counts per module and console; open decisions: knobs, PV and
   fader cap colours, panel maker + panel fabrication drawings, frame, PSU case.
@@ -363,6 +365,11 @@ jack board) done.
   30 M3 tapped holes each from the panel screw pattern (`panel_layout.rail_holes()`); 0.21 mm sag under the console,
   0.53 mm under 100 N at mid-span, no centre post. Panels bond through bare tapped holes + star washers; one 2.5 mm2
   bond per rail to the M4 star. Drawing `frame/` (`python3 tools/frame_fab.py`).
+- PSU case (signed off by Ruslan 2026-10-26, `psu_case_proposal.md` PC1-PC3): Hammond 1402KV (254 x 244 x 99 vented
+  aluminium); Fischer SK 47 75 SA on the FRONT end panel (the 1402K's sides are split by an extrusion), the TO-220s
+  through a window onto it (tab backs 1.68 mm proud of the board edge, `place_psu.py` OVERHANG); LRS-150s stacked
+  behind the board; rear Schurter DD11 (inlet + 2-pole switch + fuse), NC7FD-LX, M4 earth stud; front LED only.
+  +V LDO junction 108 / 113 C at 30 / 35 C room at the 4.33 A worst corner. Drilling `psu_case/`.
 - Faders (2026-10-23): Bourns PTB0143-2010BPA103 (strips, groups) / PTB0144-2010BPA103 (master), stocked, BP lever
   (8.0 x 1.3 mm flat blade, 5.0 mm above the panel), caps Sifam LK110 tang 01 (8.0 x 1.2, socket 4.0 deep: 1.0 mm
   above the panel; the Delta's "SIF low profile" knob; black LK111 01 with a white line (KC2, 2026-10-25;

@@ -1,14 +1,17 @@
 """Component placement for the PSU regulator board (psu_spec.md v0.2). Placement only: no copper.
   /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3 tools/place_psu.py
 +V rail on the left half, -V rail on the right; LDOs and SCRs in a row on the top edge with their tabs
-to the edge, for one heatsink bar (insulating pads: the tabs sit at +V, 0 V and -V); DC inputs, earth and the
+1.68 mm proud of the edge (through the PSU case's front panel onto the heatsink) (insulating pads: the tabs sit at +V, 0 V and -V); DC inputs, earth and the
 7-way output on the bottom edge with their wire openings outwards. Engine: placer.py."""
 import os, sys
 sys.path.insert(0, os.path.dirname(__file__))
 from placer import place, PROJ
 
 W, H = 120.0, 60.0
-TOP = 3.44 + 0.3                      # TO-220 vertical: tab side 3.44 mm behind pin 1
+# TO-220 vertical: tab side 3.44 mm behind pin 1. The tabs stand 1.68 mm proud of the board edge (psu_case_proposal.md,
+# 2026-10-26): with the edge 0.3 mm inside the 1.63 mm front panel, they reach the heatsink through a 0.25 mm pad
+OVERHANG = 1.68
+TOP = 3.44 - OVERHANG
 BOT = H - 0.3 - 5.75                  # MKDS turned 180: wire openings 5.75 mm beyond the pins; pin 1 now on the right
 fix = {'U1': (12, TOP, 0, 'F'), 'Q2': (36, TOP, 0, 'F'),          # +V LDO, +V crowbar SCR
        'U3': (72, TOP, 0, 'F'), 'Q4': (96, TOP, 0, 'F'),          # -V LDO, -V crowbar SCR

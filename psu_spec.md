@@ -114,12 +114,14 @@ LRS-150 as a 21.6 V source with an 8 A current limit. The load is the console at
 SMPS modules, the mains wiring and the NC7 socket are chassis parts wired to the PCB's terminals.
 
 `psu.kicad_pcb` (`tools/place_psu.py`, placement only), 120 × 60 mm:
-- **Top edge:** U1, Q2, U3, Q4 (TO-220) in a row with their tabs flush to the edge, for one heatsink bar.
+- **Top edge:** U1, Q2, U3, Q4 (TO-220) in a row, their tab backs 1.68 mm proud of the edge (2026-10-26): with the
+  edge 0.3 mm inside the case's 1.63 mm front panel, they reach the heatsink through a window and a 0.25 mm pad.
 - **Rails:** +V on the left half, −V on the right. Each LDO's ADJ, protection and output parts are
   beside it, and the crowbar parts beside each SCR.
 - **Bottom edge:** SMPS #1 in (left), earth, the 7-way console output (centre), SMPS #2 in (right). The
   wire openings face out. Silk labels show the wiring; pin 1 is on the right after the 180° turn.
-- **Checks:** 0 schematic-parity issues, 0 DRC violations. Copper routing is Ruslan's; 4 A paths
+- **Checks:** 0 schematic-parity issues, 0 DRC errors. 8 silkscreen warnings: the four TO-220 outlines overhang the
+  edge by design. Copper routing is Ruslan's; 4 A paths
   (inputs → chokes → LDOs → output) want ≥ 3 mm tracks or pours on both layers.
 
 ## 8. Heatsink and case
@@ -134,10 +136,16 @@ SMPS modules, the mains wiring and the NC7 socket are chassis parts wired to the
   | Typical (3.09 / 2.67 A, 2026-10-25) | 14.2 + 12.3 = 26.5 W | ≤ 1.9 °C/W |
   | 4 A on both rails | 18.4 + 18.4 = 36.8 W | ≤ 1.2 °C/W |
 
-  Proposed: a finned profile of about 1 °C/W (Fischer SK 47 or SK 85, 100 mm long), mounted outside the
-  case on the rear panel, fins vertical, with the TO-220s bolted through the panel. A thermal switch
-  (normally closed, 85 °C) in series with the mains switch is optional protection.
-- **Case.** Steel or aluminium, earthed, ventilated. Inside: two LRS-150-24 (159 × 97 × 30 mm each,
-  convection cooled, with clearance around them per Mean Well) and the 120 × 60 mm regulator board
-  near the heatsink. A desktop box of about 250 × 200 × 90 mm, or a 2U half-rack.
-  Front: mains switch and a power LED. Rear: IEC inlet with fuse, NC7FD-LX output, earth stud.
+  Chosen (`psu_case_proposal.md` PC1-PC3, signed off 2026-10-26): **Fischer SK 47 75 SA** (200 × 40 × 75,
+  ~0.85 °C/W) on the case's **front** end panel, fins vertical. The TO-220s pass through a 96 × 17.8 mm window onto
+  the heatsink base; each has a silicone pad and a shoulder washer. At the accepted worst corner (4.33 A on +V, 38.3 W)
+  the +V LDO junction reaches 108 / 113 °C in a 30 / 35 °C room. The front was chosen over the side: the 1402K's side
+  walls are split by an extrusion. A thermal switch (normally closed, 85 °C) in series with the mains switch is
+  optional protection.
+- **Case.** **Hammond 1402KV**: aluminium, vented, 254 × 244 × 99 mm.
+  - Inside: the regulator board across the front; the two LRS-150-24 stacked behind it (the upper on a 2 mm shelf on
+    four 45 mm posts).
+  - Rear: **Schurter DD11** (IEC C14 inlet, 2-pole switch, fuse drawer: T2.5 A at 230 V), the NC7FD-LX output and the
+    M4 earth stud. Front: the heatsink and the power LED.
+  - The mains switch moved from the front into the rear inlet, so no mains wiring crosses the case.
+  - Drilling: `psu_case/` (`python3 tools/psu_case_fab.py`).

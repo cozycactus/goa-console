@@ -56,6 +56,40 @@
 
 ## Sign-off
 
-- [ ] **PC1** Hammond 1402KV (vented, 254 × 244 × 99 aluminium), earthed at one stud.
-- [ ] **PC2** Fischer SK 47 75 SA on the right side, TO-220s through a window directly on the heatsink.
-- [ ] **PC3** Rear: Schurter DD11 inlet with switch and fuse, NC7FD-LX, earth stud; front: power LED only.
+Signed off by Ruslan on 2026-10-26: PC1–PC3. When applying them, the 1402K's drawing showed that its side walls are
+split (base leg, a 38.1 mm extrusion, cover leg), so the heatsink went on the front end panel instead (Ruslan,
+2026-10-26). The rear keeps PC3.
+
+- [x] **PC1** Hammond 1402KV (vented, 254 × 244 × 99 aluminium), earthed at one stud.
+- [x] **PC2** (on the front end panel, not the side) Fischer SK 47 75 SA on the right side, TO-220s through a window directly on the heatsink.
+- [x] **PC3** Rear: Schurter DD11 inlet with switch and fuse, NC7FD-LX, earth stud; front: power LED only.
+
+## Applied (2026-10-26)
+
+- **Heatsink on the front end panel.** It is the only flat plate (249.81 × 93.14 × 1.63) apart from the rear, and the
+  rear is taken by the DD11 (65 mm flange) and the NC7.
+  - **Surface temperature:** about 52 °C typical, 63 °C at the worst corner.
+  - **The board:** sits across the front.
+  - **The LRS-150s:** they don't fit side by side once the rear connectors are counted (60 + 159 + 33 mm against
+    about 234 inside), so they are stacked behind the board, the upper one on a 2 mm aluminium shelf on four M3 × 45
+    posts. Depth used: 163 + 33 of 234.6; height 77 of 93.
+- **Regulator board (placement only):** `place_psu.py` stands the four TO-220s with their tab backs 1.68 mm proud of
+  the board edge. With the edge 0.3 mm inside the panel, they reach the heatsink through the window and a 0.25 mm pad.
+  Without this the board edge would press on the heatsink (it is 0.30 mm behind the tabs).
+  - **Moves:** the TO-220s and 8 nearby parts.
+  - **Checks:** 0 parity issues, 0 DRC errors; 8 silkscreen warnings from the overhanging outlines.
+- **`tools/psu_case_fab.py` → `psu_case/`:**
+  - `front.dxf`: TO-220 window 96 × 17.8, 4 × Ø4.3 heatsink fixings, LED;
+  - `rear.dxf`: DD11 cut-out 47.1 × 28.1 R1 with 2 × Ø3.4 at 56, NC7FD-LX Ø24 with 2 × Ø3.2, M4 stud;
+  - `heatsink.dxf`: 4 × M3 tapped for the tabs at z 21.7, 4 × M4 tapped fixings;
+  - `base.dxf`: board standoffs, shelf posts, earth-bond hole;
+  - `holes.csv` and an A3 `psu_case.pdf`.
+
+  The script checks the fit (depth, height, the tabs meeting the heatsink, the fixings clear of the window).
+- **CHECK before cutting** (marked in the script):
+  - the end panel's height above the base floor (0.2 mm assumed);
+  - the TO-220 seating (2.0 mm spacer) and tab-hole height (12.9 mm);
+  - Neutrik's D-size screw pattern (19 × 24 diagonal);
+  - the LED clip's hole.
+
+  Or mark the heatsink's tab holes from the assembled board.

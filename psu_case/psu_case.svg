@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420mm" height="297mm" viewBox="0 0 420 297" font-family="Arial Narrow, Arial">
+<rect width="420" height="297" fill="white"/>
+<text x="12" y="12" font-size="5" font-weight="bold">goa console PSU: Hammond 1402KV case and Fischer SK 47 75 SA heatsink, drilling</text>
+<text x="12" y="25" font-size="3.5" font-weight="bold">FRONT end panel (from outside; heatsink outline dashed)</text>
+<rect x="12" y="28.0" width="166.54" height="62.09" fill="none" stroke="black" stroke-width="0.3"/>
+<rect x="28.60" y="38.09" width="133.33" height="50.00" fill="none" stroke="#888" stroke-dasharray="1.5 1" stroke-width="0.2"/>
+<rect x="65.58" y="71.03" width="64.00" height="11.87" fill="none" stroke="red" stroke-width="0.3"/>
+<circle cx="33.94" cy="82.76" r="1.43" fill="none" stroke="red" stroke-width="0.3"/>
+<circle cx="156.60" cy="82.76" r="1.43" fill="none" stroke="red" stroke-width="0.3"/>
+<circle cx="33.94" cy="43.43" r="1.43" fill="none" stroke="red" stroke-width="0.3"/>
+<circle cx="156.60" cy="43.43" r="1.43" fill="none" stroke="red" stroke-width="0.3"/>
+<circle cx="20.30" cy="59.05" r="1.67" fill="none" stroke="red" stroke-width="0.3"/>
+<text x="12.0" y="95.1" font-size="2.4">96.0 x 17.8  at (128.37, 19.70)  the four TO-220s (tab backs 1.68 proud of the board edge, through the panel onto the heatsink)</text>
+<text x="12.0" y="98.1" font-size="2.4">Ø4.3  at (32.91, 11.00)  heatsink fixing M4</text>
+<text x="12.0" y="101.1" font-size="2.4">Ø4.3  at (216.91, 11.00)  heatsink fixing M4</text>
+<text x="12.0" y="104.1" font-size="2.4">Ø4.3  at (32.91, 70.00)  heatsink fixing M4</text>
+<text x="12.0" y="107.1" font-size="2.4">Ø4.3  at (216.91, 70.00)  heatsink fixing M4</text>
+<text x="12.0" y="110.1" font-size="2.4">Ø5.0  at (12.45, 46.57)  power LED (panel clip)</text>
+<text x="215" y="25" font-size="3.5" font-weight="bold">REAR end panel (from outside)</text>
+<rect x="215" y="28.0" width="166.54" height="62.09" fill="none" stroke="black" stroke-width="0.3"/>
+<rect x="229.30" y="49.68" width="31.40" height="18.73" rx="0.7" fill="none" stroke="red" stroke-width="0.3"/>
+<circle cx="226.33" cy="59.05" r="1.13" fill="none" stroke="red" stroke-width="0.3"/>
+<circle cx="263.67" cy="59.05" r="1.13" fill="none" stroke="red" stroke-width="0.3"/>
+<circle cx="314.94" cy="59.05" r="8.00" fill="none" stroke="red" stroke-width="0.3"/>
+<circle cx="308.60" cy="51.05" r="1.07" fill="none" stroke="red" stroke-width="0.3"/>
+<circle cx="321.27" cy="67.05" r="1.07" fill="none" stroke="red" stroke-width="0.3"/>
+<circle cx="364.87" cy="59.05" r="1.43" fill="none" stroke="red" stroke-width="0.3"/>
+<text x="215.0" y="95.1" font-size="2.4">47.1 x 28.1 R1  at (45.00, 46.57)  Schurter DD11 (inlet, 2-pole switch, fuse)</text>
+<text x="215.0" y="98.1" font-size="2.4">Ø3.4  at (17.00, 46.57)  DD11 screw</text>
+<text x="215.0" y="101.1" font-size="2.4">Ø3.4  at (73.00, 46.57)  DD11 screw</text>
+<text x="215.0" y="104.1" font-size="2.4">Ø24  at (149.91, 46.57)  Neutrik NC7FD-LX (console output)</text>
+<text x="215.0" y="107.1" font-size="2.4">Ø3.2  at (140.41, 58.57)  NC7FD-LX screw</text>
+<text x="215.0" y="110.1" font-size="2.4">Ø3.2  at (159.41, 34.57)  NC7FD-LX screw</text>
+<text x="215.0" y="113.1" font-size="2.4">Ø4.3  at (224.81, 46.57)  M4 earth stud (star washers both sides)</text>
+<text x="12" y="123" font-size="3.5" font-weight="bold">HEATSINK SK 47 75 SA base, seen from the front as the panel (origin its bottom-left)</text>
+<rect x="12" y="126.0" width="133.33" height="50.00" fill="none" stroke="black" stroke-width="0.3"/>
+<circle cx="108.97" cy="161.53" r="0.83" fill="none" stroke="blue" stroke-width="0.3"/>
+<circle cx="92.97" cy="161.53" r="0.83" fill="none" stroke="blue" stroke-width="0.3"/>
+<circle cx="68.97" cy="161.53" r="0.83" fill="none" stroke="blue" stroke-width="0.3"/>
+<circle cx="52.97" cy="161.53" r="0.83" fill="none" stroke="blue" stroke-width="0.3"/>
+<circle cx="17.33" cy="170.67" r="1.10" fill="none" stroke="blue" stroke-width="0.3"/>
+<circle cx="140.00" cy="170.67" r="1.10" fill="none" stroke="blue" stroke-width="0.3"/>
+<circle cx="17.33" cy="131.33" r="1.10" fill="none" stroke="blue" stroke-width="0.3"/>
+<circle cx="140.00" cy="131.33" r="1.10" fill="none" stroke="blue" stroke-width="0.3"/>
+<text x="12.0" y="181.0" font-size="2.4">M3 x 6  at (145.46, 21.70)  U1 tab (shoulder washer, pad)</text>
+<text x="12.0" y="184.0" font-size="2.4">M3 x 6  at (121.46, 21.70)  Q2 tab (shoulder washer, pad)</text>
+<text x="12.0" y="187.0" font-size="2.4">M3 x 6  at (85.46, 21.70)  U3 tab (shoulder washer, pad)</text>
+<text x="12.0" y="190.0" font-size="2.4">M3 x 6  at (61.46, 21.70)  Q4 tab (shoulder washer, pad)</text>
+<text x="12.0" y="193.0" font-size="2.4">M4 x 8  at (8.00, 8.00)  panel fixing</text>
+<text x="12.0" y="196.0" font-size="2.4">M4 x 8  at (192.00, 8.00)  panel fixing</text>
+<text x="12.0" y="199.0" font-size="2.4">M4 x 8  at (8.00, 67.00)  panel fixing</text>
+<text x="12.0" y="202.0" font-size="2.4">M4 x 8  at (192.00, 67.00)  panel fixing</text>
+<text x="215" y="123" font-size="3.5" font-weight="bold">BASE (from above, front panel at y 0; board and LRS-150 stack dashed)</text>
+<rect x="215" y="126.0" width="88.46" height="90.23" fill="none" stroke="black" stroke-width="0.3"/>
+<rect x="228.65" y="153.54" width="61.15" height="37.31" fill="none" stroke="#888" stroke-dasharray="1.5 1" stroke-width="0.2"/>
+<rect x="236.15" y="193.15" width="46.15" height="23.08" fill="none" stroke="#888" stroke-dasharray="1.5 1" stroke-width="0.2"/>
+<circle cx="280.77" cy="214.58" r="0.62" fill="none" stroke="red" stroke-width="0.3"/>
+<circle cx="237.69" cy="214.58" r="0.62" fill="none" stroke="red" stroke-width="0.3"/>
+<circle cx="280.77" cy="194.58" r="0.62" fill="none" stroke="red" stroke-width="0.3"/>
+<circle cx="237.69" cy="194.58" r="0.62" fill="none" stroke="red" stroke-width="0.3"/>
+<circle cx="230.96" cy="192.38" r="0.62" fill="none" stroke="red" stroke-width="0.3"/>
+<circle cx="230.96" cy="152.00" r="0.62" fill="none" stroke="red" stroke-width="0.3"/>
+<circle cx="287.50" cy="192.38" r="0.62" fill="none" stroke="red" stroke-width="0.3"/>
+<circle cx="287.50" cy="152.00" r="0.62" fill="none" stroke="red" stroke-width="0.3"/>
+<circle cx="297.69" cy="137.54" r="0.83" fill="none" stroke="red" stroke-width="0.3"/>
+<text x="307.5" y="129.0" font-size="2.4">Ø3.2  at (171.00, 4.30)  board standoff M3 x 8 (H1-H4)</text>
+<text x="307.5" y="132.0" font-size="2.4">Ø3.2  at (59.00, 4.30)  board standoff M3 x 8 (H1-H4)</text>
+<text x="307.5" y="135.0" font-size="2.4">Ø3.2  at (171.00, 56.30)  board standoff M3 x 8 (H1-H4)</text>
+<text x="307.5" y="138.0" font-size="2.4">Ø3.2  at (59.00, 56.30)  board standoff M3 x 8 (H1-H4)</text>
+<text x="307.5" y="141.0" font-size="2.4">Ø3.2  at (41.50, 62.00)  shelf post M3 x 45</text>
+<text x="307.5" y="144.0" font-size="2.4">Ø3.2  at (41.50, 167.00)  shelf post M3 x 45</text>
+<text x="307.5" y="147.0" font-size="2.4">Ø3.2  at (188.50, 62.00)  shelf post M3 x 45</text>
+<text x="307.5" y="150.0" font-size="2.4">Ø3.2  at (188.50, 167.00)  shelf post M3 x 45</text>
+<text x="307.5" y="153.0" font-size="2.4">Ø4.3  at (215.00, 204.60)  base-to-earth bond (M4, lug to the stud)</text>
+<text x="12" y="290" font-size="2.6">Panels and heatsink seen from the front / rear outside, origin bottom-left; base from above, origin front-left inner corner. Red: through, blue: tapped. CHECK before cutting: panel-to-floor offset, TO-220 seating height (2.0 spacer), Neutrik D-size pattern; or mark the heatsink holes from the assembled board.</text></svg>

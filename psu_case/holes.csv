@@ -1,0 +1,31 @@
+part,kind,x mm,y / z mm,size,what
+front,window,128.37,19.70,96.0 x 17.8,"the four TO-220s (tab backs 1.68 proud of the board edge, through the panel onto the heatsink)"
+front,hole,32.91,11.00,Ø4.3,heatsink fixing M4
+front,hole,216.91,11.00,Ø4.3,heatsink fixing M4
+front,hole,32.91,70.00,Ø4.3,heatsink fixing M4
+front,hole,216.91,70.00,Ø4.3,heatsink fixing M4
+front,hole,12.45,46.57,Ø5.0,power LED (panel clip)
+rear,cutout,45.00,46.57,47.1 x 28.1 R1,"Schurter DD11 (inlet, 2-pole switch, fuse)"
+rear,hole,17.00,46.57,Ø3.4,DD11 screw
+rear,hole,73.00,46.57,Ø3.4,DD11 screw
+rear,hole,149.91,46.57,Ø24,Neutrik NC7FD-LX (console output)
+rear,hole,140.41,58.57,Ø3.2,NC7FD-LX screw
+rear,hole,159.41,34.57,Ø3.2,NC7FD-LX screw
+rear,hole,224.81,46.57,Ø4.3,M4 earth stud (star washers both sides)
+heatsink,tapped,145.46,21.70,M3 x 6,"U1 tab (shoulder washer, pad)"
+heatsink,tapped,121.46,21.70,M3 x 6,"Q2 tab (shoulder washer, pad)"
+heatsink,tapped,85.46,21.70,M3 x 6,"U3 tab (shoulder washer, pad)"
+heatsink,tapped,61.46,21.70,M3 x 6,"Q4 tab (shoulder washer, pad)"
+heatsink,tapped,8.00,8.00,M4 x 8,panel fixing
+heatsink,tapped,192.00,8.00,M4 x 8,panel fixing
+heatsink,tapped,8.00,67.00,M4 x 8,panel fixing
+heatsink,tapped,192.00,67.00,M4 x 8,panel fixing
+base,hole,171.00,4.30,Ø3.2,board standoff M3 x 8 (H1-H4)
+base,hole,59.00,4.30,Ø3.2,board standoff M3 x 8 (H1-H4)
+base,hole,171.00,56.30,Ø3.2,board standoff M3 x 8 (H1-H4)
+base,hole,59.00,56.30,Ø3.2,board standoff M3 x 8 (H1-H4)
+base,hole,41.50,62.00,Ø3.2,shelf post M3 x 45
+base,hole,41.50,167.00,Ø3.2,shelf post M3 x 45
+base,hole,188.50,62.00,Ø3.2,shelf post M3 x 45
+base,hole,188.50,167.00,Ø3.2,shelf post M3 x 45
+base,hole,215.00,204.60,Ø4.3,"base-to-earth bond (M4, lug to the stud)"
