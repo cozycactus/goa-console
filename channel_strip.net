@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/channel_strip.kicad_sch")
-		(date "2026-10-25T23:01:10")
+		(date "2026-10-25T23:21:15")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -3743,7 +3743,7 @@
 			(footprint "Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
-					(name "MPN") "WIMA MKS2C031501A00KSSD (PET 63V; check stock, older suffixes are discontinued)")
+					(name "MPN") "WIMA MKS2D031501C00KSSD (PET 100V; 3.5 x 8.5 x 7.2, the 63 V KSSD code has no stock)")
 				(field
 					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
@@ -3760,7 +3760,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "WIMA MKS2C031501A00KSSD (PET 63V; check stock, older suffixes are discontinued)")
+				(value "WIMA MKS2D031501C00KSSD (PET 100V; 3.5 x 8.5 x 7.2, the 63 V KSSD code has no stock)")
 			)
 			(property
 				(name "Sheetname")

@@ -19,7 +19,7 @@ CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Murata GRM21BR71H
            '10n C0G': 'KEMET C1206C103J5GACTU', '22n C0G': 'KEMET C1206C223J5GACTU', '100n C0G': 'Murata GRM31C5C1H104JA01L',
            # rail reservoirs in the strip's own footprints (D8 P3.5, D6.3 P2.5; the master's UPW parts are larger)
            '220u 25V': 'Rubycon 35ZLH220MEFC8X11.5 (35V)', '47u 25V': 'Panasonic EEU-FR1H470 (50V)',
-           '150n film': 'WIMA MKS2C031501A00KSSD (PET 63V; check stock, older suffixes are discontinued)',
+           '150n film': 'WIMA MKS2D031501C00KSSD (PET 100V; 3.5 x 8.5 x 7.2, the 63 V KSSD code has no stock)',
            '2.2u film': 'WIMA MKS2C042201K00KSSD (PET 63V)',
            # audio bipolars, Nichicon MUSE ES 25 V, in the existing footprints (film_np_proposal.md)
            '33u NP 25V': 'Nichicon UES1E330MPM (MUSE ES)', '100u NP 25V': 'Nichicon UES1E101MPM (MUSE ES)'}

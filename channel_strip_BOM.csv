@@ -12,7 +12,7 @@
 "1","2n2 C0G","Capacitor_SMD:C_1206_3216Metric","KEMET C1206C222J5GACTU","","C44"
 "1","10n C0G","Capacitor_SMD:C_1206_3216Metric","KEMET C1206C103J5GACTU","","C46"
 "1","22n C0G","Capacitor_SMD:C_1206_3216Metric","KEMET C1206C223J5GACTU","","C47"
-"1","150n film","Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2","WIMA MKS2C031501A00KSSD (PET 63V; check stock, older suffixes are discontinued)","","C48"
+"1","150n film","Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2","WIMA MKS2D031501C00KSSD (PET 100V; 3.5 x 8.5 x 7.2, the 63 V KSSD code has no stock)","","C48"
 "3","100n C0G","Capacitor_SMD:C_1206_3216Metric","Murata GRM31C5C1H104JA01L","","C50 C87 C88"
 "1","1u","Capacitor_SMD:C_0805_2012Metric","Murata GRM21BR71H105KA12L (X7R 50V)","","C62"
 "11","10p C0G","Capacitor_SMD:C_1206_3216Metric","KEMET C1206C100J5GACTU","","C69 C70 C71 C72 C74 C76 C79 C80 C81 C82 C86"

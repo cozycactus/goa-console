@@ -41,6 +41,24 @@ equivalent 1 % thick-film 0805. Every part that needs more (anti-surge, 0.1 %, 2
   700). It also stocks RD901F-40-15R1-A10K (A-1856, 1775), -B10K-0CD (A-8401, 741) and -A10K-0CD (A-7815, 220).
 - **DG413DY-E3** is the tube code, stocked (Mouser ~4700, RS). It is not a mistake for -T1-E3, the reel.
 
+**Follow-up (2026-10-25).**
+- **C48 (strip, 150 nF film):** now WIMA MKS2D031501C00KSSD, the 100 V version of the same part. It is
+  3.5 × 8.5 × 7.2 mm on a 5 mm pitch, so it fits the W4.5 footprint. No 63 V KSSD stock was found anywhere.
+- **OPA1656:** one order code everywhere, OPA1656IDR. The master, group and jig used to say OPA1656ID (tube).
+
+## Order list
+
+`python3 tools/order_bom.py` writes `order_bom.csv`.
+- **What it does:** takes each board's BOM times the boards built (24 strips and strip jack boards, 4 groups and group
+  jack boards, one each of master, master jack board, PSU, jig stub and jig load board), one line per order code.
+- **Additions:** the 16 OPA1656s for the jig's A/B strips. The jig's four strips are four of the 24.
+- **Spares:** SMD R / C +10 % (at least 10), semis and LEDs +5 % (at least 2), electrolytics and film +5 % (at least 2),
+  panel parts and connectors +3 % (at least 1).
+- **Resistors:** plain 0805 values get `Yageo RC0805FR-07<value>L`.
+- **Left out:** DNP parts and the M4 star point.
+- **Not on any board, so not in the list:** knobs, fader caps, LED spacers, standoffs, ribbon and IDC sockets, the
+  harness, the PSU modules and its case parts. See the specs (§16 of the strip spec, master spec §26, `psu_spec.md`).
+
 ## Stock risks: act before ordering
 
 | Part | Needed | Situation | Action |
@@ -50,7 +68,7 @@ equivalent 1 % thick-film 0805. Every part that needs more (anti-surge, 0.1 %, 2
 | TI OPA1612AIDR | 311 (264 strip, 28 group, 13 master, 6 jig) | LCSC the only volume stock seen | buy at LCSC, or split across distributors |
 | TI LM1084IT-ADJ/NOPB | 2 | little stock | buy with the first order |
 | WIMA MKS2C042201K00KSSD (2.2 µF film) | 100 (72 strip, 16 group, 12 master) | DigiKey out of stock; Farnell ~1080 | buy at Farnell now; no design change |
-| WIMA MKS2C031501A00KSSD (150 nF film) | 24 | older suffixes discontinued | confirm this code before ordering |
+| WIMA MKS2D031501C00KSSD (150 nF film, C48) | 24 | the 63 V code (MKS2C031501A00KSSD) has no stock anywhere; RS ~1135 of this 100 V one | swapped (below) |
 
 If the 2.2 µF WIMA does disappear, TDK B32520C0225J000 is the nearest film part. It is on a 7.5 mm pitch
 (10.3 × 6 × 12 mm), so it needs a new footprint and re-placement. That would be a proposal of its own; it isn't needed

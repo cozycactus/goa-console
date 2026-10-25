@@ -1550,7 +1550,7 @@
     (property "Datasheet" "" (id 3) (at 190.5 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "MPN" "WIMA MKS2C031501A00KSSD (PET 63V; check stock, older suffixes are discontinued)" (id 4) (at 190.5 106.68 0)
+    (property "MPN" "WIMA MKS2D031501C00KSSD (PET 100V; 3.5 x 8.5 x 7.2, the 63 V KSSD code has no stock)" (id 4) (at 190.5 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 9fe597ca-4a21-52be-978f-1969cf1f4ad9))

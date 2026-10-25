@@ -33,7 +33,7 @@ MPN.update({'DRV134': 'TI DRV135UA',   # SO-8: the DRV134 is DIP-8 / SOL-16 only
             'RELAY': 'Omron G6K-2F-Y DC12', 'XLR3': 'Neutrik NC3MAH',
             'PWRIN': 'Phoenix 1755897 MKDS 1,5/7-5,08 (wired to a Neutrik NC7MD-LX inlet)', 'PTC': 'Bourns MF-RX160/72-0',
             'DS': 'SS54', 'FB': '220R@100MHz 0805',
-            'LME49600': 'TI LME49600TS/NOPB', 'OPA1656': 'TI OPA1656ID', 'JACK': 'Neutrik NRJ6HF',
+            'LME49600': 'TI LME49600TS/NOPB', 'OPA1656': 'TI OPA1656IDR', 'JACK': 'Neutrik NRJ6HF',
             # B grades: the comparators run from +-17 V (34 V), over the non-B parts' 30 V recommended maximum
             'CMP': 'TI LM393BIDR', 'LM2901': 'TI LM2901BIDR',
             'DG': 'Vishay DG413DY-E3', 'ZEN': 'Nexperia BZX84-C5V1,215', 'PNP': 'onsemi BCP53-16T1G', 'SCH': 'Nexperia BAT54W,115',

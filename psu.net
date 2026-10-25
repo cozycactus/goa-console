@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/psu.kicad_sch")
-		(date "2026-10-25T23:01:33")
+		(date "2026-10-25T23:20:17")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -900,7 +900,7 @@
 			(footprint "Diode_SMD:D_SMC")
 			(fields
 				(field
-					(name "MPN") "Diodes B540C-13-F (SS54 class)")
+					(name "MPN") "Diodes B540C-13-F (SS54 class, SMC 40 V 5 A)")
 				(field
 					(name "Footprint") "Diode_SMD:D_SMC")
 				(field
@@ -917,7 +917,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Diodes B540C-13-F (SS54 class)")
+				(value "Diodes B540C-13-F (SS54 class, SMC 40 V 5 A)")
 			)
 			(property
 				(name "Sheetname")
@@ -1140,7 +1140,7 @@
 			(footprint "Diode_SMD:D_SMC")
 			(fields
 				(field
-					(name "MPN") "Diodes B540C-13-F (SS54 class)")
+					(name "MPN") "Diodes B540C-13-F (SS54 class, SMC 40 V 5 A)")
 				(field
 					(name "Footprint") "Diode_SMD:D_SMC")
 				(field
@@ -1157,7 +1157,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Diodes B540C-13-F (SS54 class)")
+				(value "Diodes B540C-13-F (SS54 class, SMC 40 V 5 A)")
 			)
 			(property
 				(name "Sheetname")

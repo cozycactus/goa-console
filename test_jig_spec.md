@@ -13,7 +13,7 @@ crosstalk, PSRR, distortion and switching clicks on real hardware.
 
 | Item | Qty | What it is |
 |------|-----|------------|
-| Channel strip | 4 | Real strip main boards (`channel_strip.kicad_sch`) with their jack boards (`jack_board.kicad_sch`) on the 10-way link, fully populated. The jig tests the boards that will be built, not stand-ins. Panels optional: the controls work without them. Two are built as the OPA1656 variant for the A/B in 4.2 (U1, U5, U6, U7, U12, U13, U14, U15 = TI OPA1656ID; 8 parts per strip; U16 is OPA1656 on every strip). |
+| Channel strip | 4 | Real strip main boards (`channel_strip.kicad_sch`) with their jack boards (`jack_board.kicad_sch`) on the 10-way link, fully populated. The jig tests the boards that will be built, not stand-ins. Panels optional: the controls work without them. Two are built as the OPA1656 variant for the A/B in 4.2 (U1, U5, U6, U7, U12, U13, U14, U15 = TI OPA1656IDR; 8 parts per strip; U16 is OPA1656 on every strip). |
 | Master stub | 1 | Bus side of the master only (section 2). |
 | Load board | 1 | Dummy channels that raise the bus noise gain to the full 24-channel value (section 3). |
 | Ribbon | 2 | 34-way, 28 AWG flat cable with 6 crimped IDC sockets (4 strips, master stub, load board): one 0.6 m (a 12-strip wing, ~0.5 m, plus slack), one 3 m (worst case and the hum-pickup tests). |
@@ -124,7 +124,7 @@ Targets from `tools/sim_netlist.py` (the exported netlists, 30 checks) and `sim/
 
 ### 4.2 OPA1656 A/B (`strip_noise_proposal.md`, N1)
 
-Two strips as built (**A**, OPA1612 but for the U16 input followers) against two with TI OPA1656ID in U1, U5, U6,
+Two strips as built (**A**, OPA1612 but for the U16 input followers) against two with TI OPA1656IDR in U1, U5, U6,
 U7, U12, U13, U14 and U15 (**B**; U2, U3 and U8 stay OPA1612; U16 is OPA1656 on both).
 - **Why:** the simulation (strip v4.4, `strip_noise_proposal.md`) gives B 3.3 dB less PRE noise with EQ in
   (−92.8 → −96.1 dBu) and 2.7 dB less at main L with 24 strips. That comes from removing the OPA1612's current noise

@@ -53,6 +53,6 @@
 "1","-VBUS_R","TestPoint:TestPoint_Keystone_5010-5014_Multipurpose","Keystone 5010","","TP18"
 "2","GNDA","TestPoint:TestPoint_Keystone_5010-5014_Multipurpose","Keystone 5010","","TP19 TP20"
 "6","OPA1612","Package_SO:SOIC-8_3.9x4.9mm_P1.27mm","TI OPA1612AIDR","","U1 U2 U3 U4 U5 U6"
-"1","OPA1656","Package_SO:SOIC-8_3.9x4.9mm_P1.27mm","TI OPA1656ID","","U7"
+"1","OPA1656","Package_SO:SOIC-8_3.9x4.9mm_P1.27mm","TI OPA1656IDR","","U7"
 "1","DRV135","Package_SO:SOIC-8_3.9x4.9mm_P1.27mm","TI DRV135UA","","U8"
 "1","LM393","Package_SO:SOIC-8_3.9x4.9mm_P1.27mm","TI LM393BIDR","","U9"

@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/group.kicad_sch")
-		(date "2026-10-25T23:14:46")
+		(date "2026-10-25T23:20:03")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -8676,7 +8676,7 @@
 			(footprint "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 			(fields
 				(field
-					(name "MPN") "TI OPA1656ID")
+					(name "MPN") "TI OPA1656IDR")
 				(field
 					(name "Footprint") "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 				(field
@@ -8693,7 +8693,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "TI OPA1656ID")
+				(value "TI OPA1656IDR")
 			)
 			(property
 				(name "Sheetname")
@@ -8764,7 +8764,7 @@
 			(footprint "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 			(fields
 				(field
-					(name "MPN") "TI OPA1656ID")
+					(name "MPN") "TI OPA1656IDR")
 				(field
 					(name "Footprint") "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 				(field
@@ -8781,7 +8781,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "TI OPA1656ID")
+				(value "TI OPA1656IDR")
 			)
 			(property
 				(name "Sheetname")
