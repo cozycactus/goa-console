@@ -317,9 +317,9 @@ OPA1656 dual as followers, 1M per leg, 220R in, 100R build-outs.
   - The accepted worst corner goes from 4.24 to about 4.33 A on +V, or 4.37 A if N1 is adopted later.
 - **Placement:** needs a trial. The group board is the narrow 38 mm strip and its return receivers' area is already
   its worst report entry (20 mm).
-- **Normals:** the return R jack's normals feed L (mono into L); the followers keep that. The empty L jack needs its
-  normals to short the legs, which the R jack's use of them for normalling prevents. So 1M bias on an open L input
-  would hiss unless the L jack's own TN / RN go to GNDA.
+- **Normals:** an empty R jack takes the L signal through its normals (mono into L), and the followers keep that.
+  The L jack's own normals are unused today. Wired to GNDA they short an empty L input, so the 1M bias doesn't hiss,
+  and through R's normals they short an empty R input too.
 - **Recommended** if returns will carry synths, otherwise optional.
 
 - [ ] **G2b** Sleeves of every DRV134 TRS output (group sub / aux out, master aux 5 / 6 and C/Room L / R) on CHASSIS.
