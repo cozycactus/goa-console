@@ -166,6 +166,11 @@ jack board) done.
   LME49600 macro, whole-module decks) and ratings / BOM (2026-10-24), analysts + three skeptics; MG1-MG20 signed off
   2026-10-24 and applied (master spec v0.8). Scripts in `sim/review/master/` (`TI_MODELS=... python3 run_all.py none
   all`) and `sim/review/group/` (`python3 sweep.py pots none 0.08`); TI models via TI_MODELS, not in the repo.
+- `gaps_proposal.md` — the strip's unsimulated circuits closed (2026-10-25): overload detector, soft mute, key clicks
+  with real op-amp offsets, 200-strip tolerance Monte Carlo, headroom at every op-amp output (`sim/review/gaps/`:
+  ol.py, ol_fix.py, mute.py, keys.py, mc.py, headroom.py). Findings for sign-off: K1 PFL send DC block (the PFL key
+  ticks up to 11.5 mV on PFL from U3B's bias current at PRE), K3 overload LED attack and ~150 ms hold (misses short
+  peaks today). Everything else passes.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.
 - `film_np_proposal.md` (+ `film_np_proposal.patch`) — film couplers and MUSE ES bipolars, F1-F4 signed off and applied
