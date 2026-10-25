@@ -1,0 +1,8 @@
+part,qty,material,length mm,width mm,thickness mm,notes
+cheek,2,walnut,601,212,20,left and right (mirror); cheek.dxf
+floor,1,birch ply,1235.2,517.0,12,in 6 mm dados; inlet slots + mesh
+arm-rest,1,walnut,1223.2,44,76,between the cheeks
+plenum rear wall,1,walnut,1223.2,80.0,12,NC7MD-LX cut-out
+plenum cap strip,1,walnut,1223.2,14,10,on the rear wall
+frame rails,2,aluminium,1227.2,10,50,"frame/ (front plain, back slotted)"
+felt pads,6,,,,,under the cheek bottoms

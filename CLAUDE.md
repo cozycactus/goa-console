@@ -205,6 +205,8 @@ jack board) done.
   (cut-outs, screws, the Delta-style print). Open: measure the fader law before printing (`panels/README.md`).
 - `frame/` — frame rail drawing (DXF, hole table, A3 PDF) from `python3 tools/frame_fab.py`; front and back rail, the
   back one with the vent slots.
+- `tub/` — tub woodwork drawings (cheek, floor, arm-rest, plenum parts; cut list; A3 PDF) from `python3 tools/tub_fab.py`;
+  `tub_proposal.md`, `docs/tub_elevation.png`.
 - `thermal_study.md` — console tub thermal study and the vented-tub decision (TH1-TH3).
 - `psu_case/` — PSU case drilling (front / rear panels, heatsink, base; DXF, hole table, A3 PDF) from
   `python3 tools/psu_case_fab.py`.
@@ -383,9 +385,14 @@ jack board) done.
   +V LDO junction 108 / 113 C at 30 / 35 C room at the 4.33 A worst corner. Drilling `psu_case/`.
 - Console thermal (signed off by Ruslan 2026-10-26, `thermal_study.md` TH1-TH3): 98 W inside the tub; closed it would
   run ~41 K above the room (31-60 K; MUSE ES ~1.8 years at 4 h/day). Vented tub: floor inlet slots inside the front rail
-  (>= 1.2 m x 20 mm, mesh, 10 mm feet), the back rail's 30 vent slots 30 x 25 mm on its neutral axis
+  (>= 1.2 m x 20 mm, mesh; the underside open, `tub_proposal.md`), the back rail's 30 vent slots 30 x 25 mm on its neutral axis
   (`panel_layout.vent_slots()`), a back-trim plenum with a top slot (>= 1.2 m x 20 mm): ~16 K. No fan (a 120 mm fan is the
   fallback if the built console's rise exceeds 20 K); MUSE ES kept. Model `sim/review/thermal/tub_thermal.py`.
+- Tub (signed off by Ruslan 2026-10-26, `tub_proposal.md` TB1-TB4): walnut cheeks (601 x 212, carrying the 9 deg tilt,
+  on the desk), 12 mm birch-ply floor in dados with 30 inlet slots 100 x 10 + mesh, walnut arm-rest, plenum (12 mm rear
+  wall with the NC7MD-LX, 14 mm cap strip; the 21 mm channel's open top is the outlet, 0.026 m2), open underside; console
+  raised 25 mm (panel front edge 99 mm above the desk). Supply cable through back-rail vent slot 14. Geometry in
+  `panel_layout.py`; drawings `tub/` (`python3 tools/tub_fab.py`).
 - Faders (2026-10-23): Bourns PTB0143-2010BPA103 (strips, groups) / PTB0144-2010BPA103 (master), stocked, BP lever
   (8.0 x 1.3 mm flat blade, 5.0 mm above the panel), caps Sifam LK110 tang 01 (8.0 x 1.2, socket 4.0 deep: 1.0 mm
   above the panel; the Delta's "SIF low profile" knob; black LK111 01 with a white line (KC2, 2026-10-25;

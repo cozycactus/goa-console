@@ -59,7 +59,34 @@ the back rail's slots and the plenum.*
 
 ## Sign-off
 
-- [ ] **TB1** Construction as tabled: walnut cheeks, arm-rest and plenum; 12 mm ply floor in dados.
-- [ ] **TB2** Floor inlet slots plus open underside; plenum outlet slot.
-- [ ] **TB3** NC7MD-LX in the plenum rear wall, cable through back-rail slot 14.
-- [ ] **TB4** Generate the tub drawings and update the 3D model (raised 25 mm).
+Signed off by Ruslan on 2026-10-26: TB1–TB4 as proposed.
+
+- [x] **TB1** Construction as tabled: walnut cheeks, arm-rest and plenum; 12 mm ply floor in dados.
+- [x] **TB2** Floor inlet slots plus open underside; plenum outlet slot.
+- [x] **TB3** NC7MD-LX in the plenum rear wall, cable through back-rail slot 14.
+- [x] **TB4** Generate the tub drawings and update the 3D model (raised 25 mm).
+
+## Applied (2026-10-26)
+
+- **Shared geometry:** `panel_layout.py` holds the tub's numbers (`to_desk()`, `cheek_outline()`, `inlet_slots()` and the
+  floor / arm-rest / plenum constants). They are shared by `tools/tub_fab.py` and the 3D model.
+- **Plenum outlet, changed while drawing:** a 22 mm slot cut into a 35 mm cap would have left a 0.5 mm sliver. The cap is
+  now a 14 mm strip on the rear wall, and the whole top of the 21 mm channel in front of it is the outlet:
+  21 × 1223 mm, 0.026 m² (≥ 0.024).
+- **`tools/tub_fab.py` → `tub/`:**
+  - `cheek.dxf`: the left cheek's outside face, with rail rebates, floor dado and counterbored screw holes; the right
+    cheek is its mirror;
+  - `floor.dxf`: 30 inlet slots 100 × 10 in three rows, 0.030 m²;
+  - `armrest.dxf`, `rear_wall.dxf` (NC7MD-LX cut-out at x 610.3), `cap.dxf`;
+  - `cutlist.csv` and an A3 `tub.pdf`.
+
+  The script checks every cheek feature against the outline, the NC7 against the rear wall, the floor clearance under
+  the rails and the outlet area.
+- **3D model:**
+  - raised 25 mm (`MOUNT_Z` 165), with no base wedge;
+  - the cheeks from the shared outline;
+  - the floor built with its slots (4 strips, 33 bridges);
+  - the arm-rest, the plenum rear wall and cap, and the NC7MD-LX on the rear wall;
+  - the supply cable from the NC7 through back-rail slot 14 and along the floor to J1.
+
+  Checked in renders: a section through the master, the empty tub, and the floor slots from above.

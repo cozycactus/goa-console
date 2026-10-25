@@ -333,10 +333,18 @@ WIRE = ['wire_green', 'wire_red', 'wire_red', 'wire_black', 'wire_black', 'wire_
                                               # CHASSIS, +VBUS x2, GNDA x2, -VBUS x2 (master.net)
 def psu_cable(c, p, e, zb, z_floor=-41.5):
     """Supply cable to the master's 7-way terminal J1 (bottom side; the wires enter on the footprint's front, board +y):
-    seven wires out of a jacket that comes along the tub floor from the back of the console."""
+    seven wires out of a jacket from the NC7MD-LX in the plenum's rear wall, through the back rail's vent slot
+    CABLE_SLOT (tub_proposal.md TB3) and along the tub floor. Master-module coordinates."""
     lo = min((ch.matrix_world @ Vector(cr)).z for ch in e.children_recursive if ch.type == 'MESH' for cr in ch.bound_box) / S
     ze = zb - 0.45 * (zb - lo); ye = p['box'][3] - 0.5; xm = p['x'] - 3 * 5.08
-    me = cable.round_cable(cable.smooth([(xm, -30, z_floor), (xm, 0, z_floor), (xm, 120, z_floor), (xm, ye + 14, z_floor)], 6), 3.5)
+    mx = 14 * PITCH                                                   # the master's x in the console
+    xn = panel_layout.NC7_X - mx
+    xs = panel_layout.rail_span()[0] + panel_layout.vent_slots()[panel_layout.CABLE_SLOT] - mx
+    zn = (panel_layout.FLOOR_TOP - panel_layout.FLOOR_T + panel_layout.PLENUM_CAP_Z) / 2
+    zs = panel_layout.PANEL_Z0 - panel_layout.RAIL_H / 2                # the slot's centre
+    yr = panel_layout.RAIL_LINES[0]
+    me = cable.round_cable(cable.smooth([(xn, -40, zn), (xn, -26, zn), (xs, -24, zs), (xs, yr - 8, zs), (xs, yr + 8, zs),
+                                         (xs, 25, zs - 8), (xs, 45, z_floor), (xm, 120, z_floor), (xm, ye + 14, z_floor)], 6), 3.5)
     for k, wm in enumerate(WIRE):
         xk = p['x'] - 5.08 * k
         me.merge(cable.round_cable(cable.smooth([(xk, ye - 4, ze), (xk, ye + 4, ze), (xk + 0.5 * (xm - xk), ye + 9, ze - 10),
@@ -525,12 +533,28 @@ for yc in panel_layout.RAIL_LINES:                  # 10 x 50 flat-bar rails, 2 
     xs = [r0] + [r0 + c + s * panel_layout.VENT_W / 2 for c in panel_layout.vent_slots() for s in (-1, 1)] + [r1]
     for k in range(0, len(xs), 2):                    # the webs between the slots
         box(f'rail back web {k // 2}', xs[k], y0r, zs0, xs[k + 1], y1r, zs1, M['alu'], frame).parent = root
-box('tub floor', -2, -12, TUB - 2, width + 2, 504, TUB, M['hdr'], frame).parent = root
-box('arm-rest', -22, 504, TUB, width + 22, 548, PANEL_Z1 + 6, M['wood'], frame).parent = root
-box('back trim', -22, -40, TUB, width + 22, -12, PANEL_Z1 + 10, M['wood'], frame).parent = root
-TILT = 9.0                                        # front (fader end) lower, towards the engineer
+PL = panel_layout                                 # the tub (tub_proposal.md TB1-TB4): floor with inlet slots, arm-rest, plenum
+fz0, fz1 = PL.FLOOR_TOP - PL.FLOOR_T, PL.FLOOR_TOP
+fx0, fx1 = -PL.CHEEK_GAP - PL.DADO, width + PL.CHEEK_GAP + PL.DADO
+rows = sorted(PL.INLET_ROWS); ys = [PL.FLOOR_Y[0]]
+for r in rows: ys += [r - PL.INLET_W / 2, r + PL.INLET_W / 2]
+ys.append(PL.FLOOR_Y[1])
+for k in range(0, len(ys), 2):                    # solid strips between the slot rows
+    box(f'tub floor {k // 2}', fx0, ys[k], fz0, fx1, ys[k + 1], fz1, M['hdr'], frame).parent = root
+for r in rows:                                    # the bridges between the slots of each row
+    sl = sorted((a, b) for a, b, y in PL.inlet_slots() if y == r)
+    edges = [fx0] + [v for a, b in sl for v in (a, b)] + [fx1]
+    for k in range(0, len(edges), 2):
+        box(f'tub floor bridge {r:.0f} {k // 2}', edges[k], r - PL.INLET_W / 2, fz0, edges[k + 1], r + PL.INLET_W / 2, fz1, M['hdr'], frame).parent = root
+box('arm-rest', -PL.CHEEK_GAP, PL.ARM_Y[0], fz0, width + PL.CHEEK_GAP, PL.ARM_Y[1], PL.ARM_TOP, M['wood'], frame).parent = root
+box('plenum rear wall', -PL.CHEEK_GAP, PL.PLENUM_WALL_Y[0], fz0, width + PL.CHEEK_GAP, PL.PLENUM_WALL_Y[1], PL.PLENUM_CAP_Z, M['wood'], frame).parent = root
+box('plenum cap', -PL.CHEEK_GAP, PL.PLENUM_CAP_Y[0], PL.PLENUM_CAP_Z, width + PL.CHEEK_GAP, PL.PLENUM_CAP_Y[1], PL.PLENUM_CAP_Z + PL.PLENUM_CAP_T, M['wood'], frame).parent = root
+zn = (fz0 + PL.PLENUM_CAP_Z) / 2                  # the NC7MD-LX on the rear wall's outside (D-size flange and barrel)
+box('NC7MD-LX flange', PL.NC7_X - 13, PL.PLENUM_WALL_Y[0] - 2.5, zn - 15.5, PL.NC7_X + 13, PL.PLENUM_WALL_Y[0], zn + 15.5, M['steel'], frame).parent = root
+box('NC7MD-LX body', PL.NC7_X - 11, PL.PLENUM_WALL_Y[1], zn - 11, PL.NC7_X + 11, PL.PLENUM_WALL_Y[1] + 19, zn + 11, M['plastic'], frame).parent = root
+TILT = PL.TILT_DEG                                # front (fader end) lower, towards the engineer
 root.rotation_euler[0] = math.radians(TILT)
-root.location = (-width / 2 * S, 0.25, 0.14)
+root.location = (-width / 2 * S, PL.MOUNT_Y * S, PL.MOUNT_Z * S)
 bpy.context.view_layer.update()
 def W(px, py, pz):
     """World position of a point in module coordinates (mm, board y down)."""
@@ -544,13 +568,9 @@ def prism(name, xw0, xw1, prof, m, c):
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     me = bpy.data.meshes.new(name); bm.to_mesh(me); bm.free(); me.materials.append(m)
     o = bpy.data.objects.new(name, me); c.objects.link(o); return o
-def wedge(name, x0, x1, z_back, z_front, m):
-    """Wedge from the desk (z = 0) up to the tilted console, module x x0..x1 (mm)."""
-    tb, tf = W(0, -40, z_back), W(0, 548, z_front)
-    return prism(name, root.location.x + x0 * S, root.location.x + x1 * S, [(tb.y, tb.z), (tf.y, tf.z), (tf.y, 0.0), (tb.y, 0.0)], m, frame)
-wedge('base', -2, width + 2, TUB, TUB, M['hdr'])
-for xc in (-panel_layout.CHEEK_GAP - 20.0, width + panel_layout.CHEEK_GAP):    # inner faces CHEEK_GAP from the console
-    wedge(f'cheek {xc:.0f}', xc, xc + 20, PANEL_Z1 + 24, PANEL_Z1 + 8, M['wood'])
+for xc in (-PL.CHEEK_GAP - PL.CHEEK_T, width + PL.CHEEK_GAP):  # cheeks: the shared outline (on the desk; nothing under the floor)
+    prism(f'cheek {xc:.0f}', root.location.x + xc * S, root.location.x + (xc + PL.CHEEK_T) * S,
+          [(yy * S, zz * S) for yy, zz in PL.cheek_outline()], M['wood'], frame)
 box('desk', -3000, -2500, -20, 3000, 2500, 0, M['floor'], scene.collection)
 
 # ---------------------------------------------------------------- render setup

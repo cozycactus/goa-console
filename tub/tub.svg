@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420mm" height="297mm" viewBox="0 0 420 297" font-family="Arial Narrow, Arial">
+<rect width="420" height="297" fill="white"/><text x="20" y="14" font-size="5" font-weight="bold">goa console: tub (tub_proposal.md TB1-TB4)</text>
+<polygon points="20.00,150.00 20.00,65.28 260.35,109.99 260.35,150.00" style="fill:#f3e7d6;stroke:#000;stroke-width:.3"/>
+<polygon points="34.99,98.40 38.94,99.02 42.06,79.27 38.11,78.64" style="fill:#ccd;stroke:#225;stroke-width:.25"/>
+<polygon points="235.68,130.18 239.63,130.81 242.76,111.06 238.81,110.43" style="fill:#ccd;stroke:#225;stroke-width:.25"/>
+<polygon points="33.83,105.71 238.08,138.06 238.83,133.32 34.58,100.96" style="fill:#e8d39a;stroke:#875;stroke-width:.25"/>
+<circle cx="39.31" cy="83.89" r="1.20" fill="none" stroke="red" stroke-width=".25"/>
+<circle cx="37.74" cy="93.77" r="1.20" fill="none" stroke="red" stroke-width=".25"/>
+<circle cx="240.01" cy="115.68" r="1.20" fill="none" stroke="red" stroke-width=".25"/>
+<circle cx="238.44" cy="125.56" r="1.20" fill="none" stroke="red" stroke-width=".25"/>
+<circle cx="248.20" cy="130.43" r="1.20" fill="none" stroke="red" stroke-width=".25"/>
+<circle cx="250.10" cy="118.42" r="1.20" fill="none" stroke="red" stroke-width=".25"/>
+<circle cx="23.87" cy="94.41" r="1.20" fill="none" stroke="red" stroke-width=".25"/>
+<circle cx="25.87" cy="81.77" r="1.20" fill="none" stroke="red" stroke-width=".25"/>
+<circle cx="28.08" cy="70.37" r="1.20" fill="none" stroke="red" stroke-width=".25"/>
+<text x="20" y="158" font-size="3.2">Left cheek, outside face, 1:2.5 (right: mirror). Blue: rail rebates 10 x 50 x 2 deep, inside face. Tan: floor dado 6 deep, inside. Red: Ø4.5 through, Ø8 x 4 counterbore outside.</text>
+<text x="20" y="176" font-size="3.4"><tspan font-weight="bold">Floor: </tspan>birch ply 12, 1235.2 x 517.0: 30 inlet slots 100 x 10 in 3 rows at 468, 483, 498 from its back edge, mesh underneath</text>
+<text x="20" y="183" font-size="3.4"><tspan font-weight="bold">Arm-rest: </tspan>walnut 44 x 76, length 1223.2, between the cheeks, front top edge R10</text>
+<text x="20" y="190" font-size="3.4"><tspan font-weight="bold">Plenum rear wall: </tspan>walnut 12, 1223.2 x 80.0: NC7MD-LX (Ø24 + 2 x Ø3.2) at x 610.3, mid-height; the console's rear panel</text>
+<text x="20" y="197" font-size="3.4"><tspan font-weight="bold">Plenum cap strip: </tspan>walnut 10 x 14, length 1223.2, on the rear wall; the 21 mm channel in front of it is the open outlet (0.026 m2)</text>
+<text x="20" y="204" font-size="3.4"><tspan font-weight="bold">Under the floor: </tspan>open front and back between the cheeks (no base panel): the inlet air comes in there; felt pads under the cheeks</text>
+<text x="20" y="211" font-size="3.4"><tspan font-weight="bold">Supply cable: </tspan>from the NC7MD-LX through back-rail vent slot 14 (30 x 25) and along the floor to the master's J1</text>
+<text x="20" y="288" font-size="2.8">Dimensions in mm, from the 3D model's geometry (tools/panel_layout.py). Joints: dowels / screws and glue, from outside through the cheeks.</text></svg>

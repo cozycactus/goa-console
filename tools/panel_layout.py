@@ -26,6 +26,43 @@ RAIL_LINES = (Y0 + 3.0, Y1 - 3.0)
 # 2026-10-26): 30 slots 30 x 25 mm through its 10 mm thickness, centred on its neutral axis, evenly from 40 mm in
 VENT_SLOTS, VENT_W, VENT_H, VENT_IN = 30, 30.0, 25.0, 40.0
 
+# the tub (tub_proposal.md TB1-TB4, signed off 2026-10-26), module frame: x along the console, y as the boards (back
+# negative), z up from the main-board top (panel underside at PANEL_Z0, top at PANEL_Z1); mm
+PANEL_Z0, PANEL_Z1 = 11.5, 13.0
+TILT_DEG, MOUNT_Y, MOUNT_Z = 9.0, 250.0, 165.0     # console tilt (front lower); where the module origin sits over the desk
+FLOOR_TOP, FLOOR_T, DADO = -45.0, 12.0, 6.0        # 12 mm ply floor in 6 mm dados
+FLOOR_Y = (-13.0, 504.0)                           # back rail's outer face .. arm-rest's inner face
+INLET_ROWS, INLET_W, INLET_L, INLET_BRIDGE = (455.0, 470.0, 485.0), 10.0, 100.0, 15.0   # floor inlet slots (TB2)
+ARM_Y, ARM_TOP = (504.0, 548.0), PANEL_Z1 + 6.0
+# plenum: a 12 mm rear wall, a 14 mm cap strip on top of it; between the wall and the back rail a 21 mm channel whose
+# whole top is the outlet (21 x 1223 mm = 0.026 m2; a cap with a cut slot would leave a 0.5 mm sliver)
+PLENUM_WALL_Y, PLENUM_CAP_Y, PLENUM_CAP_Z, PLENUM_CAP_T = (-48.0, -36.0), (-48.0, -34.0), PANEL_Z1 + 10.0, 10.0
+CHEEK_T, CHEEK_TOP = 20.0, (PANEL_Z1 + 24.0, PANEL_Z1 + 8.0)   # cheek top line above the panel at the back / front
+NC7_X = 14 * PITCH + X0 + WIDTH['master'] / 2   # the master panel's centre (console x): the NC7MD-LX in the rear wall
+CABLE_SLOT = 14                                    # back-rail vent slot the supply cable passes
+
+def to_desk(y, z):
+    """Module (y, z) -> side elevation over the desk (Y back, Z up), mm."""
+    t = math.radians(TILT_DEG)
+    return (y * -math.cos(t) - z * math.sin(t) + MOUNT_Y, -y * math.sin(t) + z * math.cos(t) + MOUNT_Z)
+
+def cheek_outline():
+    """The cheek's side profile over the desk [(Y, Z)]: the top line 24 / 8 above the panel, extended back to cover the
+    plenum's rear wall; vertical back and front; the bottom on the desk."""
+    tb, tf = to_desk(PLENUM_WALL_Y[0], CHEEK_TOP[0]), to_desk(ARM_Y[1], CHEEK_TOP[1])
+    yb = to_desk(PLENUM_WALL_Y[0], FLOOR_TOP - FLOOR_T)[0]
+    zb = tb[1] + (tf[1] - tb[1]) * (yb - tb[0]) / (tf[0] - tb[0])
+    return [(yb, 0.0), (yb, zb), tf, (tf[0], 0.0)]
+
+def inlet_slots():
+    """Floor inlet slots [(x0, x1, y)] in console x (the floor spans the console between the cheeks)."""
+    w = console_width(); x0 = -CHEEK_GAP; x1 = w + CHEEK_GAP; out = []
+    n = int((x1 - x0 - INLET_BRIDGE) // (INLET_L + INLET_BRIDGE))
+    start = x0 + (x1 - x0 - (n * INLET_L + (n - 1) * INLET_BRIDGE)) / 2
+    for y in INLET_ROWS:
+        out += [(start + k * (INLET_L + INLET_BRIDGE), start + k * (INLET_L + INLET_BRIDGE) + INLET_L, y) for k in range(n)]
+    return out
+
 def vent_slots():
     """Centres of the back rail's vent slots, x from the rail's left end."""
     r0, r1 = rail_span(); ln = r1 - r0

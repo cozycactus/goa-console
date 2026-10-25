@@ -95,6 +95,7 @@ Signed off by Ruslan on 2026-10-26: TH1–TH3 as proposed.
 - **3D model:** the back rail is built slotted (top and bottom strips and 31 webs).
 - **Tub requirements** for the woodwork drawings (`offboard_bom.md` Tub row):
   - floor inlet slots inside the front rail, at least 1.2 m × 20 mm free area, with mesh;
-  - feet giving a 10 mm air gap under the tub;
+  - feet giving a 10 mm air gap under the tub (superseded by `tub_proposal.md` TB2: the underside is open between the
+    cheeks, with 30 mm under the front of the floor);
   - a back-trim plenum open to the back rail's slots, with a top slot of at least 1.2 m × 20 mm facing up and back.
 - **No fan** (TH2); MUSE ES kept (TH3).
