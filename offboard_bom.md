@@ -14,8 +14,9 @@ boards. Dimensions and rules come from `panel_parts_drawings.md`, strip spec §1
 
 | Item | Per strip / group / master | Console | Status | Part or rule |
 |---|---|---|---|---|
-| Knob, 1/4" (6.35) round shaft | 14 / 2 / 5 | 349 | **decide** | About Ø13 (Delta: 14, 12.5 on MID FREQ), collet or set-screw. It must clear the 10 AF × 2.0 nut, with 9.6 mm of shaft above the nut. Colours per function, from the knob caps only (`panel_print.md`). |
-| Knob, 6 mm D shaft (pan, RK09L) | 1 / 1 / 0 | 28 | **decide** | The 6 mm D version of the above knob (flat 4.5 across, 7 long). |
+| Knob, 1/4" (6.35) round shaft | 14 / 2 / 5 | 349 | code | **Elma 021-3525**: classic collet knob Ø14.5, matt black with a line (`knob_proposal.md` KN1, signed off 2026-10-25); no nut cover |
+| Knob cap | 15 / 3 / 5 | 377 | code | **Elma 040-30x5**, matt, without a line (KN3): red 040-3035 ×25, grey 040-3015 ×98, blue 040-3045 ×76, yellow 040-3055 ×50, green 040-3065 ×50, black 040-3025 ×78 (colour per function in `knob_proposal.md`) |
+| Knob, 6 mm D shaft (pan, RK09L) | 1 / 1 / 0 | 28 | code | **Elma 021-3425**: the same knob with a 6 mm collet |
 | PV cap for PVA2 | 13 / 7 / 3 | 343 | **decide** colours | C&K PV cap, round Ø7.4 × 7; colours RD / GY / BK / WH only (no yellow or orange). Panel hole Ø8.0. |
 | Fader cap | 1 / 1 / 1 | 29 | code, colours **decide** | Sifam LK110 tang 01 (RS 281-7197 is the black one). The model uses white on strips, red on groups and yellow on the master; colours from pot4audio / D&R. Sample-check the 1.2 socket on a real BP blade first. |
 | Fader screws | 2 / 2 / 2 | 58 | rule | M3 into the PTB cover's tapped holes, 120.0 apart, through the 1.5 panel and the 3.5 spacer. M3 × 8 countersunk if the panel is countersunk. |
@@ -68,8 +69,7 @@ boards. Dimensions and rules come from `panel_parts_drawings.md`, strip spec §1
 
 ## Decisions this list needs from you
 
-1. **Knobs** (proposal in `knob_proposal.md`: Elma Ø14.5 collet knobs with 040 caps, KN1-KN3). Part, size and colour per function. 349 for 1/4" round shafts, 28 for the 6 mm D pan shaft. It needs a
-   1/4" round-shaft knob with a matching 6 mm D version, about Ø13, and enough clearance over the M7 nut.
+1. ~~Knobs~~: decided, Elma 021-3525 / 021-3425 with 040-30x5 caps (`knob_proposal.md`, 2026-10-25).
 2. **PV cap colours** per key function (RD / GY / BK / WH).
 3. **Fader cap colours** (LK110 tang 01).
 4. **Panel maker.** The fabrication drawings are in `panels/`. Measure the fader law before printing

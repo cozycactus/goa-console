@@ -32,7 +32,7 @@ The knob is the last undecided panel part (`offboard_bom.md`). The 3D model and 
 
 **KN2. The print and the model at Ø14.5.**
 - **Print:** `models3d/knob.py` D_KNOB 13 → 14.5; the dot ring and numerals scale with it (`panel_layout.py`).
-- **Measured on the generated panels:**
+- **Measured on the generated panels** (before the edge rule below):
   - the print keeps every name and all but one ring numeral (strip 157 of 158);
   - closest gaps: GAIN knob to the OL LED 2.77 mm (was 3.52), knob to knob 5.82 mm (was 7.32);
   - no cut-out changes.
@@ -62,6 +62,26 @@ The knob is the last undecided panel part (`offboard_bom.md`). The 3D model and 
 
 ## Sign-off
 
-- [ ] **KN1** Elma 021-3525 (1/4") and 021-3425 (6 mm) collet knobs, Ø14.5, matt black with a line; no nut covers.
-- [ ] **KN2** Panel print and 3D model at Ø14.5 (C/ROOM the same knob); panels regenerated.
-- [ ] **KN3** Elma 040-30x5 matt caps, colours as in the table (or your own mapping in these six colours).
+Signed off by Ruslan on 2026-10-25: KN1–KN3 as proposed, C/ROOM the same knob.
+
+- [x] **KN1** Elma 021-3525 (1/4") and 021-3425 (6 mm) collet knobs, Ø14.5, matt black with a line; no nut covers.
+- [x] **KN2** Panel print and 3D model at Ø14.5 (C/ROOM the same knob); panels regenerated.
+- [x] **KN3** Elma 040-30x5 matt caps, colours as in the table (or your own mapping in these six colours).
+
+## Applied (2026-10-25)
+
+- **Model:** `tools/models3d/knob.py` is the Elma Ø14.5 (body 15 high, Ø11 cap, line on the rim and side; it sits 0.4 above
+  the M7 nut). The "big" C/ROOM knob is gone everywhere: `alpha_pot` / `alps_rk09l` `panel()`, `console_3d.py`,
+  `panel_layout.py`.
+- **Colours:** set in `panel_layout.py` as in the KN3 table. The model shows one group design, so its AUX cap is yellow;
+  groups 3–4 take green.
+- **Print:** the larger ring put the 3 / 9 o'clock numerals of the edge-column pots off the plate, and numerals of
+  neighbouring knobs met between the columns ("9 50"). Two rules in `panel_layout.panel_print()` now drop:
+  - an optional numeral within 0.5 mm of the plate edge;
+  - an optional numeral within 1.2 mm of another knob's text (0.3 mm within one knob's ring).
+  
+  Strip ring numerals and units: 158 at Ø13 → 137; master 79 → 75; group 42 → 39. Every name, end-of-scale numeral and
+  centre mark still prints; the drops are inner numerals (9s, 8s, 2s) on the crowded side.
+- **Panels:** `panels/` regenerated; strip, group and master pass every check. Closest knob gaps: 2.77 mm to the OL LED
+  (strip), 5.82 mm knob to knob (master), 6.21 mm (group). Cut-outs unchanged.
+- **3D model:** rebuilt with the new knob (Blender 5.2).

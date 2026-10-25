@@ -63,4 +63,5 @@ has been re-exported.
   - PTB pin side and slot fixings on a 1:1 print;
   - M9 nut thickness on the RK09L;
   - the Alpha bushing's thread (no spare thread with the 1.5 mm spacer).
-- **Knob and cap colours** are not decided (`offboard_bom.md`). They don't change the drawings: the print is one ink.
+- **Knobs:** Elma Ø14.5 collet knobs (`knob_proposal.md`). The dot rings and numerals are drawn for that diameter. A
+  numeral that would come within 0.5 mm of the plate edge, or within 1.2 mm of another knob's numeral, is left out.

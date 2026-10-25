@@ -17,7 +17,6 @@ import bpy, bmesh, inspect, json, math, os, subprocess, sys
 from mathutils import Vector, Matrix
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from models3d import lookup, STACK, cable
-from models3d.knob import D_KNOB, D_BIG
 from models3d.blend import to_mesh
 import panel_layout
 from panel_layout import NAMES, POTS, KNOB_ANGLE, led_state, HP
@@ -393,7 +392,7 @@ def module(key):
                 me = shared(('part', fp, lat), lambda: to_mesh(mod.build(**part_kw(mod.build, kw, pos=FADER_POS, latched=lat)), short))
                 put(f'{ref} {kind}', me, cb, p['x'], p['y'], zb if flip else zt, p['rot'], flip)
                 if not (mod.FEATURE and f): continue
-                pk = part_kw(mod.panel, kw, colour=colour or 'grey', big=name == 'C/ROOM', pos=FADER_POS, latched=lat)
+                pk = part_kw(mod.panel, kw, colour=colour or 'grey', pos=FADER_POS, latched=lat)
                 pm = shared(('panel', fp, tuple(sorted(pk.items()))),
                             lambda: (lambda g: g and to_mesh(g, f'{short} panel {colour or ""}'))(mod.panel(**pk)))
                 if pm:

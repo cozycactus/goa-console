@@ -93,6 +93,6 @@ def nut():
     return m
 
 
-def panel(colour='grey', big=False, angle=0.0):
+def panel(colour='grey', angle=0.0):
     """Nut on the panel and the knob (6 mm bore: the same knob family as the 1/4" pots, its 6 mm version)."""
-    return nut().merge(_knob.build(colour=colour, big=big, angle=angle, bore=D_SHAFT))
+    return nut().merge(_knob.build(colour=colour, angle=angle, bore=D_SHAFT))

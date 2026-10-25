@@ -350,6 +350,10 @@ jack board) done.
   L jack normals short an empty return / EXT. +78 mA per rail; worst corner ~4.33 A on +V.
 - Strip v4.5 (signed off by Ruslan 2026-10-25, `gaps_proposal.md` K1 / K3): C96 2.2 µF film in series with R32 (PFL
   send DC block); overload detector C12 100n and U4B as a ~150 ms hold stage (R115 1M, C97 220n).
+- Knobs (signed off by Ruslan 2026-10-25, `knob_proposal.md` KN1-KN3): Elma classic collet knob Ø14.5, matt black with
+  a line, 021-3525 (1/4", 349) and 021-3425 (6 mm, RK09L pans, 28); no nut covers. Caps Elma 040-30x5 matt without a
+  line: GAIN / SOLO red, EQ gains / C/ROOM / PHONES grey, FREQs / HPF / RETURN blue, AUX 1-2 yellow, AUX 3-4 green, AUX
+  5-6 / PAN / SUB PAN black. C/ROOM takes the same knob. Print and model at Ø14.5 (`models3d/knob.py`, `panel_layout.py`).
 - Faders (2026-10-23): Bourns PTB0143-2010BPA103 (strips, groups) / PTB0144-2010BPA103 (master), stocked, BP lever
   (8.0 x 1.3 mm flat blade, 5.0 mm above the panel), caps Sifam LK110 tang 01 (8.0 x 1.2, socket 4.0 deep: 1.0 mm
   above the panel; the Delta's "SIF low profile" knob; RS 281-7197 black, colours from pot4audio / D&R; white inputs,

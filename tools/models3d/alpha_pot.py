@@ -122,6 +122,6 @@ def nut():
     return m
 
 
-def panel(dual=False, colour='grey', big=False, angle=0.0):
+def panel(dual=False, colour='grey', angle=0.0):
     """Nut on the panel (the bushing ends flush with it) and the knob on the shaft above it."""
-    return nut().merge(_knob.build(colour=colour, big=big, angle=angle))
+    return nut().merge(_knob.build(colour=colour, angle=angle))

@@ -4,10 +4,10 @@ tools/panel_fab.py the fabrication drawings, so the two can't drift apart.
 
 Coordinates are board mm (x right, y down), the module's frame: main board at x 0..38.1, y 44..444; the panel spans
 x X0 .. X0 + width, y Y0 .. Y1 (12U = 4 x 128.5 = 514 mm). Rules for the print: panel_print.md."""
-import inspect, json, math, os, sys
+import json, math, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from models3d import lookup
-from models3d.knob import D_KNOB, D_BIG
+from models3d.knob import D_KNOB                # Elma Ø14.5 on every pot (knob_proposal.md KN2)
 
 HP = 5.08
 WIDTH = {'strip': 8 * HP - 0.34, 'group': 8 * HP - 0.34, 'master': 16 * HP - 0.34}   # 40.30 / 80.94 mm
@@ -16,25 +16,26 @@ SCREW_D = 3.2                                  # M3 panel screws on the end rail
 LABEL = {'master': 'MASTER'}
 
 # ---------------------------------------------------------------- legends and colours per module
-# Switch caps are C&K PV: red, grey, black, white (green in the ordering code only); knob caps are placeholders;
-# fader caps Sifam LK110 as the Delta: white inputs, red groups, yellow master.
-STRIP = {'RV9': ('GAIN', 'red'), 'RV10': ('HF', 'white'), 'RV11': ('HI-MID', 'white'), 'RV12': ('FREQ', 'dblue'),
-         'RV13': ('LO-MID', 'white'), 'RV14': ('FREQ', 'dblue'), 'RV15': ('LF', 'white'), 'RV2': ('AUX 1', 'yellow'),
-         'RV3': ('AUX 2', 'yellow'), 'RV4': ('AUX 3', 'green'), 'RV5': ('AUX 4', 'green'), 'RV6': ('AUX 5', 'orange'),
-         'RV7': ('AUX 6', 'orange'), 'RV8': ('PAN', 'grey'), 'RV16': ('', 'dblue'),     # HPF FREQ: the key above names it
+# Switch caps are C&K PV: red, grey, black, white (green in the ordering code only); knob caps Elma 040-30x5 (red, grey,
+# blue, yellow, green, black; knob_proposal.md KN3); fader caps Sifam LK110 as the Delta: white inputs, red groups, yellow
+# master. The group's AUX cap is yellow on groups 1-2 and green on 3-4 (the model shows one group design: yellow).
+STRIP = {'RV9': ('GAIN', 'red'), 'RV10': ('HF', 'grey'), 'RV11': ('HI-MID', 'grey'), 'RV12': ('FREQ', 'blue'),
+         'RV13': ('LO-MID', 'grey'), 'RV14': ('FREQ', 'blue'), 'RV15': ('LF', 'grey'), 'RV2': ('AUX 1', 'yellow'),
+         'RV3': ('AUX 2', 'yellow'), 'RV4': ('AUX 3', 'green'), 'RV5': ('AUX 4', 'green'), 'RV6': ('AUX 5', 'black'),
+         'RV7': ('AUX 6', 'black'), 'RV8': ('PAN', 'black'), 'RV16': ('', 'blue'),     # HPF FREQ: the key above names it
          'SW15': ('Ø', 'grey'), 'SW11': ('HPF', 'grey'), 'SW12': ('EQ', 'grey'), 'SW8': ('PRE 1-2', 'grey'),
          'SW9': ('PRE 3-4', 'grey'), 'SW10': ('PRE 5-6', 'grey'), 'SW14': ('PAN', 'grey'), 'SW13': ('DIR', 'black'),
          'SW5': ('L-R', 'white'), 'SW6': ('1-2', 'white'), 'SW7': ('3-4', 'white'), 'SW3': ('PFL', 'red'), 'SW4': ('ON', 'green'),
          'D2': ('OL', 'red'), 'D3': (None, 'off'), 'D4': (None, 'green'), 'D5': (None, 'green'), 'D6': (None, 'yellow'),
          'D7': (None, 'off'), 'D8': (None, 'off'),
          'J1': ('LINE IN', None), 'J2': ('INSERT', None), 'J5': ('DIRECT', None), 'RV1': ('', 'white')}
-GROUP = {'RV4': ('RETURN', 'blue'), 'RV3': ('AUX', 'yellow'), 'RV2': ('SUB PAN', 'grey'),
+GROUP = {'RV4': ('RETURN', 'blue'), 'RV3': ('AUX', 'yellow'), 'RV2': ('SUB PAN', 'black'),
          'SW7': ('PFL', 'red'), 'SW3': ('AFL', 'red'), 'SW1': ('MIX', 'white'), 'SW4': ('MIX', 'white'),
          'SW5': ('1-2', 'white'), 'SW6': ('3-4', 'white'), 'SW2': ('AFL', 'red'),
          'D1': (None, 'off'), 'D2': (None, 'off'), 'D3': (None, 'off'),
          'J2': ('SUB OUT', None), 'J1': ('INSERT', None), 'J3': ('AUX OUT', None), 'J4': ('RET L', None),
          'J5': ('RET R', None), 'RV1': ('SUB', 'red')}
-MASTER = {'RV2': ('AUX 5', 'orange'), 'RV3': ('AUX 6', 'orange'), 'RV5': ('C/ROOM', 'white'), 'RV6': ('PHONES', 'white'),
+MASTER = {'RV2': ('AUX 5', 'black'), 'RV3': ('AUX 6', 'black'), 'RV5': ('C/ROOM', 'grey'), 'RV6': ('PHONES', 'grey'),
           'RV4': ('SOLO', 'red'), 'SW1': ('AFL', 'red'), 'SW2': ('AFL', 'red'), 'SW3': ('EXT', 'grey'),
           'D12': (None, 'off'), 'D13': (None, 'off'), 'D3': ('POWER', 'green'), 'D15': ('PFL', 'off'),
           'J1': ('INS L', None), 'J2': ('INS R', None), 'J10': ('C/R L', None), 'J11': ('C/R R', None),
@@ -126,6 +127,8 @@ class Panel:
         circles += [(x, y, SCREW_D) for x, y in self.screws]
         return circles, slots
 
+EDGE = 0.5                                     # print (estimated text box) to the plate edge, for the optional numerals
+
 def text_box(s, size):
     """The print's text size estimate (Arial Narrow): width, height in mm."""
     return 0.47 * size * len(s.replace('.', '')) + 0.15 * s.count('.'), 0.75 * size
@@ -138,27 +141,30 @@ def panel_print(P, pots, faders, obst):
     print, owner, r of the part itself)]."""
     key, width, placed = P.key, P.width, []
     def free(x, y, w, h, own):
+        if x - w / 2 < P.x0 + EDGE or x + w / 2 > P.x1 - EDGE: return False     # a numeral off the plate edge drops
         if any(math.hypot(max(abs(x - ox) - w / 2, 0), max(abs(y - oy) - h / 2, 0)) < r for ox, oy, r, o, _ in obst if o != own):
             return False
-        return not any(abs(x - px) < (w + pw) / 2 + 0.3 and abs(y - py) < (h + ph) / 2 + 0.3 for px, py, pw, ph in placed)
+        # 0.3 mm between texts of one knob, 1.2 mm to another's, so neighbours' numerals don't read as one ('9 50')
+        return not any(abs(x - px) < (w + pw) / 2 + g and abs(y - py) < (h + ph) / 2 + g
+                       for px, py, pw, ph, po in placed for g in [0.3 if po == own else 1.2])
     def put_text(s, x, y, size, own, force=False, bold=False):
         w, h = text_box(s, size)
         if force or free(x, y, w, h, own):
-            placed.append((x, y, w, h)); P.texts.append((s, x, y, size, bold))
+            placed.append((x, y, w, h, own)); P.texts.append((s, x, y, size, bold))
             return True
         return False
     pairs = PAIRS.get(key, {}); paired = {gref for gref, _ in pairs.values()} | set(pairs)
     at = {ref: (x, y, big) for ref, name, x, y, big in pots}
     for ref, name, x, y, big in pots:                # names first: ring numbers give way to them
         if ref not in paired and name:
-            put_text(name, x, y - (D_BIG if big else D_KNOB) / 2 - 4.2, 2.0 if not big else 2.2, ref, force=True, bold=True)
+            put_text(name, x, y - D_KNOB / 2 - 4.2, 2.0, ref, force=True, bold=True)
     for fref, (gref, band) in pairs.items():         # bracket over a gain / frequency pair, band name in its middle
         (xg, y, _), (xf, _, _) = at[gref], at[fref]; yb, xm = y - D_KNOB / 2 - 4.2, (xg + xf) / 2
         hw = 0.47 * 2.0 * len(band) / 2 + 0.8
         P.line(xg, yb, xm - hw, yb); P.line(xm + hw, yb, xf, yb); P.line(xg, yb, xg, yb + 0.6); P.line(xf, yb, xf, yb + 0.6)
         put_text(band, xm, yb, 2.0, None, force=True, bold=True)
     for ref, name, x, y, big in pots:
-        rk = (D_BIG if big else D_KNOB) / 2; rd, rn = rk + 0.85, rk + 2.15
+        rk = D_KNOB / 2; rd, rn = rk + 0.85, rk + 2.15
         dots, labels, unit = scale_of(ref, name)
         for t in dots:
             a = math.radians(-150 + 300 * t); px, py = x + rd * math.sin(a), y - rd * math.cos(a)
@@ -215,9 +221,8 @@ def layout(key, data=None, number=None):
             if p['model'] or not reg: continue
             mod, kw = reg; kind = mod.__name__.rsplit('.', 1)[-1]
             if not (mod.FEATURE and f): continue
-            big = name == 'C/ROOM' and 'big' in inspect.signature(mod.panel).parameters
-            P.parts.append((ref, kind, f[0], f[1], p['rot'], name, colour, big))
-            rp = {'alpha_pot': (D_BIG if big else D_KNOB) / 2 + 0.3, 'alps_rk09l': D_KNOB / 2 + 0.3, 'ck_pva2': 4.2, 'neutrik_nj6fd_v': 7.3,
+            P.parts.append((ref, kind, f[0], f[1], p['rot'], name, colour, False))
+            rp = {'alpha_pot': D_KNOB / 2 + 0.3, 'alps_rk09l': D_KNOB / 2 + 0.3, 'ck_pva2': 4.2, 'neutrik_nj6fd_v': 7.3,
                   'neutrik_nc3mav': 12.0}.get(kind, 0.0)
             obst.append((f[0], f[1], rp + 2.5 if kind in POTS else rp, ref, rp))   # pots: keep their ring clear
             if kind == 'ck_pva2': obst.append((f[0], f[1] - 5.8, 0.4 * len(name) + 0.4, ref, 0.0))     # its legend
@@ -226,7 +231,7 @@ def layout(key, data=None, number=None):
             elif kind == 'bourns_ptb':
                 P.holes.append(('slot', f[0], f[1], p['rot']))
                 faders.append((name, f[0], f[1], 'Dual' in fp))
-            if kind in POTS: pots.append((ref, name, f[0], f[1], big))
+            if kind in POTS: pots.append((ref, name, f[0], f[1], False))
             elif kind in LEGEND and name: P.texts.append((name, f[0], f[1] + LEGEND[kind][0], LEGEND[kind][1], False))
     panel_print(P, pots, faders, obst)
     if key == 'master':                              # meter legends: channel letter, dB scale outboard
