@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-330 -260 690 280" width="1380" height="560" font-family="Arial" font-size="7">
+<defs><marker id="a" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#d22"/></marker></defs>
+<style>.cheek{fill:#e8d9c4;stroke:#7a5a3a}.panel{fill:#222}.floor{fill:#d9c49a;stroke:#8a7040}.rail{fill:#aab}.slot{fill:#fff;stroke:#555;stroke-width:.3}.board{fill:#2a7a3a}.wood{fill:#b08050;stroke:#6a4a2a}.air{fill:none;stroke:#d22;stroke-width:1.2}</style>
+<line x1="-320" y1="0" x2="320" y2="0" stroke="#555"/>
+<polygon points="-306.3,-211.8 294.5,-100.0 294.5,0 -306.3,0" class="cheek"/>
+<polygon points="-259.1,-178.1 248.6,-97.7 248.8,-99.2 -258.8,-179.6" class="panel"/>
+<polygon points="-271.8,-110.7 238.9,-29.9 240.8,-41.7 -269.9,-122.6" class="floor"/>
+<polygon points="-268.9,-129.0 -259.0,-127.4 -251.2,-176.8 -261.0,-178.4" class="rail"/>
+<polygon points="232.9,-49.5 242.8,-48.0 250.6,-97.4 240.7,-98.9" class="rail"/>
+<polygon points="-266.9,-141.4 -257.0,-139.8 -253.1,-164.5 -263.0,-166.0" class="slot"/>
+<polygon points="-206.8,-156.5 188.3,-94.0 188.5,-95.5 -206.5,-158.1" class="board"/>
+<polygon points="-252.2,-151.1 -209.7,-144.3 -209.5,-145.9 -252.0,-152.7" class="board"/>
+<polygon points="238.9,-29.9 282.3,-23.0 294.2,-98.0 250.8,-104.9" class="wood"/>
+<polygon points="-306.3,-116.2 -294.5,-114.3 -282.0,-193.3 -293.8,-195.2" class="wood"/>
+<polygon points="-293.8,-195.2 -259.2,-189.8 -257.7,-199.6 -292.2,-205.1" class="wood"/>
+<polygon points="-281.0,-193.2 -261.2,-190.1 -259.7,-199.9 -279.4,-203.1" class="slot"/>
+<polygon points="185.5,-38.3 195.4,-36.7 197.3,-48.6 187.4,-50.2" class="slot"/>
+<polygon points="200.4,-36.0 210.2,-34.4 212.1,-46.2 202.2,-47.8" class="slot"/>
+<polygon points="215.2,-33.6 225.1,-32.0 226.9,-43.9 217.1,-45.5" class="slot"/>
+<polyline points="202.5,-17.4 208.0,-52.0 42.4,-93.4 -193.9,-135.9 -260.1,-152.4 -276.9,-155.1 -268.0,-211.4" class="air" marker-end="url(#a)"/>
+<text x="298" y="-48">arm-rest</text>
+<text x="-300" y="-234">plenum + top slot</text>
+<text x="1" y="-151">panels</text>
+<text x="-12" y="-67">floor 12 mm ply, inlet slots at the front</text>
+<text x="-70" y="-25">cheek (walnut 20 mm) on the desk</text>
+<text x="-268" y="-117">back rail, vent slots</text>
+<text x="236" y="-37">front rail</text>
+<text x="-310" y="12">side elevation (left cheek removed), mm; desk at the line; console raised 25 mm; the red path is the air</text></svg>
