@@ -48,7 +48,7 @@ has been re-exported.
 
 - **Material:** 1.5 mm aluminium, anodised. Black is the placeholder; the 3D model uses it.
 - **Print:** one ink, the Delta's cream (`panel_print.md`).
-- **Fine features** (check the printer can hold them):
+- **Fine features** (check the printer can hold them; makers compared in `panel_makers.md`):
   - smallest text 1.5 mm em, about 1.1 mm caps;
   - dots 0.54 mm square;
   - fader ticks 0.36 mm, rules 0.28 mm.
