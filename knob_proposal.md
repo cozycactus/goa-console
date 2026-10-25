@@ -85,3 +85,46 @@ Signed off by Ruslan on 2026-10-25: KN1–KN3 as proposed, C/ROOM the same knob.
 - **Panels:** `panels/` regenerated; strip, group and master pass every check. Closest knob gaps: 2.77 mm to the OL LED
   (strip), 5.82 mm knob to knob (master), 6.21 mm (group). Cut-outs unchanged.
 - **3D model:** rebuilt with the new knob (Blender 5.2).
+
+# Key caps and fader caps: proposal (2026-10-25)
+
+The last panel parts with no order code: the PV caps on the 343 PVA2 keys and the 29 fader caps.
+
+## Key caps (C&K PV, round Ø7.4 × 7, snap-fit)
+
+C&K makes four colours for the PVA series: PVRD red, PVGY grey, PVWH white, PVBK black (DigiKey / Mouser). There is
+**no green cap**, but the model's ON key (SW4) is green.
+
+**KC1. PV caps by function; ON becomes black.**
+
+| Colour | Cap | Keys | Qty |
+|---|---|---|---|
+| Grey | PVGY | Ø, HPF, EQ, PRE 1-2 / 3-4 / 5-6, PAN, DIR (strip); EXT (master) | 193 |
+| White | PVWH | routing L-R / 1-2 / 3-4 (strip); MIX ×2, 1-2, 3-4 (group) | 88 |
+| Red | PVRD | PFL (strip); PFL, AFL ×2 (group); AFL ×2 (master) | 38 |
+| Black | PVBK | ON (strip) | 24 |
+
+- **ON:** the one black key on a strip. Its green LED shows the state, as now.
+- **DIR:** goes from black to grey. The model had ON green and DIR black; DIR is a set-and-forget key, and two black
+  keys on a strip would read alike.
+
+## Fader caps (Sifam LK110 tang 01, the signed fader decision)
+
+- **Sifam standard:** a black body with a white line (Sifam catalogue colour chart, "single colour slider knobs").
+  Coloured bodies are made to order, 1,000 pcs minimum.
+- **Distributors:** RS stocks the black 4/02 LK110 01 (pack of 5).
+- **Other sources:** pot4audio's coloured Sifam caps are for a different lever. Generic 24 × 11 mm caps for an
+  8 × 1.2 mm lever come in white / red / yellow, but nobody has measured one on the PTB's BP blade.
+
+**KC2. Black Sifam caps, with a coloured-cap trial alongside.**
+- **Order now:** 29 + spares of the Sifam LK111 01, black with a white line: the tang-01 socket the decision names.
+  Use 02 LK110 01 (RS 281-7197) if the plain cap is the only one stocked.
+- **Trial:** with the fader sample check that is already open (`panel_parts_drawings.md`), try a few generic white /
+  red / yellow 8 × 1.2 caps.
+- **If a trial cap fits** (no wobble on the 1.3 blade, sitting about 1 mm above the panel), use white on strips, red on
+  groups and yellow on the master, the model's colours. Otherwise every fader stays black with a white line.
+
+## Sign-off
+
+- [ ] **KC1** PV caps PVGY / PVWH / PVRD / PVBK by function as in the table; ON black, DIR grey.
+- [ ] **KC2** Sifam black LK111 01 fader caps now, plus a coloured-cap trial at the fader sample check.
