@@ -68,7 +68,7 @@ boards. Dimensions and rules come from `panel_parts_drawings.md`, strip spec §1
 
 ## Decisions this list needs from you
 
-1. **Knobs.** Part, size and colour per function. 349 for 1/4" round shafts, 28 for the 6 mm D pan shaft. It needs a
+1. **Knobs** (proposal in `knob_proposal.md`: Elma Ø14.5 collet knobs with 040 caps, KN1-KN3). Part, size and colour per function. 349 for 1/4" round shafts, 28 for the 6 mm D pan shaft. It needs a
    1/4" round-shaft knob with a matching 6 mm D version, about Ø13, and enough clearance over the M7 nut.
 2. **PV cap colours** per key function (RD / GY / BK / WH).
 3. **Fader cap colours** (LK110 tang 01).
