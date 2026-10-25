@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/master.kicad_sch")
-		(date "2026-10-25T00:00:30")
+		(date "2026-10-25T16:07:21")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -34229,13 +34229,13 @@
 		)
 		(comp
 			(ref "F1")
-			(value "MF-RX185/72")
-			(footprint "goa-console:Fuse_Bourns_MF-RX185-72_Radial_P5.08mm")
+			(value "MF-RX250/72")
+			(footprint "goa-console:Fuse_Bourns_MF-RX250-72_Radial_P10.16mm")
 			(fields
 				(field
-					(name "MPN") "Bourns MF-RX185/72")
+					(name "MPN") "Bourns MF-RX250/72")
 				(field
-					(name "Footprint") "goa-console:Fuse_Bourns_MF-RX185-72_Radial_P5.08mm")
+					(name "Footprint") "goa-console:Fuse_Bourns_MF-RX250-72_Radial_P10.16mm")
 				(field
 					(name "Datasheet")
 				)
@@ -34250,7 +34250,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Bourns MF-RX185/72")
+				(value "Bourns MF-RX250/72")
 			)
 			(property
 				(name "Sheetname")
@@ -34349,13 +34349,13 @@
 		)
 		(comp
 			(ref "F3")
-			(value "MF-RX185/72")
-			(footprint "goa-console:Fuse_Bourns_MF-RX185-72_Radial_P5.08mm")
+			(value "MF-RX250/72")
+			(footprint "goa-console:Fuse_Bourns_MF-RX250-72_Radial_P10.16mm")
 			(fields
 				(field
-					(name "MPN") "Bourns MF-RX185/72")
+					(name "MPN") "Bourns MF-RX250/72")
 				(field
-					(name "Footprint") "goa-console:Fuse_Bourns_MF-RX185-72_Radial_P5.08mm")
+					(name "Footprint") "goa-console:Fuse_Bourns_MF-RX250-72_Radial_P10.16mm")
 				(field
 					(name "Datasheet")
 				)
@@ -34370,7 +34370,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Bourns MF-RX185/72")
+				(value "Bourns MF-RX250/72")
 			)
 			(property
 				(name "Sheetname")
@@ -38522,6 +38522,12 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "CN2")
+				(pin "34")
+				(pinfunction "Pin_34_34")
+				(pintype "passive")
+			)
+			(node
 				(ref "F1")
 				(pin "2")
 				(pintype "passive")
@@ -38541,6 +38547,12 @@
 				(ref "CN3")
 				(pin "33")
 				(pinfunction "Pin_33_33")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN3")
+				(pin "34")
+				(pinfunction "Pin_34_34")
 				(pintype "passive")
 			)
 			(node
@@ -47593,23 +47605,6 @@
 		)
 		(net
 			(code "312")
-			(name "P48V_NC")
-			(class "Default")
-			(node
-				(ref "CN2")
-				(pin "34")
-				(pinfunction "Pin_34_34")
-				(pintype "passive")
-			)
-			(node
-				(ref "CN3")
-				(pin "34")
-				(pinfunction "Pin_34_34")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "313")
 			(name "PFL")
 			(class "Default")
 			(node
@@ -47643,7 +47638,7 @@
 			)
 		)
 		(net
-			(code "314")
+			(code "313")
 			(name "PFLDET")
 			(class "Default")
 			(node
@@ -47703,7 +47698,7 @@
 			)
 		)
 		(net
-			(code "315")
+			(code "314")
 			(name "PFLN")
 			(class "Default")
 			(node
@@ -47720,7 +47715,7 @@
 			)
 		)
 		(net
-			(code "316")
+			(code "315")
 			(name "PFL_MIX")
 			(class "Default")
 			(node
@@ -47745,7 +47740,7 @@
 			)
 		)
 		(net
-			(code "317")
+			(code "316")
 			(name "PFL_ON")
 			(class "Default")
 			(node
@@ -47775,7 +47770,7 @@
 			)
 		)
 		(net
-			(code "318")
+			(code "317")
 			(name "PFL_ON_RAW")
 			(class "Default")
 			(node
@@ -47800,7 +47795,7 @@
 			)
 		)
 		(net
-			(code "319")
+			(code "318")
 			(name "PFL_PT")
 			(class "Default")
 			(node
@@ -47816,7 +47811,7 @@
 			)
 		)
 		(net
-			(code "320")
+			(code "319")
 			(name "PFL_REF")
 			(class "Default")
 			(node
@@ -47843,7 +47838,7 @@
 			)
 		)
 		(net
-			(code "321")
+			(code "320")
 			(name "PFL_SIG")
 			(class "Default")
 			(node
@@ -47863,7 +47858,7 @@
 			)
 		)
 		(net
-			(code "322")
+			(code "321")
 			(name "PFL_SUM")
 			(class "Default")
 			(node
@@ -47888,7 +47883,7 @@
 			)
 		)
 		(net
-			(code "323")
+			(code "322")
 			(name "PFL_W")
 			(class "Default")
 			(node
@@ -47904,7 +47899,7 @@
 			)
 		)
 		(net
-			(code "324")
+			(code "323")
 			(name "PHJ_L")
 			(class "Default")
 			(node
@@ -47920,7 +47915,7 @@
 			)
 		)
 		(net
-			(code "325")
+			(code "324")
 			(name "PHJ_R")
 			(class "Default")
 			(node
@@ -47936,7 +47931,7 @@
 			)
 		)
 		(net
-			(code "326")
+			(code "325")
 			(name "PHONESGND")
 			(class "Default")
 			(node
@@ -47963,7 +47958,7 @@
 			)
 		)
 		(net
-			(code "327")
+			(code "326")
 			(name "PHO_L")
 			(class "Default")
 			(node
@@ -47983,7 +47978,7 @@
 			)
 		)
 		(net
-			(code "328")
+			(code "327")
 			(name "PHO_R")
 			(class "Default")
 			(node
@@ -48003,7 +47998,7 @@
 			)
 		)
 		(net
-			(code "329")
+			(code "328")
 			(name "PHW_L")
 			(class "Default")
 			(node
@@ -48019,7 +48014,7 @@
 			)
 		)
 		(net
-			(code "330")
+			(code "329")
 			(name "PHW_R")
 			(class "Default")
 			(node
@@ -48035,7 +48030,7 @@
 			)
 		)
 		(net
-			(code "331")
+			(code "330")
 			(name "POST_L")
 			(class "Default")
 			(node
@@ -48067,7 +48062,7 @@
 			)
 		)
 		(net
-			(code "332")
+			(code "331")
 			(name "POST_R")
 			(class "Default")
 			(node
@@ -48099,7 +48094,7 @@
 			)
 		)
 		(net
-			(code "333")
+			(code "332")
 			(name "PRE_L")
 			(class "Default")
 			(node
@@ -48120,7 +48115,7 @@
 			)
 		)
 		(net
-			(code "334")
+			(code "333")
 			(name "PRE_R")
 			(class "Default")
 			(node
@@ -48141,7 +48136,7 @@
 			)
 		)
 		(net
-			(code "335")
+			(code "334")
 			(name "RAIL_OK")
 			(class "Default")
 			(node
@@ -48176,7 +48171,7 @@
 			)
 		)
 		(net
-			(code "336")
+			(code "335")
 			(name "RLY_B")
 			(class "Default")
 			(node
@@ -48204,7 +48199,7 @@
 			)
 		)
 		(net
-			(code "337")
+			(code "336")
 			(name "RLY_DRV")
 			(class "Default")
 			(node
@@ -48281,7 +48276,7 @@
 			)
 		)
 		(net
-			(code "338")
+			(code "337")
 			(name "SENSE_N")
 			(class "Default")
 			(node
@@ -48302,7 +48297,7 @@
 			)
 		)
 		(net
-			(code "339")
+			(code "338")
 			(name "SENSE_P")
 			(class "Default")
 			(node
@@ -48323,7 +48318,7 @@
 			)
 		)
 		(net
-			(code "340")
+			(code "339")
 			(name "SPARE1")
 			(class "Default")
 			(node
@@ -48340,7 +48335,7 @@
 			)
 		)
 		(net
-			(code "341")
+			(code "340")
 			(name "SPARE3")
 			(class "Default")
 			(node
@@ -48357,7 +48352,7 @@
 			)
 		)
 		(net
-			(code "342")
+			(code "341")
 			(name "SPARE5")
 			(class "Default")
 			(node
@@ -48374,7 +48369,7 @@
 			)
 		)
 		(net
-			(code "343")
+			(code "342")
 			(name "SPARE7")
 			(class "Default")
 			(node
@@ -48391,7 +48386,7 @@
 			)
 		)
 		(net
-			(code "344")
+			(code "343")
 			(name "SPARE19")
 			(class "Default")
 			(node
@@ -48408,7 +48403,7 @@
 			)
 		)
 		(net
-			(code "345")
+			(code "344")
 			(name "SUB1")
 			(class "Default")
 			(node
@@ -48425,7 +48420,7 @@
 			)
 		)
 		(net
-			(code "346")
+			(code "345")
 			(name "SUB2")
 			(class "Default")
 			(node
@@ -48442,7 +48437,7 @@
 			)
 		)
 		(net
-			(code "347")
+			(code "346")
 			(name "SUB3")
 			(class "Default")
 			(node
@@ -48459,7 +48454,7 @@
 			)
 		)
 		(net
-			(code "348")
+			(code "347")
 			(name "SUB4")
 			(class "Default")
 			(node
@@ -48476,7 +48471,7 @@
 			)
 		)
 		(net
-			(code "349")
+			(code "348")
 			(name "SUM_L")
 			(class "Default")
 			(node
@@ -48501,7 +48496,7 @@
 			)
 		)
 		(net
-			(code "350")
+			(code "349")
 			(name "SUM_R")
 			(class "Default")
 			(node
@@ -48526,7 +48521,7 @@
 			)
 		)
 		(net
-			(code "351")
+			(code "350")
 			(name "SWML_S")
 			(class "Default")
 			(node
@@ -48546,7 +48541,7 @@
 			)
 		)
 		(net
-			(code "352")
+			(code "351")
 			(name "SWMR_S")
 			(class "Default")
 			(node
@@ -48566,7 +48561,7 @@
 			)
 		)
 		(net
-			(code "353")
+			(code "352")
 			(name "SWPL_S")
 			(class "Default")
 			(node
@@ -48586,7 +48581,7 @@
 			)
 		)
 		(net
-			(code "354")
+			(code "353")
 			(name "SWPR_S")
 			(class "Default")
 			(node
@@ -48606,7 +48601,7 @@
 			)
 		)
 		(net
-			(code "355")
+			(code "354")
 			(name "VREF6")
 			(class "Default")
 			(node
@@ -48639,7 +48634,7 @@
 			)
 		)
 		(net
-			(code "356")
+			(code "355")
 			(name "unconnected-(D14-NC-Pad2)")
 			(class "Default")
 			(node
@@ -48650,7 +48645,7 @@
 			)
 		)
 		(net
-			(code "357")
+			(code "356")
 			(name "unconnected-(D15-NC-Pad2)")
 			(class "Default")
 			(node
@@ -48661,7 +48656,7 @@
 			)
 		)
 		(net
-			(code "358")
+			(code "357")
 			(name "unconnected-(SW1B-C-Pad6)")
 			(class "Default")
 			(node
@@ -48672,7 +48667,7 @@
 			)
 		)
 		(net
-			(code "359")
+			(code "358")
 			(name "unconnected-(SW2B-C-Pad6)")
 			(class "Default")
 			(node
@@ -48683,7 +48678,7 @@
 			)
 		)
 		(net
-			(code "360")
+			(code "359")
 			(name "unconnected-(U27-BW-Pad1)")
 			(class "Default")
 			(node
@@ -48694,7 +48689,7 @@
 			)
 		)
 		(net
-			(code "361")
+			(code "360")
 			(name "unconnected-(U28-BW-Pad1)")
 			(class "Default")
 			(node

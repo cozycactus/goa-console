@@ -26,7 +26,7 @@ for n in ('+VBUS', '-VBUS', 'GNDA', 'GNDD', 'GNDM', 'PHONESGND'): P(b, FLAGS[n],
 frag(b, 58, 26, lambda d: frags.power_entry(d, pe[0], pe[1], pe[2], pe[3], pe[4:], flags=FLAGS))
 b = block('DISTRIBUTION  (PTC per wing per rail, 1.85 A hold, 72 V; local branches VA audio, VP phones, VM meters, VL logic)')
 for w in 'LR':
-    f1 = ref('F'); P(b, f1, 'PTC', 'MF-RX185/72', {1: '+VBUS', 2: f'+VBUS_{w}'}, **PTC185)
+    f1 = ref('F'); P(b, f1, 'PTC', 'MF-RX250/72', {1: '+VBUS', 2: f'+VBUS_{w}'}, **PTC250)   # +V: three conductors (W2)
     f2 = ref('F'); P(b, f2, 'PTC', 'MF-RX185/72', {1: '-VBUS', 2: f'-VBUS_{w}'}, **PTC185)
     chain(b, '+VBUS', [('s', f1)], f'+VBUS_{w}'); chain(b, '-VBUS', [('s', f2)], f'-VBUS_{w}')
 # VA: anti-surge 0805 for the PSU-lead hot-plug pulse; VP: 2512, a mono plug in the phones jack can hold an LME49600
@@ -46,7 +46,7 @@ b = block('MOTHERLOOM  (master in the centre: CN1 = left wing, CN2 = right wing;
 for w in 'LR':
     hdr = {1: 'SPARE1', 3: 'SPARE3', 5: 'SPARE5', 7: 'SPARE7', 19: 'SPARE19', 9: 'SUB4', 11: 'SUB3', 13: 'SUB2', 15: 'SUB1',
            17: 'MIXR', 18: 'MIXL', 20: 'AUX6', 21: 'AUX5', 22: 'AUX4', 23: 'AUX3', 24: 'AUX1', 25: 'AUX2', 26: 'GCANCEL',
-           27: 'PFL', 28: 'PFLN', 29: 'PFLDET', 30: f'-VBUS_{w}', 31: f'-VBUS_{w}', 32: f'+VBUS_{w}', 33: f'+VBUS_{w}', 34: 'P48V_NC'}
+           27: 'PFL', 28: 'PFLN', 29: 'PFLDET', 30: f'-VBUS_{w}', 31: f'-VBUS_{w}', 32: f'+VBUS_{w}', 33: f'+VBUS_{w}', 34: f'+VBUS_{w}'}   # 34: third +V (W1)
     hdr.update({k: 'GNDA' for k in range(2, 17, 2)})
     cn = ref('CN'); P(b, cn, 'HDR', f'Bus {w} wing 2x17', hdr); frag(b, 40, 22, lambda d, r=cn: frags.header(d, r, 18, 10))
 

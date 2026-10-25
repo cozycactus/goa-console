@@ -131,7 +131,7 @@
 "CN1.31": "-VBUS",
 "CN1.32": "+VBUS",
 "CN1.33": "+VBUS",
-"CN1.34": "NC",
+"CN1.34": "+VBUS",
 "CN1.2": "GNDA",
 "CN1.4": "GNDA",
 "CN1.6": "GNDA",

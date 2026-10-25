@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/group.kicad_sch")
-		(date "2026-10-25T00:26:03")
+		(date "2026-10-25T16:07:15")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -11828,6 +11828,12 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "CN2")
+				(pin "34")
+				(pinfunction "Pin_34_34")
+				(pintype "passive")
+			)
+			(node
 				(ref "R1")
 				(pin "1")
 				(pintype "passive")
@@ -14818,17 +14824,6 @@
 		)
 		(net
 			(code "114")
-			(name "unconnected-(CN2-Pin_34-Pad34)")
-			(class "Default")
-			(node
-				(ref "CN2")
-				(pin "34")
-				(pinfunction "Pin_34_34")
-				(pintype "passive+no_connect")
-			)
-		)
-		(net
-			(code "115")
 			(name "unconnected-(SW2B-C-Pad6)")
 			(class "Default")
 			(node
@@ -14839,7 +14834,7 @@
 			)
 		)
 		(net
-			(code "116")
+			(code "115")
 			(name "unconnected-(SW3B-C-Pad6)")
 			(class "Default")
 			(node
@@ -14850,7 +14845,7 @@
 			)
 		)
 		(net
-			(code "117")
+			(code "116")
 			(name "unconnected-(SW7B-C-Pad6)")
 			(class "Default")
 			(node

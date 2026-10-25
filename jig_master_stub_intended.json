@@ -52,7 +52,7 @@
 "CN2.31": "-VBUS_R",
 "CN2.32": "+VBUS_R",
 "CN2.33": "+VBUS_R",
-"CN2.34": "NC",
+"CN2.34": "+VBUS_R",
 "CN2.9": "GNDA",
 "CN2.11": "GNDA",
 "CN2.13": "GNDA",

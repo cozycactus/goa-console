@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/jig_master_stub.kicad_sch")
-		(date "2026-10-24T08:07:45")
+		(date "2026-10-25T16:07:28")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -8289,7 +8289,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "aae07936-8973-5567-941b-1af70177a3b5" "cf88d45d-5410-5415-8c7c-412de7fb6a4f"
+			(tstamps "cf88d45d-5410-5415-8c7c-412de7fb6a4f" "aae07936-8973-5567-941b-1af70177a3b5"
 				"8ab60af3-331e-5d0b-aa2e-04b20fdcc5b6"
 			)
 			(units
@@ -8469,7 +8469,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "b03ff064-91b2-58b2-b81e-74eeec323e07" "83a0f958-93f7-5631-b9af-2a3782a18584"
+			(tstamps "83a0f958-93f7-5631-b9af-2a3782a18584" "b03ff064-91b2-58b2-b81e-74eeec323e07"
 				"416ce9a9-9631-5cc1-b43f-78cc6f78a05e"
 			)
 			(units
@@ -8559,7 +8559,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "62fb196f-06f0-57c7-811a-af4e2a099206" "dacb29c2-623f-5812-a8a9-4687a62e5d06"
+			(tstamps "dacb29c2-623f-5812-a8a9-4687a62e5d06" "62fb196f-06f0-57c7-811a-af4e2a099206"
 				"2f8080d5-9381-5001-ac3b-527378bdaa4c"
 			)
 			(units
@@ -10090,6 +10090,12 @@
 				(ref "CN2")
 				(pin "33")
 				(pinfunction "Pin_33_33")
+				(pintype "passive")
+			)
+			(node
+				(ref "CN2")
+				(pin "34")
+				(pinfunction "Pin_34_34")
 				(pintype "passive")
 			)
 			(node
@@ -12216,17 +12222,6 @@
 		)
 		(net
 			(code "74")
-			(name "unconnected-(CN2-Pin_34-Pad34)")
-			(class "Default")
-			(node
-				(ref "CN2")
-				(pin "34")
-				(pinfunction "Pin_34_34")
-				(pintype "passive+no_connect")
-			)
-		)
-		(net
-			(code "75")
 			(name "unconnected-(U9-Pad7)")
 			(class "Default")
 			(node

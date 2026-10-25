@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/jig_load_board.kicad_sch")
-		(date "2026-10-24T05:13:58")
+		(date "2026-10-25T16:07:30")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -3445,6 +3445,12 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "CN1")
+				(pin "34")
+				(pinfunction "Pin_34_34")
+				(pintype "passive")
+			)
+			(node
 				(ref "J1")
 				(pin "1")
 				(pinfunction "Pin_1_1")
@@ -4518,17 +4524,6 @@
 				(ref "CN1")
 				(pin "29")
 				(pinfunction "Pin_29_29")
-				(pintype "passive+no_connect")
-			)
-		)
-		(net
-			(code "48")
-			(name "unconnected-(CN1-Pin_34-Pad34)")
-			(class "Default")
-			(node
-				(ref "CN1")
-				(pin "34")
-				(pinfunction "Pin_34_34")
 				(pintype "passive+no_connect")
 			)
 		)

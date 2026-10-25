@@ -1,7 +1,7 @@
 # Wing power: a third +V conductor and a larger +V PTC (proposal, 2026-10-25)
 
-Proposal for sign-off. Nothing has been applied yet. W1 changes a signed decision: the bus pinout leaves pin 34
-(+48 V on the Delta) unconnected.
+**Signed off by Ruslan on 2026-10-25 (W1 and W2 as proposed) and applied the same day; see "Applied" at the end.**
+W1 changes the earlier decision that the bus pinout leaves pin 34 (+48 V on the Delta) unconnected.
 
 ## Why
 
@@ -82,5 +82,25 @@ trip, but the contacts can then carry up to 1.25 A each before the PTC is even a
 
 ## Sign-off
 
-- [ ] **W1** Pin 34 = third +V conductor on the motherloom.
-- [ ] **W2** +V wing PTCs MF-RX250/72 (new 10.2 mm footprint), −V stays MF-RX185/72.
+- [x] **W1** Pin 34 = third +V conductor on the motherloom.
+- [x] **W2** +V wing PTCs MF-RX250/72 (new 10.2 mm footprint), −V stays MF-RX185/72.
+
+## Applied (2026-10-25)
+
+- **Headers:** pin 34 on +VBUS on the strip and group, and on the master's CN2 / CN3. Both jig boards carry their
+  `plus` net on it. The master's single-pin P48V_NC nets are gone.
+- **Parts:** F1 / F3 are MF-RX250/72 with a new footprint, Fuse_Bourns_MF-RX250-72_Radial_P10.16mm (`tools/footprints.py`),
+  and a 3D model (`tools/models3d/bourns_mfrx.py`, the lead pitch now a parameter). F2 / F4 stay MF-RX185/72.
+- **Placement:** the 250's wider body and 10.16 mm pads disturbed the U11 area wherever the old row put them (54 parts
+  moved). So both spots were searched against every other part's courtyard and pads, with the packer's 0.3 mm gap and
+  the keep-outs:
+  - F1 stays in its row, 1.2 mm higher;
+  - F3 stands vertical by the right edge at y 230–249.
+  Result: only F1, F3 and 14 parts that took the old F3 spot moved, and the master's report is unchanged
+  (3.1 / 10.5 / 26 and 8.2 / 38.5 / 75). Strip, group, jig and every jack board moved 0 parts.
+- **Checks:**
+  - every schematic 0 mismatches, check_fp 0, ERC 0;
+  - `sim_netlist.py` 37/37, `sim_console.py` 32/32;
+  - parity DRC 0 violations on every main and jig board, 0 parity issues on all eight; the jack boards show only the
+    NJ6FD-V's own items.
+- **Not done:** the jig's master stub keeps its MF-RX160/72s (four strips).

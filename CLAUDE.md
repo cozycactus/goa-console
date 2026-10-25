@@ -166,6 +166,8 @@ jack board) done.
   LME49600 macro, whole-module decks) and ratings / BOM (2026-10-24), analysts + three skeptics; MG1-MG20 signed off
   2026-10-24 and applied (master spec v0.8). Scripts in `sim/review/master/` (`TI_MODELS=... python3 run_all.py none
   all`) and `sim/review/group/` (`python3 sweep.py pots none 0.08`); TI models via TI_MODELS, not in the repo.
+- `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
+  applied 2026-10-25.
 - `film_np_proposal.md` (+ `film_np_proposal.patch`) — film couplers and MUSE ES bipolars, F1-F4 signed off and applied
   2026-10-24.
 - `hpf_proposal.md` (+ `hpf_proposal.patch`) — sweepable HPF 21-403 Hz (KHN on U5A + new U15, RV16 A10K dual, C91),
@@ -203,8 +205,10 @@ jack board) done.
 - Power (2026-10-22): strip v4.0 draws ~85 / 72 mA, console ~2.65 / 2.23 A typical (≤ 3.8 A on +V). Strip v4.3 (HPF):
   ~92 / 79 mA, console ~2.82 / 2.40 A, worst corner (max IQ, every LED) ~4.0 A on +V = the PSU rating.
   PSU 4 A per rail; inlet 7-pin XLR NC7MD-LX (panel, two 5 A contacts per rail, wired to a 7-way terminal);
-  wing PTCs Bourns MF-RX185/72 since 2026-10-24 (`hpf_proposal.md` H4; was MF-RX160/72, still on the jig stub; 72 V: a
-  pin 31/32 short puts 34 V across one PTC). Master spec 24–27.
+  wing PTCs: +V Bourns MF-RX250/72 since 2026-10-25 (`wing_power_proposal.md` W2: 2.5 A hold on three conductors,
+  0.83 A per contact at hold; own 10.16 mm footprint; F1 in its row, F3 vertical by the right edge), −V MF-RX185/72
+  since 2026-10-24 (`hpf_proposal.md` H4; was MF-RX160/72, still on the jig stub; 72 V: a pin 31/32 short puts 34 V
+  across one PTC). Master spec 24–27.
 - Mid-band tuning (2026-10-22): the Delta's Wien band-pass with a 100K C-law dual (not stocked) is
   replaced by a KHN state-variable band-pass with the same response (peak 0.407, Q 0.275), tuned by a
   stocked Alpha A10K dual as dividers (430R / 13K wiper-to-top / 4K7) into the two integrators.
@@ -226,7 +230,8 @@ jack board) done.
   CN2 dropped).
 - Bus = real Delta motherloom pinout (read from Delta ED3344C): GRP1-4 = SUB1-4 on pins 15/13/11/9,
   MIX R 17, MIX L 18, AUX6..1 on 20-25 (AUX1=24, AUX2=25), GND CANCEL 26, PFL 27, PFL DET 29,
-  -V 30-31, +V 32-33, +48 V pin 34 not connected. Spares: 1,3,5,7,19. Even pins 2-16 = GND.
+  -V 30-31, +V 32-34 (pin 34 is the Delta's +48 V; a third +V conductor since 2026-10-25, `wing_power_proposal.md` W1,
+  Ruslan: the IDC sockets are 1 A per contact). Spares: 1,3,5,7,19. Even pins 2-16 = GND.
   The 200 Delta Technical Manual (p. 134, `ref/`) lists 17 = Mix left / 18 = Mix right, the opposite of ED3344C;
   kept the ED3344C order (Ruslan, 2026-10-23; console_architecture.md 2). It confirms pin 28 = PFL Audio −VE.
 - Ground cancel: 10 Ω from strip AGND to pin 26; master summing amps reference that line.
@@ -459,6 +464,9 @@ jack board) done.
   cancel 20 dB). U16 follower margin 52° unloaded, ≥ 48.5° with the 100R build-out for any load. Re-placed with parity
   DRC: 0 violations on the main boards, 0 parity issues on all six; group / master moved 0 parts; strip moved 77 to fit
   U16 (own zone by SW15), report 3.1 / 10.0 / 12 (C92 / C93 8.0 / 8.5 mm) and 10.9 / 22.1 / 29.
+- Wing power applied (2026-10-25, W1 / W2): pin 34 = +V on every header; F1 / F3 MF-RX250/72. Every schematic 0
+  mismatches, check_fp 0, ERC 0; sim_netlist 37/37, sim_console 32/32; parity DRC clean on all eight boards; the master
+  moved F1, F3 and 14 parts around U11 (report unchanged, 3.1 / 10.5 / 26 and 8.2 / 38.5 / 75), every other board 0.
 - PSU sim (`sim/psu.cir`, 2026-10-22): soft start 165 ms to 90 %, no overshoot; 5.1 A peak SMPS current;
   crowbar idle margin 2.21 / 2.495 V; fault (pass element shorted) → fires in 17 µs, console bus peak 19.7 V,
   strip/master rails stay 16.9 V; LDO 19 W at 4 A; LC −47 dB at 65 kHz (ESR-limited).

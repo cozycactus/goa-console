@@ -28,6 +28,11 @@ Ribbon conductor = pin number; never 2 × 17, so a link can't be mistaken for th
 - The returns' and EXT's 100 pF RF caps and 1M stay on the main boards at the receivers. The strip
   moved its RF caps to its jack board; move these too if the jig shows RF pickup on the ribbon.
 
+**Wing power (signed off 2026-10-25, applied in v0.10; `wing_power_proposal.md` W1–W2).** Pin 34 (the Delta's +48 V)
+is a third +V conductor on every header, and the +V wing PTCs are MF-RX250/72 (−V keeps the MF-RX185/72). The female
+IDC sockets are rated 1 A per contact and the master end carries a whole wing: +V is now 0.45 A per contact typical,
+0.83 A at the PTC's hold (§25, §27).
+
 **Ground and hum (signed off 2026-10-25, applied in v0.10; `ground_study.md` G1–G3).**
 - Harness (G1, §26): one 14 AWG wire per strip and group, tied under its wing's motherloom, down the master's edge
   strip to its wing's copper bar under the M4 star stud (two bars, fourteen 6.3 mm tabs each). The wires' loops with
@@ -846,21 +851,22 @@ scale badly (below).
 ## 25. Distribution
 
 - Two 34-pin headers on the master, one per wing (12 strips each), carrying the buses and
-  power on pins 30–33.
-- Each wing gets its own PTC fuse per rail, **Bourns MF-RX185/72** (1.85 A hold, 3.7 A trip, 72 V,
-  40 A max; v0.9, `hpf_proposal.md` H4). It protects the 28 AWG ribbon conductors (two per rail, ~0.6 A each typical)
-  from a shorted strip. A wing draws about 1.25 A typical on +V, up to 1.8 A worst case (§27). 72 V rather
-  than the 30 V MF-R160: −V (pins 30–31) sits next to +V (32–33), so a bent pin or crimp fault
-  shorts 34 V across the pair, and the first PTC to trip takes almost all of it. Initial resistance
-  about 0.1 Ω (the MF-RX160/72's is 0.09–0.14 Ω; the larger part's is lower): about 0.1–0.2 V drop at 1 A. Footprint from the Bourns drawing (`tools/footprints.py`): 15.18 × 21.18 mm max, the
-  MF-RX160/72's pads and 5.1 mm pitch, courtyard 0.25 mm.
-  Was MF-R075 (0.75 A hold), sized for the v3.1 strips; then MF-RX160/72 (kept in MG14), changed with strip v4.3.
-  - Derating: hold 1.50 / 1.33 A at 40 / 50 °C. A wing's typical 1.25 A is 83 / 94 % of hold (the MF-RX160/72 would be
-    96 / 109 %). The worst case, 1.8 A, is above hold from 23 °C; it needs every op-amp at maximum current.
-  - Per IDC contact at hold: 0.93 A, against the crimped socket's ~1 A. MF-RX250/72 stays out (1.25 A per contact).
-  - Placement: fixed (`place_master.py`) so the extra 1.24 mm of body goes outward. The top side keeps its layout:
-    D5 / D8 leads and R121 / R123 clear the bodies and pads; the left pair's body ends 0.3 mm from the 4 mm edge
-    channel.
+  power: −V on pins 30–31, +V on pins 32–34 (pin 34, the Delta's +48 V, since v0.10, `wing_power_proposal.md` W1).
+- Each wing gets its own PTC fuse per rail: **Bourns MF-RX250/72** on +V (2.5 A hold, 5.0 A trip, 72 V, 40 A max,
+  R1max 0.13 Ω; W2, v0.10) and **MF-RX185/72** on −V (1.85 A hold, 3.7 A trip; v0.9, `hpf_proposal.md` H4). They
+  protect the 28 AWG ribbon conductors and the IDC contacts (Würth WR-BHD sockets, 1 A per contact; three on +V, two
+  on −V) from a shorted strip; at hold that is 0.83 A (+V) and 0.93 A (−V) per contact.
+  - +V wing PTC hold at 40 / 50 °C: 2.03 / 1.80 A. A wing's +V is 1.34 A typical (66 / 74 %) and 1.92 A in the
+    accepted worst corner (95 / 107 %). −V: 1.05 A typical and about 1.3 A at maximum IQ against 1.50 / 1.33 A.
+  - Placement (fixed, `place_master.py`, spots searched clear of every other part): F1 in its row, pads 8.17 / 18.33
+    at y 186.75; F3 vertical by the right edge, pads (69.5, 234.17) / (69.5, 244.33), on the wing supply's way down to
+    CN3. F2 / F4 (−V) unchanged (MF-RX185/72: F2 courtyard x 4.05–19.73, F4 58.36–74.04, clear of J1). The MF-RX250/72
+    footprint has its own 10.16 mm lead pitch (`tools/footprints.py`).
+  - 72 V rather than the 30 V MF-R parts: −V (pins 30–31) sits next to +V (32–34), so a bent pin or crimp fault shorts
+    34 V across the pair, and the first PTC to trip takes almost all of it.
+  - Initial resistance 0.05–0.13 Ω (MF-RX250/72) and 0.08–0.19 Ω (MF-RX185/72): about 0.1–0.2 V drop per wing.
+  - History: MF-R075 (0.75 A hold) for the v3.1 strips, MF-RX160/72 (kept in MG14), MF-RX185/72 with strip v4.3 (H4),
+    MF-RX250/72 on +V with three conductors (W2). Two conductors could not take the 250 (1.25 A per contact at hold).
   - Keep F1–F4 away from the ±VP 2R2s and the LME49600s (placement).
 - Master local branches, each with its own series element and reservoir:
 
@@ -919,7 +925,8 @@ U16 stays OPA1656. The corner needs every op-amp at maximum IQ and every key and
 never reaches; typical 3.01 A leaves 1 A of the PSU's 4 A. In that corner a wing's 1.92 A on +V is above the
 MF-RX185/72's 1.85 A hold, so a wing PTC can trip (the wing goes silent until it cools); nothing is damaged (OPA1642
 followers, ≈ 4.11 A, were the alternative). At 50 °C even a wing's typical 1.34 A meets the PTC's derated hold
-(1.33 A): `wing_power_proposal.md` (W1 / W2, for sign-off) addresses both.
+(1.33 A); since v0.10 (`wing_power_proposal.md` W1 / W2) the +V PTC is an MF-RX250/72 on three conductors, so the
+corner reaches 95 / 107 % of its hold at 40 / 50 °C instead, and the typical load 66 / 74 %.
 
 With the M1 split, the subgroups, aux masters 1–4 and returns move to the four group modules. Each
 draws about 61 mA per rail from the ribbon (7 OPA1612, 2 DRV134) plus up to 3 LEDs. The

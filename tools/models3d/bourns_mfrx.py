@@ -5,13 +5,16 @@ from the top to the end of the lead coating, E 3.1 max thick over the coated lea
 bare lead, leads 0.81 tinned copper. Each lead is soldered to one face of the chip (front lead diagonal up the face, as
 in the photo), so the two leads leave the coating about 1.9 mm apart front to back; they are joggled into the in-line
 holes 5.08 apart, with the coating ending 1.5 mm above the board (no seating feature on straight leads).
-MF-RX185/72 (master wing fuses since 2026-10-24): the same, A 15.18 / B 21.18 max."""
+MF-RX185/72 (master -V wing fuses since 2026-10-24): the same, A 15.18 / B 21.18 max.
+MF-RX250/72 (master +V wing fuses since 2026-10-25, wing_power_proposal.md W2): A 17.84 / B 23.84 max, C 10.2 lead
+spacing (the leads drop straight from the chip's lower corners to holes 10.16 apart)."""
 import math
 from .geom import Mesh, rrect
 
 NAME = 'Bourns MF-RX/72 PTC'
 FOOTPRINTS = {'Fuse_Bourns_MF-RX160-72_Radial_P5.08mm': dict(a=13.94, b=19.94),
-              'Fuse_Bourns_MF-RX185-72_Radial_P5.08mm': dict(a=15.18, b=21.18)}
+              'Fuse_Bourns_MF-RX185-72_Radial_P5.08mm': dict(a=15.18, b=21.18),
+              'Fuse_Bourns_MF-RX250-72_Radial_P10.16mm': dict(a=17.84, b=23.84, p=10.16)}
 FEATURE = None
 MOUNT = 'main'
 
@@ -23,8 +26,8 @@ ZC = 1.5                                   # end of the lead coating above the b
 COAT = 'ptc_yellow'
 
 
-def pins(**kw):
-    return [(0.0, 0.0), (5.08, 0.0)]
+def pins(p=5.08, **kw):
+    return [(0.0, 0.0), (p, 0.0)]
 
 
 def _sweep(m, path, ra, rb, mat, seg=12):
@@ -54,11 +57,13 @@ def _body(m, A, ZB):
     m.merge(body)
 
 
-def build(a=13.94, b=19.94):
+def build(a=13.94, b=19.94, p=5.08):
+    global CX
+    CX = p / 2                                                                 # body centred between the leads
     ZB = ZC + b - a                                                            # body bottom (B - A = 6.0 of coated lead)
     m = Mesh()
     _body(m, a, ZB)
-    for x, side, x_top in ((5.08, -1, CX - 2.0), (0.0, 1, CX + 2.0)):           # front lead runs up-left (photo)
+    for x, side, x_top in ((p, -1, CX - 2.0 + (p - 5.08) / 2), (0.0, 1, CX + 2.0 - (p - 5.08) / 2)):           # front lead runs up-left (photo)
         y = side * YL
         z_top = ZB + 5.6
         n = 6                                                                  # coated lead on the face, diagonal

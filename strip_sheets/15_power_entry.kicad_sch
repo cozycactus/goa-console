@@ -693,7 +693,6 @@
   (no_connect (at 35.56 91.44) (uuid 535051d7-e10d-5b1b-bb19-9940226063e6))
   (no_connect (at 35.56 106.68) (uuid b990b86d-77bb-594c-bdb0-e84537be2c9a))
   (no_connect (at 48.26 116.84) (uuid e2a45f9f-38a2-5df0-b690-01ea1d791f5f))
-  (no_connect (at 48.26 124.46) (uuid d555ce92-52f7-576a-b13d-9199b6f354d5))
 
   (wire (pts (xy 22.86 33.02) (xy 152.4 33.02))
     (stroke (width 0) (type default))
@@ -938,6 +937,14 @@
   (wire (pts (xy 48.26 121.92) (xy 55.88 121.92))
     (stroke (width 0) (type default))
     (uuid 6bebd865-baa9-57a7-9a7d-7921a6be072e)
+  )
+  (wire (pts (xy 48.26 124.46) (xy 55.88 124.46))
+    (stroke (width 0) (type default))
+    (uuid 07da901a-206d-52b2-85b9-812fc0bc6be1)
+  )
+  (wire (pts (xy 55.88 121.92) (xy 55.88 124.46))
+    (stroke (width 0) (type default))
+    (uuid 83f460c7-091d-5cca-b0c9-75d77cc83d1a)
   )
 
   (text "POWER ENTRY, LOGIC SUPPLY, GROUNDS, DECOUPLING (cont.)"

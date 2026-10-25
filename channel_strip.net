@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/channel_strip.kicad_sch")
-		(date "2026-10-25T01:09:45")
+		(date "2026-10-25T16:07:10")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -18527,6 +18527,12 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "CN1")
+				(pin "34")
+				(pinfunction "Pin_34_34")
+				(pintype "passive")
+			)
+			(node
 				(ref "R1")
 				(pin "1")
 				(pintype "passive")
@@ -23256,17 +23262,6 @@
 		)
 		(net
 			(code "178")
-			(name "unconnected-(CN1-Pin_34-Pad34)")
-			(class "Default")
-			(node
-				(ref "CN1")
-				(pin "34")
-				(pinfunction "Pin_34_34")
-				(pintype "passive+no_connect")
-			)
-		)
-		(net
-			(code "179")
 			(name "unconnected-(D9-NC-Pad2)")
 			(class "Default")
 			(node
@@ -23277,7 +23272,7 @@
 			)
 		)
 		(net
-			(code "180")
+			(code "179")
 			(name "unconnected-(D10-NC-Pad2)")
 			(class "Default")
 			(node
@@ -23288,7 +23283,7 @@
 			)
 		)
 		(net
-			(code "181")
+			(code "180")
 			(name "unconnected-(SW3B-C-Pad6)")
 			(class "Default")
 			(node
@@ -23299,7 +23294,7 @@
 			)
 		)
 		(net
-			(code "182")
+			(code "181")
 			(name "unconnected-(SW4B-C-Pad6)")
 			(class "Default")
 			(node
@@ -23310,7 +23305,7 @@
 			)
 		)
 		(net
-			(code "183")
+			(code "182")
 			(name "unconnected-(SW5B-C-Pad6)")
 			(class "Default")
 			(node
@@ -23321,7 +23316,7 @@
 			)
 		)
 		(net
-			(code "184")
+			(code "183")
 			(name "unconnected-(SW6B-C-Pad6)")
 			(class "Default")
 			(node
@@ -23332,7 +23327,7 @@
 			)
 		)
 		(net
-			(code "185")
+			(code "184")
 			(name "unconnected-(SW7B-C-Pad6)")
 			(class "Default")
 			(node
@@ -23343,7 +23338,7 @@
 			)
 		)
 		(net
-			(code "186")
+			(code "185")
 			(name "unconnected-(SW8B-A-Pad4)")
 			(class "Default")
 			(node
@@ -23354,7 +23349,7 @@
 			)
 		)
 		(net
-			(code "187")
+			(code "186")
 			(name "unconnected-(SW8B-B-Pad5)")
 			(class "Default")
 			(node
@@ -23365,7 +23360,7 @@
 			)
 		)
 		(net
-			(code "188")
+			(code "187")
 			(name "unconnected-(SW8B-C-Pad6)")
 			(class "Default")
 			(node
@@ -23376,7 +23371,7 @@
 			)
 		)
 		(net
-			(code "189")
+			(code "188")
 			(name "unconnected-(SW9B-A-Pad4)")
 			(class "Default")
 			(node
@@ -23387,7 +23382,7 @@
 			)
 		)
 		(net
-			(code "190")
+			(code "189")
 			(name "unconnected-(SW9B-B-Pad5)")
 			(class "Default")
 			(node
@@ -23398,7 +23393,7 @@
 			)
 		)
 		(net
-			(code "191")
+			(code "190")
 			(name "unconnected-(SW9B-C-Pad6)")
 			(class "Default")
 			(node
@@ -23409,7 +23404,7 @@
 			)
 		)
 		(net
-			(code "192")
+			(code "191")
 			(name "unconnected-(SW10B-A-Pad4)")
 			(class "Default")
 			(node
@@ -23420,7 +23415,7 @@
 			)
 		)
 		(net
-			(code "193")
+			(code "192")
 			(name "unconnected-(SW10B-B-Pad5)")
 			(class "Default")
 			(node
@@ -23431,7 +23426,7 @@
 			)
 		)
 		(net
-			(code "194")
+			(code "193")
 			(name "unconnected-(SW10B-C-Pad6)")
 			(class "Default")
 			(node
@@ -23442,7 +23437,7 @@
 			)
 		)
 		(net
-			(code "195")
+			(code "194")
 			(name "unconnected-(SW11B-A-Pad4)")
 			(class "Default")
 			(node
@@ -23453,7 +23448,7 @@
 			)
 		)
 		(net
-			(code "196")
+			(code "195")
 			(name "unconnected-(SW11B-B-Pad5)")
 			(class "Default")
 			(node
@@ -23464,7 +23459,7 @@
 			)
 		)
 		(net
-			(code "197")
+			(code "196")
 			(name "unconnected-(SW11B-C-Pad6)")
 			(class "Default")
 			(node
@@ -23475,7 +23470,7 @@
 			)
 		)
 		(net
-			(code "198")
+			(code "197")
 			(name "unconnected-(SW12B-C-Pad6)")
 			(class "Default")
 			(node
@@ -23486,7 +23481,7 @@
 			)
 		)
 		(net
-			(code "199")
+			(code "198")
 			(name "unconnected-(SW13B-C-Pad6)")
 			(class "Default")
 			(node
@@ -23497,7 +23492,7 @@
 			)
 		)
 		(net
-			(code "200")
+			(code "199")
 			(name "unconnected-(U4-Pad7)")
 			(class "Default")
 			(node

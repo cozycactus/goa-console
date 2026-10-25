@@ -24,7 +24,7 @@ def bus_header(b, plus, minus, used, unused='GNDA', pfldet='PFLDET'):
     names = {9: 'SUB4', 11: 'SUB3', 13: 'SUB2', 15: 'SUB1', 17: 'MIXR', 18: 'MIXL', 20: 'AUX6', 21: 'AUX5',
              22: 'AUX4', 23: 'AUX3', 24: 'AUX1', 25: 'AUX2'}
     hdr = {1: 'NC', 3: 'NC', 5: 'NC', 7: 'NC', 19: 'NC', 26: 'GCANCEL', 27: 'PFL', 28: 'NC', 29: pfldet,
-           30: minus, 31: minus, 32: plus, 33: plus, 34: 'NC'}
+           30: minus, 31: minus, 32: plus, 33: plus, 34: plus}   # 34: third +V (W1)
     hdr.update({k: (n if n in used else unused) for k, n in names.items()})
     hdr.update({k: 'GNDA' for k in range(2, 17, 2)})
     P(b, ref('CN'), 'HDR', 'Bus 2x17 (ribbon)', hdr)

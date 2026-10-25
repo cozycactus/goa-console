@@ -95,7 +95,7 @@ ED2915A (stereo input). Ribbon conductor order = pin number.
 | 31 | −17 V | −V |
 | 32 | +17 V | +V |
 | 33 | +17 V | +V |
-| 34 | +48 V | **not connected** — no phantom in this console |
+| 34 | +48 V | **+V, third conductor** (2026-10-25, `wing_power_proposal.md` W1; no phantom in this console). Was not connected |
 
 Confidence: pins 1–27 and 29–34 read clearly. Pin 28 (PFL−), first inferred from the
 stereo-input sheet, is confirmed by the 200 Delta Technical Manual (p. 134, "Motherloom, 34 way IDC loom":
@@ -177,10 +177,11 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
 |------|---------|-------|
 | +V | +16 V or +17 V | Delta uses ±17 V; ±16 V matches the 500-series spec |
 | −V | −16 V or −17 V | |
-| +48 V | none | Pin 34 left unconnected |
+| +48 V | none | Pin 34 carries +V instead (third +V conductor, W1) |
 
 ### 3.2 Distribution (Delta method)
-- ±V on the ribbon: two conductors per rail (pins 30–33).
+- ±V on the ribbon: −V on pins 30–31, +V on pins 32–34 (three since 2026-10-25, `wing_power_proposal.md` W1: the female
+  IDC sockets are rated 1 A per contact and only the master end carries a whole wing).
 - Heavy audio ground does **not** use the ribbon: each strip has a ¼" spade terminal
   (Delta CN4) wired to the ground bus bar: one 14 AWG wire per module, tied under the motherloom to its wing's copper
   bar under the master's star stud (`ground_study.md` G1, master spec §26).

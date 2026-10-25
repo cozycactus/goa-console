@@ -592,7 +592,6 @@
   (no_connect (at 71.12 114.3) (uuid 9c038eda-97c4-5885-8634-70f2da31dcc0))
   (no_connect (at 58.42 116.84) (uuid 301d05a7-006a-5625-9a13-a856fc19682f))
   (no_connect (at 71.12 124.46) (uuid 15e20855-44ca-5a19-804a-c071c2f08b49))
-  (no_connect (at 71.12 132.08) (uuid e20d785c-3310-5199-b6d5-34ceea15b439))
 
   (wire (pts (xy 20.32 43.18) (xy 27.94 43.18))
     (stroke (width 0) (type default))
@@ -761,6 +760,14 @@
   (wire (pts (xy 71.12 129.54) (xy 78.74 129.54))
     (stroke (width 0) (type default))
     (uuid 9e45ef35-8f53-5b3c-afaa-ab3b5274b1ea)
+  )
+  (wire (pts (xy 71.12 132.08) (xy 78.74 132.08))
+    (stroke (width 0) (type default))
+    (uuid 207ffd5a-cf83-5866-83c8-adddb59feefe)
+  )
+  (wire (pts (xy 78.74 129.54) (xy 78.74 132.08))
+    (stroke (width 0) (type default))
+    (uuid bb49bfcf-830b-52c1-84ac-d439fcb6fe9c)
   )
 
   (text "POWER AND GROUNDS (cont.)" (at 17.78 24.13 0)

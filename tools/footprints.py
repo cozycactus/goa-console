@@ -76,14 +76,15 @@ footprint('Potentiometer_Bourns_PTB0144_Slide_100mm_Dual',
 # https://www.bourns.com/docs/product-datasheets/mf-rx72.pdf, product dimensions: A 13.94 / 15.18 max (width),
 # B 19.94 / 21.18 max (height), C 5.1 +-0.7 lead spacing, E 3.1 max thick, style 2 (straight leads; kinked is -14),
 # lead 0.81 dia. 72 V because a +V-to-−V short on a wing puts up to 34 V across one PTC (MF-R160 is 30 V).
-def mf_rx(part, a, hold, cy=0.38):
-    b = pad(1, 0, 0, 2.0, 1.1, 'rect') + pad(2, 5.08, 0, 2.0, 1.1)
-    b += rect('F.Fab', 2.54 - a / 2, -1.55, 2.54 + a / 2, 1.55, 0.1)
-    b += rect('F.SilkS', 2.54 - a / 2 - 0.12, -1.67, 2.54 + a / 2 + 0.12, 1.67, 0.12)
-    b += rect('F.CrtYd', 2.54 - a / 2 - cy, -1.9, 2.54 + a / 2 + cy, 1.9, 0.05)
-    footprint(f'Fuse_Bourns_MF-RX{part}-72_Radial_P5.08mm',
-              f'Bourns MF-RX{part}/72 radial PTC resettable fuse, 72 V, {hold} A hold, lead spacing 5.1 mm, https://www.bourns.com/docs/product-datasheets/mf-rx72.pdf',
-              'PTC polyfuse resettable Bourns MF-RX', b, (2.54, -3.0), (2.54, 3.0))
+def mf_rx(part, a, hold, cy=0.38, p=5.08):
+    c = p / 2
+    b = pad(1, 0, 0, 2.0, 1.1, 'rect') + pad(2, p, 0, 2.0, 1.1)
+    b += rect('F.Fab', c - a / 2, -1.55, c + a / 2, 1.55, 0.1)
+    b += rect('F.SilkS', c - a / 2 - 0.12, -1.67, c + a / 2 + 0.12, 1.67, 0.12)
+    b += rect('F.CrtYd', c - a / 2 - cy, -1.9, c + a / 2 + cy, 1.9, 0.05)
+    footprint(f'Fuse_Bourns_MF-RX{part}-72_Radial_P{p:.2f}mm',
+              f'Bourns MF-RX{part}/72 radial PTC resettable fuse, 72 V, {hold} A hold, lead spacing {p:.1f} mm, https://www.bourns.com/docs/product-datasheets/mf-rx72.pdf',
+              'PTC polyfuse resettable Bourns MF-RX', b, (c, -3.0), (c, 3.0))
 mf_rx('160', 13.94, '1.6')
 
 # ---- Keystone 1287-ST: 0.250" (6.35 mm) quick-fit male PCB tab, Sturdi-Mount
@@ -101,4 +102,6 @@ footprint('Keystone_1287-ST_FastOn_Tab_6.35mm',
 # last: footprints added later keep the UUID sequence of the earlier ones. Courtyard 0.25 mm (KLC): on the master the
 # MF-RX185/72 sits between J1 and top-side diode leads where the 160's 0.38 mm doesn't fit (place_master.py)
 mf_rx('185', 15.18, '1.85', cy=0.25)
+# MF-RX250/72 (+V wing fuses, wing_power_proposal.md W2): A 17.84 / B 23.84 max, C 10.2 +0.6/-0.2 lead spacing
+mf_rx('250', 17.84, '2.5', cy=0.25, p=10.16)
 print('wrote', sorted(os.listdir(OUT)))

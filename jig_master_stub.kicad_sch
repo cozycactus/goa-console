@@ -1756,7 +1756,6 @@
   (no_connect (at 45.72 91.44) (uuid 09b9d7a7-0174-5918-86aa-5714f5ba5871))
   (no_connect (at 45.72 106.68) (uuid 7656cdf3-5600-55ef-b51e-99eca7fa74b4))
   (no_connect (at 58.42 116.84) (uuid 59354f74-357f-5777-a88a-f1d8fc810dcd))
-  (no_connect (at 58.42 124.46) (uuid d277a7ff-1022-50fe-ad68-9aeaeff555c4))
   (no_connect (at 472.44 383.54) (uuid 2b4b9661-3592-5e39-9a24-1e8552415a2f))
 
   (text "POWER IN  bench +-17 V (screw terminal), reverse Schottkys, PTC per rail to the ribbon; local VA / VL branches"
@@ -1929,6 +1928,10 @@
   (label "+VBUS_R" (at 45.72 124.46 270)
     (effects (font (size 1.0 1.0)) (justify right bottom))
     (uuid 9723442e-ab45-5c0d-bcf0-bbf35570eff4)
+  )
+  (label "+VBUS_R" (at 58.42 124.46 270)
+    (effects (font (size 1.0 1.0)) (justify right bottom))
+    (uuid 3d050d01-c9b8-5f40-9824-e3a554d8ccaf)
   )
   (label "SUB1" (at 45.72 101.6 180)
     (effects (font (size 1.0 1.0)) (justify right bottom))

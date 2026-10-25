@@ -124,13 +124,14 @@ unlatched = 2–3 (5–6). The latched throw still needs confirming on a real PV
 
 ## 2. Power, grounding, bus connection
 
-### 2.1 Audio rails (bus pins 30–33)
+### 2.1 Audio rails (bus pins 30–34)
 ```
-+V (pins 32, 33) ── R1 10 Ω ── +VA ── C1 220 µF/25 V ── C2 100 nF ── AGND
++V (pins 32–34) ── R1 10 Ω ── +VA ── C1 220 µF/25 V ── C2 100 nF ── AGND
 −V (pins 30, 31) ── R2 10 Ω ── −VA ── C3 220 µF/25 V ── C4 100 nF ── AGND
 ```
 100 nF at every op-amp: C20/C21 (U1), C22/C23 (U2), C24/C25 (U3), C29/C30 (U5), C31/C32 (U6),
-C33/C34 (U7), C35/C36 (U8), C63–C68 (U12–U14), C89/C90 (U15), C92/C93 (U16). Bus pin 34 (+48 V): not connected.
+C33/C34 (U7), C35/C36 (U8), C63–C68 (U12–U14), C89/C90 (U15), C92/C93 (U16). +V arrives on bus pins 32–34 (pin 34, the
+Delta's +48 V, is a third +V conductor since 2026-10-25, `wing_power_proposal.md` W1).
 
 ### 2.2 Logic rails (ED3344B)
 ```
@@ -151,7 +152,7 @@ D10 BAT54W keeps it within 0.3 V of V+ at power-down (§13).
 
 ### 2.4 Bus header
 CN1: one 34-pin shrouded keyed header per strip, crimped IDC socket on a daisy-chained ribbon
-(Delta ED3344C CN2). Spare pins 1, 3, 5, 7, 19, 28 (PFL−) and 34 (+48 V) not connected.
+(Delta ED3344C CN2). Spare pins 1, 3, 5, 7, 19 and 28 (PFL−) not connected; pin 34 (+48 V on the Delta) is +V (W1).
 
 | Pin | Signal | Driven on this strip by |
 |-----|--------|-------------------------|
@@ -163,7 +164,7 @@ CN1: one 34-pin shrouded keyed header per strip, crimped IDC socket on a daisy-c
 | 26 | GND CANCEL | R5 10 Ω to AGND |
 | 27 | PFL | R32 22K via SW3 |
 | 29 | PFL DET | R33 100K via SW3 |
-| 30–33 | −V, +V | power entry |
+| 30–31, 32–34 | −V, +V | power entry |
 
 ---
 
