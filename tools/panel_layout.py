@@ -22,6 +22,14 @@ PITCH = 8 * HP
 # CHEEK_GAP outside the console's 0 / width; console_3d.py)
 RAIL_W, RAIL_H, CHEEK_GAP, RAIL_INTO = 10.0, 50.0, 2.0, 2.0
 RAIL_LINES = (Y0 + 3.0, Y1 - 3.0)
+# the back rail (the y = Y0 + 3 line, the console's high end) is the vent outlet (thermal_study.md TH1, signed off
+# 2026-10-26): 30 slots 30 x 25 mm through its 10 mm thickness, centred on its neutral axis, evenly from 40 mm in
+VENT_SLOTS, VENT_W, VENT_H, VENT_IN = 30, 30.0, 25.0, 40.0
+
+def vent_slots():
+    """Centres of the back rail's vent slots, x from the rail's left end."""
+    r0, r1 = rail_span(); ln = r1 - r0
+    return [VENT_IN + k * (ln - 2 * VENT_IN) / (VENT_SLOTS - 1) for k in range(VENT_SLOTS)]
 
 def modules():
     """[(item, key, x)] along the console: item from ORDER, key 'strip' / 'group' / 'master', x of the module's frame."""

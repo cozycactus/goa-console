@@ -71,6 +71,9 @@ Signed off by Ruslan on 2026-10-25: FR1–FR3 as proposed.
 
 ## Applied (2026-10-26)
 
+- **Later the same day (`thermal_study.md` TH1):** the back rail carries 30 vent slots 30 × 25 mm on its neutral axis
+  (sag 0.21 → 0.23 mm). The bonding hole moved to the bottom face (M4 × 8) on both rails.
+
 - **Correction to FR1's length:** the 3D model's cheek inner faces sit 2 mm outside the console (x −2 and 1221.2), so a
   rail 2 mm into each cheek runs from −4 to 1223.2: **1227.2 mm**, not 1223.2. The holes move by the same 2 mm:
   10.35 … 1188.91 from the left end.

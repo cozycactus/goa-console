@@ -77,7 +77,24 @@ after 2 hours at idle, with the room temperature noted.
 
 ## Sign-off
 
-- [ ] **TH1** Vented tub: floor inlet slots inside the front rail, 30 × (30 × 25 mm) slots through the back rail,
+Signed off by Ruslan on 2026-10-26: TH1–TH3 as proposed.
+
+- [x] **TH1** Vented tub: floor inlet slots inside the front rail, 30 × (30 × 25 mm) slots through the back rail,
   back-trim plenum with a top slot.
-- [ ] **TH2** No fan now; a 120 mm fan is the fallback if the built console's inside rise exceeds 20 K.
-- [ ] **TH3** Keep MUSE ES (no change), given TH1.
+- [x] **TH2** No fan now; a 120 mm fan is the fallback if the built console's inside rise exceeds 20 K.
+- [x] **TH3** Keep MUSE ES (no change), given TH1.
+
+## Applied (2026-10-26)
+
+- **Back rail:** `panel_layout.vent_slots()` holds the 30 slots, 30 × 25 mm, centred 25 mm below the top face and spread
+  evenly from 40 mm in (39.56 mm pitch). `frame_fab.py` draws them on the back rail only; the front rail is unchanged.
+  - **Bonding hole:** on both rails it moved from the side face to the bottom face (M4 × 8), into the gap between the two
+    middle slots, so it can't land on a slot.
+  - **Checks:** the script checks the slots against the end holes and the bonding hole.
+  - **Outputs:** the drawing (`frame/rail.pdf`) and hole table now say front 1 off, back 1 off.
+- **3D model:** the back rail is built slotted (top and bottom strips and 31 webs).
+- **Tub requirements** for the woodwork drawings (`offboard_bom.md` Tub row):
+  - floor inlet slots inside the front rail, at least 1.2 m × 20 mm free area, with mesh;
+  - feet giving a 10 mm air gap under the tub;
+  - a back-trim plenum open to the back rail's slots, with a top slot of at least 1.2 m × 20 mm facing up and back.
+- **No fan** (TH2); MUSE ES kept (TH3).

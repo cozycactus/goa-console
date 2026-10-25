@@ -515,7 +515,16 @@ for item in order:
 print('ground wires', ground_harness(xs_))
 for yc in panel_layout.RAIL_LINES:                  # 10 x 50 flat-bar rails, 2 mm into each cheek (frame_proposal.md)
     (r0, r1), rw, rh = panel_layout.rail_span(), panel_layout.RAIL_W, panel_layout.RAIL_H
-    box(f'rail {yc:.0f}', r0, yc - rw / 2, PANEL_Z0 - rh, r1, yc + rw / 2, PANEL_Z0, M['alu'], frame).parent = root
+    y0r, y1r = yc - rw / 2, yc + rw / 2
+    if yc != panel_layout.RAIL_LINES[0]:
+        box(f'rail {yc:.0f}', r0, y0r, PANEL_Z0 - rh, r1, y1r, PANEL_Z0, M['alu'], frame).parent = root
+        continue
+    zs0, zs1 = PANEL_Z0 - rh / 2 - panel_layout.VENT_H / 2, PANEL_Z0 - rh / 2 + panel_layout.VENT_H / 2   # back rail: vent slots
+    box('rail back top', r0, y0r, zs1, r1, y1r, PANEL_Z0, M['alu'], frame).parent = root
+    box('rail back bottom', r0, y0r, PANEL_Z0 - rh, r1, y1r, zs0, M['alu'], frame).parent = root
+    xs = [r0] + [r0 + c + s * panel_layout.VENT_W / 2 for c in panel_layout.vent_slots() for s in (-1, 1)] + [r1]
+    for k in range(0, len(xs), 2):                    # the webs between the slots
+        box(f'rail back web {k // 2}', xs[k], y0r, zs0, xs[k + 1], y1r, zs1, M['alu'], frame).parent = root
 box('tub floor', -2, -12, TUB - 2, width + 2, 504, TUB, M['hdr'], frame).parent = root
 box('arm-rest', -22, 504, TUB, width + 22, 548, PANEL_Z1 + 6, M['wood'], frame).parent = root
 box('back trim', -22, -40, TUB, width + 22, -12, PANEL_Z1 + 10, M['wood'], frame).parent = root
