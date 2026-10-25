@@ -3,6 +3,8 @@
 Proposal, 2026-10-24. Nothing in the design has changed. The figures hold for strip v4.2: the film / MUSE ES change
 doesn't move them. **Re-evaluated on strip v4.4 on 2026-10-25 (next section): noise, stability and power are now
 settled in simulation. Distortion is the one open question, and only a bench A/B can answer it.**
+**Decision (Ruslan, 2026-10-25): N1 stays gated on the jig A/B (`test_jig_spec.md` 4.2); the jig strips are built as
+planned, two as built and two with the N1 set.**
 
 ## Re-evaluation on strip v4.4 (2026-10-25)
 
