@@ -103,8 +103,9 @@ jack board) done.
   symbol's in the exported netlist; 1316 / 1316 on the nine boards, 2026-10-26);
   the placer also writes what KiCad's Update PCB copies from each symbol (the sheet's path names, the symbol's fields
   only, `ki_fp_filters`, the position-file flag, and the units with their pins, which the Python API can't set, so
-  `placer.write_units()` adds them to the saved file). Checked in KiCad 10.0.7 on the strip (2026-10-26): Update PCB
-  from Schematic with re-link by reference off lists 0 changes, 0 errors; 2 warnings, RV8's mechanical MP pads.
+  `placer.write_units()` adds them to the saved file). Checked in KiCad 10.0.7 (2026-10-26): Update PCB from Schematic with
+  re-link by reference off lists 0 changes, 0 errors on the strip, group and master; the only warnings are the ALPS RK09L's
+  mechanical MP pads (strip RV8, group RV2), which have no symbol pin.
   unconnected items are expected at the placement stage and are not an instruction to route.
   Schematic UUIDs are deterministic (schgen.py), so the footprint-symbol link survives regeneration.
   `strip_panel_study.md` — 12U vs 15U, one vs two pot columns.
