@@ -916,8 +916,10 @@ the 5 mA-per-channel maximum). Console +V ≈ 3.01 A typical, ≈ 3.64 A with ev
 ≈ 4.24 A with every LED lit as well: **over the PSU's 4 A rating in that corner** (it was exactly 4.0 A with v4.3).
 Per wing ≈ 1.34 A typical (MF-RX185/72 hold 1.85 A), ≈ 1.92 A in the same corner. **Accepted (Ruslan, 2026-10-25):**
 U16 stays OPA1656. The corner needs every op-amp at maximum IQ and every key and LED on at once, which a console in use
-never reaches; typical 3.01 A leaves 1 A of the PSU's 4 A. If it is ever reached, the LM1084s current-limit and the wing
-PTCs warm towards their trip, nothing is damaged (OPA1642 followers, ≈ 4.11 A, were the alternative).
+never reaches; typical 3.01 A leaves 1 A of the PSU's 4 A. In that corner a wing's 1.92 A on +V is above the
+MF-RX185/72's 1.85 A hold, so a wing PTC can trip (the wing goes silent until it cools); nothing is damaged (OPA1642
+followers, ≈ 4.11 A, were the alternative). At 50 °C even a wing's typical 1.34 A meets the PTC's derated hold
+(1.33 A): `wing_power_proposal.md` (W1 / W2, for sign-off) addresses both.
 
 With the M1 split, the subgroups, aux masters 1–4 and returns move to the four group modules. Each
 draws about 61 mA per rail from the ribbon (7 OPA1612, 2 DRV134) plus up to 3 LEDs. The
