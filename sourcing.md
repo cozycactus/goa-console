@@ -59,14 +59,25 @@ now.
 ## For sign-off
 
 **S1. The 10 µF NP (Nichicon UES1E100MDM) is discontinued.** DigiKey lists the taped code as obsolete; Audiophonics says
-the product line is stopped. It is used in 36 places: every DRV135 sense-leg cap (master 18, group 4 × 4) and 2 on the
-jig.
-- **Position:** each cap sits inside the DRV135's sense loop, after the output and before the Sense pin. The driver's
-  loop gain corrects its distortion, so an audio-grade part buys nothing there.
+the product line is stopped. It is used in 36 places:
+- every DRV135 sense-leg cap: master 14, group 4 per board (16), jig 2;
+- the master's four ±VP supply bypasses at the LME49600s.
+- **Position:** each sense-leg cap sits inside the DRV135's loop, after the output and before the Sense pin. The
+  driver's loop gain corrects its distortion, so an audio-grade part buys nothing there. The bypasses aren't in the
+  signal path at all.
 - **Proposal:** a general-purpose 25 V 10 µF bipolar in the same 5 mm / P2.0 footprint, Panasonic ECE-A1EN100U (SU).
   No footprint, netlist or placement change. This touches the signed F1–F4 note "bipolars are MUSE ES", so it needs
   your sign-off.
 - **Alternative:** stay MUSE ES with UES1H100MPM (50 V). It is 8 mm, so the 36 footprints go to D8 / P3.5 and the
   group and master are re-placed.
 
-- [ ] **S1** 10 µF NP → Panasonic ECE-A1EN100U, drop-in (DRV135 sense legs and jig).
+Signed off by Ruslan on 2026-10-25.
+
+- [x] **S1** 10 µF NP → Panasonic ECE-A1EN100U, drop-in (DRV135 sense legs and jig).
+
+**Applied (2026-10-25).**
+- `master_lib.CAP_MPN['10u NP 25V']` = Panasonic ECE-A1EN100U: 5 × 11 mm, 2.0 mm pitch (RS, Future); stocked at RS
+  and Master Electronics.
+- Changed parts: master 18, group 4, jig stub 2. Netlists unchanged but for the MPN field.
+- Checks: 0 mismatches, check_fp 0, ERC 0. Re-placed with 0 parts moved; parity DRC clean on the group, master and
+  jig stub.

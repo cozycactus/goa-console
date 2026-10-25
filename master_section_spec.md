@@ -113,7 +113,7 @@ stub keeps the MF-RX160/72 (4 strips).
 - **Film:** every 2.2 µF wiper coupler (fader, aux 5/6, solo, C/Room, phones) and the meter's averaging caps are WIMA
   MKS2C042201K00KSSD PET film (THT, bottom side), not X7R.
 - **Bipolar electrolytics:** Nichicon MUSE ES 25 V in the existing footprints: 47 µF → 33 µF (UES1E330MPM), 220 µF →
-  100 µF (UES1E101MPM), 10 µF UES1E100MDM. The values in the diagrams below are the new ones.
+  100 µF (UES1E101MPM), 10 µF UES1E100MDM (now Panasonic ECE-A1EN100U, `sourcing.md` S1). The values in the diagrams below are the new ones.
 - **LF response:** end to end, a strip's input to the main XLR is −3 dB at 2.3 Hz and −0.04 dB at 20 Hz.
 
 Delta references: ED2780 sheet 2 (MIX SUM AMPS, MIX INSERT, FADER POST AMPS, BALANCED

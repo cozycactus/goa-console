@@ -58,10 +58,12 @@ CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Samsung CL31B105K
            '100p C0G': 'KEMET C0805C101J5GACTU', '1n C0G': 'KEMET C0805C102J5GACTU',
            '470u 25V': 'Nichicon UPW1E471MPD', '1000u 25V': 'Nichicon UPW1E102MHD',
            '47u 25V': 'Nichicon UPW1J470MPD (63V)', '220u 25V': 'Nichicon UHE1V221MPD6 (35V)',
+           # 10u NP: DRV135 sense legs (inside its loop) and the LME49600 +-VP bypasses; UES1E100MDM is discontinued
+           # (sourcing.md S1, 2026-10-25), so a general-purpose bipolar in the same 5 x 11 / P2.0 can
            '10u NP 25V': 'Panasonic ECE-A1EN100U', '47u NP 25V': 'Panasonic ECE-A1VN470U (35V)',
            '220u NP 25V': 'Panasonic ECE-A1EN221U',
            # film couplers and audio bipolars (film_np_proposal.md): MUSE ES 25 V in the existing footprints
-           '2.2u film': 'WIMA MKS2C042201K00KSSD (PET 63V)', '10u NP 25V': 'Nichicon UES1E100MDM (MUSE ES)',
+           '2.2u film': 'WIMA MKS2C042201K00KSSD (PET 63V)',
            '33u NP 25V': 'Nichicon UES1E330MPM (MUSE ES)', '100u NP 25V': 'Nichicon UES1E101MPM (MUSE ES)'}
 FILM_2U2 = 'Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2'          # MKS2 2.2u 63V: 7.2 x 13 x 7.2
 NP_VALUE = {'47u NP 25V': '33u NP 25V', '220u NP 25V': '100u NP 25V'}             # MUSE ES 8x11.5 / 10x16 cans
