@@ -168,9 +168,8 @@ jack board) done.
   all`) and `sim/review/group/` (`python3 sweep.py pots none 0.08`); TI models via TI_MODELS, not in the repo.
 - `gaps_proposal.md` — the strip's unsimulated circuits closed (2026-10-25): overload detector, soft mute, key clicks
   with real op-amp offsets, 200-strip tolerance Monte Carlo, headroom at every op-amp output (`sim/review/gaps/`:
-  ol.py, ol_fix.py, mute.py, keys.py, mc.py, headroom.py). Findings for sign-off: K1 PFL send DC block (the PFL key
-  ticks up to 11.5 mV on PFL from U3B's bias current at PRE), K3 overload LED attack and ~150 ms hold (misses short
-  peaks today). Everything else passes.
+  ol.py, mute.py, keys.py, mc.py, headroom.py). K1 (PFL send DC block, C96) and K3 (overload LED: C12 100n, U4B hold
+  stage R115 / C97, ~150 ms) signed off and applied 2026-10-25 (strip spec v4.5). Everything else passes.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.
 - `film_np_proposal.md` (+ `film_np_proposal.patch`) — film couplers and MUSE ES bipolars, F1-F4 signed off and applied
@@ -199,7 +198,7 @@ jack board) done.
 - `delta_clone_comparison.md` — the strip as a Delta Theatre input without the mic stage, stage by
   stage against the old strip; 7 decisions signed off 2026-10-22 (§3), now in spec v4.0 and the schematic.
 - `console_architecture.md` — whole-console architecture, v3.0. Authoritative.
-- `channel_strip_schematic_spec.md` — strip component-level spec, v4.4. Authoritative.
+- `channel_strip_schematic_spec.md` — strip component-level spec, v4.5. Authoritative.
 - `channel_strip_BOM.csv`, `channel_strip.net`, `channel_strip.pdf` — exports.
 
 ## Decisions made (do not silently change)
@@ -330,6 +329,8 @@ jack board) done.
   sleeve on CHASSIS (group sub / aux, master aux 5 / 6, C/Room); the group return and master EXT receivers buffered as
   the strip's U16 (`master_lib.receiver()`; followers created last via `master_lib.DEFER`, so no existing ref moves);
   L jack normals short an empty return / EXT. +78 mA per rail; worst corner ~4.33 A on +V.
+- Strip v4.5 (signed off by Ruslan 2026-10-25, `gaps_proposal.md` K1 / K3): C96 2.2 µF film in series with R32 (PFL
+  send DC block); overload detector C12 100n and U4B as a ~150 ms hold stage (R115 1M, C97 220n).
 - Faders (2026-10-23): Bourns PTB0143-2010BPA103 (strips, groups) / PTB0144-2010BPA103 (master), stocked, BP lever
   (8.0 x 1.3 mm flat blade, 5.0 mm above the panel), caps Sifam LK110 tang 01 (8.0 x 1.2, socket 4.0 deep: 1.0 mm
   above the panel; the Delta's "SIF low profile" knob; RS 281-7197 black, colours from pot4audio / D&R; white inputs,

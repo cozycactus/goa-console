@@ -64,13 +64,14 @@ ZONES = [
  # 2.2 uF MKS2 film is 13 mm tall (WIMA, 63 V): more than the 11.5 mm under the panel
  ('LF film cap (bottom)', (1, 82, 37, 175), ['C49'], 'B'),
  ('fader film coupler (bottom)', (1, 330, 37, 444), ['C13'], 'B'),
+ ('PFL send DC block, film (bottom; K1)', (1, 260, 37, 340), ['C96'], 'B'),
  # Top side, roughly in signal order
  # stability caps right after their op-amp's decouplers: the placer gives list order the closest spots
  # input followers (ground_study.md G3) at the top beside SW15: placed first, the receiver and the KHN keep their spots
  ('input followers', (1, 44, 37, 62), ['U16', 'C92', 'C93', 'R110', 'R111', 'R112', 'R113', 'R114', 'C94', 'C95'], 'F'),
  ('input receiver + gain', (1, 45, 37, 100), ['U1', 'C20', 'C21', 'C7', 'C78', 'R6', 'R7', 'R8', 'R9', 'R10',
                                               'R45', 'R46', 'C37', 'R47'], 'F'),
- ('OL detector', (1, 45, 37, 100), ['U4', 'C26', 'R39', 'D1', 'C12', 'R14', 'R40', 'R41', 'R15'], 'F'),
+ ('OL detector', (1, 45, 37, 100), ['U4', 'C26', 'R39', 'D1', 'C12', 'R14', 'R40', 'R41', 'R15', 'R115', 'C97'], 'F'),
  ('HPF', (1, 44, 37, 135), ['U5', 'C29', 'C30', 'C85', 'C86', 'R100', 'R101', 'R102', 'R103',
                              'U15', 'C89', 'C90', 'C87', 'C88', 'R104', 'R105', 'R106', 'R107', 'R108', 'R109'], 'F'),
  ('EQ', (1, 82, 37, 200), ['U6', 'C31', 'C32', 'C69', 'C70', 'C71', 'C72', 'U7', 'C33', 'C34', 'C73', 'C48',

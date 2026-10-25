@@ -1,4 +1,4 @@
-# Channel Strip — Component-Level Specification v4.4
+# Channel Strip — Component-Level Specification v4.5
 ## Soundcraft Delta Theatre input without the mic stage. One PCB per channel, ×24.
 
 Bus pinout, grounding and power: `console_architecture.md`. Stage-by-stage comparison with the
@@ -7,6 +7,21 @@ Reference designators are those of `tools/gen.py`; Delta drawing numbers are giv
 circuit comes from a Delta sheet (ED3344A/B/C = Theatre input RH board, ED3151 = LH board).
 
 ---
+
+## Changes in v4.5 (2026-10-25, signed off; `gaps_proposal.md` K1, K3)
+
+- **PFL send DC block** (§8.2, K1): C96 2.2 µF film (WIMA MKS2, bottom side) in series with R32.
+  - Why: U3B's bias current leaves PRE 3–14 mV off ground, and the PFL key put that on the PFL bus as a tick, up to
+    11.5 mV.
+  - Now: no step (`sim/review/gaps/keys.py`); the PFL send's low corner is 3.3 Hz.
+- **Overload detector, fast attack and hold** (§8.1, K3):
+  - C12 1 µF → 100 nF, a 0.1 ms attack. With 1 µF short peaks never lit the LED.
+  - U4B, the spare half, is a hold stage (R115 1M, C97 220 nF): the LED stays lit about 150 ms after the last
+    overload.
+  - Simulated (`sim/review/gaps/ol.py`): threshold +18.2 to +18.5 dBu as before; lit 154–192 ms for 2 cycles at
+    +19 dBu or a single cycle at +20 dBu.
+- The other gaps closed in the same pass pass as built: soft mute, key clicks, tolerances, headroom
+  (`gaps_proposal.md`).
 
 ## Changes in v4.4 (2026-10-25, signed off; `ground_study.md` G2, G3)
 
@@ -346,12 +361,16 @@ JP7: PRESRC = BUF1 (1-2, default) or EQOUT (2-3)       ── C11 100 µF NP ─
 
 ### 8.1 OL detector (U4A, logic rails)
 From PRESRC (always the signal entering PRE: post-EQ, post-insert): R39 1K, D1 1N4148,
-C12 1 µF, R14 470K; comparator against R40/R41 for ≈ +18 dBu; red OL LED D2 via R15 4K7 (≈ 3 mA, as the other LEDs; v4.1, was 1K: 14 mA in an 0805).
-U4B tied off.
+C12 100 nF (v4.5, was 1 µF), R14 470K; U4A compares against R40/R41 for ≈ +18 dBu.
+- **v4.5 hold:** U4A's output discharges OL_HOLD (R115 1M to +VL, C97 220 nF to LGND). U4B (+ = OL_HOLD,
+  − = VREF) drives the red OL LED D2 via R15 4K7, so the LED stays lit ≈ 150 ms after the last overload (K3).
+- **LED current:** ≈ 3 mA, as the other LEDs (v4.1; R15 was 1K, 14 mA in an 0805).
+- **Common-mode range:** OL_HOLD rests at +VL, above the LM393's common-mode range, while U4B's − input (VREF) stays
+  inside it; the datasheet allows that for a correct output.
 
 ### 8.2 PFL (SW3, D3)
 ```
-PRE ── R32 22K ── SW3 pole A ── bus 27 (latched) or AGND (unlatched)
+PRE ── C96 2.2 µF film ── R32 22K ── SW3 pole A ── bus 27 (latched) or AGND (unlatched)   (C96: v4.5, K1)
 +VL ── SW3 pole B ── PFL_ON ── R33 100K ── bus 29 (PFL DET);  R34 4K7 ── D3 red ── LGND
 ```
 
@@ -633,7 +652,14 @@ each standoff's panel end and wherever a panel meets the frame rails. CN3/CN5: W
 
 ---
 
-## 17. Status (v4.4, 2026-10-25)
+## 17. Status (v4.5, 2026-10-25)
+
+v4.5 (`gaps_proposal.md` K1 / K3):
+- **Netlist:** 806 pin entries / 0 mismatches, check_fp 273 / 0, ERC 0.
+- **Simulation:** `tools/sim_netlist.py` 37/37, `tools/sim_console.py` 32/32; overload and key clicks as in the change
+  notes.
+- **Placement:** 273 footprints + 6 holes, 0 DRC violations, 0 parity issues. Report: decouplers 3.1 / 10.0 / 11,
+  high-Z inputs 10.5 / 22.1 / 29. C96 is on the bottom at the PFL area.
 
 v4.4 (`ground_study.md` G2 / G3):
 - **Netlist:** 796 pin entries / 0 mismatches, check_fp 268 / 0, ERC 0; jack board 32 pins / 8 parts, 0 / 0 / ERC 0.

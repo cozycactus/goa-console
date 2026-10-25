@@ -1,8 +1,10 @@
 # Simulation gaps closed, and two fixes (2026-10-25)
 
 This pass simulated the strip circuits that no earlier simulation covered, then the strip as a population of real
-parts. Scripts are in `sim/review/gaps/`. Two findings need design changes, K1 and K3 below; they are **proposals for
-sign-off**, and nothing in the design has changed yet. Everything else passed.
+parts. Scripts are in `sim/review/gaps/`. Two findings needed design changes, K1 and K3 below. **Both were signed off by
+Ruslan on 2026-10-25 and applied the same day (strip spec v4.5).** Everything else passed.
+
+The overload figures in Results are the circuit before K3; `ol.py` now simulates the circuit as built.
 
 ## Results
 
@@ -90,5 +92,17 @@ Strips match within about ±0.5 dB at unity. The EQ is within normal console tol
 - **Cost:** two parts (1M, 220n), a value change on C12, and U4B rewired; no new IC. The master's and group's own
   overload / peak circuits are not affected.
 
-- [ ] **K1** PFL send DC block (2.2 µF film in series with R32).
-- [ ] **K3** Overload detector: C12 100 nF, U4B hold stage (1M / 220 nF).
+- [x] **K1** PFL send DC block (2.2 µF film in series with R32).
+- [x] **K3** Overload detector: C12 100 nF, U4B hold stage (1M / 220 nF).
+
+## Applied (2026-10-25)
+
+- **Parts:** C96 (2.2 µF MKS2 film, bottom side, at the PFL area), C12 100 nF, and R115 1M with C97 220 nF (Samsung
+  CL21B224KBFNNNE) for the hold. U4B is now the hold comparator.
+- **Drawings:** overload and PFL redrawn.
+- **Checks:**
+  - strip 806 pins / 0 mismatches, check_fp 273 / 0, ERC 0;
+  - `sim_netlist.py` 37/37, `sim_console.py` 32/32;
+  - `ol.py` on the regenerated netlist: lit 154–192 ms from 2 cycles at +19 dBu, threshold +18.2 to +18.5 dBu;
+  - `keys.py`: PFL step 0.
+- **Placement:** re-placed with parity DRC clean. Report: decouplers 3.1 / 10.0 / 11, high-Z inputs 10.5 / 22.1 / 29.

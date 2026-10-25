@@ -1,11 +1,11 @@
-"""Strip overload detector (U4A LM393, spec 8.1), the one strip circuit no earlier simulation covered (2026-10-25).
-PRESRC (BUF1, U7B's follower output with JP7 at 1-2) -> R39 1K -> D1 -> PK (C12 1u // R14 470K) -> U4A - input;
-VREF = +VL / 2 (R40 / R41 10K) at the + input; output sinks OL_K, lighting D2 from +VL through R15 4K7.
-Part values are read from channel_strip.net, so the deck follows the schematic.
+"""Strip overload detector (U4, spec 8.1), as built since K3 (gaps_proposal.md, 2026-10-25): PRESRC (BUF1) -> R39 1K ->
+D1 -> PK (C12 100n // R14 470K) -> U4A - input against VREF = +VL / 2 (R40 / R41); U4A discharges OL_HOLD (R115 to
++VL, C97 to GNDD); U4B lights D2 (from +VL through R15) while OL_HOLD is below VREF. Part values are read from
+channel_strip.net, so the deck follows the schematic. (Before K3, C12 was 1u and U4A drove the LED directly: short
+peaks never lit it; gaps_proposal.md has those figures.)
 usage: python3 sim/review/gaps/ol.py
-Models: 1N4148 (standard), red GaAsP LED fitted to ~1.9 V at 3 mA, LM393 as a sink switch (60 ohm, threshold at
-VREF, ideal speed; the real part's 1.3 us response is far below the detector's 1 ms charge time). The source is
-ideal: PRESRC is an op-amp output."""
+Models: 1N4148 (standard), red GaAsP LED fitted to ~1.9 V at 3 mA, LM393 halves as sink switches (60 ohm, ideal
+speed; the real 1.3 us is far below the 0.1 ms attack). The source is ideal: PRESRC is an op-amp output."""
 import os, re, sys, math, subprocess, tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.join(HERE, '..', '..', '..')
@@ -20,7 +20,7 @@ def v(ref):
 VL = 16.9                                              # +VL: +17 V less R3's drop
 
 def deck(src, tstop, extra=''):
-    return f"""* strip overload detector
+    return f"""* strip overload detector (as built)
 .model D1N4148 D(IS=2.52n RS=0.568 N=1.752 CJO=4p M=0.4 TT=20n BV=100)
 .model LEDR D(IS=1e-20 N=1.8 RS=5)
 .model SW393 SW(VT=0 VH=0.001 RON=60 ROFF=1e9)
@@ -32,10 +32,14 @@ C12 pk 0 {v('C12')}
 R14 pk 0 {v('R14')}
 R40 vl vref {v('R40')}
 R41 vref 0 {v('R41')}
-S4 olk 0 pk vref SW393
+S4A hold 0 pk vref SW393
+R115 vl hold {v('R115')}
+C97 hold 0 {v('C97')}
+S4B olk 0 vref hold SW393
 R15 vl ola {v('R15')}
 VLED ola ola2 0
 D2 ola2 olk LEDR
+.ic v(hold)={VL}
 {extra}
 .control
 set noaskquit
@@ -69,7 +73,7 @@ def threshold(f):
     return hi
 
 if __name__ == '__main__':
-    print(f'values: R39 {VAL["R39"]}, C12 {VAL["C12"]}, R14 {VAL["R14"]}, VREF {VL / 2:.2f} V (R40 / R41 {VAL["R40"]} / {VAL["R41"]}), R15 {VAL["R15"]}')
+    print(f'values: R39 {VAL["R39"]}, C12 {VAL["C12"]}, R14 {VAL["R14"]}, VREF {VL / 2:.2f} V (R40 / R41 {VAL["R40"]} / {VAL["R41"]}), hold R115 {VAL["R115"]} / C97 {VAL["C97"]}, R15 {VAL["R15"]}')
     print('steady sine: OL lights from')
     for f in (50, 1000, 10000):
         print(f'  {f:6d} Hz: {threshold(f):5.1f} dBu')

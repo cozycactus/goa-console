@@ -12,6 +12,7 @@ schgen.MPN.update({'DG': 'Vishay DG413DY-E3', 'ZEN': 'BZX84C5V1', 'SCH': 'Nexper
                    'OPA': 'TI OPA1612AIDR', 'CMP': 'TI LM393BIDR', 'JFET': 'onsemi MMBFJ112'})
 # strip_parts_review.md T9/T10: ceramics >= 25 V (50 V X7R here), anti-surge resistors where the power is marginal
 CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Murata GRM21BR71H105KA12 (X7R 50V)',
+           '220n': 'Samsung CL21B224KBFNNNE (X7R 50V)',
            '2.2u film': 'WIMA MKS2C042201K00KSSD (PET 63V)',
            # audio bipolars, Nichicon MUSE ES 25 V, in the existing footprints (film_np_proposal.md)
            '33u NP 25V': 'Nichicon UES1E330MPM (MUSE ES)', '100u NP 25V': 'Nichicon UES1E101MPM (MUSE ES)'}
@@ -187,16 +188,23 @@ P(b,'C84','C','100p C0G',{1:'RET_IN',2:'GNDA'},fp=C0G)   # with R99 a follower o
 P(b,'U7','OPA','OPA1612',{5:'RET_IN',6:'BUF1',7:'BUF1'},unit=2)
 P(b,'C11','C','100u NP 25V',{1:'PRESRC',2:'PRE'},fp=CAP_FP['220u']); P(b,'R13','R','47K',{1:'PRE',2:'GNDA'})
 
-b = block('OVERLOAD DETECTOR (~+18 dBu)')
+b = block('OVERLOAD DETECTOR (~+18 dBu, ~150 ms hold)')
+# K3 (gaps_proposal.md, signed off 2026-10-25): C12 100n for a 0.1 ms attack (1u needed ~20 cycles, so short peaks
+# never lit the LED); U4A now discharges a hold cap and U4B, the package's spare half, lights the LED while the hold
+# node is below VREF: ~150 ms after the last overload (sim/review/gaps/ol_fix.py)
 P(b,'R39','R','1K',{1:'PRESRC',2:'PKA'}); P(b,'D1','D','1N4148',{2:'PKA',1:'PK'})
-P(b,'C12','C','1u',{1:'PK',2:'GNDA'}); P(b,'R14','R','470K',{1:'PK',2:'GNDA'})
+P(b,'C12','C','100n',{1:'PK',2:'GNDA'}); P(b,'R14','R','470K',{1:'PK',2:'GNDA'})
 P(b,'R40','R','10K',{1:'+VL',2:'VREF'}); P(b,'R41','R','10K',{1:'VREF',2:'GNDA'})
-P(b,'U4','CMP','LM393',{2:'PK',3:'VREF',1:'OL_K'},unit=1)
+P(b,'U4','CMP','LM393',{2:'PK',3:'VREF',1:'OL_HOLD'},unit=1)
+P(b,'R115','R','1M',{1:'+VL',2:'OL_HOLD'}); P(b,'C97','C','220n',{1:'OL_HOLD',2:'GNDD'})
+P(b,'U4','CMP','LM393',{5:'OL_HOLD',6:'VREF',7:'OL_K'},unit=2)
 P(b,'R15','R','4K7',{1:'+VL',2:'OL_A'}); P(b,'D2','LED','OL red',{2:'OL_A',1:'OL_K'},mpn=LED_MPN['red'])   # ~3 mA, as the other LEDs
-P(b,'U4','CMP','LM393',{5:'GNDD',6:'+VL',7:'NC'},unit=2)
 
 b = block('PFL (pre-fade)  SW3: A-B = ON')
-P(b,'R32','R','22K',{1:'PRE',2:'PFL_S'})
+# K1 (gaps_proposal.md, signed off 2026-10-25): DC block in the PFL send. U3B's bias current leaves PRE 3-14 mV off
+# ground, which the PFL key put on the PFL bus as a tick (up to 11.5 mV); 22K + 2.2u film: 3.3 Hz
+P(b,'C96','C','2.2u film',{1:'PRE',2:'PFL_C'},fp=FILM_2U2)
+P(b,'R32','R','22K',{1:'PFL_C',2:'PFL_S'})
 P(b,'SW3','SW','PFL',{2:'PFL_S',1:'PFL',3:'GNDA'},unit=1)
 P(b,'SW3','SW','PFL',{5:'+VL',4:'PFL_ON',6:'NC'},unit=2)
 P(b,'R33','R','100K',{1:'PFL_ON',2:'PFLDET'})

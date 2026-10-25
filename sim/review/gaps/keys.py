@@ -5,7 +5,7 @@ under test is toggled at 0.3 s; the largest excursion of each summer output afte
 Op-amp DC errors drawn per unit (Monte Carlo, uniform): OPA1612 Vos +-500 uV (datasheet max), bias current 60-250 nA
 into both inputs with +-25 nA offset; OPA1656 (U16) Vos +-1.5 mV, no bias current. The PVA2 contacts switch in 1 us.
 Routing keys are not here: their DG413s switch with logic (sim/routing_switch.cir covers that click).
-usage: python3 sim/review/gaps/keys.py [samples]      (PFL_DC_BLOCK=2.2u: the K1 cap in series with R32)"""
+usage: python3 sim/review/gaps/keys.py [samples]   (since K1 the PFL send's C96 is in the netlist itself)"""
 import os, re, sys, math, random, subprocess, tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, '..', '..', '..', 'tools'))
@@ -40,10 +40,6 @@ def deck(key, rnd):
             c = int(mk.group(1)); t_on, t_off = {2: (1, 3), 5: (4, 6)}[c]
             com, a, b = m.node(key, c), m.node(key, t_on), m.node(key, t_off)
             out += [f'S{key}_{c}on {com} {a} key 0 SWK', f'S{key}_{c}off {com} {b} 0 key SWK']
-            continue
-        mr = re.match(r'^Rs_R32 (\S+) (\S+) (\S+)$', line)
-        if mr and os.environ.get('PFL_DC_BLOCK'):        # gaps_proposal.md K1: a film cap in series with the PFL send
-            out += [f'Rs_R32 s_PFLC {mr.group(2)} {mr.group(3)}', f'CPFLBLK {mr.group(1)} s_PFLC {os.environ["PFL_DC_BLOCK"]}']
             continue
         out.append(line)
     for bus, rf in BUSES.items():                          # virtual-earth summers (ideal), output = -sum
