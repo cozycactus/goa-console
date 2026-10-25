@@ -52,6 +52,19 @@ sw = lambda x, y: (x - 2.5, y - 3.0, 0, 'F')          # PVA2: actuator centre at
 led = lambda x, y: (x - 1.27, y, 0, 'F')               # 3 mm LED: centre at (1.27, 0)
 jack = lambda x, y: (x, y - 5.72, 0, 'F')              # NJ6FD-V: nose centre at (0, 5.72) from the tip pin
 
+def write_units(out, units):
+    """Each footprint's symbol units and their pins, after its (sheetfile ...), as KiCad writes them: KiCad 10 keeps them
+    on the footprint, but its Python API can't build the list. Keyed by the footprint's path."""
+    import re
+    s = open(out).read()
+    def add(m):
+        u = units.get(m.group(2))
+        if not u: return m.group(0)
+        return m.group(0) + ' (units ' + ' '.join(f'(unit (name "{n}") (pins {" ".join(chr(34) + q + chr(34) for q in pins)}))'
+                                                    for n, pins in u) + ')'
+    s, n = re.subn(r'(\(path "([^"]+)"\)\s*\(sheetname "[^"]*"\)\s*\(sheetfile "[^"]*"\))', add, s)
+    open(out, 'w').write(s)
+
 def place(NET, OUT, L):
     # Preserve any later manual routing. Rebuild into a separate file once routing has started.
     if os.path.exists(OUT):
@@ -79,10 +92,20 @@ def place(NET, OUT, L):
         # the symbol's full path: its sheet's tstamps ('/' on a flat sheet, '/<sheet uuid>/' on a hierarchical page) and
         # its own uuid; KiCad links a footprint to its symbol by this path, so a flat '/uuid' breaks the link
         sheet = field(sp, 'tstamps') if sp else '/'
+        fl = next((x for x in c[1:] if isinstance(x, list) and x[0] == 'fields'), ['fields'])
+        sfields = {field(x, 'name'): (x[2] if len(x) > 2 and not isinstance(x[2], list) else '') for x in fl[1:]
+                   if isinstance(x, list) and x[0] == 'field'}
+        un = next((x for x in c[1:] if isinstance(x, list) and x[0] == 'units'), ['units'])
+        units = [(field(u, 'name'), [field(pn, 'num') for pn in next(x for x in u[1:] if isinstance(x, list) and x[0] == 'pins')[1:]])
+                 for u in un[1:] if isinstance(u, list) and u[0] == 'unit']
+        # what KiCad's Update PCB from Schematic copies onto the footprint, so that it finds nothing to change:
+        # the sheet's path names, the symbol's fields and footprint filters, its units and pins
         parts[field(c, 'ref')] = dict(value=field(c, 'value'), fp=field(c, 'footprint'), uuid=ts[1] if ts else None,
-                                      path=(sheet + ts[1]) if ts else None, sheetname=props.get('Sheetname', ''),
-                                      sheetfile=props.get('Sheetfile', ''),
-                                      mpn=props.get('MPN'), dnp='dnp' in props, nobom='exclude_from_bom' in props)
+                                      path=(sheet + ts[1]) if ts else None, sheetname=field(sp, 'names') if sp else '/',
+                                      sheetfile=props.get('Sheetfile', ''), fields=sfields,
+                                      filters=props.get('ki_fp_filters', ''), units=units,
+                                      mpn=props.get('MPN'), dnp='dnp' in props, nobom='exclude_from_bom' in props,
+                                      nopos='exclude_from_pos_files' in props)
     SHOW = netnames.renames(NET)          # report names for a drawn schematic's unlabelled nets (the pads keep KiCad's)
     padnet, pintype = {}, {}
     for n in nets[1:]:
@@ -130,7 +153,12 @@ def place(NET, OUT, L):
         if p['sheetfile']: fp.SetSheetname(p['sheetname']); fp.SetSheetfile(p['sheetfile'])
         if p['mpn']:
             fp.SetField('MPN', p['mpn']); fp.GetField('MPN').SetVisible(False)
-        fp.SetDNP(p['dnp']); fp.SetExcludedFromBOM(p['nobom'])
+        for f_ in list(fp.GetFields()):             # the symbol's fields only (a library field such as KiLib_Generator goes)
+            n_ = f_.GetName()
+            if n_ in ('Datasheet', 'Description'): f_.SetText(p['fields'].get(n_, ''))
+            elif n_ not in ('Reference', 'Value') and n_ not in p['fields']: fp.Remove(f_)
+        fp.SetFilters(p['filters'])
+        fp.SetDNP(p['dnp']); fp.SetExcludedFromBOM(p['nobom']); fp.SetExcludedFromPosFiles(p['nopos'])
         for g in fp.GraphicalItems():               # loaded unflipped: silk texts are on F.SilkS
             t = g.Cast()
             if SILK_OFF and isinstance(t, pcbnew.PCB_TEXT) and t.GetLayer() == pcbnew.F_SilkS and t.GetText() in SILK_OFF:
@@ -517,6 +545,7 @@ def place(NET, OUT, L):
         note(txt, W + 3, y, size=2.0)
 
     pcbnew.SaveBoard(OUT, board)
+    write_units(OUT, {p['path']: p['units'] for p in parts.values() if p['path'] and p['units']})
     print(f'placed {len(parts)} footprints + {len(HOLES)} holes on {BOARD[2] - BOARD[0]:.0f} x {BOARD[3] - BOARD[1]:.0f} mm; nets {len(netinfo)}')
     for r in report: print('  WARNING', r)
     if hidden: print(f'  silk reference hidden (no room): {" ".join(sorted(hidden))}')
