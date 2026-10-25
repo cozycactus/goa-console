@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/psu.kicad_sch")
-		(date "2026-10-25T22:00:01")
+		(date "2026-10-25T23:01:33")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -60,6 +60,8 @@
 			(footprint "Capacitor_THT:CP_Radial_D16.0mm_P7.50mm")
 			(fields
 				(field
+					(name "MPN") "Rubycon 35ZLH2200MEFC16X25")
+				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D16.0mm_P7.50mm")
 				(field
 					(name "Datasheet")
@@ -72,6 +74,10 @@
 				(lib "Device")
 				(part "C_Polarized")
 				(description "Polarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Rubycon 35ZLH2200MEFC16X25")
 			)
 			(property
 				(name "Sheetname")
@@ -114,6 +120,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -126,6 +134,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -168,6 +180,8 @@
 			(footprint "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
 			(fields
 				(field
+					(name "MPN") "Panasonic EEU-FR1H470 (50V)")
+				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
 				(field
 					(name "Datasheet")
@@ -180,6 +194,10 @@
 				(lib "Device")
 				(part "C_Polarized")
 				(description "Polarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic EEU-FR1H470 (50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -222,6 +240,8 @@
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
+					(name "MPN") "Rubycon 35ZLH220MEFC8X11.5 (35V)")
+				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
 					(name "Datasheet")
@@ -234,6 +254,10 @@
 				(lib "Device")
 				(part "C_Polarized")
 				(description "Polarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Rubycon 35ZLH220MEFC8X11.5 (35V)")
 			)
 			(property
 				(name "Sheetname")
@@ -276,6 +300,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -288,6 +314,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -330,6 +360,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C222J5GACTU (C0G)")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -342,6 +374,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C222J5GACTU (C0G)")
 			)
 			(property
 				(name "Sheetname")
@@ -384,6 +420,8 @@
 			(footprint "Capacitor_THT:CP_Radial_D16.0mm_P7.50mm")
 			(fields
 				(field
+					(name "MPN") "Rubycon 35ZLH2200MEFC16X25")
+				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D16.0mm_P7.50mm")
 				(field
 					(name "Datasheet")
@@ -396,6 +434,10 @@
 				(lib "Device")
 				(part "C_Polarized")
 				(description "Polarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Rubycon 35ZLH2200MEFC16X25")
 			)
 			(property
 				(name "Sheetname")
@@ -438,6 +480,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -450,6 +494,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -492,6 +540,8 @@
 			(footprint "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
 			(fields
 				(field
+					(name "MPN") "Panasonic EEU-FR1H470 (50V)")
+				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
 				(field
 					(name "Datasheet")
@@ -504,6 +554,10 @@
 				(lib "Device")
 				(part "C_Polarized")
 				(description "Polarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic EEU-FR1H470 (50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -546,6 +600,8 @@
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
+					(name "MPN") "Rubycon 35ZLH220MEFC8X11.5 (35V)")
+				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
 					(name "Datasheet")
@@ -558,6 +614,10 @@
 				(lib "Device")
 				(part "C_Polarized")
 				(description "Polarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Rubycon 35ZLH220MEFC8X11.5 (35V)")
 			)
 			(property
 				(name "Sheetname")
@@ -600,6 +660,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -612,6 +674,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -654,6 +720,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C222J5GACTU (C0G)")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -666,6 +734,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C222J5GACTU (C0G)")
 			)
 			(property
 				(name "Sheetname")
@@ -708,7 +780,7 @@
 			(footprint "Diode_SMD:D_SMA")
 			(fields
 				(field
-					(name "MPN") "S1G")
+					(name "MPN") "Diodes S1G-13-F")
 				(field
 					(name "Footprint") "Diode_SMD:D_SMA")
 				(field
@@ -725,7 +797,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "S1G")
+				(value "Diodes S1G-13-F")
 			)
 			(property
 				(name "Sheetname")
@@ -768,7 +840,7 @@
 			(footprint "Diode_SMD:D_SMA")
 			(fields
 				(field
-					(name "MPN") "S1G")
+					(name "MPN") "Diodes S1G-13-F")
 				(field
 					(name "Footprint") "Diode_SMD:D_SMA")
 				(field
@@ -785,7 +857,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "S1G")
+				(value "Diodes S1G-13-F")
 			)
 			(property
 				(name "Sheetname")
@@ -828,7 +900,7 @@
 			(footprint "Diode_SMD:D_SMC")
 			(fields
 				(field
-					(name "MPN") "SS54")
+					(name "MPN") "Diodes B540C-13-F (SS54 class)")
 				(field
 					(name "Footprint") "Diode_SMD:D_SMC")
 				(field
@@ -845,7 +917,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "SS54")
+				(value "Diodes B540C-13-F (SS54 class)")
 			)
 			(property
 				(name "Sheetname")
@@ -888,6 +960,8 @@
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
+					(name "MPN") "Kingbright WP710A10GD")
+				(field
 					(name "Footprint") "LED_THT:LED_D3.0mm")
 				(field
 					(name "Datasheet")
@@ -900,6 +974,10 @@
 				(lib "Device")
 				(part "LED")
 				(description "Light emitting diode")
+			)
+			(property
+				(name "MPN")
+				(value "Kingbright WP710A10GD")
 			)
 			(property
 				(name "Sheetname")
@@ -942,7 +1020,7 @@
 			(footprint "Diode_SMD:D_SMA")
 			(fields
 				(field
-					(name "MPN") "S1G")
+					(name "MPN") "Diodes S1G-13-F")
 				(field
 					(name "Footprint") "Diode_SMD:D_SMA")
 				(field
@@ -959,7 +1037,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "S1G")
+				(value "Diodes S1G-13-F")
 			)
 			(property
 				(name "Sheetname")
@@ -1002,7 +1080,7 @@
 			(footprint "Diode_SMD:D_SMA")
 			(fields
 				(field
-					(name "MPN") "S1G")
+					(name "MPN") "Diodes S1G-13-F")
 				(field
 					(name "Footprint") "Diode_SMD:D_SMA")
 				(field
@@ -1019,7 +1097,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "S1G")
+				(value "Diodes S1G-13-F")
 			)
 			(property
 				(name "Sheetname")
@@ -1062,7 +1140,7 @@
 			(footprint "Diode_SMD:D_SMC")
 			(fields
 				(field
-					(name "MPN") "SS54")
+					(name "MPN") "Diodes B540C-13-F (SS54 class)")
 				(field
 					(name "Footprint") "Diode_SMD:D_SMC")
 				(field
@@ -1079,7 +1157,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "SS54")
+				(value "Diodes B540C-13-F (SS54 class)")
 			)
 			(property
 				(name "Sheetname")
@@ -1122,6 +1200,8 @@
 			(footprint "LED_THT:LED_D3.0mm")
 			(fields
 				(field
+					(name "MPN") "Kingbright WP710A10GD")
+				(field
 					(name "Footprint") "LED_THT:LED_D3.0mm")
 				(field
 					(name "Datasheet")
@@ -1134,6 +1214,10 @@
 				(lib "Device")
 				(part "LED")
 				(description "Light emitting diode")
+			)
+			(property
+				(name "MPN")
+				(value "Kingbright WP710A10GD")
 			)
 			(property
 				(name "Sheetname")
@@ -1176,7 +1260,7 @@
 			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal")
 			(fields
 				(field
-					(name "MPN") "Phoenix MKDS 1,5/2-5,08")
+					(name "MPN") "Phoenix 1715721 MKDS 1,5/2-5,08")
 				(field
 					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal")
 				(field
@@ -1193,7 +1277,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Phoenix MKDS 1,5/2-5,08")
+				(value "Phoenix 1715721 MKDS 1,5/2-5,08")
 			)
 			(property
 				(name "Sheetname")
@@ -1236,7 +1320,7 @@
 			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal")
 			(fields
 				(field
-					(name "MPN") "Phoenix MKDS 1,5/2-5,08")
+					(name "MPN") "Phoenix 1715721 MKDS 1,5/2-5,08")
 				(field
 					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal")
 				(field
@@ -1253,7 +1337,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Phoenix MKDS 1,5/2-5,08")
+				(value "Phoenix 1715721 MKDS 1,5/2-5,08")
 			)
 			(property
 				(name "Sheetname")
@@ -1296,7 +1380,7 @@
 			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-7-5.08_1x07_P5.08mm_Horizontal")
 			(fields
 				(field
-					(name "MPN") "Phoenix MKDS 1,5/7-5,08 (to a Neutrik NC7FD-LX)")
+					(name "MPN") "Phoenix 1755897 MKDS 1,5/7-5,08 (to a Neutrik NC7FD-LX)")
 				(field
 					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-7-5.08_1x07_P5.08mm_Horizontal")
 				(field
@@ -1313,7 +1397,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Phoenix MKDS 1,5/7-5,08 (to a Neutrik NC7FD-LX)")
+				(value "Phoenix 1755897 MKDS 1,5/7-5,08 (to a Neutrik NC7FD-LX)")
 			)
 			(property
 				(name "Sheetname")
@@ -1371,7 +1455,7 @@
 			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal")
 			(fields
 				(field
-					(name "MPN") "Phoenix MKDS 1,5/2-5,08")
+					(name "MPN") "Phoenix 1715721 MKDS 1,5/2-5,08")
 				(field
 					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal")
 				(field
@@ -1388,7 +1472,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Phoenix MKDS 1,5/2-5,08")
+				(value "Phoenix 1715721 MKDS 1,5/2-5,08")
 			)
 			(property
 				(name "Sheetname")
@@ -2767,7 +2851,7 @@
 			(footprint "Package_TO_SOT_THT:TO-220-3_Vertical")
 			(fields
 				(field
-					(name "MPN") "TI LM1084IT-ADJ")
+					(name "MPN") "TI LM1084IT-ADJ/NOPB")
 				(field
 					(name "Footprint") "Package_TO_SOT_THT:TO-220-3_Vertical")
 				(field
@@ -2784,7 +2868,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "TI LM1084IT-ADJ")
+				(value "TI LM1084IT-ADJ/NOPB")
 			)
 			(property
 				(name "Sheetname")
@@ -2893,7 +2977,7 @@
 			(footprint "Package_TO_SOT_THT:TO-220-3_Vertical")
 			(fields
 				(field
-					(name "MPN") "TI LM1084IT-ADJ")
+					(name "MPN") "TI LM1084IT-ADJ/NOPB")
 				(field
 					(name "Footprint") "Package_TO_SOT_THT:TO-220-3_Vertical")
 				(field
@@ -2910,7 +2994,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "TI LM1084IT-ADJ")
+				(value "TI LM1084IT-ADJ/NOPB")
 			)
 			(property
 				(name "Sheetname")

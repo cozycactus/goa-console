@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/jack_board.kicad_sch")
-		(date "2026-10-25T01:09:45")
+		(date "2026-10-25T23:01:14")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -60,6 +60,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C101J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -72,6 +74,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C101J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -114,6 +120,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C101J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -126,6 +134,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C101J5GACTU")
 			)
 			(property
 				(name "Sheetname")

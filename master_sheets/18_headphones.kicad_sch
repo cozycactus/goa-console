@@ -1392,7 +1392,7 @@
     (property "Datasheet" "" (id 3) (at 88.9 40.64 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "MPN" "TI LME49600TS" (id 4) (at 88.9 40.64 0)
+    (property "MPN" "TI LME49600TS/NOPB" (id 4) (at 88.9 40.64 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 537edf4f-4071-5ae7-911d-458f7868f819))

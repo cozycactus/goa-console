@@ -100,7 +100,7 @@ ct = ref('C'); P(b, ct, 'C', '2.2u film 63V', {1: 'MUTE_T', 2: 'GNDD'}, fp=FILM_
 dr, rr_, dc = D(b, 'MUTE_T', 'MUTE_TX'), R(b, '4K7', 'MUTE_TX', 'RAIL_OK'), D(b, 'GNDD', 'MUTE_T')   # reset path, clamp at -0.7 V
 chain(b, 'RAIL_OK', [('s', rt), ('g', ct), ('g', dc)], 'MUTE_T'); chain(b, 'MUTE_T', [('s', dr), ('s', rr_)], 'RAIL_OK')
 near(cmp(b, 'MUTE_T', 'VREF6', 'MUTE_GO'), uc); cs_ = LAST[0]; frag(b, 20, 10, lambda d: frags.comparators(d, [(cs_, False)]))
-chain(b, 'MUTE_GO', [('s', R(b, '22M', 'MUTE_GO', 'MUTE_T'))], 'MUTE_T')
+chain(b, 'MUTE_GO', [('s', R(b, '22M', 'MUTE_GO', 'MUTE_T', mpn='Yageo RC0805JR-0722ML'))], 'MUTE_T')
 chain(b, '+VL', [('s', R(b, '4K7', '+VL', 'MUTE_GO', mpn='Panasonic ERJ-P06J472V'))], 'MUTE_GO')   # sinks to -VL: 230 mW per power-up (MG12)
 rb4 = R(b, '4K7', 'MUTE_GO', 'RLY_B')
 df, rf4, db_ = D(b, 'RLY_B', 'RLY_BX'), R(b, '4K7', 'RLY_BX', 'RAIL_OK'), D(b, 'GNDD', 'RLY_B')      # fast release, base clamp
@@ -242,7 +242,7 @@ relay(b, 'PHO_L', 'PHJ_L', 'PHO_R', 'PHJ_R', gnd='PHONESGND')
 jack(b, 'JACK', 'Phones TRS', {'T': 'PHJ_L', 'R': 'PHJ_R', 'S': 'PHONESGND'})
 
 b = block('REMOTE METER HEADER (for a meter bridge)')
-cnm = ref('CN'); P(b, cnm, 'HDR5', 'Remote meter', {1: 'MTR_L', 2: 'MTR_R', 3: '+VM', 4: 'GNDM', 5: '-VM'})
+cnm = ref('CN'); P(b, cnm, 'HDR5', 'Remote meter', {1: 'MTR_L', 2: 'MTR_R', 3: '+VM', 4: 'GNDM', 5: '-VM'}, mpn='Sullins PRPC005SAAN-RC')
 frag(b, 22, 9, lambda d: frags.header(d, cnm, 10, 4))
 
 LADDER = [1500, 1100, 910, 680, 620, 470, 330, 300, 220, 180, 150, 110, 91, 68, 62, 47, 33, 27, 20]   # Delta R310-R328

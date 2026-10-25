@@ -31,24 +31,24 @@ FP.update({
 })
 MPN.update({'DRV134': 'TI DRV135UA',   # SO-8: the DRV134 is DIP-8 / SOL-16 only (design_review.md R1)
             'RELAY': 'Omron G6K-2F-Y DC12', 'XLR3': 'Neutrik NC3MAH',
-            'PWRIN': 'Phoenix MKDS 1,5/7-5,08 (wired to a Neutrik NC7MD-LX inlet)', 'PTC': 'Bourns MF-RX160/72',
+            'PWRIN': 'Phoenix 1755897 MKDS 1,5/7-5,08 (wired to a Neutrik NC7MD-LX inlet)', 'PTC': 'Bourns MF-RX160/72-0',
             'DS': 'SS54', 'FB': '220R@100MHz 0805',
-            'LME49600': 'TI LME49600TS', 'OPA1656': 'TI OPA1656ID', 'JACK': 'Neutrik NRJ6HF',
+            'LME49600': 'TI LME49600TS/NOPB', 'OPA1656': 'TI OPA1656ID', 'JACK': 'Neutrik NRJ6HF',
             # B grades: the comparators run from +-17 V (34 V), over the non-B parts' 30 V recommended maximum
             'CMP': 'TI LM393BIDR', 'LM2901': 'TI LM2901BIDR',
-            'DG': 'Vishay DG413DY-E3', 'ZEN': 'Nexperia BZX84-C5V1,215', 'PNP': 'onsemi BCP53-16T1G', 'SCH': 'Nexperia BAT54W',
+            'DG': 'Vishay DG413DY-E3', 'ZEN': 'Nexperia BZX84-C5V1,215', 'PNP': 'onsemi BCP53-16T1G', 'SCH': 'Nexperia BAT54W,115',
             # master_group_review.md MG9 / MG16. TL072H: the H suffix fixes the die (SLOS080W Table 9-1) and is rated 42 V
             'OPA': 'TI OPA1612AIDR', 'TL072': 'TI TL072HIDR', 'NPN': 'onsemi MMBT3904LT1G', 'D': 'Vishay 1N4148-TAP',
             'POT': 'Alpha RD901F-40-15R1-A10K', 'HDR': 'Wurth 61203421621 (2x17 box header)',
             # the ferrite is a stability part: the aux summer's margin follows its inductance (MG16)
             'FB': 'Murata BLM21PG221SN1D'})
-MPN['DS'] = 'onsemi SS54'
+MPN['DS'] = 'Diodes B540C-13-F (SS54 class, SMC 40 V 5 A)'
 # wing PTCs MF-RX185/72 (hpf_proposal.md H4, 2026-10-24): same pads as the MF-RX160/72 (kept on the jig stub), a
 # 1.24 mm wider body; hold 1.50 / 1.33 A at 40 / 50 C against a 1.25 A wing
-PTC185 = dict(fp='goa-console:Fuse_Bourns_MF-RX185-72_Radial_P5.08mm', mpn='Bourns MF-RX185/72')
+PTC185 = dict(fp='goa-console:Fuse_Bourns_MF-RX185-72_Radial_P5.08mm', mpn='Bourns MF-RX185/72-0')
 # +V wing PTCs MF-RX250/72 (wing_power_proposal.md W2, 2026-10-25): +V has three ribbon conductors (pin 34, W1), so its
 # 2.5 A hold is 0.83 A per IDC contact (1 A rated); 10.2 mm lead spacing, its own footprint. -V keeps the MF-RX185/72.
-PTC250 = dict(fp='goa-console:Fuse_Bourns_MF-RX250-72_Radial_P10.16mm', mpn='Bourns MF-RX250/72')
+PTC250 = dict(fp='goa-console:Fuse_Bourns_MF-RX250-72_Radial_P10.16mm', mpn='Bourns MF-RX250/72-0')
 # ceramics >= 25 V (50 V X7R; C0G 50 V) and electrolytics that fit the current footprints, filled by value before
 # build() (master_group_review.md MG16; strip_parts_review.md T9). Value strings keep the minimum rating
 CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Samsung CL31B105KBHNNNE (X7R 50V)',
@@ -57,7 +57,7 @@ CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Samsung CL31B105K
            '22p C0G 5%': 'KEMET C0805C220J5GACTU', '33p C0G': 'KEMET C0805C330J5GACTU',
            '100p C0G': 'KEMET C0805C101J5GACTU', '1n C0G': 'KEMET C0805C102J5GACTU',
            '470u 25V': 'Nichicon UPW1E471MPD', '1000u 25V': 'Nichicon UPW1E102MHD',
-           '47u 25V': 'Nichicon UPW1J470MPD (63V)', '220u 25V': 'Nichicon UPW1V221MPD (35V)',
+           '47u 25V': 'Nichicon UPW1J470MPD (63V)', '220u 25V': 'Nichicon UHE1V221MPD6 (35V)',
            '10u NP 25V': 'Panasonic ECE-A1EN100U', '47u NP 25V': 'Panasonic ECE-A1VN470U (35V)',
            '220u NP 25V': 'Panasonic ECE-A1EN221U',
            # film couplers and audio bipolars (film_np_proposal.md): MUSE ES 25 V in the existing footprints

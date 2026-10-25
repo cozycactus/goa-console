@@ -1,5 +1,5 @@
 "Qty","Value","Footprint","MPN","DNP","References"
-"2","100p C0G","Capacitor_SMD:C_0805_2012Metric","","","C8 C9"
+"2","100p C0G","Capacitor_SMD:C_0805_2012Metric","KEMET C0805C101J5GACTU","","C8 C9"
 "1","Main board link 2x5","Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical","Wurth 61201021621 (2x5 box header)","","CN5"
 "1","Line in TRS","Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical","Neutrik NJ6FD-V","","J1"
 "1","Insert TRS switched","Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical","Neutrik NJ6FD-V","","J2"

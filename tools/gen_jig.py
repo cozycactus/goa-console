@@ -15,7 +15,7 @@ FP.update({'TERM3': 'TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08
            'BNC': 'Connector_Coaxial:BNC_Amphenol_B6252HB-NPP3G-50_Horizontal',
            'TP': 'TestPoint:TestPoint_Keystone_5010-5014_Multipurpose',
            'SLIDE': 'Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q'})
-MPN.update({'TERM3': 'Phoenix MKDS 1,5/3-5,08', 'BNC': 'Amphenol B6252HB-NPP3G-50', 'TP': 'Keystone 5010',
+MPN.update({'TERM3': 'Phoenix 1715734 MKDS 1,5/3-5,08', 'BNC': 'Amphenol B6252HB-NPP3G-50', 'TP': 'Keystone 5010',
             'SLIDE': 'C&K OS102011MS2QN1', 'JMP2': '2.54 mm header + shunt', 'JMP3': '2.54 mm header + shunt'})
 
 def bus_header(b, plus, minus, used, unused='GNDA', pfldet='PFLDET'):

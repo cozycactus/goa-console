@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/jig_load_board.kicad_sch")
-		(date "2026-10-25T16:07:30")
+		(date "2026-10-25T23:01:38")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -453,7 +453,7 @@
 			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal")
 			(fields
 				(field
-					(name "MPN") "Phoenix MKDS 1,5/3-5,08")
+					(name "MPN") "Phoenix 1715734 MKDS 1,5/3-5,08")
 				(field
 					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal")
 				(field
@@ -470,7 +470,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Phoenix MKDS 1,5/3-5,08")
+				(value "Phoenix 1715734 MKDS 1,5/3-5,08")
 			)
 			(property
 				(name "Sheetname")

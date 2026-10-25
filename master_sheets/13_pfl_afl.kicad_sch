@@ -1561,7 +1561,7 @@
     (property "Datasheet" "" (id 3) (at 76.2 113.03 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "MPN" "Nexperia BAT54W" (id 4) (at 76.2 113.03 0)
+    (property "MPN" "Nexperia BAT54W,115" (id 4) (at 76.2 113.03 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 2d268457-d39f-5549-8004-d58dcadb669a))

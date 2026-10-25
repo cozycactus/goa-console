@@ -1449,6 +1449,9 @@
     (property "Datasheet" "" (id 3) (at 234.95 149.86 0)
       (effects (font (size 1.27 1.27)) hide)
     )
+    (property "MPN" "Yageo RC0805JR-0722ML" (id 4) (at 234.95 149.86 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
     (pin "1" (uuid 973ab11f-e970-5f86-a108-2ed4653ee4fc))
     (pin "2" (uuid 7c0642ce-6ac0-5cf8-9fa4-bbc9fd1761c4))
     (instances

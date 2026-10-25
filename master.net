@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/master.kicad_sch")
-		(date "2026-10-25T21:59:49")
+		(date "2026-10-25T23:01:24")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -8256,6 +8256,8 @@
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Yageo RC0805JR-0722ML")
+				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -8268,6 +8270,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Yageo RC0805JR-0722ML")
 			)
 			(property
 				(name "Sheetname")
@@ -16976,7 +16982,7 @@
 			(footprint "Package_TO_SOT_SMD:SOT-323_SC-70")
 			(fields
 				(field
-					(name "MPN") "Nexperia BAT54W")
+					(name "MPN") "Nexperia BAT54W,115")
 				(field
 					(name "Footprint") "Package_TO_SOT_SMD:SOT-323_SC-70")
 				(field
@@ -16993,7 +16999,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Nexperia BAT54W")
+				(value "Nexperia BAT54W,115")
 			)
 			(property
 				(name "Sheetname")
@@ -22188,7 +22194,7 @@
 			(footprint "Package_TO_SOT_SMD:TO-263-5_TabPin3")
 			(fields
 				(field
-					(name "MPN") "TI LME49600TS")
+					(name "MPN") "TI LME49600TS/NOPB")
 				(field
 					(name "Footprint") "Package_TO_SOT_SMD:TO-263-5_TabPin3")
 				(field
@@ -22205,7 +22211,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "TI LME49600TS")
+				(value "TI LME49600TS/NOPB")
 			)
 			(property
 				(name "Sheetname")
@@ -23712,7 +23718,7 @@
 			(footprint "Package_TO_SOT_SMD:TO-263-5_TabPin3")
 			(fields
 				(field
-					(name "MPN") "TI LME49600TS")
+					(name "MPN") "TI LME49600TS/NOPB")
 				(field
 					(name "Footprint") "Package_TO_SOT_SMD:TO-263-5_TabPin3")
 				(field
@@ -23729,7 +23735,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "TI LME49600TS")
+				(value "TI LME49600TS/NOPB")
 			)
 			(property
 				(name "Sheetname")
@@ -35070,7 +35076,7 @@
 			(footprint "Diode_SMD:D_SMC")
 			(fields
 				(field
-					(name "MPN") "onsemi SS54")
+					(name "MPN") "Diodes B540C-13-F (SS54 class, SMC 40 V 5 A)")
 				(field
 					(name "Footprint") "Diode_SMD:D_SMC")
 				(field
@@ -35087,7 +35093,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "onsemi SS54")
+				(value "Diodes B540C-13-F (SS54 class, SMC 40 V 5 A)")
 			)
 			(property
 				(name "Sheetname")
@@ -35130,7 +35136,7 @@
 			(footprint "Diode_SMD:D_SMC")
 			(fields
 				(field
-					(name "MPN") "onsemi SS54")
+					(name "MPN") "Diodes B540C-13-F (SS54 class, SMC 40 V 5 A)")
 				(field
 					(name "Footprint") "Diode_SMD:D_SMC")
 				(field
@@ -35147,7 +35153,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "onsemi SS54")
+				(value "Diodes B540C-13-F (SS54 class, SMC 40 V 5 A)")
 			)
 			(property
 				(name "Sheetname")
@@ -35190,7 +35196,7 @@
 			(footprint "goa-console:Fuse_Bourns_MF-RX250-72_Radial_P10.16mm")
 			(fields
 				(field
-					(name "MPN") "Bourns MF-RX250/72")
+					(name "MPN") "Bourns MF-RX250/72-0")
 				(field
 					(name "Footprint") "goa-console:Fuse_Bourns_MF-RX250-72_Radial_P10.16mm")
 				(field
@@ -35207,7 +35213,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Bourns MF-RX250/72")
+				(value "Bourns MF-RX250/72-0")
 			)
 			(property
 				(name "Sheetname")
@@ -35250,7 +35256,7 @@
 			(footprint "goa-console:Fuse_Bourns_MF-RX185-72_Radial_P5.08mm")
 			(fields
 				(field
-					(name "MPN") "Bourns MF-RX185/72")
+					(name "MPN") "Bourns MF-RX185/72-0")
 				(field
 					(name "Footprint") "goa-console:Fuse_Bourns_MF-RX185-72_Radial_P5.08mm")
 				(field
@@ -35267,7 +35273,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Bourns MF-RX185/72")
+				(value "Bourns MF-RX185/72-0")
 			)
 			(property
 				(name "Sheetname")
@@ -35310,7 +35316,7 @@
 			(footprint "goa-console:Fuse_Bourns_MF-RX250-72_Radial_P10.16mm")
 			(fields
 				(field
-					(name "MPN") "Bourns MF-RX250/72")
+					(name "MPN") "Bourns MF-RX250/72-0")
 				(field
 					(name "Footprint") "goa-console:Fuse_Bourns_MF-RX250-72_Radial_P10.16mm")
 				(field
@@ -35327,7 +35333,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Bourns MF-RX250/72")
+				(value "Bourns MF-RX250/72-0")
 			)
 			(property
 				(name "Sheetname")
@@ -35370,7 +35376,7 @@
 			(footprint "goa-console:Fuse_Bourns_MF-RX185-72_Radial_P5.08mm")
 			(fields
 				(field
-					(name "MPN") "Bourns MF-RX185/72")
+					(name "MPN") "Bourns MF-RX185/72-0")
 				(field
 					(name "Footprint") "goa-console:Fuse_Bourns_MF-RX185-72_Radial_P5.08mm")
 				(field
@@ -35387,7 +35393,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Bourns MF-RX185/72")
+				(value "Bourns MF-RX185/72-0")
 			)
 			(property
 				(name "Sheetname")
@@ -35430,7 +35436,7 @@
 			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-7-5.08_1x07_P5.08mm_Horizontal")
 			(fields
 				(field
-					(name "MPN") "Phoenix MKDS 1,5/7-5,08 (wired to a Neutrik NC7MD-LX inlet)")
+					(name "MPN") "Phoenix 1755897 MKDS 1,5/7-5,08 (wired to a Neutrik NC7MD-LX inlet)")
 				(field
 					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-7-5.08_1x07_P5.08mm_Horizontal")
 				(field
@@ -35447,7 +35453,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Phoenix MKDS 1,5/7-5,08 (wired to a Neutrik NC7MD-LX inlet)")
+				(value "Phoenix 1755897 MKDS 1,5/7-5,08 (wired to a Neutrik NC7MD-LX inlet)")
 			)
 			(property
 				(name "Sheetname")
@@ -36795,6 +36801,8 @@
 			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical")
 			(fields
 				(field
+					(name "MPN") "Sullins PRPC005SAAN-RC")
+				(field
 					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical")
 				(field
 					(name "Datasheet")
@@ -36807,6 +36815,10 @@
 				(lib "Connector_Generic")
 				(part "Conn_01x05")
 				(description "Generic connector, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(property
+				(name "MPN")
+				(value "Sullins PRPC005SAAN-RC")
 			)
 			(property
 				(name "Sheetname")

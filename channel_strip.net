@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/channel_strip.kicad_sch")
-		(date "2026-10-25T21:59:37")
+		(date "2026-10-25T23:01:10")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -11,12 +11,12 @@
 			(title_block
 				(title "Channel strip - goa console")
 				(company)
-				(rev "4.3")
+				(rev "4.6")
 				(date "2026-10-19")
 				(source "channel_strip.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.3")
+					(value "Generated from channel_strip_schematic_spec.md v4.6")
 				)
 				(comment
 					(number "2")
@@ -59,12 +59,12 @@
 			(title_block
 				(title "LINE INPUT, GAIN")
 				(company "Channel strip - goa console")
-				(rev "4.3")
+				(rev "4.6")
 				(date "2026-10-19")
 				(source "02_line_input.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.3")
+					(value "Generated from channel_strip_schematic_spec.md v4.6")
 				)
 				(comment
 					(number "2")
@@ -107,12 +107,12 @@
 			(title_block
 				(title "HPF, INSERT POSITION JUMPERS")
 				(company "Channel strip - goa console")
-				(rev "4.3")
+				(rev "4.6")
 				(date "2026-10-19")
 				(source "03_hpf.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.3")
+					(value "Generated from channel_strip_schematic_spec.md v4.6")
 				)
 				(comment
 					(number "2")
@@ -155,12 +155,12 @@
 			(title_block
 				(title "EQ")
 				(company "Channel strip - goa console")
-				(rev "4.3")
+				(rev "4.6")
 				(date "2026-10-19")
 				(source "04_eq.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.3")
+					(value "Generated from channel_strip_schematic_spec.md v4.6")
 				)
 				(comment
 					(number "2")
@@ -203,12 +203,12 @@
 			(title_block
 				(title "EQ MID TUNING")
 				(company "Channel strip - goa console")
-				(rev "4.3")
+				(rev "4.6")
 				(date "2026-10-19")
 				(source "05_eq_mid_tuning.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.3")
+					(value "Generated from channel_strip_schematic_spec.md v4.6")
 				)
 				(comment
 					(number "2")
@@ -251,12 +251,12 @@
 			(title_block
 				(title "EQ MID TUNING, EQ IN")
 				(company "Channel strip - goa console")
-				(rev "4.3")
+				(rev "4.6")
 				(date "2026-10-19")
 				(source "06_eq_mid_tuning.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.3")
+					(value "Generated from channel_strip_schematic_spec.md v4.6")
 				)
 				(comment
 					(number "2")
@@ -299,12 +299,12 @@
 			(title_block
 				(title "INSERT, OVERLOAD DETECTOR")
 				(company "Channel strip - goa console")
-				(rev "4.3")
+				(rev "4.6")
 				(date "2026-10-19")
 				(source "07_insert.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.3")
+					(value "Generated from channel_strip_schematic_spec.md v4.6")
 				)
 				(comment
 					(number "2")
@@ -347,12 +347,12 @@
 			(title_block
 				(title "PFL, ON-SOFT MUTE")
 				(company "Channel strip - goa console")
-				(rev "4.3")
+				(rev "4.6")
 				(date "2026-10-19")
 				(source "08_pfl.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.3")
+					(value "Generated from channel_strip_schematic_spec.md v4.6")
 				)
 				(comment
 					(number "2")
@@ -395,12 +395,12 @@
 			(title_block
 				(title "FADER + POST-AMP")
 				(company "Channel strip - goa console")
-				(rev "4.3")
+				(rev "4.6")
 				(date "2026-10-19")
 				(source "09_fader_post_amp.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.3")
+					(value "Generated from channel_strip_schematic_spec.md v4.6")
 				)
 				(comment
 					(number "2")
@@ -443,12 +443,12 @@
 			(title_block
 				(title "AUX SENDS, DIRECT OUT")
 				(company "Channel strip - goa console")
-				(rev "4.3")
+				(rev "4.6")
 				(date "2026-10-19")
 				(source "10_aux_sends.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.3")
+					(value "Generated from channel_strip_schematic_spec.md v4.6")
 				)
 				(comment
 					(number "2")
@@ -491,12 +491,12 @@
 			(title_block
 				(title "PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX")
 				(company "Channel strip - goa console")
-				(rev "4.3")
+				(rev "4.6")
 				(date "2026-10-19")
 				(source "11_pan_pan_buffers.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.3")
+					(value "Generated from channel_strip_schematic_spec.md v4.6")
 				)
 				(comment
 					(number "2")
@@ -539,12 +539,12 @@
 			(title_block
 				(title "ROUTING MATRIX")
 				(company "Channel strip - goa console")
-				(rev "4.3")
+				(rev "4.6")
 				(date "2026-10-19")
 				(source "12_routing_matrix.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.3")
+					(value "Generated from channel_strip_schematic_spec.md v4.6")
 				)
 				(comment
 					(number "2")
@@ -587,12 +587,12 @@
 			(title_block
 				(title "ROUTING MATRIX")
 				(company "Channel strip - goa console")
-				(rev "4.3")
+				(rev "4.6")
 				(date "2026-10-19")
 				(source "13_routing_matrix.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.3")
+					(value "Generated from channel_strip_schematic_spec.md v4.6")
 				)
 				(comment
 					(number "2")
@@ -635,12 +635,12 @@
 			(title_block
 				(title "POWER ENTRY")
 				(company "Channel strip - goa console")
-				(rev "4.3")
+				(rev "4.6")
 				(date "2026-10-19")
 				(source "14_power_entry.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.3")
+					(value "Generated from channel_strip_schematic_spec.md v4.6")
 				)
 				(comment
 					(number "2")
@@ -683,12 +683,12 @@
 			(title_block
 				(title "POWER ENTRY, MOTHERLOOM")
 				(company "Channel strip - goa console")
-				(rev "4.3")
+				(rev "4.6")
 				(date "2026-10-19")
 				(source "15_power_entry.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.3")
+					(value "Generated from channel_strip_schematic_spec.md v4.6")
 				)
 				(comment
 					(number "2")
@@ -732,7 +732,7 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C330J5GACTU")
+					(name "MPN") "KEMET C1206C330J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
@@ -749,7 +749,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C330J5GACTU")
+				(value "KEMET C1206C330J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -792,7 +792,7 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C220J5GACTU")
+					(name "MPN") "KEMET C1206C220J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
@@ -809,7 +809,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C220J5GACTU")
+				(value "KEMET C1206C220J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -912,7 +912,7 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C330J5GACTU")
+					(name "MPN") "KEMET C1206C330J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
@@ -929,7 +929,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C330J5GACTU")
+				(value "KEMET C1206C330J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -1032,7 +1032,7 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C101J5GACTU")
+					(name "MPN") "KEMET C1206C101J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
@@ -1049,7 +1049,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C101J5GACTU")
+				(value "KEMET C1206C101J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -1092,7 +1092,7 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C101J5GACTU")
+					(name "MPN") "KEMET C1206C101J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
@@ -1109,7 +1109,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C101J5GACTU")
+				(value "KEMET C1206C101J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -2278,7 +2278,7 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C220J5GACTU")
+					(name "MPN") "KEMET C1206C220J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
@@ -2295,7 +2295,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C220J5GACTU")
+				(value "KEMET C1206C220J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -2338,7 +2338,7 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C100J5GACTU")
+					(name "MPN") "KEMET C1206C100J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
@@ -2355,7 +2355,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C100J5GACTU")
+				(value "KEMET C1206C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -2398,6 +2398,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "Murata GRM31C5C1H104JA01L")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -2410,6 +2412,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Murata GRM31C5C1H104JA01L")
 			)
 			(property
 				(name "Sheetname")
@@ -2452,6 +2458,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "Murata GRM31C5C1H104JA01L")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -2464,6 +2472,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Murata GRM31C5C1H104JA01L")
 			)
 			(property
 				(name "Sheetname")
@@ -3551,7 +3563,7 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C330J5GACTU")
+					(name "MPN") "KEMET C1206C330J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
@@ -3568,7 +3580,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C330J5GACTU")
+				(value "KEMET C1206C330J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -3611,6 +3623,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C1206C472J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -3623,6 +3637,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C1206C472J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -3665,6 +3683,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C1206C472J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -3677,6 +3697,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C1206C472J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -3839,6 +3863,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "Murata GRM31C5C1H104JA01L")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -3851,6 +3877,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Murata GRM31C5C1H104JA01L")
 			)
 			(property
 				(name "Sheetname")
@@ -3893,7 +3923,7 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C100J5GACTU")
+					(name "MPN") "KEMET C1206C100J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
@@ -3910,7 +3940,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C100J5GACTU")
+				(value "KEMET C1206C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -3953,7 +3983,7 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C100J5GACTU")
+					(name "MPN") "KEMET C1206C100J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
@@ -3970,7 +4000,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C100J5GACTU")
+				(value "KEMET C1206C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -4013,7 +4043,7 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C100J5GACTU")
+					(name "MPN") "KEMET C1206C100J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
@@ -4030,7 +4060,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C100J5GACTU")
+				(value "KEMET C1206C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -4073,7 +4103,7 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C100J5GACTU")
+					(name "MPN") "KEMET C1206C100J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
@@ -4090,7 +4120,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C100J5GACTU")
+				(value "KEMET C1206C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -4133,7 +4163,7 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C220J5GACTU")
+					(name "MPN") "KEMET C1206C220J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
@@ -4150,7 +4180,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C220J5GACTU")
+				(value "KEMET C1206C220J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -5377,6 +5407,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C1206C222J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -5389,6 +5421,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C1206C222J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -5431,6 +5467,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C1206C472J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -5443,6 +5481,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C1206C472J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -5485,7 +5527,7 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C100J5GACTU")
+					(name "MPN") "KEMET C1206C100J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
@@ -5502,7 +5544,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C100J5GACTU")
+				(value "KEMET C1206C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -5545,7 +5587,7 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C220J5GACTU")
+					(name "MPN") "KEMET C1206C220J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
@@ -5562,7 +5604,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C220J5GACTU")
+				(value "KEMET C1206C220J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -6447,6 +6489,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C1206C103J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -6459,6 +6503,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C1206C103J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -6501,6 +6549,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C1206C223J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -6513,6 +6563,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C1206C223J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -6615,7 +6669,7 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C100J5GACTU")
+					(name "MPN") "KEMET C1206C100J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
@@ -6632,7 +6686,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C100J5GACTU")
+				(value "KEMET C1206C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -6675,7 +6729,7 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C220J5GACTU")
+					(name "MPN") "KEMET C1206C220J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
@@ -6692,7 +6746,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C220J5GACTU")
+				(value "KEMET C1206C220J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -7914,7 +7968,7 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C101J5GACTU")
+					(name "MPN") "KEMET C1206C101J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
@@ -7931,7 +7985,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C101J5GACTU")
+				(value "KEMET C1206C101J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -8034,6 +8088,8 @@
 			(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
 			(fields
 				(field
+					(name "MPN") "Vishay 1N4148-TAP")
+				(field
 					(name "Footprint") "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
 				(field
 					(name "Datasheet")
@@ -8046,6 +8102,10 @@
 				(lib "Diode")
 				(part "1N4148")
 				(description "100V 0.15A standard switching diode, DO-35")
+			)
+			(property
+				(name "MPN")
+				(value "Vishay 1N4148-TAP")
 			)
 			(property
 				(name "Sheetname")
@@ -8842,7 +8902,7 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C100J5GACTU")
+					(name "MPN") "KEMET C1206C100J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
@@ -8859,7 +8919,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C100J5GACTU")
+				(value "KEMET C1206C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -9888,7 +9948,7 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C101J5GACTU")
+					(name "MPN") "KEMET C1206C101J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
@@ -9905,7 +9965,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C101J5GACTU")
+				(value "KEMET C1206C101J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -10008,7 +10068,7 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C100J5GACTU")
+					(name "MPN") "KEMET C1206C100J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
@@ -10025,7 +10085,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C100J5GACTU")
+				(value "KEMET C1206C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -10735,7 +10795,7 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C220J5GACTU")
+					(name "MPN") "KEMET C1206C220J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
@@ -10752,7 +10812,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C220J5GACTU")
+				(value "KEMET C1206C220J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -12415,7 +12475,7 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "MPN") "Murata GRM21BR71H105KA12 (X7R 50V)")
+					(name "MPN") "Murata GRM21BR71H105KA12L (X7R 50V)")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
@@ -12432,7 +12492,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Murata GRM21BR71H105KA12 (X7R 50V)")
+				(value "Murata GRM21BR71H105KA12L (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -12475,7 +12535,7 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C100J5GACTU")
+					(name "MPN") "KEMET C1206C100J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
@@ -12492,7 +12552,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C100J5GACTU")
+				(value "KEMET C1206C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -12535,7 +12595,7 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "KEMET C0805C100J5GACTU")
+					(name "MPN") "KEMET C1206C100J5GACTU")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
@@ -12552,7 +12612,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "KEMET C0805C100J5GACTU")
+				(value "KEMET C1206C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -12658,7 +12718,7 @@
 			(footprint "Package_TO_SOT_SMD:SOT-323_SC-70")
 			(fields
 				(field
-					(name "MPN") "Nexperia BAT54W")
+					(name "MPN") "Nexperia BAT54W,115")
 				(field
 					(name "Footprint") "Package_TO_SOT_SMD:SOT-323_SC-70")
 				(field
@@ -12675,7 +12735,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Nexperia BAT54W")
+				(value "Nexperia BAT54W,115")
 			)
 			(property
 				(name "Sheetname")
@@ -15006,6 +15066,8 @@
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
+					(name "MPN") "Rubycon 35ZLH220MEFC8X11.5 (35V)")
+				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
 					(name "Datasheet")
@@ -15018,6 +15080,10 @@
 				(lib "Device")
 				(part "C_Polarized")
 				(description "Polarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Rubycon 35ZLH220MEFC8X11.5 (35V)")
 			)
 			(property
 				(name "Sheetname")
@@ -15120,6 +15186,8 @@
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
+					(name "MPN") "Rubycon 35ZLH220MEFC8X11.5 (35V)")
+				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
 					(name "Datasheet")
@@ -15132,6 +15200,10 @@
 				(lib "Device")
 				(part "C_Polarized")
 				(description "Polarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Rubycon 35ZLH220MEFC8X11.5 (35V)")
 			)
 			(property
 				(name "Sheetname")
@@ -15234,6 +15306,8 @@
 			(footprint "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
 			(fields
 				(field
+					(name "MPN") "Panasonic EEU-FR1H470 (50V)")
+				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
 				(field
 					(name "Datasheet")
@@ -15246,6 +15320,10 @@
 				(lib "Device")
 				(part "C_Polarized")
 				(description "Polarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic EEU-FR1H470 (50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -15288,6 +15366,8 @@
 			(footprint "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
 			(fields
 				(field
+					(name "MPN") "Panasonic EEU-FR1H470 (50V)")
+				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
 				(field
 					(name "Datasheet")
@@ -15300,6 +15380,10 @@
 				(lib "Device")
 				(part "C_Polarized")
 				(description "Polarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic EEU-FR1H470 (50V)")
 			)
 			(property
 				(name "Sheetname")

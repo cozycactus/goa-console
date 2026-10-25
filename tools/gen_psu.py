@@ -17,17 +17,20 @@ FP.update({'LDO': 'Package_TO_SOT_THT:TO-220-3_Vertical', 'SCR': 'Package_TO_SOT
            'DS': 'Diode_SMD:D_SMC', 'DG': 'Diode_SMD:D_SMA',
            'TERM2': 'TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal',
            'TERM7': 'TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-7-5.08_1x07_P5.08mm_Horizontal'})
-MPN.update({'LDO': 'TI LM1084IT-ADJ', 'SCR': 'onsemi 2N6505G', 'TL431': 'TI TL431AIDBZR', 'PNP': 'onsemi MMBT3906LT1G',
-            'L': 'Bourns 2100LL-100-H-RC', 'DS': 'SS54', 'DG': 'S1G',
-            'TERM2': 'Phoenix MKDS 1,5/2-5,08', 'TERM7': 'Phoenix MKDS 1,5/7-5,08 (to a Neutrik NC7FD-LX)'})
+MPN.update({'LDO': 'TI LM1084IT-ADJ/NOPB', 'SCR': 'onsemi 2N6505G', 'TL431': 'TI TL431AIDBZR', 'PNP': 'onsemi MMBT3906LT1G',
+            'L': 'Bourns 2100LL-100-H-RC', 'DS': 'Diodes B540C-13-F (SS54 class)', 'DG': 'Diodes S1G-13-F', 'LED': 'Kingbright WP710A10GD',
+            'TERM2': 'Phoenix 1715721 MKDS 1,5/2-5,08', 'TERM7': 'Phoenix 1755897 MKDS 1,5/7-5,08 (to a Neutrik NC7FD-LX)'})
 CPFP = {'2200u': 'Capacitor_THT:CP_Radial_D16.0mm_P7.50mm', '220u': 'Capacitor_THT:CP_Radial_D8.0mm_P3.50mm',
         '47u': 'Capacitor_THT:CP_Radial_D6.3mm_P2.50mm'}
+CAP_MPN = {'2200u 35V low-ESR': 'Rubycon 35ZLH2200MEFC16X25', '220u 25V': 'Rubycon 35ZLH220MEFC8X11.5 (35V)',
+           '47u 25V': 'Panasonic EEU-FR1H470 (50V)', '100n': 'Samsung CL21B104KBCNNNC (X7R 50V)',
+           '2n2': 'KEMET C0805C222J5GACTU (C0G)'}
 
 cnt = collections.Counter()
 def ref(p): cnt[p] += 1; return f'{p}{cnt[p]}'
 def R(b, v, a, c): P(b, ref('R'), 'R', v, {1: a, 2: c})
-def C(b, v, a, c): P(b, ref('C'), 'C', v, {1: a, 2: c})
-def CP(b, v, plus, minus): P(b, ref('C'), 'CP', v, {1: plus, 2: minus}, fp=CPFP[v.split()[0]])
+def C(b, v, a, c): P(b, ref('C'), 'C', v, {1: a, 2: c}, mpn=CAP_MPN[v])
+def CP(b, v, plus, minus): P(b, ref('C'), 'CP', v, {1: plus, 2: minus}, fp=CPFP[v.split()[0]], mpn=CAP_MPN[v])
 
 def rail(name, out, rtn, smps):
     """One floating rail: x = net prefix. OUT and RTN are the rail's own output and return."""

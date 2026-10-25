@@ -8,14 +8,17 @@ def block(title): return schgen.block(title, draw=strip_draw.for_title(title))  
 SYM.update({'CONN6': ('Connector_Generic', 'Conn_01x06'), 'CONN2': ('Connector_Generic', 'Conn_01x02'),
             'LINK': ('Connector_Generic', 'Conn_02x05_Odd_Even'),
             'DG': ('Analog_Switch', 'DG413xY'), 'ZEN': ('Diode', 'BZX84Cxx'), 'SCH': ('Diode', 'BAT54W')})
-schgen.MPN.update({'DG': 'Vishay DG413DY-E3', 'ZEN': 'Nexperia BZX84-C5V1,215', 'SCH': 'Nexperia BAT54W',
-                   'OPA': 'TI OPA1612AIDR', 'CMP': 'TI LM393BIDR', 'JFET': 'onsemi MMBFJ112'})
+schgen.MPN.update({'DG': 'Vishay DG413DY-E3', 'ZEN': 'Nexperia BZX84-C5V1,215', 'SCH': 'Nexperia BAT54W,115',
+                   'OPA': 'TI OPA1612AIDR', 'CMP': 'TI LM393BIDR', 'JFET': 'onsemi MMBFJ112', 'D': 'Vishay 1N4148-TAP'})
 # strip_parts_review.md T9/T10: ceramics >= 25 V (50 V X7R here), anti-surge resistors where the power is marginal
-CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Murata GRM21BR71H105KA12 (X7R 50V)',
+CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Murata GRM21BR71H105KA12L (X7R 50V)',
            '220n': 'Samsung CL21B224KBFNNNE (X7R 50V)',
-           # the master's parts for the same values (design_review.md R5); a value's voltage is its minimum rating
-           '10p C0G': 'KEMET C0805C100J5GACTU', '22p C0G': 'KEMET C0805C220J5GACTU', '33p C0G': 'KEMET C0805C330J5GACTU',
-           '100p C0G': 'KEMET C0805C101J5GACTU', '220u 25V': 'Nichicon UPW1V221MPD (35V)', '47u 25V': 'Nichicon UPW1J470MPD (63V)',
+           # every strip C0G sits on the 1206 footprint (C0G below); a value's voltage is its minimum rating
+           '10p C0G': 'KEMET C1206C100J5GACTU', '22p C0G': 'KEMET C1206C220J5GACTU', '33p C0G': 'KEMET C1206C330J5GACTU',
+           '100p C0G': 'KEMET C1206C101J5GACTU', '2n2 C0G': 'KEMET C1206C222J5GACTU', '4n7 C0G': 'KEMET C1206C472J5GACTU',
+           '10n C0G': 'KEMET C1206C103J5GACTU', '22n C0G': 'KEMET C1206C223J5GACTU', '100n C0G': 'Murata GRM31C5C1H104JA01L',
+           # rail reservoirs in the strip's own footprints (D8 P3.5, D6.3 P2.5; the master's UPW parts are larger)
+           '220u 25V': 'Rubycon 35ZLH220MEFC8X11.5 (35V)', '47u 25V': 'Panasonic EEU-FR1H470 (50V)',
            '150n film': 'WIMA MKS2C031501A00KSSD (PET 63V; check stock, older suffixes are discontinued)',
            '2.2u film': 'WIMA MKS2C042201K00KSSD (PET 63V)',
            # audio bipolars, Nichicon MUSE ES 25 V, in the existing footprints (film_np_proposal.md)
@@ -299,7 +302,7 @@ for sw,u,rl,rr,sl,sr,bl,br,nm,rpd,rled,dled,cs in [
 
 for _, ps in schgen.blocks:                     # ceramic MPNs by value (X7R 50 V; C0G parts keep their value text)
     for pt in ps:
-        if pt['key'] == 'C' and not pt['mpn']: pt['mpn'] = CAP_MPN.get(pt['value'], '')
+        if pt['key'] in ('C', 'CP') and not pt['mpn']: pt['mpn'] = CAP_MPN.get(pt['value'], '')
 build(OUT, 'channel_strip', 'Channel strip - goa console',
       {1: 'Generated from channel_strip_schematic_spec.md v4.6', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
        3: 'A Delta Theatre input without the mic stage'},
@@ -315,7 +318,7 @@ b = block('JACK BOARD  (3 x NJ6FD-V ~24 mm under the panel; 10-way IDC ribbon to
 # standoff holes H1 / H2 to the panel, so cable-shield currents stay out of GNDA; the insert (single-ended) keeps GNDA.
 # J1's normals short tip and ring to GNDA when nothing is plugged in (the 1M bias would hiss otherwise).
 P(b,'J1','JACKSW','Line in TRS',{'T':'IN_T','R':'IN_R','S':'CHASSIS','TN':'GNDA','RN':'GNDA'},fp=JACK_V,mpn=JACK_V_MPN)
-P(b,'C8','C','100p C0G',{1:'IN_T',2:'CHASSIS'}); P(b,'C9','C','100p C0G',{1:'IN_R',2:'CHASSIS'})   # RF shunt at the jack
+P(b,'C8','C','100p C0G',{1:'IN_T',2:'CHASSIS'},mpn='KEMET C0805C101J5GACTU'); P(b,'C9','C','100p C0G',{1:'IN_R',2:'CHASSIS'},mpn='KEMET C0805C101J5GACTU')   # RF shunt at the jack
 P(b,'J2','JACKSW','Insert TRS switched',{'T':'SEND','RN':'SEND','R':'RET_RAW','TN':'NC','S':'GNDA'},fp=JACK_V,mpn=JACK_V_MPN)
 P(b,'J5','JACKSW','Direct out TRS',{'T':'DO_T','R':'DO_R','S':'CHASSIS','TN':'NC','RN':'NC'},fp=JACK_V,mpn=JACK_V_MPN)
 P(b,'H1','MHPAD','M3 standoff to panel',{1:'CHASSIS'}); P(b,'H2','MHPAD','M3 standoff to panel',{1:'CHASSIS'})

@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/group.kicad_sch")
-		(date "2026-10-25T21:59:43")
+		(date "2026-10-25T23:01:17")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -10912,7 +10912,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 			(fields
 				(field
-					(name "MPN") "Nichicon UPW1V221MPD (35V)")
+					(name "MPN") "Nichicon UHE1V221MPD6 (35V)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 				(field
@@ -10929,7 +10929,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Nichicon UPW1V221MPD (35V)")
+				(value "Nichicon UHE1V221MPD6 (35V)")
 			)
 			(property
 				(name "Sheetname")
@@ -10972,7 +10972,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 			(fields
 				(field
-					(name "MPN") "Nichicon UPW1V221MPD (35V)")
+					(name "MPN") "Nichicon UHE1V221MPD6 (35V)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 				(field
@@ -10989,7 +10989,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Nichicon UPW1V221MPD (35V)")
+				(value "Nichicon UHE1V221MPD6 (35V)")
 			)
 			(property
 				(name "Sheetname")

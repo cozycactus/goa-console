@@ -2,7 +2,7 @@
 "3","1n C0G","Capacitor_SMD:C_0805_2012Metric","KEMET C0805C102J5GACTU","","C1 C2 C3"
 "1","Bus 2x17 (ribbon)","Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical","Wurth 61203421621 (2x17 box header)","","CN1"
 "1","Ground spade 6.3mm (to the ground bar)","goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm","Keystone 1287-ST","","CN2"
-"1","Dummy load +V / 0 V / -V","TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal","Phoenix MKDS 1,5/3-5,08","","J1"
+"1","Dummy load +V / 0 V / -V","TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal","Phoenix 1715734 MKDS 1,5/3-5,08","","J1"
 "1","MIXL +1 nF","Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical","2.54 mm header + shunt","","JP1"
 "1","MIXR +1 nF","Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical","2.54 mm header + shunt","","JP2"
 "1","SUB1 +1 nF","Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical","2.54 mm header + shunt","","JP3"

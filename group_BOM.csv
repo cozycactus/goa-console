@@ -1,5 +1,5 @@
 "Qty","Value","Footprint","MPN","DNP","References"
-"2","220u 25V","Capacitor_THT:CP_Radial_D10.0mm_P5.00mm","Nichicon UPW1V221MPD (35V)","","C1 C2"
+"2","220u 25V","Capacitor_THT:CP_Radial_D10.0mm_P5.00mm","Nichicon UHE1V221MPD6 (35V)","","C1 C2"
 "2","47u 25V","Capacitor_THT:CP_Radial_D8.0mm_P3.50mm","Nichicon UPW1J470MPD (63V)","","C3 C4"
 "18","100n","Capacitor_SMD:C_0805_2012Metric","Samsung CL21B104KBCNNNC (X7R 50V)","","C5 C6 C10 C11 C16 C17 C27 C28 C31 C32 C48 C49 C57 C58 C66 C67 C68 C69"
 "11","100p C0G","Capacitor_SMD:C_0805_2012Metric","KEMET C0805C101J5GACTU","","C7 C13 C19 C33 C38 C44 C45 C50 C51 C59 C63"

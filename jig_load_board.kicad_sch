@@ -3907,7 +3907,7 @@
     (property "Datasheet" "" (id 3) (at 35.56 241.3 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "MPN" "Phoenix MKDS 1,5/3-5,08" (id 4) (at 35.56 241.3 0)
+    (property "MPN" "Phoenix 1715734 MKDS 1,5/3-5,08" (id 4) (at 35.56 241.3 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 2e9b87e6-954e-5235-bfd3-7e07a14e8a0f))
