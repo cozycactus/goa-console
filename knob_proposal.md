@@ -126,5 +126,14 @@ C&K makes four colours for the PVA series: PVRD red, PVGY grey, PVWH white, PVBK
 
 ## Sign-off
 
-- [ ] **KC1** PV caps PVGY / PVWH / PVRD / PVBK by function as in the table; ON black, DIR grey.
-- [ ] **KC2** Sifam black LK111 01 fader caps now, plus a coloured-cap trial at the fader sample check.
+Signed off by Ruslan on 2026-10-25: KC1 and KC2 as proposed.
+
+- [x] **KC1** PV caps PVGY / PVWH / PVRD / PVBK by function as in the table; ON black, DIR grey.
+- [x] **KC2** Sifam black LK111 01 fader caps now, plus a coloured-cap trial at the fader sample check.
+
+## Applied (2026-10-25)
+
+- `panel_layout.py`: ON black and DIR grey, and every fader cap black in the model (the coloured caps only if the trial
+  passes).
+- `offboard_bom.md`: PV cap codes with counts; fader cap code and the trial.
+- The panel drawings are unchanged: cap colours aren't on them. The 3D model was rebuilt.

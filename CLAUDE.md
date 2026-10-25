@@ -354,10 +354,13 @@ jack board) done.
   a line, 021-3525 (1/4", 349) and 021-3425 (6 mm, RK09L pans, 28); no nut covers. Caps Elma 040-30x5 matt without a
   line: GAIN / SOLO red, EQ gains / C/ROOM / PHONES grey, FREQs / HPF / RETURN blue, AUX 1-2 yellow, AUX 3-4 green, AUX
   5-6 / PAN / SUB PAN black. C/ROOM takes the same knob. Print and model at Ø14.5 (`models3d/knob.py`, `panel_layout.py`).
+  Key caps (KC1): C&K PV round, PVGY / PVWH (routing, group MIX) / PVRD (PFL, AFL) / PVBK (ON only; no green PV cap
+  exists, DIR grey). Fader caps (KC2): Sifam LK111 01 black with a white line; coloured 8 x 1.2 caps (white strips, red
+  groups, yellow master) only if a trial at the fader sample check fits the BP blade.
 - Faders (2026-10-23): Bourns PTB0143-2010BPA103 (strips, groups) / PTB0144-2010BPA103 (master), stocked, BP lever
   (8.0 x 1.3 mm flat blade, 5.0 mm above the panel), caps Sifam LK110 tang 01 (8.0 x 1.2, socket 4.0 deep: 1.0 mm
-  above the panel; the Delta's "SIF low profile" knob; RS 281-7197 black, colours from pot4audio / D&R; white inputs,
-  red groups, yellow master in the model; sample-check the 1.2 socket on a real blade). Rejected after
+  above the panel; the Delta's "SIF low profile" knob; black LK111 01 with a white line (KC2, 2026-10-25;
+  coloured bodies are Sifam made-to-order, MOQ 1000); sample-check the 1.2 socket on a real blade). Rejected after
   research: the AP 4 mm-fork audio codes (not sold, factory MOQ ~800), ALPS RSA0N (T-bar lever, sits too low), TT PS100,
   Song Huei, Penny+Giles; no stocked 100 mm A10K fader with a 4 mm lever exists. Panel slot >= 108 x 1.3 (model 110 x 2.4).
 - VCA (decided 2026-10-19): Sound Semiconductor SSI2162 for the bus compressor (sidechain

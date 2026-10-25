@@ -16,31 +16,31 @@ SCREW_D = 3.2                                  # M3 panel screws on the end rail
 LABEL = {'master': 'MASTER'}
 
 # ---------------------------------------------------------------- legends and colours per module
-# Switch caps are C&K PV: red, grey, black, white (green in the ordering code only); knob caps Elma 040-30x5 (red, grey,
-# blue, yellow, green, black; knob_proposal.md KN3); fader caps Sifam LK110 as the Delta: white inputs, red groups, yellow
-# master. The group's AUX cap is yellow on groups 1-2 and green on 3-4 (the model shows one group design: yellow).
+# Switch caps C&K PV: red, grey, black, white only (knob_proposal.md KC1: ON black, DIR grey); knob caps Elma 040-30x5
+# (red, grey, blue, yellow, green, black; KN3); fader caps Sifam LK111 01, black with a white line (KC2; white / red /
+# yellow only if the coloured-cap trial passes). The group's AUX cap is yellow on groups 1-2 and green on 3-4 (the model shows one group design: yellow).
 STRIP = {'RV9': ('GAIN', 'red'), 'RV10': ('HF', 'grey'), 'RV11': ('HI-MID', 'grey'), 'RV12': ('FREQ', 'blue'),
          'RV13': ('LO-MID', 'grey'), 'RV14': ('FREQ', 'blue'), 'RV15': ('LF', 'grey'), 'RV2': ('AUX 1', 'yellow'),
          'RV3': ('AUX 2', 'yellow'), 'RV4': ('AUX 3', 'green'), 'RV5': ('AUX 4', 'green'), 'RV6': ('AUX 5', 'black'),
          'RV7': ('AUX 6', 'black'), 'RV8': ('PAN', 'black'), 'RV16': ('', 'blue'),     # HPF FREQ: the key above names it
          'SW15': ('Ø', 'grey'), 'SW11': ('HPF', 'grey'), 'SW12': ('EQ', 'grey'), 'SW8': ('PRE 1-2', 'grey'),
-         'SW9': ('PRE 3-4', 'grey'), 'SW10': ('PRE 5-6', 'grey'), 'SW14': ('PAN', 'grey'), 'SW13': ('DIR', 'black'),
-         'SW5': ('L-R', 'white'), 'SW6': ('1-2', 'white'), 'SW7': ('3-4', 'white'), 'SW3': ('PFL', 'red'), 'SW4': ('ON', 'green'),
+         'SW9': ('PRE 3-4', 'grey'), 'SW10': ('PRE 5-6', 'grey'), 'SW14': ('PAN', 'grey'), 'SW13': ('DIR', 'grey'),
+         'SW5': ('L-R', 'white'), 'SW6': ('1-2', 'white'), 'SW7': ('3-4', 'white'), 'SW3': ('PFL', 'red'), 'SW4': ('ON', 'black'),
          'D2': ('OL', 'red'), 'D3': (None, 'off'), 'D4': (None, 'green'), 'D5': (None, 'green'), 'D6': (None, 'yellow'),
          'D7': (None, 'off'), 'D8': (None, 'off'),
-         'J1': ('LINE IN', None), 'J2': ('INSERT', None), 'J5': ('DIRECT', None), 'RV1': ('', 'white')}
+         'J1': ('LINE IN', None), 'J2': ('INSERT', None), 'J5': ('DIRECT', None), 'RV1': ('', 'black')}
 GROUP = {'RV4': ('RETURN', 'blue'), 'RV3': ('AUX', 'yellow'), 'RV2': ('SUB PAN', 'black'),
          'SW7': ('PFL', 'red'), 'SW3': ('AFL', 'red'), 'SW1': ('MIX', 'white'), 'SW4': ('MIX', 'white'),
          'SW5': ('1-2', 'white'), 'SW6': ('3-4', 'white'), 'SW2': ('AFL', 'red'),
          'D1': (None, 'off'), 'D2': (None, 'off'), 'D3': (None, 'off'),
          'J2': ('SUB OUT', None), 'J1': ('INSERT', None), 'J3': ('AUX OUT', None), 'J4': ('RET L', None),
-         'J5': ('RET R', None), 'RV1': ('SUB', 'red')}
+         'J5': ('RET R', None), 'RV1': ('SUB', 'black')}
 MASTER = {'RV2': ('AUX 5', 'black'), 'RV3': ('AUX 6', 'black'), 'RV5': ('C/ROOM', 'grey'), 'RV6': ('PHONES', 'grey'),
           'RV4': ('SOLO', 'red'), 'SW1': ('AFL', 'red'), 'SW2': ('AFL', 'red'), 'SW3': ('EXT', 'grey'),
           'D12': (None, 'off'), 'D13': (None, 'off'), 'D3': ('POWER', 'green'), 'D15': ('PFL', 'off'),
           'J1': ('INS L', None), 'J2': ('INS R', None), 'J10': ('C/R L', None), 'J11': ('C/R R', None),
           'J8': ('EXT L', None), 'J9': ('EXT R', None), 'J6': ('AUX 5', None), 'J7': ('AUX 6', None),
-          'J12': ('PHONES', None), 'J3': ('MAIN L', None), 'J4': ('MAIN R', None), 'J5': ('MONO', None), 'RV1': ('MIX', 'yellow')}
+          'J12': ('PHONES', None), 'J3': ('MAIN L', None), 'J4': ('MAIN R', None), 'J5': ('MONO', None), 'RV1': ('MIX', 'black')}
 NAMES = {'strip': STRIP, 'group': GROUP, 'master': MASTER}
 KNOB_ANGLE = {'AUX': -50.0, 'RETURN': 40.0, 'C/ROOM': 30.0, 'PHONES': 20.0}
 

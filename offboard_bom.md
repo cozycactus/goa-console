@@ -17,8 +17,8 @@ boards. Dimensions and rules come from `panel_parts_drawings.md`, strip spec §1
 | Knob, 1/4" (6.35) round shaft | 14 / 2 / 5 | 349 | code | **Elma 021-3525**: classic collet knob Ø14.5, matt black with a line (`knob_proposal.md` KN1, signed off 2026-10-25); no nut cover |
 | Knob cap | 15 / 3 / 5 | 377 | code | **Elma 040-30x5**, matt, without a line (KN3): red 040-3035 ×25, grey 040-3015 ×98, blue 040-3045 ×76, yellow 040-3055 ×50, green 040-3065 ×50, black 040-3025 ×78 (colour per function in `knob_proposal.md`) |
 | Knob, 6 mm D shaft (pan, RK09L) | 1 / 1 / 0 | 28 | code | **Elma 021-3425**: the same knob with a 6 mm collet |
-| PV cap for PVA2 | 13 / 7 / 3 | 343 | **decide** colours | C&K PV cap, round Ø7.4 × 7; colours RD / GY / BK / WH only (no yellow or orange). Panel hole Ø8.0. |
-| Fader cap | 1 / 1 / 1 | 29 | code, colours **decide** | Sifam LK110 tang 01 (RS 281-7197 is the black one). The model uses white on strips, red on groups and yellow on the master; colours from pot4audio / D&R. Sample-check the 1.2 socket on a real BP blade first. |
+| PV cap for PVA2 | 13 / 7 / 3 | 343 | code | C&K PV, round Ø7.4 × 7 (`knob_proposal.md` KC1): PVGY ×193, PVWH ×88, PVRD ×38, PVBK ×24 (ON). Panel hole Ø8.0. |
+| Fader cap | 1 / 1 / 1 | 29 | code | Sifam LK111 01, black with a white line (KC2; 02 LK110 01, RS 281-7197, if only the plain one is stocked). Trial a few generic white / red / yellow 8 × 1.2 caps at the fader sample check; if one fits, strips white, groups red, master yellow. |
 | Fader screws | 2 / 2 / 2 | 58 | rule | M3 into the PTB cover's tapped holes, 120.0 apart, through the 1.5 panel and the 3.5 spacer. M3 × 8 countersunk if the panel is countersunk. |
 | Fader spacer | 2 / 2 / 2 | 58 | rule | 3.5 mm thick, M3 clearance, under the panel at each fixing (the stack puts the lever 5.0 above the panel). |
 | Pot spacer washer, M7 | 14 / 2 / 5 | 349 | rule | 1.5 thick, ID 7.2, OD < 11.2 to clear the anti-rotation lug (model 10). Leave the pot's own 0.4 washer off: the bushing has no spare thread. |
@@ -70,8 +70,7 @@ boards. Dimensions and rules come from `panel_parts_drawings.md`, strip spec §1
 ## Decisions this list needs from you
 
 1. ~~Knobs~~: decided, Elma 021-3525 / 021-3425 with 040-30x5 caps (`knob_proposal.md`, 2026-10-25).
-2. **PV cap colours** per key function (RD / GY / BK / WH).
-3. **Fader cap colours** (LK110 tang 01).
+2. ~~PV cap colours~~ and 3. ~~fader caps~~: decided (`knob_proposal.md` KC1 / KC2, 2026-10-25).
 4. **Panel maker.** The fabrication drawings are in `panels/`. Measure the fader law before printing
    (`panels/README.md`).
 5. **Frame and PSU case.**
