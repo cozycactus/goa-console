@@ -28,7 +28,7 @@ boards. Dimensions and rules come from `panel_parts_drawings.md`, strip spec §1
 | Main-board standoff, M3 | 6 / 6 / 7 | 175 | rule | 11.5 mm (panel underside to PCB), unplated holes. Two M3 screws each: 350. |
 | Jack-board standoff, M3 F-F | 2 / 2 / 3 | 59 | rule | **Exactly 24.0 mm, metal.** The jacks are rigid spacers, so a longer one hangs the board on its solder joints. Two M3 screws each (118). A star washer, or bare metal, at the panel end of each (59): these standoffs carry CHASSIS to the panel. |
 | Front panels | 8 HP / 8 HP / 16 HP | 24 + 4 + 1 | **decide** maker | 1.5 mm aluminium, anodised (not powder-coated: 1.5 is the NJ6FD-V's upper limit). 40.30 × 514 mm (8 HP × 12U), the master 80.94 × 514. Fabrication drawings (DXF, 1:1 PDF artwork, hole tables) are in `panels/` (`tools/panel_fab.py`). |
-| Frame | | 1 | **decide** | Custom 12U frame, rails at the panel ends only (strip panel decision). Bare-metal contact, or star washers, where the panels meet the rails. |
+| Frame | | 1 | **decide** (rails proposed in `frame_proposal.md`, FR1-FR3) | Custom 12U frame, rails at the panel ends only (strip panel decision). Bare-metal contact, or star washers, where the panels meet the rails. |
 
 ## Ribbons and links
 
