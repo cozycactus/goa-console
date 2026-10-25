@@ -1,5 +1,5 @@
 """Export placed boards to JSON for tools/console_3d.py (Blender), one file per module. Run with KiCad's Python:
-  $KPY tools/export_3d.py channel_strip_v4.kicad_pcb jack_board.kicad_pcb > render/strip.json
+  $KPY tools/export_3d.py channel_strip.kicad_pcb jack_board.kicad_pcb > render/strip.json
   $KPY tools/export_3d.py group.kicad_pcb group_jack_board.kicad_pcb > render/group.json
   $KPY tools/export_3d.py master.kicad_pcb master_jack_board.kicad_pcb > render/master.json
 Per footprint: ref, footprint, value, position, rotation, side, courtyard box, IDC headers' pin 1, whether KiCad has a 3D model for it

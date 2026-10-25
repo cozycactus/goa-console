@@ -94,7 +94,7 @@ netlists and simulated in ngspice.
 | `delta_clone_comparison.md`, `strip_panel_study.md` | Why the strip is a Delta clone, why 8 HP × 12U with two pot columns |
 | `panel_parts_drawings.md`, `panel_print.md` | Panel parts against their manufacturers' drawings; the Delta's panel legend system and ours |
 | `*.kicad_sch` / `*.kicad_pcb` | Schematics (generated) and placed boards (generated) for strip, jack boards, group, master, PSU, jig |
-| `channel_strip_v4.kicad_pcb` | The strip's main board. Open it directly: `channel_strip.kicad_pro` opens `channel_strip.kicad_pcb`, the old v3.1 board, which is kept for reference and not generated |
+| `channel_strip.kicad_pcb` | The strip's main board; `channel_strip.kicad_pro` opens it with the schematic. The old v3.1 board is `archive/channel_strip_v3.1.kicad_pcb` |
 | `*.net`, `*.pdf`, `*_BOM.csv` | Netlist, PDF and BOM exports; `*_intended.json` are the netlists the schematics are checked against |
 | `goa-console.pretty/`, `goa-console.3dshapes/`, `goa-console.kicad_sym` | Project footprints (faders, spade tab, PTC), part 3D models (VRML + STEP), symbols |
 | `tools/` | Generators, verification, placement engine, 3D export and Blender build (below) |
@@ -176,7 +176,7 @@ Part models and the 3D console:
 # part models vs footprints; writes goa-console.3dshapes
 python3 tools/models3d/check.py --wrl --kicad
 # placed boards to JSON, one file per module
-$KPY tools/export_3d.py channel_strip_v4.kicad_pcb jack_board.kicad_pcb > render/strip.json
+$KPY tools/export_3d.py channel_strip.kicad_pcb jack_board.kicad_pcb > render/strip.json
 $KPY tools/export_3d.py group.kicad_pcb group_jack_board.kicad_pcb > render/group.json
 $KPY tools/export_3d.py master.kicad_pcb master_jack_board.kicad_pcb > render/master.json
 # builds render/goa_console.blend and renders the views

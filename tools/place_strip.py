@@ -1,7 +1,7 @@
 """Component placement for the channel-strip PCBs, v4.0 (KiCad 10 pcbnew API). Placement only: no copper.
 Two boards, each from its own netlist; the layout is picked from the parts (CN5 = jack board):
   KPY=/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3
-  $KPY tools/place_strip.py channel_strip.net channel_strip_v4.kicad_pcb     # main board, 38 x 400 mm
+  $KPY tools/place_strip.py channel_strip.net channel_strip.kicad_pcb     # main board, 38 x 400 mm
   $KPY tools/place_strip.py jack_board.net jack_board.kicad_pcb              # jack board, 38 x 43 mm
 Panel: 8 HP x 12U Eurorack-style (40.3 x 514 mm), two pot columns, jacks on the panel (study:
 strip_panel_study.md). y = 0 is 11 mm below the panel's top edge (end rail) and grows towards the fader;

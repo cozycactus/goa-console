@@ -56,7 +56,7 @@ same one-sided 33p as U1A (finding 3), and the master's +5VL the same power-down
 - [x] **T11** Spec notes (J112 headroom, phantom).
 
 Applying T1–T8 changes the signed-off strip netlist. It means: `gen.py` edits, regenerating the strip and
-`channel_strip_intended.json`, verify / check_fp / ERC / `sim_netlist.py`, re-placing `channel_strip_v4.kicad_pcb`
+`channel_strip_intended.json`, verify / check_fp / ERC / `sim_netlist.py`, re-placing `channel_strip.kicad_pcb`
 (placement only), parity DRC, and strip spec v4.1.
 
 ---

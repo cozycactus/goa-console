@@ -74,8 +74,14 @@ def place(NET, OUT, L):
     parts = {}
     for c in comps[1:]:
         ts = next((x for x in c[1:] if isinstance(x, list) and x[0] == 'tstamps'), None)
+        sp = next((x for x in c[1:] if isinstance(x, list) and x[0] == 'sheetpath'), None)
         props = {field(x, 'name'): field(x, 'value') for x in c[1:] if isinstance(x, list) and x[0] == 'property'}
+        # the symbol's full path: its sheet's tstamps ('/' on a flat sheet, '/<sheet uuid>/' on a hierarchical page) and
+        # its own uuid; KiCad links a footprint to its symbol by this path, so a flat '/uuid' breaks the link
+        sheet = field(sp, 'tstamps') if sp else '/'
         parts[field(c, 'ref')] = dict(value=field(c, 'value'), fp=field(c, 'footprint'), uuid=ts[1] if ts else None,
+                                      path=(sheet + ts[1]) if ts else None, sheetname=props.get('Sheetname', ''),
+                                      sheetfile=props.get('Sheetfile', ''),
                                       mpn=props.get('MPN'), dnp='dnp' in props, nobom='exclude_from_bom' in props)
     SHOW = netnames.renames(NET)          # report names for a drawn schematic's unlabelled nets (the pads keep KiCad's)
     padnet, pintype = {}, {}
@@ -120,7 +126,8 @@ def place(NET, OUT, L):
             fp.Models().clear(); m = pcbnew.FP_3DMODEL()                                     # for a part KiCad has none for
             m.m_Filename = '${KIPRJMOD}/goa-console.3dshapes/' + name + '.wrl'; fp.Models().push_back(m)
         fp.SetReference(ref); fp.SetValue(p['value'])
-        if p['uuid']: fp.SetPath(pcbnew.KIID_PATH('/' + p['uuid']))
+        if p['path']: fp.SetPath(pcbnew.KIID_PATH(p['path']))
+        if p['sheetfile']: fp.SetSheetname(p['sheetname']); fp.SetSheetfile(p['sheetfile'])
         if p['mpn']:
             fp.SetField('MPN', p['mpn']); fp.GetField('MPN').SetVisible(False)
         fp.SetDNP(p['dnp']); fp.SetExcludedFromBOM(p['nobom'])

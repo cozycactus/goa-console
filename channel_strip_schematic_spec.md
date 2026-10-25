@@ -604,7 +604,7 @@ the panel's top edge), placement only:
 
 | Board | File | Size | Depth under the panel | Parts |
 |-------|------|------|-----------------------|-------|
-| Main | `channel_strip_v4.kicad_pcb` | 38 × 400 mm, y 44–444 | 11.5 mm | 273 + 6 M3 holes (11.5 mm standoffs) |
+| Main | `channel_strip.kicad_pcb` | 38 × 400 mm, y 44–444 | 11.5 mm | 273 + 6 M3 holes (11.5 mm standoffs) |
 | Jack | `jack_board.kicad_pcb` | 38 × 43 mm, y 0–43 | 24.0 mm (the NJ6FD-V body) | 6 + 2 M3 holes |
 
 DRC with `--schematic-parity`, both boards: 0 parity issues. The main board has no violations at all;
@@ -619,7 +619,7 @@ the knob and 3.2 mm from the key cap. The HPF knob's numerals (20 50 85 170 400H
 are 4.6 mm between the HPF key cap and the knob, so the key's legend names it (`panel_print.md`). U5 and U15 sit
 between the HF / HI-MID and HI-MID / LO-MID rows; every HPF input network is within 13 mm of its pin. Decoupling caps sit beside their IC's supply pins (place_strip.py
 `DECOUPLE`); the DG413s (U9–U11) are beside the fader just below CN1, the routing 4K7s between the fader
-and CN1's pins. `channel_strip.kicad_pcb` is the old v3.1 placement, kept unchanged.
+and CN1's pins. The old v3.1 placement is `archive/channel_strip_v3.1.kicad_pcb`, kept unchanged.
 
 **Routing rule (v4.1, `strip_parts_review.md` §5).** Four op-amp outputs drive long nets directly; at MHz the series
 220 µF caps are shorts:
@@ -710,7 +710,7 @@ v4.1:
   unit, over 21 pot / switch / cable states, has ≥ 69.9° phase margin (U7B with DIR on, aux 6 at the top and a lead on
   the jacks) and ≤ 1.61 dB closed-loop peaking (U8A with a 470 pF direct-out lead). As v4.0: U6A/U6B/U7A −3 to −5°,
   U12A/U13B 2.6–2.7°, followers 18–51°.
-- **Placement:** `channel_strip_v4.kicad_pcb` re-placed: 245 footprints + 6 holes, 0 DRC violations, 0 parity
+- **Placement:** `channel_strip.kicad_pcb` re-placed: 245 footprints + 6 holes, 0 DRC violations, 0 parity
   issues. Report: decouplers 3.1 / 10.0 / 11, high-Z inputs 10.0 / 19.7 / 25.
 
 v4.0 (2026-10-22):

@@ -179,7 +179,7 @@ OPA1612 and only the inverting and integrator stages move, which takes a package
   labelled jumpers) and `jig_load_board.kicad_pcb` (120 × 85 mm: a labelled 5 × 4 grid of slide switches,
   each with its group resistor). Both: 0 schematic-parity issues, 0 DRC violations; placement only, no
   copper. Routing is Ruslan's.
-- The strips need routed boards: placement is done (`channel_strip_v4.kicad_pcb`,
+- The strips need routed boards: placement is done (`channel_strip.kicad_pcb`,
   `jack_board.kicad_pcb`); copper routing is Ruslan's.
 - For the ribbon-current test, the load board could also carry a switchable dummy load
   (about 1 A per rail) to emulate a 12-strip wing.

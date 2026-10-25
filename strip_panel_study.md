@@ -2,7 +2,7 @@
 
 Question: does the v4.0 channel (15 pots, 13 switches, 4 LEDs, 3 jacks, 100 mm fader) fit an 8 HP
 Eurorack-style panel at 12U or 15U, with one or two pot columns? Result and the placement built from
-it: `tools/place_strip.py` → `channel_strip_v4.kicad_pcb` (main board) + `jack_board.kicad_pcb`.
+it: `tools/place_strip.py` → `channel_strip.kicad_pcb` (main board) + `jack_board.kicad_pcb`.
 
 ## Fixed dimensions
 
@@ -60,7 +60,7 @@ standoffs to hang the board from the panel.
 
 ## Recommendation
 
-**12U, two pot columns, jacks on the panel (NJ6FD-V).** That is what `channel_strip_v4.kicad_pcb`
+**12U, two pot columns, jacks on the panel (NJ6FD-V).** That is what `channel_strip.kicad_pcb`
 implements. 15U only makes sense for a single pot column, and it costs a 620 mm board and 128 mm
 more panel per channel.
 
@@ -82,7 +82,7 @@ the jack's axis is perpendicular to the panel. Any 1/4" panel jack therefore nee
 behind the panel. The NJ6FD-V body is reported as 12.8 × 15.0 × 24 mm behind the panel, with a
 3.5 mm snout. That figure is second-hand, from Neutrik drawing nj6fd-v-3.dxf as quoted in a
 public issue tracker; Neutrik's page returned 503, and its datasheet PDF has no drawing. Our
-PCB is 11.5 mm under the panel, so **J1, J2 and J5 as placed in `channel_strip_v4.kicad_pcb`
+PCB is 11.5 mm under the panel, so **J1, J2 and J5 as placed in `channel_strip.kicad_pcb`
 cannot be built**. The pots, switches, LEDs and fader are unaffected.
 
 Options:
