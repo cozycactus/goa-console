@@ -277,3 +277,50 @@ at the desk.
   channel, JFET, 5.1 nV/√Hz) would bring it to about 4.11 A. Accepted with the OPA1656 (Ruslan, 2026-10-25).
 - **Not done:** the group return and master EXT receivers are still unbuffered (20 kΩ common mode); the balanced
   TRS outputs (sub, aux, C/Room) keep their sleeves on GNDA.
+
+## 10. Extending G2 / G3 to the group and master (proposal, 2026-10-25, for sign-off)
+
+G2 and G3 as signed cover the strip's line input and direct out, the group returns' and master EXT's sleeves, and the
+strip receiver. Two gaps remain.
+
+**G2b. Balanced TRS output sleeves on CHASSIS.** These are the DRV134 outputs:
+
+| Jack | Board | Typical load |
+|---|---|---|
+| Sub out | each group's jack board | recorder, interface |
+| Aux out | each group's jack board | outboard effects |
+| Aux 5 / 6 out | master jack board | outboard effects |
+| C/Room L / R out | master jack board | active monitors: earthed, the classic hum loop |
+
+- **The problem.** These sleeves are on GNDA, so a shield current from earthed gear on the far end flows through the
+  module's audio ground, exactly as on the strip inputs before G2.
+- **How big.** A group's ground reaches main L at 2.35 mΩ (§2, ribbon route, 14 AWG). A 10 mV earth difference drives
+  ~38 mA through the shield, which gives about −79 dBu at main L, 10 dB over the target.
+- **Why it is safe.** The DRV134 is a floating-style driver, so its output doesn't need the sleeve as a reference.
+  Into an unbalanced destination (ring shorted to sleeve at the far end) it still works, with the return current
+  taking the shield and chassis.
+- **Cost:** no parts, only the sleeve net on the jack boards. The group keeps CHASSIS off its link; on the master it
+  is already on the link.
+- **Recommended.**
+
+**G3b. Buffered receivers on the group returns and the master EXT input.** The same circuit as the strip's U16: an
+OPA1656 dual as followers, 1M per leg, 220R in, 100R build-outs.
+- **Count:** each stereo input needs two followers per side, so two duals. That is four groups × 2 + the master × 2 =
+  10 OPA1656 duals in the console.
+- **CMRR (0.1 % bridge, worst 5 %), as built → buffered:** 44 → 59 dB against a 100 Ω source; 26 → 54 dB against a
+  1 kΩ synth output.
+- **When it matters.** With proper balanced effects returns (low-Z on both legs) the gain is small. With synths on the
+  returns (a stereo synth on a stereo return) it is the same 28 dB as on the strip.
+- **Power:**
+  - +3.9 mA × 20 channels = +78 mA typical per rail. The groups put 31 mA on each wing; the 16 mA for EXT is the
+    master's own.
+  - The accepted worst corner goes from 4.24 to about 4.33 A on +V, or 4.37 A if N1 is adopted later.
+- **Placement:** needs a trial. The group board is the narrow 38 mm strip and its return receivers' area is already
+  its worst report entry (20 mm).
+- **Normals:** the return R jack's normals feed L (mono into L); the followers keep that. The empty L jack needs its
+  normals to short the legs, which the R jack's use of them for normalling prevents. So 1M bias on an open L input
+  would hiss unless the L jack's own TN / RN go to GNDA.
+- **Recommended** if returns will carry synths, otherwise optional.
+
+- [ ] **G2b** Sleeves of every DRV134 TRS output (group sub / aux out, master aux 5 / 6 and C/Room L / R) on CHASSIS.
+- [ ] **G3b** Buffered receivers on the group returns and master EXT (10 OPA1656 duals, +78 mA per rail typical).
