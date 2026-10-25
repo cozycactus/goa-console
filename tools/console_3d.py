@@ -427,7 +427,7 @@ master = module('master')
 console = coll('console')
 root = bpy.data.objects.new('console root', None); console.objects.link(root)
 modules = coll('modules', console)
-order = ['S'] * 12 + ['G1', 'G2', 'M', 'G3', 'G4'] + ['S'] * 12
+order = panel_layout.ORDER
 def instance(name, src, x):
     e = bpy.data.objects.new(name, None); e.instance_type = 'COLLECTION'; e.instance_collection = src
     e.location = (x * S, 0, 0); modules.objects.link(e); e.parent = root
@@ -513,8 +513,9 @@ xs_, x = [], 0.0
 for item in order:
     xs_.append(({'S': 'strip', 'M': 'master'}.get(item, 'group'), x)); x += 2 * PITCH if item == 'M' else PITCH
 print('ground wires', ground_harness(xs_))
-for y0, y1 in ((-12, -3), (495, 504)):
-    box(f'rail {y0}', -2, y0, PANEL_Z0 - 10, width + 2, y1, PANEL_Z0, M['alu'], frame).parent = root
+for yc in panel_layout.RAIL_LINES:                  # 10 x 50 flat-bar rails, 2 mm into each cheek (frame_proposal.md)
+    (r0, r1), rw, rh = panel_layout.rail_span(), panel_layout.RAIL_W, panel_layout.RAIL_H
+    box(f'rail {yc:.0f}', r0, yc - rw / 2, PANEL_Z0 - rh, r1, yc + rw / 2, PANEL_Z0, M['alu'], frame).parent = root
 box('tub floor', -2, -12, TUB - 2, width + 2, 504, TUB, M['hdr'], frame).parent = root
 box('arm-rest', -22, 504, TUB, width + 22, 548, PANEL_Z1 + 6, M['wood'], frame).parent = root
 box('back trim', -22, -40, TUB, width + 22, -12, PANEL_Z1 + 10, M['wood'], frame).parent = root
@@ -539,7 +540,7 @@ def wedge(name, x0, x1, z_back, z_front, m):
     tb, tf = W(0, -40, z_back), W(0, 548, z_front)
     return prism(name, root.location.x + x0 * S, root.location.x + x1 * S, [(tb.y, tb.z), (tf.y, tf.z), (tf.y, 0.0), (tb.y, 0.0)], m, frame)
 wedge('base', -2, width + 2, TUB, TUB, M['hdr'])
-for xc in (-22.0, width + 2.0):
+for xc in (-panel_layout.CHEEK_GAP - 20.0, width + panel_layout.CHEEK_GAP):    # inner faces CHEEK_GAP from the console
     wedge(f'cheek {xc:.0f}', xc, xc + 20, PANEL_Z1 + 24, PANEL_Z1 + 8, M['wood'])
 box('desk', -3000, -2500, -20, 3000, 2500, 0, M['floor'], scene.collection)
 

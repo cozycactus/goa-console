@@ -1,0 +1,36 @@
+face,x mm from left end,y / z mm,thread,tap drill,thread depth,drill depth,what
+top,10.35,5.00,M3,2.5,6.0,8.0,panel screw
+top,50.99,5.00,M3,2.5,6.0,8.0,panel screw
+top,91.63,5.00,M3,2.5,6.0,8.0,panel screw
+top,132.27,5.00,M3,2.5,6.0,8.0,panel screw
+top,172.91,5.00,M3,2.5,6.0,8.0,panel screw
+top,213.55,5.00,M3,2.5,6.0,8.0,panel screw
+top,254.19,5.00,M3,2.5,6.0,8.0,panel screw
+top,294.83,5.00,M3,2.5,6.0,8.0,panel screw
+top,335.47,5.00,M3,2.5,6.0,8.0,panel screw
+top,376.11,5.00,M3,2.5,6.0,8.0,panel screw
+top,416.75,5.00,M3,2.5,6.0,8.0,panel screw
+top,457.39,5.00,M3,2.5,6.0,8.0,panel screw
+top,498.03,5.00,M3,2.5,6.0,8.0,panel screw
+top,538.67,5.00,M3,2.5,6.0,8.0,panel screw
+top,579.31,5.00,M3,2.5,6.0,8.0,panel screw
+top,645.25,5.00,M3,2.5,6.0,8.0,panel screw
+top,660.59,5.00,M3,2.5,6.0,8.0,panel screw
+top,701.23,5.00,M3,2.5,6.0,8.0,panel screw
+top,741.87,5.00,M3,2.5,6.0,8.0,panel screw
+top,782.51,5.00,M3,2.5,6.0,8.0,panel screw
+top,823.15,5.00,M3,2.5,6.0,8.0,panel screw
+top,863.79,5.00,M3,2.5,6.0,8.0,panel screw
+top,904.43,5.00,M3,2.5,6.0,8.0,panel screw
+top,945.07,5.00,M3,2.5,6.0,8.0,panel screw
+top,985.71,5.00,M3,2.5,6.0,8.0,panel screw
+top,1026.35,5.00,M3,2.5,6.0,8.0,panel screw
+top,1066.99,5.00,M3,2.5,6.0,8.0,panel screw
+top,1107.63,5.00,M3,2.5,6.0,8.0,panel screw
+top,1148.27,5.00,M3,2.5,6.0,8.0,panel screw
+top,1188.91,5.00,M3,2.5,6.0,8.0,panel screw
+left end,0.00,12.50,M4,3.3,10.0,12.0,cheek fixing
+left end,0.00,37.50,M4,3.3,10.0,12.0,cheek fixing
+right end,1227.20,12.50,M4,3.3,10.0,12.0,cheek fixing
+right end,1227.20,37.50,M4,3.3,10.0,12.0,cheek fixing
+outer side,613.60,25.00,M4,3.3,through,through,"bond to the M4 star (2.5 mm2, ring lug)"

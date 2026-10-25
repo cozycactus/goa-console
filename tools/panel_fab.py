@@ -17,7 +17,7 @@ import panel_layout as L
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 FONTS = {False: '/System/Library/Fonts/Supplemental/Arial Narrow.ttf', True: '/System/Library/Fonts/Supplemental/Arial Narrow Bold.ttf'}
-RAILS = ((-12.0, -3.0), (495.0, 504.0))       # frame end rails under the panel (console_3d.py): no cut-out over them
+RAILS = tuple((y - L.RAIL_W / 2, y + L.RAIL_W / 2) for y in L.RAIL_LINES)   # frame rails under the panel ends: no cut-out over them
 WEB, EDGE, INK_GAP, INK_EDGE = 1.0, 1.0, 0.2, 0.3   # minimum web between cut-outs, cut-out to edge, print to cut-out, print to edge (the section rules run full width, 0.41 from the edges)
 INK, PLATE = '#efe6cf', '#1b1b1d'              # cream print on black anodising (preview only; colours are placeholders)
 

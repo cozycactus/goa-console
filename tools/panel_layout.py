@@ -14,6 +14,33 @@ WIDTH = {'strip': 8 * HP - 0.34, 'group': 8 * HP - 0.34, 'master': 16 * HP - 0.3
 X0, Y0, Y1 = -1.15, -11.0, 503.0
 SCREW_D = 3.2                                  # M3 panel screws on the end rails, 3 mm from each end
 LABEL = {'master': 'MASTER'}
+# the console: 12 strips | groups 1-2 | master (16 HP) | groups 3-4 | 12 strips, on an 8 HP pitch
+ORDER = ['S'] * 12 + ['G1', 'G2', 'M', 'G3', 'G4'] + ['S'] * 12
+PITCH = 8 * HP
+# frame rails (frame_proposal.md FR1, signed off 2026-10-25): 10 x 50 flat bar on edge under each panel end, centred
+# on the panel screw lines, top face against the panel underside, 2 mm into each cheek (the cheeks' inner faces are
+# CHEEK_GAP outside the console's 0 / width; console_3d.py)
+RAIL_W, RAIL_H, CHEEK_GAP, RAIL_INTO = 10.0, 50.0, 2.0, 2.0
+RAIL_LINES = (Y0 + 3.0, Y1 - 3.0)
+
+def modules():
+    """[(item, key, x)] along the console: item from ORDER, key 'strip' / 'group' / 'master', x of the module's frame."""
+    out, x = [], 0.0
+    for item in ORDER:
+        key = {'S': 'strip', 'M': 'master'}.get(item, 'group')
+        out.append((item, key, x)); x += 2 * PITCH if item == 'M' else PITCH
+    return out
+
+def console_width():
+    return sum(2 * PITCH if item == 'M' else PITCH for item in ORDER)
+
+def rail_holes():
+    """x of every panel screw along a rail (console frame); the same on both rails."""
+    return [x + sx for item, key, x in modules() for sx in sorted({sx for sx, sy in Panel(key, WIDTH[key]).screws})]
+
+def rail_span():
+    """(x0, x1) of a rail in the console frame."""
+    return -CHEEK_GAP - RAIL_INTO, console_width() + CHEEK_GAP + RAIL_INTO
 
 # ---------------------------------------------------------------- legends and colours per module
 # Switch caps C&K PV: red, grey, black, white only (knob_proposal.md KC1: ON black, DIR grey); knob caps Elma 040-30x5

@@ -194,6 +194,7 @@ jack board) done.
   (OUTLINE / CUT / LEGEND, text outlined), 1:1 SVG / PDF artwork, PNG preview, hole table; numbered strip / group PDFs;
   checks (web, edge, rails, print clear of cut-outs). The layout is `tools/panel_layout.py`, shared with console_3d.py
   (cut-outs, screws, the Delta-style print). Open: measure the fader law before printing (`panels/README.md`).
+- `frame/` — frame rail drawing (DXF, hole table, A3 PDF) from `python3 tools/frame_fab.py`; one part, two off.
 - `offboard_bom.md` — everything not on a board BOM (knobs, caps, washers, spacers, standoffs, panels, frame, IDC
   sockets and ribbon, the G1 harness, PSU chassis parts), counts per module and console; open decisions: knobs, PV and
   fader cap colours, panel maker + panel fabrication drawings, frame, PSU case.
@@ -357,6 +358,11 @@ jack board) done.
   Key caps (KC1): C&K PV round, PVGY / PVWH (routing, group MIX) / PVRD (PFL, AFL) / PVBK (ON only; no green PV cap
   exists, DIR grey). Fader caps (KC2): Sifam LK111 01 black with a white line; coloured 8 x 1.2 caps (white strips, red
   groups, yellow master) only if a trial at the fader sample check fits the BP blade.
+- Frame rails (signed off by Ruslan 2026-10-25, `frame_proposal.md` FR1-FR3): two 6060-T6 / 6082 flat bars 50 x 10
+  on edge, 1227.2 mm (2 mm into each walnut cheek's rebate, 2 x M4 per end), on the panel screw lines y -8 / 500,
+  30 M3 tapped holes each from the panel screw pattern (`panel_layout.rail_holes()`); 0.21 mm sag under the console,
+  0.53 mm under 100 N at mid-span, no centre post. Panels bond through bare tapped holes + star washers; one 2.5 mm2
+  bond per rail to the M4 star. Drawing `frame/` (`python3 tools/frame_fab.py`).
 - Faders (2026-10-23): Bourns PTB0143-2010BPA103 (strips, groups) / PTB0144-2010BPA103 (master), stocked, BP lever
   (8.0 x 1.3 mm flat blade, 5.0 mm above the panel), caps Sifam LK110 tang 01 (8.0 x 1.2, socket 4.0 deep: 1.0 mm
   above the panel; the Delta's "SIF low profile" knob; black LK111 01 with a white line (KC2, 2026-10-25;

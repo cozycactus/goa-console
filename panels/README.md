@@ -35,7 +35,7 @@ has been re-exported.
 | Neutrik NJ6FD-V jack | Ø12.0 | The 1.5 mm panel is the jack's upper limit, so anodise; no powder coat |
 | Neutrik NC3MAV (master) | Ø22.2 + 2 × Ø3.2 at (−9.9, −9.9) / (+9.9, +9.9) | |
 | Fader slot (Bourns PTB) | 110 × 2.4, round ends + 2 × Ø3.2 at ±60 on the slot line | Fixings 120 apart, M3 into the cover. Slot ≥ 108 × 1.3 needed (100 travel + 8 blade) |
-| Panel screws | Ø3.2, 3 mm from each end | One per end at 7.5 from the left edge (strip, group); two per end on the master. They suit the custom frame's end rails (y −12…−3 and 495…504 in board coordinates). |
+| Panel screws | Ø3.2, 3 mm from each end | One per end at 7.5 from the left edge (strip, group); two per end on the master. They screw into the frame rails' M3 tapped holes (10 × 50 flat bar at y −13…−3 and 495…505 in board coordinates; `frame/`). |
 
 **Checks** (`panel_fab.py` runs them every time; all three panels pass):
 - at least 1.0 mm of web between cut-outs;

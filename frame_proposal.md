@@ -62,7 +62,28 @@ Their real advantage, sliding nuts, matters little here: the panels and their ho
 
 ## Sign-off
 
-- [ ] **FR1** Two 10 × 50 6060-T6 / 6082 flat-bar rails, 1223.2 mm, 30 M3 tapped holes each from the panel screw pattern.
-- [ ] **FR2** Ends in cheek rebates with 2 × M4; panels bonded through bare tapped holes and star washers; one
+Signed off by Ruslan on 2026-10-25: FR1–FR3 as proposed.
+
+- [x] **FR1** Two 10 × 50 6060-T6 / 6082 flat-bar rails, 1223.2 mm, 30 M3 tapped holes each from the panel screw pattern.
+- [x] **FR2** Ends in cheek rebates with 2 × M4; panels bonded through bare tapped holes and star washers; one
   2.5 mm² bond per rail to the M4 star.
-- [ ] **FR3** Rail drawing generated (DXF + hole table) and the 3D model's rails at 10 × 50.
+- [x] **FR3** Rail drawing generated (DXF + hole table) and the 3D model's rails at 10 × 50.
+
+## Applied (2026-10-26)
+
+- **Correction to FR1's length:** the 3D model's cheek inner faces sit 2 mm outside the console (x −2 and 1221.2), so a
+  rail 2 mm into each cheek runs from −4 to 1223.2: **1227.2 mm**, not 1223.2. The holes move by the same 2 mm:
+  10.35 … 1188.91 from the left end.
+- `panel_layout.py`: the module order (`ORDER`, `modules()`), the rail section and lines, `rail_holes()` and
+  `rail_span()`, shared by the panels, the rails and the 3D model. `console_3d.py` builds its rails and cheeks from them.
+- `tools/frame_fab.py` → `frame/`:
+  - `rail.dxf`: top, side and end views;
+  - `rail_holes.csv`;
+  - `rail.pdf` / `.svg`: an A3 drawing with the hole list.
+- **Holes** (one part, two off):
+  - 30 × M3 (tap drill 2.5 × 8, thread 6) on the top face's centre line;
+  - 2 × M4 × 10 in each end at 12.5 / 37.5 below the top;
+  - one M4 tapped through the side at mid-length for the bond.
+  The script checks that every panel screw of every module lands on a rail, clear of the cheek rebates.
+- **Checks:** `panel_fab.py` checks the cut-outs against the new rail band (y −13…−3 / 495…505), and all three panels
+  pass. The 3D model was rebuilt with 10 × 50 rails.
