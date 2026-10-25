@@ -65,7 +65,7 @@ boards. Dimensions and rules come from `panel_parts_drawings.md`, strip spec §1
 | IEC inlet | 1 | rule | Fused (T2.5 A at 230 V, T5 A at 115 V) with a 2-pole switch, or a fused inlet plus a separate 2-pole front-panel switch (`psu_spec.md` §8); spare fuses |
 | Heatsink | 1 | rule | ≤ 1.2 °C/W for the four TO-220s in a row at the PCB's top edge (only the LDOs dissipate, 19 W each at 4 A) |
 | TO-220 insulators | 4 + 4 | rule | Silicone pad and shoulder washer per tab (the tabs sit at +17 V and 0 V); M3 screws |
-| PSU case | 1 | **decide** | Steel or aluminium, earthed, ventilated; ~250 × 200 × 90 mm or 2U half-rack. Earth stud, power LED on the front. Wired 0 V stays isolated from earth in the PSU. |
+| PSU case | 1 | **decide** (proposed in `psu_case_proposal.md`, PC1-PC3) | Steel or aluminium, earthed, ventilated; ~250 × 200 × 90 mm or 2U half-rack. Earth stud, power LED on the front. Wired 0 V stays isolated from earth in the PSU. |
 | PSU PCB standoffs | 4 | rule | M3, to the case floor |
 
 ## Decisions this list needs from you
