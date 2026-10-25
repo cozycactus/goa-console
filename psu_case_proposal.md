@@ -61,7 +61,8 @@ split (base leg, a 38.1 mm extrusion, cover leg), so the heatsink went on the fr
 2026-10-26). The rear keeps PC3.
 
 - [x] **PC1** Hammond 1402KV (vented, 254 × 244 × 99 aluminium), earthed at one stud.
-- [x] **PC2** (on the front end panel, not the side) Fischer SK 47 75 SA on the right side, TO-220s through a window directly on the heatsink.
+- [x] **PC2** Fischer SK 47 75 SA, TO-220s through a window directly on the heatsink; on the **front end panel**
+  (proposed: the right side).
 - [x] **PC3** Rear: Schurter DD11 inlet with switch and fuse, NC7FD-LX, earth stud; front: power LED only.
 
 ## Applied (2026-10-26)
