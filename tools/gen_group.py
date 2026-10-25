@@ -54,7 +54,7 @@ rv = ref('RV'); P(b, rv, 'POT', 'Sub fader 10K log 100mm', {1: 'GNDA', 3: s + '_
 frag(b, 12, 9, lambda d: frags.pot(d, rv, s + '_PRE', s + '_W'))
 post_amp(b, s + '_W', s + '_POST', s)
 drv134(b, s + '_POST', s + '_OP', s + '_ON')
-jack(b, 'JACK', 'Sub out TRS', {'T': s + '_OP', 'R': s + '_ON', 'S': 'GNDA'})
+jack(b, 'JACK', 'Sub out TRS', {'T': s + '_OP', 'R': s + '_ON', 'S': 'CHASSIS'})   # G2b
 rp = ref('RV'); P(b, rp, 'POT2', 'Sub pan 10K dual', {1: s + '_POST', 3: 'GNDA', 2: s + '_PWL', 4: 'GNDA', 6: s + '_POST', 5: s + '_PWR'})
 frag(b, 14, 8, lambda d: frags.pot2(d, rp))
 for sd in 'LR':                 # 10p against the pan wiper's Cdiff lag (MG5)
@@ -75,7 +75,7 @@ ra = ref('RV'); P(b, ra, 'POT', 'Aux master 10K log', {1: 'GNDA', 3: a + '_PT', 
 frag(b, 12, 9, lambda d: frags.pot(d, ra, a + '_PT', a + '_W'))
 level_buffer(b, a + '_W', a + '_OUT', a)
 drv134(b, a + '_OUT', a + '_OP', a + '_ON')
-jack(b, 'JACK', 'Aux out TRS', {'T': a + '_OP', 'R': a + '_ON', 'S': 'GNDA'})
+jack(b, 'JACK', 'Aux out TRS', {'T': a + '_OP', 'R': a + '_ON', 'S': 'CHASSIS'})   # G2b
 chain(b, a + '_OUT', [('s', R(b, '22K', a + '_OUT', a + '_AFLJ'))], a + '_AFLJ'); afl(b, a + '_AFLJ', 'Aux AFL')
 
 b = block('STEREO RETURN: receivers (R normalled to L), level, buffers, MIX / 1-2 / 3-4 onto the ribbon, PFL  [spec 16]')

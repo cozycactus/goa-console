@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/master_jack_board.kicad_sch")
-		(date "2026-10-25T01:02:49")
+		(date "2026-10-25T18:43:04")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -1663,6 +1663,16 @@
 				(pintype "input")
 			)
 			(node
+				(ref "J10")
+				(pin "S")
+				(pintype "passive")
+			)
+			(node
+				(ref "J11")
+				(pin "S")
+				(pintype "passive")
+			)
+			(node
 				(ref "J3")
 				(pin "1")
 				(pintype "passive")
@@ -1675,6 +1685,16 @@
 			(node
 				(ref "J5")
 				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J6")
+				(pin "S")
+				(pintype "passive")
+			)
+			(node
+				(ref "J7")
+				(pin "S")
 				(pintype "passive")
 			)
 			(node
@@ -2122,28 +2142,18 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J10")
-				(pin "S")
-				(pintype "passive")
-			)
-			(node
-				(ref "J11")
-				(pin "S")
-				(pintype "passive")
-			)
-			(node
 				(ref "J2")
 				(pin "S")
 				(pintype "passive")
 			)
 			(node
-				(ref "J6")
-				(pin "S")
+				(ref "J8")
+				(pin "RN")
 				(pintype "passive")
 			)
 			(node
-				(ref "J7")
-				(pin "S")
+				(ref "J8")
+				(pin "TN")
 				(pintype "passive")
 			)
 		)
@@ -2179,26 +2189,6 @@
 			(class "Default")
 			(node
 				(ref "J2")
-				(pin "TN")
-				(pintype "passive+no_connect")
-			)
-		)
-		(net
-			(code "30")
-			(name "unconnected-(J8-PadRN)")
-			(class "Default")
-			(node
-				(ref "J8")
-				(pin "RN")
-				(pintype "passive+no_connect")
-			)
-		)
-		(net
-			(code "31")
-			(name "unconnected-(J8-PadTN)")
-			(class "Default")
-			(node
-				(ref "J8")
 				(pin "TN")
 				(pintype "passive+no_connect")
 			)

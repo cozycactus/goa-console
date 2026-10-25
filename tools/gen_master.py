@@ -121,7 +121,7 @@ for n in range(5, 7):
     frag(b, 12, 9, lambda d, ra=ra, a=a: frags.pot(d, ra, a + '_PT', a + '_W'))
     level_buffer(b, a + '_W', a + '_OUT', a)
     drv134(b, a + '_OUT', a + '_OP', a + '_ON')
-    jack(b, 'JACK', f'Aux {n} out TRS', {'T': a + '_OP', 'R': a + '_ON', 'S': 'GNDA'})
+    jack(b, 'JACK', f'Aux {n} out TRS', {'T': a + '_OP', 'R': a + '_ON', 'S': 'CHASSIS'})   # G2b
     chain(b, a + '_OUT', [('s', R(b, '22K', a + '_OUT', a + '_AFLJ'))], a + '_AFLJ'); afl(b, a + '_AFLJ', f'Aux {n} AFL')
 
 # ================================================================ PART 4: monitoring  [17-22]
@@ -216,7 +216,7 @@ with new_package():                     # both C/Room followers in one dual, in 
 for sd in 'LR':
     u = drv134(b, f'CRO_{sd}', f'CR{sd}_P', f'CR{sd}_N')
     relay(b, f'CR{sd}_P', f'CR{sd}_XP', f'CR{sd}_N', f'CR{sd}_XN', anchor=u)
-    jack(b, 'JACK', f'C/Room {sd} out TRS', {'T': f'CR{sd}_XP', 'R': f'CR{sd}_XN', 'S': 'GNDA'})
+    jack(b, 'JACK', f'C/Room {sd} out TRS', {'T': f'CR{sd}_XP', 'R': f'CR{sd}_XN', 'S': 'CHASSIS'})   # G2b
 
 b = block('HEADPHONES: PHONES dual A10K, OPA1612 + LME49600 composite (+9.9 dB), 2R2 out, mute relay, PHONESGND')
 rvp = ref('RV'); P(b, rvp, 'POT2', 'Phones level 10K log dual', {1: 'GNDA', 3: 'CRSB_L', 2: 'PHW_L', 4: 'GNDA', 6: 'CRSB_R', 5: 'PHW_R'}, mpn=POT2A_MPN)

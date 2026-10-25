@@ -28,6 +28,13 @@ Ribbon conductor = pin number; never 2 × 17, so a link can't be mistaken for th
 - The returns' and EXT's 100 pF RF caps and 1M stay on the main boards at the receivers. The strip
   moved its RF caps to its jack board; move these too if the jig shows RF pickup on the ribbon.
 
+**Ground and hum, part 2 (signed off 2026-10-25, applied in v0.10; `ground_study.md` §10, G2b / G3b).**
+- **G2b:** every DRV134 TRS output's sleeve is on CHASSIS: group sub / aux out, master aux 5 / 6 and C/Room L / R.
+- **G3b:** the group return and master EXT receivers are buffered like the strip's U16: OPA1656 followers, 1M per leg,
+  220R in, 100R build-outs. That is two duals per stereo input.
+- **Normals:** the L jack's normals short an empty input.
+- **Cost:** +78 mA per rail console-wide, 31 mA of it on each wing (§27).
+
 **Wing power (signed off 2026-10-25, applied in v0.10; `wing_power_proposal.md` W1–W2).** Pin 34 (the Delta's +48 V)
 is a third +V conductor on every header, and the +V wing PTCs are MF-RX250/72 (−V keeps the MF-RX185/72). The female
 IDC sockets are rated 1 A per contact and the master end carries a whole wing: +V is now 0.45 A per contact typical,
@@ -906,6 +913,7 @@ scale badly (below).
 |------|----|----|
 | 41 × OPA1612 (3.6 mA/ch typ, 4.5 max) | 295 mA | 295 mA |
 | 2 × OPA1656 (3.9 mA/ch) | 16 | 16 |
+| 10 × OPA1656, return / EXT followers (G3b, 2026-10-25): 8 on the groups, 2 on the master | 78 | 78 |
 | 4 × TL072 (meters) | 11 | 11 |
 | 15 × DRV134 (5.2 mA) | 78 | 78 |
 | 10 × LM2901B, 3 × LM393B, DG413 (+5VL zener 2.5 mA) | 17 | 14 |
@@ -913,9 +921,13 @@ scale badly (below).
 | Meter LED strings, 4 × ~5 mA | 20 | 20 |
 | 6 relay coils (9.1 mA each) | 55 | — |
 | Panel LEDs (AFL, PFL, power, rude solo) | 60 | — |
-| **Master** | **≈ 0.61 A** | **≈ 0.50 A** |
+| **Master** | **≈ 0.69 A** | **≈ 0.58 A** |
 | 24 strips v4.4 at ≈ 100 / 87 mA (v4.3: 92 / 79; v4.0: 85 / 72) | ≈ 2.40 A | ≈ 2.09 A |
-| **Console** | **≈ 3.01 A** | **≈ 2.59 A** |
+| **Console** | **≈ 3.09 A** | **≈ 2.67 A** |
+
+G3b (2026-10-25, `ground_study.md` §10): the return / EXT followers add 78 mA per rail typical, 31 mA on each wing
+(two groups), and about 92 mA at maximum IQ. The worst corner goes from ≈ 4.24 to ≈ 4.33 A on +V. A wing's +V is
+≈ 1.37 A typical (68 / 76 % of the MF-RX250/72's hold at 40 / 50 °C) and ≈ 1.96 A in the corner.
 
 Strip v4.4 (2026-10-25, `ground_study.md` G3): + U16 OPA1656 input followers, 7.8 mA per rail typical (10 mA at
 the 5 mA-per-channel maximum). Console +V ≈ 3.01 A typical, ≈ 3.64 A with every OPA1612 / OPA1656 at maximum, and
@@ -967,10 +979,9 @@ choosing.
 
 ## 29. Still open
 
-- Ground and hum (2026-10-25, `ground_study.md`): the PSU's worst corner of ≈ 4.24 A on +V with the strip's input
-  followers is accepted (§27, Ruslan 2026-10-25). The group return and master EXT receivers are still unbuffered
-  (20 kΩ common mode, 26 dB CMRR against a 1 kΩ source); the balanced TRS outputs (sub, aux, C/Room) keep their
-  sleeves on GNDA. Both are candidates for the same treatment as the strip.
+- Ground and hum (2026-10-25, `ground_study.md`): the PSU's worst corner with the strip's input followers (≈ 4.24 A on
+  +V) is accepted (§27, Ruslan 2026-10-25); G3b's return / EXT followers add ≈ 0.09 A to it (≈ 4.33 A). The returns,
+  EXT and every balanced TRS output now follow G2 / G3 (G2b / G3b).
 - Balanced outputs: THAT1646 went end-of-life (THAT memo, 1 September 2026); replaced by
   TI DRV134 on all 15 outputs (decided October 2026, section 7).
 - The same THAT memo also ends the THAT 2180/2181 VCAs (planned for the external SSL bus compressor,

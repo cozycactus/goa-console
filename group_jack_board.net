@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/group_jack_board.kicad_sch")
-		(date "2026-10-25T01:02:47")
+		(date "2026-10-25T18:43:02")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -887,6 +887,16 @@
 				(pintype "input")
 			)
 			(node
+				(ref "J2")
+				(pin "S")
+				(pintype "passive")
+			)
+			(node
+				(ref "J3")
+				(pin "S")
+				(pintype "passive")
+			)
+			(node
 				(ref "J4")
 				(pin "S")
 				(pintype "passive")
@@ -1086,13 +1096,13 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J2")
-				(pin "S")
+				(ref "J4")
+				(pin "RN")
 				(pintype "passive")
 			)
 			(node
-				(ref "J3")
-				(pin "S")
+				(ref "J4")
+				(pin "TN")
 				(pintype "passive")
 			)
 		)
@@ -1102,26 +1112,6 @@
 			(class "Default")
 			(node
 				(ref "J1")
-				(pin "TN")
-				(pintype "passive+no_connect")
-			)
-		)
-		(net
-			(code "14")
-			(name "unconnected-(J4-PadRN)")
-			(class "Default")
-			(node
-				(ref "J4")
-				(pin "RN")
-				(pintype "passive+no_connect")
-			)
-		)
-		(net
-			(code "15")
-			(name "unconnected-(J4-PadTN)")
-			(class "Default")
-			(node
-				(ref "J4")
 				(pin "TN")
 				(pintype "passive+no_connect")
 			)

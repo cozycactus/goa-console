@@ -125,6 +125,9 @@ def summer_group(bus, out):
 SUMMER5, SUMMER6, SUMMERP = summer_group('AUX5', 'A5_MIX'), summer_group('AUX6', 'A6_MIX'), summer_group('PFL', 'PFL_MIX')
 # balanced outputs: each DRV134 with its 1u caps, then its mute relay with the coil resistor and diode; then the phones
 # relay (no driver of its own)
+# the EXT receivers' followers (OPA1656 in the EXT block) and the parts recorded beside them
+EXTF = [r for r in B['EXT INPUT'] if VAL.get(r) == 'OPA1656']
+EXTF += [r for r, a in NEAR.items() if a in EXTF and r in B['EXT INPUT']]
 OUTS = []
 for u in sorted((r for r in VAL if VAL[r] == 'DRV134'), key=num):
     OUTS += [u] + [r for r in beside(u) if not r.startswith('K')]
@@ -150,10 +153,13 @@ ZONES = [
  ('GC buffer, summers, re-inverters, insert returns, mono (between the wing headers)', (11, 236, 68, 306),
   take('GROUND CANCEL BUFFER', 'MIX L', 'MIX R', 'MONO') + SUMMER5 + SUMMER6 + SUMMERP, 'F'),
  ('monitoring: EXT, PFL switcher, C/ROOM, phones', (EL, MAIN_Y0, ER, 306),
-  take('EXT INPUT', 'PFL SWITCHER', 'PFL DETECT', 'CONTROL ROOM', 'HEADPHONES', drop=OUTS), 'F'),
+  take('EXT INPUT', 'PFL SWITCHER', 'PFL DETECT', 'CONTROL ROOM', 'HEADPHONES', drop=OUTS + EXTF), 'F'),
  ('aux 5-6 level buffers, AFL; solo level', (EL, MAIN_Y0, ER, 306),
   take('AUX MASTER 5', 'AUX MASTER 6', 'PFL / AFL', drop=OUTS + SUMMER5 + SUMMER6 + SUMMERP), 'F'),
  ('rude-solo flasher, power-on mute', (EL, 160, ER, 306), take('RUDE SOLO', 'POWER-ON MUTE'), 'F'),
+ # EXT receivers' input followers (ground_study.md G3b), added 2026-10-25: placed last, into what the zones above
+ # leave, so the mute and aux 5-6 networks keep their places; their parts still follow U43 / U44 (attach)
+ ('EXT input followers', (EL, MAIN_Y0, ER, 306), take('EXT INPUT', only=EXTF), 'F'),
  ('post-amps L + R around U5 and wiper coupling (fader wiper end)', (19, 424.5, 60, 444), POST, 'F'),
  ('meter L', (0.3, 300, 31.2, 444), take('METER L'), 'F'),
  ('meter R', (47.4, 300, W - 0.3, 444), take('METER R'), 'F'),

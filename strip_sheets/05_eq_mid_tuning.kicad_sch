@@ -723,11 +723,11 @@
   )
 
   (global_label "EQ_WHM" (shape passive) (at 33.02 71.12 180)
-    (effects (font (size 1.27 1.27)) (justify right bottom))
+    (effects (font (size 1.27 1.27)) (justify right))
     (uuid d6d16b09-9ec7-5835-8acb-1c1062f2e3f2)
   )
   (global_label "EQ_MP" (shape passive) (at 124.46 116.84 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
+    (effects (font (size 1.27 1.27)) (justify left))
     (uuid 5e62863f-d972-5d02-b439-62024fc77b5a)
   )
 

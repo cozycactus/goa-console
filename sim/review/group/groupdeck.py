@@ -13,6 +13,8 @@ import os, re, sys, json, subprocess, tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..', '..'))
 TI_LIB = os.path.join(os.environ.get('TI_MODELS', HERE), 'OPA161x.LIB')   # TI's model stays out of the repo (licence)
+TI56_LIB = os.path.join(os.environ.get('TI_MODELS', HERE), 'OPA1656.LIB')   # the return receivers' followers (G3b)
+OPS = {'OPA1612AxD': 'OPA161x', 'OPA1656ID': 'OPA1656'}
 sys.path.insert(0, os.path.join(REPO, 'tools'))
 from verify import sexp, field
 
@@ -57,7 +59,7 @@ ROLE = {'U1A': 'GC buffer', 'U1B': 'sub summer', 'U2A': 'sub re-inverter', 'U2B'
 def units():
     out = []
     for ref, c in sorted(comps.items()):
-        if libname(c) == 'OPA1612AxD':
+        if libname(c) in OPS:
             for u, (p_, m_, o_) in ((1, (3, 2, 1)), (2, (5, 6, 7))):
                 if (ref, str(o_)) in pins: out.append((f'{ref}{"AB"[u-1]}', ref, p_, m_, o_))
     return sorted(out, key=lambda t: (int(t[1][1:]), t[0]))
@@ -76,7 +78,7 @@ def deck(cfg, ctl=''):
     REPIN.clear(); REPIN.update(cfg.get('repin', {}))
     MSTX = dict(MST); MSTX.update(cfg.get('mst', {}))
     pos, sw, jp = cfg.get('pos', {}), cfg.get('sw', {}), cfg.get('jp', {'JP1', 'JP5'})
-    L = ['* generated from ' + NET, f'.include {TI_LIB}',
+    L = ['* generated from ' + NET, f'.include {TI_LIB}', f'.include {TI56_LIB}',
          '.subckt OPA inp inn out', 'G1 0 n1 inp inn 1', 'R1 n1 0 1e6', 'C1 n1 0 3.98n', 'E1 out 0 n1 0 1', '.ends',
          'VPVA PVA 0 DC 16.8', 'VMVA MVA 0 DC -16.8', 'VPVL PVL 0 DC 16.8', 'VMVL MVL 0 DC -16.8',
          'VPVBUS PVBUS 0 DC 17', 'VMVBUS MVBUS 0 DC -17']
@@ -100,11 +102,11 @@ def deck(cfg, ctl=''):
             for g in ((1, 2, 3), (4, 5, 6)) if lib.endswith('Dual') else ((1, 2, 3),):
                 L.append(f'R{ref}_{g[0]}a {node(ref,g[0])} {node(ref,g[1])} {r*x+0.01}')
                 L.append(f'R{ref}_{g[0]}b {node(ref,g[1])} {node(ref,g[2])} {r*(1-x)+0.01}')
-        elif lib == 'OPA1612AxD':
+        elif lib in OPS:
             for u, (p_, m_, o_) in ((1, (3, 2, 1)), (2, (5, 6, 7))):
                 if (ref, str(o_)) in pins:
                     nm = f'{ref}{"AB"[u-1]}'
-                    L.append(f'X{nm} {nm}_pp {node(ref,m_)} PVA MVA {nm}_ox OPA161x')
+                    L.append(f'X{nm} {nm}_pp {node(ref,m_)} PVA MVA {nm}_ox {OPS[lib]}')
                     if cfg.get('rdiff'): L.append(f'RDIF_{nm} {nm}_pp {node(ref,m_)} 20k')
                     L.append(f'VST_{nm} {nm}_pp {node(ref,p_)} DC 0 AC 0 PULSE(0 0 0 1n 1n 1 2)')
                     L.append(f'VTI_{nm} {nm}_ox {node(ref,o_)} DC 0 AC 0')

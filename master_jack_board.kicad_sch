@@ -817,8 +817,6 @@
 
   (no_connect (at 40.64 58.42) (uuid e063a6c5-0683-53d7-8469-27d33b39d23a))
   (no_connect (at 73.66 58.42) (uuid eda2ce0f-2f22-5ca6-8ab6-6a203d521ead))
-  (no_connect (at 271.78 58.42) (uuid cd856e91-3d0c-592b-9682-0d04f26ebbd0))
-  (no_connect (at 271.78 53.34) (uuid 401ab8dd-e061-5634-b797-a0b73e1e689d))
 
   (text "JACK BOARD  panel jacks under the panel (~24 mm deep); 2x20 IDC ribbon to the main board, pin = conductor"
     (at 30.48 31.75 0)
@@ -894,6 +892,10 @@
     (effects (font (size 1.0 1.0)) (justify left bottom))
     (uuid cc98fdc2-7c1d-518b-9683-e5dac2d34d85)
   )
+  (label "CHASSIS" (at 205.74 48.26 0)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid 0f7cc23f-2119-58fd-b339-d8d1e7a5f249)
+  )
   (label "A6_OP" (at 238.76 53.34 0)
     (effects (font (size 1.0 1.0)) (justify left bottom))
     (uuid 3ac7e767-4077-565d-9a2c-bdbe729d73f7)
@@ -901,6 +903,10 @@
   (label "A6_ON" (at 238.76 50.8 0)
     (effects (font (size 1.0 1.0)) (justify left bottom))
     (uuid d0073f1b-cdf8-586a-a226-47f5216ac596)
+  )
+  (label "CHASSIS" (at 238.76 48.26 0)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid dd6fcd02-d1ac-5569-bc06-102ba98bf1c8)
   )
   (label "EXT_LT" (at 271.78 55.88 0)
     (effects (font (size 1.0 1.0)) (justify left bottom))
@@ -942,6 +948,10 @@
     (effects (font (size 1.0 1.0)) (justify left bottom))
     (uuid 4b2bbb2c-553d-59dd-a65c-bf5aea06f4e1)
   )
+  (label "CHASSIS" (at 337.82 48.26 0)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid 0be7b29d-61d2-5125-a417-6199b253d08b)
+  )
   (label "CRR_XP" (at 370.84 53.34 0)
     (effects (font (size 1.0 1.0)) (justify left bottom))
     (uuid 049e1274-3298-598f-bcc5-b2d5d2b2d098)
@@ -949,6 +959,10 @@
   (label "CRR_XN" (at 370.84 50.8 0)
     (effects (font (size 1.0 1.0)) (justify left bottom))
     (uuid b9dcc02e-b862-51ec-8ae2-6ec863bc2de7)
+  )
+  (label "CHASSIS" (at 370.84 48.26 0)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid d7ac2bd0-530f-53c9-8559-f660afe739c0)
   )
   (label "PHJ_L" (at 403.86 53.34 0)
     (effects (font (size 1.0 1.0)) (justify left bottom))
@@ -1305,31 +1319,6 @@
     )
   )
 
-  (symbol (lib_id "power:GNDA") (at 205.74 48.26 90) (unit 1)
-    (in_bom yes) (on_board yes)
-    (uuid 5951da46-a11c-5305-a235-f6654fe11862)
-    (property "Reference" "#PWR003" (id 0) (at 205.74 53.26 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "GNDA" (id 1) (at 209.54000000000002 48.26 90)
-      (effects (font (size 1.0 1.0)) (justify right) hide)
-    )
-    (property "Footprint" "" (id 2) (at 205.74 48.26 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (id 3) (at 205.74 48.26 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 9c29c6a4-9e97-5471-9c96-08ffb8515144))
-    (instances
-      (project "master_jack_board"
-        (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR003") (unit 1)
-        )
-      )
-    )
-  )
-
   (symbol (lib_id "Connector_Audio:AudioJack3") (at 233.68 50.8 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 8fac9c39-29a4-5fce-8baf-048a3ed7c82e)
@@ -1355,31 +1344,6 @@
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
           (reference "J7") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "power:GNDA") (at 238.76 48.26 90) (unit 1)
-    (in_bom yes) (on_board yes)
-    (uuid e36a070e-202e-507c-b6c9-eab68b635fa8)
-    (property "Reference" "#PWR004" (id 0) (at 238.76 53.26 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "GNDA" (id 1) (at 242.56 48.26 90)
-      (effects (font (size 1.0 1.0)) (justify right) hide)
-    )
-    (property "Footprint" "" (id 2) (at 238.76 48.26 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (id 3) (at 238.76 48.26 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 89e5d483-bd90-5437-a504-cdc9739ab148))
-    (instances
-      (project "master_jack_board"
-        (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR004") (unit 1)
         )
       )
     )
@@ -1412,6 +1376,56 @@
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
           (reference "J8") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:GNDA") (at 271.78 58.42 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 2d0b191f-57c2-5a95-8802-9d4faf815e50)
+    (property "Reference" "#PWR003" (id 0) (at 271.78 63.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GNDA" (id 1) (at 273.67999999999995 60.42 0)
+      (effects (font (size 1.0 1.0)) (justify left) hide)
+    )
+    (property "Footprint" "" (id 2) (at 271.78 58.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 271.78 58.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid c89766e3-7d48-5531-949f-c8fcb337a9f7))
+    (instances
+      (project "master_jack_board"
+        (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
+          (reference "#PWR003") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:GNDA") (at 271.78 53.34 90) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid c755a11d-1f1b-5084-9905-4b08e93da6cb)
+    (property "Reference" "#PWR004" (id 0) (at 271.78 58.34 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GNDA" (id 1) (at 275.58 53.34 90)
+      (effects (font (size 1.0 1.0)) (justify right) hide)
+    )
+    (property "Footprint" "" (id 2) (at 271.78 53.34 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 271.78 53.34 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 56ce3a26-06f5-5ed1-9eb1-c4c56d85a956))
+    (instances
+      (project "master_jack_board"
+        (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
+          (reference "#PWR004") (unit 1)
         )
       )
     )
@@ -1479,31 +1493,6 @@
     )
   )
 
-  (symbol (lib_id "power:GNDA") (at 337.82 48.26 90) (unit 1)
-    (in_bom yes) (on_board yes)
-    (uuid 945d0317-ed5f-5617-95dc-23a006c8f0c7)
-    (property "Reference" "#PWR005" (id 0) (at 337.82 53.26 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "GNDA" (id 1) (at 341.62 48.26 90)
-      (effects (font (size 1.0 1.0)) (justify right) hide)
-    )
-    (property "Footprint" "" (id 2) (at 337.82 48.26 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (id 3) (at 337.82 48.26 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 20880905-0c4d-5c4e-a8f1-399be2c23021))
-    (instances
-      (project "master_jack_board"
-        (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR005") (unit 1)
-        )
-      )
-    )
-  )
-
   (symbol (lib_id "Connector_Audio:AudioJack3") (at 365.76 50.8 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 505c02fc-0339-5826-9cb3-c7f750eb18f2)
@@ -1529,31 +1518,6 @@
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
           (reference "J11") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "power:GNDA") (at 370.84 48.26 90) (unit 1)
-    (in_bom yes) (on_board yes)
-    (uuid 537084a1-6d62-5f3c-986b-a2b8d9dcb66b)
-    (property "Reference" "#PWR006" (id 0) (at 370.84 53.26 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "GNDA" (id 1) (at 374.64 48.26 90)
-      (effects (font (size 1.0 1.0)) (justify right) hide)
-    )
-    (property "Footprint" "" (id 2) (at 370.84 48.26 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (id 3) (at 370.84 48.26 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 069b6732-f0d6-5718-94c4-a0043c3faab8))
-    (instances
-      (project "master_jack_board"
-        (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR006") (unit 1)
         )
       )
     )
@@ -1592,7 +1556,7 @@
   (symbol (lib_id "goa-console:PHONESGND") (at 403.86 48.26 90) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid b85600f5-cf04-58d8-b05c-23bc3c648a6d)
-    (property "Reference" "#PWR007" (id 0) (at 403.86 53.26 0)
+    (property "Reference" "#PWR005" (id 0) (at 403.86 53.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "PHONESGND" (id 1) (at 407.66 48.26 90)
@@ -1608,7 +1572,7 @@
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR007") (unit 1)
+          (reference "#PWR005") (unit 1)
         )
       )
     )
@@ -1684,7 +1648,7 @@
   (symbol (lib_id "power:GNDA") (at 43.18 55.88 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 94bbd53f-b6ed-576e-b852-bbdc4b29839e)
-    (property "Reference" "#PWR008" (id 0) (at 43.18 60.88 0)
+    (property "Reference" "#PWR006" (id 0) (at 43.18 60.88 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 45.08 53.88 0)
@@ -1700,7 +1664,7 @@
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR008") (unit 1)
+          (reference "#PWR006") (unit 1)
         )
       )
     )
@@ -1709,7 +1673,7 @@
   (symbol (lib_id "power:GNDA") (at 43.18 58.42 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid c3a6b73d-03de-5e3d-a33d-ae2120c0e2eb)
-    (property "Reference" "#PWR009" (id 0) (at 43.18 63.42 0)
+    (property "Reference" "#PWR007" (id 0) (at 43.18 63.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 45.08 56.42 0)
@@ -1725,7 +1689,7 @@
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR009") (unit 1)
+          (reference "#PWR007") (unit 1)
         )
       )
     )
@@ -1734,7 +1698,7 @@
   (symbol (lib_id "power:GNDA") (at 43.18 60.96 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid b50646da-9f4f-5e9a-b5a7-868a5bbcf183)
-    (property "Reference" "#PWR010" (id 0) (at 43.18 65.96000000000001 0)
+    (property "Reference" "#PWR008" (id 0) (at 43.18 65.96000000000001 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 45.08 58.96 0)
@@ -1750,7 +1714,7 @@
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR010") (unit 1)
+          (reference "#PWR008") (unit 1)
         )
       )
     )
@@ -1759,7 +1723,7 @@
   (symbol (lib_id "power:GNDA") (at 43.18 63.5 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 638ccf5e-1685-50cb-acec-369946665d9a)
-    (property "Reference" "#PWR011" (id 0) (at 43.18 68.5 0)
+    (property "Reference" "#PWR009" (id 0) (at 43.18 68.5 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 45.08 61.5 0)
@@ -1775,7 +1739,7 @@
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR011") (unit 1)
+          (reference "#PWR009") (unit 1)
         )
       )
     )
@@ -1784,7 +1748,7 @@
   (symbol (lib_id "power:GNDA") (at 43.18 68.58 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid a628deb8-17b4-5b9d-a16f-54ca67e2474e)
-    (property "Reference" "#PWR012" (id 0) (at 43.18 73.58 0)
+    (property "Reference" "#PWR010" (id 0) (at 43.18 73.58 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 45.08 66.58 0)
@@ -1800,7 +1764,7 @@
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR012") (unit 1)
+          (reference "#PWR010") (unit 1)
         )
       )
     )
@@ -1809,7 +1773,7 @@
   (symbol (lib_id "power:GNDA") (at 30.48 73.66 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid b3e3ed70-77a7-50c9-977d-5714b30493ce)
-    (property "Reference" "#PWR013" (id 0) (at 30.48 78.66 0)
+    (property "Reference" "#PWR011" (id 0) (at 30.48 78.66 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 26.68 73.66 90)
@@ -1825,7 +1789,7 @@
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR013") (unit 1)
+          (reference "#PWR011") (unit 1)
         )
       )
     )
@@ -1834,7 +1798,7 @@
   (symbol (lib_id "power:GNDA") (at 43.18 76.2 90) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid d4feab3e-4dd3-56ab-ac79-1e70e48e0f90)
-    (property "Reference" "#PWR014" (id 0) (at 43.18 81.2 0)
+    (property "Reference" "#PWR012" (id 0) (at 43.18 81.2 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 46.98 76.2 90)
@@ -1850,7 +1814,7 @@
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR014") (unit 1)
+          (reference "#PWR012") (unit 1)
         )
       )
     )
@@ -1859,7 +1823,7 @@
   (symbol (lib_id "power:GNDA") (at 30.48 81.28 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 3ab7cf58-ca66-5bd9-8ce7-25e0497d7362)
-    (property "Reference" "#PWR015" (id 0) (at 30.48 86.28 0)
+    (property "Reference" "#PWR013" (id 0) (at 30.48 86.28 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 26.68 81.28 90)
@@ -1875,7 +1839,7 @@
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR015") (unit 1)
+          (reference "#PWR013") (unit 1)
         )
       )
     )
@@ -1884,7 +1848,7 @@
   (symbol (lib_id "power:GNDA") (at 43.18 83.82 90) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid cd545f42-9edb-50e6-9126-f714950b98f2)
-    (property "Reference" "#PWR016" (id 0) (at 43.18 88.82 0)
+    (property "Reference" "#PWR014" (id 0) (at 43.18 88.82 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 46.98 83.82 90)
@@ -1900,7 +1864,7 @@
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR016") (unit 1)
+          (reference "#PWR014") (unit 1)
         )
       )
     )
@@ -1909,7 +1873,7 @@
   (symbol (lib_id "power:GNDA") (at 30.48 88.9 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 75db21e2-0cdc-527c-a9e2-2a07684055ad)
-    (property "Reference" "#PWR017" (id 0) (at 30.48 93.9 0)
+    (property "Reference" "#PWR015" (id 0) (at 30.48 93.9 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 32.38 90.9 0)
@@ -1925,7 +1889,7 @@
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR017") (unit 1)
+          (reference "#PWR015") (unit 1)
         )
       )
     )
@@ -1934,7 +1898,7 @@
   (symbol (lib_id "power:GNDA") (at 43.18 91.44 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 8b86773f-365a-5618-8cdc-15ef1d010378)
-    (property "Reference" "#PWR018" (id 0) (at 43.18 96.44 0)
+    (property "Reference" "#PWR016" (id 0) (at 43.18 96.44 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 45.08 93.44 0)
@@ -1950,7 +1914,7 @@
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR018") (unit 1)
+          (reference "#PWR016") (unit 1)
         )
       )
     )
@@ -1959,7 +1923,7 @@
   (symbol (lib_id "power:GNDA") (at 30.48 96.52 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 15303112-11fd-5ca3-b5bc-7c3e7a579a6f)
-    (property "Reference" "#PWR019" (id 0) (at 30.48 101.52 0)
+    (property "Reference" "#PWR017" (id 0) (at 30.48 101.52 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 32.38 98.52 0)
@@ -1975,7 +1939,7 @@
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR019") (unit 1)
+          (reference "#PWR017") (unit 1)
         )
       )
     )
@@ -1984,7 +1948,7 @@
   (symbol (lib_id "power:GNDA") (at 43.18 99.06 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 6d6275ea-84d7-5b55-9ffe-23a9abac0881)
-    (property "Reference" "#PWR020" (id 0) (at 43.18 104.06 0)
+    (property "Reference" "#PWR018" (id 0) (at 43.18 104.06 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 45.08 101.06 0)
@@ -2000,7 +1964,7 @@
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR020") (unit 1)
+          (reference "#PWR018") (unit 1)
         )
       )
     )
@@ -2009,7 +1973,7 @@
   (symbol (lib_id "goa-console:PHONESGND") (at 30.48 104.14 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 92773f9b-e0fa-5a0c-9e1e-e6d4323df3a1)
-    (property "Reference" "#PWR021" (id 0) (at 30.48 109.14 0)
+    (property "Reference" "#PWR019" (id 0) (at 30.48 109.14 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "PHONESGND" (id 1) (at 32.38 106.14 0)
@@ -2025,7 +1989,7 @@
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR021") (unit 1)
+          (reference "#PWR019") (unit 1)
         )
       )
     )
@@ -2034,7 +1998,7 @@
   (symbol (lib_id "power:GNDA") (at 43.18 104.14 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid a710db83-c1dc-56e4-b665-44975cf12d30)
-    (property "Reference" "#PWR022" (id 0) (at 43.18 109.14 0)
+    (property "Reference" "#PWR020" (id 0) (at 43.18 109.14 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 45.08 106.14 0)
@@ -2050,7 +2014,7 @@
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR022") (unit 1)
+          (reference "#PWR020") (unit 1)
         )
       )
     )
@@ -2159,7 +2123,7 @@
   (symbol (lib_id "power:GNDA") (at 167.64 78.74 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 79414473-fe0d-58c1-af6b-91059eb5dfdf)
-    (property "Reference" "#PWR023" (id 0) (at 167.64 83.74 0)
+    (property "Reference" "#PWR021" (id 0) (at 167.64 83.74 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 163.83999999999997 78.74 90)
@@ -2175,7 +2139,7 @@
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR023") (unit 1)
+          (reference "#PWR021") (unit 1)
         )
       )
     )
@@ -2209,7 +2173,7 @@
   (symbol (lib_id "goa-console:PHONESGND") (at 200.66 78.74 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid bd04f1e4-4f45-5c40-a530-1bfc36eb0fd0)
-    (property "Reference" "#PWR024" (id 0) (at 200.66 83.74 0)
+    (property "Reference" "#PWR022" (id 0) (at 200.66 83.74 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "PHONESGND" (id 1) (at 196.85999999999999 78.74 90)
@@ -2225,7 +2189,7 @@
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
-          (reference "#PWR024") (unit 1)
+          (reference "#PWR022") (unit 1)
         )
       )
     )

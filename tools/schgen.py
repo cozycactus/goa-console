@@ -323,7 +323,9 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
             add_label(net, ax, ay, ang, eff, K('lbl', pt['ref'], pt['unit'], pn))
 
     def add_label(net, x, y, ang, eff, uid):
-        if pages: sch.globalLabels.append(GlobalLabel(text=net, shape='passive', position=Position(x, y, ang), effects=eff, uuid=uid))
+        if pages:             # a global label's text sits centred in its box: 'bottom' put it on the outline (unreadable)
+            eff = Effects(font=eff.font, justify=Justify(horizontally=eff.justify.horizontally))
+            sch.globalLabels.append(GlobalLabel(text=net, shape='passive', position=Position(x, y, ang), effects=eff, uuid=uid))
         else: sch.labels.append(LocalLabel(text=net, position=Position(x, y, ang), effects=eff, uuid=uid))
 
     def emit(d, parts):

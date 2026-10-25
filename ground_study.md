@@ -278,7 +278,7 @@ at the desk.
 - **Not done:** the group return and master EXT receivers are still unbuffered (20 kΩ common mode); the balanced
   TRS outputs (sub, aux, C/Room) keep their sleeves on GNDA.
 
-## 10. Extending G2 / G3 to the group and master (proposal, 2026-10-25, for sign-off)
+## 10. Extending G2 / G3 to the group and master (G2b / G3b, signed off by Ruslan and applied 2026-10-25)
 
 G2 and G3 as signed cover the strip's line input and direct out, the group returns' and master EXT's sleeves, and the
 strip receiver. Two gaps remain.
@@ -322,5 +322,27 @@ OPA1656 dual as followers, 1M per leg, 220R in, 100R build-outs.
   and through R's normals they short an empty R input too.
 - **Recommended** if returns will carry synths, otherwise optional.
 
-- [ ] **G2b** Sleeves of every DRV134 TRS output (group sub / aux out, master aux 5 / 6 and C/Room L / R) on CHASSIS.
-- [ ] **G3b** Buffered receivers on the group returns and master EXT (10 OPA1656 duals, +78 mA per rail typical).
+- [x] **G2b** Sleeves of every DRV134 TRS output (group sub / aux out, master aux 5 / 6 and C/Room L / R) on CHASSIS.
+- [x] **G3b** Buffered receivers on the group returns and master EXT (10 OPA1656 duals, +78 mA per rail typical).
+
+### Applied (2026-10-25)
+
+- **G2b:** the four TRS outputs' sleeves on CHASSIS. The group keeps CHASSIS off its link; the master's link already
+  carries it.
+- **G3b, the receiver:** `master_lib.receiver()` now builds the strip's U16 circuit in front of the bridge. The
+  followers are created in a deferred pass just before `spares()` (`master_lib.DEFER`), so every existing reference on
+  both boards is unchanged: group +16 parts (U10, U11, …), master +16 (U43, U44, …).
+- **G3b, the jacks:** the return / EXT L jack's normals now short an empty input to GNDA.
+- **G3b, the drawing:** a fragment of its own, `frags.rx_buffers`, ahead of the bridge.
+- **Checks:**
+  - group 186 parts / 529 pins, master 579 / 1686, jack boards 40 / 89 pins: 0 mismatches, check_fp 0, ERC 0;
+  - `sim_console.py` 32/32 (returns and EXT levels unchanged).
+- **Placement:**
+  - group: the new parts fit and the report is no worse (decouplers 3.1 / 4.5 / 0, high-Z inputs 7.8 / 20.1 / 18);
+  - master: placed first in the monitoring zone, they pushed U11's mute network and aux 6's input out to 73 mm. Now
+    they get a zone of their own placed last, and the report is back to its old values (3.1 / 10.5 / 26 and
+    8.1 / 38.5 / 75). The cost: U43 / U44 sit 40–50 mm from the EXT bridge, which is acceptable on their buffered,
+    100R-fed lines;
+  - parity DRC: 0 violations on both main boards, 0 parity issues on all four boards.
+- **Found on the way:** every global label on the hierarchical pages had its text justified to the bottom of its box,
+  so underscores merged with the outline. `schgen` now centres it; no netlist changed.

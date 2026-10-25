@@ -496,8 +496,6 @@
   )
 
   (no_connect (at 40.64 58.42) (uuid 9b107518-e0c2-5b92-98ac-868cd64c2fa7))
-  (no_connect (at 139.7 58.42) (uuid a17b5f35-4a29-54eb-ae5c-7220cb2421a5))
-  (no_connect (at 139.7 53.34) (uuid 7f3adc12-3e18-5055-8c5b-a56aa6a5c956))
 
   (text "JACK BOARD  panel jacks under the panel (~24 mm deep); 2x8 IDC ribbon to the main board, pin = conductor"
     (at 30.48 31.75 0)
@@ -525,6 +523,10 @@
     (effects (font (size 1.0 1.0)) (justify left bottom))
     (uuid 7c44b578-33a2-5ef6-aec5-00bc55096264)
   )
+  (label "CHASSIS" (at 73.66 48.26 0)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid d992e2fa-3fd3-5a70-9c45-73ab6f364911)
+  )
   (label "A_OP" (at 106.68 53.34 0)
     (effects (font (size 1.0 1.0)) (justify left bottom))
     (uuid 68229bef-9f67-5de0-97c3-d2978f445296)
@@ -532,6 +534,10 @@
   (label "A_ON" (at 106.68 50.8 0)
     (effects (font (size 1.0 1.0)) (justify left bottom))
     (uuid 504fdbe0-c707-55a2-8451-c67516195956)
+  )
+  (label "CHASSIS" (at 106.68 48.26 0)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid 0d3969f0-c8c2-58b3-adaa-781fb11df5da)
   )
   (label "Return_LT" (at 139.7 55.88 0)
     (effects (font (size 1.0 1.0)) (justify left bottom))
@@ -701,31 +707,6 @@
     )
   )
 
-  (symbol (lib_id "power:GNDA") (at 73.66 48.26 90) (unit 1)
-    (in_bom yes) (on_board yes)
-    (uuid fbe31228-d299-51fc-b656-a62e731dd1a3)
-    (property "Reference" "#PWR002" (id 0) (at 73.66 53.26 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "GNDA" (id 1) (at 77.46 48.26 90)
-      (effects (font (size 1.0 1.0)) (justify right) hide)
-    )
-    (property "Footprint" "" (id 2) (at 73.66 48.26 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (id 3) (at 73.66 48.26 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid ecc5b307-ed2b-5e39-8d75-b349705cfdd4))
-    (instances
-      (project "group_jack_board"
-        (path "/dc93a766-ddd5-5372-9bee-1e55f9b8879c"
-          (reference "#PWR002") (unit 1)
-        )
-      )
-    )
-  )
-
   (symbol (lib_id "Connector_Audio:AudioJack3") (at 101.6 50.8 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 9b30611f-7df1-5c60-9278-065f61a0f25b)
@@ -751,31 +732,6 @@
       (project "group_jack_board"
         (path "/dc93a766-ddd5-5372-9bee-1e55f9b8879c"
           (reference "J3") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "power:GNDA") (at 106.68 48.26 90) (unit 1)
-    (in_bom yes) (on_board yes)
-    (uuid 8a6128b4-5aea-5a79-82b4-46fe4cd11294)
-    (property "Reference" "#PWR003" (id 0) (at 106.68 53.26 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "GNDA" (id 1) (at 110.48 48.26 90)
-      (effects (font (size 1.0 1.0)) (justify right) hide)
-    )
-    (property "Footprint" "" (id 2) (at 106.68 48.26 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (id 3) (at 106.68 48.26 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid a777f6d2-1d73-54ea-93ff-58b38b7871cd))
-    (instances
-      (project "group_jack_board"
-        (path "/dc93a766-ddd5-5372-9bee-1e55f9b8879c"
-          (reference "#PWR003") (unit 1)
         )
       )
     )
@@ -808,6 +764,56 @@
       (project "group_jack_board"
         (path "/dc93a766-ddd5-5372-9bee-1e55f9b8879c"
           (reference "J4") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:GNDA") (at 139.7 58.42 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 20f6f6ba-5fc8-5cc8-8481-52495e250410)
+    (property "Reference" "#PWR002" (id 0) (at 139.7 63.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GNDA" (id 1) (at 141.6 60.42 0)
+      (effects (font (size 1.0 1.0)) (justify left) hide)
+    )
+    (property "Footprint" "" (id 2) (at 139.7 58.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 139.7 58.42 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 661f4507-0ea3-556d-9fd6-b32a527ff38d))
+    (instances
+      (project "group_jack_board"
+        (path "/dc93a766-ddd5-5372-9bee-1e55f9b8879c"
+          (reference "#PWR002") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:GNDA") (at 139.7 53.34 90) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 824dff50-0a60-5faf-8929-ee25b8d0a5cd)
+    (property "Reference" "#PWR003" (id 0) (at 139.7 58.34 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GNDA" (id 1) (at 143.5 53.34 90)
+      (effects (font (size 1.0 1.0)) (justify right) hide)
+    )
+    (property "Footprint" "" (id 2) (at 139.7 53.34 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (id 3) (at 139.7 53.34 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 15f74782-e641-594e-a94b-8f17e0caaf63))
+    (instances
+      (project "group_jack_board"
+        (path "/dc93a766-ddd5-5372-9bee-1e55f9b8879c"
+          (reference "#PWR003") (unit 1)
         )
       )
     )

@@ -225,17 +225,35 @@ def afl(b, junction, name):                                 # PFL/AFL switch: 22
     P(b, led, 'LED', name + ' red', {2: la, 1: 'GNDD'}, mpn=LED_MPN['red'])
     frag(b, 20, 15, lambda d: frags.afl(d, junction, sw, rd, rl, led))
 
+DEFER = []                      # parts created at the end (before the spares): new circuits keep every other ref
+
 def receiver(b, tip, ring, out):                            # strip-style ground-compensated receiver
+    """Buffered since 2026-10-25 (ground_study.md G3b, as the strip's U16): each leg 100p and 1M to GNDA, 220R, an
+    OPA1656 follower and a 100R build-out (>= 48.5 deg for any load), then the 10K 0.1 % bridge. The followers are
+    created last (DEFER), so the refs of everything else on the board stay as they were."""
     n, p = out + '_N', out + '_P'
+    ti, ri, to, ro, tb, rb = (out + s for s in ('_TI', '_RI', '_TO', '_RO', '_TB', '_RB'))
     ct, cr, rt = C(b, '100p C0G', tip, 'GNDA'), C(b, '100p C0G', ring, 'GNDA'), R(b, '1M', tip, 'GNDA')
     k = dict(mpn='Panasonic ERA-6AEB103V')          # 0.1 %: they set the CMRR
-    r1, r2, cn = R(b, '10K 0.1%', ring, n, **k), R(b, '10K 0.1%', n, out, **k), C(b, '33p C0G', n, out)
+    r1, r2, cn = R(b, '10K 0.1%', rb, n, **k), R(b, '10K 0.1%', n, out, **k), C(b, '33p C0G', n, out)
     # 33p on the + leg too: with only the feedback cap the bridge is unbalanced (CMRR 60 / 40 / 34 dB at 1 / 10 / 20 kHz)
     # and the 5 kohm + node lags through Cdiff (45 deg); balanced: 86 dB flat, 85 deg (strip_parts_review.md, T3)
-    r3, r4, cp = R(b, '10K 0.1%', tip, p, **k), R(b, '10K 0.1%', p, 'GNDA', **k), C(b, '33p C0G', p, 'GNDA')
+    r3, r4, cp = R(b, '10K 0.1%', tb, p, **k), R(b, '10K 0.1%', p, 'GNDA', **k), C(b, '33p C0G', p, 'GNDA')
     u = amp(b, p, n, out); uu = LAST[0]
     near(cn, u); near(cp, u)
-    frag(b, 30, 18, lambda d: frags.diff(d, ring, tip, out, uu, r1, r2, r3, r4, cn, cp, (cr, ct, rt), c0n=1))
+    buf = {}
+    frag(b, 30, 17, lambda d: frags.rx_buffers(d, tip, ring, tb, rb, buf['ut'], buf['ur'], buf['st'], buf['sr'], rt,
+                                               buf['rr'], buf['ot'], buf['or'], ct, cr))
+    frag(b, 30, 18, lambda d: frags.diff(d, rb, tb, out, uu, r1, r2, r3, r4, cn, cp, (), c0n=1))
+    def late():
+        buf['rr'] = R(b, '1M', ring, 'GNDA')
+        buf['st'], buf['sr'] = R(b, '220R', tip, ti), R(b, '220R', ring, ri)
+        with new_package('OPA1656'):
+            amp(b, ti, to, to, 'OPA1656'); buf['ut'] = LAST[0]
+            amp(b, ri, ro, ro, 'OPA1656'); buf['ur'] = LAST[0]
+        buf['ot'], buf['or'] = R(b, '100R', to, tb), R(b, '100R', ro, rb)
+        for x in ('rr', 'st', 'sr', 'ot', 'or'): near(buf[x], buf['ut'][0])
+    DEFER.append(late)
     return u
 
 def stereo_in(b, name, outl, outr):                         # two jacks, R normalled to L
@@ -243,7 +261,8 @@ def stereo_in(b, name, outl, outr):                         # two jacks, R norma
     lt, lr, rt, rr = name + '_LT', name + '_LR', name + '_RT', name + '_RR'
     assert not {outl, outr} & {lt, lr, rt, rr}, 'receiver output named like a jack net'
     # sleeves on CHASSIS (ground_study.md G2): cable-shield currents go to the panel, not through GNDA
-    jack(b, 'JACKSW', name + ' L in', {'T': lt, 'R': lr, 'S': 'CHASSIS', 'TN': 'NC', 'RN': 'NC'})
+    # L's own normals short an empty L input (and, through R's normals, an empty R): the 1M bias would hiss (G3b)
+    jack(b, 'JACKSW', name + ' L in', {'T': lt, 'R': lr, 'S': 'CHASSIS', 'TN': 'GNDA', 'RN': 'GNDA'})
     jack(b, 'JACKSW', name + ' R in', {'T': rt, 'R': rr, 'S': 'CHASSIS', 'TN': lt, 'RN': lr})
     return receiver(b, lt, lr, outl), receiver(b, rt, rr, outr)
 
@@ -318,6 +337,7 @@ def jack_board(out, project, title, jacks, n, link, holes=0):
 def spares(b):
     """Tie off the unused halves of every partly used package: op-amp as a grounded follower, comparator
     with + to its ground and - to its positive rail (output high, open)."""
+    while DEFER: DEFER.pop(0)()                       # the deferred circuits first (receiver followers)
     for (part, rail), units in free.items():
         for r, u in units:
             g = GND_OF[rail]
@@ -352,4 +372,4 @@ def parts_sidecar(out):
 def reset():
     """Start a new schematic: empty block list, references from 1, no half-used packages."""
     global jackboard
-    schgen.blocks.clear(); cnt.clear(); free.clear(); decoupling.clear(); jackboard = None
+    schgen.blocks.clear(); cnt.clear(); free.clear(); decoupling.clear(); DEFER.clear(); jackboard = None

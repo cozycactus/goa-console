@@ -320,6 +320,10 @@ jack board) done.
   - G3 strip receiver buffered: U16 OPA1656 followers, 1M per leg (R10, R112), 220R in (R110, R111), 100R build-outs
     (R113, R114; ≥ 48.5° for any load); J1's normals short both legs to GNDA when empty. CMRR vs a 1K synth output
     26 -> 54 dB (worst 5 %). U16 stays OPA1656: the PSU worst corner of ~4.24 A on +V is accepted (Ruslan, 2026-10-25).
+- Ground and hum, part 2 (signed off by Ruslan 2026-10-25, `ground_study.md` §10 G2b / G3b): every DRV134 TRS output's
+  sleeve on CHASSIS (group sub / aux, master aux 5 / 6, C/Room); the group return and master EXT receivers buffered as
+  the strip's U16 (`master_lib.receiver()`; followers created last via `master_lib.DEFER`, so no existing ref moves);
+  L jack normals short an empty return / EXT. +78 mA per rail; worst corner ~4.33 A on +V.
 - Faders (2026-10-23): Bourns PTB0143-2010BPA103 (strips, groups) / PTB0144-2010BPA103 (master), stocked, BP lever
   (8.0 x 1.3 mm flat blade, 5.0 mm above the panel), caps Sifam LK110 tang 01 (8.0 x 1.2, socket 4.0 deep: 1.0 mm
   above the panel; the Delta's "SIF low profile" knob; RS 281-7197 black, colours from pot4audio / D&R; white inputs,
@@ -472,6 +476,10 @@ jack board) done.
 - Wing power applied (2026-10-25, W1 / W2): pin 34 = +V on every header; F1 / F3 MF-RX250/72. Every schematic 0
   mismatches, check_fp 0, ERC 0; sim_netlist 37/37, sim_console 32/32; parity DRC clean on all eight boards; the master
   moved F1, F3 and 14 parts around U11 (report unchanged, 3.1 / 10.5 / 26 and 8.2 / 38.5 / 75), every other board 0.
+- G2b / G3b applied (2026-10-25): group 186 parts / 529 pins, master 579 / 1686, jack boards 40 / 89; 0 mismatches,
+  check_fp 0, ERC 0; sim_console 32/32. Placement: group report no worse (3.1 / 4.5 / 0, 7.8 / 20.1 / 18), master
+  unchanged (EXT followers in a last zone); parity DRC clean. Global labels on every hierarchical page now centred in
+  their boxes (they sat on the outline; schgen `add_label`).
 - PSU sim (`sim/psu.cir`, 2026-10-22): soft start 165 ms to 90 %, no overshoot; 5.1 A peak SMPS current;
   crowbar idle margin 2.21 / 2.495 V; fault (pass element shorted) → fires in 17 µs, console bus peak 19.7 V,
   strip/master rails stay 16.9 V; LDO 19 W at 4 A; LC −47 dB at 65 kHz (ESR-limited).
@@ -500,8 +508,7 @@ jack board) done.
   case specified (psu_spec.md §8). Routing is Ruslan's; build the case.
 - Ground and hum (`ground_study.md`): G1-G3 applied 2026-10-25. The PSU's worst corner of ~4.24 A on +V (U16 adds
   7.8 mA typ / 10 mA max per strip and rail) is accepted (Ruslan, 2026-10-25; master spec §27). Open:
-  (2) the group return and master EXT receivers are still unbuffered (26 dB CMRR vs a 1K source) and the DRV134 TRS
-  outputs keep sleeves on GNDA; (3) earthed synths on TS cables hum whatever the console does (use pseudo-balanced
+  (2) done 2026-10-25 (G2b / G3b); (3) earthed synths on TS cables hum whatever the console does (use pseudo-balanced
   cables, one mains distribution point). Bench: hum with a real synth on TS / TRS; panel-to-frame bonding.
 - PSU headroom (strip v4.3): the worst corner (every OPA1612 at max IQ, every LED lit) is ~4.0 A on +V, the PSU's
   rating (~4.24 A with strip v4.4's input followers: accepted 2026-10-25, U16 stays OPA1656). Typical 2.82 A. Revisit if anything else adds load (master spec §27).
