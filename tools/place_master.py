@@ -129,7 +129,7 @@ SUMMER5, SUMMER6, SUMMERP = summer_group('AUX5', 'A5_MIX'), summer_group('AUX6',
 EXTF = [r for r in B['EXT INPUT'] if VAL.get(r) == 'OPA1656']
 EXTF += [r for r, a in NEAR.items() if a in EXTF and r in B['EXT INPUT']]
 OUTS = []
-for u in sorted((r for r in VAL if VAL[r] == 'DRV134'), key=num):
+for u in sorted((r for r in VAL if VAL[r] in ('DRV134', 'DRV135')), key=num):
     OUTS += [u] + [r for r in beside(u) if not r.startswith('K')]
     for k in (r for r in beside(u) if r.startswith('K')): OUTS += [k] + beside(k)
 for k in sorted((r for r in VAL if VAL[r].startswith('G6K') and r not in NEAR), key=num): OUTS += [k] + beside(k)

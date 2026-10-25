@@ -29,7 +29,8 @@ FP.update({
  'HDR5': 'Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical', 'JACK': FP['JACKSW'],
  'PNP': 'Package_TO_SOT_SMD:SOT-223',     # pads 1-4 = the BCEC symbol's pins (tab = 4 = C); TabPin2 has no pad 4
 })
-MPN.update({'DRV134': 'TI DRV134UA', 'RELAY': 'Omron G6K-2F-Y DC12', 'XLR3': 'Neutrik NC3MAH',
+MPN.update({'DRV134': 'TI DRV135UA',   # SO-8: the DRV134 is DIP-8 / SOL-16 only (design_review.md R1)
+            'RELAY': 'Omron G6K-2F-Y DC12', 'XLR3': 'Neutrik NC3MAH',
             'PWRIN': 'Phoenix MKDS 1,5/7-5,08 (wired to a Neutrik NC7MD-LX inlet)', 'PTC': 'Bourns MF-RX160/72',
             'DS': 'SS54', 'FB': '220R@100MHz 0805',
             'LME49600': 'TI LME49600TS', 'OPA1656': 'TI OPA1656ID', 'JACK': 'Neutrik NRJ6HF',
@@ -194,7 +195,7 @@ def level_buffer(b, wiper, out, name, unity=True):          # [13, 16] pot wiper
 
 def drv134(b, inp, op, on):                                 # [7]
     vop, von, u = op + '_VO', on + '_VO', ref('U')
-    P(b, u, 'DRV134', 'DRV134', {4: inp, 3: 'GNDA', 6: '+VA', 5: '-VA', 8: vop, 1: von, 7: op, 2: on})
+    P(b, u, 'DRV134', 'DRV135', {4: inp, 3: 'GNDA', 6: '+VA', 5: '-VA', 8: vop, 1: von, 7: op, 2: on})
     cs = (C(b, '10u NP 25V', vop, op), C(b, '10u NP 25V', von, on), C(b, '1u', '+VA', 'GNDA'), C(b, '1u', 'GNDA', '-VA'))
     for c in cs: near(c, u)
     frag(b, 30, 15, lambda d: frags.drv134(d, inp, op, on, u, *cs))

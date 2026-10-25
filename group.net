@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/group.kicad_sch")
-		(date "2026-10-25T19:15:41")
+		(date "2026-10-25T21:59:43")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -3029,13 +3029,13 @@
 		)
 		(comp
 			(ref "RV2")
-			(value "Sub pan 10K dual")
-			(footprint "Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical")
+			(value "Sub pan 10K lin dual CD")
+			(footprint "Potentiometer_THT:Potentiometer_Alps_RK09L_Double_Vertical")
 			(fields
 				(field
-					(name "MPN") "Alpha RD902F-40 B10K centre detent")
+					(name "MPN") "ALPS RK09L1240015")
 				(field
-					(name "Footprint") "Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical")
+					(name "Footprint") "Potentiometer_THT:Potentiometer_Alps_RK09L_Double_Vertical")
 				(field
 					(name "Datasheet")
 				)
@@ -3050,7 +3050,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Alpha RD902F-40 B10K centre detent")
+				(value "ALPS RK09L1240015")
 			)
 			(property
 				(name "Sheetname")
@@ -3266,11 +3266,11 @@
 		)
 		(comp
 			(ref "U4")
-			(value "DRV134")
+			(value "DRV135")
 			(footprint "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 			(fields
 				(field
-					(name "MPN") "TI DRV134UA")
+					(name "MPN") "TI DRV135UA")
 				(field
 					(name "Footprint") "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 				(field
@@ -3283,11 +3283,11 @@
 			(libsource
 				(lib "goa-console")
 				(part "DRV134")
-				(description "Audio balanced line driver, +6 dB, SO-8 (TI DRV134/DRV135)")
+				(description "Audio balanced line driver, +6 dB; DIP-8 / SO-8 pinout (SO-8 = TI DRV135UA; the DRV134 is DIP-8 or SOL-16)")
 			)
 			(property
 				(name "MPN")
-				(value "TI DRV134UA")
+				(value "TI DRV135UA")
 			)
 			(property
 				(name "Sheetname")
@@ -6718,11 +6718,11 @@
 		)
 		(comp
 			(ref "U7")
-			(value "DRV134")
+			(value "DRV135")
 			(footprint "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 			(fields
 				(field
-					(name "MPN") "TI DRV134UA")
+					(name "MPN") "TI DRV135UA")
 				(field
 					(name "Footprint") "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
 				(field
@@ -6735,11 +6735,11 @@
 			(libsource
 				(lib "goa-console")
 				(part "DRV134")
-				(description "Audio balanced line driver, +6 dB, SO-8 (TI DRV134/DRV135)")
+				(description "Audio balanced line driver, +6 dB; DIP-8 / SO-8 pinout (SO-8 = TI DRV135UA; the DRV134 is DIP-8 or SOL-16)")
 			)
 			(property
 				(name "MPN")
-				(value "TI DRV134UA")
+				(value "TI DRV135UA")
 			)
 			(property
 				(name "Sheetname")
@@ -12678,7 +12678,7 @@
 		(libpart
 			(lib "goa-console")
 			(part "DRV134")
-			(description "Audio balanced line driver, +6 dB, SO-8 (TI DRV134/DRV135)")
+			(description "Audio balanced line driver, +6 dB; DIP-8 / SO-8 pinout (SO-8 = TI DRV135UA; the DRV134 is DIP-8 or SOL-16)")
 			(docs "https://www.ti.com/lit/ds/symlink/drv134.pdf")
 			(footprints
 				(fp "SOIC*3.9x4.9mm*P1.27mm*")
@@ -12693,7 +12693,7 @@
 				(field
 					(name "Datasheet") "https://www.ti.com/lit/ds/symlink/drv134.pdf")
 				(field
-					(name "Description") "Audio balanced line driver, +6 dB, SO-8 (TI DRV134/DRV135)")
+					(name "Description") "Audio balanced line driver, +6 dB; DIP-8 / SO-8 pinout (SO-8 = TI DRV135UA; the DRV134 is DIP-8 or SOL-16)")
 			)
 			(pins
 				(pin

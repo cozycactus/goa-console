@@ -9,7 +9,7 @@ simulation and schematic.
 | Item | Value | Source |
 |------|-------|--------|
 | Rails | ±17 V | strip and master design rails |
-| Current | +V 2.65 A typical, 3.8 A worst; −V 2.23 A typical, 2.8 A worst; **design 4 A per rail** | master spec §27 |
+| Current | +V 3.09 A typical, ≈ 4.33 A in the accepted worst corner (every op-amp at maximum IQ, every LED lit); −V 2.67 A typical; **design 4 A per rail** (2026-10-25; was 2.65 / 3.8 A with strip v4.0) | master spec §27 |
 | Abs max at the console | OPA1612 ±20 V; DRV134 ±18 V recommended | datasheets |
 | Ripple and noise at the output | ≤ 1 mV pk-pk, 20 Hz–20 kHz; nothing large above 20 kHz either | the strips' 10 Ω + 220 µF filter only starts at 72 Hz |
 | Link | 7-pin XLR (console: Neutrik NC7MD-LX). Pin 1 earth; 2–3 +V; 4–5 0 V; 6–7 −V. Cable 7 × 1.0 mm², ≤ 2 m (≈ 70 mV drop at 4 A) | master spec §24 |
@@ -131,7 +131,7 @@ SMPS modules, the mains wiring and the NC7 socket are chassis parts wired to the
 
   | Load | LDO power | Heatsink needed |
   |------|-----------|-----------------|
-  | Typical (2.65 / 2.23 A) | 12.2 + 10.3 = 22.4 W | ≤ 2.5 °C/W |
+  | Typical (3.09 / 2.67 A, 2026-10-25) | 14.2 + 12.3 = 26.5 W | ≤ 1.9 °C/W |
   | 4 A on both rails | 18.4 + 18.4 = 36.8 W | ≤ 1.2 °C/W |
 
   Proposed: a finned profile of about 1 °C/W (Fischer SK 47 or SK 85, 100 mm long), mounted outside the

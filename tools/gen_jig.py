@@ -46,8 +46,9 @@ P(b, ref('J'), 'TERM3', 'Bench supply +V / 0 V / -V', {1: '+VBUS', 2: 'GNDA', 3:
 P(b, ref('D'), 'DS', 'SS54', {1: '+VBUS', 2: 'GNDA'}); P(b, ref('D'), 'DS', 'SS54', {1: 'GNDA', 2: '-VBUS'})
 P(b, ref('F'), 'PTC', 'MF-RX160/72', {1: '+VBUS', 2: '+VBUS_R'}); P(b, ref('F'), 'PTC', 'MF-RX160/72', {1: '-VBUS', 2: '-VBUS_R'})
 for rail, rv, cv, g in (('VA', '1R', '470u 25V', 'GNDA'), ('VL', '10R', '47u 25V', 'GNDD')):
-    R(b, rv, '+VBUS', '+' + rail); CP(b, cv, '+' + rail, g)
-    R(b, rv, '-VBUS', '-' + rail); CP(b, cv, g, '-' + rail)
+    k = dict(mpn='Panasonic ERJ-P06J1R0V') if rv == '1R' else {}       # anti-surge, as the master (MG17)
+    R(b, rv, '+VBUS', '+' + rail, **k); CP(b, cv, '+' + rail, g)
+    R(b, rv, '-VBUS', '-' + rail, **k); CP(b, cv, g, '-' + rail)
 P(b, ref('CN'), 'TAB', 'Ground spade 6.3mm (to the ground bar)', {1: 'GNDA'})
 P(b, ref('NT'), 'NT', 'Star GNDA-GNDD', {1: 'GNDA', 2: 'GNDD'})
 P(b, ref('NT'), 'NT', 'Star GNDA-CHASSIS', {1: 'GNDA', 2: 'CHASSIS'})
@@ -81,7 +82,7 @@ b = block('PFL DETECT  comparator vs ~0.50 V (one press gives 0.92 V on PFLDET; 
 R(b, '10K', 'PFLDET', 'GNDD'); R(b, '330K', '+VL', 'PFL_REF'); R(b, '10K', 'PFL_REF', 'GNDD')
 D(b, 'PFLDET', 'PFL_CL'); D(b, 'PFL_CL', 'GNDD'); C(b, '1u', 'PFLDET', 'GNDD')
 cmp(b, 'PFL_REF', 'PFLDET', 'PFL_LK')                         # output sinks when PFLDET is above the reference
-R(b, '3K3', '+VL', 'PFL_LA'); P(b, ref('D'), 'LED', 'PFL ACTIVE red', {2: 'PFL_LA', 1: 'PFL_LK'}, mpn=LED_MPN['red'])
+R(b, '3K3', '+VL', 'PFL_LA', mpn='Panasonic ERJ-P06J332V'); P(b, ref('D'), 'LED', 'PFL ACTIVE red', {2: 'PFL_LA', 1: 'PFL_LK'}, mpn=LED_MPN['red'])
 
 spares(b)
 

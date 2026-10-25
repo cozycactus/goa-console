@@ -96,7 +96,7 @@ chain(b, '+VL', [('s', R(b, '10K', '+VL', 'RAIL_OK', mpn='Panasonic ERJ-P06J103V
 # <= ~8.5 ms after either rail drops; any fault longer than ~8 ms re-arms the full delay). The reset and fast-release
 # resistors are 4K7, not 2K2: at a one-rail loss one LM393 output sinks ~12 mA instead of ~23 mA
 rt = R(b, '2M2', 'RAIL_OK', 'MUTE_T')
-ct = ref('C'); P(b, ct, 'C', '2.2u film 63V', {1: 'MUTE_T', 2: 'GNDD'}, fp='Capacitor_THT:C_Rect_L7.2mm_W8.5mm_P5.00mm_FKP2_FKP2_MKS2_MKP2', mpn='WIMA MKS2 2.2uF 63V')
+ct = ref('C'); P(b, ct, 'C', '2.2u film 63V', {1: 'MUTE_T', 2: 'GNDD'}, fp=FILM_2U2, mpn='WIMA MKS2C042201K00KSSD (PET 63V)')
 dr, rr_, dc = D(b, 'MUTE_T', 'MUTE_TX'), R(b, '4K7', 'MUTE_TX', 'RAIL_OK'), D(b, 'GNDD', 'MUTE_T')   # reset path, clamp at -0.7 V
 chain(b, 'RAIL_OK', [('s', rt), ('g', ct), ('g', dc)], 'MUTE_T'); chain(b, 'MUTE_T', [('s', dr), ('s', rr_)], 'RAIL_OK')
 near(cmp(b, 'MUTE_T', 'VREF6', 'MUTE_GO'), uc); cs_ = LAST[0]; frag(b, 20, 10, lambda d: frags.comparators(d, [(cs_, False)]))

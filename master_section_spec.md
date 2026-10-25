@@ -1,4 +1,4 @@
-# Master Section — Schematic Specification, v0.10 (draft)
+# Master Section — Schematic Specification, v0.11 (draft)
 ## Part 1: stereo mix path, mono, main outputs, power-on mute
 ## Part 2: subgroups, aux masters
 ## Part 3: stereo returns · Part 4: monitoring · Part 5: power entry
@@ -28,6 +28,16 @@ Ribbon conductor = pin number; never 2 × 17, so a link can't be mistaken for th
 - The returns' and EXT's 100 pF RF caps and 1M stay on the main boards at the receivers. The strip
   moved its RF caps to its jack board; move these too if the jig shows RF pickup on the ribbon.
 
+**Design review (signed off 2026-10-25, applied in v0.11; `design_review.md` R1, R2, R4, R5).**
+- **R1:** every balanced driver is a **TI DRV135UA**. The DRV134 comes only as DIP-8 or the 16-pin wide SOL-16; the
+  SO-8 part, with exactly the pinout the symbol and footprint use, is the DRV135. Same datasheet (SBOS094B) and
+  electrical table. "DRV134" below means the family.
+- **R2:** the group's sub pan RV2 is the ALPS RK09L1240015, as the strip's RV8. The Alpha B10K dual with a detent named
+  here before doesn't exist.
+- **R4:** a silk "2" marks the pad 1/4 column of every PVA2 key.
+- **R5:** documentation and BOM fixes (this file, CLAUDE.md, console_architecture.md); master C57 on the W7.2 film
+  footprint with an orderable WIMA MPN.
+
 **Ground and hum, part 2 (signed off 2026-10-25, applied in v0.10; `ground_study.md` §10, G2b / G3b).**
 - **G2b:** every DRV134 TRS output's sleeve is on CHASSIS: group sub / aux out, master aux 5 / 6 and C/Room L / R.
 - **G3b:** the group return and master EXT receivers are buffered like the strip's U16: OPA1656 followers, 1M per leg,
@@ -50,9 +60,9 @@ IDC sockets are rated 1 A per contact and the master end carries a whole wing: +
 - Balanced-input sleeves on CHASSIS (G2): the groups' return L/R jacks and the master's EXT L/R jacks; each jack
   board's standoff holes are plated CHASSIS pads (group H1–H2, master H1–H3) that bond it to the panel. On the group
   jack board CHASSIS stays off the link (`link_pins(skip=)`); on the master it already reaches the star through the
-  link for the XLRs' pin 1. Inserts, the phones and the balanced TRS outputs keep GNDA.
-- The strip's receiver gains input followers (G3, strip spec v4.4): +7.8 mA per strip and rail (§27). The returns'
-  and EXT receivers here are unbuffered still (an open item, §29).
+  link for the XLRs' pin 1. Inserts and the phones keep GNDA; since G2b the balanced TRS outputs are on CHASSIS too.
+- The strip's receiver gains input followers (G3, strip spec v4.4): +7.8 mA per strip and rail (§27). Since G3b the
+  returns' and EXT receivers have them as well (§16).
 
 **Parts review (signed off 2026-10-23, applied in v0.7).** The six parts proposed in v0.6 were reviewed in
 `master_parts_review.md` (review sims in `sim/review/`):
@@ -86,7 +96,8 @@ macro) in whole-module decks; scripts in `sim/review/master/`, `sim/review/group
 - **Placement:** every build-out resistor sits at its op-amp pin (`near()`).
 - **Ratings:**
   - phones 2R2 (output and ±VP feed) in 2512, 1.5 W (§21, §25);
-  - anti-surge 0805 for the mute R52/R48 (§8), the rude-solo 3K3 (§19), the ±VA feeds (§25) and the insert-send 75R;
+  - anti-surge 0805 for the mute pull-ups (R52/R48 then; now R58 4K7 MUTE_GO and R54 10K RAIL_OK, §8), the rude-solo
+    3K3 (now R124, §19), the ±VA feeds (§25) and the insert-send 75R;
   - capacitor and semiconductor MPNs (50 V X7R / C0G ceramics).
 - **Spec notes:** no phantom on any balanced output (§7); the gain changes (§5, §12); the group bus-select rule (§12);
   aux outputs unmuted (§13).
@@ -215,7 +226,7 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
   datasheet drawing). Wired with pin 1 = GNDA, as on the strips (A taper).
 - Post-amp U2B: 2.2 µF film + 100K input, gain 1 + 4K7/2K2 = +9.9 dB, 100 pF across 4K7. Same as
   the strip, so the "0" mark (−10 dB travel) is unity through the master.
-- v0.8 (MG4): 10 pF C0G from the + input to GNDA, and a 47R build-out at the op-amp pin before the 220 µF.
+- v0.8 (MG4): 10 pF C0G from the + input to GNDA, and a 47R build-out at the op-amp pin before the 100 µF coupler (MUSE ES since v0.8).
   - With 100 pF across the 4K7 the stage is a follower above 339 kHz. The wiper's 1.3–2.5 kΩ against the input
     capacitance, plus POST's 337 mm run and the DG413's on-capacitance when MIX is monitored, left 2–21° of margin.
     With the fix it is ≥ 51°.
@@ -233,7 +244,7 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
 
 ## 7. Main outputs
 
-- Driver: **TI DRV134** (SO-8) on every balanced output. **Decided October 2026**, replacing the
+- Driver: **TI DRV135UA** (the DRV134 family's SO-8 part; v0.11, R1) on every balanced output. **Decided October 2026**, replacing the
   THAT1646 chosen earlier, which THAT Corporation put on end-of-life on 1 September 2026
   (last-time buy closed 30 September). Both replace the Delta's cross-coupled NE5532 EBOS
   (ED2780 sheet 2, about 12 parts and a balance trim per output) with one IC.
@@ -405,8 +416,8 @@ SUBn_MIX ─ 75R ─ insert send (tip) ─ return (ring, normalled) ─ 33µ NP 
          ─ return buffer (OPA1612 A) ─ 100µ NP + 47K ─ PRE_SUBn
 PRE_SUBn ─ fader PTB0143 A10K (pin 1 = GNDA) ─ 2.2µ film + 100K ─ post-amp +9.9 dB (OPA1612 B,
            4K7 / 2K2, 100 pF) ─ 100µ NP + 47K ─ POST_SUBn
-POST_SUBn ─┬─ DRV134 ─ NJ6FD-V TRS output (tip hot, ring cold, sleeve GNDA)
-           ├─ pan pot RD902F B10K centre detent ─ pan buffers (OPA1612 A/B)
+POST_SUBn ─┬─ DRV134 ─ NJ6FD-V TRS output (tip hot, ring cold, sleeve CHASSIS since G2b)
+           ├─ pan pot ALPS RK09L1240015 B10K dual, centre detent (v0.11, R2) ─ pan buffers (OPA1612 A/B)
            │    ─ 100µ NP + 47K each ─ MIX switch (PVA2, A-B = on)
            │    ─ 4K7 1 % to MIX L / MIX R (switch off grounds the resistor's bus end)
            └─ AFL switch (PVA2): pole A 22K to PFL bus (off: resistor end grounded),
@@ -464,7 +475,7 @@ AUXn bus ─ ferrite ─ summing amp (OPA1612 A), Rf 22K 1 % ∥ 100 pF, + input
 AUXn_SUM ─ 33µ NP ─ master level RD901F A10K (pin 1 = GNDA, pin 3 = signal)
          ─ wiper ─ 2.2µ film + 100K ─ output buffer (OPA1612, non-inverting:
            Rf 4K7 ∥ 100 pF, Rg not fitted = unity; fit 4K7 for +6 dB, 2K2 for +10 dB)  → AUXn_OUT
-AUXn_OUT ─┬─ DRV134 ─ NJ6FD-V TRS output (tip hot, ring cold, sleeve GNDA)
+AUXn_OUT ─┬─ DRV134 ─ NJ6FD-V TRS output (tip hot, ring cold, sleeve CHASSIS since G2b)
           └─ AFL switch (PVA2): pole A 22K to PFL bus (off: resistor end grounded),
                                  pole B +VL → 100K → PFLDET, 4K7 → AFL LED (red)
 ```
@@ -536,7 +547,7 @@ which stay at 22K so the strip aux pot wipers aren't loaded (architecture sectio
 | Omron (Aratas) G6K-2F-Y DC12 | 3 | main output mute (C/Room and phones: §23) |
 | Bourns PTB0144 (dual) | 1 | master fader |
 | Bourns PTB0143 | 4 | sub faders |
-| Alpha RD902F B10K detent | 4 | sub pans |
+| ALPS RK09L1240015 (B10K dual, detent) | 4 | sub pans (v0.11) |
 | Alpha RD901F A10K | 6 | aux master levels |
 | C&K PVA2 EE | 4 (sub MIX) + 4 (sub AFL) + 6 (aux AFL) = **14** | |
 | Neutrik NJ6FD-V | 2 (mix inserts) + 4 (sub inserts) + 4 (sub outs) + 6 (aux outs) = **16** | |
@@ -546,7 +557,8 @@ which stay at 22K so the strip aux pot wipers aren't loaded (architecture sectio
 | 22 pF C0G 5 % | 2 × 13 = 26 | re-inverter compensation (§3) |
 
 As generated (M1 modules, 2026-10-23): master 13 × OPA1612 + 2 × OPA1656 (two halves tied off as spares, so
-no package straddles two placement areas), each group 7 × OPA1612; console 41 × OPA1612 + 2 × OPA1656.
+no package straddles two placement areas), each group 7 × OPA1612; console 41 × OPA1612 + 2 × OPA1656. Since G3b
+(2026-10-25): master 4 × OPA1656 (U18, U21, U43, U44), each group 7 × OPA1612 + 2 × OPA1656; the DRV134s are DRV135UA.
 
 ---
 
@@ -560,7 +572,7 @@ Purpose: effects returns (reverbs, delays) into the mix and subs. Built on the g
 with the same receiver, routing and PFL circuits as the strip.
 
 ```
-RET n L in (NJ6FD-V) ─ differential receiver (OPA1612 A, 4 × 10K 0.1 %, 33 pF on both legs, 100 pF + 1M on inputs) → RETn_L
+RET n L in (NJ6FD-V) ─ 1M per leg, 220R, 100 pF at each follower + input, OPA1656 followers, 100R (G3b) ─ differential receiver (OPA1612 A, 4 × 10K 0.1 %, 33 pF on both legs) → RETn_L
 RET n R in (NJ6FD-V, tip and ring normals wired to the L jack's tip and ring:
            with no plug in R, the R receiver sees the L signal)        ─ receiver (OPA1612 B) → RETn_R
 RETn_L/R ─ 33µ NP + 47K ─ PREn_L/R ─┬─ level, dual A10K (RD902F), pin 1 = GNDA
@@ -608,10 +620,10 @@ PFL bus (pin 27) ─ PFL summing amp (OPA1656 A, Rf 22K ∥ 100 pF, + input = GC
                  ─ 33µ NP ─ SOLO LEVEL (RD901F A10K) ─ 2.2µ film + 100K ─ follower ─ 100R  → PFL_SIG
 
 PFL switcher (one DG413, break-before-make; CRS on the D side, 100K to GNDA):
-   MON_L   ─ 47µ + 1M ─ SW2 (NC) ─┐
-   PFL_SIG ─ 47µ + 1M ─ SW1 (NO) ─┴─ CRS_L ─ follower (OPA1656) ─┬─ C/ROOM level ─ CR out
-   MON_R   ─ 47µ + 1M ─ SW3 (NC) ─┐                              ├─ PHONES level ─ phones amp
-   PFL_SIG ─ 47µ + 1M ─ SW4 (NO) ─┴─ CRS_R ─ follower           └─ meters
+   MON_L   ─ 33µ + 1M ─ SW2 (NC) ─┐
+   PFL_SIG ─ 33µ + 1M ─ SW1 (NO) ─┴─ CRS_L ─ follower (OPA1656) ─┬─ C/ROOM level ─ CR out
+   MON_R   ─ 33µ + 1M ─ SW3 (NC) ─┐                              ├─ PHONES level ─ phones amp
+   PFL_SIG ─ 33µ + 1M ─ SW4 (NO) ─┴─ CRS_R ─ follower           └─ meters
 ```
 
 PFL is mono and goes to both sides. The meters follow what is being monitored: mix, EXT or PFL.
@@ -695,7 +707,7 @@ PFL is mono and goes to both sides. The meters follow what is being monitored: m
 
 - C/ROOM level: dual A10K (RD902F), pin 1 = GNDA, fed from the CRS followers.
   Wipers ─ 2.2 µF film + 100K ─ OPA1612 followers (22 pF C0G at the + inputs, v0.8 MG5) ─ DRV134 ×2 ─ mute relay ─
-  NJ6FD-V TRS outputs (tip hot, ring cold, sleeve GNDA).
+  NJ6FD-V TRS outputs (tip hot, ring cold, sleeve CHASSIS since G2b).
 - **Mute relay on the CR outputs too** (signed off 2026-10-23). They drive the monitor
   speakers, which matters more than the main outputs. Two more G6K-2F-Y DC12 (L and R, both
   legs, NC to GNDA), driven by the same control as section 8.
@@ -851,8 +863,8 @@ scale badly (below).
 - Connector (2026-10-22): 7-pin XLR male, **Neutrik NC7MD-LX** on the rear panel (solder cups, 5 A
   per contact, < 50 V, wire up to 1.0 mm²). Wired with 18 AWG, one wire per pin, to J (Phoenix
   MKDS 1,5/7-5,08, 17.5 A) on the master PCB. Pin 1 = chassis/mains earth (mates first), 2–3 = +V,
-  4–5 = 0 V, 6–7 = −V: two contacts per rail, so 10 A per rail against ≈ 2.65 A typical and
-  3.8 A worst case on +V (§27). Neutrik makes no 7-pole horizontal-PCB receptacle (only 3–5 poles),
+  4–5 = 0 V, 6–7 = −V: two contacts per rail, so 10 A per rail against ≈ 3.09 A typical and
+  ≈ 4.33 A in the accepted worst corner on +V (§27; was 2.65 / 3.8 A with strip v4.0). Neutrik makes no 7-pole horizontal-PCB receptacle (only 3–5 poles),
   hence the panel part and wires. The 5-pin NC5MAH (3 A per contact) is too small with strip v4.0.
 - Reverse-polarity protection: a Schottky (SS54, SMC, 40 V 5 A) from each rail to 0 V, reverse-biased in
   normal use. A wrongly wired lead then puts the PSU into current limit instead of reversing
@@ -915,7 +927,7 @@ scale badly (below).
 | Item | +V | −V |
 |------|----|----|
 | 41 × OPA1612 (3.6 mA/ch typ, 4.5 max) | 295 mA | 295 mA |
-| 2 × OPA1656 (3.9 mA/ch) | 16 | 16 |
+| 2 × OPA1656 (3.9 mA/ch): PFL sum, CRS followers | 16 | 16 |
 | 10 × OPA1656, return / EXT followers (G3b, 2026-10-25): 8 on the groups, 2 on the master | 78 | 78 |
 | 4 × TL072 (meters) | 11 | 11 |
 | 15 × DRV134 (5.2 mA) | 78 | 78 |
@@ -946,9 +958,9 @@ corner reaches 95 / 107 % of its hold at 40 / 50 °C instead, and the typical lo
 With the M1 split, the subgroups, aux masters 1–4 and returns move to the four group modules. Each
 draws about 61 mA per rail from the ribbon (7 OPA1612, 2 DRV134) plus up to 3 LEDs. The
 master module's op-amps and drivers drop to about 174 mA per rail. The console total is unchanged
-(same circuits). Two groups per wing: about 1.25 A per wing on +V typical with strip v4.3 (1.16 A with v4.0), inside
-the MF-RX185/72's 1.85 A hold. Only the absolute worst case (every LED lit, op-amps at maximum current) reaches about
-1.8 A.
+(same circuits). Two groups per wing: about 1.37 A per wing on +V typical since G3b (1.25 A with strip v4.3, 1.16 A with
+v4.0), on the MF-RX250/72 (2.5 A hold, 2.03 / 1.80 A at 40 / 50 °C) and three ribbon conductors since W1 / W2. The
+accepted worst corner (every LED lit, op-amps at maximum current) reaches about 1.96 A.
 
 Strip v4.0 (2026-10-22): 10 × OPA1612 (with the KHN mid bands), DG413 logic supply 2.4 mA, LEDs on
 +VL (ON, EQ and routing lit: about 9 mA). The strips were 33 / 23 mA in v3.1, when this budget was
@@ -996,8 +1008,9 @@ choosing.
   MF-RX/72 tables (MF-RX160/72), Neutrik NC7MD-LX via distributors (5 A per contact); §24, 25, 27.
 - Meter detector simulated and redesigned (section 22).
 - Schematics (M1 modules), generated by `tools/gen_master.py` / `tools/gen_group.py` from this spec, as of
-  2026-10-23 (v0.7, parts review applied): master 532 parts, 1579 pins / 0 mismatches, check_fp 0, ERC 0;
-  master jack board 85 pins; group 158 parts, 461 pins; all 0 mismatches, ERC 0. Mute control values are
+  2026-10-25 (v0.11): master 579 parts, 1686 pins / 0 mismatches, check_fp 0, ERC 0; master jack board 89 pins;
+  group 186 parts, 529 pins; group jack board 40 pins; all 0 mismatches, ERC 0 (v0.7: master 532 / 1579, group
+  158 / 461). Mute control values are
   simulated (section 8, `sim/mute.cir` v3), PFL detect in `sim/pfldet.py`, the rude-solo flasher in `sim/flasher.cir`.
 - Parts review (`master_parts_review.md`, signed off 2026-10-23) applied in v0.7. Its bench checks
   stay open: re-inverter stability on the scope (jig test 10), aux noise at N = 24, relay release time and
@@ -1006,5 +1019,5 @@ choosing.
 - An EXT LED (proposed in v0.6 §19) is not possible: both EXT switch poles carry audio; dropped.
 - PVA2 switching sense: settled from the C&K datasheet with a fitting rule (strip spec 16.1); applies here too.
 
-*Document version 0.7 — 23 October 2026 (parts review signed off and applied: DG413 PFL switcher, OPA1612 aux sums,
-re-inverter compensation, six mute relays, meter current sources, PFLDET clamp, GCANCEL keeper)*
+*Document version 0.11 — 25 October 2026 (design review R1/R2/R4/R5; earlier: ground and hum G1–G3, G2b/G3b, wing
+power W1/W2, sweepable HPF, master/group review MG1–MG20, parts review S1–S8)*

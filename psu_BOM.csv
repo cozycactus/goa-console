@@ -13,7 +13,7 @@
 "1","Console out (NC7FD-LX)","TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-7-5.08_1x07_P5.08mm_Horizontal","Phoenix MKDS 1,5/7-5,08 (to a Neutrik NC7FD-LX)","","J3"
 "1","Earth stud (case)","TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal","Phoenix MKDS 1,5/2-5,08","","J4"
 "2","10u 11A","Inductor_THT:L_Toroid_Horizontal_D21.8mm_P19.10mm_Bourns_2100","Bourns 2100LL-100-H-RC","","L1 L2"
-"2","MMBT3906","Package_TO_SOT_SMD:SOT-23","MMBT3906","","Q1 Q3"
+"2","MMBT3906","Package_TO_SOT_SMD:SOT-23","onsemi MMBT3906LT1G","","Q1 Q3"
 "2","2N6505G","Package_TO_SOT_THT:TO-220-3_Vertical","onsemi 2N6505G","","Q2 Q4"
 "2","120R 1%","Resistor_SMD:R_0805_2012Metric","","","R1 R10"
 "2","1K5 1%","Resistor_SMD:R_0805_2012Metric","","","R2 R11"

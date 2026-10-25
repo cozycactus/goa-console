@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/channel_strip.kicad_sch")
-		(date "2026-10-25T21:25:45")
+		(date "2026-10-25T21:59:37")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -732,6 +732,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C330J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -744,6 +746,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C330J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -786,6 +792,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C220J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -798,6 +806,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C220J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -900,6 +912,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C330J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -912,6 +926,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C330J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -1014,6 +1032,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C101J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -1026,6 +1046,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C101J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -1068,6 +1092,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C101J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -1080,6 +1106,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C101J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -1206,6 +1236,8 @@
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Panasonic ERA-6AEB103V")
+				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -1218,6 +1250,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB103V")
 			)
 			(property
 				(name "Sheetname")
@@ -1260,6 +1296,8 @@
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Panasonic ERA-6AEB103V")
+				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -1272,6 +1310,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB103V")
 			)
 			(property
 				(name "Sheetname")
@@ -1314,6 +1356,8 @@
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Panasonic ERA-6AEB103V")
+				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -1326,6 +1370,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB103V")
 			)
 			(property
 				(name "Sheetname")
@@ -1368,6 +1416,8 @@
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "Panasonic ERA-6AEB103V")
+				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -1380,6 +1430,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERA-6AEB103V")
 			)
 			(property
 				(name "Sheetname")
@@ -2224,6 +2278,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C220J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -2236,6 +2292,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C220J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -2278,6 +2338,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C100J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -2290,6 +2352,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -3485,6 +3551,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C330J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -3497,6 +3565,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C330J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -3647,6 +3719,8 @@
 			(footprint "Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
+					(name "MPN") "WIMA MKS2C031501A00KSSD (PET 63V; check stock, older suffixes are discontinued)")
+				(field
 					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
 					(name "Datasheet")
@@ -3659,6 +3733,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "WIMA MKS2C031501A00KSSD (PET 63V; check stock, older suffixes are discontinued)")
 			)
 			(property
 				(name "Sheetname")
@@ -3698,12 +3776,12 @@
 		(comp
 			(ref "C49")
 			(value "2.2u film")
-			(footprint "Capacitor_THT:C_Rect_L7.2mm_W8.5mm_P5.00mm_FKP2_FKP2_MKS2_MKP2")
+			(footprint "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
 					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
 				(field
-					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W8.5mm_P5.00mm_FKP2_FKP2_MKS2_MKP2")
+					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
 					(name "Datasheet")
 				)
@@ -3815,6 +3893,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C100J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -3827,6 +3907,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -3869,6 +3953,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C100J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -3881,6 +3967,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -3923,6 +4013,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C100J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -3935,6 +4027,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -3977,6 +4073,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C100J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -3989,6 +4087,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -4031,6 +4133,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C220J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -4043,6 +4147,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C220J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -5377,6 +5485,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C100J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -5389,6 +5499,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -5431,6 +5545,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C220J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -5443,6 +5559,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C220J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -6495,6 +6615,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C100J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -6507,6 +6629,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -6549,6 +6675,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C220J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -6561,6 +6689,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C220J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -7782,6 +7914,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C101J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -7794,6 +7928,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C101J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -8704,6 +8842,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C100J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -8716,6 +8856,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -9744,6 +9888,8 @@
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C101J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
@@ -9756,6 +9902,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C101J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -9858,6 +10008,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C100J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -9870,6 +10022,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -10579,6 +10735,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C220J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -10591,6 +10749,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C220J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -11359,7 +11521,7 @@
 			(footprint "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical")
 			(fields
 				(field
-					(name "MPN") "Alpha RD901F-40 A10K")
+					(name "MPN") "Alpha RD901F-40-15R1-A10K")
 				(field
 					(name "Footprint") "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical")
 				(field
@@ -11376,7 +11538,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Alpha RD901F-40 A10K")
+				(value "Alpha RD901F-40-15R1-A10K")
 			)
 			(property
 				(name "Sheetname")
@@ -11422,7 +11584,7 @@
 			(footprint "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical")
 			(fields
 				(field
-					(name "MPN") "Alpha RD901F-40 A10K")
+					(name "MPN") "Alpha RD901F-40-15R1-A10K")
 				(field
 					(name "Footprint") "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical")
 				(field
@@ -11439,7 +11601,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Alpha RD901F-40 A10K")
+				(value "Alpha RD901F-40-15R1-A10K")
 			)
 			(property
 				(name "Sheetname")
@@ -11485,7 +11647,7 @@
 			(footprint "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical")
 			(fields
 				(field
-					(name "MPN") "Alpha RD901F-40 A10K")
+					(name "MPN") "Alpha RD901F-40-15R1-A10K")
 				(field
 					(name "Footprint") "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical")
 				(field
@@ -11502,7 +11664,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Alpha RD901F-40 A10K")
+				(value "Alpha RD901F-40-15R1-A10K")
 			)
 			(property
 				(name "Sheetname")
@@ -11548,7 +11710,7 @@
 			(footprint "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical")
 			(fields
 				(field
-					(name "MPN") "Alpha RD901F-40 A10K")
+					(name "MPN") "Alpha RD901F-40-15R1-A10K")
 				(field
 					(name "Footprint") "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical")
 				(field
@@ -11565,7 +11727,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Alpha RD901F-40 A10K")
+				(value "Alpha RD901F-40-15R1-A10K")
 			)
 			(property
 				(name "Sheetname")
@@ -11611,7 +11773,7 @@
 			(footprint "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical")
 			(fields
 				(field
-					(name "MPN") "Alpha RD901F-40 A10K")
+					(name "MPN") "Alpha RD901F-40-15R1-A10K")
 				(field
 					(name "Footprint") "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical")
 				(field
@@ -11628,7 +11790,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Alpha RD901F-40 A10K")
+				(value "Alpha RD901F-40-15R1-A10K")
 			)
 			(property
 				(name "Sheetname")
@@ -11674,7 +11836,7 @@
 			(footprint "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical")
 			(fields
 				(field
-					(name "MPN") "Alpha RD901F-40 A10K")
+					(name "MPN") "Alpha RD901F-40-15R1-A10K")
 				(field
 					(name "Footprint") "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical")
 				(field
@@ -11691,7 +11853,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Alpha RD901F-40 A10K")
+				(value "Alpha RD901F-40-15R1-A10K")
 			)
 			(property
 				(name "Sheetname")
@@ -12313,6 +12475,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C100J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -12325,6 +12489,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -12367,6 +12535,8 @@
 			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
+					(name "MPN") "KEMET C0805C100J5GACTU")
+				(field
 					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
@@ -12379,6 +12549,10 @@
 				(lib "Device")
 				(part "C")
 				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "KEMET C0805C100J5GACTU")
 			)
 			(property
 				(name "Sheetname")
@@ -12421,7 +12595,7 @@
 			(footprint "Package_TO_SOT_SMD:SOT-23")
 			(fields
 				(field
-					(name "MPN") "BZX84C5V1")
+					(name "MPN") "Nexperia BZX84-C5V1,215")
 				(field
 					(name "Footprint") "Package_TO_SOT_SMD:SOT-23")
 				(field
@@ -12438,7 +12612,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "BZX84C5V1")
+				(value "Nexperia BZX84-C5V1,215")
 			)
 			(property
 				(name "Sheetname")
@@ -20594,6 +20768,24 @@
 			(name "MUTEOUT")
 			(class "Default")
 			(node
+				(ref "JP2")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "JP3")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "JP4")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
 				(ref "RV1")
 				(pin "3")
 				(pinfunction "3_3")
@@ -23174,24 +23366,6 @@
 			(node
 				(ref "C96")
 				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "JP2")
-				(pin "1")
-				(pinfunction "A_1")
-				(pintype "passive")
-			)
-			(node
-				(ref "JP3")
-				(pin "1")
-				(pinfunction "A_1")
-				(pintype "passive")
-			)
-			(node
-				(ref "JP4")
-				(pin "1")
-				(pinfunction "A_1")
 				(pintype "passive")
 			)
 			(node

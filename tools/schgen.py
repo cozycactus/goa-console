@@ -53,7 +53,7 @@ FP = {
  'MHPAD': 'MountingHole:MountingHole_3.2mm_M3_Pad',     # plated: bonds a jack board's CHASSIS to its standoff and the panel
 }
 FADER_FP = 'goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm'
-MPN = {'JACKSW': 'Neutrik NRJ6HF', 'POT': 'Alpha RD901F-40 A10K', 'POT2': 'Alpha RD902F-40 B10K centre detent',
+MPN = {'JACKSW': 'Neutrik NRJ6HF', 'POT': 'Alpha RD901F-40-15R1-A10K', 'POT2': 'Alpha RD902F-40-15R1-A10K (dual, log)',
        'SW': 'C&K PVA2 EE H1 1.7N V2', 'TAB': 'Keystone 1287-ST',
        'OPA1656': 'TI OPA1656IDR'}
 CAP_FP = {'220u': 'Capacitor_THT:CP_Radial_D10.0mm_P5.00mm', '47u': 'Capacitor_THT:CP_Radial_D8.0mm_P3.50mm',

@@ -13,11 +13,11 @@ Line level only. One identical main PCB per channel (plus a small jack board), j
 ribbon "motherloom".
 Channel = a Soundcraft Delta Theatre input without the mic stage (decided 2026-10-22): line gain,
 Ø, HPF, 4-band EQ, post-EQ insert, ON, PFL, aux 1-6 with PRE switches, pan + PAN switch, routing,
-direct out. Strip spec v4.4 (v4.0 + the stability / ratings fixes of 2026-10-23, film couplers and MUSE ES bipolars and the sweepable HPF 2026-10-24, buffered receiver and chassis sleeves 2026-10-25), schematics and placement (main board +
+direct out. Strip spec v4.6 (v4.0 + the stability / ratings fixes of 2026-10-23, film couplers and MUSE ES bipolars and the sweepable HPF 2026-10-24, buffered receiver, chassis sleeves, K1 / K3 and the design review 2026-10-25), schematics and placement (main board +
 jack board) done.
 
 ## Files
-- `channel_strip.kicad_sch` / `.kicad_pro` — channel strip schematic v4.3 (KiCad 7 file format, opens in KiCad 10).
+- `channel_strip.kicad_sch` / `.kicad_pro` — channel strip schematic v4.6 (KiCad 7 file format, opens in KiCad 10).
   HIERARCHICAL on A4 since 2026-10-25, like the master: a root sheet plus 14 pages in `strip_sheets/` (the group: 7
   pages in `group_sheets/`); strip_draw blocks too big for a page are lists of pieces (KHN per band, routing per
   assign key, power in rows), packed apart on pages and drawn in turn on a flat sheet (PILOT).
@@ -166,6 +166,9 @@ jack board) done.
   LME49600 macro, whole-module decks) and ratings / BOM (2026-10-24), analysts + three skeptics; MG1-MG20 signed off
   2026-10-24 and applied (master spec v0.8). Scripts in `sim/review/master/` (`TI_MODELS=... python3 run_all.py none
   all`) and `sim/review/group/` (`python3 sweep.py pots none 0.08`); TI models via TI_MODELS, not in the repo.
+- `design_review.md` — independent review (2026-10-25: pinouts vs datasheets, logic / polarity, spec and decision
+  conformance; three reviewers, every finding verified): R1 DRV135UA, R2 group pan RK09L, R3 jig R45, R4 PVA2 silk
+  marks, R5 documentation / BOM drift, Q1 ON mutes the pre sends; all signed off and applied 2026-10-25.
 - `gaps_proposal.md` — the strip's unsimulated circuits closed (2026-10-25): overload detector, soft mute, key clicks
   with real op-amp offsets, 200-strip tolerance Monte Carlo, headroom at every op-amp output (`sim/review/gaps/`:
   ol.py, mute.py, keys.py, mc.py, headroom.py). K1 (PFL send DC block, C96) and K3 (overload LED: C12 100n, U4B hold
@@ -192,7 +195,7 @@ jack board) done.
   stability with datasheet-fitted macros (`sim/review/strip/stripdeck.py` OPA_MODEL=fit, `n1_stab.py`, `n1_compare.py`;
   the fit reads 3-24° below TI on the as-built strip): every N1 unit ≥ 50.1° over 21 states; +115 mA typ console-wide.
   Open: distortion (CMOS input capacitance), only the jig A/B can settle it. `sim/review/strip_noise/noise.py n1`.
-- `test_jig_spec.md` — test jig v0.5 (strip v4.2; 4.2: the OPA1656 A/B for `strip_noise_proposal.md` N1): 4 real strips with jack boards + master stub (A/D/22R-tie
+- `test_jig_spec.md` — test jig v0.6 (strip v4.4; 4.2: the OPA1656 A/B for `strip_noise_proposal.md` N1): 4 real strips with jack boards + master stub (A/D/22R-tie
   jumpers) + load board (dummy channels for 24-channel noise gain, 1 nF bus-capacitance jumpers); 11 bus
   tests and a per-strip function checklist with targets.
 - `delta_clone_comparison.md` — the strip as a Delta Theatre input without the mic stage, stage by
@@ -248,7 +251,7 @@ jack board) done.
   No tie from GCANCEL to master ground at the master end (2026-10-19; sim: a 22 Ω tie costs ~45 dB). A 100K keeper to
   master GNDA (Ruslan, 2026-10-23) only defines the line when the master runs alone (−79 dB at N = 32); not a tie.
   Replaces SSL-style impedance-balanced bus (dropped unless the test jig says otherwise).
-- Power on the ribbon (2 conductors per rail); heavy ground via a 6.3 mm spade per strip.
+- Power on the ribbon (2 conductors on −V, 3 on +V since W1: pins 30-31 / 32-34); heavy ground via a 6.3 mm spade per strip.
 - MIX/SUB summing resistors 4K7 (master feedback must also be 4K7). AUX/PFL 22K.
   (10K would keep real Delta modules compatible; 4K7 is ~3 dB quieter.)
 - Fader post-amp +10 dB (R38 2K2; omit for unity). Hot synths >~+12 dBu clip with fader at top.
@@ -305,9 +308,13 @@ jack board) done.
   MUSE ES 25 V in the existing footprints: 47 → 33 µF (UES1E330MPM), 220 → 100 µF (UES1E101MPM), 10 µF UES1E100MDM.
   End-to-end LF −3 dB 2.3 Hz. Not DC coupling (rejected: faders, switches, synth DC); no polypropylene (too large at
   2.2 µF).
-- All balanced outputs use TI DRV134 (2026-10-19), Sense pins after a 10 µF NP per leg, mute
+- All balanced outputs use the TI DRV134 family (2026-10-19): the SO-8 part, TI DRV135UA (design review R1, 2026-10-25:
+  the DRV134 itself is DIP-8 / SOL-16 only), Sense pins after a 10 µF NP per leg, mute
   relay after that. Replaced THAT1646, which went EOL (THAT memo 2026-09-01). The same memo
   kills THAT 2180/2181 (bus-compressor VCA, strip VCA option) and THAT 124x.
+- Design review (signed off by Ruslan 2026-10-25, `design_review.md`): group sub pan RV2 = ALPS RK09L1240015 (as RV8);
+  jig R45 ERJ-P06J332V; silk "2" beside pads 1/4 of every PVA2 (placer); ON also mutes the pre-fade sends and the direct
+  out (pre taps JP2-JP4 from MUTEOUT; the pre-EQ jumper setting stays ahead of the mute; PFL stays at PRE).
 - Pan pot RV8 (2026-10-25, Ruslan): ALPS RK09L1240015, vertical dual 10K 1B with a centre detent (no Alpha B10K dual
   with a detent exists; the Alpha without one was the alternative). Stocked at Mouser (177) / Verical (565) on
   2026-10-25. M9 x 0.75 bushing (panel hole Ø9.5, M9 nut), Ø6 flatted shaft (the 6 mm D version of the strip's knob),
@@ -487,6 +494,10 @@ jack board) done.
   check_fp 0, ERC 0; sim_console 32/32. Placement: group report no worse (3.1 / 4.5 / 0, 7.8 / 20.1 / 18), master
   unchanged (EXT followers in a last zone); parity DRC clean. Global labels on every hierarchical page now centred in
   their boxes (they sat on the outline; schgen `add_label`).
+- Design review applied (2026-10-25): every schematic 0 mismatches, check_fp 0, ERC 0; sim_netlist 39/39 (new: ON mutes
+  aux pre and the direct out, -86 dB), sim_console 32/32; TI strip stability: U3B 59.8° in the direct-out-at-top states
+  (now drives the pre aux pots), 72-74° elsewhere, every other unit unchanged. Re-placed: parity DRC clean on all nine
+  boards; group moved only RV2, master only C57, the strip re-packed (report 3.1 / 10.0 / 12, 10.5 / 22.1 / 30).
 - PSU sim (`sim/psu.cir`, 2026-10-22): soft start 165 ms to 90 %, no overshoot; 5.1 A peak SMPS current;
   crowbar idle margin 2.21 / 2.495 V; fault (pass element shorted) → fires in 17 µs, console bus peak 19.7 V,
   strip/master rails stay 16.9 V; LDO 19 W at 4 A; LC −47 dB at 65 kHz (ESR-limited).

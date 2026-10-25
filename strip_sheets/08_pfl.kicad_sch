@@ -1130,6 +1130,9 @@
     (property "Datasheet" "" (id 3) (at 78.74 100.33 0)
       (effects (font (size 1.27 1.27)) hide)
     )
+    (property "MPN" "KEMET C0805C100J5GACTU" (id 4) (at 78.74 100.33 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
     (pin "1" (uuid af7f2030-5e82-52af-823c-97ad54e973fc))
     (pin "2" (uuid 298afff7-e505-5522-8293-5af44cd7d25a))
     (instances

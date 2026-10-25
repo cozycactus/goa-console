@@ -17,7 +17,7 @@ FP.update({'LDO': 'Package_TO_SOT_THT:TO-220-3_Vertical', 'SCR': 'Package_TO_SOT
            'DS': 'Diode_SMD:D_SMC', 'DG': 'Diode_SMD:D_SMA',
            'TERM2': 'TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal',
            'TERM7': 'TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-7-5.08_1x07_P5.08mm_Horizontal'})
-MPN.update({'LDO': 'TI LM1084IT-ADJ', 'SCR': 'onsemi 2N6505G', 'TL431': 'TI TL431AIDBZR', 'PNP': 'MMBT3906',
+MPN.update({'LDO': 'TI LM1084IT-ADJ', 'SCR': 'onsemi 2N6505G', 'TL431': 'TI TL431AIDBZR', 'PNP': 'onsemi MMBT3906LT1G',
             'L': 'Bourns 2100LL-100-H-RC', 'DS': 'SS54', 'DG': 'S1G',
             'TERM2': 'Phoenix MKDS 1,5/2-5,08', 'TERM7': 'Phoenix MKDS 1,5/7-5,08 (to a Neutrik NC7FD-LX)'})
 CPFP = {'2200u': 'Capacitor_THT:CP_Radial_D16.0mm_P7.50mm', '220u': 'Capacitor_THT:CP_Radial_D8.0mm_P3.50mm',

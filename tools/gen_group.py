@@ -55,7 +55,8 @@ frag(b, 12, 9, lambda d: frags.pot(d, rv, s + '_PRE', s + '_W'))
 post_amp(b, s + '_W', s + '_POST', s)
 drv134(b, s + '_POST', s + '_OP', s + '_ON')
 jack(b, 'JACK', 'Sub out TRS', {'T': s + '_OP', 'R': s + '_ON', 'S': 'CHASSIS'})   # G2b
-rp = ref('RV'); P(b, rp, 'POT2', 'Sub pan 10K dual', {1: s + '_POST', 3: 'GNDA', 2: s + '_PWL', 4: 'GNDA', 6: s + '_POST', 5: s + '_PWR'})
+rp = ref('RV'); P(b, rp, 'POT2', 'Sub pan 10K lin dual CD', {1: s + '_POST', 3: 'GNDA', 2: s + '_PWL', 4: 'GNDA', 6: s + '_POST', 5: s + '_PWR'},
+                  fp='Potentiometer_THT:Potentiometer_Alps_RK09L_Double_Vertical', mpn='ALPS RK09L1240015')   # as strip RV8 (design_review.md R2)
 frag(b, 14, 8, lambda d: frags.pot2(d, rp))
 for sd in 'LR':                 # 10p against the pan wiper's Cdiff lag (MG5)
     pc = C(b, '10p C0G', f'{s}_PW{sd}', 'GNDA'); near(pc, amp(b, f'{s}_PW{sd}', f'{s}_PB{sd}', f'{s}_PB{sd}'))

@@ -1,4 +1,4 @@
-# DIY Mixing Console — Architecture Document v3.0
+# DIY Mixing Console — Architecture Document v3.2
 ## Goa Trance Production Console, 24+ Channels, Line Level
 
 ---
@@ -186,29 +186,24 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
   (Delta CN4) wired to the ground bus bar: one 14 AWG wire per module, tied under the motherloom to its wing's copper
   bar under the master's star stud (`ground_study.md` G1, master spec §26).
 - Local decoupling on every strip: 10 Ω series + 220 µF/25 V + 100 nF per rail.
-- Load (strip v4.0, 2026-10-22): about 85 mA (+V) and 72 mA (−V) per strip, typical: 10 × OPA1612
-  at 3.6 mA per channel, the DG413 logic supply, and the panel LEDs (ON, EQ, routing; 3.1 mA each).
-  The worst case is about 127 / 90 mA, with OPA1612 at 4.5 mA/ch and every LED lit including OL.
-  That's about 2.0 / 1.7 A for 24 strips (v3.1 was 30 mA per strip). Per 12-strip wing, about 1.0 A
-  on +V, so 0.5 A per ribbon conductor: within a 28 AWG conductor's and an IDC contact's ~1 A.
-  The DC drop along a 0.5 m wing fed from the master end is about 0.03 V. The strips' 10 Ω
-  series resistors drop about 0.8 V; the strip rails sit near 16.2 V. The 10 Ω and 220 µF
-  take care of transients. Consequences for the master power entry: master spec §27.
+- Load (strip v4.4, 2026-10-25): about 100 mA (+V) and 87 mA (−V) per strip, typical: 11 × OPA1612 and the U16
+  OPA1656 at 3.6 / 3.9 mA per channel, the DG413 logic supply, and the panel LEDs (ON, EQ, routing; 3.2 mA each).
+  A wing (12 strips + 2 groups) draws about 1.37 A on +V typical, 1.96 A in the accepted worst corner (every op-amp at
+  its maximum current, every LED lit): about 0.46 / 0.65 A per +V conductor over three (W1), within a 28 AWG
+  conductor's and an IDC socket contact's 1 A. The DC drop along a 0.5 m wing fed from the master end is a few tens of
+  mV. The strips' 10 Ω series resistors drop about 1 V; the strip rails sit near 16 V. The 10 Ω and 220 µF take care
+  of transients. Consequences for the master power entry: master spec §25, §27.
 - If the test jig shows supply noise coupling into the bus, fall back to separate
-  18–20 AWG power wiring and leave pins 30–33 unused.
+  18–20 AWG power wiring and leave pins 30–34 unused.
 
 ### 3.3 PSU
 - External PSU, outside the console chassis: two isolated Mean Well LRS-150-24 at 21.6 V, LC filter,
   LM1084-ADJ post-regulators as identical floating rails, TL431/SCR crowbar at 19.1 V and soft start
   per rail (chosen 2026-10-22; `psu_spec.md`, `sim/psu.cir`, `psu.kicad_sch`).
-- Target ±17 V at **4 A per rail** (2026-10-22, strip v4.0). The console draws about 2.65 / 2.23 A
-  typical and up to 3.8 A on +V: master spec §27.
-- Regulators rated at least 4 A per rail. +V: an LM338 (5 A). −V: the LM337 is a 1.5 A part, so
-  boost it with an external PNP pass transistor, or use a discrete series regulator. Heatsinks for
-  about 20 W per rail (24 V unregulated in, 17 V out, 3 A).
-- Transformer and rectifier sized for 4 A DC per rail. A capacitor-input filter needs the
-  secondary rated at about 1.6 × the DC current: about 6.5 A RMS per winding, so ≈ 2 × 18 V,
-  roughly 230 VA.
+- Target ±17 V at **4 A per rail** (2026-10-22). The console draws about 3.09 / 2.67 A typical; the accepted worst
+  corner is about 4.33 A on +V (master spec §27, accepted 2026-10-25).
+- The regulators, heatsink and case are in `psu_spec.md` (option B). The LM338 / LM337 and 230 VA transformer ideas
+  of the first draft were dropped with it.
 - Link to the console: 7-pin XLR (Neutrik NC7MD-LX on the console, 5 A per contact): pin 1 earth,
   2–3 +V, 4–5 0 V, 6–7 −V. That's two contacts per rail; 1.0 mm² (18 AWG) per pin.
 - Soft start; power-on mute handled in the master (section 4.1).
@@ -216,9 +211,10 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
 ### 3.4 Grounding — three domains, one star point
 - **Audio ground:** signal path, summing resistors, pot grounds, op-amp references.
 - **Logic ground:** LEDs, mute logic, PFL detect, OL comparator. The Delta gives logic its
-  own supply (+VM/−VM via 10 Ω and 47 µF) and its own "LOGIC GROUND" (ED3344B). Copy this.
+  own supply (+VM/−VM there; ±VL in this design, via 10 Ω and 47 µF) and its own "LOGIC GROUND" (ED3344B). Copy this.
 - **Chassis ground:** enclosure and connector shells.
-- All three meet only at the star point at the PSU / main ground bar.
+- All three meet only at the star point: the master's M4 stud (master spec §26), where the PSU 0 V and the chassis
+  earth also land.
 - Use **isolated jacks** (e.g. Neutrik NJ6FD-V or other plastic-bodied types) so jack sleeves
   don't short audio ground to the metal panel at every jack.
 - Balanced-input jacks (strip line in and direct out, group returns, master EXT) have their sleeves on **chassis**
@@ -392,5 +388,5 @@ bus load.
 
 ---
 
-*Document version 3.1 — October 2026 (4K7 summing and +10 dB fader post-amp chosen; channel strip schematic generated and simulated)*
+*Document version 3.2 — 25 October 2026 (power and grounding brought up to date: W1, G1–G3, the PSU option B; 3.1: 4K7 summing and +10 dB fader post-amp chosen)*
 *Sources: Soundcraft Delta DLX/Theatre schematics (all 17 pages), SSL 4000, Mackie CR1604-VLZ*

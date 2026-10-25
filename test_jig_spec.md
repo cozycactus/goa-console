@@ -52,7 +52,8 @@ As generated: one config jumper (GC REF: 1-2 = D, 2-3 = A) sets every summing am
 the re-inverters' buffered reference together, and a separate 22 Ω tie jumper covers test 3. AUX 2
 gets its own summing amp as well, for the crosstalk test. Unused buses (SUB 2–4, AUX 3–6) are tied
 to AGND at the stub, standing in for their summing amps' virtual earths. Power comes from a bench
-supply on a screw terminal, with the master's MF-RX160/72 PTCs and SS54 reverse diodes. The PFL
+supply on a screw terminal, with MF-RX160/72 PTCs (the master moved to MF-RX250/185, the stub keeps the 160 for four
+strips) and SS54 reverse diodes. The PFL
 detect is one LM393 and an LED. The BNC outputs and the test points are as listed above.
 
 ## 3. Load board

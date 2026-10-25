@@ -8,14 +8,19 @@ def block(title): return schgen.block(title, draw=strip_draw.for_title(title))  
 SYM.update({'CONN6': ('Connector_Generic', 'Conn_01x06'), 'CONN2': ('Connector_Generic', 'Conn_01x02'),
             'LINK': ('Connector_Generic', 'Conn_02x05_Odd_Even'),
             'DG': ('Analog_Switch', 'DG413xY'), 'ZEN': ('Diode', 'BZX84Cxx'), 'SCH': ('Diode', 'BAT54W')})
-schgen.MPN.update({'DG': 'Vishay DG413DY-E3', 'ZEN': 'BZX84C5V1', 'SCH': 'Nexperia BAT54W',
+schgen.MPN.update({'DG': 'Vishay DG413DY-E3', 'ZEN': 'Nexperia BZX84-C5V1,215', 'SCH': 'Nexperia BAT54W',
                    'OPA': 'TI OPA1612AIDR', 'CMP': 'TI LM393BIDR', 'JFET': 'onsemi MMBFJ112'})
 # strip_parts_review.md T9/T10: ceramics >= 25 V (50 V X7R here), anti-surge resistors where the power is marginal
 CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Murata GRM21BR71H105KA12 (X7R 50V)',
            '220n': 'Samsung CL21B224KBFNNNE (X7R 50V)',
+           # the master's parts for the same values (design_review.md R5); a value's voltage is its minimum rating
+           '10p C0G': 'KEMET C0805C100J5GACTU', '22p C0G': 'KEMET C0805C220J5GACTU', '33p C0G': 'KEMET C0805C330J5GACTU',
+           '100p C0G': 'KEMET C0805C101J5GACTU', '220u 25V': 'Nichicon UPW1V221MPD (35V)', '47u 25V': 'Nichicon UPW1J470MPD (63V)',
+           '150n film': 'WIMA MKS2C031501A00KSSD (PET 63V; check stock, older suffixes are discontinued)',
            '2.2u film': 'WIMA MKS2C042201K00KSSD (PET 63V)',
            # audio bipolars, Nichicon MUSE ES 25 V, in the existing footprints (film_np_proposal.md)
            '33u NP 25V': 'Nichicon UES1E330MPM (MUSE ES)', '100u NP 25V': 'Nichicon UES1E101MPM (MUSE ES)'}
+RX_MPN = 'Panasonic ERA-6AEB103V'          # 10K 0.1 % 0805, as the master's receivers
 FILM_2U2 = 'Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2'
 LED_MPN = {'red': 'Kingbright WP710A10ID', 'green': 'Kingbright WP710A10GD', 'yellow': 'Kingbright WP710A10YD'}
 FP.update({'CONN6': 'Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical',
@@ -82,9 +87,9 @@ P(b,'U16','OPA1656','OPA1656',{5:'IN_RB',6:'U16_OR',7:'U16_OR'},unit=2)
 P(b,'R113','R','100R',{1:'U16_OT',2:'BUF_T'}); P(b,'R114','R','100R',{1:'U16_OR',2:'BUF_R'})
 P(b,'SW15','SW','Phase',{2:'INV_IN',3:'BUF_T',1:'BUF_R'},unit=1)     # normal: tip to the inverting leg
 P(b,'SW15','SW','Phase',{5:'NINV_IN',6:'BUF_R',4:'BUF_T'},unit=2)
-P(b,'R6','R','10K 0.1%',{1:'INV_IN',2:'U1A_N'}); P(b,'R7','R','10K 0.1%',{1:'U1A_N',2:'RECV'})
+P(b,'R6','R','10K 0.1%',{1:'INV_IN',2:'U1A_N'},mpn=RX_MPN); P(b,'R7','R','10K 0.1%',{1:'U1A_N',2:'RECV'},mpn=RX_MPN)
 P(b,'C7','C','33p C0G',{1:'U1A_N',2:'RECV'})
-P(b,'R8','R','10K 0.1%',{1:'NINV_IN',2:'U1A_P'}); P(b,'R9','R','10K 0.1%',{1:'U1A_P',2:'GNDA'})
+P(b,'R8','R','10K 0.1%',{1:'NINV_IN',2:'U1A_P'},mpn=RX_MPN); P(b,'R9','R','10K 0.1%',{1:'U1A_P',2:'GNDA'},mpn=RX_MPN)
 P(b,'C78','C','33p C0G',{1:'U1A_P',2:'GNDA'},fp=C0G)   # matches C7 across R7: balance and stability
 P(b,'U1','OPA','OPA1612',{3:'U1A_P',2:'U1A_N',1:'RECV'},unit=1)
 
@@ -144,7 +149,7 @@ P(b,'U7','OPA','OPA1612',{3:'EQ_FP',2:'EQ_F4',1:'EQ_O6'},unit=1)
 P(b,'R62','R','3K3',{1:'EQ_O5',2:'EQ_F1'}); P(b,'R63','R','3K3',{1:'EQ_F2',2:'EQ_O6'})
 P(b,'RV15','POT','LF 10K lin CD',{1:'EQ_F1',2:'EQ_WLF',3:'EQ_F2'},mpn=POTB)
 P(b,'C48','C','150n film',{1:'EQ_F1',2:'EQ_F2'},fp=FILM_S)
-P(b,'R64','R','1K5',{1:'EQ_WLF',2:'EQ_F3'}); P(b,'C49','C','2.2u film',{1:'EQ_F3',2:'EQ_FP'},fp=FILM_L)   # MPN from CAP_MPN
+P(b,'R64','R','1K5',{1:'EQ_WLF',2:'EQ_F3'}); P(b,'C49','C','2.2u film',{1:'EQ_F3',2:'EQ_FP'},fp=FILM_2U2)   # MPN from CAP_MPN
 P(b,'C50','C','100n C0G',{1:'EQ_FP',2:'GNDA'},fp=C0G); P(b,'R65','R','5K1',{1:'EQ_FP',2:'GNDA'})
 
 # Mid bands: the Delta's Wien band-pass (needs a 100K C-law dual, not stocked) replaced by a KHN state-variable
@@ -233,9 +238,11 @@ P(b,'R19','R','4K7',{1:'FPOST',2:'U2A_N'}); P(b,'C14','C','100p C0G',{1:'FPOST',
 P(b,'R38','R','2K2',{1:'U2A_N',2:'GNDA'})
 P(b,'C15','C','100u NP 25V',{1:'FPOST',2:'POST'},fp=CAP_FP['220u']); P(b,'R35','R','47K',{1:'POST',2:'GNDA'})
 
-b = block('AUX SENDS  PRE switch per pair (latched = pre); jumpers 1-2 = pre-fader, 2-3 = pre-EQ.  SW13 DIR: aux 6 pot -> direct out')
+b = block('AUX SENDS  PRE switch per pair (latched = pre); jumpers 1-2 = pre-fader after ON, 2-3 = pre-EQ.  SW13 DIR: aux 6 pot -> direct out')
+# Q1 (design_review.md, 2026-10-25): the pre-fader taps come from MUTEOUT (after the J112 mute, before the fader), so ON
+# mutes the pre sends and the direct out too; the pre-EQ jumper setting (HOUT) stays ahead of the mute
 for jp,sw,n in (('JP2','SW8','12'),('JP3','SW9','34'),('JP4','SW10','56')):
-    P(b,jp,'SJ3',f'Aux{n[0]}/{n[1]} pre source',{1:'PRE',3:'HOUT',2:f'PSRC{n}'})
+    P(b,jp,'SJ3',f'Aux{n[0]}/{n[1]} pre source',{1:'MUTEOUT',3:'HOUT',2:f'PSRC{n}'})
     P(b,sw,'SW',f'PRE {n[0]}-{n[1]}',{2:f'SRC{n}',1:f'PSRC{n}',3:'POST'},unit=1)
     P(b,sw,'SW',f'PRE {n[0]}-{n[1]}',{5:'NC',4:'NC',6:'NC'},unit=2)
 for n,(rv,r,src) in enumerate([('RV2','R20','SRC12'),('RV3','R21','SRC12'),('RV4','R22','SRC34'),
@@ -294,12 +301,12 @@ for _, ps in schgen.blocks:                     # ceramic MPNs by value (X7R 50 
     for pt in ps:
         if pt['key'] == 'C' and not pt['mpn']: pt['mpn'] = CAP_MPN.get(pt['value'], '')
 build(OUT, 'channel_strip', 'Channel strip - goa console',
-      {1: 'Generated from channel_strip_schematic_spec.md v4.3', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
+      {1: 'Generated from channel_strip_schematic_spec.md v4.6', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
        3: 'A Delta Theatre input without the mic stage'},
-      paper='auto', revision='4.3', pages=dict(paper='A4', folder='strip_sheets'), **strip_draw.SHEET)   # A4 sub-sheets
+      paper='auto', revision='4.6', pages=dict(paper='A4', folder='strip_sheets'), **strip_draw.SHEET)   # A4 sub-sheets
 if os.environ.get('PILOT'):                     # only the drawn blocks, on a sheet of their own (layout review)
     build(os.environ['PILOT'], 'pilot', 'Channel strip - drawn blocks (pilot)', {1: 'tools/strip_draw.py', 2: ''},
-          paper='auto', revision='4.3', only=lambda t: strip_draw.for_title(t) is not None, **strip_draw.SHEET)
+          paper='auto', revision='4.6', only=lambda t: strip_draw.for_title(t) is not None, **strip_draw.SHEET)
 
 # ---------------------------------------------------------------- jack board (its own PCB; same net names)
 schgen.blocks.clear()

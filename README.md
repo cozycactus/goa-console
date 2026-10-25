@@ -16,12 +16,13 @@ netlists and simulated in ngspice.
     wing of 12 strips;
   - the 16 HP master module sits in the centre with both wing headers and the power entry; the four 8 HP group
     modules sit next to it, two on each wing.
-- **Channel strip** (spec v4.1):
-  - differential line receiver and an inverting line gain stage, −15…+15 dB with a centre detent;
-  - Ø switch and a switched 87 Hz Butterworth HPF;
+- **Channel strip** (spec v4.6):
+  - buffered differential line receiver (OPA1656 followers) and an inverting line gain stage, −15…+15 dB with a
+    centre detent;
+  - Ø switch and a sweepable 21–403 Hz HPF (KHN);
   - the Delta's 4-band EQ, with the swept mids re-done as a KHN state-variable band-pass so a stocked A10K dual
     tunes them;
-  - insert after the EQ, ON (JFET soft mute) and PFL;
+  - insert after the EQ, ON (JFET soft mute; it also mutes the pre-fade sends and the direct out) and PFL;
   - 100 mm fader plus a +10 dB post-amp, then pan and routing to L-R / 1-2 / 3-4 through DG413 switches at the bus
     end of each 4K7 summing resistor;
   - six aux sends with a PRE switch per pair (pre-fader, or pre-EQ by jumper); a DIR switch turns aux 6 into the
@@ -74,9 +75,7 @@ netlists and simulated in ngspice.
     - panel stack height;
     - PV cap clearance;
     - knob fit;
-  - choose the pan pot: the stocked Alpha B10K dual (no centre detent) or an ALPS RK097121TD57 (detent, different
-    footprint);
-  - a TI-model stability pass on the master and group's remaining stages (the strip's is done: strip v4.1);
+  - check the pan pot (ALPS RK09L1240015, chosen 2026-10-25) and the PVA2 latch orientation on samples;
   - route the boards;
   - build the test jig with four routed strips and run its bus tests (`test_jig_spec.md`); some bus decisions wait on
     them;

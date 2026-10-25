@@ -75,9 +75,43 @@ signed decision present as signed, apart from R1 and R2, and all nine netlists a
 
 ## Sign-off
 
-- [ ] **R1** DRV135UA for every balanced driver.
-- [ ] **R2** Group RV2 → ALPS RK09L1240015.
-- [ ] **R3** Jig R45 → ERJ-P06J332V.
-- [ ] **R4** Silk "2" at pads 1/4 of every PVA2.
-- [ ] **R5** Documentation and BOM drift.
-- [ ] **Q1** ON muting the pre-fade sends and direct out: keep as drawn, or tap them after the mute.
+Signed off by Ruslan on 2026-10-25: R1–R5 as proposed. Q1: ON also mutes the pre-fade sends and the direct out.
+
+- [x] **R1** DRV135UA for every balanced driver.
+- [x] **R2** Group RV2 → ALPS RK09L1240015.
+- [x] **R3** Jig R45 → ERJ-P06J332V; jig R1 / R2 → ERJ-P06J1R0V as well (MG17).
+- [x] **R4** Silk "2" at pads 1/4 of every PVA2.
+- [x] **R5** Documentation and BOM drift.
+- [x] **Q1** The pre taps come from MUTEOUT, after the mute.
+
+## Applied (2026-10-25)
+
+- **R1:**
+  - `master_lib.MPN['DRV134']` = TI DRV135UA, and the value reads DRV135;
+  - the project symbol's description now says which package is which;
+  - netlists unchanged.
+- **R2:** group RV2 on `Potentiometer_Alps_RK09L_Double_Vertical` (placed with `sx=10`), the same pin mapping as the
+  strip's RV8.
+- **R4:** `placer.py` prints a silk "2" 1.6 mm outside the pad 1/4 column, midway between the rows, inside the switch
+  outline. It takes no board area: 13 marks on the strip, and every key on the group and master.
+- **Q1:** JP2–JP4 pin 1 = MUTEOUT.
+  - The pre-EQ setting (pin 3, HOUT) stays ahead of the mute; PFL stays at PRE.
+  - `sim_netlist.py` adds two checks: with ON released, aux 1 pre and the direct out are both at −86 dB.
+  - TI stability over the 21 states: U3B now drives the pre aux pots, 59.8° worst (direct out at the top, J5 cable),
+    72–74° elsewhere. U7B rose from 69.9° to 86.4°; every other unit is unchanged.
+- **R5, BOM:**
+  - strip MPNs for the C0G caps, rail electrolytics, R6–R9, C48 (WIMA MKS2C031501A00KSSD; check stock, older
+    suffixes are discontinued) and D9;
+  - C49 and master C57 on the W7.2 film footprint, and C57 with the orderable MKS2C042201K00KSSD;
+  - jig R1 / R2 anti-surge;
+  - PSU MMBT3906 with its maker;
+  - the default pot MPNs now carry full order codes;
+  - a value's voltage is its minimum rating (the spec's BOM rule says so).
+- **R5, documents:** strip spec v4.6, master spec v0.11, console_architecture v3.2, psu_spec, test_jig_spec, README and
+  CLAUDE.md, as listed above.
+- **Checks:**
+  - every schematic 0 mismatches, check_fp 0, ERC 0;
+  - `sim_netlist.py` 39/39, `sim_console.py` 32/32;
+  - parity DRC clean on all nine boards.
+  - The group moved only RV2 and the master only C57. The strip re-packed around its new C49 footprint (report
+    3.1 / 10.0 / 12 and 10.5 / 22.1 / 30). Jig, PSU and jack boards unchanged.

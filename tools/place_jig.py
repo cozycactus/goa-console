@@ -45,7 +45,7 @@ for k, x in enumerate(BNC_X):                     # BNC J2..J7, front edge, body
 PARTS, ON = netlist('jig_master_stub')
 for k in range(6):                                # 100R output resistors beside their BNC
     bnc = f'J{k + 2}'; near.update({r: bnc for r in ON[PARTS[bnc]['1']] if r.startswith('R')})
-DRV = next(r for r, p in PARTS.items() if p['value'] == 'DRV134')
+DRV = next(r for r, p in PARTS.items() if p['value'] in ('DRV134', 'DRV135'))
 near[DRV] = 'J8'                                  # DRV134 at the XLR; its caps are in near (gen_jig / drv134())
 BAL = [DRV] + sorted((r for r, a in near.items() if a == DRV), key=lambda r: int(r[1:]))
 take = lambda name, *drop: [r for r in B[name] if r not in fix and r not in drop]

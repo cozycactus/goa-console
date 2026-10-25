@@ -1,4 +1,4 @@
-# Channel Strip — Component-Level Specification v4.5
+# Channel Strip — Component-Level Specification v4.6
 ## Soundcraft Delta Theatre input without the mic stage. One PCB per channel, ×24.
 
 Bus pinout, grounding and power: `console_architecture.md`. Stage-by-stage comparison with the
@@ -7,6 +7,20 @@ Reference designators are those of `tools/gen.py`; Delta drawing numbers are giv
 circuit comes from a Delta sheet (ED3344A/B/C = Theatre input RH board, ED3151 = LH board).
 
 ---
+
+## Changes in v4.6 (2026-10-25, signed off; `design_review.md` Q1, R4, R5)
+
+- **ON also mutes the pre-fade sends and the direct out** (§1, §11, Q1).
+  - The pre-fader taps (JP2–JP4, 1-2) now come from MUTEOUT (U3B, after the J112 mute, before the fader), not PRE.
+  - `tools/sim_netlist.py` checks both: aux 1 pre and the direct out are −86 dB with ON released.
+  - The pre-EQ jumper setting (2-3, HOUT) stays ahead of the mute.
+  - PFL stays at PRE, so a muted channel can still be soloed.
+  - U3B now also drives the pre aux pots: worst phase margin 59.8° on TI's model (direct out at the top, a cable on
+    J5), 72–74° elsewhere.
+- **PVA2 orientation mark** (§16.1, R4): the placer prints a silk "2" beside pads 1/4 of every key, inside its outline.
+- **BOM** (R5): MPNs for the C0G caps (KEMET), the rail electrolytics (Nichicon), R6–R9 (ERA-6AEB103V), C48 (WIMA
+  MKS2C031501A00KSSD, check stock) and D9 (Nexperia). C49 on the W7.2 film footprint like C13 / C96. A value's voltage
+  is its minimum rating; the MPN may be higher.
 
 ## Changes in v4.5 (2026-10-25, signed off; `gaps_proposal.md` K1, K3)
 
@@ -117,8 +131,8 @@ J1 line in ─ SW15 Ø ─ U1A receiver (unity, inverting) ─ U1B gain (−15�
  ─ JP5 ─ R11 75R ─ J2 insert send / return (normalled) ─ U7B buffer ─ BUF1
  ─ JP7 ─ PRESRC ─ C11 ─ PRE ─┬─ OL detector (U4A, from PRESRC)
                              ├─ PFL (SW3, 22K) ── bus 27, PFL DET bus 29
-                             ├─ aux pre-fader tap (JP2–JP4)
-                             └─ soft mute (Q1/Q2, SW4 ON) ─ U3B ─ fader RV1 ─ [VCA option] ─ U2A +10 dB
+                             └─ soft mute (Q1/Q2, SW4 ON) ─ U3B ─ MUTEOUT ─┬─ aux pre-fader tap (JP2–JP4; v4.6)
+                                                                           └─ fader RV1 ─ [VCA option] ─ U2A +10 dB
                                  ─ C15 ─ POST ─┬─ aux post tap (SW8–SW10 unlatched)
                                                ├─ pan RV8 ─ U2B / U3A buffers ─ C16/C17 ─ PANL / PANR
                                                │    ├─ SW5 L-R ─ R26/R27 4K7 ─ MIX L/R
@@ -409,7 +423,7 @@ U2A: (+) FPIN, R19 4K7 ∥ C14 100 pF feedback, R38 2K2 to AGND: +10 dB ── C
 ## 11. Aux sends, PRE switches, DIR and direct out
 
 ```
-JP2/JP3/JP4 (pairs 1-2, 3-4, 5-6): PSRCn = PRE (1-2, default, pre-fader) or HOUT (2-3, pre-EQ)
+JP2/JP3/JP4 (pairs 1-2, 3-4, 5-6): PSRCn = MUTEOUT (1-2, default, pre-fader after ON; v4.6) or HOUT (2-3, pre-EQ, not muted by ON)
 SW8/SW9/SW10 pole A: SRCn = PSRCn (latched, PRE) or POST (unlatched)
 RV2…RV7 10K A: pin 3 = SRCn, pin 1 = AGND, wiper ── R20…R24 22K ── AUX 1…5
 RV7 wiper ── SW13 pole A ── A6R (unlatched) ── R25 22K ── AUX 6
@@ -504,7 +518,7 @@ directly; no debounce RC, because the DG413 inputs have no hysteresis.
 | U16 | OPA1656 | input follower, tip | input follower, ring |
 | U2 | OPA1612 | fader post-amp | pan buffer L |
 | U3 | OPA1612 | pan buffer R | mute output buffer |
-| U4 | LM393 | OL comparator | spare, tied off |
+| U4 | LM393 | OL comparator | OL hold (v4.5) |
 | U5 | OPA1612 | HPF summer | EQ HF |
 | U6 | OPA1612 | EQ HI-MID | EQ LO-MID |
 | U7 | OPA1612 | EQ LF | insert return buffer |
@@ -520,13 +534,14 @@ directly; no debounce RC, because the DG413 inputs have no hysteresis.
 
 ## 15. Bill of materials
 
-`channel_strip_BOM.csv` (main board, exported from the schematic, with a DNP column): 252 parts per channel, of which
-three are the DNP VCA-option parts (J3, J4, R44), so 249 fitted; `jack_board_BOM.csv`: 6. Panel parts per channel:
+`channel_strip_BOM.csv` (main board, exported from the schematic, with a DNP column): 265 parts per channel, of which
+three are the DNP VCA-option parts (J3, J4, R44), so 262 fitted (the netlist's 273 also counts the solder jumpers
+JP1–JP7 and the net tie NT1, which aren't bought); `jack_board_BOM.csv`: 6. Panel parts per channel:
 16 pots (fader, 6 aux, pan, gain, 4 EQ gain, 2 dual EQ frequency, dual HPF frequency), 13 switches, 7 LEDs (OL, PFL,
 ON, EQ, 3 routing), 3 jacks, 1 bus header.
 
 BOM rules (v4.1):
-- every ceramic ≥ 25 V, 50 V preferred: 100n Samsung CL21B104KBCNNNC (X7R 50 V 0805), C12 / C62 1 µF Murata
+- every ceramic ≥ 25 V, 50 V preferred: 100n Samsung CL21B104KBCNNNC (X7R 50 V 0805), C62 1 µF Murata
   GRM21BR71H105KA12, C0G parts 50 V; no X7R in the signal path (v4.2);
 - film: C13 and C49 WIMA MKS2C042201K00KSSD (2.2 µF PET 63 V, 7.2 × 13 × 7.2, bottom side), C48 150 nF MKS2;
 - bipolar electrolytics: Nichicon MUSE ES 25 V, UES1E330MPM (33 µF; C38 + C91 in parallel) and UES1E101MPM (100 µF);
@@ -559,7 +574,7 @@ AI scope: component placement only. Ruslan routes copper and pours grounds in Ki
 | RV9–RV11, RV13, RV15 | Alpha RD901F-40-15R1-B10K-0CD | same | 10K linear, centre detent (Alpha spec SP26020021). In stock 2026-10-22 as Alpha 9 mm vertical linear "centre notch" 10K (Cedist / Amplified Parts R-VAV-B10K-CN), but with a 1/4" (6.35 mm) shaft: knobs must match. |
 | RV8 | ALPS RK09L1240015 (10K 1B dual, centre detent) | `Potentiometer_THT:Potentiometer_Alps_RK09L_Double_Vertical` | The vertical dual centre-detent 10K B that is stocked (Mouser, Verical; no Alpha one exists). ALPS catalogue RV01 Drawing No.7: **M9 × 0.75** bushing 5 long, **Ø6 shaft with a flat** (4.5 across, 7 long) 15 from the face, face 10 above the board like the Alpha, snap-in legs. Panel hole **Ø9.5**; the knob is the **6 mm D** version of the strip's knob; M9 nut (not dimensioned: assumed 12 AF × 2.0) and a 9.5 / 11 × 1.5 spacer washer. The footprint's pin rows sit 7.5 / 10 mm from the shaft like the Alpha's, gangs swapped (pins 4-6 nearer the shaft); shaft at (10, 2.5) from pin 1. Check on a sample: nut thickness, pin 1 at the CCW end, the detent at the electrical centre. |
 | RV12, RV14 | Alpha RD902F-40-15R1-A10K dual (log) | same | Stocked (Tayda). Replaces the Delta's 100K C-law dual, which isn't stocked; works with the KHN mid-band tuning (§6.2). |
-| SW3–SW15 | C&K PVA2 EE H1 1.7N V2 | `Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2` | DPDT push-push, 32 V / 100 mA; PV caps. Datasheet (rev. 02/2025, p. 3): common 0 is the middle pin; released 0–1, pressed/latched 0–2; terminals moulded "2 0 1" on the body. **Fit each switch with its moulded "2" pins in the square-pad column (pads 1 and 4)**, so latched = 2–1 / 5–4 as drawn. The footprint is symmetric under 180°, so a switch fitted the other way round works inverted. Check one sample with a meter. |
+| SW3–SW15 | C&K PVA2 EE H1 1.7N V2 | `Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2` | DPDT push-push, 32 V / 100 mA; PV caps. Datasheet (rev. 02/2025, p. 3): common 0 is the middle pin; released 0–1, pressed/latched 0–2; terminals moulded "2 0 1" on the body. **Fit each switch with its moulded "2" pins in the square-pad column (pads 1 and 4)**, so latched = 2–1 / 5–4 as drawn. Since v4.6 a silk "2" beside pads 1/4 marks that column on every board. The footprint is symmetric under 180°, so a switch fitted the other way round works inverted. Check one sample with a meter. |
 | D2–D8 | 3 mm LEDs | `LED_THT:LED_D3.0mm` | 7.6 mm spacers. D6–D8 (routing, yellow) at y 283, centred under SW5–SW7. |
 | CN4 | Keystone 1287-ST | `goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm` | |
 
@@ -589,7 +604,7 @@ the panel's top edge), placement only:
 
 | Board | File | Size | Depth under the panel | Parts |
 |-------|------|------|-----------------------|-------|
-| Main | `channel_strip_v4.kicad_pcb` | 38 × 400 mm, y 44–444 | 11.5 mm | 260 + 6 M3 holes (11.5 mm standoffs) |
+| Main | `channel_strip_v4.kicad_pcb` | 38 × 400 mm, y 44–444 | 11.5 mm | 273 + 6 M3 holes (11.5 mm standoffs) |
 | Jack | `jack_board.kicad_pcb` | 38 × 43 mm, y 0–43 | 24.0 mm (the NJ6FD-V body) | 6 + 2 M3 holes |
 
 DRC with `--schematic-parity`, both boards: 0 parity issues. The main board has no violations at all;
@@ -663,7 +678,7 @@ v4.5 (`gaps_proposal.md` K1 / K3):
 
 v4.4 (`ground_study.md` G2 / G3):
 - **Netlist:** 796 pin entries / 0 mismatches, check_fp 268 / 0, ERC 0; jack board 32 pins / 8 parts, 0 / 0 / ERC 0.
-  `tools/sim_netlist.py` 37/37 (new: common mode at 50 Hz / 1 kHz through 1 kΩ on the tip leg, −60.1 / −58.7 dBu at
+  `tools/sim_netlist.py` 37/37 (new: common mode at 50 Hz / 1 kHz through 1 kΩ on the tip leg, −60.1 / −58.7 dBu (−56.0 at 1 kHz since C94 / C95) at
   PRE); `tools/sim_console.py` 32/32 (main L noise −79.2 dBu, unchanged).
 - **Placement:** 268 footprints + 6 holes, 0 DRC violations, 0 parity issues; the jack board's H1 / H2 are plated
   CHASSIS pads in the old hole positions. U16 sits by SW15 in a zone of its own placed first (77 parts moved). Report:
@@ -716,11 +731,11 @@ v4.0 (2026-10-22):
   (results in `delta_clone_comparison.md` §6), `sim/routing_switch.cir` (§13), `sim/mid_tuning.py` (§6.2). `sim/strip.cir` is the v3.1 path.
 
 **Pan RV8** (2026-10-25): ALPS RK09L1240015, the stocked vertical dual 10K B with a centre detent (§16.1; no Alpha one
-exists; RK097121TD57 is a right-angle part). Supply current ~85 / 72 mA per strip (master spec §27);
+exists; RK097121TD57 is a right-angle part). Supply current ~100 / 87 mA per strip since v4.4 (master spec §27);
 PVA2 sense: settled from the datasheet, with an assembly rule (§16.1). Jack-board depth: 24.0 mm from Neutrik's
 drawings (2026-10-23). The panel parts checked against their drawings, with what still needs a sample (PTB lever
 style and pin side, PV cap clearance in the Ø8.0 hole, Alpha bushing thread and tab slots, 1/4" knobs on every pot):
 `panel_parts_drawings.md`.
 
-*Document version 4.3 — October 2026*
+*Document version 4.6 — October 2026*
 *Sources: Soundcraft Delta ED3344A/B/C, ED3151, ED2911A/B, ED2915A, ED2780*
