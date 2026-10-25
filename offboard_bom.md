@@ -1,0 +1,77 @@
+# Off-board parts (2026-10-25)
+
+Everything a build needs that isn't on a board's BOM, so `order_bom.csv` doesn't have it. Counts are for the console:
+24 strips, 4 groups and the master, plus the PSU and the jig where marked. Per-module counts come from the placed
+boards. Dimensions and rules come from `panel_parts_drawings.md`, strip spec §16, master spec §24–26 and
+`psu_spec.md` §7–8.
+
+**Status:**
+- **code:** the part is decided and named in the specs.
+- **rule:** the specs fix its dimensions; any part meeting them will do, so pick an order code.
+- **decide:** your choice. The 3D model uses placeholders for these.
+
+## Panel side
+
+| Item | Per strip / group / master | Console | Status | Part or rule |
+|---|---|---|---|---|
+| Knob, 1/4" (6.35) round shaft | 14 / 2 / 5 | 349 | **decide** | About Ø13 (Delta: 14, 12.5 on MID FREQ), collet or set-screw. It must clear the 10 AF × 2.0 nut, with 9.6 mm of shaft above the nut. Colours per function, from the knob caps only (`panel_print.md`). |
+| Knob, 6 mm D shaft (pan, RK09L) | 1 / 1 / 0 | 28 | **decide** | The 6 mm D version of the above knob (flat 4.5 across, 7 long). |
+| PV cap for PVA2 | 13 / 7 / 3 | 343 | **decide** colours | C&K PV cap, round Ø7.4 × 7; colours RD / GY / BK / WH only (no yellow or orange). Panel hole Ø8.0. |
+| Fader cap | 1 / 1 / 1 | 29 | code, colours **decide** | Sifam LK110 tang 01 (RS 281-7197 is the black one). The model uses white on strips, red on groups and yellow on the master; colours from pot4audio / D&R. Sample-check the 1.2 socket on a real BP blade first. |
+| Fader screws | 2 / 2 / 2 | 58 | rule | M3 into the PTB cover's tapped holes, 120.0 apart, through the 1.5 panel and the 3.5 spacer. M3 × 8 countersunk if the panel is countersunk. |
+| Fader spacer | 2 / 2 / 2 | 58 | rule | 3.5 mm thick, M3 clearance, under the panel at each fixing (the stack puts the lever 5.0 above the panel). |
+| Pot spacer washer, M7 | 14 / 2 / 5 | 349 | rule | 1.5 thick, ID 7.2, OD < 11.2 to clear the anti-rotation lug (model 10). Leave the pot's own 0.4 washer off: the bushing has no spare thread. |
+| Pot spacer washer, M9 (RK09L) | 1 / 1 / 0 | 28 | rule | 9.5 / 11 × 1.5. Its M9 nut: check the thickness on a sample (spec open item). |
+| LED spacer, 3 mm LED | 7 / 3 / 43 | 223 | rule | 7.6 mm long (the LED's lens then sits at the panel). |
+| LED spacer, 5 mm LED | 0 / 0 / 1 | 1 | rule | The master's PFL ACTIVE LED, sized to the same panel height. |
+| Main-board standoff, M3 | 6 / 6 / 7 | 175 | rule | 11.5 mm (panel underside to PCB), unplated holes. Two M3 screws each: 350. |
+| Jack-board standoff, M3 F-F | 2 / 2 / 3 | 59 | rule | **Exactly 24.0 mm, metal.** The jacks are rigid spacers, so a longer one hangs the board on its solder joints. Two M3 screws each (118). A star washer, or bare metal, at the panel end of each (59): these standoffs carry CHASSIS to the panel. |
+| Front panels | 8 HP / 8 HP / 16 HP | 24 + 4 + 1 | **decide** maker | 1.5 mm aluminium, anodised (not powder-coated: 1.5 is the NJ6FD-V's upper limit). 40.3 × 514 mm (8 HP × 12U), the master 80.6 × 514. Legends per `panel_print.md`. The panels need fabrication drawings, which don't exist yet. |
+| Frame | | 1 | **decide** | Custom 12U frame, rails at the panel ends only (strip panel decision). Bare-metal contact, or star washers, where the panels meet the rails. |
+
+## Ribbons and links
+
+| Item | Console | Jig | Status | Part or rule |
+|---|---|---|---|---|
+| 34-way IDC socket (motherloom) | 30 (24 strips, 4 groups, 2 master wing headers) | 6 (4 strips, stub, load board) | code | Würth 61203423021 (WR-BHD, strain relief), the mate of the boards' 61203421621 headers |
+| 34-way flat cable | 2 wing runs of about 14 × 40.6 mm + slack, ≈ 0.75 m each | ≈ 0.5 m | rule | 1.27 mm pitch grey flat cable, 28 AWG. The IDC contacts are rated 1 A (+V uses three conductors, W1). Order 3 m. |
+| 10-way IDC socket (strip jack link) | 48 (2 × 24) | | code | Würth 61201023021 |
+| 10-way flat cable | 24 × ~136 mm (one 90° fold, strip spec §16.4) | | rule | 1.27 mm flat cable; order 4 m |
+| 16-way IDC socket (group jack link) | 8 (2 × 4) | | code | Würth 61201623021 |
+| 40-way IDC socket (master jack link) | 2 | | code | Würth 61204023021 |
+| 16- and 40-way flat cable | 4 short links, 1 short link | | rule | 1.27 mm; cut to fit the 24.0 mm board spacing with one fold |
+
+## Ground harness (G1, master spec §26)
+
+| Item | Qty | Status | Part or rule |
+|---|---|---|---|
+| 14 AWG (2.08 mm²) stranded wire | 28 wires, 16.1 m in all | rule | Cut list: left wing 264 + 40.6·k + 60 mm, right wing 237 + 40.6·k + 60 mm, k = 0…13 from the module next to the master. Longest 852 / 825 mm. Order 20 m. |
+| 6.3 mm insulated receptacle, blue (14–16 AWG) | 56 | rule | Both ends of every wire (spade CN4 / CN1 to bar tab) |
+| Copper ground bar | 2 | rule (make) | ~15 × 2 mm, fourteen 6.3 mm tabs in two rows, one per wing, on a threaded spacer under the master's M4 stud |
+| M4 stud hardware | 1 set | rule | Screw, threaded spacer, nuts and star washers for CN1 and the two bars; the PSU 0 V and earth lead also land here |
+| Cable ties | ~200 | rule | The wires are tied under the motherloom every ~80 mm, never along the tub floor |
+
+## Power
+
+| Item | Qty | Status | Part or rule |
+|---|---|---|---|
+| Mean Well LRS-150-24 | 2 | code | Set to 21.6 V (PSU decision, option B) |
+| Console power inlet | 1 | code | Neutrik NC7MD-LX on the master panel, wired to J1 |
+| PSU output socket | 1 | code | Neutrik NC7FD-LX on the PSU panel, wired from the 7-way terminal |
+| Link cable connectors | 1 + 1 | code | Neutrik NC7FX (to the console's NC7MD-LX) and NC7MX (to the PSU's NC7FD-LX) |
+| Link cable | ≤ 2 m | rule | 7 × 1.0 mm² (≈ 70 mV drop at 4 A) |
+| IEC inlet | 1 | rule | Fused (T2.5 A at 230 V, T5 A at 115 V) with a 2-pole switch, or a fused inlet plus a separate 2-pole front-panel switch (`psu_spec.md` §8); spare fuses |
+| Heatsink | 1 | rule | ≤ 1.2 °C/W for the four TO-220s in a row at the PCB's top edge (only the LDOs dissipate, 19 W each at 4 A) |
+| TO-220 insulators | 4 + 4 | rule | Silicone pad and shoulder washer per tab (the tabs sit at +17 V and 0 V); M3 screws |
+| PSU case | 1 | **decide** | Steel or aluminium, earthed, ventilated; ~250 × 200 × 90 mm or 2U half-rack. Earth stud, power LED on the front. Wired 0 V stays isolated from earth in the PSU. |
+| PSU PCB standoffs | 4 | rule | M3, to the case floor |
+
+## Decisions this list needs from you
+
+1. **Knobs.** Part, size and colour per function. 349 for 1/4" round shafts, 28 for the 6 mm D pan shaft. It needs a
+   1/4" round-shaft knob with a matching 6 mm D version, about Ø13, and enough clearance over the M7 nut.
+2. **PV cap colours** per key function (RD / GY / BK / WH).
+3. **Fader cap colours** (LK110 tang 01).
+4. **Panel maker**, and the panel fabrication drawings: outline, holes and legends per module. The 3D model already
+   has the cut-outs and legends, so the drawings can be generated from it.
+5. **Frame and PSU case.**

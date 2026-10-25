@@ -56,7 +56,7 @@ equivalent 1 % thick-film 0805. Every part that needs more (anti-surge, 0.1 %, 2
   panel parts and connectors +3 % (at least 1).
 - **Resistors:** plain 0805 values get `Yageo RC0805FR-07<value>L`.
 - **Left out:** DNP parts and the M4 star point.
-- **Not on any board, so not in the list:** knobs, fader caps, LED spacers, standoffs, ribbon and IDC sockets, the
+- **Not on any board, so not in the list** (they are in `offboard_bom.md`): knobs, fader caps, LED spacers, standoffs, ribbon and IDC sockets, the
   harness, the PSU modules and its case parts. See the specs (§16 of the strip spec, master spec §26, `psu_spec.md`).
 
 ## Stock risks: act before ordering
