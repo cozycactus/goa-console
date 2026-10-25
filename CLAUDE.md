@@ -190,6 +190,10 @@ jack board) done.
   OPA1612, WIMA 2.2 µF), S1 signed off and applied (the discontinued 10 µF NP UES1E100MDM -> Panasonic ECE-A1EN100U). Plain 0805 resistors: Yageo RC0805FR-07xxxL.
   `python3 tools/order_bom.py` -> `order_bom.csv`: the console-wide order list (every board's BOM x boards built,
   one line per order code, spares, the jig A/B OPA1656s); re-run it after any BOM export.
+- `panels/` — front-panel fabrication drawings (2026-10-25) from `.venv/bin/python tools/panel_fab.py`: per panel a DXF
+  (OUTLINE / CUT / LEGEND, text outlined), 1:1 SVG / PDF artwork, PNG preview, hole table; numbered strip / group PDFs;
+  checks (web, edge, rails, print clear of cut-outs). The layout is `tools/panel_layout.py`, shared with console_3d.py
+  (cut-outs, screws, the Delta-style print). Open: measure the fader law before printing (`panels/README.md`).
 - `offboard_bom.md` — everything not on a board BOM (knobs, caps, washers, spacers, standoffs, panels, frame, IDC
   sockets and ribbon, the G1 harness, PSU chassis parts), counts per module and console; open decisions: knobs, PV and
   fader cap colours, panel maker + panel fabrication drawings, frame, PSU case.

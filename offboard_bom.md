@@ -26,7 +26,7 @@ boards. Dimensions and rules come from `panel_parts_drawings.md`, strip spec §1
 | LED spacer, 5 mm LED | 0 / 0 / 1 | 1 | rule | The master's PFL ACTIVE LED, sized to the same panel height. |
 | Main-board standoff, M3 | 6 / 6 / 7 | 175 | rule | 11.5 mm (panel underside to PCB), unplated holes. Two M3 screws each: 350. |
 | Jack-board standoff, M3 F-F | 2 / 2 / 3 | 59 | rule | **Exactly 24.0 mm, metal.** The jacks are rigid spacers, so a longer one hangs the board on its solder joints. Two M3 screws each (118). A star washer, or bare metal, at the panel end of each (59): these standoffs carry CHASSIS to the panel. |
-| Front panels | 8 HP / 8 HP / 16 HP | 24 + 4 + 1 | **decide** maker | 1.5 mm aluminium, anodised (not powder-coated: 1.5 is the NJ6FD-V's upper limit). 40.3 × 514 mm (8 HP × 12U), the master 80.6 × 514. Legends per `panel_print.md`. The panels need fabrication drawings, which don't exist yet. |
+| Front panels | 8 HP / 8 HP / 16 HP | 24 + 4 + 1 | **decide** maker | 1.5 mm aluminium, anodised (not powder-coated: 1.5 is the NJ6FD-V's upper limit). 40.30 × 514 mm (8 HP × 12U), the master 80.94 × 514. Fabrication drawings (DXF, 1:1 PDF artwork, hole tables) are in `panels/` (`tools/panel_fab.py`). |
 | Frame | | 1 | **decide** | Custom 12U frame, rails at the panel ends only (strip panel decision). Bare-metal contact, or star washers, where the panels meet the rails. |
 
 ## Ribbons and links
@@ -72,6 +72,6 @@ boards. Dimensions and rules come from `panel_parts_drawings.md`, strip spec §1
    1/4" round-shaft knob with a matching 6 mm D version, about Ø13, and enough clearance over the M7 nut.
 2. **PV cap colours** per key function (RD / GY / BK / WH).
 3. **Fader cap colours** (LK110 tang 01).
-4. **Panel maker**, and the panel fabrication drawings: outline, holes and legends per module. The 3D model already
-   has the cut-outs and legends, so the drawings can be generated from it.
+4. **Panel maker.** The fabrication drawings are in `panels/`. Measure the fader law before printing
+   (`panels/README.md`).
 5. **Frame and PSU case.**

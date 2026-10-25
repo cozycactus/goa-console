@@ -1,0 +1,24 @@
+x mm,y mm,diameter / slot,what
+7.50,3.00,Ø3.2,panel screw
+20.15,71.00,Ø3.2,RV1 bourns_ptb fixing
+20.15,131.00,"slot 110.0 x 2.4, rot -90",RV1 bourns_ptb
+20.15,191.00,Ø3.2,RV1 bourns_ptb fixing
+8.31,211.00,Ø8.0,SW2 ck_pva2
+16.51,211.00,Ø3.2,D1 led
+8.31,229.00,Ø8.0,SW4 ck_pva2
+19.31,229.00,Ø8.0,SW5 ck_pva2
+30.31,229.00,Ø8.0,SW6 ck_pva2
+9.99,251.00,Ø9.5,RV2 alps_rk09l
+30.31,251.00,Ø8.0,SW1 ck_pva2
+9.99,337.00,Ø7.2,RV3 alpha_pot
+27.15,337.00,Ø8.0,SW3 ck_pva2
+35.65,337.00,Ø3.2,D2 led
+9.99,419.00,Ø7.2,RV4 alpha_pot
+28.15,419.00,Ø8.0,SW7 ck_pva2
+36.15,419.00,Ø3.2,D3 led
+9.99,447.00,Ø12.0,J4 neutrik_nj6fd_v
+30.31,447.00,Ø12.0,J5 neutrik_nj6fd_v
+9.99,469.00,Ø12.0,J3 neutrik_nj6fd_v
+9.99,491.00,Ø12.0,J2 neutrik_nj6fd_v
+30.31,491.00,Ø12.0,J1 neutrik_nj6fd_v
+7.50,511.00,Ø3.2,panel screw

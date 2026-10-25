@@ -19,6 +19,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from models3d import lookup, STACK, cable
 from models3d.knob import D_KNOB, D_BIG
 from models3d.blend import to_mesh
+import panel_layout
+from panel_layout import NAMES, POTS, KNOB_ANGLE, led_state, HP
 
 ARGV = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else ['render']
 OUTDIR = os.path.abspath(ARGV[0])
@@ -27,7 +29,7 @@ KC = os.environ.get('KICAD_CLI', '/Applications/KiCad/KiCad.app/Contents/MacOS/k
 S = 0.001
 PANEL_Z0 = STACK['panel_z0']; PANEL_Z1 = PANEL_Z0 + STACK['panel_t']; JB_Z = PANEL_Z0 - STACK['jack_z0']
 H_JB = PANEL_Z0 - JB_Z                         # jack-board top to panel underside: 24 mm
-HP = 5.08; PITCH = 8 * HP                      # 40.64 mm per 8 HP module
+PITCH = 8 * HP                      # 40.64 mm per 8 HP module
 
 # ---------------------------------------------------------------- scene, materials
 bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -160,9 +162,6 @@ def text(name, s, x, y, z, size, m, c):
     o = bpy.data.objects.new(name, cu); c.objects.link(o); o.location = (x * S, -y * S, z * S)
     o.data.materials.append(m); return o
 
-def legend(c, s, x, y, size=2.0):
-    if s: text(f'legend {s} {x:.0f} {y:.0f}', s, x, y, PANEL_Z1 + 0.02, size, M['legend'], c)
-
 # ---------------------------------------------------------------- generic hardware (the parts are tools/models3d)
 def standoff_mesh(h):
     g = Geo([M['brass'], M['steel']])
@@ -191,27 +190,19 @@ def lens_mesh(state, big):
     g.cyl(0, 0, 0, 1.6, 1.5 * k, 1, 20); g.cyl(0, 0, 1.6, 2.3, 1.5 * k, 1, 20, r_top=0.6 * k)
     return g.mesh(f'LED lens {state}{" 5 mm" if big else ""}')
 
-def panel(c, name, width, label=None, holes=()):
-    """Plate in module coordinates: x -1.15 .. width - 1.15, y -11 .. 503; M3 screws on the end rails. holes: the
-    cut-outs [(kind, x, y, size or rotation)]: 'round' (diameter), 'slot' (fader slot and its two M3 holes, rotation),
-    'xlr' (NC3MAV hole and its two M3 holes, rotation)."""
-    x0 = -1.15; t = PANEL_Z1 - PANEL_Z0
-    g = Geo([M['panel']]); g.box(x0 + 0.15, -11, 0, x0 + width - 0.15, 503, t, 0)
+def panel(c, P):
+    """Plate with its cut-outs (tools/panel_layout.py) in module coordinates; M3 screws on the end rails."""
+    t = PANEL_Z1 - PANEL_Z0; name = P.key
+    g = Geo([M['panel']]); g.box(P.x0 + 0.15, P.y0, 0, P.x1 - 0.15, P.y1, t, 0)       # 0.15 a side: the gap shows
     plate = put(name + ' panel', g.mesh(name + ' panel'), c, 0, 0, PANEL_Z0)
-    if holes:
-        cut = Geo([M['panel']])
-        for kind, x, y, a in holes:
-            if kind == 'round': cut.cyl(x, y, -1, t + 1, a / 2, 0, 40)
-            else:
-                ca, sa = math.cos(math.radians(a)), -math.sin(math.radians(a))      # footprint x axis on the board
-                rot = lambda u, v: (x + u * ca - v * sa, y + u * sa + v * ca)
-                if kind == 'slot':
-                    cut.prism([rot(u, v) for u, v in rrect(-FADER_SLOT[0] / 2, -FADER_SLOT[1] / 2, FADER_SLOT[0] / 2,
-                                                            FADER_SLOT[1] / 2, FADER_SLOT[1] / 2 - 0.01)], -1, t + 1)
-                    for u in (-FADER_SLOT[2], FADER_SLOT[2]): cut.cyl(*rot(u, 0.0), -1, t + 1, 1.6, 0, 16)
-                else:
-                    cut.cyl(x, y, -1, t + 1, XLR_CUT[0] / 2, 0, 48)
-                    for u, v in XLR_CUT[1]: cut.cyl(*rot(u, v), -1, t + 1, 1.6, 0, 16)
+    circles, slots = P.cut()
+    cut = Geo([M['panel']])
+    for x, y, d in circles:
+        if (x, y) not in P.screws: cut.cyl(x, y, -1, t + 1, d / 2, 0, 48 if d > 15 else 40 if d > 4 else 16)
+    for x, y, ln, w, a in slots:
+        ca, sa = math.cos(math.radians(a)), -math.sin(math.radians(a))
+        cut.prism([(x + u * ca - v * sa, y + u * sa + v * ca) for u, v in rrect(-ln / 2, -w / 2, ln / 2, w / 2, w / 2 - 0.01)], -1, t + 1)
+    if circles or slots:
         co = put(name + ' cutter', cut.mesh(name + ' cutter'), c, 0, 0, PANEL_Z0)
         bo = plate.modifiers.new('cut-outs', 'BOOLEAN'); bo.operation = 'DIFFERENCE'; bo.object = co; bo.solver = 'EXACT'
         bpy.context.view_layer.update()
@@ -220,43 +211,19 @@ def panel(c, name, width, label=None, holes=()):
         bpy.data.meshes.remove(old); bpy.data.objects.remove(co)
     def screw():
         g = Geo([M['alu']]); g.cyl(0, 0, 0, 1.2, 2.8, 0, 16); return g.mesh('panel screw')
-    for yy in (-8, 500):
-        for xx in ((x0 + 7.5,) if width < 50 else (x0 + 7.5, x0 + width - 7.5)):
-            put(f'{name} screw {xx:.0f} {yy}', shared('screw', screw), c, xx, yy, PANEL_Z1)
-    if label: text(name + ' label', label, x0 + width / 2, 494, PANEL_Z1 + 0.02, 3.0, M['legend'], c)
+    for xx, yy in P.screws:
+        put(f'{name} screw {xx:.0f} {yy:.0f}', shared('screw', screw), c, xx, yy, PANEL_Z1)
 
-# ---------------------------------------------------------------- legends and colours per module
-# Switch caps are C&K PV: red, grey, black, white (green in the ordering code only); knob caps are placeholders;
-# fader caps Sifam LK110 as the Delta: white inputs, red groups, yellow master.
-STRIP = {'RV9': ('GAIN', 'red'), 'RV10': ('HF', 'white'), 'RV11': ('HI-MID', 'white'), 'RV12': ('FREQ', 'dblue'),
-         'RV13': ('LO-MID', 'white'), 'RV14': ('FREQ', 'dblue'), 'RV15': ('LF', 'white'), 'RV2': ('AUX 1', 'yellow'),
-         'RV3': ('AUX 2', 'yellow'), 'RV4': ('AUX 3', 'green'), 'RV5': ('AUX 4', 'green'), 'RV6': ('AUX 5', 'orange'),
-         'RV7': ('AUX 6', 'orange'), 'RV8': ('PAN', 'grey'), 'RV16': ('', 'dblue'),     # HPF FREQ: the key above names it
-         'SW15': ('Ø', 'grey'), 'SW11': ('HPF', 'grey'), 'SW12': ('EQ', 'grey'), 'SW8': ('PRE 1-2', 'grey'),
-         'SW9': ('PRE 3-4', 'grey'), 'SW10': ('PRE 5-6', 'grey'), 'SW14': ('PAN', 'grey'), 'SW13': ('DIR', 'black'),
-         'SW5': ('L-R', 'white'), 'SW6': ('1-2', 'white'), 'SW7': ('3-4', 'white'), 'SW3': ('PFL', 'red'), 'SW4': ('ON', 'green'),
-         'D2': ('OL', 'red'), 'D3': (None, 'off'), 'D4': (None, 'green'), 'D5': (None, 'green'), 'D6': (None, 'yellow'),
-         'D7': (None, 'off'), 'D8': (None, 'off'),
-         'J1': ('LINE IN', None), 'J2': ('INSERT', None), 'J5': ('DIRECT', None), 'RV1': ('', 'white')}
-GROUP = {'RV4': ('RETURN', 'blue'), 'RV3': ('AUX', 'yellow'), 'RV2': ('SUB PAN', 'grey'),
-         'SW7': ('PFL', 'red'), 'SW3': ('AFL', 'red'), 'SW1': ('MIX', 'white'), 'SW4': ('MIX', 'white'),
-         'SW5': ('1-2', 'white'), 'SW6': ('3-4', 'white'), 'SW2': ('AFL', 'red'),
-         'D1': (None, 'off'), 'D2': (None, 'off'), 'D3': (None, 'off'),
-         'J2': ('SUB OUT', None), 'J1': ('INSERT', None), 'J3': ('AUX OUT', None), 'J4': ('RET L', None),
-         'J5': ('RET R', None), 'RV1': ('SUB', 'red')}
-MASTER = {'RV2': ('AUX 5', 'orange'), 'RV3': ('AUX 6', 'orange'), 'RV5': ('C/ROOM', 'white'), 'RV6': ('PHONES', 'white'),
-          'RV4': ('SOLO', 'red'), 'SW1': ('AFL', 'red'), 'SW2': ('AFL', 'red'), 'SW3': ('EXT', 'grey'),
-          'D12': (None, 'off'), 'D13': (None, 'off'), 'D3': ('POWER', 'green'), 'D15': ('PFL', 'off'),
-          'J1': ('INS L', None), 'J2': ('INS R', None), 'J10': ('C/R L', None), 'J11': ('C/R R', None),
-          'J8': ('EXT L', None), 'J9': ('EXT R', None), 'J6': ('AUX 5', None), 'J7': ('AUX 6', None),
-          'J12': ('PHONES', None), 'J3': ('MAIN L', None), 'J4': ('MAIN R', None), 'J5': ('MONO', None), 'RV1': ('MIX', 'yellow')}
-KNOB_ANGLE = {'AUX': -50.0, 'RETURN': 40.0, 'C/ROOM': 30.0, 'PHONES': 20.0}
+def panel_print(c, P):
+    """The panel print of tools/panel_layout.py: texts (bold where marked) and the ink rectangles as one mesh."""
+    for s, x, y, size, bold in P.texts:
+        o = text(f'print {P.key} {s} {x:.1f} {y:.1f}', s, x, y, PANEL_Z1 + 0.02, size, M['legend'], c)
+        if bold and bold_font(): o.data.font = bold_font()
+    g = Geo([M['legend']])
+    for x0, y0, x1, y1 in P.rects: g.box(x0, y0, 0, x1, y1, 0.03, 0)
+    put(f'{P.key} panel print', g.mesh(f'{P.key} panel print'), c, 0, 0, PANEL_Z1)
 
-def led_state(p, names):
-    if p['ref'] in names: return names[p['ref']]
-    v = p['value'].split()
-    if len(v) == 3 and v[2] == 'dB': return None, (v[0] if int(v[1]) <= 4 else 'off')   # meters: lit up to +4 dB
-    return None, 'off'
+# names, colours, cut-out sizes and the print rules: tools/panel_layout.py
 
 # ---------------------------------------------------------------- KiCad boards (GLB)
 def glb(board):
@@ -311,49 +278,8 @@ def import_board(c, board, z_top):
     return refs
 
 # ---------------------------------------------------------------- one module
-HOLE = {'alpha_pot': 7.2, 'alps_rk09l': 9.5, 'ck_pva2': 8.0, 'neutrik_nj6fd_v': 12.0}      # panel holes, spec 16.1 / 16.2
-POTS = ('alpha_pot', 'alps_rk09l')                 # knob-and-legend parts (the pan pot RV8 is the ALPS)
-FADER_SLOT = (110.0, 2.4, 60.0)               # PTB: 100 travel + 8.0 blade (BP lever), 1.3 blade; M3 fixings at +-60
-XLR_CUT = (22.2, [(-9.9, -9.9), (9.9, 9.9)])  # NC3MAV (A series, rear mount): >= 22 hole, 2 x 3.2 (footprint frame)
 FADER_POS = 0.75                              # lever position shown: 75 % of the travel
 LATCHED = {'strip': ('SW4', 'SW5')}           # switches shown pressed: ON and L-R (their LEDs are lit)
-LEGEND = {'alpha_pot': (-9.8, 2.0), 'alps_rk09l': (-9.8, 2.0), 'ck_pva2': (-5.8, 1.7), 'neutrik_nj6fd_v': (-10.2, 1.8), 'neutrik_nc3mav': (-16.2, 1.8)}
-# ---------------------------------------------------------------- panel print in the Delta's style (ref/delta200_panels)
-# Each pot: name above, a ring of 11 dots over the 300-degree rotation and numbers at chosen positions; numbers that
-# would hit a neighbouring knob, switch, LED, jack or label are left out (two pot columns 20.32 mm apart, rows 22 mm).
-EVEN11 = [k / 10 for k in range(11)]
-def gain_theta(db):
-    """Strip gain stage (spec 4): G = (2K2 + 10K t) / (2K2 + 10K (1 - t)), symmetric in dB about the detent."""
-    r = 10 ** (db / 20); return min(1.0, max(0.0, (12.2 * r - 2.2) / (10 * (1 + r))))
-def both(*pairs):
-    """Labels in priority order: each (theta, text) and its mirror (1 - theta, text)."""
-    return [q for t, a in pairs for q in ((t, a), (1 - t, a))][:None]
-KHN = {'RV12': [(0.0, '0.7'), (1.0, '10KHz'), (0.5, '2.2'), (0.25, '1.6'), (0.75, '4.8')],   # sim/mid_tuning.py 10e3:
-       'RV14': [(0.0, '0.15'), (1.0, '2.3KHz'), (0.5, '0.48'), (0.25, '0.34'), (0.75, '1.0')],  # KHN f0 at theta 0..1
-       'RV16': [(0.0, '20'), (1.0, '400Hz'), (0.5, '85'), (0.2, '50'), (0.7, '170')]}   # HPF -3 dB, khn_hpf.py law
-SCALES = {   # (dots, labels in priority order, unit at 6 o'clock); as the real Delta panels (ref/delta200_panels, photos)
-    'gain': ([k / 20 for k in range(21)], [(gain_theta(d), f'{d:+d}' if d else '0') for d in (-15, 15, 0, -10, 10, -5, 5)], 'dB'),
-    'eq': (EVEN11, both((0.0, '15'), (0.2, '9')) + [(0.5, '-0+')] + both((0.1, '12'), (0.3, '6'), (0.4, '3')), 'dB'),
-    'level': (EVEN11, [(0.0, '0'), (1.0, '10'), (0.5, '5'), (0.2, '2'), (0.8, '8'), (0.1, '1'), (0.9, '9'),
-                       (0.3, '3'), (0.7, '7'), (0.4, '4'), (0.6, '6')], None),
-    'pan': (EVEN11, [(0.0, 'L5'), (1.0, '5R'), (0.5, '0')] + both((0.2, '3'), (0.1, '4'), (0.3, '2'), (0.4, '1')), None),
-}
-PAIRS = {'strip': {'RV12': ('RV11', 'HI MID'), 'RV14': ('RV13', 'LO MID')}}   # frequency knob: (its gain knob, band)
-RULES = {'strip': [152.2, 221.2, 236.6, 264.6], 'group': [118.0, 207.0, 264.6], 'master': [112.0, 196.0]}
-METERS = {'master': [(18.0, 327.0, 422.0), (60.6, 327.0, 422.0)]}   # LED columns: outline as the Delta's meter block
-def scale_of(ref, name):
-    if ref in KHN: return (EVEN11, KHN[ref], None)
-    n = name.split()[0] if name else ''
-    return SCALES['gain' if n == 'GAIN' else 'eq' if n in ('HF', 'HI-MID', 'LO-MID', 'LF') else
-                  'pan' if 'PAN' in name else 'level']
-
-def fader_theta(db, post=1 + 4.7 / 2.2):
-    """Fader position (0 = bottom) for db at the post-amp output: A taper as two slopes, 15 % at mid-travel (the law
-    sim/mid_tuning.py uses for the Alpha pots; the fader's own curve is still to be measured), then +9.9 dB."""
-    a = 10 ** (db / 20) / post
-    return 0.0 if a <= 0 else min(1.0, a / 0.3 if a <= 0.15 else 0.5 + (a - 0.15) / 1.7)
-FADER_MARKS = [(10, '10'), (5, '5'), (0, '0'), (-5, '5'), (-10, '10'), (-15, '15'), (-20, '20'), (-25, '25'),
-               (-30, '30'), (-40, '40'), (-50, '50'), (-60, '60'), (None, '∞')]       # the Delta input's scale
 
 BOLD = []
 def bold_font():
@@ -361,71 +287,6 @@ def bold_font():
         f = '/System/Library/Fonts/Supplemental/Arial Narrow Bold.ttf'
         BOLD.append(bpy.data.fonts.load(f) if os.path.exists(f) else None)
     return BOLD[0]
-
-def panel_print(c, key, pots, faders, obst, width):
-    """The Delta's panel print, one cream ink: pot names (bold) above the knobs, a frequency/gain pair joined by a
-    bracket carrying the band name, 11-dot rings (dense for GAIN) with numerals outside the dots and 'dB' between the
-    end numerals, fader ticks both sides with numerals on the right (heavier 0 / top / bottom bars), full-width section
-    rules and meter outlines. pots: [(ref, name, x, y, big)], faders: [(name, x, y, dual)], obst: [(x, y, r for the
-    print, owner, r of the part itself)]."""
-    g = Geo([M['legend']]); placed = []
-    def free(x, y, w, h, own):
-        if any(math.hypot(max(abs(x - ox) - w / 2, 0), max(abs(y - oy) - h / 2, 0)) < r for ox, oy, r, o, _ in obst if o != own):
-            return False
-        return not any(abs(x - px) < (w + pw) / 2 + 0.3 and abs(y - py) < (h + ph) / 2 + 0.3 for px, py, pw, ph in placed)
-    def put_text(s, x, y, size, own, force=False, bold=False):
-        w, h = 0.47 * size * len(s.replace('.', '')) + 0.15 * s.count('.'), 0.75 * size
-        if force or free(x, y, w, h, own):
-            placed.append((x, y, w, h))
-            o = text(f'print {key} {s} {x:.1f} {y:.1f}', s, x, y, PANEL_Z1 + 0.02, size, M['legend'], c)
-            if bold and bold_font(): o.data.font = bold_font()
-            return True
-        return False
-    def line(x0, y0, x1, y1, w=0.28):
-        g.box(min(x0, x1) - w / 2, min(y0, y1) - w / 2, 0, max(x0, x1) + w / 2, max(y0, y1) + w / 2, 0.03, 0)
-    pairs = PAIRS.get(key, {}); paired = {gref for gref, _ in pairs.values()} | set(pairs)
-    at = {ref: (x, y, big) for ref, name, x, y, big in pots}
-    for ref, name, x, y, big in pots:                # names first: ring numbers give way to them
-        if ref not in paired and name:
-            put_text(name, x, y - (D_BIG if big else D_KNOB) / 2 - 4.2, 2.0 if not big else 2.2, ref, force=True, bold=True)
-    for fref, (gref, band) in pairs.items():         # bracket over a gain / frequency pair, band name in its middle
-        (xg, y, _), (xf, _, _) = at[gref], at[fref]; yb, xm = y - D_KNOB / 2 - 4.2, (xg + xf) / 2
-        hw = 0.47 * 2.0 * len(band) / 2 + 0.8
-        line(xg, yb, xm - hw, yb); line(xm + hw, yb, xf, yb); line(xg, yb, xg, yb + 0.6); line(xf, yb, xf, yb + 0.6)
-        put_text(band, xm, yb, 2.0, None, force=True, bold=True)
-    for ref, name, x, y, big in pots:
-        rk = (D_BIG if big else D_KNOB) / 2; rd, rn = rk + 0.85, rk + 2.15
-        dots, labels, unit = scale_of(ref, name)
-        for t in dots:
-            a = math.radians(-150 + 300 * t); px, py = x + rd * math.sin(a), y - rd * math.cos(a)
-            g.box(px - 0.27, py - 0.27, 0, px + 0.27, py + 0.27, 0.03, 0)              # square dots, as the Delta's
-        for t, s in labels:
-            a = math.radians(-150 + 300 * t)
-            put_text(s, x + rn * math.sin(a), y - rn * math.cos(a), 1.6, ref)
-        if unit: put_text(unit, x, y + rn * math.cos(math.radians(30)), 1.5, ref)
-    for name, x, y, dual in faders:                  # ticks both sides of the slot, dB numbers on the right (Delta)
-        last = None
-        for db, s in FADER_MARKS:
-            yy = y + 50.0 - 100.0 * (0.0 if db is None else fader_theta(db))
-            major = db in (10, 0, None)
-            for side in (-1, 1):
-                x0 = x + side * 11.6; x1 = x0 + side * (2.6 if major else 1.8)
-                g.box(min(x0, x1), yy - (0.32 if db == 0 else 0.18), 0, max(x0, x1), yy + (0.32 if db == 0 else 0.18), 0.03, 0)
-            if last is None or abs(yy - last) >= 3.0:
-                put_text(s, x + 16.0, yy, 1.6, None, force=True); last = yy
-        put_text(name, x, y + 65.0, 2.4 if dual else 2.0, None, force=True, bold=True)
-    for yr in RULES.get(key, ()):                    # section rules, full width, broken where a part sits on them
-        xs = [-0.6, width - 1.7]
-        cuts = sorted((ox - rp - 0.8, ox + rp + 0.8) for ox, oy, r, o, rp in obst if abs(oy - yr) < rp + 0.3)
-        x0 = xs[0]
-        for a, b in cuts + [(xs[1], xs[1])]:
-            if a > x0 + 0.5: line(x0, yr, min(a, xs[1]), yr)
-            x0 = max(x0, b)
-    for xm, y0, y1 in METERS.get(key, ()):           # meter block outline
-        for (ax, ay), (bx, by) in (((xm - 4.0, y0 - 5.0), (xm + 4.0, y0 - 5.0)), ((xm - 4.0, y1 + 5.0), (xm + 4.0, y1 + 5.0)),
-                                   ((xm - 4.0, y0 - 5.0), (xm - 4.0, y1 + 5.0)), ((xm + 4.0, y0 - 5.0), (xm + 4.0, y1 + 5.0))):
-            line(ax, ay, bx, by, 0.25)
-    put(f'{key} panel print', g.mesh(f'{key} panel print'), c, 0, 0, PANEL_Z1)
 
 BUS = {}                                      # module key: bus-header sockets [(x, y, ribbon z, pin-1 y)] for the motherloom
 SPADES, STAR = {}, {}                         # module key: ground-spade tab tips [(x, y, z)]; the master's M4 star stud (x, y, z)
@@ -483,11 +344,12 @@ def psu_cable(c, p, e, zb, z_floor=-41.5):
                                                  (xm + (k - 3) * 0.9, ye + 13, z_floor + 3), (xm + (k - 3) * 0.6, ye + 15, z_floor)], 6), 1.0, wm, 10))
     put('power cable', to_mesh(me, 'power cable'), c, 0, 0, 0)
 
-def module(key, names, width, label=None):
+def module(key):
     c = coll({'strip': 'channel strip', 'group': 'group module', 'master': 'master module'}[key])
     cb, cp = coll(c.name + ' boards', c), coll(c.name + ' panel', c)
-    pins = Geo([M['tin']]); holes = []; sockets = []; pots, faders, obst = [], [], []
-    for bd in json.load(open(os.path.join(OUTDIR, key + '.json'))):
+    names = NAMES[key]; data = json.load(open(os.path.join(OUTDIR, key + '.json')))
+    pins = Geo([M['tin']]); sockets = []
+    for bd in data:
         board = os.path.splitext(os.path.basename(bd['file']))[0]
         jackboard = bd['y0'] < 10
         zt = JB_Z if jackboard else 0.0; zb = zt - 1.6
@@ -513,8 +375,6 @@ def module(key, names, width, label=None):
                 put(f'{ref} spacer', shared(('spacer', big), lambda: spacer_mesh(big)), cb, f[0], f[1], zt)
                 lg, st = led_state(p, names)
                 put(f'{ref} lens', shared(('lens', st, big), lambda: lens_mesh(st, big)), cp, f[0], f[1], PANEL_Z1)
-                holes.append(('round', f[0], f[1], 5.2 if big else 3.2)); obst.append((f[0], f[1], 3.0, ref, 3.0))
-                if lg: legend(cp, lg, f[0], f[1] - (5.0 if big else 3.8), 1.6)
             if 'IDC-Header_2x' in fp:               # crimped socket on the header; the cable is added below
                 n = int(fp.split('IDC-Header_2x')[1][:2]); l, t, r, b = p['box']
                 along = 'x' if r - l > b - t else 'y'; cx, cy = (l + r) / 2, (t + b) / 2; px, py = p['pin1']
@@ -540,18 +400,6 @@ def module(key, names, width, label=None):
                     o = put(f'{ref} {kind} panel', pm, cp, f[0], f[1], PANEL_Z1, p['rot'])
                     if kind in POTS:
                         o.rotation_euler[2] = math.radians(KNOB_ANGLE.get(name.split()[0] if name else '', 0.0))
-                big = pk.get('big', False)
-                rp = {'alpha_pot': (D_BIG if big else D_KNOB) / 2 + 0.3, 'alps_rk09l': D_KNOB / 2 + 0.3, 'ck_pva2': 4.2, 'neutrik_nj6fd_v': 7.3,
-                      'neutrik_nc3mav': 12.0}.get(kind, 0.0)
-                obst.append((f[0], f[1], rp + 2.5 if kind in POTS else rp, ref, rp))   # pots: keep their ring clear
-                if kind == 'ck_pva2': obst.append((f[0], f[1] - 5.8, 0.4 * len(name) + 0.4, ref, 0.0))     # its legend
-                if kind in HOLE: holes.append(('round', f[0], f[1], HOLE[kind]))
-                elif kind == 'neutrik_nc3mav': holes.append(('xlr', f[0], f[1], p['rot']))
-                elif kind == 'bourns_ptb':
-                    holes.append(('slot', f[0], f[1], p['rot']))
-                    faders.append((name, f[0], f[1], 'Dual' in fp))
-                if kind in POTS: pots.append((ref, name, f[0], f[1], big))
-                elif kind in LEGEND: legend(cp, name, f[0], f[1] + LEGEND[kind][0], LEGEND[kind][1])
                 continue
             if 'MountingHole_4.3mm_M4' in fp:
                 put(f'{ref} star stud', shared('stud', stud_mesh), cb, p['x'], p['y'], zt)
@@ -567,18 +415,14 @@ def module(key, names, width, label=None):
         if m: link_ribbon(cb, f'{key} jack-board link', j, m)
     BUS[key] = sorted((q['x'], q['y'], q['z'], q['pin1'][1]) for q in sockets if not q['jack'] and q['n'] == 17)
     put(f'{key} pins', pins.mesh(f'{key} pins'), cb, 0, 0, 0)
-    panel_print(cp, key, pots, faders, obst, width)
-    panel(cp, key, width, label, holes)
+    P = panel_layout.layout(key, data)              # cut-outs, screws and print: the fabrication drawings' source
+    panel_print(cp, P)
+    panel(cp, P)
     return c
 
-strip = module('strip', STRIP, 8 * HP - 0.34)
-group = module('group', GROUP, 8 * HP - 0.34)
-master = module('master', MASTER, 16 * HP - 0.34, 'MASTER')
-mpanel = bpy.data.collections['master module panel']
-for side, x in (('L', 18.0), ('R', 60.6)):                          # meter legends: channel letter, dB scale outboard
-    legend(mpanel, side, x, 318.5, 2.4)
-    for v in (18, 12, 6, 0, -6, -12, -20):
-        legend(mpanel, f'{v:+d}' if v else '0', x + (-6.0 if side == 'L' else 6.2), 422.0 - 5.0 * (v + 20) / 2, 1.5)
+strip = module('strip')
+group = module('group')
+master = module('master')
 
 # ---------------------------------------------------------------- console: 12 strips | 2 groups | master | 2 groups | 12 strips
 console = coll('console')
