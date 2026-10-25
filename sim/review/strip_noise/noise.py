@@ -1,6 +1,6 @@
 """Strip noise budget: which op-amp stages (and which part of their noise) set the PRE noise, and what other op-amps or
 lower impedances would do. Built from channel_strip.net + jack_board.net with tools/sim_console.py's module builder.
-usage: python3 noise.py [attrib | parts | eqset]"""
+usage: python3 noise.py n1   (strip v4.4: attribution, the N1 package set, PRE and console noise)"""
 import os, re, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, '..', '..', '..', 'tools'))
@@ -33,10 +33,11 @@ def strip_deck(pos=None, sw=None, assign=None, default='OPA1612', resistors=None
     L = m.lines()
     out = []
     for line in L:
-        mm = re.match(r'^Xs_(U\d+)_(\d) (.*) OPA1612N$', line)
-        if mm:
+        mm = re.match(r'^Xs_(U\d+)_(\d) (.*) (OPA1612N|OPA1656N)$', line)
+        if mm:                     # a unit fitted as OPA1656 (U16, strip v4.4) keeps that part unless assigned
             unit = f'{mm.group(1)}_{mm.group(2)}'
-            out.append(f'Xs_{unit} {mm.group(3)} N_{(assign or {}).get(unit, default).replace(" ", "_")}')
+            part = (assign or {}).get(unit, default if mm.group(4) == 'OPA1612N' else 'OPA1656')
+            out.append(f'Xs_{unit} {mm.group(3)} N_{part.replace(" ", "_")}')
             continue
         mr = re.match(r'^Rs_(R\d+) (\S+) (\S+) (\S+)$', line)
         if mr and resistors and mr.group(1) in resistors:
@@ -80,3 +81,39 @@ def scale_eq(body, k):
             out.append(' '.join(t[:3] + [str(float(t[3]) * k)])); continue
         out.append(line)
     return out
+
+# ---------------------------------------------------------------- N1 on strip v4.4 (2026-10-25)
+N1 = ['U1', 'U5', 'U6', 'U7', 'U12', 'U13', 'U14', 'U15']      # high-impedance packages; U16 is already OPA1656
+SETTINGS = [('gain 0 dB, EQ in', {}, {}), ('gain 0 dB, EQ in, HPF in (mid)', {'RV16': 0.5}, {'SW11': True}),
+            ('gain 0 dB, EQ bypassed', {}, {'SW12': False}), ('gain +15 dB, EQ in', {'RV9': 1.0}, {}),
+            ('gain +15 dB, EQ bypassed', {'RV9': 1.0}, {'SW12': False}),
+            ('EQ in, every band +15 dB', {'RV10': 1, 'RV11': 1, 'RV13': 1, 'RV15': 1}, {}),
+            ('EQ in, every band -15 dB', {'RV10': 0, 'RV11': 0, 'RV13': 0, 'RV15': 0}, {})]
+FLAT = {'RV10': 0.5, 'RV11': 0.5, 'RV13': 0.5, 'RV15': 0.5, 'RV12': 0.5, 'RV14': 0.5, 'RV9': 0.5}
+
+def n1_set(units_, part='OPA1656'):
+    return {u: part for u in units_ if u.split('_')[0] in N1}
+
+def t_n1():
+    us = units()
+    base = noise(strip_deck(pos=FLAT))
+    res = noise(strip_deck(pos=FLAT, default='none', assign={u: 'none' for u in us}))
+    print(f'PRE, gain 0 dB, EQ in (flat): as built {base:.1f} dBu, resistors only {res:.1f} dBu')
+    print('unit contributions above the resistor floor (only that unit noisy), EQ in:')
+    rows = []
+    for u in us:
+        part = 'OPA1656' if u.startswith('U16') else 'OPA1612'
+        v = noise(strip_deck(pos=FLAT, assign={**{x: 'none' for x in us}, u: part}))
+        add = 10 * __import__('math').log10(max(10 ** (v / 10) - 10 ** (res / 10), 1e-30))
+        rows.append((add, u, part))
+    for add, u, part in sorted(rows, reverse=True)[:12]: print(f'  {u:6s} {part}: {add:7.1f} dBu')
+    print('PRE noise (dBu): setting | as built | N1 (OPA1656 in ' + ', '.join(N1) + ') | N1 with OPA1642')
+    for label, pos, sw in SETTINGS:
+        p = {**FLAT, **pos}
+        a = noise(strip_deck(pos=p, sw=sw))
+        b = noise(strip_deck(pos=p, sw=sw, assign=n1_set(us)))
+        c = noise(strip_deck(pos=p, sw=sw, assign=n1_set(us, 'OPA1642')))
+        print(f'  {label:32s} {a:7.1f} {b:7.1f} {c:7.1f}')
+
+if __name__ == '__main__' and sys.argv[1:] == ['n1']:
+    t_n1()

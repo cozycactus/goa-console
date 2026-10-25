@@ -1,7 +1,79 @@
 # Strip noise proposal — the EQ's current noise (strip v4.1)
 
 Proposal, 2026-10-24. Nothing in the design has changed. The figures hold for strip v4.2: the film / MUSE ES change
-doesn't move them. **Not ready for sign-off as a design change: the stability check is unresolved (below).**
+doesn't move them. **Re-evaluated on strip v4.4 on 2026-10-25 (next section): noise, stability and power are now
+settled in simulation. Distortion is the one open question, and only a bench A/B can answer it.**
+
+## Re-evaluation on strip v4.4 (2026-10-25)
+
+Strip v4.4 adds the sweepable HPF (U5A summer + U15 integrators) and the U16 input followers. The N1 set is now
+U1, U5, U6, U7, U12, U13, U14 and **U15** on OPA1656 (U16 is OPA1656 already); U2, U3 and U8 stay OPA1612.
+
+**Noise, PRE** (`sim/review/strip_noise/noise.py n1`, dBu, 20 Hz–20 kHz):
+
+| Setting | As built | N1 | N1 with OPA1642 |
+|---|---|---|---|
+| Gain 0 dB, EQ in | −92.8 | **−96.1** | −95.7 |
+| Gain 0 dB, EQ in, HPF in (mid) | −92.7 | −95.7 | −95.2 |
+| Gain 0 dB, EQ bypassed | −102.5 | −104.5 | −104.1 |
+| Gain +15 dB, EQ in | −87.5 | −89.9 | −89.6 |
+| Gain +15 dB, EQ bypassed | −88.6 | −90.8 | −90.5 |
+| EQ in, every band +15 dB | −84.2 | −87.1 | −86.8 |
+| EQ in, every band −15 dB | −95.6 | −99.2 | −98.8 |
+
+The attribution is unchanged. With EQ in, the largest terms are U6A −101.8, U6B −102.9, U7A −103.0 and U5B −103.1 dBu,
+all of them current noise; the resistors alone give −96.7 dBu.
+
+**Noise at the console** (`tools/sim_console.py` deck, main L, faders at "0"):
+
+| | As built | N1 |
+|---|---|---|
+| 24 strips routed | −79.2 dBu | **−81.9 dBu** |
+| One strip routed | −91.2 dBu | −92.7 dBu |
+
+**Stability.**
+- **Method.** TI's OPA1656 model still won't solve in the strip deck, so `sim/review/strip/stripdeck.py` gained a
+  second model set, `OPA_MODEL=fit`: the datasheet-fitted linear macros of the master review (`OPA1612M` / `OPA1656M`:
+  open-loop gain and phase, input capacitances, output resistance). The deck also now models OPA1656 parts (U16).
+- **Sweeps.** `sim/review/strip/n1_stab.py` runs all 21 states of `configs.py` three ways: TI OPA161x as built (the
+  reference), fitted as built, and fitted N1. `n1_compare.py` tabulates the worst margin per unit. 0 errors.
+- **The fitted models read low.** On the as-built strip the fitted OPA1612M is 3–24° below TI's model (median 18.5°).
+  In the master review the fitted OPA1656M read 11–14° below its datasheet's follower curve at 10–50 pF. So the fitted
+  numbers below are a pessimistic comparison, not absolute margins.
+- **Results, worst phase margin over the 21 states (fitted models):**
+
+| Unit | Stage | As built | N1 |
+|---|---|---|---|
+| U7B | insert return buffer (c13: input open, cables) | 54.4° | **50.1°** (worst N1 unit) |
+| U12B, U14A | KHN first integrators | 60.9° | 51.6 / 51.5° |
+| U13A, U14B, U15A/B | KHN / HPF integrators | 63.5° | 53.0–53.2° |
+| U1B | gain stage (c02, gain CCW) | 63.4° | 57.6° |
+| U5B | HF (c05, EQ cut) | 62.5° | 57.5° |
+| U7A | LF (cable load) | 62.8° | 58.4° |
+| U6A / U6B, U12A / U13B, U1A | EQ, KHN summers, receiver | 62.9–65.8° | 61.6–65.3° |
+| U5A | HPF summer | 68.6° | 70.2° |
+
+  The units that stay OPA1612 don't change: U3B 53.6° is the as-built worst in this model (TI: 72.1°). Closed-loop
+  peaking is at most 1.47 dB.
+
+  N1 costs the integrators about 10° and the other stages 0–6°, because the OPA1656's crossover is lower (~20 MHz
+  against the OPA1612's ~40). Every N1 unit stays at 50° or more even in this pessimistic model. With the fit's own
+  calibration, that is 60° or more in practice, about what U7B has today on TI's OPA161x (69.9°).
+
+**Power.** The OPA1656 draws 3.9 mA per channel typical, 4.6 maximum; the OPA1612 draws 3.6 / 4.5. That is 16 channels
+per strip:
+- per strip and rail: +4.8 mA typical; +1.6 mA when both parts sit at their maxima;
+- console: +115 mA typical, +38 mA at maximum. +V goes from 3.01 to 3.13 A typical, and the accepted worst corner from
+  4.24 to about 4.28 A;
+- per wing: +V 1.40 A typical (78 % of the MF-RX250/72's hold at 50 °C), 1.94 A worst (108 % at 50 °C, as accepted);
+  −V 1.11 A typical (83 % of the MF-RX185/72's hold at 50 °C), 1.32 A at maximum IQ (99 % at 50 °C).
+
+**Distortion: still open.**
+- Since v4.3 there is no Sallen-Key: the HPF is a KHN whose summer U5A only carries signal with the HPF in.
+- The exposed + inputs (signal common-mode through a source impedance) are U1A (5K bridge), U6A/B and U7A (band
+  networks), U12A / U13B (KHN summers) and U5A.
+- SPICE macromodels can't settle CMOS input-capacitance distortion at −120 dB levels. The jig A/B (test_jig_spec.md
+  4.2, A1–A4) remains the test.
 
 The whole-console simulation (`tools/sim_console.py`) put the strip's PRE noise with EQ in at −92.9 dBu, against
 −96.7 dBu in the earlier figures. Those figures counted resistor noise only. The difference is the OPA1612's input
@@ -107,7 +179,7 @@ At the console (`tools/sim_console.py`, main L, faders at "0"):
 Even at +15 dB gain, U1's swap helps. The receiver's current noise in its 5–10 kΩ bridge outweighs the OPA1656's
 higher voltage noise in the gain stage.
 
-## Stability with TI's OPA1656 model: unresolved
+## Stability with TI's OPA1656 model (2026-10-24; settled with fitted models on 2026-10-25, above)
 
 - **The model doesn't solve.** TI's OPA1656 model (SBOMAW6C) will not reach an operating point inside the full strip
   deck in ngspice 46. Any single OPA1656 instance makes it fail, even a KHN integrator with its + input grounded.

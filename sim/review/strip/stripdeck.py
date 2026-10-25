@@ -11,6 +11,13 @@ TI_LIB = os.environ.get('OPA161X_LIB', os.path.join(HERE, 'OPA161x.LIB'))
 # OPA1656_UNITS=U1,U5,...: those packages use TI's OPA1656 model instead (OPA1656_LIB points at it; same pinout)
 OPA1656_LIB = os.environ.get('OPA1656_LIB', os.path.join(HERE, 'OPA1656.LIB'))
 OPA1656_UNITS = set(filter(None, os.environ.get('OPA1656_UNITS', '').split(',')))
+# OPA_MODEL=fit: the datasheet-fitted linear macros OPA1612M / OPA1656M (open-loop gain and phase, input capacitances,
+# output resistance; pins inp inn out cp cn) from OPA_FIT_LIB instead of TI's models. TI's OPA1656 model will not reach
+# an operating point in this deck (strip_noise_proposal.md), so the OPA1656 comparison runs on the fitted pair, with
+# the as-built OPA1612M results checked against TI's OPA161x first
+OPA_MODEL = os.environ.get('OPA_MODEL', 'ti')
+FIT_LIB = os.environ.get('OPA_FIT_LIB', os.path.join(HERE, 'models_cd.inc'))
+OPS = ('OPA1612AxD', 'OPA1656ID')                 # U16 (strip v4.4) is fitted as OPA1656
 sys.path.insert(0, os.path.join(REPO, 'tools'))
 from verify import sexp, field
 import netnames
@@ -52,18 +59,20 @@ libname = lambda c: field(next(x for x in c[1:] if isinstance(x, list) and x[0] 
 def units():
     out = []
     for ref, c in sorted(comps.items()):
-        if libname(c) == 'OPA1612AxD':
+        if libname(c) in OPS:
             for u, (p_, m_, o_) in ((1, (3, 2, 1)), (2, (5, 6, 7))):
                 if (ref, str(o_)) in pins: out.append((f'{ref}{"AB"[u-1]}', ref, p_, m_, o_))
     return sorted(out, key=lambda t: (int(t[1][1:]), t[0]))
 
-def deck(pos, sw, extra_ctl='', model='ti', extra=(), src='50', loads=()):
+def deck(pos, sw, extra_ctl='', model=None, extra=(), src='50', loads=()):
+    model = model or OPA_MODEL
     L = ['* generated from ' + NET, '.subckt OPA inp inn out', 'G1 0 n1 inp inn 1', 'R1 n1 0 1e6', 'C1 n1 0 3.98n',
          'E1 out 0 n1 0 1', '.ends', '.model JMOD NJF(VTO=-2.5 BETA=6m LAMBDA=0.01)',
          'VPVA PVA 0 DC 16.5', 'VMVA MVA 0 DC -16.5', 'VPVL PVL 0 DC 16.5', 'VMVL MVL 0 DC -16.5',
          'VCC17 vcc17 0 DC 17', 'VEE17 vee17 0 DC -17']
     if model == 'ti': L.insert(1, f'.include {TI_LIB}')
     if model == 'ti' and OPA1656_UNITS: L.insert(2, f'.include {OPA1656_LIB}')   # after OPA161x: the libraries share global model names
+    if model == 'fit': L.insert(1, f'.include {FIT_LIB}')
     if src == 'open':     # nothing plugged: the jack's tip/ring left to the jack board (C8/C9, R10)
         L += [f"VSRC src 0 DC 0 AC 0"]
     else:
@@ -90,12 +99,15 @@ def deck(pos, sw, extra_ctl='', model='ti', extra=(), src='50', loads=()):
             for g in ((1, 2, 3), (4, 5, 6)) if lib.endswith('Dual') else ((1, 2, 3),):
                 L.append(f'R{ref}_{g[0]}a {node(ref,g[0])} {node(ref,g[1])} {r*x+0.01}')
                 L.append(f'R{ref}_{g[0]}b {node(ref,g[1])} {node(ref,g[2])} {r*(1-x)+0.01}')
-        elif lib == 'OPA1612AxD':
+        elif lib in OPS:
+            is56 = lib == 'OPA1656ID' or ref in OPA1656_UNITS
             for u, (p_, m_, o_) in ((1, (3, 2, 1)), (2, (5, 6, 7))):
                 if (ref, str(o_)) in pins:
                     nm = f'{ref}{"AB"[u-1]}'
                     if model == 'ti':
-                        L.append(f'X{nm} {nm}_pp {node(ref,m_)} vcc17 vee17 {nm}_ox {"OPA1656" if ref in OPA1656_UNITS else "OPA161x"}')
+                        L.append(f'X{nm} {nm}_pp {node(ref,m_)} vcc17 vee17 {nm}_ox {"OPA1656" if is56 and OPA1656_UNITS else "OPA161x"}')
+                    elif model == 'fit':
+                        L.append(f'X{nm} {nm}_pp {node(ref,m_)} {nm}_ox {nm}_pp {node(ref,m_)} {"OPA1656M" if is56 else "OPA1612M"}')
                     else:
                         L.append(f'X{nm} {nm}_pp {node(ref,m_)} {nm}_ox OPA')
                     L.append(f'VST_{nm} {nm}_pp {node(ref,p_)} DC 0 AC 0 PULSE(0 0 0 1n 1n 1 2)')
@@ -127,7 +139,7 @@ def deck(pos, sw, extra_ctl='', model='ti', extra=(), src='50', loads=()):
         if t and t[0][0] in 'RCJXVI' and not line.startswith(('.', '*')):
             nodes.update(t[1:4] if t[0][0] == 'J' else t[1:-1] if t[0][0] == 'X' else t[1:3])
     nodes = {n for n in nodes if not n.replace('.', '').replace('e', '').replace('-', '').isdigit()}
-    L += [f'RLEAK{i} {n} 0 1e9' for i, n in enumerate(sorted(nodes - {'0', 'inp', 'inn', 'out', 'n1', 'OPA', 'JMOD', 'OPA161x', 'OPA1656'}))]
+    L += [f'RLEAK{i} {n} 0 1e9' for i, n in enumerate(sorted(nodes - {'0', 'inp', 'inn', 'out', 'n1', 'OPA', 'JMOD', 'OPA161x', 'OPA1656', 'OPA1612M', 'OPA1656M'}))]
     L += ['.options srcsteps=50 gminsteps=50', extra_ctl, '.end']
     return '\n'.join(L)
 
