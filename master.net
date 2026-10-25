@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/master.kicad_sch")
-		(date "2026-10-25T18:55:21")
+		(date "2026-10-25T19:15:45")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -41617,11 +41617,6 @@
 			(name "EXT_LR")
 			(class "Default")
 			(node
-				(ref "C89")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
 				(ref "CN5")
 				(pin "26")
 				(pinfunction "Pin_26_26")
@@ -41642,11 +41637,6 @@
 			(code "65")
 			(name "EXT_LT")
 			(class "Default")
-			(node
-				(ref "C88")
-				(pin "1")
-				(pintype "passive")
-			)
 			(node
 				(ref "CN5")
 				(pin "25")
@@ -41690,11 +41680,6 @@
 			(name "EXT_RR")
 			(class "Default")
 			(node
-				(ref "C95")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
 				(ref "CN5")
 				(pin "29")
 				(pinfunction "Pin_29_29")
@@ -41715,11 +41700,6 @@
 			(code "68")
 			(name "EXT_RT")
 			(class "Default")
-			(node
-				(ref "C94")
-				(pin "1")
-				(pintype "passive")
-			)
 			(node
 				(ref "CN5")
 				(pin "28")
@@ -48709,6 +48689,11 @@
 			(name "Net-(U43A-+)")
 			(class "Default")
 			(node
+				(ref "C88")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "R213")
 				(pin "2")
 				(pintype "passive")
@@ -48745,6 +48730,11 @@
 			(code "318")
 			(name "Net-(U43B-+)")
 			(class "Default")
+			(node
+				(ref "C89")
+				(pin "1")
+				(pintype "passive")
+			)
 			(node
 				(ref "R214")
 				(pin "2")
@@ -48783,6 +48773,11 @@
 			(name "Net-(U44A-+)")
 			(class "Default")
 			(node
+				(ref "C94")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "R218")
 				(pin "2")
 				(pintype "passive")
@@ -48819,6 +48814,11 @@
 			(code "322")
 			(name "Net-(U44B-+)")
 			(class "Default")
+			(node
+				(ref "C95")
+				(pin "1")
+				(pintype "passive")
+			)
 			(node
 				(ref "R219")
 				(pin "2")

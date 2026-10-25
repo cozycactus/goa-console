@@ -57,7 +57,7 @@ HOLES = [(XC, 65.5), (XC, 154), (XC, 221), (5, 330), (5, 425), (34, 425)]   # 65
 ZONES = [
  ('jack-board link (bottom)', (12, 120, 37, 142), ['CN3'], 'B'),    # across the strip, LO-MID row to LF row
  ('rail reservoir caps (bottom)', (1, 360, 37, 444), ['C1', 'C3', 'C5', 'C6'], 'B'),
- ('gain-out coupling (bottom)',  (1, 44, 37, 100), ['C38', 'C91'], 'B'),
+ ('gain-out coupling (bottom)',  (1, 44, 37, 120), ['C38', 'C91'], 'B'),   # to y 120 since C94 / C95 (v4.4)
  ('insert / EQ coupling (bottom)', (1, 75, 37, 160), ['C51', 'C10', 'C11'], 'B'),
  ('post / pan / direct-out coupling (bottom)', (1, 160, 37, 300), ['C15', 'C16', 'C17', 'C52'], 'B'),
  ('VCA module socket (bottom)', (1, 380, 37, 444), ['J3', 'J4'], 'B'),
@@ -67,7 +67,7 @@ ZONES = [
  # Top side, roughly in signal order
  # stability caps right after their op-amp's decouplers: the placer gives list order the closest spots
  # input followers (ground_study.md G3) at the top beside SW15: placed first, the receiver and the KHN keep their spots
- ('input followers', (1, 44, 37, 62), ['U16', 'C92', 'C93', 'R110', 'R111', 'R112', 'R113', 'R114'], 'F'),
+ ('input followers', (1, 44, 37, 62), ['U16', 'C92', 'C93', 'R110', 'R111', 'R112', 'R113', 'R114', 'C94', 'C95'], 'F'),
  ('input receiver + gain', (1, 45, 37, 100), ['U1', 'C20', 'C21', 'C7', 'C78', 'R6', 'R7', 'R8', 'R9', 'R10',
                                               'R45', 'R46', 'C37', 'R47'], 'F'),
  ('OL detector', (1, 45, 37, 100), ['U4', 'C26', 'R39', 'D1', 'C12', 'R14', 'R40', 'R41', 'R15'], 'F'),

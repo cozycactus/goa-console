@@ -317,8 +317,9 @@ jack board) done.
   - G2 balanced-input sleeves on CHASSIS: strip J1 / J5 (+ C8 / C9), group returns, master EXT; plated CHASSIS standoff
     holes in the schematic (`MHPAD`, jack boards H1-H2 / H1-H2 / H1-H3) bond them to the panel; inserts, phones and the
     DRV134 TRS outputs keep GNDA. Group: CHASSIS off the link (`link_pins(skip=)`).
-  - G3 strip receiver buffered: U16 OPA1656 followers, 1M per leg (R10, R112), 220R in (R110, R111), 100R build-outs
-    (R113, R114; ≥ 48.5° for any load); J1's normals short both legs to GNDA when empty. CMRR vs a 1K synth output
+  - G3 strip receiver buffered: U16 OPA1656 followers, 1M per leg (R10, R112), 220R in (R110, R111), 100 pF C0G at
+    each + input (C94, C95: without them the 220R and the OPA1656's input capacitance cost ~13°), 100R build-outs
+    (R113, R114; ≥ 48.5° for any load, 54° in the strip deck, fitted model); J1's normals short both legs to GNDA when empty. CMRR vs a 1K synth output
     26 -> 54 dB (worst 5 %). U16 stays OPA1656: the PSU worst corner of ~4.24 A on +V is accepted (Ruslan, 2026-10-25).
 - Ground and hum, part 2 (signed off by Ruslan 2026-10-25, `ground_study.md` §10 G2b / G3b): every DRV134 TRS output's
   sleeve on CHASSIS (group sub / aux, master aux 5 / 6, C/Room); the group return and master EXT receivers buffered as

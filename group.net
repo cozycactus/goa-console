@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/group.kicad_sch")
-		(date "2026-10-25T18:55:17")
+		(date "2026-10-25T19:15:41")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -14999,6 +14999,11 @@
 			(name "Net-(U10A-+)")
 			(class "Default")
 			(node
+				(ref "C44")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "R70")
 				(pin "2")
 				(pintype "passive")
@@ -15035,6 +15040,11 @@
 			(code "70")
 			(name "Net-(U10B-+)")
 			(class "Default")
+			(node
+				(ref "C45")
+				(pin "1")
+				(pintype "passive")
+			)
 			(node
 				(ref "R71")
 				(pin "2")
@@ -15073,6 +15083,11 @@
 			(name "Net-(U11A-+)")
 			(class "Default")
 			(node
+				(ref "C50")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "R75")
 				(pin "2")
 				(pintype "passive")
@@ -15109,6 +15124,11 @@
 			(code "74")
 			(name "Net-(U11B-+)")
 			(class "Default")
+			(node
+				(ref "C51")
+				(pin "1")
+				(pintype "passive")
+			)
 			(node
 				(ref "R76")
 				(pin "2")
@@ -15527,11 +15547,6 @@
 			(name "Return_LR")
 			(class "Default")
 			(node
-				(ref "C45")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
 				(ref "CN3")
 				(pin "12")
 				(pinfunction "Pin_12_12")
@@ -15552,11 +15567,6 @@
 			(code "94")
 			(name "Return_LT")
 			(class "Default")
-			(node
-				(ref "C44")
-				(pin "1")
-				(pintype "passive")
-			)
 			(node
 				(ref "CN3")
 				(pin "11")
@@ -15579,11 +15589,6 @@
 			(name "Return_RR")
 			(class "Default")
 			(node
-				(ref "C51")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
 				(ref "CN3")
 				(pin "15")
 				(pinfunction "Pin_15_15")
@@ -15604,11 +15609,6 @@
 			(code "96")
 			(name "Return_RT")
 			(class "Default")
-			(node
-				(ref "C50")
-				(pin "1")
-				(pintype "passive")
-			)
 			(node
 				(ref "CN3")
 				(pin "14")

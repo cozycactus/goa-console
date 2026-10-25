@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/channel_strip.kicad_sch")
-		(date "2026-10-25T16:07:10")
+		(date "2026-10-25T19:15:39")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -994,6 +994,114 @@
 				(tstamps "/93357f3c-7fe4-5cb3-97b8-3af00afb3cdc/")
 			)
 			(tstamps "0763a403-5229-587f-b068-d4c0ddafc19a")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C94")
+			(value "100p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "02 LINE INPUT, GAIN")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/02_line_input.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/02 LINE INPUT, GAIN/")
+				(tstamps "/93357f3c-7fe4-5cb3-97b8-3af00afb3cdc/")
+			)
+			(tstamps "deda8fb0-bf79-523e-96d7-59da4d14d48a")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C95")
+			(value "100p C0G")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "02 LINE INPUT, GAIN")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/02_line_input.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/02 LINE INPUT, GAIN/")
+				(tstamps "/93357f3c-7fe4-5cb3-97b8-3af00afb3cdc/")
+			)
+			(tstamps "4e6d4a76-0ccf-5564-b550-dd91e678f967")
 			(units
 				(unit
 					(name "A")
@@ -19577,6 +19685,16 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "C94")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C95")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
 				(ref "CN1")
 				(pin "10")
 				(pinfunction "Pin_10_10")
@@ -22604,6 +22722,11 @@
 			(name "Net-(U16A-+)")
 			(class "Default")
 			(node
+				(ref "C94")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "R110")
 				(pin "2")
 				(pintype "passive")
@@ -22640,6 +22763,11 @@
 			(code "149")
 			(name "Net-(U16B-+)")
 			(class "Default")
+			(node
+				(ref "C95")
+				(pin "1")
+				(pintype "passive")
+			)
 			(node
 				(ref "R111")
 				(pin "2")

@@ -113,16 +113,16 @@ def follower(d, src, out, u, cap=None):
 
 
 def rx_buffers(d, tip, ring, tb, rb, ut, ur, st, sr, rt, rr, ot, orr, ct, cr):
-    """Balanced receiver's input followers (ground_study.md G3b): per leg 1M and 100p to ground, 220R, a unity
-    follower, a 100R build-out to the bridge.  30 x 17"""
+    """Balanced receiver's input followers (ground_study.md G3b): per leg 1M to ground, 220R, 100p at the + input, a
+    unity follower, a 100R build-out to the bridge.  32 x 17"""
     for src, dst, u, rs, rbias, cs, ro, y in ((tip, tb, ut, st, rt, ct, ot, 0), (ring, rb, ur, sr, rr, cr, orr, 9)):
         p = pins(u)
-        d.at(rs, 9.5, y + 2, rot=90, text='U'); d.w((0, y + 2), (rs, 1)); d.port(src, (0, y + 2))
-        d.at(rbias, 3, y + 3.5, text='L'); d.at(cs, 6, y + 3.5, text='R')
-        d.at(u[0], 16, y + 3, unit=u[1], text='U'); d.w((rs, 2), (u[0], p[0]))
-        d.w((u[0], p[2]), (20, y + 3), (20, y + 6), (12, y + 6), (12, y + 4), (u[0], p[1]))
-        d.at(ro, 23.5, y + 3, rot=90, text='U'); d.w((20, y + 3), (ro, 1))
-        d.w((ro, 2), (28, y + 3)); d.port(dst, (28, y + 3), 'R')
+        d.at(rs, 7.5, y + 2, rot=90, text='U'); d.w((0, y + 2), (rs, 1)); d.port(src, (0, y + 2))
+        d.at(rbias, 3, y + 3.5, text='L'); d.at(cs, 11, y + 3.5, text='L')
+        d.at(u[0], 18, y + 3, unit=u[1], text='U'); d.w((rs, 2), (u[0], p[0]))
+        d.w((u[0], p[2]), (22, y + 3), (22, y + 6), (14, y + 6), (14, y + 4), (u[0], p[1]))
+        d.at(ro, 25.5, y + 3, rot=90, text='U'); d.w((22, y + 3), (ro, 1))
+        d.w((ro, 2), (30, y + 3)); d.port(dst, (30, y + 3), 'R')
 
 
 def insert(d, src, send, rr, dst, rs, cin, rin, rprot, cprot, u, rbo, cout, rout):

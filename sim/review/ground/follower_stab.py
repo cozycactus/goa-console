@@ -1,5 +1,5 @@
-"""Phase margin of the strip's input followers U16 (OPA1656, ground_study.md G3): unity follower, 220R + 100 pF (C8 / C9
-at the jack, through the link) on the + input, driving R6 / R8 (10K into U1A) through SW15 and the panel wiring (5 pF),
+"""Phase margin of the strip's input followers U16 (OPA1656, ground_study.md G3): unity follower, 220R in and 100 pF (C94 / C95)
+at the + input, driving R6 / R8 (10K into U1A) through SW15 and the panel wiring (5 pF),
 with extra load capacitance 0-220 pF behind a build-out of 0 / 47 / 100 ohm (feedback from the op-amp pin).
 usage: OPA1656_MACRO=<models_cd.inc> python3 sim/review/ground/follower_stab.py
 The macro is the datasheet-fitted OPA1656M of the master review (pins inp inn out cp cn; the test source on cp breaks

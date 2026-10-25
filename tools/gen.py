@@ -72,6 +72,9 @@ P(b,'CN3','LINK','Jack board link 2x5',LINK,mpn=LINK_MPN)   # J1/J2/J5 and the R
 # 220R limit the fault current into the inputs' protection diodes. J1's normals short both legs when unplugged.
 P(b,'R10','R','1M',{1:'IN_T',2:'GNDA'}); P(b,'R112','R','1M',{1:'IN_R',2:'GNDA'})
 P(b,'R110','R','220R',{1:'IN_T',2:'IN_TB'}); P(b,'R111','R','220R',{1:'IN_R',2:'IN_RB'})
+# 100p at each + input: with the 220R alone the OPA1656's 9.1 pF input capacitance cost the follower ~10 deg (3.3 dB
+# closed-loop peaking on the fitted model); with it, no peaking (and a 7 MHz RF low-pass)
+P(b,'C94','C','100p C0G',{1:'IN_TB',2:'GNDA'}); P(b,'C95','C','100p C0G',{1:'IN_RB',2:'GNDA'})
 P(b,'U16','OPA1656','OPA1656',{3:'IN_TB',2:'U16_OT',1:'U16_OT'},unit=1)
 P(b,'U16','OPA1656','OPA1656',{5:'IN_RB',6:'U16_OR',7:'U16_OR'},unit=2)
 # 100R build-outs: >= 48.5 deg for any load capacitance (52 deg unloaded; sim/review/ground/follower_stab.py)

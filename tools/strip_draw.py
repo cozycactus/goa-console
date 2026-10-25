@@ -7,9 +7,9 @@ def receiver(d):
     """CN3 link, U16 input followers (1M bias, 220R in, 100R build-out), Ø switch (SW15), U1A ground-compensated receiver."""
     d.shift(0, 3)
     frags.header(d, 'CN3', 14, 26)
-    for port, rs, rb, (u, n), ro, y in (('IN_T', 'R110', 'R10', ('U16', 1), 'R113', 0),
-                                        ('IN_R', 'R111', 'R112', ('U16', 2), 'R114', 14)):
-        d.at(rs, 7.5, y, rot=90, text='U'); d.at(rb, 4, y + 1.5, text='L')
+    for port, rs, rb, (u, n), ro, cin, y in (('IN_T', 'R110', 'R10', ('U16', 1), 'R113', 'C94', 0),
+                                             ('IN_R', 'R111', 'R112', ('U16', 2), 'R114', 'C95', 14)):
+        d.at(rs, 6.5, y, rot=90, text='U'); d.at(rb, 3.5, y + 1.5, text='L'); d.at(cin, 9, y + 1.5, text='L')
         d.w((1, y), (rs, 1)); d.port(port, (1, y))
         p = follower(d, (u, n), 14, y + 1); d.w((rs, 2), (u, p[0]))
         d.at(ro, 21.5, y + 1, rot=90, text='U'); d.w((18, y + 1), (ro, 1))

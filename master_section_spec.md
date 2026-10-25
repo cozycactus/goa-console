@@ -31,7 +31,10 @@ Ribbon conductor = pin number; never 2 × 17, so a link can't be mistaken for th
 **Ground and hum, part 2 (signed off 2026-10-25, applied in v0.10; `ground_study.md` §10, G2b / G3b).**
 - **G2b:** every DRV134 TRS output's sleeve is on CHASSIS: group sub / aux out, master aux 5 / 6 and C/Room L / R.
 - **G3b:** the group return and master EXT receivers are buffered like the strip's U16: OPA1656 followers, 1M per leg,
-  220R in, 100R build-outs. That is two duals per stereo input.
+  220R in, the receiver's 100 pF at each + input (moved there from the jack line), 100R build-outs. That is two duals
+  per stereo input.
+- **Stability:** followers 53.1° on the fitted model (group deck, every returns state); the receivers and level
+  buffers ≥ 69.8° (TI).
 - **Normals:** the L jack's normals short an empty input.
 - **Cost:** +78 mA per rail console-wide, 31 mA of it on each wing (§27).
 

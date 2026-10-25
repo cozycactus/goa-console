@@ -233,7 +233,9 @@ def receiver(b, tip, ring, out):                            # strip-style ground
     created last (DEFER), so the refs of everything else on the board stay as they were."""
     n, p = out + '_N', out + '_P'
     ti, ri, to, ro, tb, rb = (out + s for s in ('_TI', '_RI', '_TO', '_RO', '_TB', '_RB'))
-    ct, cr, rt = C(b, '100p C0G', tip, 'GNDA'), C(b, '100p C0G', ring, 'GNDA'), R(b, '1M', tip, 'GNDA')
+    # the 100p sit at the followers' + inputs, after the 220R: there they stop the OPA1656's input capacitance and the
+    # 220R from costing the follower ~10 deg (3.3 dB peaking on the fitted model); a 7 MHz RF low-pass as well
+    ct, cr, rt = C(b, '100p C0G', ti, 'GNDA'), C(b, '100p C0G', ri, 'GNDA'), R(b, '1M', tip, 'GNDA')
     k = dict(mpn='Panasonic ERA-6AEB103V')          # 0.1 %: they set the CMRR
     r1, r2, cn = R(b, '10K 0.1%', rb, n, **k), R(b, '10K 0.1%', n, out, **k), C(b, '33p C0G', n, out)
     # 33p on the + leg too: with only the feedback cap the bridge is unbalanced (CMRR 60 / 40 / 34 dB at 1 / 10 / 20 kHz)
@@ -242,7 +244,7 @@ def receiver(b, tip, ring, out):                            # strip-style ground
     u = amp(b, p, n, out); uu = LAST[0]
     near(cn, u); near(cp, u)
     buf = {}
-    frag(b, 30, 17, lambda d: frags.rx_buffers(d, tip, ring, tb, rb, buf['ut'], buf['ur'], buf['st'], buf['sr'], rt,
+    frag(b, 32, 17, lambda d: frags.rx_buffers(d, tip, ring, tb, rb, buf['ut'], buf['ur'], buf['st'], buf['sr'], rt,
                                                buf['rr'], buf['ot'], buf['or'], ct, cr))
     frag(b, 30, 18, lambda d: frags.diff(d, rb, tb, out, uu, r1, r2, r3, r4, cn, cp, (), c0n=1))
     def late():

@@ -15,6 +15,9 @@ REPO = os.path.abspath(os.path.join(HERE, '..', '..', '..'))
 TI_LIB = os.path.join(os.environ.get('TI_MODELS', HERE), 'OPA161x.LIB')   # TI's model stays out of the repo (licence)
 TI56_LIB = os.path.join(os.environ.get('TI_MODELS', HERE), 'OPA1656.LIB')   # the return receivers' followers (G3b)
 OPS = {'OPA1612AxD': 'OPA161x', 'OPA1656ID': 'OPA1656'}
+# OPA1656_FIT=<models_cd.inc>: the OPA1656 parts use the datasheet-fitted macro OPA1656M instead (TI's OPA1656 model
+# crawls in this deck, as in the strip's); the OPA1612s keep TI's model
+OPA1656_FIT = os.environ.get('OPA1656_FIT')
 sys.path.insert(0, os.path.join(REPO, 'tools'))
 from verify import sexp, field
 
@@ -54,7 +57,9 @@ isdnp = lambda c: any(isinstance(x, list) and x[0] == 'property' and field(x, 'n
 ROLE = {'U1A': 'GC buffer', 'U1B': 'sub summer', 'U2A': 'sub re-inverter', 'U2B': 'insert return buffer',
         'U3A': 'sub post-amp', 'U3B': 'pan buffer L', 'U5A': 'pan buffer R', 'U5B': 'aux level buffer',
         'U6A': 'aux summer', 'U6B': 'aux re-inverter', 'U8A': 'return receiver L', 'U8B': 'return receiver R',
-        'U9A': 'return level buffer L', 'U9B': 'return level buffer R'}
+        'U9A': 'return level buffer L', 'U9B': 'return level buffer R',
+        'U10A': 'return L tip follower', 'U10B': 'return L ring follower', 'U11A': 'return R tip follower',
+        'U11B': 'return R ring follower'}
 
 def units():
     out = []
@@ -78,7 +83,7 @@ def deck(cfg, ctl=''):
     REPIN.clear(); REPIN.update(cfg.get('repin', {}))
     MSTX = dict(MST); MSTX.update(cfg.get('mst', {}))
     pos, sw, jp = cfg.get('pos', {}), cfg.get('sw', {}), cfg.get('jp', {'JP1', 'JP5'})
-    L = ['* generated from ' + NET, f'.include {TI_LIB}', f'.include {TI56_LIB}',
+    L = ['* generated from ' + NET, f'.include {TI_LIB}', f'.include {OPA1656_FIT or TI56_LIB}',
          '.subckt OPA inp inn out', 'G1 0 n1 inp inn 1', 'R1 n1 0 1e6', 'C1 n1 0 3.98n', 'E1 out 0 n1 0 1', '.ends',
          'VPVA PVA 0 DC 16.8', 'VMVA MVA 0 DC -16.8', 'VPVL PVL 0 DC 16.8', 'VMVL MVL 0 DC -16.8',
          'VPVBUS PVBUS 0 DC 17', 'VMVBUS MVBUS 0 DC -17']
@@ -106,7 +111,10 @@ def deck(cfg, ctl=''):
             for u, (p_, m_, o_) in ((1, (3, 2, 1)), (2, (5, 6, 7))):
                 if (ref, str(o_)) in pins:
                     nm = f'{ref}{"AB"[u-1]}'
-                    L.append(f'X{nm} {nm}_pp {node(ref,m_)} PVA MVA {nm}_ox {OPS[lib]}')
+                    if lib == 'OPA1656ID' and OPA1656_FIT:
+                        L.append(f'X{nm} {nm}_pp {node(ref,m_)} {nm}_ox {nm}_pp {node(ref,m_)} OPA1656M')
+                    else:
+                        L.append(f'X{nm} {nm}_pp {node(ref,m_)} PVA MVA {nm}_ox {OPS[lib]}')
                     if cfg.get('rdiff'): L.append(f'RDIF_{nm} {nm}_pp {node(ref,m_)} 20k')
                     L.append(f'VST_{nm} {nm}_pp {node(ref,p_)} DC 0 AC 0 PULSE(0 0 0 1n 1n 1 2)')
                     L.append(f'VTI_{nm} {nm}_ox {node(ref,o_)} DC 0 AC 0')

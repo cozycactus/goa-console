@@ -344,5 +344,16 @@ OPA1656 dual as followers, 1M per leg, 220R in, 100R build-outs.
     8.1 / 38.5 / 75). The cost: U43 / U44 sit 40–50 mm from the EXT bridge, which is acceptable on their buffered,
     100R-fed lines;
   - parity DRC: 0 violations on both main boards, 0 parity issues on all four boards.
-- **Found on the way:** every global label on the hierarchical pages had its text justified to the bottom of its box,
-  so underscores merged with the outline. `schgen` now centres it; no netlist changed.
+- **Found on the way:**
+  - every global label on the hierarchical pages had its text justified to the bottom of its box, so underscores
+    merged with the outline. `schgen` now centres it; no netlist changed;
+  - the followers' stability. The group deck (`sim/review/group`, TI OPA161x for the OPA1612s, fitted OPA1656M for
+    the followers; TI's OPA1656 model crawls there as in the strip deck) read only 40° and 3.4 dB peaking on the
+    followers. Cause: the 220R in front of each + input against the OPA1656's 9.1 pF differential input capacitance.
+    A 100 pF C0G from each + input to ground, after the 220R, fixes it:
+    - receivers: their existing 100 pF moved from the jack line to the + input;
+    - strip: new C94 / C95 at U16.
+    Followers now 53.1° (group) and 54.1° (strip) on the fitted model, peaking ≤ 1.24 dB. The return receivers and
+    level buffers are unchanged at ≥ 69.8° (TI).
+  - Re-placed with the caps: strip (C38 / C91's bottom zone widened to y 120), group and master; parity DRC clean;
+    reports: strip 3.1 / 10.0 / 11 and 10.9 / 22.1 / 29, group 2.9 / 4.5 / 0 and 7.8 / 20.1 / 18, master unchanged.

@@ -482,25 +482,25 @@
   )
 
   (junction (at 50.8 48.26) (diameter 0) (color 0 0 0 0)
-    (uuid 1b70d438-017a-5f46-9bf1-a921061cdfd9)
-  )
-  (junction (at 127.0 48.26) (diameter 0) (color 0 0 0 0)
-    (uuid a2711bde-ef08-5abe-90e9-96585a8e41ce)
-  )
-  (junction (at 203.2 48.26) (diameter 0) (color 0 0 0 0)
     (uuid 668981d4-e6fa-5252-8e89-3cb0c64af035)
   )
-  (junction (at 35.56 114.3) (diameter 0) (color 0 0 0 0)
+  (junction (at 127.0 48.26) (diameter 0) (color 0 0 0 0)
     (uuid 3818dacf-11e9-5fb4-bfe9-0f471f9372de)
   )
-  (junction (at 45.72 114.3) (diameter 0) (color 0 0 0 0)
+  (junction (at 203.2 48.26) (diameter 0) (color 0 0 0 0)
     (uuid f3fee018-4b7a-512b-ad4c-aa5f6f18c1a7)
   )
-  (junction (at 81.28 116.84) (diameter 0) (color 0 0 0 0)
+  (junction (at 35.56 114.3) (diameter 0) (color 0 0 0 0)
     (uuid 4ba2fb2f-f1c7-5745-83b5-89b747dd00f3)
   )
-  (junction (at 106.68 116.84) (diameter 0) (color 0 0 0 0)
+  (junction (at 45.72 114.3) (diameter 0) (color 0 0 0 0)
     (uuid 0a92eb79-1643-5d8b-849c-92193f8b9818)
+  )
+  (junction (at 81.28 116.84) (diameter 0) (color 0 0 0 0)
+    (uuid 8d5308bd-1427-5ca5-af7a-86cac51dc17e)
+  )
+  (junction (at 106.68 116.84) (diameter 0) (color 0 0 0 0)
+    (uuid 87140420-5add-5e34-9233-44bb04698ef8)
   )
 
   (no_connect (at 43.18 71.12) (uuid ca648ae4-0540-5a76-a37e-c3f8b02b4aee))
@@ -1491,7 +1491,7 @@
   (symbol (lib_id "power:GNDA") (at 50.8 62.23 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid ad2d2ac2-1ed9-532c-8656-0d7e740c9882)
-    (property "Reference" "#PWR055" (id 0) (at 50.8 67.22999999999999 0)
+    (property "Reference" "#PWR057" (id 0) (at 50.8 67.22999999999999 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 52.699999999999996 64.22999999999999 0)
@@ -1507,7 +1507,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5/c5c74986-4c84-5716-ad82-0ee634e3d920"
-          (reference "#PWR055") (unit 1)
+          (reference "#PWR057") (unit 1)
         )
       )
     )
@@ -1516,7 +1516,7 @@
   (symbol (lib_id "power:GNDA") (at 76.2 62.23 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 0954e69f-34c7-56fd-a173-81c347bf2bfd)
-    (property "Reference" "#PWR056" (id 0) (at 76.2 67.22999999999999 0)
+    (property "Reference" "#PWR058" (id 0) (at 76.2 67.22999999999999 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 78.10000000000001 64.22999999999999 0)
@@ -1532,7 +1532,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5/c5c74986-4c84-5716-ad82-0ee634e3d920"
-          (reference "#PWR056") (unit 1)
+          (reference "#PWR058") (unit 1)
         )
       )
     )
@@ -1541,7 +1541,7 @@
   (symbol (lib_id "power:GNDA") (at 127.0 62.23 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid db9e8ce1-ab01-58d5-b918-3fd690c08484)
-    (property "Reference" "#PWR057" (id 0) (at 127.0 67.22999999999999 0)
+    (property "Reference" "#PWR059" (id 0) (at 127.0 67.22999999999999 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 128.9 64.22999999999999 0)
@@ -1557,7 +1557,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5/c5c74986-4c84-5716-ad82-0ee634e3d920"
-          (reference "#PWR057") (unit 1)
+          (reference "#PWR059") (unit 1)
         )
       )
     )
@@ -1566,7 +1566,7 @@
   (symbol (lib_id "power:GNDA") (at 152.4 62.23 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid fdeac80c-bb03-5bad-b202-cce4e1c54d1a)
-    (property "Reference" "#PWR058" (id 0) (at 152.4 67.22999999999999 0)
+    (property "Reference" "#PWR060" (id 0) (at 152.4 67.22999999999999 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 154.3 64.22999999999999 0)
@@ -1582,7 +1582,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5/c5c74986-4c84-5716-ad82-0ee634e3d920"
-          (reference "#PWR058") (unit 1)
+          (reference "#PWR060") (unit 1)
         )
       )
     )
@@ -1591,7 +1591,7 @@
   (symbol (lib_id "power:GNDA") (at 203.2 62.23 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid eddc68aa-47b8-5372-b20c-79772ce9021d)
-    (property "Reference" "#PWR059" (id 0) (at 203.2 67.22999999999999 0)
+    (property "Reference" "#PWR061" (id 0) (at 203.2 67.22999999999999 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 205.1 64.22999999999999 0)
@@ -1607,7 +1607,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5/c5c74986-4c84-5716-ad82-0ee634e3d920"
-          (reference "#PWR059") (unit 1)
+          (reference "#PWR061") (unit 1)
         )
       )
     )
@@ -1616,7 +1616,7 @@
   (symbol (lib_id "power:GNDA") (at 228.6 62.23 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid a15a6b44-8039-5190-829d-fc5b2ac96309)
-    (property "Reference" "#PWR060" (id 0) (at 228.6 67.22999999999999 0)
+    (property "Reference" "#PWR062" (id 0) (at 228.6 67.22999999999999 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 230.5 64.22999999999999 0)
@@ -1632,7 +1632,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5/c5c74986-4c84-5716-ad82-0ee634e3d920"
-          (reference "#PWR060") (unit 1)
+          (reference "#PWR062") (unit 1)
         )
       )
     )
@@ -1641,7 +1641,7 @@
   (symbol (lib_id "power:GNDA") (at 248.92 81.28 90) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 7ff7fcc5-31e0-5e0f-925a-16a19c238809)
-    (property "Reference" "#PWR061" (id 0) (at 248.92 86.28 0)
+    (property "Reference" "#PWR063" (id 0) (at 248.92 86.28 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 252.72 81.28 90)
@@ -1657,7 +1657,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5/c5c74986-4c84-5716-ad82-0ee634e3d920"
-          (reference "#PWR061") (unit 1)
+          (reference "#PWR063") (unit 1)
         )
       )
     )
@@ -1888,7 +1888,7 @@
   (symbol (lib_id "power:GNDA") (at 35.56 121.92 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 0594dc24-5d6a-5dc1-ab3b-da96b6d7c7f0)
-    (property "Reference" "#PWR062" (id 0) (at 35.56 126.92 0)
+    (property "Reference" "#PWR064" (id 0) (at 35.56 126.92 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 37.46 123.92 0)
@@ -1904,7 +1904,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5/c5c74986-4c84-5716-ad82-0ee634e3d920"
-          (reference "#PWR062") (unit 1)
+          (reference "#PWR064") (unit 1)
         )
       )
     )
@@ -1913,7 +1913,7 @@
   (symbol (lib_id "power:GNDA") (at 45.72 121.92 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid d402f953-6e9a-5991-ae50-46cf8131c042)
-    (property "Reference" "#PWR063" (id 0) (at 45.72 126.92 0)
+    (property "Reference" "#PWR065" (id 0) (at 45.72 126.92 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 47.62 123.92 0)
@@ -1929,7 +1929,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5/c5c74986-4c84-5716-ad82-0ee634e3d920"
-          (reference "#PWR063") (unit 1)
+          (reference "#PWR065") (unit 1)
         )
       )
     )
@@ -1938,7 +1938,7 @@
   (symbol (lib_id "power:GNDA") (at 106.68 124.46 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 3e6e4550-e69a-5647-a346-0c7ae360ddc0)
-    (property "Reference" "#PWR064" (id 0) (at 106.68 129.45999999999998 0)
+    (property "Reference" "#PWR066" (id 0) (at 106.68 129.45999999999998 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 108.58000000000001 126.46 0)
@@ -1954,7 +1954,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5/c5c74986-4c84-5716-ad82-0ee634e3d920"
-          (reference "#PWR064") (unit 1)
+          (reference "#PWR066") (unit 1)
         )
       )
     )
@@ -1963,7 +1963,7 @@
   (symbol (lib_id "power:GNDA") (at 106.68 137.16 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid dbbffe2f-06a9-5a17-b9bf-120e0a4588c2)
-    (property "Reference" "#PWR065" (id 0) (at 106.68 142.16 0)
+    (property "Reference" "#PWR067" (id 0) (at 106.68 142.16 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 108.58000000000001 139.16 0)
@@ -1979,7 +1979,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5/c5c74986-4c84-5716-ad82-0ee634e3d920"
-          (reference "#PWR065") (unit 1)
+          (reference "#PWR067") (unit 1)
         )
       )
     )
@@ -1988,7 +1988,7 @@
   (symbol (lib_id "power:GNDA") (at 121.92 116.84 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 07b84a7b-c2a1-5f12-91b2-bfda5b989a14)
-    (property "Reference" "#PWR066" (id 0) (at 121.92 121.84 0)
+    (property "Reference" "#PWR068" (id 0) (at 121.92 121.84 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GNDA" (id 1) (at 123.82000000000001 118.84 0)
@@ -2004,7 +2004,7 @@
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5/c5c74986-4c84-5716-ad82-0ee634e3d920"
-          (reference "#PWR066") (unit 1)
+          (reference "#PWR068") (unit 1)
         )
       )
     )

@@ -171,8 +171,9 @@ CN1: one 34-pin shrouded keyed header per strip, crimped IDC socket on a daisy-c
 ## 3. Line input and Ø (U1A, SW15)
 
 ```
-J1 tip  ─┬─ C8 100 pF to CHASSIS (jack board) ── ribbon pin 1 ── IN_T: R10 1M to AGND ── R110 220R ── U16A (+)
-J1 ring ─┴─ C9 100 pF to CHASSIS (jack board) ── ribbon pin 2 ── IN_R: R112 1M to AGND ── R111 220R ── U16B (+)
+J1 tip  ─┬─ C8 100 pF to CHASSIS (jack board) ── ribbon pin 1 ── IN_T: R10 1M to AGND ── R110 220R ─┬─ U16A (+)
+J1 ring ─┴─ C9 100 pF to CHASSIS (jack board) ── ribbon pin 2 ── IN_R: R112 1M to AGND ── R111 220R ─┼─ U16B (+)
+                                                                       C94 / C95 100 pF C0G to AGND at the + inputs ┘
 U16A, U16B (OPA1656) followers ── R113 / R114 100R ── BUF_T / BUF_R
 SW15 pole A: INV_IN  = BUF_T (unlatched) or BUF_R (latched, Ø)   ── R6 10K ── U1A (−) ── R7 10K ── RECV
 SW15 pole B: NINV_IN = BUF_R (unlatched) or BUF_T (latched, Ø)   ── R8 10K ── U1A (+) ── R9 10K ── AGND
@@ -182,8 +183,12 @@ C7 33 pF across R7; C78 33 pF across R9 (v4.1: balances the bridge, CMRR 86 dB f
   inverting gain stage after it restores polarity. R6–R9 0.1 % (or a matched network).
 - v4.4 (`ground_study.md` G3): the followers give each leg 1 MΩ to AGND in common mode (20 kΩ before), so a
   synth's output impedance no longer unbalances the bridge: CMRR 54 dB against a 1 kΩ source (worst 5 % of 0.1 %
-  parts), 59 dB from the resistors alone. Follower phase margin ≥ 48.5° for any load capacitance (the 100R build-outs;
-  52° unloaded, fitted OPA1656 model, `sim/review/ground/follower_stab.py`). `tools/sim_netlist.py` checks −60 dBu at
+  parts), 59 dB from the resistors alone.
+- Follower stability, on the fitted OPA1656 model (which reads 11–14° below the datasheet):
+  - ≥ 48.5° for any load capacitance thanks to the 100R build-outs (`sim/review/ground/follower_stab.py`);
+  - 54.1° over the strip deck's states.
+- C94 / C95 matter. Without them the 220R and the OPA1656's 9.1 pF input capacitance cost about 13°: 41° and 3.3 dB
+  closed-loop peaking, found with the group's returns (2026-10-25). `tools/sim_netlist.py` checks −60 dBu at
   PRE for 0 dBu common mode through 1 kΩ on the tip leg.
 - For ground compensation with unbalanced synths, use a pseudo-balanced cable (TRS at the
   console, ring joined to the synth's ground at the synth end, shield at both ends). A plain TS cable works as a normal

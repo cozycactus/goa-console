@@ -7,7 +7,7 @@
 "4","100u NP 25V","Capacitor_THT:CP_Radial_D10.0mm_P5.00mm","Nichicon UES1E101MPM (MUSE ES)","","C11 C15 C16 C17"
 "2","1u","Capacitor_SMD:C_0805_2012Metric","Murata GRM21BR71H105KA12 (X7R 50V)","","C12 C62"
 "1","2.2u film","Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2","WIMA MKS2C042201K00KSSD (PET 63V)","","C13"
-"1","100p C0G","Capacitor_SMD:C_0805_2012Metric","","","C14"
+"3","100p C0G","Capacitor_SMD:C_0805_2012Metric","","","C14 C94 C95"
 "1","22p C0G","Capacitor_SMD:C_0805_2012Metric","","","C37"
 "3","4n7 C0G","Capacitor_SMD:C_1206_3216Metric","","","C42 C43 C45"
 "1","2n2 C0G","Capacitor_SMD:C_1206_3216Metric","","","C44"
