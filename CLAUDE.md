@@ -182,6 +182,12 @@ jack board) done.
   with real op-amp offsets, 200-strip tolerance Monte Carlo, headroom at every op-amp output (`sim/review/gaps/`:
   ol.py, mute.py, keys.py, mc.py, headroom.py). K1 (PFL send DC block, C96) and K3 (overload LED: C12 100n, U4B hold
   stage R115 / C97, ~150 ms) signed off and applied 2026-10-25 (strip spec v4.5). Everything else passes.
+- `met1_ret1_review.md` — independent review of MET1 / RET1 (2026-10-26): no faults; applied: group jack board CN1 moved
+  1 mm off J5's tip joint, return keys labelled R1 / R2 on the group panel, D2's footprint outline / no model line,
+  3-lead spacer for D2, `sim/pfldet.py` at 42 keys. Proposals P1-P4 open (1K in series with U4A / U17A discharge,
+  100 nF on VREF, optional 10M hysteresis, panel-end fastening of standoffs). TI-model group stability not re-run: the
+  OPA161x.LIB on this Mac (~/nazar-reg) gives no operating point with ngspice 46 even on the old netlist.
+- `sample_order.md` — the parts to order with the prototype panel and the eight physical checks they settle.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.
 - `film_np_proposal.md` (+ `film_np_proposal.patch`) — film couplers and MUSE ES bipolars, F1-F4 signed off and applied
@@ -222,7 +228,7 @@ jack board) done.
   stability with datasheet-fitted macros (`sim/review/strip/stripdeck.py` OPA_MODEL=fit, `n1_stab.py`, `n1_compare.py`;
   the fit reads 3-24° below TI on the as-built strip): every N1 unit ≥ 50.1° over 21 states; +115 mA typ console-wide.
   Open: distortion (CMOS input capacitance), only the jig A/B can settle it. `sim/review/strip_noise/noise.py n1`.
-- `test_jig_spec.md` — test jig v0.6 (strip v4.4; 4.2: the OPA1656 A/B for `strip_noise_proposal.md` N1): 4 real strips with jack boards + master stub (A/D/22R-tie
+- `test_jig_spec.md` — test jig v0.7 (strip v4.7: signal / OL LED checks; v0.6 strip v4.4; 4.2: the OPA1656 A/B for `strip_noise_proposal.md` N1): 4 real strips with jack boards + master stub (A/D/22R-tie
   jumpers) + load board (dummy channels for 24-channel noise gain, 1 nF bus-capacitance jumpers); 11 bus
   tests and a per-strip function checklist with targets.
 - `delta_clone_comparison.md` — the strip as a Delta Theatre input without the mic stage, stage by
@@ -560,7 +566,7 @@ jack board) done.
   moved F1, F3 and 14 parts around U11 (report unchanged, 3.1 / 10.5 / 26 and 8.2 / 38.5 / 75), every other board 0.
 - MET1 / RET1 applied (2026-10-26): strip 290 parts / 851 pins, group 263 / 735, group jack board 11 / 60; master
   unchanged; all 0 mismatches, check_fp 0, ERC 0. sim_netlist 39/39, sim_console 35/35 (new: return 2 to MIX, and
-  routed 1-2 equal to return 1), `sim/review/gaps/ol.py` (red 18.1-18.4 dBu, green -19.5 dBu, 159 ms, green off in
+  routed 1-2 equal to return 1), `sim/review/gaps/ol.py` (red 18.1-18.4 dBu, green -19.5 dBu, 170 ms hold, green off in
   overload). Parity DRC 0 violations on every main board; jack boards only the NJ6FD-V's own items (4 per jack); the
   PSU board's 8 silk-edge items are the TO-220s at its edge (since 8b38deb). Strip report unchanged; group 3.0 / 6.2 / 2,
   8.5 / 20.2 / 31. Group and master panels pixel-identical but for the group's new rows; strip panel one numeral (HF "9"

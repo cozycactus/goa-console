@@ -102,9 +102,9 @@ STRIP = {'RV9': ('GAIN', 'red'), 'RV10': ('HF', 'grey'), 'RV11': ('HI-MID', 'gre
          'D7': (None, 'off'), 'D8': (None, 'off'),
          'J1': ('LINE IN', None), 'J2': ('INSERT', None), 'J5': ('DIRECT', None), 'RV1': ('', 'black')}
 GROUP = {'RV4': ('RET 1', 'blue'), 'RV5': ('RET 2', 'blue'), 'RV3': ('AUX', 'yellow'), 'RV2': ('SUB PAN', 'black'),
-         'SW7': ('PFL', 'red'), 'SW11': ('PFL', 'red'), 'SW3': ('AFL', 'red'), 'SW1': ('MIX', 'white'), 'SW4': ('MIX', 'white'),
-         'SW5': ('1-2', 'white'), 'SW6': ('3-4', 'white'), 'SW8': ('MIX', 'white'), 'SW9': ('1-2', 'white'),
-         'SW10': ('3-4', 'white'), 'SW2': ('AFL', 'red'),
+         'SW7': ('PFL', 'red'), 'SW11': ('PFL', 'red'), 'SW3': ('AFL', 'red'), 'SW1': ('MIX', 'white'), 'SW4': ('R1 MIX', 'white'),
+         'SW5': ('R1 1-2', 'white'), 'SW6': ('R1 3-4', 'white'), 'SW8': ('R2 MIX', 'white'), 'SW9': ('R2 1-2', 'white'),
+         'SW10': ('R2 3-4', 'white'), 'SW2': ('AFL', 'red'),
          'D1': (None, 'off'), 'D2': (None, 'off'), 'D3': (None, 'off'), 'D4': (None, 'off'),
          'J2': ('SUB OUT', None), 'J1': ('INSERT', None), 'J3': ('AUX OUT', None), 'J4': ('RET 1 L', None),
          'J5': ('RET 1 R', None), 'J6': ('RET 2 L', None), 'J7': ('RET 2 R', None), 'RV1': ('SUB', 'black')}

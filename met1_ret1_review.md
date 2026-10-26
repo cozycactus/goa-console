@@ -1,0 +1,152 @@
+# MET1 / RET1 review (2026-10-26)
+
+An independent check of the two changes applied on 2026-10-26: the strip's red / green signal / overload LED (MET1,
+strip v4.7) and the group's second stereo return (RET1, master spec v0.12). Two reviewers worked from the generators,
+netlists, placed boards and the manufacturers' datasheets, not from the change notes. Every finding below was checked
+again against the source before it was written here.
+
+**Result: no faults.** Every pinout checks end to end, return 2 is the same circuit as return 1 part for part, and
+nothing else on either board changed. Three small fixes are applied. Four changes are proposed for your sign-off (P1–P4),
+because they touch a signed circuit, cost parts, or change the panels.
+
+## Checked and correct
+
+- **MET1 pinouts:**
+  - **WP3VEGW** (Kingbright drawing, p. 1): pin 1 red anode, pin 2 common cathode, pin 3 green anode, leads 0.5 mm
+    square at 2.0 mm, holes Ø0.9. This matches `Device:LED_Dual_AKA` and the `LED_D3.0mm-3_P2.00mm` pads 1 / 2 / 3.
+  - **MMBT3906LT1G** (onsemi): pin 1 base, 2 emitter, 3 collector, as `Q_PNP_BEC` and the netlist.
+  - **BAT54W:** pin 1 anode, 3 cathode, 2 NC. D11 clamps negative swings only.
+  - **LM393B** (TI SLCS005, table 4-1): every U17 pin, supply and decoupler as intended.
+- **MET1 logic and ratings:**
+  - Q3 / Q4 saturate with forced beta about 10.
+  - Q5 holds Q4's base at +VL in overload, so the green draws 0.0 µA.
+  - Nothing lights in silence, no state lights both colours, and no LED or transistor is reverse-biased.
+  - LED 6.5 mW against 62.5–75 mW; R15 / R124 about 47 mW in 0805.
+  - VREF is loaded 0.7 %, so the red's threshold doesn't move.
+- **RET1 circuit:**
+  - **Return 2 = return 1:** the two blocks match part for part (76 each) under the net map RT_ → RT2_,
+    Return_ → Return2_, SW4–7 → SW8–11, with 0 differences in value, footprint, MPN, DNP or connection.
+  - **Routing:** SW8 / SW9 / SW10 go to MIX L/R, SUB 1/2 and SUB 3/4 through 4K7 1 %; off grounds the resistor end.
+    SW11 puts the 43K pair on the PFL bus and lights D4.
+  - **Jacks:** J6's normals go to GNDA; J7's normals go to J6's tip / ring, so R is normalled to L. Sleeves are on
+    CHASSIS.
+  - **NJ6FD-V pads:** KiCad's footprint is Neutrik's PCB layout (drawing 3102 St 07 11) turned 180°, not mirrored, so
+    T / R / S / TN / RN / SN mean what the netlist says. This also settles the "TN / RN / SN unchecked" item in
+    `panel_parts_drawings.md`.
+- **RET1 links and history:**
+  - **Links:** group CN3 = jack board CN1 (2 × 8, pinout unchanged) and CN4 = CN2 (2 × 5) pin for pin; no CHASSIS on
+    either.
+  - **Against the commit before RET1:** no old part changed value, footprint or connection; old nets only gained the
+    new pins.
+- **RET1 mechanics:**
+  - **Jack board:** the fourth jack row and the standoffs end before the main board's edge at y 94.5.
+  - **Panel:** every group panel hole is on its part's feature, and the legends name the right functions.
+  - **Off-board counts:** they reconcile with the boards.
+
+## Applied now
+
+1. **Jack board CN1 moved 1 mm** (pin 1 to y 42.3). Its body had sat over J5's tip solder joint: courtyard to y 48.95,
+   pad edge at 48.78. This predates RET1. It now clears J5 and J1 by about 0.8–0.9 mm. Parity DRC: 0 violations on
+   the group; the jack board has only the NJ6FD-V's own items.
+2. **Group panel: return routing keys named R1 / R2.** The panel had two identical MIX / 1-2 / 3-4 rows, and the lower
+   one (return 1, in the routing row at y 274) sat in the sub section with nothing tying it to RET 1. The keys now read
+   R1 MIX / R1 1-2 / R1 3-4 and R2 MIX / R2 1-2 / R2 3-4; panels regenerated.
+3. **D2's footprint:**
+   - the fab outline is the Ø4.0 flange (was the Ø3.0 dome);
+   - no 3D model line: the file didn't exist, and the render draws D2's pins and lens;
+   - the strip was re-placed with 0 parts moved and 0 DRC violations.
+
+   Also from the review:
+   - **3-lead LED spacer:** D2 needs one (or a 2-hole spacer opened up), about 7.2 mm long since it is 0.4 mm taller.
+     Counted apart in `offboard_bom.md` (24) and added to `sample_order.md` check 8, with the Ø3.0 ± 0.25 dome in the
+     Ø3.2 hole.
+   - **`sim/pfldet.py`:** now counts the PFLDET line's 42 keys (16 on the groups): results unchanged, one press
+     0.924 V against 0.497 V, 24 presses 1.289 V, released LEDs 20.4 nA.
+
+## Proposals
+
+**P1. A 1K in series with each hold stage's discharge.** U4A (since K3) and U17A (MET1) discharge their 220 nF hold
+caps straight from +VL.
+- **The stress:** for about 0.1 ms the output sinks at its own current limit (21 mA typ at 5 V, more at 17 V). That is at
+  or above the LM393B's 25 mA absolute maximum for the output current, though TI rates a short to ground as unlimited
+  (SLCS005 §5.1).
+- **The fix:** a 1K from each comparator output to its hold node caps the peak at 17 mA. 470R, as the reviewer
+  suggested, would still allow 36 mA.
+- **Sim** (`sim/review/gaps/ol.py`'s deck with the 1K): thresholds unchanged (red +18.4, green −19.5 dBu at 1 and
+  10 kHz), and a single +20 dBu cycle still lights the red.
+- **Scope:** 2 parts per strip. It touches K3's signed circuit (U4A).
+
+**P2. 100 nF on VREF at R40 / R41.** VREF (a 5K node, no cap) now runs from R40 / R41 at y 85–90 to U17 at y ~300,
+about 215 mm.
+- **The fix:** a 100 nF there keeps pickup and the LED's 15 mV supply step out of both thresholds.
+- **Scope:** 1 part per strip. Touches K3's divider.
+
+**P3. 10M hysteresis on U4B and U17B (optional).**
+- **The issue:** at the end of each hold they compare a slow ramp (about 38 mV/ms) against VREF, with no hysteresis.
+  The sim shows no chatter, but its switch model has 1 mV built in. Chatter would be invisible but puts edges on
+  +VL / GNDD.
+- **The fix:** 10M from output to + input.
+- **Scope:** 2 parts per strip. Low priority.
+
+**P4. Standoff screws in the panels (decide how the boards fasten).**
+- **The gap:** `offboard_bom.md` counts two M3 screws per standoff, one at the panel end. But the panel drawings have
+  no hole for any standoff, on strip, group or master, and the 3D model ends the standoffs at the panel's underside.
+  The boards are held by the pot and jack nuts now; the standoffs only support them.
+- **Options:**
+  - a. M3 countersunk through-holes at every standoff, heads flush on the front (visible; check each against the
+    legends: the group jack board's at board (8.84 / 29.16, 89.8) come within about 1.3 mm of the RET 1 title, so they
+    may need to move);
+  - b. blind self-clinching M3 studs pressed into the panel's back (invisible; the panel maker must offer them, as
+    Schaeffer does);
+  - c. no panel-end screw: the standoffs are spacers only, held by the board screw and the pot / jack nuts.
+- **Recommendation:** b, if the maker quotes it, else c. The Delta's own modules hang their boards on the pot nuts.
+
+## Notes (no change)
+
+- **SIG_IN's negative clamp:** D11 holds SIG_IN at about −0.21 V on negative half-cycles (sim, +22 dBu). The
+  LM393B's recommended input minimum is −0.1 V (absolute −0.3 V); below it the parasitic input diode can upset the
+  output (SLCS005 note 5). A wrong state there can only light the green, which is right when there's signal.
+  - Raising R118 to 220K, as the reviewer suggested, only reaches −0.17 V and moves the green's threshold by the input
+    bias, so it isn't proposed.
+  - A series-diode rectifier would keep SIG_IN at or above 0 V, at the cost of a temperature-dependent threshold.
+
+- **Routing guidance for the strip's signal detector** (U17 block at x 1–11, y 298–324, left of the fader):
+  - PRESRC to R118 is about 145 mm of pre-mute audio. Keep it away from MUTEOUT, the fader, the routing 4K7s and the
+    DG413 nets, with ground beside it, or the ON mute (−87 dB) and unassigned (−102 dB) figures can erode.
+  - The LED lines (OL_A, SIG_A, about 260 mm) and OL_K carry DC and switch edges only.
+- **Power-up lamp test:** both hold caps start at 0 V, so the red lights for about 0.2 s at power-up (sim). With C97 /
+  C99 at opposite tolerance ends, the green can blink for about 30 ms after it. Harmless.
+- **Group link pinout:** CN4 / CN2 starts with a signal on conductor 1. Starting with a ground would give every pair a
+  ground on both sides. It's the shared `link_pins()` rule (the strip's and master's links too), so it is left as it is.
+- **Jack board standoff pads:** they reach y 93.0 against the 93.5 board edge (0.5 mm). Fine for most fabs.
+- **Panel print:** on every 0–10 ring the "2" at 9 o'clock is a dot only (it would cross the panel edge). The group's
+  AUX cap is printed yellow on every group, while the cap order counts groups 3–4 green (`panel_layout.GROUP` comment).
+
+## Stability (TI models)
+
+Not re-run. The group deck (`sim/review/group/`) now models return 2:
+- `groupdeck.py`: RV5's taper, U12–U15's roles, J6 / J7 plugged or open (`ret2`, default as `ret`);
+- `sweep.py ret`: the return 2 units;
+- `mst_all.json`: re-measured from the placed board.
+
+The TI models on this Mac didn't reproduce the setup of the 2026-10-24 review:
+- with `~/nazar-reg/OPA161x.LIB` (the same file as the Telegram download) and ngspice 46, the deck finds no
+  operating point;
+- the netlist from before RET1 fails the same way, so the model setup is the problem, not return 2;
+- TI's `OPA1656.LIB` and the fitted `models_cd.inc` aren't on this Mac at all.
+
+**To run it:** put the review's model folder back (`OPA161x.LIB`, `OPA1656.LIB` as in `master_group_review.md`), then:
+`cd sim/review/group && TI_MODELS=<folder> python3 sweep.py ret mg 0.08`.
+
+**Expected result:** return 2 is the same circuit part for part as return 1, which ran 69.3–71.3° (receivers and
+level buffers) and 53.1° (followers, fitted model). Its output traces are shorter than return 1's on the new placement: receivers
+12.5 / 17.7 mm (return 1 24.8 / 40.7) and level buffers 35 / 49 mm (return 1 82 / 96), so less capacitive load.
+
+`tools/sim_console.py`'s single-pole models pass return 2's level and routing checks.
+
+## Sign-off
+
+- [ ] **P1** 1K between the U4A / U17A outputs and their hold nodes.
+- [ ] **P2** 100 nF on VREF at R40 / R41.
+- [ ] **P3** 10M hysteresis on U4B / U17B (optional).
+- [ ] **P4** Standoff fastening at the panel: a / **b** / c.

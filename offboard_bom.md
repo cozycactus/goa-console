@@ -23,7 +23,8 @@ boards. Dimensions and rules come from `panel_parts_drawings.md`, strip spec §1
 | Fader spacer | 2 / 2 / 2 | 58 | rule | 3.5 mm thick, M3 clearance, under the panel at each fixing (the stack puts the lever 5.0 above the panel). |
 | Pot spacer washer, M7 | 14 / 3 / 5 | 353 | rule | 1.5 thick, ID 7.2, OD < 11.2 to clear the anti-rotation lug (model 10). Leave the pot's own 0.4 washer off: the bushing has no spare thread. |
 | Pot spacer washer, M9 (RK09L) | 1 / 1 / 0 | 28 | rule | 9.5 / 11 × 1.5. Its M9 nut: check the thickness on a sample (spec open item). |
-| LED spacer, 3 mm LED | 7 / 4 / 43 | 227 | rule | 7.6 mm long (the LED's lens then sits at the panel). |
+| LED spacer, 3 mm LED | 6 / 4 / 43 | 203 | rule | 7.6 mm long (the LED's lens then sits at the panel). |
+| LED spacer, 3-lead 3 mm LED (strip D2, WP3VEGW) | 1 / 0 / 0 | 24 | rule | 7.2 mm long (the WP3VEGW is 5.0 mm tall against the WP710A10's 4.6) with three holes at 2.0 mm, or a 2-hole spacer opened up: settle on a sample (`sample_order.md` check 8). The outer leads jog outward just under the flange. |
 | LED spacer, 5 mm LED | 0 / 0 / 1 | 1 | rule | The master's PFL ACTIVE LED, sized to the same panel height. |
 | Main-board standoff, M3 | 6 / 6 / 7 | 175 | rule | 11.5 mm (panel underside to PCB), unplated holes. Two M3 screws each: 350. |
 | Jack-board standoff, M3 F-F | 2 / 2 / 3 | 59 | rule | **Exactly 24.0 mm, metal.** The jacks are rigid spacers, so a longer one hangs the board on its solder joints. Two M3 screws each (118). A star washer, or bare metal, at the panel end of each (59): these standoffs carry CHASSIS to the panel. |

@@ -25,14 +25,16 @@ def pad(num, x, y, size, drill, shape='circle'):
     return (f'\t(pad "{num}" thru_hole {shape} (at {x:.3f} {y:.3f}) (size {size} {size}) (drill {drill}) '
             f'(layers "*.Cu" "*.Mask") (uuid "{U()}"))\n')
 
-def footprint(name, descr, tags, body, ref_xy, val_xy):
+def footprint(name, descr, tags, body, ref_xy, val_xy, model=True):
     s = (f'(footprint "{name}"\n\t(version 20240108)\n\t(generator "goa_footprints_py")\n\t(layer "F.Cu")\n'
          f'\t(descr "{descr}")\n\t(tags "{tags}")\n')
     s += text('Reference', 'REF**', *ref_xy, 'F.SilkS') + text('Value', name, *val_xy, 'F.Fab')
     s += text('Footprint', '', 0, 0, 'F.Fab', hide=True) + text('Datasheet', '', 0, 0, 'F.Fab', hide=True)
     s += '\t(attr through_hole)\n' + body
-    s += (f'\t(model "${{KIPRJMOD}}/goa-console.3dshapes/{name}.wrl"\n\t\t(offset (xyz 0 0 0))\n\t\t(scale (xyz 1 1 1))\n'
-          '\t\t(rotate (xyz 0 0 0))\n\t)\n)\n')       # tools/models3d/check.py --wrl writes it
+    if model:                         # tools/models3d/check.py --wrl writes it
+        s += (f'\t(model "${{KIPRJMOD}}/goa-console.3dshapes/{name}.wrl"\n\t\t(offset (xyz 0 0 0))\n\t\t(scale (xyz 1 1 1))\n'
+              '\t\t(rotate (xyz 0 0 0))\n\t)\n')
+    s += ')\n'
     open(os.path.join(OUT, name + '.kicad_mod'), 'w').write(s)
 
 # ---- Bourns PTB0143-2010BPA103: 100 mm travel, single gang, PC pins down, BP lever (8 mm blade), A10K
@@ -106,11 +108,11 @@ mf_rx('185', 15.18, '1.85', cy=0.25)
 mf_rx('250', 17.84, '2.5', cy=0.25, p=10.16)
 # ---- Kingbright WP3VEGW: T-1 (3 mm) red / green bicolour, white diffused (feature_gaps.md MET1). Datasheet
 # (https://www.kingbrightusa.com/images/catalog/SPEC/WP3VEGW.pdf): 3 leads 0.5 square at 2.0 mm, recommended holes
-# Ø0.9; pin 1 anode red, pin 2 common cathode, pin 3 anode green (KiCad's LED_Dual_AKA); body Ø3.0 (flange Ø3.8 at
-# the base, cut flat on the pin-1 side; the square pad 1 marks red here), centred on pin 2. KiCad's LED_D3.0mm-3 is on 2.54 mm. Origin = pin 1.
+# Ø0.9; pin 1 anode red, pin 2 common cathode, pin 3 anode green (KiCad's LED_Dual_AKA); dome Ø3.0, flange Ø4.0 at
+# the base (fab outline; the square pad 1 marks red), centred on pin 2. No 3D model: the render draws its pins and lens. KiCad's LED_D3.0mm-3 is on 2.54 mm. Origin = pin 1.
 P2 = 2.0
 b = pad(1, 0, 0, 1.5, 0.9, 'rect') + pad(2, P2, 0, 1.5, 0.9) + pad(3, 2 * P2, 0, 1.5, 0.9)
-b += (f'\t(fp_circle (center {P2:.3f} 0) (end {P2 + 1.5:.3f} 0) (stroke (width 0.1) (type solid)) (fill none) '
+b += (f'\t(fp_circle (center {P2:.3f} 0) (end {P2 + 2.0:.3f} 0) (stroke (width 0.1) (type solid)) (fill none) '
       f'(layer "F.Fab") (uuid "{U()}"))\n')
 for a0 in (32, 212):                                                 # silk: the Ø4.2 rim above and below, clear of the pads
     pt = lambda a: (P2 + 2.1 * math.cos(math.radians(a)), -2.1 * math.sin(math.radians(a)))
@@ -120,6 +122,6 @@ for a0 in (32, 212):                                                 # silk: the
 b += rect('F.CrtYd', -1.05, -2.4, 2 * P2 + 1.05, 2.4, 0.05)
 footprint('LED_D3.0mm-3_P2.00mm',
           'LED, 3 mm round, 3 leads at 2.0 mm (Kingbright WP3VEGW red / green bicolour, common cathode on pin 2), https://www.kingbrightusa.com/images/catalog/SPEC/WP3VEGW.pdf',
-          'LED 3mm bicolor bi-color 3 pin', b, (P2, -3.2), (P2, 3.2))
+          'LED 3mm bicolor bi-color 3 pin', b, (P2, -3.2), (P2, 3.2), model=False)
 
 print('wrote', sorted(os.listdir(OUT)))

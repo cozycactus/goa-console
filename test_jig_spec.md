@@ -1,8 +1,9 @@
-# Test Jig — Specification, v0.6 (draft)
+# Test Jig — Specification, v0.7 (draft)
 ## Bus and grounding tests before ordering 24 strips
 
 Implements `console_architecture.md` section 9 with the designs as they now stand
-(strip spec v4.4 with its jack board, master spec v0.10; v0.6, 2026-10-25: the N1 A/B brought to strip v4.4, 4.2).
+(strip spec v4.7 with its jack board, master spec v0.12; v0.6, 2026-10-25: the N1 A/B brought to strip v4.4, 4.2;
+v0.7, 2026-10-26: the strip's signal / overload LED (MET1) in 4.1 and the strip current at v4.7).
 The strips' bus header carries +V on pin 34 too (wing_power_proposal.md W1), as the stub's and load board's do. Goal: confirm the Delta-style unbalanced bus with ground
 cancel (config **D**) against the same bus without it (config **A**), and measure noise, hum,
 crosstalk, PSRR, distortion and switching clicks on real hardware.
@@ -18,7 +19,7 @@ crosstalk, PSRR, distortion and switching clicks on real hardware.
 | Load board | 1 | Dummy channels that raise the bus noise gain to the full 24-channel value (section 3). |
 | Ribbon | 2 | 34-way, 28 AWG flat cable with 6 crimped IDC sockets (4 strips, master stub, load board): one 0.6 m (a 12-strip wing, ~0.5 m, plus slack), one 3 m (worst case and the hum-pickup tests). |
 | Ground bar | 1 | M4 copper bar with a lug per board, as the console's star point. |
-| Supply | 1 | ±17 V bench or the console PSU, ≥ 1 A per rail (4 strips draw about 0.35 A from +V, 0.3 A from −V; master stub and load board about 0.15 A). |
+| Supply | 1 | ±17 V bench or the console PSU, ≥ 1 A per rail (4 strips draw about 0.42 A from +V, 0.35 A from −V; master stub and load board about 0.15 A). |
 
 The four strips also settle the strip-level open items (strip spec 16.1, 17): PVA2 orientation
 (moulded "2" in the pad 1/4 column, by continuity), fader pad pattern, panel stack height,
@@ -101,7 +102,7 @@ Levels in dBu, 20 Hz–20 kHz unweighted unless stated. Record every result in c
 
 ### 4.1 Strip function checks (each of the four strips)
 
-Targets from `tools/sim_netlist.py` (the exported netlists, 30 checks) and `sim/mid_tuning.py`.
+Targets from `tools/sim_netlist.py` (the exported netlists, 39 checks), `sim/mid_tuning.py` and `sim/review/gaps/ol.py`.
 1 kHz, 0 dBu at the line input unless stated.
 
 | Check | Target |
@@ -119,8 +120,10 @@ Targets from `tools/sim_netlist.py` (the exported netlists, 30 checks) and `sim/
 | Direct out (DIR + PRE 5-6, aux 6 at the top) | 0 dBu at J5 tip; aux 6 bus silent |
 | Routing: L-R, 1-2, 3-4 on and off (DG413) | +3.8 dBu on the bus with pan at centre; off: below −80 dB; LED follows the switch |
 | PFL: bus level, PFL DET, LED | 0 dBu; master PFL logic switches |
-| OL LED | lights at about +18 dBu at PRE |
-| Supply current per strip (typical) | about 85 mA +V, 72 mA −V; more than 110 / 90 mA means a fault |
+| Signal LED (D2 green), 1 kHz sine at PRE | lights from about −20 dBu (sim −19.5); stays lit about 170 ms after the signal stops; dark with the input terminated |
+| Overload LED (D2 red), 1 kHz sine at PRE | red alone (green off) from about +18 dBu (sim +18.4; +18.1 at 50 Hz); a 2-cycle burst at +19 dBu lights it for about 150 ms |
+| D2 brightness behind the panel | both colours readable at about 3.2 mA (R15 / R124 4K7); change those two resistors if not |
+| Supply current per strip (typical) | about 100 mA +V (104 with the green lit), 87 mA −V; more than 125 / 105 mA means a fault |
 
 ### 4.2 OPA1656 A/B (`strip_noise_proposal.md`, N1)
 
@@ -160,7 +163,7 @@ OPA1612 and only the inverting and integrator stages move, which takes a package
 - **PVA2 orientation, fader footprint, panel height, jack-board depth** — from the strips themselves.
 - **OPA1656 in the strip's EQ, KHN and receiver (N1).** Section 4.2: adopt if B is quieter and holds THD+N, IMD and
   stability.
-- **Ribbon power at the v4.0 strip current** (about 85 mA per strip on +V): test 6 at N = 20, plus the
+- **Ribbon power at the v4.7 strip current** (about 104 mA per strip on +V): test 6 at N = 20, plus the
   measured drop along the 0.6 m ribbon with the load board drawing a 12-strip wing's current.
 
 ## 6. Not in the jig

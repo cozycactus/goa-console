@@ -9,9 +9,9 @@ from fixes import FIX, apply
 SET, FX = sys.argv[1], sys.argv[2]
 BOARD = float(sys.argv[3]) if len(sys.argv) > 3 else 0
 TRAN = len(sys.argv) > 4 and sys.argv[4] == 'tran'
-ALLSW = {f'SW{i}': True for i in range(1, 8)}
+ALLSW = {f'SW{i}': True for i in range(1, 12)}
 
-def P(p, pan): return {'RV1': p, 'RV3': p, 'RV4': p, 'RV2': pan}
+def P(p, pan): return {'RV1': p, 'RV3': p, 'RV4': p, 'RV5': p, 'RV2': pan}
 C = {}
 if SET == 'pots':
     for p, pan in ((0, 0), (0.3, 0.25), (0.5, 0.5), (0.6, 0.5), (0.706, 0.5), (0.85, 0.75), (1.0, 1.0), (1.0, 0.5), (0.706, 0)):
@@ -41,7 +41,8 @@ elif SET == 'loads':           # extra output C on the long output nets (on top 
         for p, pan in ((0, 0), (0.3, 0.5), (0.706, 0.5), (1.0, 1.0), (1.0, 0.0), (0.6, 0.5)):   # 0.3: worst with extra C
             C[f'cl{cl*1e12:.0f}p_pot{p}_pan{pan}'] = dict(pos=P(p, pan), loads={n: cl for n in (
                 'GC_BUF', 'S_SUM', 'A_SUM', 'S_MIX', 'S_PRE', 'S_POST', 'S_PBL', 'S_PBR', 'A_OUT', 'A_MIX', 'RT_L', 'RT_R', 'RT_BL', 'RT_BR')})
-STAGES = {'bus': ['U1A', 'U1B', 'U6A', 'U2A', 'U6B'], 'ins': ['U2A', 'U2B', 'U3A'], 'ret': ['U8A', 'U8B', 'U9A', 'U9B', 'U10A', 'U10B', 'U11A', 'U11B']}.get(SET)
+STAGES = {'bus': ['U1A', 'U1B', 'U6A', 'U2A', 'U6B'], 'ins': ['U2A', 'U2B', 'U3A'], 'ret': ['U8A', 'U8B', 'U9A', 'U9B', 'U10A', 'U10B', 'U11A', 'U11B',
+                                                                                    'U12A', 'U12B', 'U13A', 'U13B', 'U14A', 'U14B', 'U15A', 'U15B']}.get(SET)
 for k in C:
     if BOARD: C[k]['board'] = BOARD
     apply(C[k], FX)

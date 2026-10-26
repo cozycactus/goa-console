@@ -50,7 +50,7 @@ def law(taper, th):
     a = lambda x: 0.30 * x if x <= 0.5 else 0.15 + 1.70 * (x - 0.5)
     return {'A': a(th), 'B': th}[taper]
 
-TAPER = {'RV1': 'A', 'RV2': 'B', 'RV3': 'A', 'RV4': 'A'}
+TAPER = {'RV1': 'A', 'RV2': 'B', 'RV3': 'A', 'RV4': 'A', 'RV5': 'A'}
 libname = lambda c: field(next(x for x in c[1:] if isinstance(x, list) and x[0] == 'libsource'), 'part')
 isdnp = lambda c: any(isinstance(x, list) and x[0] == 'property' and field(x, 'name') == 'dnp' for x in c[1:])
 
@@ -59,7 +59,11 @@ ROLE = {'U1A': 'GC buffer', 'U1B': 'sub summer', 'U2A': 'sub re-inverter', 'U2B'
         'U6A': 'aux summer', 'U6B': 'aux re-inverter', 'U8A': 'return receiver L', 'U8B': 'return receiver R',
         'U9A': 'return level buffer L', 'U9B': 'return level buffer R',
         'U10A': 'return L tip follower', 'U10B': 'return L ring follower', 'U11A': 'return R tip follower',
-        'U11B': 'return R ring follower'}
+        'U11B': 'return R ring follower',
+        # return 2 (feature_gaps.md RET1, 2026-10-26): the same circuit
+        'U12A': 'return 2 receiver L', 'U12B': 'return 2 receiver R', 'U13A': 'return 2 level buffer L',
+        'U13B': 'return 2 level buffer R', 'U14A': 'return 2 L tip follower', 'U14B': 'return 2 L ring follower',
+        'U15A': 'return 2 R tip follower', 'U15B': 'return 2 R ring follower'}
 
 def units():
     out = []
@@ -163,13 +167,15 @@ def deck(cfg, ctl=''):
         if ins.get('rs') is not None:
             L.append(f"RRETSRC SUB_RETRAW 0 {ins['rs']}")
         L.append(f"CRETCAB SUB_RETRAW 0 {ins.get('cret', 470e-12)}")
-    ret = cfg.get('ret', 'open')
-    for n in ('Return_LT', 'Return_LR', 'Return_RT', 'Return_RR'): L.append(f'CLINK_{n} {n} 0 5p')
-    if ret == 'open':      # nothing in either jack: R normalled to L, L open
-        L += ['RJ5_TN Return_RT Return_LT 0.05', 'RJ5_RN Return_RR Return_LR 0.05']
-    else:                  # both plugged, each leg from rs, cable cc
-        for n in ('Return_LT', 'Return_LR', 'Return_RT', 'Return_RR'):
-            L += [f"RS_{n} {n} 0 {ret['rs']}", f"CC_{n} {n} 0 {ret.get('cc', 470e-12)}"]
+    # return 1 (J4 / J5) and return 2 (J6 / J7; 'ret2', default as 'ret')
+    for j, pre, ret in (('J5', 'Return', cfg.get('ret', 'open')), ('J7', 'Return2', cfg.get('ret2', cfg.get('ret', 'open')))):
+        legs = [pre + s for s in ('_LT', '_LR', '_RT', '_RR')]
+        for n in legs: L.append(f'CLINK_{n} {n} 0 5p')
+        if ret == 'open':      # nothing in either jack: R normalled to L, L open
+            L += [f'R{j}_TN {pre}_RT {pre}_LT 0.05', f'R{j}_RN {pre}_RR {pre}_LR 0.05']
+        else:                  # both plugged, each leg from rs, cable cc
+            for n in legs:
+                L += [f"RS_{n} {n} 0 {ret['rs']}", f"CC_{n} {n} 0 {ret.get('cc', 470e-12)}"]
     # ---- board trace capacitance (placement MST x pF/mm)
     if cfg.get('board'):
         k = cfg['board']

@@ -84,8 +84,8 @@ off in overload; RET1 option A.
 
   | | Lights from | Hold | Current |
   |---|---|---|---|
-  | Red | +18.1 / +18.4 / +18.4 dBu at 50 Hz / 1 kHz / 10 kHz | 143–181 ms | 3.2 mA |
-  | Green | −19.5 dBu | 159 ms | 3.2 mA |
+  | Red | +18.1 / +18.4 / +18.4 dBu at 50 Hz / 1 kHz / 10 kHz | 152–190 ms | 3.2 mA |
+  | Green | −19.5 dBu | 170 ms | 3.2 mA |
 
   The green is off in overload, and neither colour lights in silence.
 - **Checks:** 851 pins, 0 mismatches, check_fp 0, ERC 0; `sim_netlist.py` 39/39, `sim_console.py` 32/32.

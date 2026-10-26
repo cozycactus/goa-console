@@ -20,7 +20,8 @@ JACK_FIX = {'J2': jack(XL, 12), 'J1': jack(XR, 12),          # sub out | sub ins
             'J3': jack(XL, 34),                              # aux out | link headers
             'J4': jack(XL, 56), 'J5': jack(XR, 56),          # return 1 L | R
             'J6': jack(XL, 78), 'J7': jack(XR, 78),          # return 2 L | R (RET1)
-            'CN1': (31.0, 43.3, 180, 'B'),                   # 2x8 link, bottom side, pins x 31 / 33.54, y 25.5-43.3
+            'CN1': (31.0, 42.3, 180, 'B'),                   # 2x8 link, bottom side, pins x 31 / 33.54, y 24.5-42.3 (1 mm up:
+                                                             # its body had sat over J5's tip joint, 2026-10-26 review)
             'CN2': (19.9, 39.0, 180, 'B')}                   # 2x5 link (return 2) beside it: pins x 19.9 / 22.44, y 28.8-39.0
 JACK_HOLES = []                                              # M3 standoffs to the panel, ~24 mm (jack body height):
 JACK_FIX.update({'H1': (XL, 89.8, 0, 'F'), 'H2': (XR, 89.8, 0, 'F')})   # plated, on CHASSIS (ground_study.md G2); below

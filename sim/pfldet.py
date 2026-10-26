@@ -1,5 +1,5 @@
 """PFL detect as generated (tools/gen_master.py, master spec section 19, master_parts_review.md items 4 and 6).
-PFLDET carries T = 38 PFL/AFL keys (24 strips, 12 group keys, 2 on the master). Each key: +VL -> pole B -> ON node ->
+PFLDET carries T = 42 PFL/AFL keys (24 strips, 16 group keys since RET1, 2 on the master). Each key: +VL -> pole B -> ON node ->
 100K -> PFLDET, and ON -> 4K7 -> red LED -> GNDD; a released key's ON node floats. Master: 10K to GNDD, 2 x 1N4148 in
 series to GNDD (clamp: keeps PFLDET low enough that the released keys' LED paths don't conduct), 1u to GNDD
 (debounce), LM393 against 330K / 10K from +VL, output pulled up by 100K to +5VL (DG413 logic), 10M from the output
@@ -10,7 +10,7 @@ back to PFLDET (hysteresis).
 Usage: python3 sim/pfldet.py   (ngspice on the PATH)"""
 import os, re, subprocess, tempfile
 VL, V5 = 16.9, 5.1                    # +VL (+VBUS less ~10 mA through 10R), +5VL (BZX84C5V1)
-T = 38
+T = 42
 MODELS = """.model LED D(IS=3.2e-19 N=2 RS=10)
 .model D4148 D(IS=2.52n N=1.752 RS=0.568 CJO=4p)
 .model SWK SW(VT=0.5 VH=0.01 RON=1 ROFF=1e10)

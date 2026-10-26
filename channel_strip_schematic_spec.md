@@ -21,7 +21,7 @@ circuit comes from a Delta sheet (ED3344A/B/C = Theatre input RH board, ED3151 =
     draws nothing.
   - `sim/review/gaps/ol.py`:
     - red from +18.1 / +18.4 / +18.4 dBu at 50 Hz / 1 kHz / 10 kHz; green from −19.5 dBu;
-    - holds 143–181 ms (red) and 159 ms (green);
+    - holds 152–190 ms (red) and 170 ms (green);
     - 3.2 mA in either colour; the green is off in overload.
 - **Supply:** ≈ +4 mA on +V per strip while green is lit (green 3.2 mA, base 0.3 mA, U17 ≈ 0.5 mA): ≈ 104 / 87 mA per
   strip (master spec §27). Nothing on −V.
@@ -410,7 +410,7 @@ C12 100 nF (v4.5, was 1 µF), R14 470K; U4A compares against R40/R41 for ≈ +18
   - **Green drive:** U17B (+ = SIG_HOLD, − = VREF) pulls Q4's base (R122 / R123 47K), and Q4 feeds the green anode
     through R124 4K7.
   - **Gate:** Q5 (PNP, base from U4B's output OL_K through R125 47K) holds Q4's base at +VL while the red is lit.
-  - **Sim** (`sim/review/gaps/ol.py`): green from −19.5 dBu, 159 ms hold; 3.2 mA per colour; nothing lit in silence.
+  - **Sim** (`sim/review/gaps/ol.py`): green from −19.5 dBu, 170 ms hold; 3.2 mA per colour; nothing lit in silence.
 
 ### 8.2 PFL (SW3, D3)
 ```
