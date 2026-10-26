@@ -197,6 +197,11 @@ jack board) done.
   returns) and master (31 configurations + phones, `sim/review/master/run_each.py`) match 2026-10-24; worst master
   unit U21A/B 47.7 deg at the pot top as then. `configs.py` now finds build-out far sides and spare units from the
   netlist (the drawn master's unnamed nets had moved the +47 pF stress to the pin side).
+- `emc_placement_study.md` — placement-level EMC check (2026-10-26) against Self / Whitlock / Muncy / AES48 / Ott /
+  TI / ADI rules, measured with `tools/emc_check.py` (KiCad Python: entry runs, aggressor-victim pad distances, long
+  switching nets, supply entry). Strip: MET1's LED lines span ~260 mm and end 4.3 mm from U16's inputs; U16's
+  220R / 100p 11-16 mm from its pins; the J112 mute ~20 mm from U3B; bus power runs 42-46 mm unfiltered; jack board
+  C8 / C9 and the sleeve 24 mm from the chassis standoffs. Proposals E1-E8, not signed off.
 - `sample_order.md` — the parts to order with the prototype panel and the eight physical checks they settle.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.
