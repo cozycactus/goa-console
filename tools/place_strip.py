@@ -23,9 +23,10 @@ JACK_FIX = {'J1': jack(XL, 12), 'J2': jack(XR, 12), 'J5': jack(XL, 32),         
 # plated, on CHASSIS (H1 / H2 in the jack board schematic, ground_study.md G2): they bond the sleeves to the panel
 JACK_HOLES = []
 JACK_FIX.update({'H1': (23, 27, 0, 'F'), 'H2': (23, 37, 0, 'F')})
-JACK_ZONES = [
- ('input RF caps (bottom, at J1)', (1, 1, 19, 22), ['C8', 'C9'], 'B'),
-]
+# E5 (emc_placement_study.md): the RF caps between J1's tip / ring pads and its sleeve pad, on the bottom, so the shunt
+# to CHASSIS is a few mm long. The standoffs can't come closer to J1: the jack courtyards leave no M3 spot nearer
+JACK_FIX.update({'C8': (6.2, 9.0, 270, 'B'), 'C9': (8.8, 12.0, 0, 'B')})
+JACK_ZONES = []
 JACK_NOTES = ((12, 'LINE IN | INSERT'), (32, 'DIRECT OUT | link CN5 (bottom)'))
 
 # ================================================================ main board
@@ -49,6 +50,13 @@ FIX = {
  'CN4': SPADE,                           # ground spade, bottom side, left of the fader body
  'NT1': NETTIE,                          # AGND-LGND net tie beside the spade (no courtyard: keep it clear by hand)
 }
+# The upper board's op-amps where the reviewed placement had them (2026-10-26, before the EMC changes): the packer
+# re-shuffles every IC after any change near the top (E1-E3 moved 163 parts and starved the HPF), so they are fixed
+# and their own parts pack around them as before
+FIX.update({'U1': (4.745, 63.745, 0, 'F'), 'U4': (31.245, 85.745, 0, 'F'), 'U5': (12.245, 88.245, 0, 'F'),
+            'U6': (28.245, 151.745, 0, 'F'), 'U7': (4.745, 153.745, 0, 'F'), 'U12': (4.745, 129.745, 0, 'F'),
+            'U13': (32.745, 129.745, 0, 'F'), 'U14': (4.745, 176.745, 0, 'F'), 'U15': (25.245, 108.745, 0, 'F'),
+            'U16': (20.745, 56.745, 90, 'F')})
 # M3 standoff holes (11.5 mm), unplated so audio ground never meets the chassis
 HOLES = [(XC, 65.5), (XC, 154), (XC, 221), (5, 330), (5, 425), (34, 425)]   # 65.5: clear of the turned GAIN and HF pots
 
@@ -56,7 +64,10 @@ HOLES = [(XC, 65.5), (XC, 154), (XC, 221), (5, 330), (5, 425), (34, 425)]   # 65
 # Bottom side: radial electrolytics (too tall for the 11.5 mm panel gap), VCA socket. Placed first.
 ZONES = [
  ('jack-board link (bottom)', (12, 120, 37, 142), ['CN3'], 'B'),    # across the strip, LO-MID row to LF row
- ('rail reservoir caps (bottom)', (1, 360, 37, 444), ['C1', 'C3', 'C5', 'C6'], 'B'),
+ # E4 (emc_placement_study.md): the reservoirs under the supply filters, beside the header's power pins (30-34)
+ # E3 (emc_placement_study.md): the soft-mute JFETs under U3B's + input, sources at U3's ground (Self, "offness")
+ ('soft mute under U3B (bottom)', (1, 226, 37, 256), ['Q2', 'Q1', 'R17', 'R16', 'R42', 'C28'], 'B'),
+ ('rail reservoir caps (bottom)', (1, 285, 30, 345), ['C1', 'C3', 'C5', 'C6'], 'B'),
  ('gain-out coupling (bottom)',  (1, 44, 37, 120), ['C38', 'C91'], 'B'),   # to y 120 since C94 / C95 (v4.4)
  ('insert / EQ coupling (bottom)', (1, 75, 37, 160), ['C51', 'C10', 'C11'], 'B'),
  ('post / pan / direct-out coupling (bottom)', (1, 160, 37, 300), ['C15', 'C16', 'C17', 'C52'], 'B'),
@@ -65,13 +76,18 @@ ZONES = [
  ('LF film cap (bottom)', (1, 82, 37, 175), ['C49'], 'B'),
  ('fader film coupler (bottom)', (1, 330, 37, 444), ['C13'], 'B'),
  ('PFL send DC block, film (bottom; K1)', (1, 260, 37, 340), ['C96'], 'B'),
+ # Top side. E4: the 10R supply filters first, beside the header's power pins, so unfiltered bus power runs a few mm
+ ('supply filters at the bus header (E4)', (18, 296, 37, 318), ['R1', 'R2', 'R3', 'R4', 'C2', 'C4'], 'F'),
  # Top side, roughly in signal order
  # stability caps right after their op-amp's decouplers: the placer gives list order the closest spots
  # input followers (ground_study.md G3) at the top beside SW15: placed first, the receiver and the KHN keep their spots
- ('input followers', (1, 44, 37, 62), ['U16', 'C92', 'C93', 'R110', 'R111', 'R112', 'R113', 'R114', 'C94', 'C95'], 'F'),
+ # E2 (emc_placement_study.md): the followers' 220R / 100p on the bottom under U16's + pins. U16 itself stays by SW15:
+ # no spot 8 mm from D2's leads is free without moving the input section (pot and key pins fill the area)
+ ('input followers', (1, 44, 37, 62), ['U16', 'C92', 'C93', 'R112', 'R113', 'R114'], 'F'),
+ ('input followers RF / stability RC, under U16 (bottom)', (8, 52, 30, 76), ['R110', 'R111', 'C94', 'C95'], 'B'),
  ('input receiver + gain', (1, 45, 37, 100), ['U1', 'C20', 'C21', 'C7', 'C78', 'R6', 'R7', 'R8', 'R9', 'R10',
                                               'R45', 'R46', 'C37', 'R47'], 'F'),
- ('OL detector', (1, 45, 37, 100), ['U4', 'C26', 'R39', 'D1', 'C12', 'R14', 'R40', 'R41', 'R15', 'R115', 'C97'], 'F'),
+ ('OL detector', (1, 45, 37, 100), ['U4', 'C26', 'R39', 'D1', 'C12', 'R14', 'R40', 'R41', 'R15', 'R115', 'C97', 'R116'], 'F'),
  ('HPF', (1, 44, 37, 135), ['U5', 'C29', 'C30', 'C85', 'C86', 'R100', 'R101', 'R102', 'R103',
                              'U15', 'C89', 'C90', 'C87', 'C88', 'R104', 'R105', 'R106', 'R107', 'R108', 'R109'], 'F'),
  ('EQ', (1, 82, 37, 200), ['U6', 'C31', 'C32', 'C69', 'C70', 'C71', 'C72', 'U7', 'C33', 'C34', 'C73', 'C48',
@@ -86,19 +102,20 @@ ZONES = [
  # MET1 (feature_gaps.md): the signal detector and the LED's switches carry only DC and the op-amp-driven PRESRC, so they
  # sit in the free column left of the fader (the signal path's area is full); R118 at U17, so the long run is low-Z
  ('signal detector + LED switches (MET1)', (1, 300, 10, 440), ['U17', 'C98', 'R118', 'D11', 'R119', 'R120', 'R121', 'C99',
-                                                            'Q3', 'R116', 'R117', 'Q4', 'R122', 'R123', 'R124',
-                                                            'Q5', 'R125'], 'F'),
+                                                            'R122'], 'F'),
+ # E1 (emc_placement_study.md): the LED switches beside D2 on the bottom, so the switched anode lines are a few mm long;
+ # the base resistors stay at their comparators (R116 at U4, R122 at U17), so the long control lines are fed through 47K
+ ('MET1 LED switches, beside D2 (bottom)', (30, 44, 37.5, 76), ['Q3', 'R117', 'Q4', 'R123', 'R124', 'Q5', 'R125'], 'B'),
  ('aux / PRE jumpers / direct out', (1, 150, 37, 270), ['JP2', 'JP3', 'JP4', 'U8', 'C35', 'C36', 'C83', 'R70', 'R71',
                                                         'R72', 'R73'], 'F'),
- ('pan buffers + mute', (1, 236, 37, 306), ['U3', 'C24', 'C25', 'C80', 'C81', 'R35', 'R36', 'R37', 'R16', 'R17',
-                                            'Q1', 'Q2', 'R42', 'C28', 'R43'], 'F'),
+ ('pan buffers + mute', (1, 236, 37, 306), ['U3', 'C24', 'C25', 'C80', 'C81', 'R35', 'R36', 'R37', 'R43'], 'F'),
  ('PFL', (1, 280, 37, 330), ['R32', 'R33', 'R34'], 'F'),
  ('routing logic + LEDs', (1, 262, 37, 310), ['R74', 'R75', 'R76', 'R77', 'R78', 'R79', 'R80', 'D9', 'D10', 'C62'], 'F'),
  ('routing switches (DG413, at the header)', (16, 280, 37, 444), ['U9', 'C53', 'C54', 'C55', 'U10', 'C56', 'C57',
                                                                   'C58', 'U11', 'C59', 'C60', 'C61'], 'F'),
  ('bus resistors (at the header)', (22, 296, 37, 362), ['R20', 'R21', 'R22', 'R23', 'R24', 'R25', 'R26', 'R27',
                                                         'R28', 'R29', 'R30', 'R31'], 'F'),
- ('power entry', (1, 340, 37, 380), ['R1', 'R2', 'R3', 'R4', 'R5', 'C2', 'C4'], 'F'),
+ ('power entry', (1, 340, 37, 380), ['R5'], 'F'),
  ('fader post-amp', (27, 340, 37, 444), ['U2', 'C22', 'C23', 'C82', 'C79', 'R19', 'C14', 'R38', 'JP1', 'R18',
                                          'R44'], 'F'),
 ]
@@ -117,6 +134,10 @@ NEAR = {'C20': 'U1', 'C21': 'U1', 'C22': 'U2', 'C23': 'U2', 'C24': 'U3', 'C25': 
         'C78': 'U1', 'C69': 'U6', 'C70': 'U6', 'C71': 'U6', 'C72': 'U6', 'C73': 'U7', 'C74': 'U12', 'C75': 'U12',
         'C76': 'U13', 'C77': 'U13', 'C79': 'U2', 'C82': 'U2', 'C80': 'U3', 'C81': 'U3', 'C83': 'U8', 'R99': 'U7', 'C84': 'U7',
         'D10': 'D9',
+        # E2 (emc_placement_study.md): the followers' 220R / 100p at U16's + pins (RF filter and G3 stability cap)
+        'C94': 'U16', 'C95': 'U16', 'R110': 'U16', 'R111': 'U16',
+        # E1: base resistors at their comparators
+        'R116': 'U4', 'R122': 'U17',
         # soft mute as one cluster at U3B's + input: Q2 drives M2, Q1 and the gate RC (high-Z MGATE) beside it
         'Q2': 'U3', 'Q1': 'Q2', 'C28': 'Q2', 'R42': 'Q2', 'R17': 'Q2', 'R16': 'Q1'}
 

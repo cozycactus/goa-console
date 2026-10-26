@@ -115,7 +115,8 @@ def place(NET, OUT, L):
             if isinstance(nd, list) and nd[0] == 'node':
                 padnet[(field(nd, 'ref'), field(nd, 'pin'))] = name; pintype[(field(nd, 'ref'), field(nd, 'pin'))] = field(nd, 'pintype')
 
-    every = list(FIX) + [r for z in ZONES for r in z[2]]
+    # a FIX part may also be listed in a zone: there it anchors its parts (attach, decouplers) but is not moved
+    every = list(FIX) + [r for z in ZONES for r in z[2] if r not in FIX]
     placed = set(every); twice = sorted({r for r in every if every.count(r) > 1})
     missing = sorted(set(parts) - placed); extra = sorted(placed - set(parts))
     if missing or extra or twice:

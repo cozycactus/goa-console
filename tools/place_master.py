@@ -133,6 +133,11 @@ for u in sorted((r for r in VAL if VAL[r] in ('DRV134', 'DRV135')), key=num):
     OUTS += [u] + [r for r in beside(u) if not r.startswith('K')]
     for k in (r for r in beside(u) if r.startswith('K')): OUTS += [k] + beside(k)
 for k in sorted((r for r in VAL if VAL[r].startswith('G6K') and r not in NEAR), key=num): OUTS += [k] + beside(k)
+# E8 (emc_placement_study.md): the flasher's hold diode beside the comparator that drives it, so the long run to the
+# flasher is behind the diode (its slow RC node), not the comparator's output
+PFLD_U = next(r for r in B['PFL DETECT'] if r.startswith('U'))
+FL_D = next(r for r in B['RUDE SOLO'] if r.startswith('D') and 'FL_HOLD' in NETS_OF[r])
+NEAR[FL_D] = PFLD_U
 EL, ER = 4.0, W - 4.0                          # edge channels for the wing supplies (y 186 to the headers)
 PWR_TALL = tall('POWER ENTRY', 'DISTRIBUTION')
 ZONES = [
@@ -152,8 +157,10 @@ ZONES = [
  # the summers first: the monitoring and aux zones overlap their area and would otherwise take it
  ('GC buffer, summers, re-inverters, insert returns, mono (between the wing headers)', (11, 236, 68, 306),
   take('GROUND CANCEL BUFFER', 'MIX L', 'MIX R', 'MONO') + SUMMER5 + SUMMER6 + SUMMERP, 'F'),
+ # E8: PFL detect beside the PFL switcher it drives, at least 8 mm from the phones amplifier's inputs
+ ('PFL detect, beside the PFL switcher (E8)', (44, 266, ER, 306), take('PFL DETECT'), 'F'),
  ('monitoring: EXT, PFL switcher, C/ROOM, phones', (EL, MAIN_Y0, ER, 306),
-  take('EXT INPUT', 'PFL SWITCHER', 'PFL DETECT', 'CONTROL ROOM', 'HEADPHONES', drop=OUTS + EXTF), 'F'),
+  take('EXT INPUT', 'PFL SWITCHER', 'CONTROL ROOM', 'HEADPHONES', drop=OUTS + EXTF), 'F'),
  ('aux 5-6 level buffers, AFL; solo level', (EL, MAIN_Y0, ER, 306),
   take('AUX MASTER 5', 'AUX MASTER 6', 'PFL / AFL', drop=OUTS + SUMMER5 + SUMMER6 + SUMMERP), 'F'),
  ('rude-solo flasher, power-on mute', (EL, 160, ER, 306), take('RUDE SOLO', 'POWER-ON MUTE'), 'F'),

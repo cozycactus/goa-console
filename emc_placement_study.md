@@ -176,11 +176,87 @@ Rules that only routing can keep, from the same sources:
 
 ## Sign-off
 
-- [ ] **E1** LED switches beside D2 (bottom side); base resistors at their comparators.
-- [ ] **E2** Input followers' 220R / 100 pF at U16's pins; U16's inputs at least 8 mm from D2 where possible.
-- [ ] **E3** Soft-mute JFETs at U3B's input.
-- [ ] **E4** Supply entry filters at the header (strip and group).
-- [ ] **E5** Jack board: C8 / C9 at J1; a chassis standoff beside J1's sleeve.
-- [ ] **E6** 10 nF base caps on Q3 / Q4 (circuit).
+Signed off by Ruslan on 2026-10-26: E1–E5 and E8 (placement only). E6 and E7 are left for later.
+
+- [x] **E1** LED switches beside D2 (bottom side); base resistors at their comparators.
+- [x] **E2** Input followers' 220R / 100 pF at U16's pins; U16's inputs at least 8 mm from D2 where possible.
+- [x] **E3** Soft-mute JFETs at U3B's input.
+- [x] **E4** Supply entry filters at the header (strip and group).
+- [x] **E5** Jack board: C8 / C9 at J1; a chassis standoff beside J1's sleeve.
+- [ ] **E6** 10 nF base caps on Q3 / Q4 (circuit). Later.
 - [ ] **E7** Ferrites at the jack, only if the jig shows RF pickup (circuit, deferred).
-- [ ] **E8** Master: flasher next to its LED; PFL_ON_RAW away from the phones input.
+- [x] **E8** Master: flasher next to its LED; PFL_ON_RAW away from the phones input.
+
+## Applied (2026-10-26): E1–E5, E8
+
+Placement only: zones, `near()` records and fixed positions in `tools/place_strip.py`, `place_group.py` and
+`place_master.py`. No schematic changes. Measured with `tools/emc_check.py` before and after.
+
+| Item | Measure | Before | After |
+|---|---|---|---|
+| E1 strip | LED anode lines OL_A / SIG_A, U4 output OL_K (pad span) | 257 / 274 / 237 mm | 19 / 8 / 8 mm |
+| E2 strip | U16's 100 pF to its + pins (C94 / C95) | 10.9 / 15.5 mm | 2.7 / 3.5 mm |
+| E3 strip | Soft-mute JFET drain (Q2) to U3B's + input | about 20 mm | 1.3 mm |
+| E4 strip | Bus ±V pin to its 10R filter | 46 / 42 mm | 5.5 / 8.0 mm |
+| E4 group | the same | 30 / 26 mm | 16 / 15 mm |
+| E5 jack board | C8 / C9 signal pad to J1's tip / ring; chassis pad to J1's sleeve | 6.7 / 11.8; 10.2 / 10.2 mm | 3.2 / 4.2; 3.2 / 4.1 mm |
+| E8 master | Flasher hold line FL_HOLD (comparator output) | 112 mm | short (D18 beside U22) |
+| E8 master | PFL detect output to the phones amplifier's inputs | 2.3 mm | no longer among the closest pairs |
+
+**E1**
+- **Moves:** the LED switches (Q3–Q5, R117, R123–R125) went to the bottom side beside D2. R116 sits at U4, and R122 at
+  U17.
+- **The one long line left:** SIG_B (U17 → Q4, 259 mm), now fed through 47K at the comparator rather than straight from
+  its pin.
+- **U17 stays left of the fader:** trials that moved it put it over U1 / U16 or the HPF integrator U15.
+
+**E2**
+- **Moves:** R110 / R111 / C94 / C95 went to the bottom, under U16's pins.
+- **Partly met:** U16 itself couldn't get 8 mm from D2's leads (the pot and key pins fill every spot nearby), so it stays
+  4.3 mm away. The long switching lines that ended there are gone (E1).
+
+**E3:** Q1 / Q2 / R16 / R17 / R42 / C28 went to the bottom, under U3B.
+
+**E4**
+- **Strip:** R1–R4 sit beside the header's power pins, and C1 / C3 / C5 / C6 on the bottom under them.
+- **Group:** the same. The summers' column fills the space right beside its header, hence 15 mm.
+
+**E5**
+- **Moves:** C8 / C9 sit on the bottom between J1's tip / ring and sleeve pads.
+- **Not possible:** a standoff closer to J1's sleeve. The jack courtyards leave no M3 spot nearer than H1 (24 mm), so
+  the CHASSIS copper from the sleeve to H1 / H2 must be wide, on both layers (routing note).
+
+**E8**
+- **Flasher:** its hold diode D18 sits beside U22, so the long run to the flasher is behind the diode, on its slow RC
+  node.
+- **PFL detect:** it has its own zone beside the PFL switcher, away from the phones amplifier.
+- **One new near pair:** FL_HOLD is now 5.4 mm from U18B's + input. Acceptable: the flasher only toggles while
+  something is soloed.
+
+**A placer change made on the way.** The strip's packer re-shuffled every IC after any change near the top: E2–E3 at
+first moved 163 parts and starved the HPF. So the upper board's op-amps (U1, U4–U7, U12–U16) are now fixed where the
+reviewed placement had them, and their parts pack around them. `placer.py` now lets a fixed part stay listed in its
+zone, where it anchors its parts.
+
+**Checks:**
+- **Moved:** 109 parts on the strip, 28 on the group, 64 on the master.
+- **DRC:** strip, group and master have 0 DRC violations and 0 parity issues; the jack boards show only the NJ6FD-V's
+  own items.
+- **Links:** every symbol is linked.
+- **Panels:** pixel-identical.
+
+**Placer reports:**
+
+| Board | Decouplers (median / max / over 5 mm) | High-Z inputs over 6 mm |
+|---|---|---|
+| Strip | 3.1 / 10.0 / 14 (was 12) | 28 (was 30), apart from the intended SIG_B |
+| Group | unchanged | unchanged |
+| Master | 3.1 / 11.5 / 27 (was 26) | FL_N via D18 is the intended long one |
+
+The two extra strip decouplers over 5 mm are DG413 decouplers next to the new supply-filter zone.
+
+**Stability:** the master's sensitive cases were re-run on TI's models after E8, with `master_len.json` re-measured from
+the new placement (`run_each.py` p100, p075 / p100 / p075_pfl placed, p075_out47; `run_phv.py` both channels). The
+results are unchanged: worst 47.7° (U21A at the pot top, as before), placed traces 48.6–54.1°, +47 pF 49.1°, phones
+76.0°. The strip's and group's changes move no op-amp's feedback network: E2 and E3 bring the strip's input RC and mute
+closer to their pins, and E4 moves only supply filters.

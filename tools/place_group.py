@@ -104,15 +104,19 @@ RETURN2 = []
 _ret2 = take('STEREO RETURN 2', *RET2_ROUTE)
 for u in (r for r in _ret2 if r.startswith('U')): RETURN2 += [u] + [r for r in beside(u) if r in _ret2]
 RETURN2 += [r for r in _ret2 if r not in RETURN2]
-POWER = take('POWER AND GROUNDS')
+SUPPLY_R = [r for r in take('POWER AND GROUNDS') if VAL[r].startswith('10R') and {'+VBUS', '-VBUS'} & NETS_OF[r]]
+POWER = [r for r in take('POWER AND GROUNDS') if r not in SUPPLY_R]
 ZONES = [
  # bottom side first: links and electrolytics. The return rows' pins fill the bottom at the top of the board (RET1), so
  # the links go below them, where the bottom is empty (ribbons ~150 mm; the strip's is ~136 mm)
  ('jack-board links (bottom)', (1, 185, 37, 260), ['CN3', 'CN4'], 'B', 1.0),
- ('rail reservoir caps (bottom)', (1, 360, 37, 444), RESERVOIR, 'B'),
+ # E4 (emc_placement_study.md): the reservoirs under the supply filters, beside the header's power pins (30-34)
+ ('rail reservoir caps (bottom)', (1, 285, 30, 345), RESERVOIR, 'B'),
  ('coupling caps and DRV134 output caps, beside their ICs (bottom; clear of the CN3 pin-1 mark)', (1, 96, 37, 444),
   sorted(RADIAL - set(RESERVOIR), key=num), 'B'),
  # top side
+ # E4: the 10R supply filters first, beside the header's power pins, so unfiltered bus power runs a few mm
+ ('supply filters at the bus header (E4)', (14, 294, 27, 318), SUPPLY_R, 'F'),
  ('GC buffer, summers + re-inverters (under the bus header)', (27, 300, 37.7, 444), SUMMERS, 'F'),
  ('power entry', (0.3, 299, 11, 444), POWER, 'F'),
  ('return 2 bus resistors at its switches', (1, 138, 37, 165), RET2_ROUTE, 'F'),
