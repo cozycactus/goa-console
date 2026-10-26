@@ -215,6 +215,10 @@ jack board) done.
   buffer L moved from U2B (fader end, 165 mm wiper line) into the spare U8B beside the pan pot (24 mm); U2B is the spare.
   Options (a) both buffers in U3 and (b) U2 at the pot rejected. the local (gitignored) `sim/review/strip/results_none.json`
   refreshed (it was from strip v4.1).
+- `stab_caps_proposal.md` (+ `stab_caps_proposal.patch`) — E9 (2026-10-26, not signed off, placement only): the strip's
+  twelve C0G stability caps that sat 6-22 mm from their op-amp pins (C84 at U7B 22.1 mm, C83 at U8A 10.5) moved to them,
+  nine on the bottom under their op-amp; every C0G cap on an op-amp input <= 6.3 mm; 86 parts held at their PAN1 spots
+  (`HOLD`) because the greedy packer otherwise re-shuffles ~90 parts. 0 DRC / parity, emc_check unchanged.
 - `sample_order.md` — the parts to order with the prototype panel and the eight physical checks they settle.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.
