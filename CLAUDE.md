@@ -207,6 +207,10 @@ jack board) done.
   group 15-16), jack board C8/C9 between J1's pins, master flasher diode at U22 and PFL detect by the PFL switcher.
   The strip's upper op-amps (U1, U4-U7, U12-U16) are now fixed in place_strip.py (the packer re-shuffled every IC);
   placer.py lets a fixed part stay in its zone as an anchor. E6 (10 nF base caps) and E7 (ferrites) are open.
+- `routing_guide.md` — routing notes for the strip, its jack board and the jig stub / load board (2026-10-26): ground and
+  supply strategy, the sensitive nets with lengths (IN_T/IN_R, pan buffer L's 165 mm wiper line, FPIN, KHN nodes, aux
+  sends, PRESRC, VREF; jig GCREF / GCREF_BUF ~175 mm), the switching nets to keep away, CHASSIS on the jack boards,
+  suggested net classes (not written into the projects).
 - `sample_order.md` — the parts to order with the prototype panel and the eight physical checks they settle.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.
