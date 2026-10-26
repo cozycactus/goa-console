@@ -62,7 +62,9 @@ class Board:
         for r, c in jc.items(): self.comps['JB_' + r] = c
         for (r, p), n in jp.items(): self.pins[('JB_' + r, p)] = n if n in GROUNDS else 'JB_' + n
         link = [r for r, c in self.comps.items() if 'link' in c['value'].lower()]
-        self.link = sorted(link, key=lambda r: r.startswith('JB_'))          # (main header, jack-board header)
+        side = lambda r: self.comps[r]['value'].lower().split('board link')[1]  # 'Jack / Main board link [2] 2xN'
+        self.link = [(m, j) for m in link if not m.startswith('JB_') for j in link
+                     if j.startswith('JB_') and side(j) == side(m)]             # (main header, jack-board header) pairs
 
 STRIP = Board('channel_strip.net', 'jack_board.net')
 GROUP = Board('group.net', 'group_jack_board.net')
@@ -131,11 +133,11 @@ class Module:
         high = lambda n: n is not None and root(n) == root('+5VL')
         meter = lambda ref: self.kind == 'master' and any(re.match(r'M[LR]', b.pins.get((ref, p), ''))
                                                           for p in [k[1] for k in b.pins if k[0] == ref])
-        for (main, jack) in [tuple(b.link)]:
+        for (main, jack) in b.link:
             npins = max(int(p) for (r, p) in b.pins if r == main)
             for p in range(1, npins + 1):
                 a, c = self.node(main, p), self.node(jack, p)
-                if a != c: L.append(f'R{self.name}_LINK{p} {a} {c} 0.01')
+                if a != c: L.append(f"R{self.name}_{main}_LINK{p} {a} {c} 0.01")
         for ref, c in b.comps.items():
             lib, v, X = c['lib'], c['value'], f'{self.name}_{ref}'
             if ref.startswith('#') or c['dnp'] or lib in OMIT or meter(ref): continue
@@ -380,6 +382,23 @@ def t_return():
           r.get('ml'), UNITY + 6.2, UNITY + 6.6)
     check('return 1 to MIX: main R', r.get('mr'), UNITY + 6.2, UNITY + 6.6)
 
+def t_return2():
+    """Group 1's second return (feature_gaps.md RET1): the same as return 1 to MIX, and routed to 1-2 it reaches SUB 1
+    exactly as return 1 does."""
+    s, g, m = default_console(group_cfg=lambda k: dict(pos={'RV5': 1.0}, sw={'SW8': True},
+                                                       plugs={'JB_J6': ('src', SRC, 50, True)}) if k == 0 else {})
+    r, _ = run(console(s, g, m), AC1K + dbu(diff(XLR['L']), 'ml') + dbu(diff(XLR['R']), 'mr'))
+    check('return 2 L (0 dBu balanced, normalled to R) to MIX, level at the top: main L', r.get('ml'), UNITY + 6.2, UNITY + 6.6)
+    check('return 2 to MIX: main R', r.get('mr'), UNITY + 6.2, UNITY + 6.6)
+    sub = {}
+    for n, (pot, key, jk) in ((1, ('RV4', 'SW5', 'JB_J4')), (2, ('RV5', 'SW9', 'JB_J6'))):
+        s, g, m = default_console(group_cfg=lambda k: dict(pos={pot: 1.0}, sw={key: True},
+                                                           plugs={jk: ('src', SRC, 50, True)}) if k == 0 else {})
+        r, _ = run(console(s, g, m), AC1K + dbu('v(g1_JB_S_OP,g1_JB_S_ON)', 'so'))
+        sub[n] = r.get('so')
+    print(f'     routed 1-2: SUB 1 out {sub[1]:.2f} dBu from return 1, {sub[2]:.2f} dBu from return 2')
+    check('return 2 routed 1-2: SUB 1 out against return 1 the same way (dB)', sub[2] - sub[1], -0.05, 0.05)
+
 def t_ext():
     s, g, m = default_console(master_cfg=dict(sw={'SW3': True}, plugs={'JB_J8': ('src', SRC, 50, True)}))
     r, _ = run(console(s, g, m), AC1K + dbu('v(JB_CRL_XP,JB_CRL_XN)', 'cl') + dbu('v(JB_CRR_XP,JB_CRR_XN)', 'cr'))
@@ -431,7 +450,7 @@ def t_noise():
                                          'let nd = db(onoise_total/0.7746)', 'print nd'])
         check(f'main L noise, {label}', r.get('nd'), lo, hi, 'dBu')
 
-CHECKS = {f.__name__[2:]: f for f in (t_levels, t_pan, t_mute_route, t_sub, t_aux, t_pfl, t_return, t_ext, t_crosstalk,
+CHECKS = {f.__name__[2:]: f for f in (t_levels, t_pan, t_mute_route, t_sub, t_aux, t_pfl, t_return, t_return2, t_ext, t_crosstalk,
                                        t_ground, t_noise)}
 if __name__ == '__main__':
     if '--list' in sys.argv: print(' '.join(CHECKS)); sys.exit(0)

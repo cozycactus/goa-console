@@ -101,12 +101,13 @@ STRIP = {'RV9': ('GAIN', 'red'), 'RV10': ('HF', 'grey'), 'RV11': ('HI-MID', 'gre
          'D2': ('OL', 'red'), 'D3': (None, 'off'), 'D4': (None, 'green'), 'D5': (None, 'green'), 'D6': (None, 'yellow'),
          'D7': (None, 'off'), 'D8': (None, 'off'),
          'J1': ('LINE IN', None), 'J2': ('INSERT', None), 'J5': ('DIRECT', None), 'RV1': ('', 'black')}
-GROUP = {'RV4': ('RETURN', 'blue'), 'RV3': ('AUX', 'yellow'), 'RV2': ('SUB PAN', 'black'),
-         'SW7': ('PFL', 'red'), 'SW3': ('AFL', 'red'), 'SW1': ('MIX', 'white'), 'SW4': ('MIX', 'white'),
-         'SW5': ('1-2', 'white'), 'SW6': ('3-4', 'white'), 'SW2': ('AFL', 'red'),
-         'D1': (None, 'off'), 'D2': (None, 'off'), 'D3': (None, 'off'),
-         'J2': ('SUB OUT', None), 'J1': ('INSERT', None), 'J3': ('AUX OUT', None), 'J4': ('RET L', None),
-         'J5': ('RET R', None), 'RV1': ('SUB', 'black')}
+GROUP = {'RV4': ('RET 1', 'blue'), 'RV5': ('RET 2', 'blue'), 'RV3': ('AUX', 'yellow'), 'RV2': ('SUB PAN', 'black'),
+         'SW7': ('PFL', 'red'), 'SW11': ('PFL', 'red'), 'SW3': ('AFL', 'red'), 'SW1': ('MIX', 'white'), 'SW4': ('MIX', 'white'),
+         'SW5': ('1-2', 'white'), 'SW6': ('3-4', 'white'), 'SW8': ('MIX', 'white'), 'SW9': ('1-2', 'white'),
+         'SW10': ('3-4', 'white'), 'SW2': ('AFL', 'red'),
+         'D1': (None, 'off'), 'D2': (None, 'off'), 'D3': (None, 'off'), 'D4': (None, 'off'),
+         'J2': ('SUB OUT', None), 'J1': ('INSERT', None), 'J3': ('AUX OUT', None), 'J4': ('RET 1 L', None),
+         'J5': ('RET 1 R', None), 'J6': ('RET 2 L', None), 'J7': ('RET 2 R', None), 'RV1': ('SUB', 'black')}
 MASTER = {'RV2': ('AUX 5', 'black'), 'RV3': ('AUX 6', 'black'), 'RV5': ('C/ROOM', 'grey'), 'RV6': ('PHONES', 'grey'),
           'RV4': ('SOLO', 'red'), 'SW1': ('AFL', 'red'), 'SW2': ('AFL', 'red'), 'SW3': ('EXT', 'grey'),
           'D12': (None, 'off'), 'D13': (None, 'off'), 'D3': ('POWER', 'green'), 'D15': ('PFL', 'off'),
@@ -114,7 +115,7 @@ MASTER = {'RV2': ('AUX 5', 'black'), 'RV3': ('AUX 6', 'black'), 'RV5': ('C/ROOM'
           'J8': ('EXT L', None), 'J9': ('EXT R', None), 'J6': ('AUX 5', None), 'J7': ('AUX 6', None),
           'J12': ('PHONES', None), 'J3': ('MAIN L', None), 'J4': ('MAIN R', None), 'J5': ('MONO', None), 'RV1': ('MIX', 'black')}
 NAMES = {'strip': STRIP, 'group': GROUP, 'master': MASTER}
-KNOB_ANGLE = {'AUX': -50.0, 'RETURN': 40.0, 'C/ROOM': 30.0, 'PHONES': 20.0}
+KNOB_ANGLE = {'AUX': -50.0, 'RETURN': 40.0, 'RET': 40.0, 'C/ROOM': 30.0, 'PHONES': 20.0}
 
 def led_state(p, names):
     if p['ref'] in names: return names[p['ref']]
@@ -152,7 +153,7 @@ SCALES = {   # (dots, labels in priority order, unit at 6 o'clock); as the real 
     'pan': (EVEN11, [(0.0, 'L5'), (1.0, '5R'), (0.5, '0')] + both((0.2, '3'), (0.1, '4'), (0.3, '2'), (0.4, '1')), None),
 }
 PAIRS = {'strip': {'RV12': ('RV11', 'HI MID'), 'RV14': ('RV13', 'LO MID')}}   # frequency knob: (its gain knob, band)
-RULES = {'strip': [152.2, 221.2, 236.6, 264.6], 'group': [118.0, 207.0, 264.6], 'master': [112.0, 196.0]}
+RULES = {'strip': [152.2, 221.2, 236.6, 264.6], 'group': [156.2, 207.0, 264.6], 'master': [112.0, 196.0]}
 METERS = {'master': [(18.0, 327.0, 422.0), (60.6, 327.0, 422.0)]}   # LED columns: outline as the Delta's meter block
 def scale_of(ref, name):
     if ref in KHN: return (EVEN11, KHN[ref], None)

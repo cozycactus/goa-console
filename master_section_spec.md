@@ -1,4 +1,4 @@
-# Master Section — Schematic Specification, v0.11 (draft)
+# Master Section — Schematic Specification, v0.12 (draft)
 ## Part 1: stereo mix path, mono, main outputs, power-on mute
 ## Part 2: subgroups, aux masters
 ## Part 3: stereo returns · Part 4: monitoring · Part 5: power entry
@@ -9,7 +9,7 @@ Part 5 at 24. Open items are in section 29.
 
 **Modules (2026-10-22, `master_panel_study.md` M1).** The master section is built as five boards on the
 ribbon. Four identical 8 HP **group modules** (`group.kicad_sch`, `tools/gen_group.py`) each carry one
-subgroup (§12), one aux master (aux 1–4, §13) and one stereo return (§16). Solder jumpers pick which
+subgroup (§12), one aux master (aux 1–4, §13) and two stereo returns (§16; the second since v0.12). Solder jumpers pick which
 SUB and AUX bus a group sums, and each group buffers GCANCEL locally for its re-inverters. Groups have
 strip-style power and grounds (10 Ω + 220 µF, spade, 10 Ω to GCANCEL). The 16 HP **master module**
 (`master.kicad_sch`, `tools/gen_master.py`) carries everything else: power entry and both wing
@@ -21,12 +21,23 @@ parallel to the board. So each module's panel connectors sit on a jack board und
 by an IDC ribbon (`master_lib.jack` / `link_pins` / `jack_board`). Each jack's pair is adjacent, with a
 ground after it; insert send and return are split by a ground; phones carry PHONESGND beside L/R.
 Ribbon conductor = pin number; never 2 × 17, so a link can't be mistaken for the bus ribbon.
-- Group: `group_jack_board.kicad_sch`, 5 × NJ6FD-V (sub out, sub insert, aux out, return L, return R),
-  2 × 8 link (CN3 on the group board).
+- Group: `group_jack_board.kicad_sch`, 7 × NJ6FD-V (sub out, sub insert, aux out, return 1 L / R, return 2 L / R),
+  2 × 8 link (CN3 on the group board) and, since v0.12, a 2 × 5 link for return 2 (CN4). A single 2 × 13 is 43 mm
+  long; the jack board's one free slot, right of AUX OUT between the jacks' pads, takes ~29 mm.
 - Master: `master_jack_board.kicad_sch`, 9 × NJ6FD-V (MIX L/R inserts, EXT L/R, C/Room L/R, phones,
   aux 5/6 out) + 3 × Neutrik NC3MAV (vertical) main XLRs, 2 × 20 link (CN5 on the master board).
 - The returns' and EXT's 100 pF RF caps and 1M stay on the main boards at the receivers. The strip
   moved its RF caps to its jack board; move these too if the jig shows RF pickup on the ribbon.
+
+**Second return per group (signed off 2026-10-26, applied in v0.12; `feature_gaps.md` RET1).**
+- **Circuit:** every group module carries a second stereo return, the same circuit as the first (§16). The console has
+  eight returns.
+- **Jack board:** two jacks more (a fourth row, RET 2 L / R at y 78) on a 38 × 93.5 mm board, with a 2 × 5 link of its
+  own beside the 2 × 8. The main board starts at y 94.5.
+- **Panel:** RET 1 / RET 2 knobs with their PFL keys at y 106 / 128; return 2's MIX / 1-2 / 3-4 keys at y 150; AUX at
+  y 172. Return 1's routing keys stay in the routing row (y 274).
+- **Cost:** per group +2 OPA1612 and +2 OPA1656, ≈ +30 mA per rail typical; ≈ +0.12 A per rail console-wide (§27).
+- **Unchanged:** every existing part keeps its reference and connections.
 
 **Design review (signed off 2026-10-25, applied in v0.11; `design_review.md` R1, R2, R4, R5).**
 - **R1:** every balanced driver is a **TI DRV135UA**. The DRV134 comes only as DIP-8 or the 16-pin wide SOL-16; the
@@ -564,12 +575,13 @@ no package straddles two placement areas), each group 7 × OPA1612; console 41 �
 
 # Part 3 — Stereo returns
 
-(On the group modules: return n on group n.)
+(On the group modules: returns 1 and 2 on every group, eight in the console since v0.12.)
 
-## 16. Stereo returns ×4
+## 16. Stereo returns ×8
 
-Purpose: effects returns (reverbs, delays) into the mix and subs. Built on the group modules (return n on group n),
-with the same receiver, routing and PFL circuits as the strip.
+Purpose: effects returns (reverbs, delays) into the mix and subs. Built on the group modules, two per group (the
+second since v0.12, `feature_gaps.md` RET1; `stereo_return()` in `tools/gen_group.py` builds both), with the same
+receiver, routing and PFL circuits as the strip.
 
 ```
 RET n L in (NJ6FD-V) ─ 1M per leg, 220R, 100 pF at each follower + input, OPA1656 followers, 100R (G3b) ─ differential receiver (OPA1612 A, 4 × 10K 0.1 %, 33 pF on both legs) → RETn_L
@@ -597,7 +609,7 @@ RETn_L/R ─ 33µ NP + 47K ─ PREn_L/R ─┬─ level, dual A10K (RD902F), pin
 - No balance or mute. Add a balance pot later if wanted (dual B10K after the level pot, as
   the strip pan).
 
-Per return: 2 × OPA1612, 2 × NJ6FD-V, 1 × RD902F A10K, 4 × PVA2 (PFL, MIX, 1-2, 3-4), 1 LED.
+Per return: 2 × OPA1612, 2 × OPA1656 (followers), 2 × NJ6FD-V, 1 × RD902F A10K, 4 × PVA2 (PFL, MIX, 1-2, 3-4), 1 LED.
 Totals for four: 8 × OPA1612, 8 jacks, 4 dual pots, 16 switches, 4 LEDs.
 
 ---
@@ -926,9 +938,9 @@ scale badly (below).
 
 | Item | +V | −V |
 |------|----|----|
-| 41 × OPA1612 (3.6 mA/ch typ, 4.5 max) | 295 mA | 295 mA |
+| 49 × OPA1612 (3.6 mA/ch typ, 4.5 max) | 353 mA | 353 mA |
 | 2 × OPA1656 (3.9 mA/ch): PFL sum, CRS followers | 16 | 16 |
-| 10 × OPA1656, return / EXT followers (G3b, 2026-10-25): 8 on the groups, 2 on the master | 78 | 78 |
+| 18 × OPA1656, return / EXT followers (G3b, 2026-10-25; RET1): 16 on the groups, 2 on the master | 140 | 140 |
 | 4 × TL072 (meters) | 11 | 11 |
 | 15 × DRV134 (5.2 mA) | 78 | 78 |
 | 10 × LM2901B, 3 × LM393B, DG413 (+5VL zener 2.5 mA) | 17 | 14 |
@@ -936,9 +948,16 @@ scale badly (below).
 | Meter LED strings, 4 × ~5 mA | 20 | 20 |
 | 6 relay coils (9.1 mA each) | 55 | — |
 | Panel LEDs (AFL, PFL, power, rude solo) | 60 | — |
-| **Master** | **≈ 0.69 A** | **≈ 0.58 A** |
+| **Master** | **≈ 0.81 A** | **≈ 0.70 A** |
 | 24 strips v4.7 at ≈ 104 / 87 mA (v4.4: 100 / 87; v4.3: 92 / 79; v4.0: 85 / 72) | ≈ 2.50 A | ≈ 2.09 A |
-| **Console** | **≈ 3.19 A** | **≈ 2.67 A** |
+| **Console** | **≈ 3.31 A** | **≈ 2.79 A** |
+
+v0.12 (2026-10-26, `feature_gaps.md` RET1): each group's second return adds 2 OPA1612 and 2 OPA1656 (the followers),
+≈ 30 mA per rail typical and ≈ 38 mA at maximum IQ, plus its PFL LED when pressed. Console ≈ 3.31 / 2.79 A typical
+(+0.12 A per rail). With MET1 the worst corner on +V goes from ≈ 4.38 to ≈ 4.54 A. A wing's +V (two groups) is
+≈ 1.48 A typical (74 / 82 % of the MF-RX250/72's hold at 40 / 50 °C) and ≈ 2.07 A in the corner (103 / 115 %):
+in that corner a wing PTC can trip, as noted for v4.4 below. The "Master" row above holds the group modules' parts
+too (the table predates the M1 split).
 
 Strip v4.7 (2026-10-26, `feature_gaps.md` MET1): the signal LED adds ≈ 4 mA per strip on +V while green is lit
 (green 3.2 mA, its switch's base 0.3 mA, U17 ≈ 0.5 mA), ≈ +0.1 A console-wide (counted as lit, the usual state with

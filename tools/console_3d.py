@@ -295,12 +295,12 @@ def part_kw(fn, kw, **extra):
     ps = inspect.signature(fn).parameters
     return dict(kw, **{k: v for k, v in extra.items() if k in ps})
 
-def link_ribbon(c, name, j, m):
+def link_ribbon(c, name, j, m, dz=0.0):
     """Jack-board link: flat cable from the jack board's IDC socket j to the main board's socket m (dicts: n, x, y,
     z = ribbon centre, along, y1 = the jack board's far edge, pin1). Long side along x: the cable leaves along y and
     loops up past the jack board's edge. Along y: it leaves along x, bends down, turns a quarter twist into a run along y
     below both boards, then twists back into a main-board socket along y, or rises straight into one along x. Red
-    stripe on the pin-1 edge."""
+    stripe on the pin-1 edge. dz: a further drop for the run under the boards (a second link beside the first)."""
     w = 2.54 * j['n']
     if j['along'] == 'x':
         r = (m['z'] - j['z']) / 2; yt = max(m['y'], j['y1']) + 4.0
@@ -309,7 +309,7 @@ def link_ribbon(c, name, j, m):
                           stripe=1 if j['pin1'][0] > j['x'] else -1)
     else:
         sj = 1 if j['pin1'][1] > j['y'] else -1                                         # pin-1 edge at each end
-        dj = -1 if m['x'] < j['x'] else 1; zl = min(j['z'], m['z']) - 8.0
+        dj = -1 if m['x'] < j['x'] else 1; zl = min(j['z'], m['z']) - 8.0 + dz
         ctrl = [((j['x'], j['y'], j['z']), (0, sj, 0)), ((j['x'] + 4 * dj, j['y'], j['z']), (0, sj, 0)),
                 ((j['x'] + 7 * dj, j['y'] + 2, j['z'] - 5), (0, sj, 0))]
         if m['along'] == 'y':          # into a main-board socket along y: twist back, enter it along x
@@ -417,9 +417,9 @@ def module(key):
                 l, t, r, b = p['box']
                 g = Geo([M['plastic']]); g.box(l + 0.3, t + 0.3, 0, r - 0.3, b - 0.3, 1.0, 0)
                 put(ref, g.mesh(ref), cb, 0, 0, zt if p['side'] == 'F' else zb - 1.0)
-    for j in (q for q in sockets if q['jack']):
+    for k, j in enumerate(sorted((q for q in sockets if q['jack']), key=lambda q: -q['n'])):   # the group has two (RET1)
         m = next((q for q in sockets if not q['jack'] and q['n'] == j['n']), None)
-        if m: link_ribbon(cb, f'{key} jack-board link', j, m)
+        if m: link_ribbon(cb, f'{key} jack-board link' + (f' {k + 1}' if k else ''), j, m, dz=-4.0 * k)
     BUS[key] = sorted((q['x'], q['y'], q['z'], q['pin1'][1]) for q in sockets if not q['jack'] and q['n'] == 17)
     put(f'{key} pins', pins.mesh(f'{key} pins'), cb, 0, 0, 0)
     P = panel_layout.layout(key, data)              # cut-outs, screws and print: the fabrication drawings' source

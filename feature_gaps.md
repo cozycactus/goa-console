@@ -101,3 +101,47 @@ off in overload; RET1 option A.
   ≈ 4.33 to ≈ 4.38 A on +V (master spec §27).
 - **BOM:** per strip +1 LM393B, 3 MMBT3906, 1 BAT54W, 1 WP3VEGW in place of the WP710A10ID, and 13 passives;
   `order_bom.csv` regenerated.
+
+## Applied: RET1 (2026-10-26, master spec v0.12)
+
+- **Schematic** (`tools/gen_group.py`):
+  - The return block is now `stereo_return()`, called twice: return 1 as before and return 2 (`RT2_*` nets, "Return 2"
+    parts).
+  - Return 1's deferred followers are created before return 2, so every existing part keeps its reference and
+    connections (checked net by net).
+  - New per group: U12–U15 (2 OPA1612, 2 OPA1656), RV5, SW8–SW11, D4, 66 passives and the 2 × 5 link CN4. 263 parts, 735 pins,
+    0 mismatches, check_fp 0, ERC 0.
+- **Jack board:**
+  - **Jacks:** 7 jacks; RET 2 L / R are a fourth row at y 78. The board is 38 × 93.5 mm, with the two standoffs below
+    the last row.
+  - **Second link:** return 2 has its own 2 × 5 link (jack board CN2 ↔ group CN4). The old 2 × 8 keeps its pinout. All
+    seven jacks on one link would need a 2 × 13, which is 43 mm long. The jack board's one free slot, right of AUX OUT
+    and between the jacks' pads, takes ~29 mm: the 2 × 8 and, beside it, a 2 × 5.
+- **Main board** (`tools/place_group.py`):
+  - **Size:** it now starts at y 94.5 (38 × 349.5 mm). It had the room: the second return fits without moving the
+    summers or the sub.
+  - **Panel rows:** RET 1 knob, PFL key and LED at y 106; RET 2 at y 128; return 2's MIX / 1-2 / 3-4 keys at y 150;
+    AUX at y 172. Return 1's routing keys stay in the routing row at y 274.
+  - **Links:** CN3 / CN4 are on the bottom at y ≈ 190. The pots' and keys' pins fill the bottom higher up; between
+    the rows the headers left return 1's parts no room. The ribbons are ~170 mm.
+  - **Checks:** parity DRC 0 violations, 0 parity issues; jack board only the NJ6FD-V's own items (4 per jack).
+  - **Report:** decouplers 3.0 / 6.2 / 2 (was 3.1 / 4.5 / 0); high-Z inputs 8.5 / 20.2 / 31 (was 7.8 / 20.1 / 18,
+    with 37 inputs now against 25).
+- **Panel:**
+  - **Legends:** the knobs read RET 1 / RET 2 and the jacks RET 1 L … RET 2 R. "RETURN 2" in bold was wider than the
+    gap between RET 1's "0" and "10", so those numerals had been dropped.
+  - **Section rule:** at y 156.2, between return 2's keys and AUX.
+  - **Fabrication files:** regenerated in `panels/`.
+- **3D model:** the new jack row and both link ribbons; the second runs 4 mm below the first.
+- **Sim** (`tools/sim_console.py`, now 35 checks): return 2 to MIX gives the same level as return 1 (+5.48 dB at the main
+  XLRs). Routed 1-2, it reaches SUB 1 exactly as return 1 does.
+  - **Fix found on the way:** `sim_console.py` now pairs a jack board's links by size, and `place_group.py`'s
+    `switch_rs('SW1')` no longer also catches SW10's resistors.
+- **Power:**
+  - **Typical:** +≈ 0.12 A per rail. The console is ≈ 3.31 / 2.79 A typical with MET1.
+  - **Worst corner on +V:** ≈ 4.54 A. A wing's PTC (MF-RX250/72) sees ≈ 1.48 A typical (74 / 82 % of hold at
+    40 / 50 °C) and ≈ 2.07 A in the corner, above its hold.
+  - **Heat:** inside the vented tub, 16.1 → 16.9 K.
+  - Master spec §27, `psu_spec.md`, `console_architecture.md` and `thermal_study.md` updated.
+- **Off-board** (`offboard_bom.md`): per group +1 knob, cap and M7 washer, 4 PV caps (3 white, 1 red), 1 LED spacer,
+  and a 10-way IDC pair with its cable. `order_bom.csv` regenerated.

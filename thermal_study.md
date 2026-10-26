@@ -5,7 +5,8 @@ does it get inside, what does that do to the parts, and what should the tub do a
 
 **The model.** `sim/review/thermal/tub_thermal.py`, a lumped steady-state model:
 - **Geometry:** from the 3D model. The cavity is 1219 × 516 mm and 56.5 mm deep under the panels; tilt 9°.
-- **Dissipation:** 17 V × (3.09 + 2.67 A) = 98 W typical, from the master spec §27 budget; 116 W with every op-amp at
+- **Dissipation:** 17 V × (3.09 + 2.67 A) = 98 W typical, from the master spec §27 budget (≈ 104 W since MET1 / RET1,
+  2026-10-26: `tub_thermal.py` at that figure gives the vented case 16.9 K, mid, against 16.1 K); 116 W with every op-amp at
   maximum current.
 - **Heat paths:**
   - through the black anodised panels (inside film → panel → convection and radiation to the room);

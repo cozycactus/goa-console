@@ -1,5 +1,5 @@
-"""Generate the group module schematic (master_panel_study.md, option M1): sub n + stereo return n + aux n
-master on one 8 HP board that sits on the ribbon like a strip. Four identical boards; on each, close one SUB
+"""Generate the group module schematic (master_panel_study.md, option M1): sub n + two stereo returns + aux n
+master on one 8 HP board (the second return: feature_gaps.md RET1, 2026-10-26) that sits on the ribbon like a strip. Four identical boards; on each, close one SUB
 and one AUX solder jumper to pick which buses it sums (group 1: SUB 1 + AUX 1, ... group 4: SUB 4 + AUX 4).
 The circuits are the master's own (master_lib.py, master_section_spec.md sections 12, 13, 16).
 usage: .venv/bin/python tools/gen_group.py group.kicad_sch   (also writes group_jack_board.kicad_sch)"""
@@ -79,25 +79,39 @@ drv134(b, a + '_OUT', a + '_OP', a + '_ON')
 jack(b, 'JACK', 'Aux out TRS', {'T': a + '_OP', 'R': a + '_ON', 'S': 'CHASSIS'})   # G2b
 chain(b, a + '_OUT', [('s', R(b, '22K', a + '_OUT', a + '_AFLJ'))], a + '_AFLJ'); afl(b, a + '_AFLJ', 'Aux AFL')
 
-b = block('STEREO RETURN: receivers (R normalled to L), level, buffers, MIX / 1-2 / 3-4 onto the ribbon, PFL  [spec 16]')
-r = 'RT'
-stereo_in(b, 'Return', r + '_L', r + '_R')
-for sd in 'LR':
-    chain(b, f'{r}_{sd}', [('s', C(b, '47u NP 25V', f'{r}_{sd}', f'{r}_PRE{sd}')), ('g', R(b, '47K', f'{r}_PRE{sd}', 'GNDA'))], f'{r}_PRE{sd}')
-rr2 = ref('RV'); P(b, rr2, 'POT2', 'Return level 10K log dual', {1: 'GNDA', 3: r + '_PREL', 2: r + '_WL', 4: 'GNDA', 6: r + '_PRER', 5: r + '_WR'}, mpn=POT2A_MPN)
-frag(b, 14, 8, lambda d: frags.pot2(d, rr2))
-for sd in 'LR':
-    level_buffer(b, f'{r}_W{sd}', f'{r}_B{sd}', f'{r}{sd}')
-    chain(b, f'{r}_B{sd}', [('s', C(b, '220u NP 25V', f'{r}_B{sd}', f'{r}_RTN{sd}')), ('g', R(b, '47K', f'{r}_RTN{sd}', 'GNDA'))], f'{r}_RTN{sd}')
-for busl, busr, nm in (('MIXL', 'MIXR', 'MIX'), ('SUB1', 'SUB2', '1-2'), ('SUB3', 'SUB4', '3-4')):
-    routing(b, r + '_RTNL', r + '_RTNR', busl, busr, f'Return {nm}')
-for sd in 'LR': chain(b, f'{r}_PRE{sd}', [('s', R(b, '43K', f'{r}_PRE{sd}', r + '_PFLJ'))], r + '_PFLJ')
-afl(b, r + '_PFLJ', 'Return PFL')
+def stereo_return(title, r, name):
+    """A stereo return as on the master (spec 16): receivers (R normalled to L), level, buffers, MIX / 1-2 / 3-4 onto
+    the ribbon, PFL. r: net prefix; name: what the jacks, keys and pot are called."""
+    b = block(title)
+    stereo_in(b, name.replace(' ', ''), r + '_L', r + '_R', label=name)
+    for sd in 'LR':
+        chain(b, f'{r}_{sd}', [('s', C(b, '47u NP 25V', f'{r}_{sd}', f'{r}_PRE{sd}')), ('g', R(b, '47K', f'{r}_PRE{sd}', 'GNDA'))], f'{r}_PRE{sd}')
+    rr2 = ref('RV'); P(b, rr2, 'POT2', f'{name} level 10K log dual', {1: 'GNDA', 3: r + '_PREL', 2: r + '_WL', 4: 'GNDA', 6: r + '_PRER', 5: r + '_WR'}, mpn=POT2A_MPN)
+    frag(b, 14, 8, lambda d: frags.pot2(d, rr2))
+    for sd in 'LR':
+        level_buffer(b, f'{r}_W{sd}', f'{r}_B{sd}', f'{r}{sd}')
+        chain(b, f'{r}_B{sd}', [('s', C(b, '220u NP 25V', f'{r}_B{sd}', f'{r}_RTN{sd}')), ('g', R(b, '47K', f'{r}_RTN{sd}', 'GNDA'))], f'{r}_RTN{sd}')
+    for busl, busr, nm in (('MIXL', 'MIXR', 'MIX'), ('SUB1', 'SUB2', '1-2'), ('SUB3', 'SUB4', '3-4')):
+        routing(b, r + '_RTNL', r + '_RTNR', busl, busr, f'{name} {nm}')
+    for sd in 'LR': chain(b, f'{r}_PRE{sd}', [('s', R(b, '43K', f'{r}_PRE{sd}', r + '_PFLJ'))], r + '_PFLJ')
+    afl(b, r + '_PFLJ', f'{name} PFL')
+    return b
+
+stereo_return('STEREO RETURN: receivers (R normalled to L), level, buffers, MIX / 1-2 / 3-4 onto the ribbon, PFL  [spec 16]',
+              'RT', 'Return')
+while DEFER: DEFER.pop(0)()                     # return 1's followers here, so every part of the board before RET1 keeps its ref
+# RET1 (feature_gaps.md, signed off 2026-10-26): a second stereo return on every group module, eight in the console
+b = stereo_return('STEREO RETURN 2: as return 1 (receivers, level, buffers, MIX / 1-2 / 3-4, PFL)  [spec 16]', 'RT2', 'Return 2')
 spares(b)
 
-JACKS = collected(); NL, LINK = link_pins(JACKS, skip=('CHASSIS',))   # CHASSIS: standoffs to the panel
-b = block(f'JACK BOARD LINK  2x{NL} IDC ribbon to the group jack board (5 jacks); bottom side, as the strip\'s CN3')
+JACKS = collected(); NL, LINK = link_pins(JACKS[:5], skip=('CHASSIS',))   # CHASSIS: standoffs to the panel
+b = block(f'JACK BOARD LINK  2x{NL} IDC ribbon to the group jack board (sub, insert, aux, return 1); bottom side, as the strip\'s CN3')
 link_header(b, NL, LINK, f'Jack board link 2x{NL}')
+# RET1: return 2 has a link of its own. A 2x13 for all seven jacks is 43 mm long; the jack board's one free slot (right
+# of AUX OUT, between the jacks' pads) takes ~29 mm, enough for the 2x8 and, beside it, a 2x5
+NL2, LINK2 = link_pins(JACKS[5:], skip=('CHASSIS',))
+b = block(f'JACK BOARD LINK 2  2x{NL2} IDC ribbon to the group jack board (return 2); bottom side, beside the first')
+link_header(b, NL2, LINK2, f'Jack board link 2 2x{NL2}')
 
 project_file(OUT); parts_sidecar(OUT)
 build(OUT, 'group', 'Group module - goa console (sub + return + aux master)',
@@ -107,4 +121,5 @@ build(OUT, 'group', 'Group module - goa console (sub + return + aux master)',
       pages=dict(paper='A4', folder='group_sheets'))       # A4 sub-sheets under a root sheet (prints on A4)
 
 jack_board(os.path.join(ROOT, 'group_jack_board.kicad_sch'), 'group_jack_board',
-           'Group module jack board - goa console (sub out, insert, aux out, return L/R)', JACKS, NL, LINK, holes=2)
+           'Group module jack board - goa console (sub out, insert, aux out, return 1 and 2 L/R)', JACKS, NL, LINK, holes=2,
+           more=[(NL2, LINK2, f'Main board link 2 2x{NL2}')])

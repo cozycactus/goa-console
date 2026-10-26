@@ -1,4 +1,4 @@
-# Off-board parts (2026-10-25)
+# Off-board parts (2026-10-25; RET1 counts 2026-10-26)
 
 Everything a build needs that isn't on a board's BOM, so `order_bom.csv` doesn't have it. Counts are for the console:
 24 strips, 4 groups and the master, plus the PSU and the jig where marked. Per-module counts come from the placed
@@ -14,16 +14,16 @@ boards. Dimensions and rules come from `panel_parts_drawings.md`, strip spec §1
 
 | Item | Per strip / group / master | Console | Status | Part or rule |
 |---|---|---|---|---|
-| Knob, 1/4" (6.35) round shaft | 14 / 2 / 5 | 349 | code | **Elma 021-3525**: classic collet knob Ø14.5, matt black with a line (`knob_proposal.md` KN1, signed off 2026-10-25); no nut cover |
-| Knob cap | 15 / 3 / 5 | 377 | code | **Elma 040-30x5**, matt, without a line (KN3): red 040-3035 ×25, grey 040-3015 ×98, blue 040-3045 ×76, yellow 040-3055 ×50, green 040-3065 ×50, black 040-3025 ×78 (colour per function in `knob_proposal.md`) |
+| Knob, 1/4" (6.35) round shaft | 14 / 3 / 5 | 353 | code | **Elma 021-3525**: classic collet knob Ø14.5, matt black with a line (`knob_proposal.md` KN1, signed off 2026-10-25); no nut cover |
+| Knob cap | 15 / 4 / 5 | 381 | code | **Elma 040-30x5**, matt, without a line (KN3): red 040-3035 ×25, grey 040-3015 ×98, blue 040-3045 ×80, yellow 040-3055 ×50, green 040-3065 ×50, black 040-3025 ×78 (colour per function in `knob_proposal.md`) |
 | Knob, 6 mm D shaft (pan, RK09L) | 1 / 1 / 0 | 28 | code | **Elma 021-3425**: the same knob with a 6 mm collet |
-| PV cap for PVA2 | 13 / 7 / 3 | 343 | code | C&K PV, round Ø7.4 × 7 (`knob_proposal.md` KC1): PVGY ×193, PVWH ×88, PVRD ×38, PVBK ×24 (ON). Panel hole Ø8.0. |
+| PV cap for PVA2 | 13 / 11 / 3 | 359 | code | C&K PV, round Ø7.4 × 7 (`knob_proposal.md` KC1): PVGY ×193, PVWH ×100, PVRD ×42, PVBK ×24 (ON). Panel hole Ø8.0. |
 | Fader cap | 1 / 1 / 1 | 29 | code | Sifam LK111 01, black with a white line (KC2; 02 LK110 01, RS 281-7197, if only the plain one is stocked). Trial a few generic white / red / yellow 8 × 1.2 caps at the fader sample check; if one fits, strips white, groups red, master yellow. |
 | Fader screws | 2 / 2 / 2 | 58 | rule | M3 into the PTB cover's tapped holes, 120.0 apart, through the 1.5 panel and the 3.5 spacer. M3 × 8 countersunk if the panel is countersunk. |
 | Fader spacer | 2 / 2 / 2 | 58 | rule | 3.5 mm thick, M3 clearance, under the panel at each fixing (the stack puts the lever 5.0 above the panel). |
-| Pot spacer washer, M7 | 14 / 2 / 5 | 349 | rule | 1.5 thick, ID 7.2, OD < 11.2 to clear the anti-rotation lug (model 10). Leave the pot's own 0.4 washer off: the bushing has no spare thread. |
+| Pot spacer washer, M7 | 14 / 3 / 5 | 353 | rule | 1.5 thick, ID 7.2, OD < 11.2 to clear the anti-rotation lug (model 10). Leave the pot's own 0.4 washer off: the bushing has no spare thread. |
 | Pot spacer washer, M9 (RK09L) | 1 / 1 / 0 | 28 | rule | 9.5 / 11 × 1.5. Its M9 nut: check the thickness on a sample (spec open item). |
-| LED spacer, 3 mm LED | 7 / 3 / 43 | 223 | rule | 7.6 mm long (the LED's lens then sits at the panel). |
+| LED spacer, 3 mm LED | 7 / 4 / 43 | 227 | rule | 7.6 mm long (the LED's lens then sits at the panel). |
 | LED spacer, 5 mm LED | 0 / 0 / 1 | 1 | rule | The master's PFL ACTIVE LED, sized to the same panel height. |
 | Main-board standoff, M3 | 6 / 6 / 7 | 175 | rule | 11.5 mm (panel underside to PCB), unplated holes. Two M3 screws each: 350. |
 | Jack-board standoff, M3 F-F | 2 / 2 / 3 | 59 | rule | **Exactly 24.0 mm, metal.** The jacks are rigid spacers, so a longer one hangs the board on its solder joints. Two M3 screws each (118). A star washer, or bare metal, at the panel end of each (59): these standoffs carry CHASSIS to the panel. |
@@ -37,11 +37,11 @@ boards. Dimensions and rules come from `panel_parts_drawings.md`, strip spec §1
 |---|---|---|---|---|
 | 34-way IDC socket (motherloom) | 30 (24 strips, 4 groups, 2 master wing headers) | 6 (4 strips, stub, load board) | code | Würth 61203423021 (WR-BHD, strain relief), the mate of the boards' 61203421621 headers |
 | 34-way flat cable | 2 wing runs of about 14 × 40.6 mm + slack, ≈ 0.75 m each | ≈ 0.5 m | rule | 1.27 mm pitch grey flat cable, 28 AWG. The IDC contacts are rated 1 A (+V uses three conductors, W1). Order 3 m. |
-| 10-way IDC socket (strip jack link) | 48 (2 × 24) | | code | Würth 61201023021 |
-| 10-way flat cable | 24 × ~136 mm (one 90° fold, strip spec §16.4) | | rule | 1.27 mm flat cable; order 4 m |
+| 10-way IDC socket (strip jack link; group return-2 link) | 56 (2 × 24 + 2 × 4) | | code | Würth 61201023021 |
+| 10-way flat cable | 24 × ~136 mm (one 90° fold, strip spec §16.4) + 4 × ~170 mm (group return 2) | | rule | 1.27 mm flat cable; order 5 m |
 | 16-way IDC socket (group jack link) | 8 (2 × 4) | | code | Würth 61201623021 |
 | 40-way IDC socket (master jack link) | 2 | | code | Würth 61204023021 |
-| 16- and 40-way flat cable | 4 short links, 1 short link | | rule | 1.27 mm; cut to fit the 24.0 mm board spacing with one fold |
+| 16- and 40-way flat cable | 4 × ~170 mm (the group's links leave its main board at y ≈ 190 since RET1), 1 short link | | rule | 1.27 mm; cut to fit the 24.0 mm board spacing with one fold |
 
 ## Ground harness (G1, master spec §26)
 

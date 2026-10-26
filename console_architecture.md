@@ -200,8 +200,8 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
 - External PSU, outside the console chassis: two isolated Mean Well LRS-150-24 at 21.6 V, LC filter,
   LM1084-ADJ post-regulators as identical floating rails, TL431/SCR crowbar at 19.1 V and soft start
   per rail (chosen 2026-10-22; `psu_spec.md`, `sim/psu.cir`, `psu.kicad_sch`).
-- Target ±17 V at **4 A per rail** (2026-10-22). The console draws about 3.09 / 2.67 A typical; the accepted worst
-  corner is about 4.33 A on +V (master spec §27, accepted 2026-10-25).
+- Target ±17 V at **4 A per rail** (2026-10-22). The console draws about 3.31 / 2.79 A typical; the worst corner is
+  about 4.54 A on +V (master spec §27; 4.33 A was accepted 2026-10-25, MET1 / RET1 add ≈ 0.2 A, 2026-10-26).
 - The regulators, heatsink and case are in `psu_spec.md` (option B). The LM338 / LM337 and 230 VA transformer ideas
   of the first draft were dropped with it.
 - Link to the console: 7-pin XLR (Neutrik NC7MD-LX on the console, 5 A per contact): pin 1 earth,
@@ -273,8 +273,8 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
 - Master level, balanced outputs (DRV134).
 - AFL on each aux master (switch + 22K to the PFL bus).
 
-### 4.5 Aux returns (×4 stereo)
-- Level, assign (main / subs), solo.
+### 4.5 Aux returns (×8 stereo)
+- Level, assign (main / subs), solo. Two per group module (the second since 2026-10-26, `feature_gaps.md` RET1).
 
 ### 4.6 Monitoring
 - PFL summing amp, PFL detect with auto-switch, solo level.
@@ -311,7 +311,7 @@ the NE5532 versus about 80 dB for the OPA1612.
 - 24+ identical channel strips (section 7)
 - 4 subgroups with inserts, faders, assign to main
 - 6 aux masters with AFL
-- 4 stereo aux returns
+- 8 stereo aux returns (two per group module)
 - Stereo mix with master insert, master fader, mono out, mute relay
 - Control room, headphones, PFL with auto-switch, rude solo LED, LED meters
 - External monitor input
