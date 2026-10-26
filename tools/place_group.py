@@ -129,7 +129,14 @@ ZONES = [
 NOTES = ((106, 'RETURN 1 | PFL'), (128, 'RETURN 2 | PFL'), (150, 'RETURN 2 to MIX  1-2  3-4'), (172, 'AUX n | AFL'), (252, 'SUB PAN | to MIX'), (274, 'RETURN to MIX  1-2  3-4'),
          (292, 'SUB AFL'), (305, 'BUS HEADER (bottom, right)'), (356, 'bus select: close one SUB and one AUX, unique across the four groups; group number in GRP'),
          (372, 'FADER 100 mm'), (97, 'LINKS CN3, CN4 (bottom) to the jack board'))
+# E9 (stab_caps_proposal.md): the C0G stability caps at the op-amp pins they stabilise (the packer had left them
+# 6.6-13 mm away). Moved after packing (placer `moves`), so no other part re-packs into the slots they leave;
+# bottom-side rotations are before the flip (board angle = 180 - rot)
+MOVES = {'C35': (36.65, 377.02, 270, 'B'), 'C34': (33.13, 377.52, 180, 'B'), 'C51': (36.15, 135.77, 270, 'B'),
+         'C39': (32.72, 243.65, 270, 'B'), 'C50': (35.88, 139.72, 180, 'B'), 'C76': (28.27, 182.88, 90, 'B'),
+         'C44': (20.77, 116.38, 90, 'B'), 'C19': (2.27, 236.36, 270, 'B'), 'C7': (35.72, 398.13, 270, 'B'),
+         'C59': (25.77, 158.11, 270, 'B'), 'C60': (28.52, 158.88, 180, 'B')}
 place(os.path.join(PROJ, 'group.net'), os.path.join(PROJ, 'group.kicad_pcb'),
-      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
+      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
            keepout=[(22.0, 185.0, 23.5, 215.0, 'B')],          # silk room beside the links' boxes
            hole_value='M3 standoff 11.5 mm', attach=True))

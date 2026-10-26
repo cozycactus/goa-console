@@ -101,14 +101,14 @@ So `place_strip.py` holds 86 parts where PAN1 placed them (`HOLD`, explicit coor
   committed E9 board (0 parts differ).
 - **The group and master:** the hold approach would have needed about 190 / 450 held parts there.
 
-## E9b: the same on the group and master (proposed, not signed off)
+## E9b: the same on the group and master (signed off by Ruslan 2026-10-27 and applied the same day)
 
 The same check on the other boards:
 - **Jig master stub:** already fine, worst 6.3 mm (C9 / C24 / C34 100p at U2 / U5 / U7, the level the strip ends at).
 - **Group and master:** 11 and 13 caps over 6.5 mm, up to 13 mm.
 
-The trial is `stab_caps_e9b.patch` (`tools/place_group.py`, `tools/place_master.py`: a `MOVES` list each). It uses the
-same probe and greedy order as the strip, at the boards' own edges. The committed boards are unchanged.
+The change is `stab_caps_e9b.patch` (`tools/place_group.py`, `tools/place_master.py`: a `MOVES` list each). It uses the
+same probe and greedy order as the strip, at the boards' own edges.
 
 **Group**
 
@@ -160,4 +160,10 @@ same probe and greedy order as the strip, at the boards' own edges. The committe
 - **The fader post-amps U5:** MG10's margins (51.6°) assume pad-length build-outs. Their + input caps C32 / C36 and
   feedback caps C33 / C37 now sit there too.
 
-- [ ] **E9b:** the group's 11 and the master's 13 stability caps at their pins, by `moves`.
+- [x] **E9b:** the group's 11 and the master's 13 stability caps at their pins, by `moves`.
+
+**Applied (2026-10-27):**
+- **Boards:** both re-placed identically to the trial (0 parts differ). The jack boards are unchanged, and their UUID
+  churn was reverted.
+- **Checks:** 0 DRC violations, 0 parity issues, every footprint linked; `emc_check.py` as in the trial.
+- **Exports:** `render/group.json` and `render/master.json` re-exported.

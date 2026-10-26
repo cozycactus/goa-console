@@ -219,7 +219,7 @@ jack board) done.
   strip's twelve C0G stability caps that sat 6-22 mm from their op-amp pins (C84 at U7B 22.1 mm, C83 at U8A 10.5) moved
   to them, nine on the bottom under their op-amp; every C0G cap on an op-amp input <= 6.3 mm. The caps move after packing (`placer.py` `moves`, 2026-10-27),
   so the greedy packer doesn't re-shuffle ~90 parts into the slots they leave. E9b (group 11 / master 13 caps, up to
-  13 mm, `stab_caps_e9b.patch`) proposed, not signed off; the jig stub is already <= 6.3 mm.
+  13 mm -> <= 6.4 mm, `stab_caps_e9b.patch`) signed off and applied 2026-10-27; the jig stub was already <= 6.3 mm.
 - `sample_order.md` — the parts to order with the prototype panel and the eight physical checks they settle.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.
@@ -607,6 +607,9 @@ jack board) done.
   PSU board's 8 silk-edge items are the TO-220s at its edge (since 8b38deb). Strip report unchanged; group 3.0 / 6.2 / 2,
   8.5 / 20.2 / 31. Group and master panels pixel-identical but for the group's new rows; strip panel one numeral (HF "9"
   in place of HPF "50") since `panel_layout.layout()` takes parts in reference order.
+- E9b applied (2026-10-27, placement only): group 11 / master 13 caps moved, nothing else; 0 DRC, 0 parity, every
+  footprint linked; reports: group high-Z 8.5 / 20.2 / 30 -> 7.8 / 20.2 / 26, master 8.1 / 97.0 / 77 -> 76, decouplers
+  unchanged; every C0G cap on an op-amp input <= 6.1 mm (group) / 6.4 mm (master), was 13.0.
 - E9 applied (2026-10-27, placement only): 12 caps moved, 0 DRC, 0 parity, 290 / 290 links, `emc_check.py` unchanged;
   placer report high-Z inputs 10.4 / 258.6 / 28 -> 8.5 / 258.6 / 25, decouplers unchanged; every C0G cap on an op-amp
   input <= 6.3 mm from its pin (was up to 22.1).

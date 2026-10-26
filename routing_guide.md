@@ -69,6 +69,8 @@ The net classes at the end are suggestions only; nothing is written into the pro
   - each takes one via straight from its pad to the pin's pad;
   - at C75, C78 and C83 the pads sit under the pin, so the via goes in the pad or right beside it;
   - their GNDA end vias down to the ground plane next to the cap.
+- **Group and master (E9b):** the same applies to the group's 11 and the master's 13 bottom-side stability caps,
+  including the fader post-amps' C32 / C33 / C36 / C37 under U5 (`stab_caps_proposal.md`).
 - **Don't lengthen them:** a trace between such a cap and its pin undoes the stabilising, so don't route the input
   net to the cap first and on to the pin.
 

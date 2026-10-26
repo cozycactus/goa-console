@@ -175,8 +175,16 @@ NOTES = ((134, 'AUX 5 | AUX 6 || C/ROOM'), (156, 'AFL 5 | AFL 6 || PHONES | SOLO
          (197, 'POWER IN J1 (bottom), star stud CN1 + NT1-4 at y 214; wing supplies along the board edges'),
          (305, 'BUS HEADERS: left wing CN2, right wing CN3 (bottom)'), (372, 'MASTER FADER 100 mm, meters L | R'),
          (118, 'LINK CN5 (bottom) to the jack board, pin 1 left'))
+# E9 (stab_caps_proposal.md): the C0G stability caps at the op-amp pins they stabilise (the packer had left them
+# 6.6-13 mm away). Moved after packing (placer `moves`), so no other part re-packs into the slots they leave;
+# bottom-side rotations are before the flip (board angle = 180 - rot)
+MOVES = {'C37': (41.775, 440.635, 270, 'B'), 'C83': (9.22, 149.65, 180, 'F'), 'C69': (5.27, 144.36, 270, 'B'),
+         'C33': (36.825, 439.365, 270, 'B'), 'C82': (7.72, 145.63, 270, 'B'), 'C70': (5.27, 147.88, 270, 'B'),
+         'C36': (39.025, 442.655, 0, 'B'), 'C153': (12.72, 282.63, 270, 'B'), 'C32': (35.575, 442.135, 0, 'B'),
+         'C94': (56.77, 144.38, 90, 'B'), 'C174': (74.12, 353.38, 270, 'B'), 'C146': (9.27, 282.61, 270, 'B'),
+         'C91': (9.27, 269.88, 0, 'B')}
 place(os.path.join(PROJ, 'master.net'), os.path.join(PROJ, 'master.kicad_pcb'),
-      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
+      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
            grounds=('GNDA', 'GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'), silk_text_off=('K',), hole_value='M3 standoff 11.5 mm',
            attach=True, keepout=[(0, 186, EL, 299), (ER, 186, W, 299),
                                  (21.0, 202.2, 58.0, 220.0, 'B')]))     # J1's wire entries (its +y face): room for the wires
