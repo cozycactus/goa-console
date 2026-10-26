@@ -28,7 +28,7 @@ The net classes at the end are suggestions only; nothing is written into the pro
 | Net | Length | Why | Rule |
 |---|---|---|---|
 | IN_T, IN_R (CN3 → R110 / R111, then U16 + via 220R) | 74–76 mm | balanced input, RF from the ribbon | a pair, with ground on both sides, away from everything below; on the ribbon conductors 1–2 with ground at 3 |
-| U2B + input (pan buffer L, from the pan pot) | 165 mm | the longest high-impedance line on the strip (pan pot at y 252, U2 at the fader end) | a guard trace or ground on both sides; nothing switching alongside; a placement candidate if the jig shows hum on pan L |
+| U2B + input (pan buffer L, from the pan pot) | 165 mm | the longest high-impedance line on the strip (pan pot at y 252, U2 at the fader end) | a guard trace or ground on both sides; nothing switching alongside; proposal PAN1 (`pan_buffer_proposal.md`) brings it to 24 mm; route it as here until that is signed off |
 | FPIN (fader wiper → U2A) | 72 mm | fader wiper, up to 2.5 kΩ | ground beside; away from SIG_B and the routing lines |
 | EQ_LP, EQ_MP, U12–U14 integrator nodes | 35–105 mm | KHN nodes, 10K-ish | short as placed; no logic crossing |
 | MUTEOUT, BUF1 | 88–89 mm | op-amp outputs, low impedance | ordinary care |

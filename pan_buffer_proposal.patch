@@ -1,0 +1,108 @@
+diff --git a/tools/gen.py b/tools/gen.py
+index 8195805..03c671e 100644
+--- a/tools/gen.py
++++ b/tools/gen.py
+@@ -258,6 +258,7 @@ P(b,'JP1','SJ2','VCA bypass',{1:'VCAIN',2:'FPIN'}); P(b,'R18','R','100K',{1:'FPI
+ P(b,'J3','CONN6','VCA module socket',{1:'VCAIN',2:'FPIN',3:'VCA_CTRL',4:'+VA',5:'GNDA',6:'-VA'},dnp=True)
+ P(b,'J4','CONN2','VCA control in',{1:'VCA_CTRL',2:'GNDA'},dnp=True); P(b,'R44','R','100K',{1:'VCA_CTRL',2:'GNDA'},dnp=True)
+ P(b,'U2','OPA','OPA1612',{3:'FPIN',2:'U2A_N',1:'FPOST'},unit=1)
++P(b,'U2','OPA','OPA1612',{5:'GNDA',6:'U2B_O',7:'U2B_O'},unit=2)   # spare half, tied off (PAN1: pan L moved to U8B)
+ P(b,'C82','C','10p C0G',{1:'FPIN',2:'GNDA'},fp=C0G)   # not above 22p: it sits on U3B's output with the fader at top
+ P(b,'R19','R','4K7',{1:'FPOST',2:'U2A_N'}); P(b,'C14','C','100p C0G',{1:'FPOST',2:'U2A_N'})
+ P(b,'R38','R','2K2',{1:'U2A_N',2:'GNDA'})
+@@ -283,13 +284,14 @@ P(b,'U8','OPA','OPA1612',{3:'DIRSRC',2:'DOUT',1:'DOUT'},unit=1)
+ P(b,'C83','C','22p C0G',{1:'DIRSRC',2:'GNDA'},fp=C0G)   # 22p (short direct-out leads); more would load U7B
+ P(b,'R71','R','75R',{1:'DOUT',2:'DO1'},mpn='Panasonic ERJ-P06J750V'); P(b,'C52','C','33u NP 25V',{1:'DO1',2:'DO_T'},fp=CAP_FP['47u'])
+ P(b,'R72','R','47K',{1:'DO_T',2:'GNDA'}); P(b,'R73','R','75R',{1:'DO_R',2:'GNDA'})
+-P(b,'U8','OPA','OPA1612',{5:'GNDA',6:'U8B_O',7:'U8B_O'},unit=2)   # spare half, tied off
+ 
+ b = block('PAN + PAN BUFFERS (AC-coupled outputs)')
+ # ALPS RK09L1240015: the stocked vertical dual 10K B with a centre detent (no Alpha one exists); M9 bushing, 6 mm D shaft
+ P(b,'RV8','POT2','Pan 10K lin dual CD',{1:'POST',3:'GNDA',2:'PANWL',4:'GNDA',6:'POST',5:'PANWR'},
+   fp='Potentiometer_THT:Potentiometer_Alps_RK09L_Double_Vertical',mpn='ALPS RK09L1240015')
+-P(b,'U2','OPA','OPA1612',{5:'PANWL',6:'PBL',7:'PBL'},unit=2); P(b,'C79','C','10p C0G',{1:'PANWL',2:'GNDA'},fp=C0G)
++# PAN1 (pan_buffer_proposal.md): pan buffer L in U8B (it was the spare), beside the pan pot; U2B at the fader end is
++# the spare now, so the pan L wiper no longer runs 165 mm to the fader end
++P(b,'U8','OPA','OPA1612',{5:'PANWL',6:'PBL',7:'PBL'},unit=2); P(b,'C79','C','10p C0G',{1:'PANWL',2:'GNDA'},fp=C0G)
+ P(b,'U3','OPA','OPA1612',{3:'PANWR',2:'PBR',1:'PBR'},unit=1); P(b,'C80','C','10p C0G',{1:'PANWR',2:'GNDA'},fp=C0G)
+ P(b,'C16','C','100u NP 25V',{1:'PBL',2:'PANL'},fp=CAP_FP['220u']); P(b,'R36','R','47K',{1:'PANL',2:'GNDA'})
+ P(b,'C17','C','100u NP 25V',{1:'PBR',2:'PANR'},fp=CAP_FP['220u']); P(b,'R37','R','47K',{1:'PANR',2:'GNDA'})
+diff --git a/tools/place_strip.py b/tools/place_strip.py
+index f3738fe..d4c1426 100644
+--- a/tools/place_strip.py
++++ b/tools/place_strip.py
+@@ -53,6 +53,11 @@ FIX = {
+ # The upper board's op-amps where the reviewed placement had them (2026-10-26, before the EMC changes): the packer
+ # re-shuffles every IC after any change near the top (E1-E3 moved 163 parts and starved the HPF), so they are fixed
+ # and their own parts pack around them as before
++# PAN1 (pan_buffer_proposal.md): U3 and U8 pinned where they were, so pan buffer L (U8B) stays beside the pan pot
++FIX.update({'U2': (33.245, 403.245, 90, 'F'), 'U3': (16.745, 239.745, 0, 'F'), 'U8': (4.745, 239.745, 0, 'F'), 'C17': (18.26875, 261.34, 0, 'B'),
++            'C16': (16.0, 202.3, 90, 'B'), 'C79': (10.2, 242.35, 270, 'F'),
++            'R38': (32.61, 413.72, 0, 'F'), 'JP1': (36.38, 414.22, 90, 'F'), 'R18': (32.88, 416.22, 0, 'F'),
++            'R44': (29.225, 418.995, 0, 'F')})
+ FIX.update({'U1': (4.745, 63.745, 0, 'F'), 'U4': (31.245, 85.745, 0, 'F'), 'U5': (12.245, 88.245, 0, 'F'),
+             'U6': (28.245, 151.745, 0, 'F'), 'U7': (4.745, 153.745, 0, 'F'), 'U12': (4.745, 129.745, 0, 'F'),
+             'U13': (32.745, 129.745, 0, 'F'), 'U14': (4.745, 176.745, 0, 'F'), 'U15': (25.245, 108.745, 0, 'F'),
+@@ -108,7 +113,7 @@ ZONES = [
+  ('MET1 LED switches, beside D2 (bottom)', (30, 44, 37.5, 76), ['Q3', 'R117', 'Q4', 'R123', 'R124', 'Q5', 'R125'], 'B'),
+  ('aux / PRE jumpers / direct out', (1, 150, 37, 270), ['JP2', 'JP3', 'JP4', 'U8', 'C35', 'C36', 'C83', 'R70', 'R71',
+                                                         'R72', 'R73'], 'F'),
+- ('pan buffers + mute', (1, 236, 37, 306), ['U3', 'C24', 'C25', 'C80', 'C81', 'R35', 'R36', 'R37', 'R43'], 'F'),
++ ('pan buffers + mute', (1, 236, 37, 306), ['U3', 'C24', 'C25', 'C80', 'C81', 'C79', 'R35', 'R36', 'R37', 'R43'], 'F'),
+  ('PFL', (1, 280, 37, 330), ['R32', 'R33', 'R34'], 'F'),
+  ('routing logic + LEDs', (1, 262, 37, 310), ['R74', 'R75', 'R76', 'R77', 'R78', 'R79', 'R80', 'D9', 'D10', 'C62'], 'F'),
+  ('routing switches (DG413, at the header)', (16, 280, 37, 444), ['U9', 'C53', 'C54', 'C55', 'U10', 'C56', 'C57',
+@@ -116,7 +121,7 @@ ZONES = [
+  ('bus resistors (at the header)', (22, 296, 37, 362), ['R20', 'R21', 'R22', 'R23', 'R24', 'R25', 'R26', 'R27',
+                                                         'R28', 'R29', 'R30', 'R31'], 'F'),
+  ('power entry', (1, 340, 37, 380), ['R5'], 'F'),
+- ('fader post-amp', (27, 340, 37, 444), ['U2', 'C22', 'C23', 'C82', 'C79', 'R19', 'C14', 'R38', 'JP1', 'R18',
++ ('fader post-amp', (27, 340, 37, 444), ['U2', 'C22', 'C23', 'C82', 'R19', 'C14', 'R38', 'JP1', 'R18',
+                                          'R44'], 'F'),
+ ]
+ NOTES = ((50, 'GAIN | PHASE, OL'), (76, 'HF | HPF'), (98, 'HI-MID gain | freq'), (120, 'LO-MID gain | freq'),
+@@ -132,7 +137,7 @@ NEAR = {'C20': 'U1', 'C21': 'U1', 'C22': 'U2', 'C23': 'U2', 'C24': 'U3', 'C25':
+         'C44': 'U12', 'R56': 'U12', 'C45': 'U13', 'R57': 'U13', 'C46': 'U14', 'R60': 'U14', 'C47': 'U14', 'R61': 'U14',
+         # stability caps at their op-amp's pins (strip_parts_review.md T1-T4), RET's series 1K at U7, the BAT54W at +5VL
+         'C78': 'U1', 'C69': 'U6', 'C70': 'U6', 'C71': 'U6', 'C72': 'U6', 'C73': 'U7', 'C74': 'U12', 'C75': 'U12',
+-        'C76': 'U13', 'C77': 'U13', 'C79': 'U2', 'C82': 'U2', 'C80': 'U3', 'C81': 'U3', 'C83': 'U8', 'R99': 'U7', 'C84': 'U7',
++        'C76': 'U13', 'C77': 'U13', 'C79': 'U8', 'C82': 'U2', 'C80': 'U3', 'C81': 'U3', 'C83': 'U8', 'R99': 'U7', 'C84': 'U7',
+         'D10': 'D9',
+         # E2 (emc_placement_study.md): the followers' 220R / 100p at U16's + pins (RF filter and G3 stability cap)
+         'C94': 'U16', 'C95': 'U16', 'R110': 'U16', 'R111': 'U16',
+diff --git a/tools/strip_draw.py b/tools/strip_draw.py
+index 3aa2c3b..efbd16f 100644
+--- a/tools/strip_draw.py
++++ b/tools/strip_draw.py
+@@ -312,6 +312,8 @@ def fader(d):
+     d.w(('C15', 2), (40, 6)); d.port('POST', (40, 6), 'R'); d.at('R35', 38, 7.5)
+     d.at('J3', 4, 22); d.at('J4', 14, 22); d.at('R44', 20, 22)
+     d.note('VCA module option (DNP): J3, J4, R44; JP1 bridged without it', (0, 28), 1.27)
++    p = follower(d, ('U2', 2), 36, 22); d.w(('U2', p[0]), (31, 21), (31, 22)); d.gnd((31, 22))
++    d.note('U2B: spare half, tied off', (32, 27), 1.27)
+ 
+ 
+ def aux(d):
+@@ -342,8 +344,7 @@ def direct_out(d):
+     d.at('C52', 18.5, 5, rot=90, text='U'); d.w(('R71', 2), ('C52', 1))
+     d.w(('C52', 2), (25, 5)); d.port('DO_T', (25, 5), 'R'); d.at('R72', 22, 6.5)
+     d.at('R73', 22, 11.5); d.w(('R73', 1), (25, 10)); d.port('DO_R', (25, 10), 'R')
+-    p = follower(d, ('U8', 2), 33, 5); d.w(('U8', p[0]), (28, 4), (28, 5)); d.gnd((28, 5))
+-    d.note('spare half, tied off', (29, 10), 1.27)
++
+ 
+ 
+ def pan(d):
+@@ -351,9 +352,9 @@ def pan(d):
+     d.at('RV8', 12, 14)
+     for pn, x in (('3', 11), ('4', 13)): d.w(('RV8', pn), (x, 16)); d.gnd((x, 16))
+     d.w(('RV8', 1), (8, 18), (16, 18), ('RV8', 6)); d.w((8, 18), (5, 18)); d.port('POST', (5, 18))
+-    d.at('U2', 8, 6, mirror='x', unit=2)
+-    d.w(('U2', 7), (12, 6), (12, 3), (4, 3), (4, 5), ('U2', 6))
+-    d.w(('U2', 5), (3, 7), (3, 10), (9.5, 10), ('RV8', 2)); d.at('C79', 3, 11.5, text='L')
++    d.at('U8', 8, 6, mirror='x', unit=2)
++    d.w(('U8', 7), (12, 6), (12, 3), (4, 3), (4, 5), ('U8', 6))
++    d.w(('U8', 5), (3, 7), (3, 10), (9.5, 10), ('RV8', 2)); d.at('C79', 3, 11.5, text='L')
+     d.at('C16', 15.5, 6, rot=90, text='U'); d.w((12, 6), ('C16', 1))
+     d.w(('C16', 2), (21, 6)); d.port('PANL', (21, 6), 'R'); d.at('R36', 18, 7.5)
+     d.at('U3', 36, 6, mirror='x', unit=1)

@@ -211,6 +211,10 @@ jack board) done.
   supply strategy, the sensitive nets with lengths (IN_T/IN_R, pan buffer L's 165 mm wiper line, FPIN, KHN nodes, aux
   sends, PRESRC, VREF; jig GCREF / GCREF_BUF ~175 mm), the switching nets to keep away, CHASSIS on the jack boards,
   suggested net classes (not written into the projects).
+- `pan_buffer_proposal.md` (+ `pan_buffer_proposal.patch`) — PAN1 (2026-10-26, not signed off): pan buffer L moves from
+  U2B (fader end, 165 mm wiper line) into the spare U8B beside the pan pot (24 mm), U2B becomes the spare; 8 parts move,
+  0 DRC / parity; TI stability identical (U8B 80.2-87.5 deg as U2B was). Options (a) both buffers in U3 and (b) U2 at the pot
+  rejected. Side finding: `sim/review/strip/results_none.json` is from strip v4.1 (refresh when PAN1 is applied).
 - `sample_order.md` — the parts to order with the prototype panel and the eight physical checks they settle.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.
