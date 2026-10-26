@@ -124,25 +124,33 @@ about 215 mm.
 
 ## Stability (TI models)
 
-Not re-run. The group deck (`sim/review/group/`) now models return 2:
-- `groupdeck.py`: RV5's taper, U12–U15's roles, J6 / J7 plugged or open (`ret2`, default as `ret`);
-- `sweep.py ret`: the return 2 units;
-- `mst_all.json`: re-measured from the placed board.
+Return 1 and return 2 on the group deck (`sim/review/group/`, `sweep.py ret none 0.08`, 21 states: inputs open or
+driven from 10 / 600 / 2K2 through 100 p / 2.2 n of cable, level at 0 / 0.706 / 1, every key on; board traces from the
+new placement). TI's OPA161x for the OPA1612s, the datasheet-fitted macro for the OPA1656 followers.
+Log: `sim/review/group/log_v03_ret.txt` (local: the folder ignores logs and results; the command above reproduces it in 91 s).
 
-The TI models on this Mac didn't reproduce the setup of the 2026-10-24 review:
-- with `~/nazar-reg/OPA161x.LIB` (the same file as the Telegram download) and ngspice 46, the deck finds no
-  operating point;
-- the netlist from before RET1 fails the same way, so the model setup is the problem, not return 2;
-- TI's `OPA1656.LIB` and the fitted `models_cd.inc` aren't on this Mac at all.
+| Unit | Return 1 | Return 2 |
+|---|---|---|
+| Receivers L / R (OPA1612) | 69.6 / 66.6° | 68.5 / 66.4° |
+| Level buffers L / R (OPA1612) | 71.0 / 70.9° | 76.9 / 76.8° |
+| Input followers (OPA1656, fitted) | 52.5–52.9° | 52.1–52.8° |
 
-**To run it:** put the review's model folder back (`OPA161x.LIB`, `OPA1656.LIB` as in `master_group_review.md`), then:
-`cd sim/review/group && TI_MODELS=<folder> python3 sweep.py ret mg 0.08`.
+Closed-loop peaking ≤ 1.32 dB everywhere. The 2026-10-25 figures were 69.3–71.3° and 53.1°.
+- **Return 1's receiver R** went from 69.3 to 66.6°: its output trace is 40.7 mm on the new placement, against
+  17.9 mm before.
+- **Return 2's level buffers** have more margin than return 1's: their output traces are shorter.
 
-**Expected result:** return 2 is the same circuit part for part as return 1, which ran 69.3–71.3° (receivers and
-level buffers) and 53.1° (followers, fitted model). Its output traces are shorter than return 1's on the new placement: receivers
-12.5 / 17.7 mm (return 1 24.8 / 40.7) and level buffers 35 / 49 mm (return 1 82 / 96), so less capacitive load.
+**Why the first attempts failed:**
+1. **The `mg` fix set is obsolete.** It was written for group rev 0.1: MG4–MG8 have been in the schematic since rev 0.2,
+   and the drawn schematic leaves those nets unnamed. Applied to today's netlist, its re-pin moved U2B's + input onto a
+   node with nothing else on it, so the deck had no operating point.
+   - The 2026-10-25 runs used `none`. `master_group_review.md`'s example still said `mg`; it's corrected.
+   - `fixes.apply()` now refuses a set that refers to nets the netlist doesn't have.
+2. **TI's OPA1656 model doesn't converge in this deck on ngspice 46** (as on the strip, `strip_noise_proposal.md`). The
+   followers need `OPA1656_FIT=<models_cd.inc>`.
 
-`tools/sim_console.py`'s single-pole models pass return 2's level and routing checks.
+**Not the cause:** the ngspice version or the OPA161x file. A single OPA161x converges at once, and the 2026-10-24 /
+25 runs used the same binary and the same model file (same MD5).
 
 ## Sign-off
 

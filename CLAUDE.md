@@ -185,8 +185,10 @@ jack board) done.
 - `met1_ret1_review.md` — independent review of MET1 / RET1 (2026-10-26): no faults; applied: group jack board CN1 moved
   1 mm off J5's tip joint, return keys labelled R1 / R2 on the group panel, D2's footprint outline / no model line,
   3-lead spacer for D2, `sim/pfldet.py` at 42 keys. Proposals P1-P4 open (1K in series with U4A / U17A discharge,
-  100 nF on VREF, optional 10M hysteresis, panel-end fastening of standoffs). TI-model group stability not re-run: the
-  OPA161x.LIB on this Mac (~/nazar-reg) gives no operating point with ngspice 46 even on the old netlist.
+  100 nF on VREF, optional 10M hysteresis, panel-end fastening of standoffs). Group stability with return 2 (TI OPA161x +
+  fitted OPA1656, `sweep.py ret none 0.08`): receivers >= 66.4 deg, level buffers >= 70.9, followers >= 52.1. Group review
+  decks: fix set `none` since rev 0.2 (`mg` re-pins U2B onto a floating node; `fixes.apply()` now refuses it) and
+  `OPA1656_FIT` for the followers (TI's OPA1656 model doesn't converge in the deck on ngspice 46).
 - `sample_order.md` — the parts to order with the prototype panel and the eight physical checks they settle.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.

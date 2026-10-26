@@ -13,7 +13,19 @@ REC = dict(extra=FIX['f10'] + [('RSER_U2B', 'SUB_RBUF', 'SUB_RBO', 75)], repin={
 REC47 = dict(extra=FIX['f10'] + [('RSER_U2B', 'SUB_RBUF', 'SUB_RBO', 47)], repin={('C13', '1'): 'SUB_RBO'}, mst={'S_PRE': 121})
 FIX['rec'] = REC; FIX['rec47'] = REC47
 def apply(cfg, fx):
+    """The fix sets were written for group rev 0.1. MG4-MG8 are in the schematic since rev 0.2 (2026-10-24) and the
+    drawn schematic leaves those nets unnamed, so on today's netlist use 'none': a set whose parts hang on nets the
+    netlist no longer has would re-wire pins onto floating nodes and the deck finds no operating point."""
     f = FIX[fx]
+    if fx != 'none':
+        from groupdeck import pins, clean
+        have = {clean(n) for n in pins.values()}
+        new = set(f.get('repin', {}).values()) if isinstance(f, dict) else set()
+        parts = f['extra'] if isinstance(f, dict) else f
+        missing = sorted({n for _, a, b, _ in parts for n in (a, b) if n != '0' and n not in have and n not in new})
+        if missing:
+            raise SystemExit(f"fix set '{fx}' refers to nets not in group.net ({', '.join(missing)}): it was written "
+                             "for group rev 0.1 and is applied in the schematic since rev 0.2; use 'none'")
     if isinstance(f, dict):
         cfg['extra'] = list(f['extra']); cfg['repin'] = dict(f.get('repin', {})); cfg['mst'] = dict(f.get('mst', {}))
     else: cfg['extra'] = list(f)

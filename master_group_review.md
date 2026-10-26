@@ -761,7 +761,7 @@ those first.
 | `master/extbug.py`, `drvtest.py`, `audio.py`, `steps.py` | The EXT net collision; DRV134 with its Sense loop; audio-band cost; step overshoot |
 | `master/pcblen.py` (KiCad Python) → `master_len.json` | Pad-to-pad MST length per net on the placed board, for the trace estimate |
 | `group/groupdeck.py`, `stabg.py` | The group deck (bus, ribbon, jack-board and DRV134 models) and the loop-gain analysis |
-| `group/sweep.py <pots\|bus\|ins\|ret\|loads> <fixset> [pF/mm]` | Sweeps; e.g. `python3 sweep.py loads mg 0.08`; `fixes.py`: `mg` = recommended, `mg22`, `rec` (the analyst's set). The `loads` set has no pot at 0.3, where U5B / U9 are worst with extra C (§5) |
+| `group/sweep.py <pots\|bus\|ins\|ret\|loads> <fixset> [pF/mm]` | Sweeps; e.g. `python3 sweep.py loads none 0.08`. `fixes.py`: `mg` = recommended, `mg22`, `rec` (the analyst's set), written for group rev 0.1; since rev 0.2 they're in the schematic, so use `none` (`apply()` refuses the others on today's netlist). Set `OPA1656_FIT=<models_cd.inc>` for the return followers: TI's OPA1656 model doesn't converge in this deck on ngspice 46. The `loads` set has no pot at 0.3, where U5B / U9 are worst with extra C (§5) |
 | `group/u2b.py`, `u2b_prot.py`, `tranrun.py`, `audio.py` | Insert-return build-out and protection variants; steps; audio-band cost |
 | `group/padpos.py` (KiCad Python) + `mst.py` → `mst_all.json` | The group's MST lengths |
 
