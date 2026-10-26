@@ -16,7 +16,7 @@ def spares(fp, need):
     (at least 1), electrolytics and film +5 % (at least 2)."""
     f = fp.split(':')[0]
     if f in ('Resistor_SMD', 'Capacitor_SMD', 'Inductor_SMD'): return max(10, math.ceil(need * 0.10))
-    if f in ('Package_SO', 'Package_TO_SOT_SMD', 'Diode_SMD', 'Diode_THT', 'LED_THT', 'Relay_SMD'):
+    if f in ('Package_SO', 'Package_TO_SOT_SMD', 'Diode_SMD', 'Diode_THT', 'LED_THT', 'Relay_SMD') or 'LED_D' in fp:
         return max(2, math.ceil(need * 0.05))
     if f == 'Capacitor_THT': return max(2, math.ceil(need * 0.05))
     return max(1, math.ceil(need * 0.03))

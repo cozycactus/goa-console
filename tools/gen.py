@@ -7,8 +7,10 @@ def block(title): return schgen.block(title, draw=strip_draw.for_title(title))  
 
 SYM.update({'CONN6': ('Connector_Generic', 'Conn_01x06'), 'CONN2': ('Connector_Generic', 'Conn_01x02'),
             'LINK': ('Connector_Generic', 'Conn_02x05_Odd_Even'),
-            'DG': ('Analog_Switch', 'DG413xY'), 'ZEN': ('Diode', 'BZX84Cxx'), 'SCH': ('Diode', 'BAT54W')})
-schgen.MPN.update({'DG': 'Vishay DG413DY-E3', 'ZEN': 'Nexperia BZX84-C5V1,215', 'SCH': 'Nexperia BAT54W,115',
+            'DG': ('Analog_Switch', 'DG413xY'), 'ZEN': ('Diode', 'BZX84Cxx'), 'SCH': ('Diode', 'BAT54W'),
+            'LED2': ('Device', 'LED_Dual_AKA'), 'PNP': ('Transistor_BJT', 'MMBT3906')})
+schgen.MPN.update({'LED2': 'Kingbright WP3VEGW', 'PNP': 'onsemi MMBT3906LT1G',
+                   'DG': 'Vishay DG413DY-E3', 'ZEN': 'Nexperia BZX84-C5V1,215', 'SCH': 'Nexperia BAT54W,115',
                    'OPA': 'TI OPA1612AIDR', 'CMP': 'TI LM393BIDR', 'JFET': 'onsemi MMBFJ112', 'D': 'Vishay 1N4148-TAP'})
 # strip_parts_review.md T9/T10: ceramics >= 25 V (50 V X7R here), anti-surge resistors where the power is marginal
 CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Murata GRM21BR71H105KA12L (X7R 50V)',
@@ -26,7 +28,8 @@ CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Murata GRM21BR71H
 RX_MPN = 'Panasonic ERA-6AEB103V'          # 10K 0.1 % 0805, as the master's receivers
 FILM_2U2 = 'Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2'
 LED_MPN = {'red': 'Kingbright WP710A10ID', 'green': 'Kingbright WP710A10GD', 'yellow': 'Kingbright WP710A10YD'}
-FP.update({'CONN6': 'Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical',
+FP.update({'LED2': 'goa-console:LED_D3.0mm-3_P2.00mm', 'PNP': 'Package_TO_SOT_SMD:SOT-23',
+           'CONN6': 'Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical',
            'CONN2': 'Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical',
            'LINK': 'Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical'})
 LINK_MPN = 'Wurth 61201021621 (2x5 box header)'
@@ -64,6 +67,7 @@ for i,(ref,cp,cn) in enumerate([('U1','C20','C21'),('U2','C22','C23'),('U3','C24
 P(b,'U16','OPA1656','OPA1656',{8:'+VA',4:'-VA'},unit=3)   # input followers (ground_study.md G3)
 P(b,'C92','C','100n',{1:'+VA',2:'GNDA'}); P(b,'C93','C','100n',{1:'GNDA',2:'-VA'})
 P(b,'U4','CMP','LM393',{8:'+VL',4:'GNDD'},unit=3); P(b,'C26','C','100n',{1:'+VL',2:'GNDD'})
+P(b,'U17','CMP','LM393',{8:'+VL',4:'GNDD'},unit=3); P(b,'C98','C','100n',{1:'+VL',2:'GNDD'})   # signal detector (MET1)
 for i,n in enumerate(['+VA','-VA','+VL','-VL','GNDA','GNDD']):
     P(b,f'#FLG0{i+1}','FLAG','PWR_FLAG',{1:n})
 
@@ -196,7 +200,7 @@ P(b,'C84','C','100p C0G',{1:'RET_IN',2:'GNDA'},fp=C0G)   # with R99 a follower o
 P(b,'U7','OPA','OPA1612',{5:'RET_IN',6:'BUF1',7:'BUF1'},unit=2)
 P(b,'C11','C','100u NP 25V',{1:'PRESRC',2:'PRE'},fp=CAP_FP['220u']); P(b,'R13','R','47K',{1:'PRE',2:'GNDA'})
 
-b = block('OVERLOAD DETECTOR (~+18 dBu, ~150 ms hold)')
+b = block('OVERLOAD DETECTOR (~+18 dBu, ~150 ms hold) + SIGNAL (~-20 dBu): one red / green LED')
 # K3 (gaps_proposal.md, signed off 2026-10-25): C12 100n for a 0.1 ms attack (1u needed ~20 cycles, so short peaks
 # never lit the LED); U4A now discharges a hold cap and U4B, the package's spare half, lights the LED while the hold
 # node is below VREF: ~150 ms after the last overload (sim/review/gaps/ol_fix.py)
@@ -206,7 +210,25 @@ P(b,'R40','R','10K',{1:'+VL',2:'VREF'}); P(b,'R41','R','10K',{1:'VREF',2:'GNDA'}
 P(b,'U4','CMP','LM393',{2:'PK',3:'VREF',1:'OL_HOLD'},unit=1)
 P(b,'R115','R','1M',{1:'+VL',2:'OL_HOLD'}); P(b,'C97','C','220n',{1:'OL_HOLD',2:'GNDD'})
 P(b,'U4','CMP','LM393',{5:'OL_HOLD',6:'VREF',7:'OL_K'},unit=2)
-P(b,'R15','R','4K7',{1:'+VL',2:'OL_A'}); P(b,'D2','LED','OL red',{2:'OL_A',1:'OL_K'},mpn=LED_MPN['red'])   # ~3 mA, as the other LEDs
+# MET1 (feature_gaps.md, signed off 2026-10-26): D2 is a red / green bicolour (Kingbright WP3VEGW, common cathode) in the
+# OL LED's place. Red = overload as before; green = signal present from ~-20 dBu with the same ~150 ms hold (U17, as
+# U4: U17A against VTH = VREF / 76 = 0.11 V, the -20 dBu peak, discharges SIG_HOLD; U17B lights green while it is
+# below VREF). Each colour has a PNP high-side switch, so it draws current only while lit; Q5, from U4B's output, holds
+# Q4's base at +VL while the red is on, so an overload shows red alone (and the green draws nothing). 47K bases: ~0.33 mA,
+# forced beta ~10 at 3 mA. PRESRC reaches U17A through 47K with a BAT54W clamp to GNDD (sim/review/gaps/ol.py).
+P(b,'R116','R','47K',{1:'OL_K',2:'OL_B'}); P(b,'R117','R','47K',{1:'+VL',2:'OL_B'})
+P(b,'Q3','PNP','MMBT3906',{1:'OL_B',2:'+VL',3:'OL_C'})
+P(b,'R15','R','4K7',{1:'OL_C',2:'OL_A'})                                   # ~3 mA, as the other LEDs
+P(b,'R118','R','47K',{1:'PRESRC',2:'SIG_IN'}); P(b,'D11','SCH','BAT54W',{1:'GNDD',3:'SIG_IN',2:'NC'})
+P(b,'R119','R','750K',{1:'VREF',2:'VTH'}); P(b,'R120','R','10K',{1:'VTH',2:'GNDA'})   # 760K: loads VREF by 0.7 %
+P(b,'U17','CMP','LM393',{2:'SIG_IN',3:'VTH',1:'SIG_HOLD'},unit=1)
+P(b,'R121','R','1M',{1:'+VL',2:'SIG_HOLD'}); P(b,'C99','C','220n',{1:'SIG_HOLD',2:'GNDD'})
+P(b,'U17','CMP','LM393',{5:'SIG_HOLD',6:'VREF',7:'SIG_K'},unit=2)
+P(b,'R122','R','47K',{1:'SIG_K',2:'SIG_B'}); P(b,'R123','R','47K',{1:'+VL',2:'SIG_B'})
+P(b,'Q4','PNP','MMBT3906',{1:'SIG_B',2:'+VL',3:'SIG_C'})
+P(b,'R124','R','4K7',{1:'SIG_C',2:'SIG_A'})
+P(b,'R125','R','47K',{1:'OL_K',2:'GATE_B'}); P(b,'Q5','PNP','MMBT3906',{1:'GATE_B',2:'+VL',3:'SIG_B'})
+P(b,'D2','LED2','OL red / SIG green',{1:'OL_A',2:'GNDD',3:'SIG_A'})
 
 b = block('PFL (pre-fade)  SW3: A-B = ON')
 # K1 (gaps_proposal.md, signed off 2026-10-25): DC block in the PFL send. U3B's bias current leaves PRE 3-14 mV off

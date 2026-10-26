@@ -280,7 +280,9 @@ def layout(key, data=None, number=None):
     names = NAMES[key]; P = Panel(key, WIDTH[key])
     pots, faders, obst = [], [], []
     for bd in data if data is not None else boards(key):
-        for p in bd['parts']:
+        # in reference order: a board's footprint order changes whenever it is re-placed, and where two scales' numerals
+        # collide the one placed first stays, so the artwork must not depend on it
+        for p in sorted(bd['parts'], key=lambda p: (p['ref'].rstrip('0123456789'), int('0' + p['ref'][len(p['ref'].rstrip('0123456789')):]))):
             fp, ref = p['fp'], p['ref']
             name, colour = names.get(ref, ('', 'grey'))
             f = p.get('feature'); reg = lookup(fp)

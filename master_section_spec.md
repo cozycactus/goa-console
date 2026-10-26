@@ -937,8 +937,14 @@ scale badly (below).
 | 6 relay coils (9.1 mA each) | 55 | — |
 | Panel LEDs (AFL, PFL, power, rude solo) | 60 | — |
 | **Master** | **≈ 0.69 A** | **≈ 0.58 A** |
-| 24 strips v4.4 at ≈ 100 / 87 mA (v4.3: 92 / 79; v4.0: 85 / 72) | ≈ 2.40 A | ≈ 2.09 A |
-| **Console** | **≈ 3.09 A** | **≈ 2.67 A** |
+| 24 strips v4.7 at ≈ 104 / 87 mA (v4.4: 100 / 87; v4.3: 92 / 79; v4.0: 85 / 72) | ≈ 2.50 A | ≈ 2.09 A |
+| **Console** | **≈ 3.19 A** | **≈ 2.67 A** |
+
+Strip v4.7 (2026-10-26, `feature_gaps.md` MET1): the signal LED adds ≈ 4 mA per strip on +V while green is lit
+(green 3.2 mA, its switch's base 0.3 mA, U17 ≈ 0.5 mA), ≈ +0.1 A console-wide (counted as lit, the usual state with
+programme), nothing on −V. In overload the red's drive replaces the old direct one, plus about 1 mA of switch bases, so
+the worst corner (every LED lit, every op-amp at maximum IQ) goes from ≈ 4.33 to ≈ 4.38 A on +V. A wing's +V is ≈ 1.42 A
+typical (71 / 79 % of the MF-RX250/72's hold at 40 / 50 °C) and ≈ 1.99 A in the corner.
 
 G3b (2026-10-25, `ground_study.md` §10): the return / EXT followers add 78 mA per rail typical, 31 mA on each wing
 (two groups), and about 92 mA at maximum IQ. The worst corner goes from ≈ 4.24 to ≈ 4.33 A on +V. A wing's +V is

@@ -1,7 +1,7 @@
 """Write the project footprints that the KiCad library lacks into goa-console.pretty/.
 Dimensions are from the manufacturer drawings quoted below; check a real part against a 1:1 print
 before ordering boards."""
-import os, uuid
+import math, os, uuid
 
 OUT = os.path.join(os.path.dirname(__file__), '..', 'goa-console.pretty')
 _n = [0]
@@ -104,4 +104,22 @@ footprint('Keystone_1287-ST_FastOn_Tab_6.35mm',
 mf_rx('185', 15.18, '1.85', cy=0.25)
 # MF-RX250/72 (+V wing fuses, wing_power_proposal.md W2): A 17.84 / B 23.84 max, C 10.2 +0.6/-0.2 lead spacing
 mf_rx('250', 17.84, '2.5', cy=0.25, p=10.16)
+# ---- Kingbright WP3VEGW: T-1 (3 mm) red / green bicolour, white diffused (feature_gaps.md MET1). Datasheet
+# (https://www.kingbrightusa.com/images/catalog/SPEC/WP3VEGW.pdf): 3 leads 0.5 square at 2.0 mm, recommended holes
+# Ø0.9; pin 1 anode red, pin 2 common cathode, pin 3 anode green (KiCad's LED_Dual_AKA); body Ø3.0 (flange Ø3.8 at
+# the base, cut flat on the pin-1 side; the square pad 1 marks red here), centred on pin 2. KiCad's LED_D3.0mm-3 is on 2.54 mm. Origin = pin 1.
+P2 = 2.0
+b = pad(1, 0, 0, 1.5, 0.9, 'rect') + pad(2, P2, 0, 1.5, 0.9) + pad(3, 2 * P2, 0, 1.5, 0.9)
+b += (f'\t(fp_circle (center {P2:.3f} 0) (end {P2 + 1.5:.3f} 0) (stroke (width 0.1) (type solid)) (fill none) '
+      f'(layer "F.Fab") (uuid "{U()}"))\n')
+for a0 in (32, 212):                                                 # silk: the Ø4.2 rim above and below, clear of the pads
+    pt = lambda a: (P2 + 2.1 * math.cos(math.radians(a)), -2.1 * math.sin(math.radians(a)))
+    (sx, sy), (mx, my), (ex, ey) = pt(a0), pt(a0 + 58), pt(a0 + 116)
+    b += (f'\t(fp_arc (start {sx:.3f} {sy:.3f}) (mid {mx:.3f} {my:.3f}) (end {ex:.3f} {ey:.3f}) (stroke (width 0.12) '
+          f'(type solid)) (layer "F.SilkS") (uuid "{U()}"))\n')
+b += rect('F.CrtYd', -1.05, -2.4, 2 * P2 + 1.05, 2.4, 0.05)
+footprint('LED_D3.0mm-3_P2.00mm',
+          'LED, 3 mm round, 3 leads at 2.0 mm (Kingbright WP3VEGW red / green bicolour, common cathode on pin 2), https://www.kingbrightusa.com/images/catalog/SPEC/WP3VEGW.pdf',
+          'LED 3mm bicolor bi-color 3 pin', b, (P2, -3.2), (P2, 3.2))
+
 print('wrote', sorted(os.listdir(OUT)))

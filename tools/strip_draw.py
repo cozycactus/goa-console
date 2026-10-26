@@ -238,8 +238,37 @@ def overload(d):
     d.at('R115', 28, 3.5, text='L'); d.w(('R115', 1), (28, 0)); d.port('+VL', (28, 0), 'U')
     d.at('C97', 31, 6.5, text='L'); d.gnd(('C97', 2), 'GNDD')
     d.w((15, 9), (15, 14), (35, 14), (35, 7), ('U4', 6))          # VREF to U4B's - input, under the hold network
-    d.at('R15', 46, -1.5); d.w(('R15', 1), (46, -4)); d.port('+VL', (46, -4), 'U')
-    d.at('D2', 46, 1.5, rot=90); d.w(('D2', 1), (46, 6), ('U4', 7))
+    # MET1: U4B drives the red half of the bicolour D2 through the PNP Q3 (R116 base, R117 pull-up, R15 to the anode)
+    d.w(('U4', 7), (46, 6)); d.at('R116', 49.5, 6, rot=90); d.w((46, 6), ('R116', 1))
+    d.at('Q3', 56, 6, mirror='x'); d.w(('R116', 2), ('Q3', 1))                  # emitter up to +VL, collector down
+    d.at('R117', 53, 2.5); d.w(('R117', 2), (53, 6)); d.w(('R117', 1), (53, 0)); d.port('+VL', (53, 0), 'U')
+    d.port('+VL', ('Q3', 2), 'U')
+    d.at('R15', 57, 12.5); d.w(('Q3', 3), ('R15', 1)); d.port('OL_A', ('R15', 2), 'D')
+    d.at('D2', 66, 14); d.port('OL_A', ('D2', 1), 'R'); d.gnd(('D2', 2), 'GNDD'); d.port('SIG_A', ('D2', 3), 'R')
+    # the signal detector (U17, as U4 one level lower) and the green driver, in a row below
+    Y = 24
+    d.at('R118', 3.5, Y, rot=90); d.w((0, Y), ('R118', 1)); d.port('PRESRC', (0, Y))
+    d.at('U17', 21, Y + 1, mirror='x', unit=1)
+    d.w(('R118', 2), ('U17', 2)); d.at('D11', 9, Y + 4)
+    d.port('SIG_IN', ('D11', 3), 'U'); d.gnd(('D11', 1), 'GNDD')
+    d.at('R119', 13, Y + 6); d.w(('R119', 1), (13, Y + 3)); d.port('VREF', (13, Y + 3), 'L')
+    d.at('R120', 13, Y + 10); d.w(('R119', 2), ('R120', 1)); d.gnd(('R120', 2))
+    d.w(('U17', 3), (16, Y + 2), (16, Y + 8), (13, Y + 8))
+    d.at('U17', 40, Y + 2, unit=2)
+    d.w(('U17', 1), (37, Y + 1)); d.w((37, Y + 1), ('U17', 5))
+    d.at('R121', 28, Y - 2.5, text='L'); d.w(('R121', 2), (28, Y + 1)); d.w(('R121', 1), (28, Y - 5)); d.port('+VL', (28, Y - 5), 'U')
+    d.at('C99', 31, Y + 2.5, text='L'); d.gnd(('C99', 2), 'GNDD')
+    d.port('VREF', ('U17', 6), 'L')
+    d.w(('U17', 7), (46, Y + 2)); d.at('R122', 49.5, Y + 2, rot=90); d.w((46, Y + 2), ('R122', 1))
+    d.at('Q4', 56, Y + 2, mirror='x'); d.w(('R122', 2), ('Q4', 1))
+    d.at('R123', 53, Y - 1.5); d.w(('R123', 2), (53, Y + 2)); d.w(('R123', 1), (53, Y - 4)); d.port('+VL', (53, Y - 4), 'U')
+    d.port('+VL', ('Q4', 2), 'U')
+    d.at('R124', 57, Y + 8.5); d.w(('Q4', 3), ('R124', 1)); d.port('SIG_A', ('R124', 2), 'D')
+    # Q5 holds Q4's base at +VL while U4B lights the red (base from U4B's output, OL_K), so an overload shows red alone
+    d.port('SIG_B', (53, Y + 2), 'D')
+    d.at('Q5', 70, Y + 2, mirror='x'); d.port('+VL', ('Q5', 2), 'U'); d.port('SIG_B', ('Q5', 3), 'D')
+    d.at('R125', 64.5, Y + 2, rot=90); d.w(('R125', 2), ('Q5', 1)); d.w(('R125', 1), (63, Y - 2)); d.port('OL_K', (63, Y - 2), 'U')
+    d.port('OL_K', (46, 6), 'D')
 
 
 def pfl(d):
@@ -418,12 +447,13 @@ def power_ops(lo, hi):
 
 
 def power_vl(d):
-    """The comparator U4's logic supply."""
+    """The comparators' (U4, U17) logic supply."""
     d.shift(0, 6); Y = YP
     X = X0 + P * len(OPS) + 2
-    d.at('U4', X, Y, unit=3); d.at('C26', X + 3, Y)
-    d.w(('U4', 8), (X - 1, Y - 5), (X + 3, Y - 5), ('C26', 1)); d.port('+VL', (X + 3, Y - 5), 'R')
-    d.w(('U4', 4), (X - 1, Y + 5), (X + 3, Y + 5), ('C26', 2)); d.gnd((X + 3, Y + 5), 'GNDD')
+    for u, c, X in (('U4', 'C26', X), ('U17', 'C98', X + 9)):         # U17: the signal detector (MET1)
+        d.at(u, X, Y, unit=3); d.at(c, X + 3, Y)
+        d.w((u, 8), (X - 1, Y - 5), (X + 3, Y - 5), (c, 1)); d.port('+VL', (X + 3, Y - 5), 'R')
+        d.w((u, 4), (X - 1, Y + 5), (X + 3, Y + 5), (c, 2)); d.gnd((X + 3, Y + 5), 'GNDD')
 
 
 def motherloom(d):

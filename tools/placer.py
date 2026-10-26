@@ -50,6 +50,7 @@ def pot(x, y, dual=False, right=None, sx=7.5):
     return (x - sx, y - 2.5, 0, 'F') if right else (x + sx, y + 2.5, 180, 'F')
 sw = lambda x, y: (x - 2.5, y - 3.0, 0, 'F')          # PVA2: actuator centre at (2.5, 3.0) from pin 1
 led = lambda x, y: (x - 1.27, y, 0, 'F')               # 3 mm LED: centre at (1.27, 0)
+led3 = lambda x, y: (x - 2.0, y, 0, 'F')               # 3 mm three-lead bicolour (LED_D3.0mm-3_P2.00mm): centre on pin 2
 jack = lambda x, y: (x, y - 5.72, 0, 'F')              # NJ6FD-V: nose centre at (0, 5.72) from the tip pin
 
 def write_units(out, units):

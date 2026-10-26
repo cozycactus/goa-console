@@ -11,7 +11,7 @@ IDC ribbon joins CN5 (jack board, bottom) to CN3 (main board, bottom).
 Panel parts sit at fixed coordinates; the rest is packed by zone (engine: placer.py)."""
 import os, sys
 sys.path.insert(0, os.path.dirname(__file__))
-from placer import place, W8 as W, XL, XR, XC, pot, sw, led, jack, FADER, BUS, SPADE, NETTIE
+from placer import place, W8 as W, XL, XR, XC, pot, sw, led, led3, jack, FADER, BUS, SPADE, NETTIE
 
 JACK_Y1, MAIN_Y0, MAIN_Y1 = 43.0, 44.0, 444.0   # jack board y 0-43, main board y 44-444 (514 mm 12U panel)
 
@@ -30,7 +30,7 @@ JACK_NOTES = ((12, 'LINE IN | INSERT'), (32, 'DIRECT OUT | link CN5 (bottom)'))
 
 # ================================================================ main board
 FIX = {
- 'SW15': sw(XR, 50), 'RV9': pot(XL, 54), 'SW11': sw(XR, 61), 'D2': led(20.6, 50),           # Ø, gain, HPF in, OL
+ 'SW15': sw(XR, 50), 'RV9': pot(XL, 54), 'SW11': sw(XR, 61), 'D2': led3(20.6, 50),           # Ø, gain, HPF in, OL
  'RV10': pot(XL, 76), 'RV16': pot(XR, 76, dual=True, right=True),                        # HF, HPF freq
  'RV11': pot(XL, 98), 'RV12': pot(XR, 98, dual=True, right=True),                         # HI-MID gain, freq
  'RV13': pot(XL, 120), 'RV14': pot(XR, 120, dual=True, right=True),                       # LO-MID gain, freq
@@ -83,6 +83,11 @@ ZONES = [
                                           'R81', 'R82', 'R83', 'R84', 'R85', 'R86', 'R87', 'R88', 'R89',
                                           'R90', 'R91', 'R92', 'R93', 'R94', 'R95', 'R96', 'R97', 'R98'], 'F'),
  ('insert + position jumpers', (1, 120, 37, 200), ['R11', 'R12', 'R99', 'C84', 'R13', 'JP5', 'JP6', 'JP7'], 'F'),
+ # MET1 (feature_gaps.md): the signal detector and the LED's switches carry only DC and the op-amp-driven PRESRC, so they
+ # sit in the free column left of the fader (the signal path's area is full); R118 at U17, so the long run is low-Z
+ ('signal detector + LED switches (MET1)', (1, 300, 10, 440), ['U17', 'C98', 'R118', 'D11', 'R119', 'R120', 'R121', 'C99',
+                                                            'Q3', 'R116', 'R117', 'Q4', 'R122', 'R123', 'R124',
+                                                            'Q5', 'R125'], 'F'),
  ('aux / PRE jumpers / direct out', (1, 150, 37, 270), ['JP2', 'JP3', 'JP4', 'U8', 'C35', 'C36', 'C83', 'R70', 'R71',
                                                         'R72', 'R73'], 'F'),
  ('pan buffers + mute', (1, 236, 37, 306), ['U3', 'C24', 'C25', 'C80', 'C81', 'R35', 'R36', 'R37', 'R16', 'R17',
@@ -102,7 +107,7 @@ NOTES = ((50, 'GAIN | PHASE, OL'), (76, 'HF | HPF'), (98, 'HI-MID gain | freq'),
          (252, 'PAN | PAN, DIR'), (274, 'L-R  1-2  3-4 (LEDs y 283)'), (292, 'PFL | ON'), (305, 'BUS HEADER (bottom, right)'),
          (372, 'FADER 100 mm'), (91, 'LINK CN3 (bottom, across) to the jack board'))
 
-NEAR = {'C20': 'U1', 'C21': 'U1', 'C22': 'U2', 'C23': 'U2', 'C24': 'U3', 'C25': 'U3', 'C26': 'U4',
+NEAR = {'C20': 'U1', 'C21': 'U1', 'C22': 'U2', 'C23': 'U2', 'C24': 'U3', 'C25': 'U3', 'C26': 'U4', 'C98': 'U17',
         'C29': 'U5', 'C30': 'U5', 'C31': 'U6', 'C32': 'U6', 'C33': 'U7', 'C34': 'U7', 'C35': 'U8', 'C36': 'U8',
         'C53': 'U9', 'C54': 'U9', 'C55': 'U9', 'C56': 'U10', 'C57': 'U10', 'C58': 'U10',
         'C59': 'U11', 'C60': 'U11', 'C61': 'U11',

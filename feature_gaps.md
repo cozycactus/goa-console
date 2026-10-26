@@ -60,8 +60,44 @@ aux sends feed the effects.
 **Recommendation:** A, if you want more returns in hardware. The group panels have the room, nothing else in the
 console changes size, and the parts are already designed. C costs nothing and suits one or two extra effects.
 
-## For your decision
+## Sign-off
 
-- [ ] **MET1** Bicolour signal / OL LED on every strip, green / red with the green gated off in overload; drive per option
-  **b** or **c** (I find a common-anode part first).
-- [ ] **RET1** A second stereo return on every group module (option A), or say B / C.
+Signed off by Ruslan on 2026-10-26: both, MET1 per option c if a common-anode part exists, else b, with the green gated
+off in overload; RET1 option A.
+
+- [x] **MET1** Bicolour signal / OL LED on every strip, green / red with the green gated off in overload; drive per option
+  **b** (no stocked 3 mm common-anode red / green part: Bivar's 3BC-3-CA-F is broker-only).
+- [x] **RET1** A second stereo return on every group module (option A).
+
+## Applied: MET1 (2026-10-26, strip spec v4.7)
+
+- **Schematic** (`tools/gen.py`, page 08 OVERLOAD DETECTOR):
+  - **LED:** D2 is a WP3VEGW on its own footprint, `goa-console:LED_D3.0mm-3_P2.00mm` (leads at 2.0 mm, centred on
+    the middle lead).
+  - **Red:** U4B drives the red through a PNP, Q3.
+  - **Green:** U17 (LM393B) is the signal detector and hold, and drives the green through Q4.
+  - **Gate:** Q5, a PNP, holds Q4's base at +VL while U4B lights the red. It replaces the diode-OR idea above: the
+    green then draws nothing in overload, where shorting its anode would have wasted 3.6 mA.
+  - **Threshold divider:** R119 / R120 are 750K / 10K, not 75K / 1K, which would have loaded VREF by 7 % and moved the
+    red's threshold by 0.5 dB.
+- **Sim** (`sim/review/gaps/ol.py`, rewritten for both colours):
+
+  | | Lights from | Hold | Current |
+  |---|---|---|---|
+  | Red | +18.1 / +18.4 / +18.4 dBu at 50 Hz / 1 kHz / 10 kHz | 143–181 ms | 3.2 mA |
+  | Green | −19.5 dBu | 159 ms | 3.2 mA |
+
+  The green is off in overload, and neither colour lights in silence.
+- **Checks:** 851 pins, 0 mismatches, check_fp 0, ERC 0; `sim_netlist.py` 39/39, `sim_console.py` 32/32.
+- **Placement:** the detector and switches sit in the free column left of the fader (y 298–324). Only the input
+  followers' row moved, 1 mm. Parity DRC: 0 violations, 0 parity issues, 290 / 290 symbols linked; report unchanged.
+- **Panel:** same hole and legend.
+  - **Fix found on the way:** the artwork depended on the boards' footprint order, which changes on every re-placement
+    (where two scales' numerals collide, the first one placed stays). `panel_layout.layout()` now takes parts in
+    reference order.
+  - **Result:** group and master are pixel-identical. On the strip, one numeral changed: the HF ring's "9" now shows
+    where the HPF ring's "50" did.
+- **Power:** ≈ +4 mA per strip on +V while green is lit, ≈ +0.1 A console-wide typical. The worst corner goes from
+  ≈ 4.33 to ≈ 4.38 A on +V (master spec §27).
+- **BOM:** per strip +1 LM393B, 3 MMBT3906, 1 BAT54W, 1 WP3VEGW in place of the WP710A10ID, and 13 passives;
+  `order_bom.csv` regenerated.

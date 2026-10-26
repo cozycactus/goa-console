@@ -1,4 +1,4 @@
-# Channel Strip — Component-Level Specification v4.6
+# Channel Strip — Component-Level Specification v4.7
 ## Soundcraft Delta Theatre input without the mic stage. One PCB per channel, ×24.
 
 Bus pinout, grounding and power: `console_architecture.md`. Stage-by-stage comparison with the
@@ -7,6 +7,26 @@ Reference designators are those of `tools/gen.py`; Delta drawing numbers are giv
 circuit comes from a Delta sheet (ED3344A/B/C = Theatre input RH board, ED3151 = LH board).
 
 ---
+
+## Changes in v4.7 (2026-10-26, signed off; `feature_gaps.md` MET1)
+
+- **Signal / overload LED** (§8.1): D2 becomes a red / green bicolour (Kingbright WP3VEGW, 3 mm, common cathode) in the
+  OL LED's hole at (20.6, 50). Red is the overload as before; green lights from about −20 dBu with the same ~150 ms hold.
+  - A second LM393 (U17) copies U4 one level lower. U17A sees PRESRC through R118 47K with a BAT54W clamp (D11), against
+    VTH = VREF × 10K / 760K = 0.111 V (R119 750K / R120 10K, so VREF moves 0.7 %). It discharges SIG_HOLD (R121 1M,
+    C99 220 nF), and U17B lights green while SIG_HOLD is below VREF.
+  - Each colour has a PNP high-side switch (Q3 red, Q4 green, MMBT3906, 47K base resistors and pull-ups, R15 / R124
+    4K7), so it draws current only while lit.
+  - In overload, Q5 (a PNP from U4B's output through R125) holds Q4's base at +VL, so the red shows alone and the green
+    draws nothing.
+  - `sim/review/gaps/ol.py`:
+    - red from +18.1 / +18.4 / +18.4 dBu at 50 Hz / 1 kHz / 10 kHz; green from −19.5 dBu;
+    - holds 143–181 ms (red) and 159 ms (green);
+    - 3.2 mA in either colour; the green is off in overload.
+- **Supply:** ≈ +4 mA on +V per strip while green is lit (green 3.2 mA, base 0.3 mA, U17 ≈ 0.5 mA): ≈ 104 / 87 mA per
+  strip (master spec §27). Nothing on −V.
+- **Placement** (§16): the detector and switches (17 parts) sit in the free column left of the fader (x 1–10,
+  y 298–324). They carry only DC and the low-impedance PRESRC, so the signal path keeps its places.
 
 ## Changes in v4.6 (2026-10-25, signed off; `design_review.md` Q1, R4, R5)
 
@@ -373,7 +393,7 @@ JP7: PRESRC = BUF1 (1-2, default) or EQOUT (2-3)       ── C11 100 µF NP ─
 
 ## 8. Pre-fade section
 
-### 8.1 OL detector (U4A, logic rails)
+### 8.1 OL detector and signal LED (U4, U17, logic rails)
 From PRESRC (always the signal entering PRE: post-EQ, post-insert): R39 1K, D1 1N4148,
 C12 100 nF (v4.5, was 1 µF), R14 470K; U4A compares against R40/R41 for ≈ +18 dBu.
 - **v4.5 hold:** U4A's output discharges OL_HOLD (R115 1M to +VL, C97 220 nF to LGND). U4B (+ = OL_HOLD,
@@ -381,6 +401,16 @@ C12 100 nF (v4.5, was 1 µF), R14 470K; U4A compares against R40/R41 for ≈ +18
 - **LED current:** ≈ 3 mA, as the other LEDs (v4.1; R15 was 1K, 14 mA in an 0805).
 - **Common-mode range:** OL_HOLD rests at +VL, above the LM393's common-mode range, while U4B's − input (VREF) stays
   inside it; the datasheet allows that for a correct output.
+- **v4.7 signal LED and drive (MET1):** D2 is a red / green bicolour (WP3VEGW, pin 1 red anode, pin 2 common cathode
+  to GNDD, pin 3 green anode).
+  - **Red drive:** U4B now pulls Q3's base (R116 47K, R117 47K pull-up; MMBT3906), and Q3 feeds the red anode through
+    R15.
+  - **Signal detector:** U17A compares SIG_IN (PRESRC through R118 47K, clamped at −0.2 V by D11 BAT54W) against
+    VTH 0.111 V, the −20 dBu peak (R119 750K / R120 10K from VREF). It discharges SIG_HOLD (R121 1M, C99 220 nF).
+  - **Green drive:** U17B (+ = SIG_HOLD, − = VREF) pulls Q4's base (R122 / R123 47K), and Q4 feeds the green anode
+    through R124 4K7.
+  - **Gate:** Q5 (PNP, base from U4B's output OL_K through R125 47K) holds Q4's base at +VL while the red is lit.
+  - **Sim** (`sim/review/gaps/ol.py`): green from −19.5 dBu, 159 ms hold; 3.2 mA per colour; nothing lit in silence.
 
 ### 8.2 PFL (SW3, D3)
 ```
@@ -519,6 +549,7 @@ directly; no debounce RC, because the DG413 inputs have no hysteresis.
 | U2 | OPA1612 | fader post-amp | pan buffer L |
 | U3 | OPA1612 | pan buffer R | mute output buffer |
 | U4 | LM393 | OL comparator | OL hold (v4.5) |
+| U17 | LM393 | signal comparator (v4.7) | signal hold |
 | U5 | OPA1612 | HPF summer | EQ HF |
 | U6 | OPA1612 | EQ HI-MID | EQ LO-MID |
 | U7 | OPA1612 | EQ LF | insert return buffer |
@@ -529,6 +560,7 @@ directly; no debounce RC, because the DG413 inputs have no hysteresis.
 | U14 | OPA1612 | LO-MID integrator 1 (BP) | LO-MID integrator 2 (LP) |
 | U15 | OPA1612 | HPF integrator 1 (BP) | HPF integrator 2 (LP) |
 | Q1, Q2 | MMBFJ112 (J112 in SOT-23) | soft mute | |
+| Q3–Q5 | MMBT3906 | red / green LED switches, green gate (v4.7) | |
 
 ---
 
@@ -537,7 +569,7 @@ directly; no debounce RC, because the DG413 inputs have no hysteresis.
 `channel_strip_BOM.csv` (main board, exported from the schematic, with a DNP column): 265 parts per channel, of which
 three are the DNP VCA-option parts (J3, J4, R44), so 262 fitted (the netlist's 273 also counts the solder jumpers
 JP1–JP7 and the net tie NT1, which aren't bought); `jack_board_BOM.csv`: 6. Panel parts per channel:
-16 pots (fader, 6 aux, pan, gain, 4 EQ gain, 2 dual EQ frequency, dual HPF frequency), 13 switches, 7 LEDs (OL, PFL,
+16 pots (fader, 6 aux, pan, gain, 4 EQ gain, 2 dual EQ frequency, dual HPF frequency), 13 switches, 7 LEDs (OL / signal bicolour, PFL,
 ON, EQ, 3 routing), 3 jacks, 1 bus header.
 
 BOM rules (v4.1):
@@ -546,7 +578,8 @@ BOM rules (v4.1):
 - film: C13 and C49 WIMA MKS2C042201K00KSSD (2.2 µF PET 63 V, 7.2 × 13 × 7.2, bottom side), C48 150 nF MKS2;
 - bipolar electrolytics: Nichicon MUSE ES 25 V, UES1E330MPM (33 µF; C38 + C91 in parallel) and UES1E101MPM (100 µF);
 - OPA1612AIDR, OPA1656IDR (U16), LM393BIDR (the same comparator as the master), onsemi MMBFJ112;
-- Kingbright WP710A10ID red, WP710A10GD green, WP710A10YD yellow;
+- Kingbright WP710A10ID red, WP710A10GD green, WP710A10YD yellow; D2 WP3VEGW red / green (v4.7, own footprint
+  `goa-console:LED_D3.0mm-3_P2.00mm`, leads at 2.0 mm); Q3–Q5 onsemi MMBT3906LT1G;
 - Panasonic ERJ-P06J100V (R1/R2, 10R at up to 0.126 W) and ERJ-P06J750V (R11/R71, ~0.25 W into a shorted lead);
 - Würth 61203421621 bus header.
 
@@ -615,7 +648,8 @@ references, other parts' courtyards and the edge. The bus header CN1 is turned 1
 y 345.6, same pin field x 31.46/34, y 305–345.6), so its pin-1 arrow stays on the board. The Ø switch moved from the jack row to the main board, right
 of the gain pot. v4.3: the right column's top reads Ø key (y 50), HPF IN key SW11 (y 61, the PRE keys' 11 mm pitch),
 HPF FREQ dual RV16 (y 76, beside HF); the OL LED D2 sits between the GAIN knob and the Ø key at (20.6, 50), 3.8 mm from
-the knob and 3.2 mm from the key cap. The HPF knob's numerals (20 50 85 170 400Hz) need a panel-print check: there
+the knob and 3.2 mm from the key cap; since v4.7 it is the three-lead bicolour, centred on its middle lead, and its
+detector and switches (U17, Q3–Q5, 17 parts) sit left of the fader at y 298–324. The HPF knob's numerals (20 50 85 170 400Hz) need a panel-print check: there
 are 4.6 mm between the HPF key cap and the knob, so the key's legend names it (`panel_print.md`). U5 and U15 sit
 between the HF / HI-MID and HI-MID / LO-MID rows; every HPF input network is within 13 mm of its pin. Decoupling caps sit beside their IC's supply pins (place_strip.py
 `DECOUPLE`); the DG413s (U9–U11) are beside the fader just below CN1, the routing 4K7s between the fader
@@ -667,7 +701,16 @@ each standoff's panel end and wherever a panel meets the frame rails. CN3/CN5: W
 
 ---
 
-## 17. Status (v4.5, 2026-10-25)
+## 17. Status (v4.7, 2026-10-26)
+
+v4.7 (`feature_gaps.md` MET1):
+- **Netlist:** 851 pin entries / 0 mismatches, check_fp 290 / 0, ERC 0.
+- **Simulation:** `tools/sim_netlist.py` 39/39, `tools/sim_console.py` 32/32, `sim/review/gaps/ol.py` as in the change
+  notes.
+- **Placement:** 290 footprints + 6 holes, 0 DRC violations, 0 parity issues. Only the input followers' row moved,
+  1 mm left, for the wider three-lead LED. Report unchanged: decouplers 3.1 / 10.0 / 12, high-Z inputs
+  10.5 / 22.1 / 30.
+
 
 v4.5 (`gaps_proposal.md` K1 / K3):
 - **Netlist:** 806 pin entries / 0 mismatches, check_fp 273 / 0, ERC 0.
@@ -731,7 +774,7 @@ v4.0 (2026-10-22):
   (results in `delta_clone_comparison.md` §6), `sim/routing_switch.cir` (§13), `sim/mid_tuning.py` (§6.2). `sim/strip.cir` is the v3.1 path.
 
 **Pan RV8** (2026-10-25): ALPS RK09L1240015, the stocked vertical dual 10K B with a centre detent (§16.1; no Alpha one
-exists; RK097121TD57 is a right-angle part). Supply current ~100 / 87 mA per strip since v4.4 (master spec §27);
+exists; RK097121TD57 is a right-angle part). Supply current ~104 / 87 mA per strip since v4.7 (master spec §27);
 PVA2 sense: settled from the datasheet, with an assembly rule (§16.1). Jack-board depth: 24.0 mm from Neutrik's
 drawings (2026-10-23). The panel parts checked against their drawings, with what still needs a sample (PTB lever
 style and pin side, PV cap clearance in the Ø8.0 hole, Alpha bushing thread and tab slots, 1/4" knobs on every pot):

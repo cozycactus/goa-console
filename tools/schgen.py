@@ -224,6 +224,7 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
             if side == 'U': return (cx, cy - 4.45, fa, None), (cx, cy - 2.8, fa, None)
             return (cx, cy - 3.18, fa, None), (cx, cy + 3.18, fa, None)
         if key in ('NPN', 'PNP'): return (cx + 5.08, cy - 1.27, fa, 'left'), (cx + 5.08, cy + 1.27, fa, 'left')
+        if key == 'LED2': return (cx, cy - 6.35, fa, None), (cx, cy + 6.35, fa, None)   # round dual LED: K left, A1 / A2 right
         if key == 'HDR' or (key.startswith('LINK') and key[4:].isdigit()):
             h = ((17 if key == 'HDR' else int(key[4:])) + 2) * 1.27
             return (cx, cy - h, fa, None), (cx, cy + h, fa, None)

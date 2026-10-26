@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from models3d import registry
 M3D = os.environ.get('KICAD10_3DMODEL_DIR', '/Applications/KiCad/KiCad.app/Contents/SharedSupport/3dmodels')
 PARTS = registry()
-FEATURE = {'LED_D3.0mm': (1.27, 0.0), 'LED_D5.0mm': (1.27, 0.0)}
+FEATURE = {'LED_D3.0mm': (1.27, 0.0), 'LED_D3.0mm-3_P2.00mm': (2.0, 0.0), 'LED_D5.0mm': (1.27, 0.0)}   # later keys win
 FEATURE.update({fp: mod.FEATURE for fp, (mod, kw) in PARTS.items() if mod.FEATURE})
 
 def has_model(fp):
