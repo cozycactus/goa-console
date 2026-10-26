@@ -378,7 +378,7 @@ jack board) done.
   RET 2 L / R at y 78), 38 x 93.5 mm, standoffs below the last row, return 2 on its own 2x5 link (CN2 <-> CN4) beside
   the unchanged 2x8. Main board from y 94.5; RET 1 / RET 2 knobs + PFL at y 106 / 128, return 2's MIX / 1-2 / 3-4 at
   y 150, AUX at 172; links on the bottom at y ~190. Console ~3.31 / 2.79 A typical, worst corner ~4.54 A on +V (wing
-  ~2.07 A, above the MF-RX250/72's hold).
+  ~2.07 A, above the MF-RX250/72's hold): accepted (Ruslan, 2026-10-26), as the 4.33 A corner before.
 - Knobs (signed off by Ruslan 2026-10-25, `knob_proposal.md` KN1-KN3): Elma classic collet knob Ø14.5, matt black with
   a line, 021-3525 (1/4", 349) and 021-3425 (6 mm, RK09L pans, 28); no nut covers. Caps Elma 040-30x5 matt without a
   line: GAIN / SOLO red, EQ gains / C/ROOM / PHONES grey, FREQs / HPF / RETURN blue, AUX 1-2 yellow, AUX 3-4 green, AUX
@@ -604,7 +604,9 @@ jack board) done.
   (2) done 2026-10-25 (G2b / G3b); (3) earthed synths on TS cables hum whatever the console does (use pseudo-balanced
   cables, one mains distribution point). Bench: hum with a real synth on TS / TRS; panel-to-frame bonding.
 - PSU headroom (strip v4.3): the worst corner (every OPA1612 at max IQ, every LED lit) is ~4.0 A on +V, the PSU's
-  rating (~4.24 A with strip v4.4's input followers: accepted 2026-10-25, U16 stays OPA1656). Typical 2.82 A. Revisit if anything else adds load (master spec §27).
+  rating (~4.24 A with strip v4.4's input followers: accepted 2026-10-25, U16 stays OPA1656; ~4.54 A with MET1 / RET1,
+  typical 3.31 A: accepted 2026-10-26, a wing PTC can trip in that corner). Revisit if anything else adds load (master
+  spec §27).
 - Pan RV8: decided (ALPS RK09L1240015, see Decisions). Check on a sample: the M9 nut's thickness against the 5 mm
   bushing, pin 1 at the CCW end, the detent at the electrical centre.
 - Input buffer/receiver question settled: differential receiver fitted (pseudo-balanced cables recommended).

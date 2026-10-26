@@ -956,7 +956,9 @@ v0.12 (2026-10-26, `feature_gaps.md` RET1): each group's second return adds 2 OP
 ≈ 30 mA per rail typical and ≈ 38 mA at maximum IQ, plus its PFL LED when pressed. Console ≈ 3.31 / 2.79 A typical
 (+0.12 A per rail). With MET1 the worst corner on +V goes from ≈ 4.38 to ≈ 4.54 A. A wing's +V (two groups) is
 ≈ 1.48 A typical (74 / 82 % of the MF-RX250/72's hold at 40 / 50 °C) and ≈ 2.07 A in the corner (103 / 115 %):
-in that corner a wing PTC can trip, as noted for v4.4 below. The "Master" row above holds the group modules' parts
+in that corner a wing PTC can trip, as noted for v4.4 below. **Accepted (Ruslan, 2026-10-26)**, on the same grounds as
+the 4.24 / 4.33 A corners: a console in use never has every op-amp at maximum IQ and every key and LED on at once, and a
+tripped wing PTC only silences that wing until it cools. The "Master" row above holds the group modules' parts
 too (the table predates the M1 split).
 
 Strip v4.7 (2026-10-26, `feature_gaps.md` MET1): the signal LED adds ≈ 4 mA per strip on +V while green is lit

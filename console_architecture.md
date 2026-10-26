@@ -201,7 +201,7 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
   LM1084-ADJ post-regulators as identical floating rails, TL431/SCR crowbar at 19.1 V and soft start
   per rail (chosen 2026-10-22; `psu_spec.md`, `sim/psu.cir`, `psu.kicad_sch`).
 - Target ±17 V at **4 A per rail** (2026-10-22). The console draws about 3.31 / 2.79 A typical; the worst corner is
-  about 4.54 A on +V (master spec §27; 4.33 A was accepted 2026-10-25, MET1 / RET1 add ≈ 0.2 A, 2026-10-26).
+  about 4.54 A on +V (master spec §27; MET1 / RET1 add ≈ 0.2 A to the 4.33 A accepted 2026-10-25; accepted 2026-10-26).
 - The regulators, heatsink and case are in `psu_spec.md` (option B). The LM338 / LM337 and 230 VA transformer ideas
   of the first draft were dropped with it.
 - Link to the console: 7-pin XLR (Neutrik NC7MD-LX on the console, 5 A per contact): pin 1 earth,

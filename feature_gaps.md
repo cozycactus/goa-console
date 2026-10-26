@@ -140,7 +140,8 @@ off in overload; RET1 option A.
 - **Power:**
   - **Typical:** +≈ 0.12 A per rail. The console is ≈ 3.31 / 2.79 A typical with MET1.
   - **Worst corner on +V:** ≈ 4.54 A. A wing's PTC (MF-RX250/72) sees ≈ 1.48 A typical (74 / 82 % of hold at
-    40 / 50 °C) and ≈ 2.07 A in the corner, above its hold.
+    40 / 50 °C) and ≈ 2.07 A in the corner, above its hold. Accepted by Ruslan on 2026-10-26, as the 4.33 A corner
+    was: a tripped wing PTC only silences that wing until it cools.
   - **Heat:** inside the vented tub, 16.1 → 16.9 K.
   - Master spec §27, `psu_spec.md`, `console_architecture.md` and `thermal_study.md` updated.
 - **Off-board** (`offboard_bom.md`): per group +1 knob, cap and M7 washer, 4 PV caps (3 white, 1 red), 1 LED spacer,

@@ -9,7 +9,7 @@ simulation and schematic.
 | Item | Value | Source |
 |------|-------|--------|
 | Rails | ±17 V | strip and master design rails |
-| Current | +V 3.31 A typical, ≈ 4.54 A in the worst corner (every op-amp at maximum IQ, every LED lit); −V 2.79 A typical; **design 4 A per rail** (2026-10-26 with MET1 / RET1; 3.09 / 4.33 A accepted 2026-10-25; 2.65 / 3.8 A with strip v4.0) | master spec §27 |
+| Current | +V 3.31 A typical, ≈ 4.54 A in the accepted worst corner (every op-amp at maximum IQ, every LED lit; accepted 2026-10-26); −V 2.79 A typical; **design 4 A per rail** (2026-10-26 with MET1 / RET1; 3.09 / 4.33 A accepted 2026-10-25; 2.65 / 3.8 A with strip v4.0) | master spec §27 |
 | Abs max at the console | OPA1612 ±20 V; DRV134 ±18 V recommended | datasheets |
 | Ripple and noise at the output | ≤ 1 mV pk-pk, 20 Hz–20 kHz; nothing large above 20 kHz either | the strips' 10 Ω + 220 µF filter only starts at 72 Hz |
 | Link | 7-pin XLR (console: Neutrik NC7MD-LX). Pin 1 earth; 2–3 +V; 4–5 0 V; 6–7 −V. Cable 7 × 1.0 mm², ≤ 2 m (≈ 70 mV drop at 4 A) | master spec §24 |
