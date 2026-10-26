@@ -140,6 +140,48 @@ Closed-loop peaking ≤ 1.32 dB everywhere. The 2026-10-25 figures were 69.3–7
   17.9 mm before.
 - **Return 2's level buffers** have more margin than return 1's: their output traces are shorter.
 
+**The rest of the group, re-run on the new placement** (same models, fix set `none`, 0.08 pF/mm):
+
+| Sweep | States | Worst now | Worst 2026-10-24 | Largest drop for one unit |
+|---|---|---|---|---|
+| `pots` (positions, keys) | 18 | 52.8° (return 2 L ring follower) | 64.2° | −2.7° (return 1 receiver R) |
+| `bus` (bus C, ribbon, jumpers) | 103 | 57.1° (sub summer, 100 pF bus with the ferrite shorted) | 57.2° | −0.1° |
+| `ins` (insert plugged / open) | 68 | 66.4° (sub re-inverter) | 65.7° | −0.1° |
+| `loads` (+22 / +47 pF on every output) | 12 | 46.8° (aux re-inverter, +47 pF) | 45.8° | −2.2° (pan buffer L) |
+
+The `pots` worst is the input followers, which are new since that run (G3b) and sit at 52–54° on the fitted model.
+Every other unit is within 2.7° of its October figure, and several gained (sub re-inverter 67.6 → 71.4°).
+
+**The master module, re-run on today's netlist and placement** (`sim/review/master/`, TI's OPA161x / OPA1656 /
+DRV134 / TL072 models, fix set `none`).
+- **What was run:** all 31 configurations of `configs.py` (pots, PFL / AFL, EXT, inserts, relays, bus, ground
+  cancel, +22 / +47 pF on every output, the placed trace estimate), 166 min, plus the phones composite (`run_phv.py
+  asis`, both channels).
+- **Runner:** `run_each.py` runs one configuration at a time in its own process group, printing time and worst unit
+  per configuration (local log `log_v12_none.txt`).
+- **Trace table:** `master_len.json` was re-measured from the placed board.
+
+| | Today | 2026-10-24 |
+|---|---|---|
+| Worst unit | U21A/B (C/Room followers), 47.7° at every pot fully up | the same, 47.7° |
+| Fader post-amps U5A/B | 51.6° (+47 pF) | 51.6° |
+| EXT followers U43/U44 (new since, G3b) | 52.8° (+47 pF) | – |
+| Solo U19A | 65.3° (+22 pF beyond its 100R) | 73.5° |
+| Phones composite U26A/B | 76.0° | 76.0° |
+| Every other unit | within 1.5° of October, or better | |
+
+Two faults in the stress configurations' load map came from the master having been drawn on 2026-10-24, and both are
+fixed in `configs.py`:
+- **The +47 pF landed on the pin side of the build-outs.** The map put it beyond them by net names that are now
+  unnamed, so it hit the post-amps, the solo stage and the insert-return buffers on the pin side (U5A read 44.1°).
+  - MG10 keeps those nets pad-length, so that isn't the intended stress.
+  - The far side is now found from the netlist: the other end of each build-out of 100R or less.
+- **The two idle spare halves (U6B, U19B) were loaded too.** They used to be skipped by "SPARE" in their net names, so
+  they read 63.6°, which means nothing. They are now found by structure and skipped.
+
+The meter detectors (U29A, U36A) read 108° rather than 149°: their output is now the diode cathode (MG8), so the
+stress load sits elsewhere. That is still far from any limit.
+
 **Why the first attempts failed:**
 1. **The `mg` fix set is obsolete.** It was written for group rev 0.1: MG4–MG8 have been in the schematic since rev 0.2,
    and the drawn schematic leaves those nets unnamed. Applied to today's netlist, its re-pin moved U2B's + input onto a

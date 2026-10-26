@@ -189,6 +189,14 @@ jack board) done.
   fitted OPA1656, `sweep.py ret none 0.08`): receivers >= 66.4 deg, level buffers >= 70.9, followers >= 52.1. Group review
   decks: fix set `none` since rev 0.2 (`mg` re-pins U2B onto a floating node; `fixes.apply()` now refuses it) and
   `OPA1656_FIT` for the followers (TI's OPA1656 model doesn't converge in the deck on ngspice 46).
+- `eq_survey.md` — how other consoles build the swept mid EQ, read from Ruslan's iCloud service manuals (SSL 4000G,
+  Yamaha PM-4000/5000, Soundcraft 6000 / 200B / Sapphyre / Ghost / Series Five, Sony MXP-3000) and the Mackie BOM: all
+  tune with reverse-log (C-law) pots as rheostats, Ghost / Series Five are KHN like ours but with 200KC / 100KC rheostats;
+  none tunes by dividers (our A10K dual). Q pots on the big consoles are the one feature we lack (noted, not proposed).
+- Stability re-run 2026-10-26 on today's netlists and placement (`met1_ret1_review.md`): group (all sweeps, both
+  returns) and master (31 configurations + phones, `sim/review/master/run_each.py`) match 2026-10-24; worst master
+  unit U21A/B 47.7 deg at the pot top as then. `configs.py` now finds build-out far sides and spare units from the
+  netlist (the drawn master's unnamed nets had moved the +47 pF stress to the pin side).
 - `sample_order.md` — the parts to order with the prototype panel and the eight physical checks they settle.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.

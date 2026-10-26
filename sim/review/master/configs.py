@@ -14,7 +14,37 @@ FAR = {'MST_L_FPOST': 'POST_L', 'MST_R_FPOST': 'POST_R', 'MIX_L_RBUF': 'PRE_L', 
        # master v0.8: the long net is beyond each build-out (MG1, MG3, MG6, MG9)
        'CRSB_LO': 'CRSB_L', 'CRSB_RO': 'CRSB_R', 'PFL_SIGO': 'PFL_SIG', 'EXT_BL': 'EXT_L', 'EXT_BR': 'EXT_R',
        'ML_DETO': 'ML_DET', 'MR_DETO': 'MR_DET'}   # the long net is beyond the 220u
-def outload(c): return {FAR.get(OUTS[u], OUTS[u]): c for u in NONPH if 'SPARE' not in OUTS[u]}
+# Since the master was drawn (2026-10-24) the pin-side nets of the build-outs are unnamed, so FAR's names no longer
+# match: find the far side from the netlist instead, the other end of a build-out resistor (<= 100R, not to a supply
+# or ground) on the op-amp's output net. Without this the stress loads land on the pin side (MG10: keep that pad-length)
+def _buildouts():
+    from masterdeck import comps, node, value
+    far = {}
+    for r, c in comps.items():
+        if not r.startswith('R') or c.get('dnp'): continue
+        try: v = value(c['value'])
+        except ValueError: continue
+        if v > 100: continue
+        a, b = node(r, 1), node(r, 2)
+        if '0' in (a, b) or any(s in (a, b) for s in ('PVA', 'MVA', 'PVP', 'MVP', 'PVM', 'MVM', 'PVL', 'MVL')): continue
+        far.setdefault(a, b); far.setdefault(b, a)
+    return far
+_BO = _buildouts()
+def far_of(o): return FAR.get(o) or _BO.get(o, o)
+def _spares():
+    """Unused halves tied off by master_lib.spares(): + to ground, output only on its own - input. Found by structure:
+    their nets were named <ref>_SPARE<n> before the master was drawn and are unnamed since."""
+    from masterdeck import UNITS, node, pins
+    out = set()
+    for u in NONPH:
+        _, ref, p, m, o, _ = UNITS[u]
+        on = pins.get((ref, str(o)))
+        if node(ref, p) == '0' and node(ref, m) == node(ref, o) and \
+                {k for k, v in pins.items() if v == on} <= {(ref, str(m)), (ref, str(o))}:
+            out.add(u)
+    return out
+SPARES = _spares()
+def outload(c): return {far_of(OUTS[u]): c for u in NONPH if u not in SPARES and 'SPARE' not in OUTS[u]}
 INS_UNIT = (100, 300e-12, 10e3, 300e-12)
 CONFIGS = {
  'p000': dict(pos=pots(0.0)),
