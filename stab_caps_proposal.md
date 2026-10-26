@@ -2,7 +2,7 @@
 
 **Signed off by Ruslan on 2026-10-27 and applied the same day; see "Applied" at the end.**
 - **What changes:** placement only, like E1–E5. No netlist, part or BOM change.
-- **The change:** `stab_caps_proposal.patch` (`tools/place_strip.py`).
+- **The change:** `stab_caps_proposal.patch` (`tools/place_strip.py`); since 2026-10-27 the caps move by the placer's `moves` (below).
 
 ## Why
 
@@ -89,3 +89,75 @@ So `place_strip.py` holds 86 parts where PAN1 placed them (`HOLD`, explicit coor
   Every C0G cap on an op-amp input ≤ 6.3 mm from its pin.
 - **Exports and docs:** `render/strip.json` re-exported; the spec §16, `routing_guide.md` (stability caps) and CLAUDE.md
   updated.
+
+## The `moves` mechanism (2026-10-27, committed with E9)
+
+`placer.place()` now takes `moves`: {ref: (x, y, rot, side)}.
+- **What it does:** parts are packed as usual, then moved to these spots before the report and the silk references.
+  The packing stays as it was without the moves, so no part re-packs into the slots they leave.
+- **Its guard:** it refuses a spot whose courtyard meets another part's on that side, or that meets a through-hole pad
+  or the board edge. A later layout change that takes a target spot therefore fails loudly.
+- **The strip:** its E9 now uses it in place of the fix list plus the 86-part `HOLD`. It places identically to the
+  committed E9 board (0 parts differ).
+- **The group and master:** the hold approach would have needed about 190 / 450 held parts there.
+
+## E9b: the same on the group and master (proposed, not signed off)
+
+The same check on the other boards:
+- **Jig master stub:** already fine, worst 6.3 mm (C9 / C24 / C34 100p at U2 / U5 / U7, the level the strip ends at).
+- **Group and master:** 11 and 13 caps over 6.5 mm, up to 13 mm.
+
+The trial is `stab_caps_e9b.patch` (`tools/place_group.py`, `tools/place_master.py`: a `MOVES` list each). It uses the
+same probe and greedy order as the strip, at the boards' own edges. The committed boards are unchanged.
+
+**Group**
+
+| Cap | Value | Pin | Before, mm (side) | After |
+|---|---|---|---|---|
+| C35 | 22p | U6.5 | 13.0 (F) | 2.0 (B) |
+| C34 | 22p | U6.6 | 10.8 (F) | 2.8 (B) |
+| C51 | 100p | U11.5 | 10.6 (F) | 0.0 (B) |
+| C39 | 10p | U5.5 | 9.9 (F) | 0.0 (B) |
+| C50 | 100p | U11.3 | 8.5 (F) | 0.0 (B) |
+| C76 | 100p | U15.3 | 8.4 (F) | 0.0 (B) |
+| C44 | 100p | U10.3 | 8.1 (F) | 0.0 (B) |
+| C19 | 100p | U3.2 | 7.5 (F) | 0.2 (B) |
+| C7 | 100p | U1.6 | 7.2 (F) | 0.2 (B) |
+| C59 | 100p | U9.2 | 6.7 (F) | 0.1 (B) |
+| C60 | 10p | U9.3 | 6.6 (F) | 2.3 (B) |
+
+**Master**
+
+| Cap | Value | Pin | Before, mm (side) | After |
+|---|---|---|---|---|
+| C37 | 100p | U5.6 (fader post-amp R) | 13.0 (F) | 0.2 (B) |
+| C83 | 10p | U13.5 | 11.2 (F) | 2.0 (F) |
+| C69 | 100p | U13.2 | 10.7 (F) | 0.2 (B) |
+| C33 | 100p | U5.2 (fader post-amp L) | 10.6 (F) | 0.2 (B) |
+| C82 | 100p | U13.6 | 10.4 (F) | 2.5 (B) |
+| C70 | 10p | U13.3 | 10.3 (F) | 0.6 (B) |
+| C36 | 10p | U5.5 | 9.3 (F) | 1.8 (B) |
+| C153 | 100p | U26.6 (phones) | 8.8 (F) | 2.0 (B) |
+| C32 | 10p | U5.3 | 8.1 (F) | 0.8 (B) |
+| C94 | 100p | U44.3 | 8.1 (F) | 0.0 (B) |
+| C174 | 22p | U36.6 | 7.2 (F) | 0.1 (B) |
+| C146 | 100p | U26.2 (phones) | 6.6 (F) | 0.1 (B) |
+| C91 | 33p | U17.3 | 6.6 (F) | 0.0 (B) |
+
+**Measured** (trial vs committed):
+
+| | Group | Master |
+|---|---|---|
+| Parts moved | the 11 caps | the 13 caps |
+| DRC / parity | 0 / 0 | 0 / 0 |
+| Footprints linked | 263 / 263 | 579 / 579 |
+| Worst C0G cap on an op-amp input | 13.0 → 6.1 mm | 13.0 → 6.4 mm |
+| Placer report, decouplers | unchanged (2.9 / 6.2 / 2) | unchanged (3.1 / 11.5 / 27) |
+| Placer report, high-Z inputs | 8.5 / 20.2 / 30 → 7.8 / 20.2 / 26 | 8.1 / 97.0 / 77 → 8.1 / 97.0 / 76 (97 mm is E8's intended FL_N line) |
+| `emc_check.py` | two couplings leave the twelve closest (U15A+ 8.8, U9A+ 9.3 mm); nothing new | unchanged |
+
+- **The jack boards** place identically, with UUID churn only, so they are not part of the patch.
+- **The fader post-amps U5:** MG10's margins (51.6°) assume pad-length build-outs. Their + input caps C32 / C36 and
+  feedback caps C33 / C37 now sit there too.
+
+- [ ] **E9b:** the group's 11 and the master's 13 stability caps at their pins, by `moves`.

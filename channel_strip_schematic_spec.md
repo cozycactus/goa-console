@@ -667,8 +667,8 @@ and CN1's pins. The old v3.1 placement is `archive/channel_strip_v3.1.kicad_pcb`
 
 **Stability caps at their pins (E9, 2026-10-27, `stab_caps_proposal.md`).** Every C0G cap on an op-amp input (the v4.1
 stability caps) is within 6.3 mm of its pin. Nine of them sit on the bottom under their op-amp: C37, C41, C70, C71,
-C75, C78, C80, C83 and C85. C84 is 5.8 mm from U7 pin 5, the nearest free spot. `place_strip.py` holds 86 other parts
-(`HOLD`) where they were, because the greedy packer otherwise re-shuffles about 90 parts when those spots free up.
+C75, C78, C80, C83 and C85. C84 is 5.8 mm from U7 pin 5, the nearest free spot. They move after packing (`placer.py` `moves`), because the greedy
+packer otherwise re-shuffles about 90 parts into the spots they leave.
 
 **Routing rule (v4.1, `strip_parts_review.md` §5).** Four op-amp outputs drive long nets directly; at MHz the series
 220 µF caps are shorts:

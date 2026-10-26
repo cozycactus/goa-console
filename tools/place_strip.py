@@ -50,53 +50,21 @@ FIX = {
  'CN4': SPADE,                           # ground spade, bottom side, left of the fader body
  'NT1': NETTIE,                          # AGND-LGND net tie beside the spade (no courtyard: keep it clear by hand)
 }
-# The upper board's op-amps where the reviewed placement had them (2026-10-26, before the EMC changes): the packer
-# re-shuffles every IC after any change near the top (E1-E3 moved 163 parts and starved the HPF), so they are fixed
-# and their own parts pack around them as before
-# E9 (stab_caps_proposal.md): the C0G stability caps at the pins they stabilise (the packer had left them 6-22 mm away);
-# bottom-side rotations are before the flip (board angle = 180 - rot)
-FIX.update({'C84': (5.72, 149.9, 180, 'F'), 'C81': (17.72, 243.65, 180, 'F'), 'C37': (4.47, 63.63, 270, 'B'),
-            'C71': (28.22, 151.13, 180, 'B'), 'C80': (13.02, 238.38, 90, 'B'), 'C20': (12.22, 62.84, 90, 'F'),
-            'C83': (3.77, 240.38, 180, 'B'), 'C41': (15.47, 89.63, 180, 'B'), 'C78': (2.27, 65.88, 270, 'B'),
-            'C75': (3.77, 130.38, 180, 'B'), 'C85': (11.27, 90.13, 180, 'B'), 'C86': (6.27, 84.61, 0, 'F'),
-            'C70': (26.52, 148.61, 0, 'B')})
-# E9: the greedy packer refills the slots those caps leave and re-shuffles ~90 parts (R104 by 66 mm, C48 off the board,
-# C49 20 mm from U7); these parts are held where PAN1 placed them, so only the caps move
-HOLD = {'C10': (7.0475, 86.7962, 0, 'B'), 'C11': (18.7925, 107.293, 0, 'B'), 'C28': (16.2825, 238.15, 0, 'B'),
-        'C29': (17.72, 87.34, 90, 'F'), 'C30': (6.27, 90.15, 0, 'F'), 'C33': (10.72, 154.34, 0, 'F'),
-        'C38': (9.7212, 66.86, 90, 'B'), 'C42': (2.72, 111.267, 0, 'F'), 'C43': (2.22, 107.293, 90, 'F'),
-        'C48': (31.22, 175.697, 0, 'F'), 'C49': (9.77, 156.88, 90, 'B'), 'C51': (17.0475, 84.2962, 0, 'B'),
-        'C72': (34.22, 154.38, 90, 'F'), 'C87': (15.77, 110.11, 0, 'F'), 'C88': (31.72, 110.38, 0, 'F'),
-        'C89': (30.72, 106.84, 90, 'F'), 'C91': (25.9712, 87.11, 0, 'B'), 'C97': (32.77, 67.84, 0, 'F'),
-        'JP2': (28.22, 238.11, 90, 'F'), 'JP3': (31.22, 238.11, 90, 'F'), 'JP4': (21.72, 251.61, 90, 'F'),
-        'JP5': (24.42, 177.11, 0, 'F'), 'JP6': (25.72, 174.11, 0, 'F'), 'JP7': (3.345, 196.295, 0, 'F'),
-        'Q1': (14.7825, 241.65, 90, 'B'), 'Q2': (19.22, 241.65, 0, 'B'), 'R8': (12.27, 66.88, 90, 'F'),
-        'R9': (2.27, 76.38, 90, 'F'), 'R10': (35.995, 50.225, 90, 'F'), 'R11': (24.42, 180.11, 0, 'F'),
-        'R12': (18.8075, 176.65, 0, 'F'), 'R13': (27.225, 195.995, 0, 'F'), 'R15': (35.995, 58.225, 90, 'F'),
-        'R16': (15.7325, 245.088, 0, 'B'), 'R17': (20.1575, 238.2, 0, 'B'), 'R35': (34.725, 236.995, 0, 'F'),
-        'R36': (34.725, 239.495, 0, 'F'), 'R42': (19.7825, 245.15, 0, 'B'), 'R45': (2.27, 46.34, 90, 'F'),
-        'R46': (7.22, 46.11, 0, 'F'), 'R47': (35.995, 54.225, 90, 'F'), 'R50': (20.22, 83.88, 0, 'F'),
-        'R51': (2.22, 98.88, 90, 'F'), 'R52': (6.695, 111.267, 90, 'F'), 'R53': (2.22, 102.88, 90, 'F'),
-        'R54': (33.27, 146.61, 0, 'F'), 'R55': (34.77, 158.11, 0, 'F'), 'R58': (36.22, 149.88, 90, 'F'),
-        'R59': (35.72, 161.38, 90, 'F'), 'R62': (35.72, 165.61, 90, 'F'), 'R63': (2.27, 166.34, 90, 'F'),
-        'R64': (19.225, 178.995, 0, 'F'), 'R67': (12.27, 151.11, 90, 'F'), 'R68': (28.225, 179.995, 0, 'F'),
-        'R69': (32.225, 179.995, 0, 'F'), 'R70': (2.27, 253.88, 90, 'F'), 'R71': (2.27, 223.34, 0, 'F'),
-        'R72': (31.225, 195.995, 0, 'F'), 'R73': (35.225, 195.995, 0, 'F'), 'R81': (2.27, 119.61, 90, 'F'),
-        'R82': (12.77, 129.11, 90, 'F'), 'R83': (15.27, 129.11, 90, 'F'), 'R84': (15.27, 132.88, 90, 'F'),
-        'R85': (2.27, 115.38, 90, 'F'), 'R86': (7.725, 195.995, 0, 'F'), 'R87': (11.725, 195.995, 0, 'F'),
-        'R88': (18.77, 127.84, 0, 'F'), 'R89': (9.22, 111.11, 90, 'F'), 'R94': (19.22, 138.65, 90, 'F'),
-        'R95': (19.225, 195.995, 0, 'F'), 'R96': (23.225, 195.995, 0, 'F'), 'R98': (2.27, 185.84, 90, 'F'),
-        'R99': (12.72, 157.15, 0, 'F'), 'R100': (10.27, 83.88, 0, 'F'), 'R101': (1.77, 83.88, 90, 'F'),
-        'R102': (20.27, 87.61, 90, 'F'), 'R103': (2.27, 95.11, 90, 'F'), 'R104': (35.995, 62.225, 90, 'F'),
-        'R105': (6.77, 105.84, 0, 'F'), 'R106': (16.27, 106.61, 90, 'F'), 'R107': (35.995, 66.225, 90, 'F'),
-        'R108': (11.77, 110.34, 90, 'F'), 'R109': (33.22, 106.88, 90, 'F'), 'R112': (35.995, 46.225, 90, 'F'),
-        'R113': (28.84, 67.22, 0, 'F'), 'R115': (35.77, 72.84, 90, 'F')}
-FIX.update(HOLD)
+# E9 (stab_caps_proposal.md): the C0G stability caps at the pins they stabilise (the packer had left them 6-22 mm away).
+# Moved after packing (placer `moves`), so no other part re-packs into the slots they leave; bottom-side rotations are
+# before the flip (board angle = 180 - rot)
+MOVES = {'C84': (5.72, 149.9, 180, 'F'), 'C81': (17.72, 243.65, 180, 'F'), 'C37': (4.47, 63.63, 270, 'B'),
+         'C71': (28.22, 151.13, 180, 'B'), 'C80': (13.02, 238.38, 90, 'B'), 'C83': (3.77, 240.38, 180, 'B'),
+         'C41': (15.47, 89.63, 180, 'B'), 'C78': (2.27, 65.88, 270, 'B'), 'C75': (3.77, 130.38, 180, 'B'),
+         'C85': (11.27, 90.13, 180, 'B'), 'C86': (6.27, 84.61, 0, 'F'), 'C70': (26.52, 148.61, 0, 'B')}
 # PAN1 (pan_buffer_proposal.md): U3 and U8 pinned where they were, so pan buffer L (U8B) stays beside the pan pot
 FIX.update({'U2': (33.245, 403.245, 90, 'F'), 'U3': (16.745, 239.745, 0, 'F'), 'U8': (4.745, 239.745, 0, 'F'), 'C17': (18.26875, 261.34, 0, 'B'),
             'C16': (16.0, 202.3, 90, 'B'), 'C79': (10.2, 242.35, 270, 'F'),
             'R38': (32.61, 413.72, 0, 'F'), 'JP1': (36.38, 414.22, 90, 'F'), 'R18': (32.88, 416.22, 0, 'F'),
             'R44': (29.225, 418.995, 0, 'F')})
+# The upper board's op-amps where the reviewed placement had them (2026-10-26, before the EMC changes): the packer
+# re-shuffles every IC after any change near the top (E1-E3 moved 163 parts and starved the HPF), so they are fixed
+# and their own parts pack around them as before
 FIX.update({'U1': (4.745, 63.745, 0, 'F'), 'U4': (31.245, 85.745, 0, 'F'), 'U5': (12.245, 88.245, 0, 'F'),
             'U6': (28.245, 151.745, 0, 'F'), 'U7': (4.745, 153.745, 0, 'F'), 'U12': (4.745, 129.745, 0, 'F'),
             'U13': (32.745, 129.745, 0, 'F'), 'U14': (4.745, 176.745, 0, 'F'), 'U15': (25.245, 108.745, 0, 'F'),
@@ -191,5 +159,5 @@ if '(ref "CN5")' in open(NET).read():                           # jack board net
                   hole_value='M3 standoff = jack body height (~24 mm)')
 else:
     layout = dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, holes=HOLES, zones=ZONES, notes=NOTES, near=NEAR,
-                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',))
+                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES)
 place(NET, OUT, layout)

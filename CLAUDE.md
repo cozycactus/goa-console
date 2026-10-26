@@ -72,7 +72,7 @@ jack board) done.
   decoupling pairs for placement). Same verify/check_fp/ERC loop. PCBs (placement only):
   `$KPY tools/place_jig.py` → `jig_master_stub.kicad_pcb`, `jig_load_board.kicad_pcb`; parity DRC in place.
 - Placement engine `tools/placer.py` (`place(net, out, layout)`: fixed parts, zone packer, near-placement,
-  silk labels and references; optional per-zone gap, `silk_text_off`, `keepout`) plus the shared 8 HP frame (`pot`, `sw`,
+  silk labels and references; optional per-zone gap, `silk_text_off`, `keepout`, `moves`: parts moved to fixed spots after packing, with a collision guard) plus the shared 8 HP frame (`pot`, `sw`,
   `led`, `jack`, `FADER`, `BUS`, `SPADE`); place_strip / place_group / place_master / place_jig / place_psu are layouts.
   `attach=True` (strip, group, master, jig; 2026-10-23): parts follow the IC pin they belong to, from the netlist's pin
   types: decouplers at their supply pin, input / feedback / summing parts at the input pin, output networks at the
@@ -217,8 +217,9 @@ jack board) done.
   refreshed (it was from strip v4.1).
 - `stab_caps_proposal.md` (+ `stab_caps_proposal.patch`) — E9, signed off and applied 2026-10-27 (placement only): the
   strip's twelve C0G stability caps that sat 6-22 mm from their op-amp pins (C84 at U7B 22.1 mm, C83 at U8A 10.5) moved
-  to them, nine on the bottom under their op-amp; every C0G cap on an op-amp input <= 6.3 mm. `place_strip.py` holds 86
-  parts (`HOLD`) because the greedy packer otherwise re-shuffles ~90 parts when spots free up.
+  to them, nine on the bottom under their op-amp; every C0G cap on an op-amp input <= 6.3 mm. The caps move after packing (`placer.py` `moves`, 2026-10-27),
+  so the greedy packer doesn't re-shuffle ~90 parts into the slots they leave. E9b (group 11 / master 13 caps, up to
+  13 mm, `stab_caps_e9b.patch`) proposed, not signed off; the jig stub is already <= 6.3 mm.
 - `sample_order.md` — the parts to order with the prototype panel and the eight physical checks they settle.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.

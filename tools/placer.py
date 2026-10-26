@@ -14,6 +14,9 @@ place(net, out, layout) builds a board from a KiCad netlist and a layout:
          to it. Each IC is placed with room around it and followed at once by its parts.
   limits  (decoupling, input reach) in mm for the placement report (default 5, 6).
   keepout  [(x0, y0, x1, y1)] areas kept free of parts on both sides, or [(x0, y0, x1, y1, side)] on one side.
+  moves  {ref: (x, y, rot, 'F'|'B')} parts packed as usual, then moved to these spots before the report: the packing
+         stays as without the moves (no part re-packs into the slots they leave). Refuses a spot whose courtyard
+         meets another part's on that side, or that meets a through-hole pad or the board edge.
 After placing, the report gives each decoupler's distance to its supply pin and, per local high-impedance input net
 (an IC input not driven by an output directly or through a coupling cap, not a connector line or a reference shared
 by three or more inputs), the farthest R/C/L/D/FB/JP pad from the pin.
@@ -430,6 +433,21 @@ def place(NET, OUT, L):
     for t in list(waiting):                            # targets that could not be placed: place the rest anyway
         for r2, z2 in waiting.pop(t, ()):
             if r2 not in tried: place_one(r2, z2); settle(r2)
+
+    # ---------------------------------------------------------------- moves (after packing)
+    for ref, (x, y, rot, side) in L.get('moves', {}).items():
+        fp = board.FindFootprintByReference(ref)
+        if fp.IsFlipped(): flip(fp)
+        fp.SetOrientationDegrees(rot); fp.SetPosition(pcbnew.VECTOR2I_MM(x, y))
+        if side == 'B': flip(fp)
+        fp.BuildCourtyardCaches()
+        cy = lambda f: f.GetCourtyard(pcbnew.B_CrtYd if f.IsFlipped() else pcbnew.F_CrtYd)
+        mine, box = cy(fp), courtyard(fp)
+        bad = [f.GetReference() for f in board.GetFootprints() if f.GetReference() != ref and f.IsFlipped() == fp.IsFlipped()
+               and cy(f).OutlineCount() and overlaps(box, [courtyard(f)], 0) and cy(f).Collide(mine)]
+        bad += [f.GetReference() for f in board.GetFootprints() if f.GetReference() != ref and overlaps(box, tht_pads(f), 0)]
+        if bad or box[0] < BOARD[0] or box[1] < BOARD[1] or box[2] > BOARD[2] or box[3] > BOARD[3]:
+            raise SystemExit(f'moves: {ref} at ({x}, {y}, {rot}, {side}) meets {sorted(set(bad)) or "the board edge"}')
 
     # ---------------------------------------------------------------- placement report
     LIM_DEC, LIM_IN = L.get('limits', (5.0, 6.0))
