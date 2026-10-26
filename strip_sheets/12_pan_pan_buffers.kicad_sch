@@ -7,9 +7,9 @@
   (title_block
     (title "PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX")
     (date "2026-10-19")
-    (rev "4.6")
+    (rev "4.8")
     (company "Channel strip - goa console")
-    (comment 1 "Generated from channel_strip_schematic_spec.md v4.6")
+    (comment 1 "Generated from channel_strip_schematic_spec.md v4.8")
     (comment 2 "Drawn by tools/strip_draw.py; labels join the blocks")
     (comment 3 "A Delta Theatre input without the mic stage")
   )
@@ -1049,8 +1049,8 @@
 
   (symbol (lib_id "Amplifier_Operational:OPA1612AxD") (at 35.56 38.1 0) (mirror x) (unit 2)
     (in_bom yes) (on_board yes)
-    (uuid 941120a3-8e8d-52d9-bfac-fbd861994c35)
-    (property "Reference" "U2" (id 0) (at 35.56 44.45 0)
+    (uuid 89b05938-7319-5732-a47f-83181454fde0)
+    (property "Reference" "U8" (id 0) (at 35.56 44.45 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "OPA1612" (id 1) (at 35.56 46.99 0)
@@ -1065,13 +1065,13 @@
     (property "MPN" "TI OPA1612AIDR" (id 4) (at 35.56 38.1 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "5" (uuid f3aa1bb5-068b-5b08-9a89-a7430924ac3a))
-    (pin "6" (uuid 8010d6be-2d3f-5225-9551-39000420452b))
-    (pin "7" (uuid af4a4cb3-d771-5949-aff8-5866e68be161))
+    (pin "5" (uuid b414157b-31ba-58a7-808b-97b07f11b710))
+    (pin "6" (uuid fd947803-cefe-5283-b9bb-f274dfdba736))
+    (pin "7" (uuid 89cfc25c-b282-54a8-ab6d-386dad9284d7))
     (instances
       (project "channel_strip"
         (path "/521774fc-95c2-53ac-99c0-5cfe8e881db5/8d9f7139-0332-5465-ae7d-bc74b6f0938b"
-          (reference "U2") (unit 2)
+          (reference "U8") (unit 2)
         )
       )
     )

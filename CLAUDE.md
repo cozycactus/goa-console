@@ -13,11 +13,11 @@ Line level only. One identical main PCB per channel (plus a small jack board), j
 ribbon "motherloom".
 Channel = a Soundcraft Delta Theatre input without the mic stage (decided 2026-10-22): line gain,
 Ø, HPF, 4-band EQ, post-EQ insert, ON, PFL, aux 1-6 with PRE switches, pan + PAN switch, routing,
-direct out. Strip spec v4.7 (v4.0 + the stability / ratings fixes of 2026-10-23, film couplers and MUSE ES bipolars and the sweepable HPF 2026-10-24, buffered receiver, chassis sleeves, K1 / K3 and the design review 2026-10-25, the signal / OL bicolour LED 2026-10-26), schematics and placement (main board +
+direct out. Strip spec v4.8 (v4.0 + the stability / ratings fixes of 2026-10-23, film couplers and MUSE ES bipolars and the sweepable HPF 2026-10-24, buffered receiver, chassis sleeves, K1 / K3 and the design review 2026-10-25, the signal / OL bicolour LED and PAN1 2026-10-26), schematics and placement (main board +
 jack board) done.
 
 ## Files
-- `channel_strip.kicad_sch` / `.kicad_pro` — channel strip schematic v4.6 (KiCad 7 file format, opens in KiCad 10).
+- `channel_strip.kicad_sch` / `.kicad_pro` — channel strip schematic v4.8 (KiCad 7 file format, opens in KiCad 10).
   HIERARCHICAL on A4 since 2026-10-25, like the master: a root sheet plus 15 pages in `strip_sheets/` (the group: 7
   pages in `group_sheets/`); strip_draw blocks too big for a page are lists of pieces (KHN per band, routing per
   assign key, power in rows), packed apart on pages and drawn in turn on a flat sheet (PILOT).
@@ -208,13 +208,13 @@ jack board) done.
   The strip's upper op-amps (U1, U4-U7, U12-U16) are now fixed in place_strip.py (the packer re-shuffled every IC);
   placer.py lets a fixed part stay in its zone as an anchor. E6 (10 nF base caps) and E7 (ferrites) are open.
 - `routing_guide.md` — routing notes for the strip, its jack board and the jig stub / load board (2026-10-26): ground and
-  supply strategy, the sensitive nets with lengths (IN_T/IN_R, pan buffer L's 165 mm wiper line, FPIN, KHN nodes, aux
+  supply strategy, the sensitive nets with lengths (IN_T/IN_R, pan buffer L's wiper line (165 -> 24 mm with PAN1), FPIN, KHN nodes, aux
   sends, PRESRC, VREF; jig GCREF / GCREF_BUF ~175 mm), the switching nets to keep away, CHASSIS on the jack boards,
   suggested net classes (not written into the projects).
-- `pan_buffer_proposal.md` (+ `pan_buffer_proposal.patch`) — PAN1 (2026-10-26, not signed off): pan buffer L moves from
-  U2B (fader end, 165 mm wiper line) into the spare U8B beside the pan pot (24 mm), U2B becomes the spare; 8 parts move,
-  0 DRC / parity; TI stability identical (U8B 80.2-87.5 deg as U2B was). Options (a) both buffers in U3 and (b) U2 at the pot
-  rejected. Side finding: `sim/review/strip/results_none.json` is from strip v4.1 (refresh when PAN1 is applied).
+- `pan_buffer_proposal.md` (+ `pan_buffer_proposal.patch`) — PAN1, signed off and applied 2026-10-26 (strip v4.8): pan
+  buffer L moved from U2B (fader end, 165 mm wiper line) into the spare U8B beside the pan pot (24 mm); U2B is the spare.
+  Options (a) both buffers in U3 and (b) U2 at the pot rejected. the local (gitignored) `sim/review/strip/results_none.json`
+  refreshed (it was from strip v4.1).
 - `sample_order.md` — the parts to order with the prototype panel and the eight physical checks they settle.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.
@@ -262,7 +262,7 @@ jack board) done.
 - `delta_clone_comparison.md` — the strip as a Delta Theatre input without the mic stage, stage by
   stage against the old strip; 7 decisions signed off 2026-10-22 (§3), now in spec v4.0 and the schematic.
 - `console_architecture.md` — whole-console architecture, v3.0. Authoritative.
-- `channel_strip_schematic_spec.md` — strip component-level spec, v4.5. Authoritative.
+- `channel_strip_schematic_spec.md` — strip component-level spec, v4.8. Authoritative.
 - `channel_strip_BOM.csv`, `channel_strip.net`, `channel_strip.pdf` — exports.
 
 ## Decisions made (do not silently change)
@@ -407,6 +407,9 @@ jack board) done.
   Q4 off during overload (red alone). Detector left of the fader (y 298-324). +~4 mA per strip on +V; worst corner
   ~4.38 A. `sim/review/gaps/ol.py` covers both colours. `panel_layout.layout()` takes parts in reference order (the
   artwork had depended on the board's footprint order).
+- Strip v4.8 (signed off by Ruslan 2026-10-26, `pan_buffer_proposal.md` PAN1): pan buffer L is U8B (beside U3 and the
+  pan pot), U2B the tied-off spare; netlist unit swap only, parts and BOM unchanged. `place_strip.py` fixes U2, U3, U8,
+  C16 / C17 / C79 and U2's post-amp parts (R18, R38, JP1, R44) so the packer keeps them.
 - Group v0.12 (signed off by Ruslan 2026-10-26, `feature_gaps.md` RET1): a second stereo return on every group
   (`stereo_return()` in gen_group.py; U12-U15, RV5, SW8-SW11, D4; every old ref kept). Jack board 7 jacks (4th row
   RET 2 L / R at y 78), 38 x 93.5 mm, standoffs below the last row, return 2 on its own 2x5 link (CN2 <-> CN4) beside
@@ -599,6 +602,10 @@ jack board) done.
   PSU board's 8 silk-edge items are the TO-220s at its edge (since 8b38deb). Strip report unchanged; group 3.0 / 6.2 / 2,
   8.5 / 20.2 / 31. Group and master panels pixel-identical but for the group's new rows; strip panel one numeral (HF "9"
   in place of HPF "50") since `panel_layout.layout()` takes parts in reference order.
+- PAN1 applied (2026-10-26, strip v4.8): 851 pins / 0 mismatches, check_fp 290 / 0, ERC 0; BOM unchanged; sim_netlist
+  39/39, sim_console 35/35. TI stability 21 states (`results_none.json`): pan L U8B 80.2-87.5 deg as U2B was, every other
+  unit as on the v4.7 netlist, minimum U3B 59.8 deg (direct out at top), <= 1.61 dB peaking. Placement: 8 parts moved,
+  0 DRC, 0 parity, 290 / 290 links; pan L + input 165 -> 24 mm, nearest aggressor 2.9 -> 11.6 mm (`emc_check.py`).
 - G2b / G3b applied (2026-10-25): group 186 parts / 529 pins, master 579 / 1686, jack boards 40 / 89; 0 mismatches,
   check_fp 0, ERC 0; sim_console 32/32. Placement: group report no worse (3.1 / 4.5 / 0, 7.8 / 20.1 / 18), master
   unchanged (EXT followers in a last zone); parity DRC clean. Global labels on every hierarchical page now centred in

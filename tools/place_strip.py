@@ -53,6 +53,11 @@ FIX = {
 # The upper board's op-amps where the reviewed placement had them (2026-10-26, before the EMC changes): the packer
 # re-shuffles every IC after any change near the top (E1-E3 moved 163 parts and starved the HPF), so they are fixed
 # and their own parts pack around them as before
+# PAN1 (pan_buffer_proposal.md): U3 and U8 pinned where they were, so pan buffer L (U8B) stays beside the pan pot
+FIX.update({'U2': (33.245, 403.245, 90, 'F'), 'U3': (16.745, 239.745, 0, 'F'), 'U8': (4.745, 239.745, 0, 'F'), 'C17': (18.26875, 261.34, 0, 'B'),
+            'C16': (16.0, 202.3, 90, 'B'), 'C79': (10.2, 242.35, 270, 'F'),
+            'R38': (32.61, 413.72, 0, 'F'), 'JP1': (36.38, 414.22, 90, 'F'), 'R18': (32.88, 416.22, 0, 'F'),
+            'R44': (29.225, 418.995, 0, 'F')})
 FIX.update({'U1': (4.745, 63.745, 0, 'F'), 'U4': (31.245, 85.745, 0, 'F'), 'U5': (12.245, 88.245, 0, 'F'),
             'U6': (28.245, 151.745, 0, 'F'), 'U7': (4.745, 153.745, 0, 'F'), 'U12': (4.745, 129.745, 0, 'F'),
             'U13': (32.745, 129.745, 0, 'F'), 'U14': (4.745, 176.745, 0, 'F'), 'U15': (25.245, 108.745, 0, 'F'),
@@ -108,7 +113,7 @@ ZONES = [
  ('MET1 LED switches, beside D2 (bottom)', (30, 44, 37.5, 76), ['Q3', 'R117', 'Q4', 'R123', 'R124', 'Q5', 'R125'], 'B'),
  ('aux / PRE jumpers / direct out', (1, 150, 37, 270), ['JP2', 'JP3', 'JP4', 'U8', 'C35', 'C36', 'C83', 'R70', 'R71',
                                                         'R72', 'R73'], 'F'),
- ('pan buffers + mute', (1, 236, 37, 306), ['U3', 'C24', 'C25', 'C80', 'C81', 'R35', 'R36', 'R37', 'R43'], 'F'),
+ ('pan buffers + mute', (1, 236, 37, 306), ['U3', 'C24', 'C25', 'C80', 'C81', 'C79', 'R35', 'R36', 'R37', 'R43'], 'F'),
  ('PFL', (1, 280, 37, 330), ['R32', 'R33', 'R34'], 'F'),
  ('routing logic + LEDs', (1, 262, 37, 310), ['R74', 'R75', 'R76', 'R77', 'R78', 'R79', 'R80', 'D9', 'D10', 'C62'], 'F'),
  ('routing switches (DG413, at the header)', (16, 280, 37, 444), ['U9', 'C53', 'C54', 'C55', 'U10', 'C56', 'C57',
@@ -116,7 +121,7 @@ ZONES = [
  ('bus resistors (at the header)', (22, 296, 37, 362), ['R20', 'R21', 'R22', 'R23', 'R24', 'R25', 'R26', 'R27',
                                                         'R28', 'R29', 'R30', 'R31'], 'F'),
  ('power entry', (1, 340, 37, 380), ['R5'], 'F'),
- ('fader post-amp', (27, 340, 37, 444), ['U2', 'C22', 'C23', 'C82', 'C79', 'R19', 'C14', 'R38', 'JP1', 'R18',
+ ('fader post-amp', (27, 340, 37, 444), ['U2', 'C22', 'C23', 'C82', 'R19', 'C14', 'R38', 'JP1', 'R18',
                                          'R44'], 'F'),
 ]
 NOTES = ((50, 'GAIN | PHASE, OL'), (76, 'HF | HPF'), (98, 'HI-MID gain | freq'), (120, 'LO-MID gain | freq'),
@@ -132,7 +137,7 @@ NEAR = {'C20': 'U1', 'C21': 'U1', 'C22': 'U2', 'C23': 'U2', 'C24': 'U3', 'C25': 
         'C44': 'U12', 'R56': 'U12', 'C45': 'U13', 'R57': 'U13', 'C46': 'U14', 'R60': 'U14', 'C47': 'U14', 'R61': 'U14',
         # stability caps at their op-amp's pins (strip_parts_review.md T1-T4), RET's series 1K at U7, the BAT54W at +5VL
         'C78': 'U1', 'C69': 'U6', 'C70': 'U6', 'C71': 'U6', 'C72': 'U6', 'C73': 'U7', 'C74': 'U12', 'C75': 'U12',
-        'C76': 'U13', 'C77': 'U13', 'C79': 'U2', 'C82': 'U2', 'C80': 'U3', 'C81': 'U3', 'C83': 'U8', 'R99': 'U7', 'C84': 'U7',
+        'C76': 'U13', 'C77': 'U13', 'C79': 'U8', 'C82': 'U2', 'C80': 'U3', 'C81': 'U3', 'C83': 'U8', 'R99': 'U7', 'C84': 'U7',
         'D10': 'D9',
         # E2 (emc_placement_study.md): the followers' 220R / 100p at U16's + pins (RF filter and G3 stability cap)
         'C94': 'U16', 'C95': 'U16', 'R110': 'U16', 'R111': 'U16',

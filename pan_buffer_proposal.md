@@ -1,8 +1,8 @@
 # Pan buffer L beside the pan pot (proposal PAN1, 2026-10-26)
 
-**Status: proposal, not signed off.** The trial is `pan_buffer_proposal.patch` (tools only: `gen.py`, `strip_draw.py`,
-`place_strip.py`); the committed schematic and board are unchanged. It changes the strip's unit assignment (which
-op-amp half does what), so it needs a sign-off before it is applied.
+**Signed off by Ruslan on 2026-10-26 and applied the same day (strip spec v4.8); see "Applied" at the end.** The change
+is `pan_buffer_proposal.patch` (tools only: `gen.py`, `strip_draw.py`, `place_strip.py`). It changes the strip's unit
+assignment (which op-amp half does what), not its parts.
 
 ## Why
 
@@ -75,7 +75,7 @@ unchanged except for C79: decouplers 3.1 / 10.0 / 14, high-Z inputs 10.4 / 258.6
     netlist, where only U2B and U8B swap.
   - **What the deck doesn't model:** trace capacitance. PAN1 helps there: about 1.6 pF of trace on the + input instead
     of about 10.7 pF (0.065 pF/mm × 24 vs 165 mm), beside C79's intended 10p.
-  - **A side finding:** the committed `sim/review/strip/results_none.json` dates from strip v4.1 (2026-10-23). Today's
+  - **A side finding:** the local `sim/review/strip/results_none.json` (gitignored, like every results file there) dated from strip v4.1 (2026-10-23). Today's
     netlist gives U3B 59.8° in the direct-out-at-top states, as the design review recorded, plus U16 86.2° and U7B
     86.4° in c13. The file isn't PAN1's to change; refresh it when PAN1 is applied.
 
@@ -87,10 +87,16 @@ unchanged except for C79: decouplers 3.1 / 10.0 / 14, high-Z inputs 10.4 / 258.6
 
 ## Sign-off
 
-- [ ] **PAN1:** pan buffer L in U8B, U2B the spare; the placement as above.
+- [x] **PAN1:** pan buffer L in U8B, U2B the spare; the placement as above.
 
-If signed off, applying it means:
-- apply the patch;
-- regenerate the strip, then verify, check_fp, ERC and the exports (netlist, PDF, BOM);
-- re-place the main board;
-- update `routing_guide.md` (the U2B row), `emc_placement_study.md` and CLAUDE.md.
+## Applied (2026-10-26)
+
+- **Change:** the patch as tried; the schematic revision goes to 4.8 with the spec.
+- **Netlist:** identical to the trial's: 851 pins, 0 mismatches; check_fp 290 / 0; ERC 0. The BOM is unchanged.
+- **Sims:** `sim_netlist.py` 39/39, `sim_console.py` 35/35.
+- **Stability:** the trial's 21-state TI run applies as-is and is now the local `sim/review/strip/results_none.json` (gitignored; re-run `run_all.py none` to reproduce it). Every unit
+  is ≥ 59.8°, ≤ 1.61 dB peaking.
+- **Board:** re-placed identically to the trial (8 parts moved); 0 DRC violations, 0 parity issues, 290 / 290 links;
+  the jack board is unchanged. `emc_check.py` gives the same output as the trial.
+- **Exports and docs:** `render/strip.json` re-exported. Updated: the spec (§12, §14, §16 routing rule, §17),
+  `routing_guide.md` and CLAUDE.md.

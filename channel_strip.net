@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/channel_strip.kicad_sch")
-		(date "2026-10-26T02:00:52")
+		(date "2026-10-26T23:21:12")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -11,12 +11,12 @@
 			(title_block
 				(title "Channel strip - goa console")
 				(company)
-				(rev "4.6")
+				(rev "4.8")
 				(date "2026-10-19")
 				(source "channel_strip.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.6")
+					(value "Generated from channel_strip_schematic_spec.md v4.8")
 				)
 				(comment
 					(number "2")
@@ -59,12 +59,12 @@
 			(title_block
 				(title "LINE INPUT, GAIN")
 				(company "Channel strip - goa console")
-				(rev "4.6")
+				(rev "4.8")
 				(date "2026-10-19")
 				(source "02_line_input.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.6")
+					(value "Generated from channel_strip_schematic_spec.md v4.8")
 				)
 				(comment
 					(number "2")
@@ -107,12 +107,12 @@
 			(title_block
 				(title "HPF, INSERT POSITION JUMPERS")
 				(company "Channel strip - goa console")
-				(rev "4.6")
+				(rev "4.8")
 				(date "2026-10-19")
 				(source "03_hpf.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.6")
+					(value "Generated from channel_strip_schematic_spec.md v4.8")
 				)
 				(comment
 					(number "2")
@@ -155,12 +155,12 @@
 			(title_block
 				(title "EQ")
 				(company "Channel strip - goa console")
-				(rev "4.6")
+				(rev "4.8")
 				(date "2026-10-19")
 				(source "04_eq.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.6")
+					(value "Generated from channel_strip_schematic_spec.md v4.8")
 				)
 				(comment
 					(number "2")
@@ -203,12 +203,12 @@
 			(title_block
 				(title "EQ MID TUNING")
 				(company "Channel strip - goa console")
-				(rev "4.6")
+				(rev "4.8")
 				(date "2026-10-19")
 				(source "05_eq_mid_tuning.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.6")
+					(value "Generated from channel_strip_schematic_spec.md v4.8")
 				)
 				(comment
 					(number "2")
@@ -251,12 +251,12 @@
 			(title_block
 				(title "EQ MID TUNING, EQ IN")
 				(company "Channel strip - goa console")
-				(rev "4.6")
+				(rev "4.8")
 				(date "2026-10-19")
 				(source "06_eq_mid_tuning.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.6")
+					(value "Generated from channel_strip_schematic_spec.md v4.8")
 				)
 				(comment
 					(number "2")
@@ -299,12 +299,12 @@
 			(title_block
 				(title "INSERT")
 				(company "Channel strip - goa console")
-				(rev "4.6")
+				(rev "4.8")
 				(date "2026-10-19")
 				(source "07_insert.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.6")
+					(value "Generated from channel_strip_schematic_spec.md v4.8")
 				)
 				(comment
 					(number "2")
@@ -347,12 +347,12 @@
 			(title_block
 				(title "OVERLOAD DETECTOR")
 				(company "Channel strip - goa console")
-				(rev "4.6")
+				(rev "4.8")
 				(date "2026-10-19")
 				(source "08_overload_detector.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.6")
+					(value "Generated from channel_strip_schematic_spec.md v4.8")
 				)
 				(comment
 					(number "2")
@@ -395,12 +395,12 @@
 			(title_block
 				(title "PFL, ON-SOFT MUTE")
 				(company "Channel strip - goa console")
-				(rev "4.6")
+				(rev "4.8")
 				(date "2026-10-19")
 				(source "09_pfl.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.6")
+					(value "Generated from channel_strip_schematic_spec.md v4.8")
 				)
 				(comment
 					(number "2")
@@ -443,12 +443,12 @@
 			(title_block
 				(title "FADER + POST-AMP")
 				(company "Channel strip - goa console")
-				(rev "4.6")
+				(rev "4.8")
 				(date "2026-10-19")
 				(source "10_fader_post_amp.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.6")
+					(value "Generated from channel_strip_schematic_spec.md v4.8")
 				)
 				(comment
 					(number "2")
@@ -491,12 +491,12 @@
 			(title_block
 				(title "AUX SENDS, DIRECT OUT")
 				(company "Channel strip - goa console")
-				(rev "4.6")
+				(rev "4.8")
 				(date "2026-10-19")
 				(source "11_aux_sends.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.6")
+					(value "Generated from channel_strip_schematic_spec.md v4.8")
 				)
 				(comment
 					(number "2")
@@ -539,12 +539,12 @@
 			(title_block
 				(title "PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX")
 				(company "Channel strip - goa console")
-				(rev "4.6")
+				(rev "4.8")
 				(date "2026-10-19")
 				(source "12_pan_pan_buffers.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.6")
+					(value "Generated from channel_strip_schematic_spec.md v4.8")
 				)
 				(comment
 					(number "2")
@@ -587,12 +587,12 @@
 			(title_block
 				(title "ROUTING MATRIX")
 				(company "Channel strip - goa console")
-				(rev "4.6")
+				(rev "4.8")
 				(date "2026-10-19")
 				(source "13_routing_matrix.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.6")
+					(value "Generated from channel_strip_schematic_spec.md v4.8")
 				)
 				(comment
 					(number "2")
@@ -635,12 +635,12 @@
 			(title_block
 				(title "ROUTING MATRIX")
 				(company "Channel strip - goa console")
-				(rev "4.6")
+				(rev "4.8")
 				(date "2026-10-19")
 				(source "14_routing_matrix.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.6")
+					(value "Generated from channel_strip_schematic_spec.md v4.8")
 				)
 				(comment
 					(number "2")
@@ -683,12 +683,12 @@
 			(title_block
 				(title "POWER ENTRY")
 				(company "Channel strip - goa console")
-				(rev "4.6")
+				(rev "4.8")
 				(date "2026-10-19")
 				(source "15_power_entry.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.6")
+					(value "Generated from channel_strip_schematic_spec.md v4.8")
 				)
 				(comment
 					(number "2")
@@ -731,12 +731,12 @@
 			(title_block
 				(title "POWER ENTRY, MOTHERLOOM")
 				(company "Channel strip - goa console")
-				(rev "4.6")
+				(rev "4.8")
 				(date "2026-10-19")
 				(source "16_power_entry.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v4.6")
+					(value "Generated from channel_strip_schematic_spec.md v4.8")
 				)
 				(comment
 					(number "2")
@@ -11677,7 +11677,7 @@
 				(names "/10 FADER + POST-AMP/")
 				(tstamps "/c5c74986-4c84-5716-ad82-0ee634e3d920/")
 			)
-			(tstamps "76278c9b-c944-567e-847a-572160dbf90a")
+			(tstamps "941120a3-8e8d-52d9-bfac-fbd861994c35" "76278c9b-c944-567e-847a-572160dbf90a")
 			(units
 				(unit
 					(name "A")
@@ -13297,7 +13297,7 @@
 				(names "/11 AUX SENDS, DIRECT OUT/")
 				(tstamps "/011cdf8c-20de-5e6c-96d8-7a6ef935b9c7/")
 			)
-			(tstamps "89b05938-7319-5732-a47f-83181454fde0" "2c9e6307-8546-5c77-b29c-fa41acbe9f39")
+			(tstamps "2c9e6307-8546-5c77-b29c-fa41acbe9f39")
 			(units
 				(unit
 					(name "A")
@@ -21689,13 +21689,13 @@
 				(pintype "input")
 			)
 			(node
-				(ref "U5")
+				(ref "U2")
 				(pin "5")
 				(pinfunction "+_5")
 				(pintype "input")
 			)
 			(node
-				(ref "U8")
+				(ref "U5")
 				(pin "5")
 				(pinfunction "+_5")
 				(pintype "input")
@@ -23868,35 +23868,8 @@
 		)
 		(net
 			(code "127")
-			(name "Net-(U2B-+)")
-			(class "Default")
-			(node
-				(ref "C79")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "RV8")
-				(pin "2")
-				(pinfunction "2_2")
-				(pintype "passive")
-			)
-			(node
-				(ref "U2")
-				(pin "5")
-				(pinfunction "+_5")
-				(pintype "input")
-			)
-		)
-		(net
-			(code "128")
 			(name "Net-(U2B--)")
 			(class "Default")
-			(node
-				(ref "C16")
-				(pin "1")
-				(pintype "passive")
-			)
 			(node
 				(ref "U2")
 				(pin "6")
@@ -23910,7 +23883,7 @@
 			)
 		)
 		(net
-			(code "129")
+			(code "128")
 			(name "Net-(U3A-+)")
 			(class "Default")
 			(node
@@ -23932,7 +23905,7 @@
 			)
 		)
 		(net
-			(code "130")
+			(code "129")
 			(name "Net-(U3A--)")
 			(class "Default")
 			(node
@@ -23953,7 +23926,7 @@
 			)
 		)
 		(net
-			(code "131")
+			(code "130")
 			(name "Net-(U4B-+)")
 			(class "Default")
 			(node
@@ -23979,7 +23952,7 @@
 			)
 		)
 		(net
-			(code "132")
+			(code "131")
 			(name "Net-(U5A-+)")
 			(class "Default")
 			(node
@@ -24005,7 +23978,7 @@
 			)
 		)
 		(net
-			(code "133")
+			(code "132")
 			(name "Net-(U5A--)")
 			(class "Default")
 			(node
@@ -24031,7 +24004,7 @@
 			)
 		)
 		(net
-			(code "134")
+			(code "133")
 			(name "Net-(U5B--)")
 			(class "Default")
 			(node
@@ -24062,7 +24035,7 @@
 			)
 		)
 		(net
-			(code "135")
+			(code "134")
 			(name "Net-(U6A--)")
 			(class "Default")
 			(node
@@ -24093,7 +24066,7 @@
 			)
 		)
 		(net
-			(code "136")
+			(code "135")
 			(name "Net-(U6B--)")
 			(class "Default")
 			(node
@@ -24124,7 +24097,7 @@
 			)
 		)
 		(net
-			(code "137")
+			(code "136")
 			(name "Net-(U7A--)")
 			(class "Default")
 			(node
@@ -24150,7 +24123,7 @@
 			)
 		)
 		(net
-			(code "138")
+			(code "137")
 			(name "Net-(U7B-+)")
 			(class "Default")
 			(node
@@ -24171,7 +24144,7 @@
 			)
 		)
 		(net
-			(code "139")
+			(code "138")
 			(name "Net-(U8A--)")
 			(class "Default")
 			(node
@@ -24192,9 +24165,36 @@
 			)
 		)
 		(net
+			(code "139")
+			(name "Net-(U8B-+)")
+			(class "Default")
+			(node
+				(ref "C79")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "RV8")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U8")
+				(pin "5")
+				(pinfunction "+_5")
+				(pintype "input")
+			)
+		)
+		(net
 			(code "140")
 			(name "Net-(U8B--)")
 			(class "Default")
+			(node
+				(ref "C16")
+				(pin "1")
+				(pintype "passive")
+			)
 			(node
 				(ref "U8")
 				(pin "6")

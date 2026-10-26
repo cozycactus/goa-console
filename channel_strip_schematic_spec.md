@@ -1,4 +1,4 @@
-# Channel Strip — Component-Level Specification v4.7
+# Channel Strip — Component-Level Specification v4.8
 ## Soundcraft Delta Theatre input without the mic stage. One PCB per channel, ×24.
 
 Bus pinout, grounding and power: `console_architecture.md`. Stage-by-stage comparison with the
@@ -7,6 +7,16 @@ Reference designators are those of `tools/gen.py`; Delta drawing numbers are giv
 circuit comes from a Delta sheet (ED3344A/B/C = Theatre input RH board, ED3151 = LH board).
 
 ---
+
+## Changes in v4.8 (2026-10-26, signed off; `pan_buffer_proposal.md` PAN1)
+
+- **Pan buffer L** (§12, §14): moves from U2B to U8B, which was the spare beside U3 and the pan pot; U2B at the fader end
+  is the spare now (+ to AGND, output on its − input). Parts and BOM unchanged.
+  - The pan pot's L wiper line (C79 10 pF at the + input, unchanged) shrinks from 165 to 24 mm.
+  - Its nearest switching pad is now 11.6 mm away (+5VL at C61 was 2.9 mm from U2 pin 5).
+  - Stability (TI OPA161x, 21 states) unchanged: U8B 80.2–87.5° as U2B was.
+- **Placement** (§16): 8 parts moved (C16, C79, R70, five resistors of the y 196 row). U2, U3, U8, C17 and U2's post-amp
+  parts are now fixed in `place_strip.py`.
 
 ## Changes in v4.7 (2026-10-26, signed off; `feature_gaps.md` MET1)
 
@@ -154,7 +164,7 @@ J1 line in ─ SW15 Ø ─ U1A receiver (unity, inverting) ─ U1B gain (−15�
                              └─ soft mute (Q1/Q2, SW4 ON) ─ U3B ─ MUTEOUT ─┬─ aux pre-fader tap (JP2–JP4; v4.6)
                                                                            └─ fader RV1 ─ [VCA option] ─ U2A +10 dB
                                  ─ C15 ─ POST ─┬─ aux post tap (SW8–SW10 unlatched)
-                                               ├─ pan RV8 ─ U2B / U3A buffers ─ C16/C17 ─ PANL / PANR
+                                               ├─ pan RV8 ─ U8B / U3A buffers ─ C16/C17 ─ PANL / PANR
                                                │    ├─ SW5 L-R ─ R26/R27 4K7 ─ MIX L/R
                                                │    └─ SW14 PAN ─ SUBSRC_L/R ─ SW6/SW7 ─ R28–R31 ─ SUB 1–4
                                                └─ (SW14 unlatched: SUBSRC_L/R = POST)
@@ -462,7 +472,7 @@ SW13 pole B: A6R to AGND when latched (no floating resistor on the aux 6 bus)
 DOUT ── R71 75R ── C52 33 µF NP ── J5 tip ── R72 47K to AGND;   J5 ring ── R73 75R ── AGND
 ```
 - Direct out: impedance-balanced TRS, level = aux 6 pot, source = the aux 5/6 PRE selection.
-  0 dBu at the jack with the pot fully up. U8B spare, tied off as a grounded follower.
+  0 dBu at the jack with the pot fully up. U8B is pan buffer L since v4.8 (§12).
 - C83 22 pF (v4.1): with DIR on and a short lead, U8A was down to 19–21°; with it, 70°. Not more: it loads U7B (PRE)
   when aux 6 is at the top.
 - No phantom: neither the direct out nor the insert send may feed a phantom-powered input (a TRS-to-XLR lead into a
@@ -474,7 +484,7 @@ DOUT ── R71 75R ── C52 33 µF NP ── J5 tip ── R72 47K to AGND;  
 ## 12. Pan, pan buffers, PAN switch
 
 ```
-POST ── RV8 (10K B dual, centre detent: ALPS RK09L1240015) ── wipers (C79 / C80 10 pF) ── U2B / U3A followers ── C16 / C17 100 µF NP ── PANL / PANR (R36/R37 47K)
+POST ── RV8 (10K B dual, centre detent: ALPS RK09L1240015) ── wipers (C79 / C80 10 pF) ── U8B / U3A followers ── C16 / C17 100 µF NP ── PANL / PANR (R36/R37 47K)
 SW14 pole A: SUBSRC_L = PANL (latched, PAN) or POST (unlatched)
 SW14 pole B: SUBSRC_R = PANR (latched)       or POST (unlatched)
 ```
@@ -546,14 +556,14 @@ directly; no debounce RC, because the DG413 inputs have no hysteresis.
 |-----|------|---|---|
 | U1 | OPA1612 | receiver | gain stage |
 | U16 | OPA1656 | input follower, tip | input follower, ring |
-| U2 | OPA1612 | fader post-amp | pan buffer L |
+| U2 | OPA1612 | fader post-amp | spare, tied off (v4.8) |
 | U3 | OPA1612 | pan buffer R | mute output buffer |
 | U4 | LM393 | OL comparator | OL hold (v4.5) |
 | U17 | LM393 | signal comparator (v4.7) | signal hold |
 | U5 | OPA1612 | HPF summer | EQ HF |
 | U6 | OPA1612 | EQ HI-MID | EQ LO-MID |
 | U7 | OPA1612 | EQ LF | insert return buffer |
-| U8 | OPA1612 | direct out | spare, tied off |
+| U8 | OPA1612 | direct out | pan buffer L (v4.8) |
 | U9–U11 | DG413 | routing switches L-R, 1-2, 3-4 (two SPDT each) | |
 | U12 | OPA1612 | HI-MID KHN summer | HI-MID integrator 1 (BP) |
 | U13 | OPA1612 | HI-MID integrator 2 (LP) | LO-MID KHN summer |
@@ -659,7 +669,7 @@ and CN1's pins. The old v3.1 placement is `archive/channel_strip_v3.1.kicad_pcb`
 220 µF caps are shorts:
 - POST (U2A, 200–270 mm to the pan pot, the PRE/POST switches and the aux pots);
 - MUTEOUT (U3B, about 200 mm to the fader);
-- PANL / PANR (U2B / U3A, 110–170 mm);
+- PANL / PANR (U8B / U3A; 137 / 107 mm since v4.8, the L one was 188);
 - PRE (U7B, to the switches and the aux pots).
 
 Keep each at ≤ about 22 pF: short, thin, not run over a pour for long. With the v4.1 caps the stages keep ≥ 55° up
@@ -701,7 +711,15 @@ each standoff's panel end and wherever a panel meets the frame rails. CN3/CN5: W
 
 ---
 
-## 17. Status (v4.7, 2026-10-26)
+## 17. Status (v4.8, 2026-10-26)
+
+v4.8 (`pan_buffer_proposal.md` PAN1):
+- **Netlist:** 851 pin entries / 0 mismatches, check_fp 290 / 0, ERC 0.
+- **Simulation:** `tools/sim_netlist.py` 39/39, `tools/sim_console.py` 35/35. TI stability, 21 states
+  (`sim/review/strip/results_none.json`, refreshed): every unit ≥ 59.8° (U3B with the direct out at the top, as since
+  v4.6), ≤ 1.61 dB peaking.
+- **Placement:** 0 DRC violations, 0 parity issues, 290 / 290 footprints linked; 8 parts moved. Report: decouplers
+  3.1 / 10.0 / 14, high-Z inputs 10.4 / 258.6 / 28 (SIG_B, MET1's green-switch base line).
 
 v4.7 (`feature_gaps.md` MET1):
 - **Netlist:** 851 pin entries / 0 mismatches, check_fp 290 / 0, ERC 0.
