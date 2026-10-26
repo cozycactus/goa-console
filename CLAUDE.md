@@ -215,10 +215,10 @@ jack board) done.
   buffer L moved from U2B (fader end, 165 mm wiper line) into the spare U8B beside the pan pot (24 mm); U2B is the spare.
   Options (a) both buffers in U3 and (b) U2 at the pot rejected. the local (gitignored) `sim/review/strip/results_none.json`
   refreshed (it was from strip v4.1).
-- `stab_caps_proposal.md` (+ `stab_caps_proposal.patch`) — E9 (2026-10-26, not signed off, placement only): the strip's
-  twelve C0G stability caps that sat 6-22 mm from their op-amp pins (C84 at U7B 22.1 mm, C83 at U8A 10.5) moved to them,
-  nine on the bottom under their op-amp; every C0G cap on an op-amp input <= 6.3 mm; 86 parts held at their PAN1 spots
-  (`HOLD`) because the greedy packer otherwise re-shuffles ~90 parts. 0 DRC / parity, emc_check unchanged.
+- `stab_caps_proposal.md` (+ `stab_caps_proposal.patch`) — E9, signed off and applied 2026-10-27 (placement only): the
+  strip's twelve C0G stability caps that sat 6-22 mm from their op-amp pins (C84 at U7B 22.1 mm, C83 at U8A 10.5) moved
+  to them, nine on the bottom under their op-amp; every C0G cap on an op-amp input <= 6.3 mm. `place_strip.py` holds 86
+  parts (`HOLD`) because the greedy packer otherwise re-shuffles ~90 parts when spots free up.
 - `sample_order.md` — the parts to order with the prototype panel and the eight physical checks they settle.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.
@@ -606,6 +606,9 @@ jack board) done.
   PSU board's 8 silk-edge items are the TO-220s at its edge (since 8b38deb). Strip report unchanged; group 3.0 / 6.2 / 2,
   8.5 / 20.2 / 31. Group and master panels pixel-identical but for the group's new rows; strip panel one numeral (HF "9"
   in place of HPF "50") since `panel_layout.layout()` takes parts in reference order.
+- E9 applied (2026-10-27, placement only): 12 caps moved, 0 DRC, 0 parity, 290 / 290 links, `emc_check.py` unchanged;
+  placer report high-Z inputs 10.4 / 258.6 / 28 -> 8.5 / 258.6 / 25, decouplers unchanged; every C0G cap on an op-amp
+  input <= 6.3 mm from its pin (was up to 22.1).
 - PAN1 applied (2026-10-26, strip v4.8): 851 pins / 0 mismatches, check_fp 290 / 0, ERC 0; BOM unchanged; sim_netlist
   39/39, sim_console 35/35. TI stability 21 states (`results_none.json`): pan L U8B 80.2-87.5 deg as U2B was, every other
   unit as on the v4.7 netlist, minimum U3B 59.8 deg (direct out at top), <= 1.61 dB peaking. Placement: 8 parts moved,

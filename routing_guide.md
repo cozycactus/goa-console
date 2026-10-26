@@ -62,6 +62,16 @@ The net classes at the end are suggestions only; nothing is written into the pro
   the drain to the M1 / M2 nodes is a short stub (Self, "offness").
 - **Input:** C94 / C95's GNDA ends via down beside U16's decoupler ground.
 
+### Stability caps (E9)
+- **Where they are:** the C0G stability caps sit at their op-amp pins, nine of them on the bottom under the op-amp:
+  C37, C41, C70, C71, C75, C78, C80, C83 and C85.
+- **Joining them:**
+  - each takes one via straight from its pad to the pin's pad;
+  - at C75, C78 and C83 the pads sit under the pin, so the via goes in the pad or right beside it;
+  - their GNDA end vias down to the ground plane next to the cap.
+- **Don't lengthen them:** a trace between such a cap and its pin undoes the stabilising, so don't route the input
+  net to the cap first and on to the pin.
+
 ## Strip jack board
 
 - **CHASSIS copper:**

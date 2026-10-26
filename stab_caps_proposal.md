@@ -1,8 +1,8 @@
 # Strip stability caps at their pins (proposal E9, 2026-10-26)
 
-**Status: proposal, not signed off.**
+**Signed off by Ruslan on 2026-10-27 and applied the same day; see "Applied" at the end.**
 - **What changes:** placement only, like E1–E5. No netlist, part or BOM change.
-- **The trial:** `stab_caps_proposal.patch` (`tools/place_strip.py`). The committed board is unchanged.
+- **The change:** `stab_caps_proposal.patch` (`tools/place_strip.py`).
 
 ## Why
 
@@ -79,9 +79,13 @@ So `place_strip.py` holds 86 parts where PAN1 placed them (`HOLD`, explicit coor
 
 ## Sign-off
 
-- [ ] **E9:** the twelve stability caps at their pins, the rest held in place.
+- [x] **E9:** the twelve stability caps at their pins, the rest held in place.
 
-If signed off, applying it means:
-- apply the patch and re-place the strip (identical to the trial);
-- parity DRC, links, `emc_check.py`, and re-export `render/strip.json`;
-- update `routing_guide.md` (via the bottom-side caps straight to their pins), the spec's §16 and CLAUDE.md.
+## Applied (2026-10-27)
+
+- **Board:** the patch applied; the strip re-placed identically to the trial (12 parts moved against PAN1, none
+  against the trial board).
+- **Checks:** 0 DRC violations, 0 parity issues, 290 / 290 and 8 / 8 footprints linked. `emc_check.py` output unchanged.
+  Every C0G cap on an op-amp input ≤ 6.3 mm from its pin.
+- **Exports and docs:** `render/strip.json` re-exported; the spec §16, `routing_guide.md` (stability caps) and CLAUDE.md
+  updated.
