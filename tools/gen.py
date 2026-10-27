@@ -85,6 +85,15 @@ hdr.update({k:'GNDA' for k in range(2,17,2)})
 b = block('MOTHERLOOM  (Delta pinout; one header, crimped socket on a daisy-chained ribbon)')
 P(b,'CN1','HDR','Bus 2x17',hdr,mpn='Wurth 61203421621 (2x17 box header)')
 
+b = block('JACK LINK CLAMPS: a BAV199 to the audio rails on every jack signal at CN3 (CS4)')
+# CS4 (console_survey.md §5): ESD and faults on a jack's tip or ring reach the main board through the 10-way link. A
+# low-leakage BAV199 per signal at CN3, ahead of every series part, takes them to the rails' reservoirs: an 8 kV contact
+# discharge leaves the input op-amp 0.09 A (9.6 A as built) and an output's 0.38 A (18.9 A); 48 V phantom on the insert
+# send or the direct out leaves C51 / C52 at 17.7 V, not 41.9 V (sim/review/cs4/jack_protect.py). 3 pA typ leakage
+# into the input legs' 1M; ~2 pF, reverse-biased by the rails: -106 dB at +20 dBu, 20 kHz from a 1 kohm source
+for d_, n_ in (('D18', 'IN_T'), ('D19', 'IN_R'), ('D20', 'RET_RAW'), ('D21', 'SEND'), ('D22', 'DO_T')):
+    P(b, d_, 'DD', 'BAV199', {1: '-VA', 3: n_, 2: '+VA'}, mpn='Nexperia BAV199,215')
+
 b = block('LINE INPUT - buffered ground-compensated receiver (inverting), Ø switch  SW15: latched = phase reversed')
 P(b,'CN3','LINK','Jack board link 2x5',LINK,mpn=LINK_MPN)   # J1/J2/J5 and the RF caps C8/C9 are on the jack board
 # G3 (ground_study.md, signed off 2026-10-25): OPA1656 followers with 1M bias per leg raise the common-mode input
@@ -356,12 +365,12 @@ for _, ps in schgen.blocks:                     # ceramic MPNs by value (X7R 50 
     for pt in ps:
         if pt['key'] in ('C', 'CP') and not pt['mpn']: pt['mpn'] = CAP_MPN.get(pt['value'], '')
 build(OUT, 'channel_strip', 'Channel strip - goa console',
-      {1: 'Generated from channel_strip_schematic_spec.md v5.1', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
+      {1: 'Generated from channel_strip_schematic_spec.md v5.2', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
        3: 'A Delta Theatre input without the mic stage'},
-      paper='auto', revision='5.1', pages=dict(paper='A4', folder='strip_sheets'), **strip_draw.SHEET)   # A4 sub-sheets
+      paper='auto', revision='5.2', pages=dict(paper='A4', folder='strip_sheets'), **strip_draw.SHEET)   # A4 sub-sheets
 if os.environ.get('PILOT'):                     # only the drawn blocks, on a sheet of their own (layout review)
     build(os.environ['PILOT'], 'pilot', 'Channel strip - drawn blocks (pilot)', {1: 'tools/strip_draw.py', 2: ''},
-          paper='auto', revision='5.1', only=lambda t: strip_draw.for_title(t) is not None, **strip_draw.SHEET)
+          paper='auto', revision='5.2', only=lambda t: strip_draw.for_title(t) is not None, **strip_draw.SHEET)
 
 # ---------------------------------------------------------------- jack board (its own PCB; same net names)
 schgen.blocks.clear()

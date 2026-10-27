@@ -68,6 +68,7 @@
 "65","61","4","TI OPA1656IDR","OPA1656 / OPA1656 (jig A/B variant)","Package_SO:SOIC-8_3.9x4.9mm_P1.27mm","strip 24x1, group 4x4, master 4, jig stub 1, jig A/B 16",""
 "6","4","2","TI TL072HIDR","TL072","Package_SO:SOIC-8_3.9x4.9mm_P1.27mm","master 4",""
 "6","4","2","onsemi BCP53-16T1G","BCP53-16","Package_TO_SOT_SMD:SOT-223","master 4",""
+"126","120","6","Nexperia BAV199,215","BAV199","Package_TO_SOT_SMD:SOT-23","strip 24x5",""
 "126","120","6","Nexperia BAV99,215","BAV99","Package_TO_SOT_SMD:SOT-23","strip 24x5",""
 "27","25","2","Nexperia BZX84-C5V1,215","BZX84C5V1","Package_TO_SOT_SMD:SOT-23","strip 24x1, master 1",""
 "4","2","2","TI TL431AIDBZR","TL431","Package_TO_SOT_SMD:SOT-23","psu 2",""

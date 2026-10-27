@@ -27,6 +27,17 @@ def receiver(d):
     d.at('R9', S + 27, 13.5); d.at('C78', S + 33, 13.5); d.w((S + 27, 12), ('C78', 1))
 
 
+def link_clamps(d):
+    """CS4: a BAV199 per jack signal at CN3 (pin 3 to the signal, pin 2 to +VA, pin 1 to -VA)."""
+    d.shift(0, 4)
+    for k, (dd, net) in enumerate((('D18', 'IN_T'), ('D19', 'IN_R'), ('D20', 'RET_RAW'), ('D21', 'SEND'), ('D22', 'DO_T'))):
+        x = 2 + 14 * k
+        d.at(dd, x + 3, 2)
+        d.w((dd, 1), (x, 0)); d.port('-VA', (x, 0), 'U')
+        d.w((dd, 2), (x + 6, 0)); d.port('+VA', (x + 6, 0), 'U')
+        d.w((dd, 3), (x + 3, 6)); d.port(net, (x + 3, 6), 'D')
+
+
 def gain(d):
     """U1B inverting gain stage: RV9 between the two 2K2s, wiper to the - input; C38 / C91 couplers to HIN."""
     d.w((1, 4), (3, 4)); d.port('RECV', (1, 4))
@@ -501,7 +512,7 @@ def jumpers(d):
 
 
 # a list: the block's pieces, drawn in turn on one sheet, packed separately on pages (schgen.build pages=)
-DRAWINGS = {'LINE INPUT': receiver, 'GAIN': gain, 'HPF': hpf, 'EQ  ': eq, 'EQ MID TUNING': [khn_band(0), khn_band(1)],
+DRAWINGS = {'JACK LINK CLAMPS': link_clamps, 'LINE INPUT': receiver, 'GAIN': gain, 'HPF': hpf, 'EQ  ': eq, 'EQ MID TUNING': [khn_band(0), khn_band(1)],
             'EQ IN': eq_in, 'INSERT (': insert, 'OVERLOAD': [overload, overload_cs1], 'PFL': pfl, 'ON / SOFT MUTE': mute, 'FADER': fader,
             'AUX SENDS': aux, 'DIRECT OUT': direct_out, 'PAN + PAN': pan, 'PAN SWITCH': pan_switch,
             'ROUTING': [routing_vl] + [routing_assign(k) for k in range(3)],

@@ -1,4 +1,4 @@
-# Channel Strip — Component-Level Specification v5.1
+# Channel Strip — Component-Level Specification v5.2
 ## Soundcraft Delta Theatre input without the mic stage. One PCB per channel, ×24.
 
 Bus pinout, grounding and power: `console_architecture.md`. Stage-by-stage comparison with the
@@ -7,6 +7,29 @@ Reference designators are those of `tools/gen.py`; Delta drawing numbers are giv
 circuit comes from a Delta sheet (ED3344A/B/C = Theatre input RH board, ED3151 = LH board).
 
 ---
+
+## Changes in v5.2 (2026-10-27, signed off; `cs4_proposal.md` CS4, from `console_survey.md` §5)
+
+**D18-D22 BAV199** (Nexperia, low-leakage double diode, SOT-23) at CN3, the main-board end of the jack link, ahead of
+every series part. Pin 3 goes to the signal, pin 2 to +VA, pin 1 to −VA: D18 IN_T, D19 IN_R, D20 RET_RAW, D21 SEND,
+D22 DO_T. 921 pin entries, 317 parts.
+
+- **ESD** (IEC 61000-4-2 contact on a tip, `sim/review/cs4/jack_protect.py`):
+  - **8 kV:** the receiver's op-amp takes 0.09 A (9.6 A before), an output's op-amp 0.38 A (18.9 A), the insert
+    return's ~0.
+  - **4 kV:** half that. Each clamp stays inside the BAV199's 4 A / 1 µs surge rating at 4 kV, and slightly over it at
+    8 kV on the receiver input.
+- **Phantom on the insert send or the direct out:** C51 / C52 see 17.7 V, not 41.9 V. §11's note still stands, but a
+  mistake no longer damages them.
+- **Cost to the signal:**
+  - **Inputs:** −106 dB THD at +20 dBu, 20 kHz from a 1 kΩ source (the diodes' ~0.5 pF); at the solver's floor at
+    0 dBu.
+  - **Outputs:** nothing (75R from an op-amp).
+  - **Leakage:** 3 pA typ into the 1 MΩ legs.
+- **Why not a TVS at the jacks:** a PESD24VL1BA at the jacks would protect the inputs as well, but at −93 / −99 dB THD
+  (20 kHz, +20 / 0 dBu, 1 kΩ source).
+- **Schematic:** a block of its own, "JACK LINK CLAMPS", on page 2 above the line input; 18 pages.
+- **Placement:** by `moves_only`, bottom side beside CN3, 6.3-9.8 mm from the CN3 pins; nothing else moved.
 
 ## Changes in v5.1 (2026-10-27, signed off; `cs10_proposal.md` CS10, from `console_survey.md` §7)
 
@@ -328,6 +351,8 @@ C7 33 pF across R7; C78 33 pF across R9 (v4.1: balances the bridge, CMRR 86 dB f
   console, ring joined to the synth's ground at the synth end, shield at both ends). A plain TS cable works as a normal
   unbalanced input, but from an earthed synth it carries the full ground-loop hum (`ground_study.md` §5).
 - With nothing plugged in, J1's normals short both legs to AGND.
+- v5.2 (CS4): D18 / D19 BAV199 clamp IN_T / IN_R to ±VA at CN3, ahead of the 220R: ESD and faults on the jack go to
+  the rails' reservoirs, not into U16.
 - Ø swaps the two legs between the followers and the 10K resistors.
 
 ---
@@ -562,7 +587,8 @@ DOUT ── R71 75R ── C52 33 µF NP ── J5 tip ── R72 47K to AGND;  
   0 dBu at the jack with the pot fully up. U8B is pan buffer L since v4.8 (§12).
 - C83 22 pF (v4.1): with DIR on and a short lead, U8A was down to 19–21°; with it, 70°. Not more: it loads U7B (PRE)
   when aux 6 is at the top.
-- No phantom: neither the direct out nor the insert send may feed a phantom-powered input (a TRS-to-XLR lead into a
+- No phantom (v5.2: D21 / D22 BAV199 at CN3 now clamp SEND and DO_T to ±VA, so a mistake leaves C51 / C52 at 17.7 V, not
+  41.9 V; the rule still holds): neither the direct out nor the insert send may feed a phantom-powered input (a TRS-to-XLR lead into a
   mic preamp). C52 and C51 (33 µF NP 25 V) would see about 42 V.
 - SW8–SW10 pole B unused.
 
@@ -661,13 +687,14 @@ directly; no debounce RC, because the DG413 inputs have no hysteresis.
 | Q3–Q5 | MMBT3906 | red / green LED switches, green gate (v4.7) | |
 | D1, D12–D15 | BAV99 | OL taps: PRESRC, RECV, GOUT, EQOUT, FPOST (v5.0) | |
 | D16, D17 | PMEG4010CEH | reverse clamps on +VA / −VA (v5.1) | |
+| D18–D22 | BAV199 | jack-link clamps at CN3: IN_T, IN_R, RET_RAW, SEND, DO_T (v5.2) | |
 
 ---
 
 ## 15. Bill of materials
 
-`channel_strip_BOM.csv` (main board, exported from the schematic, with a DNP column): 304 parts per channel (v5.1), of
-which three are the DNP VCA-option parts (J3, J4, R44), so 301 fitted (the netlist's 312 also counts the solder
+`channel_strip_BOM.csv` (main board, exported from the schematic, with a DNP column): 309 parts per channel (v5.2), of
+which three are the DNP VCA-option parts (J3, J4, R44), so 306 fitted (the netlist's 317 also counts the solder
 jumpers JP1–JP7 and the net tie NT1, which aren't bought); `jack_board_BOM.csv`: 6. Panel parts per channel:
 16 pots (fader, 6 aux, pan, gain, 4 EQ gain, 2 dual EQ frequency, dual HPF frequency), 13 switches, 7 LEDs (OL / signal bicolour, PFL,
 ON, EQ, 3 routing), 3 jacks, 1 bus header.
@@ -809,7 +836,12 @@ each standoff's panel end and wherever a panel meets the frame rails. CN3/CN5: W
 
 ---
 
-## 17. Status (v5.1, 2026-10-27)
+## 17. Status (v5.2, 2026-10-27)
+
+v5.2 (CS4):
+- **Netlist:** 921 pin entries / 0 mismatches, check_fp 317 / 0, ERC 0.
+- **Simulation:** `tools/sim_netlist.py` 39/39, `tools/sim_console.py` 35/35, `sim/review/cs4/jack_protect.py`.
+- **Placement:** 317 footprints, 0 DRC violations, 0 parity issues, 317 / 317 linked; D18-D22 added, nothing moved.
 
 v5.1 (CS10):
 - **Netlist:** 906 pin entries / 0 mismatches, check_fp 312 / 0, ERC 0.

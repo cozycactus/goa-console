@@ -1,7 +1,8 @@
 # CS4: clamp the strip's jack signals to the audio rails at the link (proposal, 2026-10-27)
 
-**Not signed off.** The change is `cs4_proposal.patch`. It touches tools only: `gen.py`, `strip_draw.py` and
-`place_strip.py`. It was applied to a trial tree, checked (§5) and reverted, so nothing in the design has changed. The
+**Signed off by Ruslan on 2026-10-27 (as proposed: D18-D22 BAV199 at CN3 on every strip) and applied the same day as
+strip v5.2; see "Applied" at the end.** The change is `cs4_proposal.patch`. It touches tools only: `gen.py`,
+`strip_draw.py` and `place_strip.py`. The
 simulation is `sim/review/cs4/jack_protect.py`; its output is in `jack_protect.out`.
 
 ## 1. Why
@@ -107,6 +108,15 @@ they never conduct on signal.
 
 ## Sign-off
 
-- [ ] **CS4** as proposed: D18-D22 BAV199 at CN3 on every strip.
+- [x] **CS4** as proposed: D18-D22 BAV199 at CN3 on every strip. Ruslan, 2026-10-27.
 - [ ] Also work up **CS4b** for the group and master.
 - [ ] Neither.
+
+## Applied (2026-10-27, strip v5.2)
+
+- **Applied:** the patch, plus revision 5.2 in `gen.py`.
+- **Regenerated and re-exported:** the strip netlist, BOM (309 parts, 3 DNP), PDF and `order_bom.csv` (120 + 6 spare
+  BAV199).
+- **Re-placed:** against the committed board only D18-D22 are new. Netrules re-written.
+- **Documents:** strip spec v5.2 (changes, §3, §11, §14, §15, §17), CLAUDE.md. CS4b (group / master) is not started.
+
