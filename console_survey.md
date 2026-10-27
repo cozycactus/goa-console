@@ -261,7 +261,7 @@ design weaker than common practice; the findings below either confirm it or add 
 | Fader + post-amp | **"0" 10 dB down, then about +10 dB:** GL2, GL3300, Mackie (NJM4560, 1K1 / 510), Yamaha MC (10K / 4K7), E8 (+10.5 dB) | The same; the gain structure is industry standard |
 | Fader shut-off | **GL2 and GL3300 inject an anti-phase copy of the fader top into the post-amp's ground leg** ("FADER SHUTOFF COMPENSATION", GL3300 C3100: 100K into 10R, J9 to disable) | Nothing; see CS9 |
 | Mute | Mechanical in the path (GL2, Mackie, Yamaha MC, E8); GL3300 J111 shunts with a 10 ms ramp and four mute groups | J112 soft mute, also on pre sends: ahead of all of them |
-| Pan | Passive, unbuffered (GL2, GL3300, VLZ, Yamaha MC, E8: −3 dB pan-taper duals); the 8•Bus buffers like ours | Buffered, −6 dB (CS2 is about the law, not the buffer) |
+| Pan | Passive, unbuffered (GL2, GL3300, VLZ, Yamaha MC, E8: −3 dB pan-taper duals); the 8•Bus buffers like ours | Buffered; −6 dB then, −4.4 dB since CS2 / CS2b (the law changed, not the buffer) |
 | Routing | Mechanical keys switching the resistor's bus end (GL3300) or source end (GL2) to ground | DG413 at the bus end; the key carries logic only |
 | Summers | DC block in series with the summing node (GL2, GL3300, Yamaha MC, E8 on aux / solo) | Coupling at each source; a summing-node cap would fight ground cancel |
 | Bus ground | **Mackie VLZ: one ground-sense line per bus** (G-MAIN, G-AUX-n, G-SUB-n), 510 Ω from each channel, summer + input on it; GL2, GL3300, Yamaha MC, E8: local ground only | One GCANCEL line for every summer, 10 Ω per strip, and re-inverters |
