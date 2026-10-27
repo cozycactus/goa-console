@@ -170,6 +170,9 @@ pans to MIX.
 
 ## 4. A no-cost step either way
 
-Keep CN1 pins 1, 3, 5 and 7 unconnected on every board (they are today) and record them as reserved for SUB 5-8
-(the Venue pinout). That keeps an 8-group console, or a genuine Venue / Delta 8 module, possible without touching the
-loom. This study does not change CLAUDE.md or any spec. Recording the reservation is Ruslan's call.
+Keep the bus header's pins 1, 3, 5 and 7 unconnected on every board, as they are today, reserved for SUB 5-8 (the
+Venue pinout). That keeps an 8-group console, or a genuine Venue / Delta 8 module, possible without touching the loom.
+
+**Decided by Ruslan on 2026-10-27 and recorded in CLAUDE.md** (bus pinout). Checked on the netlists:
+- **Strip, group, jig stub and load board:** the four pins are NC.
+- **The master:** joins its two wing headers on them (SPARE1-7). That is the wing-to-wing continuity SUB 5-8 would need.

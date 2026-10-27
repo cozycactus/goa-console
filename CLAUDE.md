@@ -208,6 +208,10 @@ jack board) done.
   follow-up), line CMR (1 kohm tip: 60 / 56 / 38 / 32 dB at 50 / 1k / 10k / 20k, the 100 pF caps), fader / pan
   residuals vs end resistance (-80 dB needs <= 0.3 ohm: decides CS9), faders-down MIX noise N 4..24 (-106.7..-100.1
   dBu), GCANCEL current.
+- `eight_groups_study.md` (2026-10-27, a study, no design changes) — 8 subgroups, from the Venue / Delta 8 sheets
+  (ED2911A/B, ED2915B, ED2778A/B, ED2780): the Venue input is the 8-group build of the DLX channel (groups 5-8 on
+  motherloom pins 7/5/3/1), the Delta 8 is eight ED2778 group modules each jumpered to its bus, mute groups on a
+  separate 10-way CN6. Costed for ours: strip keys / DG413s / panel row, 8 group modules (+163 mm), PSU / wing load.
 - `cs2_proposal.md` (+ `cs2_proposal.patch`, tools only) — CS2, signed off by Ruslan (Option A) and applied 2026-10-27 (strip v5.4): the Delta's pan law
   (ED3344C) on the strip: U8B / U3A at 1.22x (2K2 / 10K) with 3K3 back to the wipers (R136-R141), -2.7 dB centre, +1.7 dB
   hard (4.4 dB law); 22p C0G across each 2K2 (C105 / C106) needed: without it TI's model gives 32 / 14 deg, with it
@@ -452,7 +456,9 @@ jack board) done.
 - Bus = real Delta motherloom pinout (read from Delta ED3344C): GRP1-4 = SUB1-4 on pins 15/13/11/9,
   MIX R 17, MIX L 18, AUX6..1 on 20-25 (AUX1=24, AUX2=25), GND CANCEL 26, PFL 27, PFL DET 29,
   -V 30-31, +V 32-34 (pin 34 is the Delta's +48 V; a third +V conductor since 2026-10-25, `wing_power_proposal.md` W1,
-  Ruslan: the IDC sockets are 1 A per contact). Spares: 1,3,5,7,19. Even pins 2-16 = GND.
+  Ruslan: the IDC sockets are 1 A per contact). Spares: 19 (and 28 on the strips). **Pins 1, 3, 5, 7 are reserved for
+  SUB 5-8** (Ruslan, 2026-10-27; the Venue pinout: groups 5 / 6 on 7 / 5, 7 / 8 on 3 / 1, `eight_groups_study.md`). Keep
+  them unconnected on every board; the master only joins its two wing headers on them (SPARE1-7). Even pins 2-16 = GND.
   The 200 Delta Technical Manual (p. 134, `ref/`) lists 17 = Mix left / 18 = Mix right, the opposite of ED3344C;
   kept the ED3344C order (Ruslan, 2026-10-23; console_architecture.md 2). It confirms pin 28 = PFL Audio −VE.
 - Ground cancel: 10 Ω from strip AGND to pin 26; master summing amps reference that line.
