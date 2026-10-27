@@ -1,0 +1,56 @@
+1. common mode against differential (dB) at 50 Hz / 100 Hz / 1 kHz, the minus leg's coupler (1 - m) x C
+     10 uF,    0 % apart:  -89.0 /  -89.6 /  -90.6
+     10 uF,    1 % apart:  -52.0 /  -52.7 /  -66.2
+     10 uF,    2 % apart:  -46.0 /  -46.7 /  -60.0
+     10 uF,    5 % apart:  -37.9 /  -38.6 /  -51.7
+     10 uF,   10 % apart:  -31.7 /  -32.3 /  -45.1
+     10 uF,   20 % apart:  -25.2 /  -25.8 /  -38.1
+     10 uF,   40 % apart:  -18.1 /  -18.5 /  -29.7
+     22 uF,    0 % apart:  -89.6 /  -90.8 /  -89.9
+     22 uF,    1 % apart:  -52.9 /  -55.2 /  -73.5
+     22 uF,    2 % apart:  -46.9 /  -49.1 /  -66.9
+     22 uF,    5 % apart:  -38.8 /  -41.0 /  -58.5
+     22 uF,   10 % apart:  -32.5 /  -34.6 /  -51.9
+     22 uF,   20 % apart:  -25.9 /  -27.9 /  -44.8
+     22 uF,   40 % apart:  -18.6 /  -20.2 /  -36.3
+     47 uF,    0 % apart:  -90.7 /  -92.0 /  -89.6
+     47 uF,    1 % apart:  -55.5 /  -59.8 /  -81.0
+     47 uF,    2 % apart:  -49.4 /  -53.8 /  -74.0
+     47 uF,    5 % apart:  -41.3 /  -45.6 /  -65.2
+     47 uF,   10 % apart:  -34.9 /  -39.2 /  -58.6
+     47 uF,   20 % apart:  -28.2 /  -32.2 /  -51.4
+     47 uF,   40 % apart:  -20.4 /  -24.0 /  -42.9
+    100 uF,    0 % apart:  -91.9 /  -92.4 /  -89.5
+    100 uF,    1 % apart:  -60.3 /  -65.9 /  -89.0
+    100 uF,    2 % apart:  -54.3 /  -59.8 /  -81.7
+    100 uF,    5 % apart:  -46.1 /  -51.6 /  -72.2
+    100 uF,   10 % apart:  -39.6 /  -45.1 /  -65.3
+    100 uF,   20 % apart:  -32.7 /  -38.1 /  -58.1
+    100 uF,   40 % apart:  -24.5 /  -29.7 /  -49.4
+
+2. Monte Carlo (2000 pairs): the 1 kHz and 100 Hz balance, median / worst 5 %, interpolated in the mismatch
+     10 uF +-20 %, as bought   : 1 kHz  -42.9 /  -31.7, 100 Hz  -30.3 /  -20.3
+     10 uF sorted, within 5 %  : 1 kHz  -57.9 /  -52.1, 100 Hz  -44.7 /  -39.1
+     10 uF sorted, within 2 %  : 1 kHz  -66.3 /  -60.4, 100 Hz  -52.8 /  -47.2
+     47 uF +-20 %, as bought   : 1 kHz  -57.0 /  -45.2, 100 Hz  -37.6 /  -26.3
+     47 uF sorted, within 5 %  : 1 kHz  -71.9 /  -65.8, 100 Hz  -51.8 /  -46.2
+     47 uF sorted, within 2 %  : 1 kHz  -81.1 /  -74.5, 100 Hz  -59.9 /  -54.2
+    100 uF +-20 %, as bought   : 1 kHz  -63.7 /  -52.2, 100 Hz  -43.5 /  -32.4
+    100 uF sorted, within 5 %  : 1 kHz  -79.3 /  -72.7, 100 Hz  -57.9 /  -52.0
+    100 uF sorted, within 2 %  : 1 kHz  -89.0 /  -82.2, 100 Hz  -65.9 /  -60.3
+
+3. differential low end: -0.5 dB, -3 dB, the level at 20 Hz, peaking
+     10 uF: -0.5 dB at  24.54 Hz, -3 dB at   8.59 Hz, 20 Hz  -0.73 dB, peak +0.00 dB
+     22 uF: -0.5 dB at  11.16 Hz, -3 dB at   3.91 Hz, 20 Hz  -0.16 dB, peak +0.00 dB
+     47 uF: -0.5 dB at   5.22 Hz, -3 dB at   1.83 Hz, 20 Hz  -0.04 dB, peak +0.00 dB
+    100 uF: -0.5 dB at   2.45 Hz, -3 dB at   0.00 Hz, 20 Hz  -0.01 dB, peak +0.00 dB
+
+4. the cross-coupled loop below 20 kHz: deepest |1 + T| (by design small: the loop sits just under unity)
+     10 uF: |1 + T| 0.188 at   2884.0 Hz
+     22 uF: |1 + T| 0.188 at   1995.3 Hz
+     47 uF: |1 + T| 0.188 at   1318.3 Hz
+    100 uF: |1 + T| 0.188 at    912.0 Hz
+
+5. sorting stock: chance that n parts give the 15 pairs within 2 % (4000 draws each)
+   uniform +-20 %    : 30 parts   0.9 %, 34 parts  78.0 %, 36 parts  98.5 %, 40 parts 100.0 %
+   normal, sigma 5 % : 30 parts  20.9 %, 34 parts  99.6 %, 36 parts 100.0 %, 40 parts 100.0 %
