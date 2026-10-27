@@ -113,9 +113,11 @@ S_POST ── RV2 (10K B dual) ── wiper ──┬── U3B + (×1.22: R124 
 | U3A sub post-amp (drives the pan pot) | 67.7 → 68.0° / 0.89 → 0.94 dB | 65.3 → 65.3° / 1.55 → 1.60 dB |
 
 - **Every other OPA1612 unit is unchanged** in both sets.
-- **The return followers** (OPA1656) ran on TI's model this time. It reached an operating point in this deck today; the
-  2026-10-26 baseline used the fitted macro, which reads lower (about 53° against 85°). On the committed netlist the
-  same TI model reads 84.9 / 84.1 / 82.9° (U10A / U10B / U14B), the same as the trial, so CS2b doesn't touch them.
+- **The return followers** (OPA1656): **corrected 2026-10-28.** This run did not use TI's OPA1656 model. The
+  `OPA1656.LIB` in its model folder was a stand-in, TI's OPA161x macro under the OPA1656 name (its header says so; found
+  during CS7). So the 83-85° are an OPA1612's margins and say nothing about the OPA1656. The 2026-10-26 baseline used
+  the fitted OPA1656 macro (about 53°). The stand-in reads the same on the committed and the trial netlist (84.9 / 84.1
+  / 82.9°, U10A / U10B / U14B): CS2b doesn't touch the followers, which is all this comparison showed.
 
 **`sim_console`:** 35/35.
 

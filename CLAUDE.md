@@ -223,7 +223,15 @@ jack board) done.
   the group's sub pan (U3B / U5A at 1.22x, R123-R128, C96 / C97, made last; placed by moves_only under U3 / U5, <= 5.9 mm).
   Master spec §12 says the sub pan copies the strip; the parent's ED2778A MONITOR PAN is passive (3K9 / 8K2), -4.6 dB.
   Sub to MIX +3.3 dB at centre (sim_console GPANC). TI models: U3B / U5A 74.5 / 75.3 deg, 55.3 / 55.9 with 47 pF, no unit
-  worse. `sim/review/cs2/group_pan.py`. TI's OPA1656 model reached an operating point in the group deck on 2026-10-28.
+  worse. `sim/review/cs2/group_pan.py`. (Corrected 2026-10-28: the follower figures of that run came from a stand-in
+  `OPA1656.LIB`, TI's OPA161x under the OPA1656 name; the group deck's followers still need `OPA1656_FIT`.)
+- `cs7_proposal.md` (+ `cs7_proposal.patch`, tools + `sim/review/master/configs.py`) — CS7, proposed 2026-10-28, NOT signed
+  off: DIM on C/Room (SW4, a PVA2 at (29.16, 178) beside POWER; R236 / R237 91K between CRSB and each C/ROOM pot top, shorted
+  by the released key; -20.0..-20.75 dB, phones / meters +0.08 dB; made last). Main R's DRV135 U8 + C47-C50 / R224 / R225
+  move to the bottom beside the key (22R legs 9.0 / 9.8 mm, were 10.2 / 10.5). `placer.py`: moved parts leave their packed
+  spots first (U8 and C48 trade spots); strip / group / jig re-place identically. `sim/review/cs7/dim.py`; sim_console dim
+  test; TI models (the real OPA1656 is in the master review's model folder, `ti/OPA1656.LIB` is a stand-in): U23 84.8 deg
+  dimmed, U21 49.7. Switching step -59 dBu at the TRS (0.50 mV CRS offset). Reverses console_architecture's "monitor dim".
 - `cs11b_proposal.md` (+ `cs11b_proposal.patch`, tools only) — CS11b, signed off by Ruslan and applied 2026-10-27: each DRV135's
   two 10 uF couplers as a pair sorted within 2 % (MPN note; LME49600 bypasses and the jig stub as bought; 10 sorting
   spares in `order_bom.py`). `sim/review/cs11/drv_couplers.py` (TI model): output balance worst 5 % at 1 kHz / 100 Hz
