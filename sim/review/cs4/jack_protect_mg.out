@@ -1,0 +1,9 @@
+DRV135 output leg (group sub / aux out; master main, aux 5 / 6, C/Room), IEC 61000-4-2 contact on the tip:
+    8 kV as built          : output pin  22.79 A (1.199 uC), Sense pin    4.7 mA, node   57.6 V
+    8 kV BAV199 at the link: output pin   5.91 A (0.656 uC), Sense pin    1.7 mA, node   26.9 V; clamp  20.7 A, I2t 7.1e-06 A2s
+    4 kV as built          : output pin  11.37 A (0.600 uC), Sense pin    3.0 mA, node   36.9 V
+    4 kV BAV199 at the link: output pin   3.26 A (0.481 uC), Sense pin    1.6 mA, node   22.1 V; clamp  10.0 A, I2t 1.7e-06 A2s
+
+phantom 48 V / 6K8 on a leg (steady state): the 10 uF NP 25 V coupler sees the jack-side node
+  as built          : coupler  47.7 V, Sense pin's internal node  47.2 V
+  BAV199 at the link: coupler  17.7 V, Sense pin's internal node  17.5 V

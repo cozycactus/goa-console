@@ -173,7 +173,7 @@ strongly the library supports them.
       noise for the same effect.
   - *CS2 interaction:* the −4.4 dB pan law raises every stage of the master chain by the same 1.6 dB at centre (3.3 dB
     hard-panned), so the balance holds.
-- [x] **CS4 Clamp diodes at jack-facing I/O** (PM-5000 practice). Signed off and applied 2026-10-27 as strip v5.2 (`cs4_proposal.md`): one BAV199 per link signal at CN3. CS4b (group / master) open.
+- [x] **CS4 Clamp diodes at jack-facing I/O** (PM-5000 practice). Signed off and applied 2026-10-27 as strip v5.2 (`cs4_proposal.md`): one BAV199 per link signal at CN3. CS4b (group / master) worked up in `cs4b_proposal.md`.
   - *Why:* live patching (hot plugging, a phantom-powered lead, synth DC). 48 V through 6K8 into J1 gives about 7 mA
     through the 220R into U16's internal ESD diodes, near the OPA1656's rating.
   - *Proposed:* a low-leakage dual diode (BAV199-class; a BAV99's leakage into the 1M legs would shift DC) to the rails
