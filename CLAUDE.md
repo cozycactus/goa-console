@@ -272,6 +272,10 @@ jack board) done.
       file + JLCPCB CPL, BOM, DRC JSON.
     - **Tried:** on the strip (4L: L1 / L2 GND / L3 GND2 / L4), jack board and PSU with `--allow-unrouted`. The jig
       load board is refused for its 106 unrouted connections.
+- `escape_plan.md` (2026-10-27) — layer plan for the 4-layer main boards from `tools/escape_plan.py` (KiCad Python):
+  HighZ / Entry / Bus on F.Cu, Switching on B.Cu (both planes between them), the rest greedily to clear crossings, once
+  per board. `docs/escape/<board>_layers.csv` per net; the three densest 30 mm windows per board as SVGs. Strip worst:
+  y 121-151, the column between U12 / U13 (RV13, RV15, SW12, CN3).
 - `sample_order.md` — the parts to order with the prototype panel and the eight physical checks they settle.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.

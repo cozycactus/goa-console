@@ -278,6 +278,8 @@ minimum).
   It fills the zones on its own copy, so draw the GNDA zones first. `tools/route_check_test.py` proves each check on
   synthetic routing.
 - Re-check placement with `$KPY tools/emc_check.py <board>.kicad_pcb` after any manual move.
+- `escape_plan.md`: which outer layer each net takes (`docs/escape/<board>_layers.csv`) and pictures of the densest
+  spots; re-run `$KPY tools/escape_plan.py <board>.kicad_pcb` after placement changes.
 - `$KPY tools/ratsnest.py <board>.kicad_pcb` gives the signal ratsnest length and crossings; a manual move or turn that
   lowers the crossings is worth keeping (`untangle_proposal.md`).
 - After routing, use parity DRC as usual. `emc_check.py` also reads routed boards, but it measures pads, not tracks.
