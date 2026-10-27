@@ -22,6 +22,13 @@ has been re-exported.
 - **`_numbers.pdf`:** the same artwork with the strip number (1–24) or "GROUP n" at the bottom, one page per panel.
 - **`.png`:** a preview, cream ink on black. The finish and ink colour are placeholders.
 - **`_holes.csv`:** every hole: x and y from the bottom-left corner, diameter or slot size, and the part it serves.
+  It also lists the board standoffs' positions as "M3 blind stud, back side, not through" (DXF layer STUDS: a circle
+  and cross each).
+  - **When they apply:** only if the maker offers welded M3 studs on the back of 1.5 mm anodised aluminium
+    (`met1_ret1_review.md` P4).
+  - **Pressed-in studs won't do:** PEM's concealed-head clinch studs need a 1.60 mm sheet.
+  - **The jack-board studs:** they also bond CHASSIS to the panel, so they need bare metal contact.
+  - **Checked:** every stud's 6 mm area stays 1 mm or more from every front cut-out.
   Use it to check a maker's quote or a first article.
 
 ## Cut-outs

@@ -200,3 +200,7 @@ stress load sits elsewhere. That is still far from any limit.
 - [x] **P2** 100 nF on VREF at R40 / R41. Signed off 2026-10-27, applied (C100).
 - [ ] **P3** 10M hysteresis on U4B / U17B (optional). Declined 2026-10-27: the sim shows no chatter at a 1-2 us step.
 - [x] **P4** Standoff fastening at the panel: **b if the panel maker offers blind M3 studs, else c** (Ruslan, 2026-10-27).
+  - **Stud type:** pressed-in (PEM concealed-head) M3 studs need a 1.60 mm sheet and the panels are 1.5 mm, so b means
+    welded studs.
+  - **Drawings:** their positions are in `panels/` (hole tables, DXF layer STUDS), all clear of the front cut-outs.
+  - **Open:** the jack-board standoffs carry CHASSIS to the panel (G2), so under c they need another bond.

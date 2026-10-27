@@ -174,11 +174,12 @@ class Panel:
     its two M3 holes, rotation) or 'xlr' (NC3MAV hole and its two M3 holes, rotation); screws: [(x, y)] M3 panel
     screws; texts: [(s, x, y, size, bold)] centred on (x, y), size = em in mm; rects: [(x0, y0, x1, y1)] filled ink
     (dots, ticks, rules, brackets, meter outlines). parts: per panel part (ref, kind, x, y, rot, name, colour, big),
-    for the 3D layer."""
+    for the 3D layer. studs: [(x, y, ref, board)] the boards' standoffs, where blind M3 studs go into the panel's back
+    (met1_ret1_review.md P4: if the maker offers them); board 'main' or 'jack' (the jack boards' bond CHASSIS)."""
     def __init__(self, key, width):
         self.key, self.width = key, width
         self.x0, self.x1, self.y0, self.y1 = X0, X0 + width, Y0, Y1
-        self.holes, self.texts, self.rects, self.parts = [], [], [], []
+        self.holes, self.texts, self.rects, self.parts, self.studs = [], [], [], [], []
         self.screws = [(xx, yy) for yy in (Y0 + 3.0, Y1 - 3.0) for xx in ((X0 + 7.5,) if width < 50 else (X0 + 7.5, X0 + width - 7.5))]
 
     def line(self, x0, y0, x1, y1, w=0.28):
@@ -285,6 +286,8 @@ def layout(key, data=None, number=None):
         # collide the one placed first stays, so the artwork must not depend on it
         for p in sorted(bd['parts'], key=lambda p: (p['ref'].rstrip('0123456789'), int('0' + p['ref'][len(p['ref'].rstrip('0123456789')):]))):
             fp, ref = p['fp'], p['ref']
+            if ref.startswith('H') and fp.startswith('MountingHole'):     # a standoff: a blind stud in the panel's back
+                P.studs.append((p['x'], p['y'], ref, 'jack' if 'jack' in bd['file'] else 'main')); continue
             name, colour = names.get(ref, ('', 'grey'))
             f = p.get('feature'); reg = lookup(fp)
             if 'LED_D' in fp:

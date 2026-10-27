@@ -1,6 +1,8 @@
 x mm,y mm,diameter / slot,what
 7.50,3.00,Ø3.2,panel screw
 73.44,3.00,Ø3.2,panel screw
+25.15,67.00,"M3 blind stud, back side, not through",H6 main-board standoff
+55.55,67.00,"M3 blind stud, back side, not through",H7 main-board standoff
 40.45,71.00,Ø3.2,RV1 bourns_ptb fixing
 19.15,81.00,Ø3.2,D29 led
 61.75,81.00,Ø3.2,D57 led
@@ -43,7 +45,11 @@ x mm,y mm,diameter / slot,what
 61.75,171.00,Ø3.2,D77 led
 19.15,176.00,Ø3.2,D50 led
 61.75,176.00,Ø3.2,D78 led
+27.15,185.00,"M3 blind stud, back side, not through",H4 main-board standoff
+53.75,185.00,"M3 blind stud, back side, not through",H5 main-board standoff
 40.45,191.00,Ø3.2,RV1 bourns_ptb fixing
+9.65,275.00,"M3 blind stud, back side, not through",H2 main-board standoff
+71.25,275.00,"M3 blind stud, back side, not through",H3 main-board standoff
 20.15,325.00,Ø3.2,D3 led
 50.63,325.00,Ø8.0,SW3 ck_pva2
 70.95,325.00,Ø5.2,D19 led
@@ -55,8 +61,11 @@ x mm,y mm,diameter / slot,what
 70.95,347.00,Ø7.2,RV4 alpha_pot
 9.99,369.00,Ø7.2,RV2 alpha_pot
 30.31,369.00,Ø7.2,RV3 alpha_pot
+45.15,369.00,"M3 blind stud, back side, not through",H1 main-board standoff
 60.45,369.00,Ø7.2,RV5 alpha_pot
+9.15,406.00,"M3 blind stud, back side, not through",H3 jack-board standoff (bonds CHASSIS to the panel: metal contact)
 42.15,411.00,Ø12.0,J12 neutrik_nj6fd_v
+74.45,413.00,"M3 blind stud, back side, not through",H2 jack-board standoff (bonds CHASSIS to the panel: metal contact)
 27.05,414.10,Ø3.2,J5 neutrik_nc3mav fixing
 17.15,424.00,Ø22.2,J5 neutrik_nc3mav
 42.15,431.00,Ø12.0,J6 neutrik_nj6fd_v
@@ -71,6 +80,7 @@ x mm,y mm,diameter / slot,what
 61.15,471.00,Ø12.0,J11 neutrik_nj6fd_v
 27.05,478.10,Ø3.2,J3 neutrik_nc3mav fixing
 17.15,488.00,Ø22.2,J3 neutrik_nc3mav
+74.45,488.00,"M3 blind stud, back side, not through",H1 jack-board standoff (bonds CHASSIS to the panel: metal contact)
 42.15,491.00,Ø12.0,J1 neutrik_nj6fd_v
 61.15,491.00,Ø12.0,J2 neutrik_nj6fd_v
 7.25,497.90,Ø3.2,J3 neutrik_nc3mav fixing

@@ -18,6 +18,8 @@ import panel_layout as L
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 FONTS = {False: '/System/Library/Fonts/Supplemental/Arial Narrow.ttf', True: '/System/Library/Fonts/Supplemental/Arial Narrow Bold.ttf'}
 RAILS = tuple((y - L.RAIL_W / 2, y + L.RAIL_W / 2) for y in L.RAIL_LINES)   # frame rails under the panel ends: no cut-out over them
+STUD_D, STUD_BOSS = 3.2, 6.0       # blind M3 stud on the panel's back (met1_ret1_review.md P4): shank and its weld / boss area.
+# Welded, not pressed in: PEM's concealed-head M3 studs need a 1.60 mm sheet and the panels are 1.5 mm (the NJ6FD-V's limit)
 WEB, EDGE, INK_GAP, INK_EDGE = 1.0, 1.0, 0.2, 0.3   # minimum web between cut-outs, cut-out to edge, print to cut-out, print to edge (the section rules run full width, 0.41 from the edges)
 INK, PLATE = '#efe6cf', '#1b1b1d'              # cream print on black anodising (preview only; colours are placeholders)
 
@@ -93,7 +95,7 @@ def dxf(path, P, circles, slots, shapes):
     X = lambda x: x - P.x0; Y = lambda y: P.y1 - y           # front view, origin bottom-left, y up
     o = ['0', 'SECTION', '2', 'HEADER', '9', '$INSUNITS', '70', '4', '9', '$MEASUREMENT', '70', '1', '0', 'ENDSEC',
          '0', 'SECTION', '2', 'TABLES', '0', 'TABLE', '2', 'LAYER', '70', '3']
-    for i, (n, col) in enumerate((('OUTLINE', 7), ('CUT', 1), ('LEGEND', 2))):
+    for i, (n, col) in enumerate((('OUTLINE', 7), ('CUT', 1), ('LEGEND', 2), ('STUDS', 5))):
         o += ['0', 'LAYER', '2', n, '70', '0', '62', str(col), '6', 'CONTINUOUS']
     o += ['0', 'ENDTAB', '0', 'ENDSEC', '0', 'SECTION', '2', 'ENTITIES']
     def poly(layer, pts):
@@ -105,6 +107,11 @@ def dxf(path, P, circles, slots, shapes):
     for x, y, d in circles: o += ['0', 'CIRCLE', '8', 'CUT', '10', f'{X(x):.4f}', '20', f'{Y(y):.4f}', '40', f'{d / 2:.4f}']
     for x, y, ln, w, a in slots: poly('CUT', slot_outline(x, y, ln, w, a, 24))
     for pts, _ in shapes: poly('LEGEND', pts)
+    for x, y, ref, bd in P.studs:                         # back side, not through: a circle and a cross per stud
+        o += ['0', 'CIRCLE', '8', 'STUDS', '10', f'{X(x):.4f}', '20', f'{Y(y):.4f}', '40', f'{STUD_D / 2:.4f}']
+        for dx, dy in ((1, 0), (0, 1)):
+            o += ['0', 'LINE', '8', 'STUDS', '10', f'{X(x - dx * STUD_D / 2):.4f}', '20', f'{Y(y - dy * STUD_D / 2):.4f}',
+                  '11', f'{X(x + dx * STUD_D / 2):.4f}', '21', f'{Y(y + dy * STUD_D / 2):.4f}']
     o += ['0', 'ENDSEC', '0', 'EOF']
     open(path, 'w').write('\n'.join(o) + '\n')
 
@@ -141,6 +148,9 @@ def holes_csv(path, P):
                 ca, sa = math.cos(math.radians(a)), -math.sin(math.radians(a))
                 rows += [(x + u * ca - v * sa, y + u * sa + v * ca, f'Ø{L.FIX_D:.1f}', what + ' fixing') for u, v in L.XLR_CUT[1]]
         rows += [(x, y, f'Ø{L.SCREW_D:.1f}', 'panel screw') for x, y in P.screws]
+        rows += [(x, y, 'M3 blind stud, back side, not through',
+                  f'{ref} {"jack-board standoff (bonds CHASSIS to the panel: metal contact)" if bd == "jack" else "main-board standoff"}')
+                 for x, y, ref, bd in P.studs]
         for x, y, s, what in sorted(rows, key=lambda r: (round(-r[1], 2), r[0])):
             w.writerow([f'{x - P.x0:.2f}', f'{P.y1 - y:.2f}', s, what])
 
@@ -180,6 +190,10 @@ def check(P, circles, slots, shapes):
                 if dmin < c[3] + INK_GAP: n_ink += 1; bad.append(f'print {dmin - c[3]:+.2f} mm from the cut-out at ({c[1]:.1f}, {c[2]:.1f})'); break
             else:
                 n_ink += 1; bad.append(f'print box touches the slot at ({c[1]:.1f}, {c[2]:.1f})'); break
+    for x, y, ref, bd in P.studs:                    # the stud's boss behind the plate stays clear of every front cut-out
+        for c in cuts:
+            g = gap(('c', x, y, STUD_BOSS / 2), c)
+            if g < WEB: bad.append(f'stud {ref} ({bd}) at ({x:.1f}, {y:.1f}): its boss {g:.2f} mm from the cut-out at ({c[1]:.1f}, {c[2]:.1f})')
     return bad
 
 # ---------------------------------------------------------------- main
