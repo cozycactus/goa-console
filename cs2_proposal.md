@@ -157,7 +157,7 @@ hard-panned signal in that 1.7 dB window clips without lighting it.
 - aux sends and PFL;
 - the direct out.
 
-A follow-up could give the groups the same law.
+A follow-up could give the groups the same law (done: CS2b, `cs2b_proposal.md`, applied 2026-10-28).
 
 ## 4. Schematic and placement (trial)
 

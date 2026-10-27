@@ -453,8 +453,8 @@ SUBn_MIX ─ 75R ─ insert send (tip) ─ return (ring, normalled) ─ 33µ NP 
 PRE_SUBn ─ fader PTB0143 A10K (pin 1 = GNDA) ─ 2.2µ film + 100K ─ post-amp +9.9 dB (OPA1612 B,
            4K7 / 2K2, 100 pF) ─ 100µ NP + 47K ─ POST_SUBn
 POST_SUBn ─┬─ DRV134 ─ NJ6FD-V TRS output (tip hot, ring cold, sleeve CHASSIS since G2b)
-           ├─ pan pot ALPS RK09L1240015 B10K dual, centre detent (v0.11, R2) ─ pan buffers (OPA1612 A/B)
-           │    ─ 100µ NP + 47K each ─ MIX switch (PVA2, A-B = on)
+           ├─ pan pot ALPS RK09L1240015 B10K dual, centre detent (v0.11, R2) ─ pan buffers (OPA1612 A/B,
+           │    1.22× with 3K3 back to the wiper since CS2b) ─ 100µ NP + 47K each ─ MIX switch (PVA2, A-B = on)
            │    ─ 4K7 1 % to MIX L / MIX R (switch off grounds the resistor's bus end)
            └─ AFL switch (PVA2): pole A 22K to PFL bus (off: resistor end grounded),
                                   pole B +VL → 100K → PFLDET, 4K7 → AFL LED (red)
@@ -466,6 +466,11 @@ POST_SUBn ─┬─ DRV134 ─ NJ6FD-V TRS output (tip hot, ring cold, sleeve CH
   (channel_strip_schematic_spec sections 9 and 10), so a sub is just one more 4K7 feed on the
   MIX bus. Stereo-pair use (1-2, 3-4): pan the odd sub hard left and the even sub hard right.
   The two sub faders are not linked.
+- **Pan law (CS2b, `cs2b_proposal.md`, signed off 2026-10-28):** the strip's since v5.4 (CS2, the Delta's ED3344C
+  network). U3B / U5A at 1.22× (R124 / R127 2K2 with C96 / C97 22p C0G across them, R125 / R128 10K), R123 / R126 3K3
+  from each output back to its wiper: −2.7 dB at centre, +1.7 dB hard over, a 4.4 dB law (the Delta's own group module,
+  ED2778A, pans passively at −4.6 dB). Sub to MIX is 3.3 dB higher at centre than the old −6 dB followers gave; hard
+  over the pan buffers clip 1.7 dB before POST_SUBn. Made last (after `drv_loop_rs()`), so no other ref moved.
 - Each assigned sub adds 1 to the MIX bus noise gain, like a routed channel.
 - AFL on subs is not in the architecture's list, but the Delta group module effectively has it,
   and it costs one PVA2, three resistors (22K, 100K, 4K7) and one LED. Kept (review 2026-10-23).
@@ -498,7 +503,7 @@ POST_SUBn ─┬─ DRV134 ─ NJ6FD-V TRS output (tip hot, ring cold, sleeve CH
   - Check it on the jig.
 
 Per sub: 3 × OPA1612 (sum/re-invert, return buffer/post-amp, pan buffers L/R), 1 × DRV134,
-2 × NJ6FD-V (insert, output), PTB0143 fader, RD902F pan, 2 × PVA2 (MIX, AFL), 1 LED.
+2 × NJ6FD-V (insert, output), PTB0143 fader, RK09L pan (R2), 2 × PVA2 (MIX, AFL), 1 LED.
 
 ## 13. Aux masters ×6
 

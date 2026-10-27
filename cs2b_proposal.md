@@ -1,7 +1,7 @@
 # CS2b: the Delta's pan law on the group's sub pan (proposal, 2026-10-28)
 
-**Not signed off.** The change is `cs2b_proposal.patch`. It touches tools only: `frags.py`, `gen_group.py`,
-`place_group.py` and `sim_console.py`.
+**Signed off by Ruslan on 2026-10-28 (as proposed) and applied the same day; see "Applied" at the end.** The change is
+`cs2b_proposal.patch`. It touches tools only: `frags.py`, `gen_group.py`, `place_group.py` and `sim_console.py`.
 
 **Calculation and simulation:**
 - `sim/review/cs2/group_pan.py`, with its output in `group_pan.out` (it reuses `pan_law.py`'s network);
@@ -134,6 +134,18 @@ S_POST ── RV2 (10K B dual) ── wiper ──┬── U3B + (×1.22: R124 
 
 ## Sign-off
 
-- [ ] **CS2b** as proposed: the strip's −4.4 dB law on every group's sub pan (R123-R128, C96 / C97).
+- [x] **CS2b** as proposed: the strip's −4.4 dB law on every group's sub pan (R123-R128, C96 / C97). Ruslan, 2026-10-28.
 - [ ] Neither: keep −6 dB on the groups, and record it as a decision (the sub pan then no longer copies the strip,
   against master spec §12).
+
+## Applied (2026-10-28)
+
+- **Applied:** the patch.
+- **Regenerated and re-exported:** the group schematic (805 pins, 291 parts, 0 mismatches, check_fp 0, ERC 0, 13
+  pages), its netlist, BOM (+2 × 3K3, 2K2, 10K and 22p C0G per group), PDF and `order_bom.csv`.
+- **Re-placed:** only C96 / C97 and R123-R128 are new; no other footprint moved. Decouplers 2.9 / 5.1 / 1, high-Z
+  inputs over 6 mm 26, as before. Netrules re-run: the two new − input nodes are HighZ.
+- **Documents:** master spec §12 (the diagram, a pan-law note, the RK09L in the parts line), `console_survey.md`,
+  `cs2_proposal.md`'s follow-up line, CLAUDE.md.
+- **`check_all --full`:** 61 / 61. Group 805 pins, 291 / 291 footprints linked, 0 DRC / parity, route_check 0;
+  `sim_console` 35/35; every other board unchanged (1514 / 1514 links in all).

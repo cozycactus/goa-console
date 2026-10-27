@@ -303,6 +303,7 @@ SRC = 0.7746                                          # 0 dBu
 # Delta's law) a strip's pan sits PANC higher at centre (-2.7 dB, not -6) and PANH above POST hard over.
 UNITY = -0.82
 PANC, PANH = 3.27, 1.68
+GPANC = 3.32                                          # CS2b (cs2b_proposal.md): the group's sub pan, the same law
 
 checks = []
 def check(name, got, lo, hi, unit='dB'):
@@ -354,8 +355,8 @@ def t_sub():
     check('SUB not routed to MIX: main L', r.get('ml'), -400, -75)
     s, g, m = default_console(one(0, sw={'SW5': False, 'SW6': True}), group_cfg=lambda k: dict(sw={'SW1': True}) if k == 0 else {})
     r, _ = run(console(s, g, m), AC1K + dbu(diff(XLR['L']), 'ml') + dbu(diff(XLR['R']), 'mr'))
-    check('SUB 1 to MIX (sub pan centre, -6 dB): main L', r.get('ml'), -7.7 + PANC, -7.0 + PANC)
-    check('SUB 1 to MIX: main R', r.get('mr'), -7.7 + PANC, -7.0 + PANC)
+    check('SUB 1 to MIX (sub pan centre, -2.7 dB since CS2b): main L', r.get('ml'), -7.7 + PANC + GPANC, -7.0 + PANC + GPANC)
+    check('SUB 1 to MIX: main R', r.get('mr'), -7.7 + PANC + GPANC, -7.0 + PANC + GPANC)
 
 def t_aux():
     s, g, m = default_console(one(0, pos={'RV2': 1.0, 'RV6': 1.0}, sw={'SW8': True, 'SW10': True}))

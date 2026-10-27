@@ -155,10 +155,10 @@ strongly the library supports them.
       in the crop; our U3A / U8B arrangement differs, so this needs working out;
     - mix-bus headroom drops by up to 3.3 dB (see CS3).
   - Taste decision, yours.
-- [ ] **CS2b The same law on the group's sub pan** (proposed 2026-10-28, `cs2b_proposal.md`, not signed off): the
+- [x] **CS2b The same law on the group's sub pan.** Signed off and applied 2026-10-28 (`cs2b_proposal.md`): the
   strip's network on U3B / U5A (R123-R128, C96 / C97), so the sub pan copies the strip again (master spec §12). The
   parent's group module (ED2778A MONITOR PAN, passive 3K9 / 8K2) pans at −4.6 dB; ours is −6 dB. Sub to MIX +3.3 dB at
-  centre; U3B / U5A 74.5 / 75.3° (55.3 / 55.9° with 47 pF); `check_all --full` 61 / 61 on the trial tree.
+  centre; U3B / U5A 74.5 / 75.3° (55.3 / 55.9° with 47 pF); 8 parts per group, nothing else moved.
 - [x] **CS3 Mix and sub summer headroom: checked 2026-10-27, no change** (`sim/review/cs3/bus_headroom.py`, from the
   whole-console model).
   - *Per source* (0 dBu in, pan centre, every fader at "0"): the summer carries −6.4 dBu, as do the re-inverter, the

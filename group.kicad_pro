@@ -396,6 +396,14 @@
       },
       {
         "netclass": "HighZ",
+        "pattern": "Net-(U3B--)"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "Net-(U5A--)"
+      },
+      {
+        "netclass": "HighZ",
         "pattern": "Net-(U5B-+)"
       },
       {

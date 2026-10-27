@@ -112,6 +112,21 @@ def follower(d, src, out, u, cap=None):
     if cap: d.at(cap, 2, 3.5, text='L')
 
 
+def law_buffer(d, src, out, u, cap, parts):
+    """The Delta's pan buffer (ED3344C, CS2 / CS2b): + on top, 1.22x (rf 2K2 // cf 22p out -> -, rg 10K - -> ground),
+    rlaw 3K3 from the output back to the + input (the wiper); cap: a C from + to ground. parts: [rlaw, rf, rg, cf],
+    filled when they are created (last, so no other ref moves).  16 x 14"""
+    p = pins(u); rlaw, rf, rg, cf = parts
+    d.at(u[0], 8, 3, unit=u[1], text='U')
+    d.w((0, 2), (u[0], p[0])); d.port(src, (0, 2))
+    d.w((u[0], p[2]), (12, 3)); d.w((12, 3), (15, 3)); d.port(out, (15, 3), 'R')
+    d.at(rf, 8, 7, rot=90, text='U'); d.w((12, 3), (12, 7), (rf, 2)); d.w((rf, 1), (4, 7), (4, 4), (u[0], p[1]))
+    d.at(cf, 8, 9, rot=90, text='D'); d.w((6.5, 7), (6.5, 9), (cf, 1)); d.w((cf, 2), (9.5, 9), (9.5, 7))
+    d.at(rg, 4, 8.5, text='L'); d.gnd((rg, 2))
+    d.at(rlaw, 7.5, -2, rot=90, text='U'); d.w((12, 3), (12, -2), (rlaw, 2)); d.w((rlaw, 1), (2, -2), (2, 2))
+    if cap: d.at(cap, 2, 3.5, text='L')
+
+
 def rx_buffers(d, tip, ring, tb, rb, ut, ur, st, sr, rt, rr, ot, orr, ct, cr):
     """Balanced receiver's input followers (ground_study.md G3b): per leg 1M to ground, 220R, 100p at the + input, a
     unity follower, a 100R build-out to the bridge.  32 x 17"""

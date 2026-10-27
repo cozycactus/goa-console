@@ -59,9 +59,13 @@ jack(b, 'JACK', 'Sub out TRS', {'T': s + '_OP', 'R': s + '_ON', 'S': 'CHASSIS'})
 rp = ref('RV'); P(b, rp, 'POT2', 'Sub pan 10K lin dual CD', {1: s + '_POST', 3: 'GNDA', 2: s + '_PWL', 4: 'GNDA', 6: s + '_POST', 5: s + '_PWR'},
                   fp='Potentiometer_THT:Potentiometer_Alps_RK09L_Double_Vertical', mpn='ALPS RK09L1240015')   # as strip RV8 (design_review.md R2)
 frag(b, 14, 8, lambda d: frags.pot2(d, rp))
+# CS2b (cs2b_proposal.md): the Delta's pan law on the sub pan too, as the strip's (CS2): each buffer at 1.22x with a 3K3
+# law resistor back to its wiper, -2.7 dB at centre, +1.7 dB hard over; the R / C are made last (after drv_loop_rs())
+LAW = []
 for sd in 'LR':                 # 10p against the pan wiper's Cdiff lag (MG5)
-    pc = C(b, '10p C0G', f'{s}_PW{sd}', 'GNDA'); near(pc, amp(b, f'{s}_PW{sd}', f'{s}_PB{sd}', f'{s}_PB{sd}'))
-    frag(b, 16, 9, lambda d, u=LAST[0], c=pc, sd=sd: frags.follower(d, f'{s}_PW{sd}', f'{s}_PB{sd}', u, cap=c))
+    pc = C(b, '10p C0G', f'{s}_PW{sd}', 'GNDA'); near(pc, amp(b, f'{s}_PW{sd}', f'{s}_PBN{sd}', f'{s}_PB{sd}'))
+    LAW.append((b, sd, LAST[0], []))
+    frag(b, 16, 14, lambda d, u=LAST[0], c=pc, sd=sd, ps=LAW[-1][3]: frags.law_buffer(d, f'{s}_PW{sd}', f'{s}_PB{sd}', u, c, ps))
 for sd in 'LR':
     chain(b, f'{s}_PB{sd}', [('s', C(b, '220u NP 25V', f'{s}_PB{sd}', f'{s}_PAN{sd}')), ('g', R(b, '47K', f'{s}_PAN{sd}', 'GNDA'))], f'{s}_PAN{sd}')
 routing(b, s + '_PANL', s + '_PANR', 'MIXL', 'MIXR', 'Sub to MIX')
@@ -130,6 +134,10 @@ b = block('JACK LINK CLAMPS: a BAV199 to the audio rails on every jack signal at
 link_clamps(b, list(LINK.values()) + list(LINK2.values()))
 # CS4c (cs4c_proposal.md): 22R inside each DRV135 loop, drawn with its driver; created last as well
 drv_loop_rs()
+# CS2b: the sub pan buffers' law network, made last so every other ref stays
+for bb, sd, u, ps in LAW:
+    ps += [R(bb, '3K3', f'{s}_PW{sd}', f'{s}_PB{sd}'), R(bb, '2K2', f'{s}_PBN{sd}', f'{s}_PB{sd}'),
+           R(bb, '10K', f'{s}_PBN{sd}', 'GNDA'), C(bb, '22p C0G', f'{s}_PBN{sd}', f'{s}_PB{sd}')]
 
 project_file(OUT); parts_sidecar(OUT)
 build(OUT, 'group', 'Group module - goa console (sub + return + aux master)',
