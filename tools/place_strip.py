@@ -101,6 +101,9 @@ CS1 = {'D1': (35.75, 100.75, 90, 'B'), 'R128': (2.25, 61.5, 90, 'B'), 'D12': (2.
        'R133': (34.25, 75.25, 0, 'B'), 'R134': (33.75, 70.75, 0, 'B'), 'C103': (34.25, 73.0, 0, 'B'),
        'R135': (28.25, 77.5, 0, 'B')}
 MOVES.update(CS1)
+# CS10 (cs10_proposal.md, signed off 2026-10-27): the reverse Schottkys beside C1 (+VA) and C3 (-VA), placed by MOVES alone
+CS10 = {'D16': (15.5, 300.5, 0, 'F'), 'D17': (3.25, 298.25, 0, 'F')}
+MOVES.update(CS10)
 # D1 leaves the OL detector zone, so the packer shifts five of its neighbours one slot along (R39 into R15's, R15 into
 # R104's, ...): they go back to their v4.9 spots, in this order (pre-turn angles: R15 and R107 are in TURNS)
 MOVES.update({'R39': (36.27, 101.3, 90, 'F'), 'R15': (35.995, 58.225, 90, 'F'), 'R104': (35.995, 62.225, 90, 'F'),
@@ -202,5 +205,5 @@ if '(ref "CN5")' in open(NET).read():                           # jack board net
                   hole_value='M3 standoff = jack body height (~24 mm)')
 else:
     layout = dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, holes=HOLES, zones=ZONES, notes=NOTES, near=NEAR,
-                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, moves_only=tuple(NEW49) + tuple(CS1), turns=TURNS, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
+                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, moves_only=tuple(NEW49) + tuple(CS1) + tuple(CS10), turns=TURNS, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
 place(NET, OUT, layout)

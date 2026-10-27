@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/group.kicad_sch")
-		(date "2026-10-26T02:16:37")
+		(date "2026-10-27T17:00:58")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -16210,6 +16210,126 @@
 			)
 		)
 		(comp
+			(ref "D5")
+			(value "PMEG4010CEH")
+			(footprint "Diode_SMD:D_SOD-123F")
+			(fields
+				(field
+					(name "MPN") "Nexperia PMEG4010CEH,115")
+				(field
+					(name "Footprint") "Diode_SMD:D_SOD-123F")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "D_Schottky")
+				(description "Schottky diode")
+			)
+			(property
+				(name "MPN")
+				(value "Nexperia PMEG4010CEH,115")
+			)
+			(property
+				(name "Sheetname")
+				(value "11 POWER AND GROUNDS, RIBBON")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group_sheets/11_power_and_grounds.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "diode Schottky")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "TO-???* *_Diode_* *SingleDiode* D_*")
+			)
+			(sheetpath
+				(names "/11 POWER AND GROUNDS, RIBBON/")
+				(tstamps "/9c1ab050-28f1-5516-800b-680551abdca8/")
+			)
+			(tstamps "8fa459fc-6465-5694-b47b-98797bcb5700")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D6")
+			(value "PMEG4010CEH")
+			(footprint "Diode_SMD:D_SOD-123F")
+			(fields
+				(field
+					(name "MPN") "Nexperia PMEG4010CEH,115")
+				(field
+					(name "Footprint") "Diode_SMD:D_SOD-123F")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "D_Schottky")
+				(description "Schottky diode")
+			)
+			(property
+				(name "MPN")
+				(value "Nexperia PMEG4010CEH,115")
+			)
+			(property
+				(name "Sheetname")
+				(value "11 POWER AND GROUNDS, RIBBON")
+			)
+			(property
+				(name "Sheetfile")
+				(value "group_sheets/11_power_and_grounds.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "diode Schottky")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "TO-???* *_Diode_* *SingleDiode* D_*")
+			)
+			(sheetpath
+				(names "/11 POWER AND GROUNDS, RIBBON/")
+				(tstamps "/9c1ab050-28f1-5516-800b-680551abdca8/")
+			)
+			(tstamps "74ba030e-08c4-58d3-9a18-027c5287b7f9")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "NT1")
 			(value "AGND-LGND star")
 			(footprint "NetTie:NetTie-2_SMD_Pad0.5mm")
@@ -17160,6 +17280,43 @@
 		)
 		(libpart
 			(lib "Device")
+			(part "D_Schottky")
+			(description "Schottky diode")
+			(footprints
+				(fp "TO-???*")
+				(fp "*_Diode_*")
+				(fp "*SingleDiode*")
+				(fp "D_*")
+			)
+			(fields
+				(field
+					(name "Reference") "D")
+				(field
+					(name "Value") "D_Schottky")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Schottky diode")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "K")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "A")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Device")
 			(part "FerriteBead")
 			(description "Ferrite bead")
 			(footprints
@@ -17591,7 +17748,7 @@
 		(net
 			(code "1")
 			(name "+VA")
-			(class "Default")
+			(class "Power")
 			(node
 				(ref "C1")
 				(pin "1")
@@ -17670,6 +17827,12 @@
 			(node
 				(ref "C94")
 				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "D5")
+				(pin "1")
+				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
@@ -17771,7 +17934,7 @@
 		(net
 			(code "2")
 			(name "+VBUS")
-			(class "Default")
+			(class "Power")
 			(node
 				(ref "CN2")
 				(pin "32")
@@ -17804,7 +17967,7 @@
 		(net
 			(code "3")
 			(name "+VL")
-			(class "Default")
+			(class "LogicSupply")
 			(node
 				(ref "C3")
 				(pin "1")
@@ -17843,7 +18006,7 @@
 		(net
 			(code "4")
 			(name "-VA")
-			(class "Default")
+			(class "Power")
 			(node
 				(ref "C11")
 				(pin "2")
@@ -17922,6 +18085,12 @@
 			(node
 				(ref "C95")
 				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "D6")
+				(pin "2")
+				(pinfunction "A_2")
 				(pintype "passive")
 			)
 			(node
@@ -18023,7 +18192,7 @@
 		(net
 			(code "5")
 			(name "-VBUS")
-			(class "Default")
+			(class "Power")
 			(node
 				(ref "CN2")
 				(pin "30")
@@ -18050,7 +18219,7 @@
 		(net
 			(code "6")
 			(name "-VL")
-			(class "Default")
+			(class "LogicSupply")
 			(node
 				(ref "C4")
 				(pin "2")
@@ -18065,7 +18234,7 @@
 		(net
 			(code "7")
 			(name "AUX1")
-			(class "Default")
+			(class "Bus")
 			(node
 				(ref "CN2")
 				(pin "24")
@@ -18082,7 +18251,7 @@
 		(net
 			(code "8")
 			(name "AUX2")
-			(class "Default")
+			(class "Bus")
 			(node
 				(ref "CN2")
 				(pin "25")
@@ -18099,7 +18268,7 @@
 		(net
 			(code "9")
 			(name "AUX3")
-			(class "Default")
+			(class "Bus")
 			(node
 				(ref "CN2")
 				(pin "23")
@@ -18116,7 +18285,7 @@
 		(net
 			(code "10")
 			(name "AUX4")
-			(class "Default")
+			(class "Bus")
 			(node
 				(ref "CN2")
 				(pin "22")
@@ -18208,7 +18377,7 @@
 		(net
 			(code "14")
 			(name "A_ON")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "C41")
 				(pin "2")
@@ -18230,7 +18399,7 @@
 		(net
 			(code "15")
 			(name "A_OP")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "C40")
 				(pin "2")
@@ -18340,7 +18509,7 @@
 		(net
 			(code "20")
 			(name "GCANCEL")
-			(class "Default")
+			(class "Bus")
 			(node
 				(ref "CN2")
 				(pin "26")
@@ -18400,7 +18569,7 @@
 		(net
 			(code "22")
 			(name "GNDA")
-			(class "Default")
+			(class "Ground")
 			(node
 				(ref "C1")
 				(pin "2")
@@ -18803,6 +18972,18 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "D5")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "D6")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
 				(ref "NT1")
 				(pin "1")
 				(pinfunction "1_1")
@@ -19180,7 +19361,7 @@
 		(net
 			(code "23")
 			(name "GNDD")
-			(class "Default")
+			(class "Ground")
 			(node
 				(ref "C3")
 				(pin "2")
@@ -19225,7 +19406,7 @@
 		(net
 			(code "24")
 			(name "MIXL")
-			(class "Default")
+			(class "Bus")
 			(node
 				(ref "CN2")
 				(pin "18")
@@ -19254,7 +19435,7 @@
 		(net
 			(code "25")
 			(name "MIXR")
-			(class "Default")
+			(class "Bus")
 			(node
 				(ref "CN2")
 				(pin "17")
@@ -19358,7 +19539,7 @@
 		(net
 			(code "30")
 			(name "Net-(D1-A)")
-			(class "Default")
+			(class "Switching")
 			(node
 				(ref "D1")
 				(pin "2")
@@ -19374,7 +19555,7 @@
 		(net
 			(code "31")
 			(name "Net-(D2-A)")
-			(class "Default")
+			(class "Switching")
 			(node
 				(ref "D2")
 				(pin "2")
@@ -19390,7 +19571,7 @@
 		(net
 			(code "32")
 			(name "Net-(D3-A)")
-			(class "Default")
+			(class "Switching")
 			(node
 				(ref "D3")
 				(pin "2")
@@ -19406,7 +19587,7 @@
 		(net
 			(code "33")
 			(name "Net-(D4-A)")
-			(class "Default")
+			(class "Switching")
 			(node
 				(ref "D4")
 				(pin "2")
@@ -19730,7 +19911,7 @@
 		(net
 			(code "52")
 			(name "Net-(U1B--)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C7")
 				(pin "2")
@@ -19756,7 +19937,7 @@
 		(net
 			(code "53")
 			(name "Net-(U2A-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C9")
 				(pin "1")
@@ -19782,7 +19963,7 @@
 		(net
 			(code "54")
 			(name "Net-(U2A--)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C8")
 				(pin "2")
@@ -19808,7 +19989,7 @@
 		(net
 			(code "55")
 			(name "Net-(U2B-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C13")
 				(pin "1")
@@ -19850,7 +20031,7 @@
 		(net
 			(code "57")
 			(name "Net-(U3A-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C15")
 				(pin "2")
@@ -19876,7 +20057,7 @@
 		(net
 			(code "58")
 			(name "Net-(U3A--)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C19")
 				(pin "2")
@@ -19934,7 +20115,7 @@
 		(net
 			(code "61")
 			(name "Net-(U5B-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C37")
 				(pin "2")
@@ -19960,7 +20141,7 @@
 		(net
 			(code "62")
 			(name "Net-(U5B--)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C38")
 				(pin "2")
@@ -19986,7 +20167,7 @@
 		(net
 			(code "63")
 			(name "Net-(U6A--)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C33")
 				(pin "2")
@@ -20012,7 +20193,7 @@
 		(net
 			(code "64")
 			(name "Net-(U6B-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C35")
 				(pin "1")
@@ -20038,7 +20219,7 @@
 		(net
 			(code "65")
 			(name "Net-(U6B--)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C34")
 				(pin "2")
@@ -20096,7 +20277,7 @@
 		(net
 			(code "68")
 			(name "Net-(U8A-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C47")
 				(pin "1")
@@ -20122,7 +20303,7 @@
 		(net
 			(code "69")
 			(name "Net-(U8A--)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C46")
 				(pin "1")
@@ -20148,7 +20329,7 @@
 		(net
 			(code "70")
 			(name "Net-(U8B-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C53")
 				(pin "1")
@@ -20174,7 +20355,7 @@
 		(net
 			(code "71")
 			(name "Net-(U8B--)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C52")
 				(pin "1")
@@ -20200,7 +20381,7 @@
 		(net
 			(code "72")
 			(name "Net-(U9A-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C56")
 				(pin "2")
@@ -20226,7 +20407,7 @@
 		(net
 			(code "73")
 			(name "Net-(U9A--)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C59")
 				(pin "2")
@@ -20252,7 +20433,7 @@
 		(net
 			(code "74")
 			(name "Net-(U9B-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C62")
 				(pin "2")
@@ -20278,7 +20459,7 @@
 		(net
 			(code "75")
 			(name "Net-(U9B--)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C63")
 				(pin "2")
@@ -20304,7 +20485,7 @@
 		(net
 			(code "76")
 			(name "Net-(U10A-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C44")
 				(pin "1")
@@ -20346,7 +20527,7 @@
 		(net
 			(code "78")
 			(name "Net-(U10B-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C45")
 				(pin "1")
@@ -20388,7 +20569,7 @@
 		(net
 			(code "80")
 			(name "Net-(U11A-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C50")
 				(pin "1")
@@ -20430,7 +20611,7 @@
 		(net
 			(code "82")
 			(name "Net-(U11B-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C51")
 				(pin "1")
@@ -20472,7 +20653,7 @@
 		(net
 			(code "84")
 			(name "Net-(U12A-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C73")
 				(pin "1")
@@ -20498,7 +20679,7 @@
 		(net
 			(code "85")
 			(name "Net-(U12A--)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C72")
 				(pin "1")
@@ -20524,7 +20705,7 @@
 		(net
 			(code "86")
 			(name "Net-(U12B-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C79")
 				(pin "1")
@@ -20550,7 +20731,7 @@
 		(net
 			(code "87")
 			(name "Net-(U12B--)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C78")
 				(pin "1")
@@ -20576,7 +20757,7 @@
 		(net
 			(code "88")
 			(name "Net-(U13A-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C82")
 				(pin "2")
@@ -20602,7 +20783,7 @@
 		(net
 			(code "89")
 			(name "Net-(U13A--)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C85")
 				(pin "2")
@@ -20628,7 +20809,7 @@
 		(net
 			(code "90")
 			(name "Net-(U13B-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C88")
 				(pin "2")
@@ -20654,7 +20835,7 @@
 		(net
 			(code "91")
 			(name "Net-(U13B--)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C89")
 				(pin "2")
@@ -20680,7 +20861,7 @@
 		(net
 			(code "92")
 			(name "Net-(U14A-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C70")
 				(pin "1")
@@ -20722,7 +20903,7 @@
 		(net
 			(code "94")
 			(name "Net-(U14B-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C71")
 				(pin "1")
@@ -20764,7 +20945,7 @@
 		(net
 			(code "96")
 			(name "Net-(U15A-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C76")
 				(pin "1")
@@ -20806,7 +20987,7 @@
 		(net
 			(code "98")
 			(name "Net-(U15B-+)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C77")
 				(pin "1")
@@ -20848,7 +21029,7 @@
 		(net
 			(code "100")
 			(name "PFL")
-			(class "Default")
+			(class "Bus")
 			(node
 				(ref "CN2")
 				(pin "27")
@@ -20883,7 +21064,7 @@
 		(net
 			(code "101")
 			(name "PFLDET")
-			(class "Default")
+			(class "Bus")
 			(node
 				(ref "CN2")
 				(pin "29")
@@ -21564,7 +21745,7 @@
 		(net
 			(code "132")
 			(name "Return2_LR")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "CN4")
 				(pin "2")
@@ -21585,7 +21766,7 @@
 		(net
 			(code "133")
 			(name "Return2_LT")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "CN4")
 				(pin "1")
@@ -21606,7 +21787,7 @@
 		(net
 			(code "134")
 			(name "Return2_RR")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "CN4")
 				(pin "5")
@@ -21627,7 +21808,7 @@
 		(net
 			(code "135")
 			(name "Return2_RT")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "CN4")
 				(pin "4")
@@ -21648,7 +21829,7 @@
 		(net
 			(code "136")
 			(name "Return_LR")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "CN3")
 				(pin "12")
@@ -21669,7 +21850,7 @@
 		(net
 			(code "137")
 			(name "Return_LT")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "CN3")
 				(pin "11")
@@ -21690,7 +21871,7 @@
 		(net
 			(code "138")
 			(name "Return_RR")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "CN3")
 				(pin "15")
@@ -21711,7 +21892,7 @@
 		(net
 			(code "139")
 			(name "Return_RT")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "CN3")
 				(pin "14")
@@ -21732,7 +21913,7 @@
 		(net
 			(code "140")
 			(name "SUB1")
-			(class "Default")
+			(class "Bus")
 			(node
 				(ref "CN2")
 				(pin "15")
@@ -21761,7 +21942,7 @@
 		(net
 			(code "141")
 			(name "SUB2")
-			(class "Default")
+			(class "Bus")
 			(node
 				(ref "CN2")
 				(pin "13")
@@ -21790,7 +21971,7 @@
 		(net
 			(code "142")
 			(name "SUB3")
-			(class "Default")
+			(class "Bus")
 			(node
 				(ref "CN2")
 				(pin "11")
@@ -21819,7 +22000,7 @@
 		(net
 			(code "143")
 			(name "SUB4")
-			(class "Default")
+			(class "Bus")
 			(node
 				(ref "CN2")
 				(pin "9")
@@ -21848,7 +22029,7 @@
 		(net
 			(code "144")
 			(name "SUB_RETRAW")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "C12")
 				(pin "1")
@@ -21898,7 +22079,7 @@
 		(net
 			(code "146")
 			(name "SUB_SEND")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "CN3")
 				(pin "1")
@@ -21955,7 +22136,7 @@
 		(net
 			(code "149")
 			(name "S_ON")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "C22")
 				(pin "2")
@@ -21977,7 +22158,7 @@
 		(net
 			(code "150")
 			(name "S_OP")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "C21")
 				(pin "2")
@@ -22140,7 +22321,7 @@
 		(net
 			(code "157")
 			(name "S_PWL")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C25")
 				(pin "1")
@@ -22162,7 +22343,7 @@
 		(net
 			(code "158")
 			(name "S_PWR")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C26")
 				(pin "1")

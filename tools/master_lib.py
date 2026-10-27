@@ -43,6 +43,8 @@ MPN.update({'DRV134': 'TI DRV135UA',   # SO-8: the DRV134 is DIP-8 / SOL-16 only
             # the ferrite is a stability part: the aux summer's margin follows its inductance (MG16)
             'FB': 'Murata BLM21PG221SN1D'})
 MPN['DS'] = 'Diodes B540C-13-F (SS54 class, SMC 40 V 5 A)'
+# CS10: a reverse Schottky across each audio rail of a ribbon board (group), as the strip's D16 / D17
+SYM['DSK'] = ('Device', 'D_Schottky'); FP['DSK'] = 'Diode_SMD:D_SOD-123F'; MPN['DSK'] = 'Nexperia PMEG4010CEH,115'
 # wing PTCs MF-RX185/72 (hpf_proposal.md H4, 2026-10-24): same pads as the MF-RX160/72 (kept on the jig stub), a
 # 1.24 mm wider body; hold 1.50 / 1.33 A at 40 / 50 C against a 1.25 A wing
 PTC185 = dict(fp='goa-console:Fuse_Bourns_MF-RX185-72_Radial_P5.08mm', mpn='Bourns MF-RX185/72-0')

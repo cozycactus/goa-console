@@ -51,6 +51,7 @@
 "6","4","2","Diodes S1G-13-F","S1G","Diode_SMD:D_SMA","psu 4",""
 "8","6","2","Diodes B540C-13-F","SS54","Diode_SMD:D_SMC","master 2, psu 2, jig stub 2","SS54 class, SMC 40 V 5 A"
 "3","1","2","Diodes BZT52C6V2-7-F","BZT52C6V2","Diode_SMD:D_SOD-123","master 1",""
+"59","56","3","Nexperia PMEG4010CEH,115","PMEG4010CEH","Diode_SMD:D_SOD-123F","strip 24x2, group 4x2",""
 "33","31","2","Vishay 1N4148-TAP","1N4148","Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal","master 29, jig stub 2",""
 "29","19","10","Murata BLM21PG221SN1D","Ferrite 220R@100MHz","Inductor_SMD:L_0805_2012Metric","group 4x2, master 5, jig stub 6",""
 "3","2","1","Bourns 2100LL-100-H-RC","10u 11A","Inductor_THT:L_Toroid_Horizontal_D21.8mm_P19.10mm_Bourns_2100","psu 2",""

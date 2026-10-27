@@ -1,4 +1,4 @@
-# Channel Strip — Component-Level Specification v5.0
+# Channel Strip — Component-Level Specification v5.1
 ## Soundcraft Delta Theatre input without the mic stage. One PCB per channel, ×24.
 
 Bus pinout, grounding and power: `console_architecture.md`. Stage-by-stage comparison with the
@@ -7,6 +7,21 @@ Reference designators are those of `tools/gen.py`; Delta drawing numbers are giv
 circuit comes from a Delta sheet (ED3344A/B/C = Theatre input RH board, ED3151 = LH board).
 
 ---
+
+## Changes in v5.1 (2026-10-27, signed off; `cs10_proposal.md` CS10, from `console_survey.md` §7)
+
+**D16 / D17 PMEG4010CEH** (Nexperia, 40 V 1 A Schottky, SOD-123F) across the audio rails (§2.1): cathode +VA / anode
+GNDA beside C1, cathode GNDA / anode −VA beside C3. 906 pin entries, 312 parts.
+
+- **Why:** if one supply rail is lost (a wing PTC trips, a ribbon conductor opens, a PSU rail fails), the op-amps'
+  ~87 mA keeps flowing into the dead rail and drives it past ground. C1 or C3, a polar 220 µF, sits reversed by
+  2.5-12.7 V, and the ICs' pin-protection diodes carry 60-87 mA. With the diodes the dead rail stays within 0.36 V of
+  ground and the ICs carry nothing (`sim/review/cs10/rail_loss.py`).
+- **Library:** the Allen & Heath GL2 puts a 1N4002 on each rail of every board. The master's SS54s sit before the wing
+  PTCs, so they don't cover a tripped wing.
+- **Normal operation:** reverse-biased by 16-17 V, about 1 µA leakage each. A normal power-down is unaffected.
+- **Placement:** by `moves_only`, top side, 2.8-4.0 mm from C1 / C3; nothing else moved.
+- **The group boards** get the same (D5 / D6; master spec §12).
 
 ## Changes in v5.0 (2026-10-27, signed off; `cs1_proposal.md` CS1, from `console_survey.md`)
 
@@ -244,7 +259,10 @@ unlatched = 2–3 (5–6). The latched throw still needs confirming on a real PV
 ```
 +V (pins 32–34) ── R1 10 Ω ── +VA ── C1 220 µF/25 V ── C2 100 nF ── AGND
 −V (pins 30, 31) ── R2 10 Ω ── −VA ── C3 220 µF/25 V ── C4 100 nF ── AGND
++VA ── D16 PMEG4010CEH (K) ── (A) AGND          AGND ── D17 PMEG4010CEH (K) ── (A) −VA        (v5.1, CS10)
 ```
+D16 / D17 hold a dead rail within 0.36 V of ground if the other one stays up (a wing PTC trips, a ribbon conductor
+opens); without them the op-amps' quiescent current drives it past ground and reverses C1 / C3.
 100 nF at every op-amp: C20/C21 (U1), C22/C23 (U2), C24/C25 (U3), C29/C30 (U5), C31/C32 (U6),
 C33/C34 (U7), C35/C36 (U8), C63–C68 (U12–U14), C89/C90 (U15), C92/C93 (U16). +V arrives on bus pins 32–34 (pin 34, the
 Delta's +48 V, is a third +V conductor since 2026-10-25, `wing_power_proposal.md` W1).
@@ -642,13 +660,14 @@ directly; no debounce RC, because the DG413 inputs have no hysteresis.
 | Q1, Q2 | MMBFJ112 (J112 in SOT-23) | soft mute | |
 | Q3–Q5 | MMBT3906 | red / green LED switches, green gate (v4.7) | |
 | D1, D12–D15 | BAV99 | OL taps: PRESRC, RECV, GOUT, EQOUT, FPOST (v5.0) | |
+| D16, D17 | PMEG4010CEH | reverse clamps on +VA / −VA (v5.1) | |
 
 ---
 
 ## 15. Bill of materials
 
-`channel_strip_BOM.csv` (main board, exported from the schematic, with a DNP column): 302 parts per channel (v5.0), of
-which three are the DNP VCA-option parts (J3, J4, R44), so 299 fitted (the netlist's 310 also counts the solder
+`channel_strip_BOM.csv` (main board, exported from the schematic, with a DNP column): 304 parts per channel (v5.1), of
+which three are the DNP VCA-option parts (J3, J4, R44), so 301 fitted (the netlist's 312 also counts the solder
 jumpers JP1–JP7 and the net tie NT1, which aren't bought); `jack_board_BOM.csv`: 6. Panel parts per channel:
 16 pots (fader, 6 aux, pan, gain, 4 EQ gain, 2 dual EQ frequency, dual HPF frequency), 13 switches, 7 LEDs (OL / signal bicolour, PFL,
 ON, EQ, 3 routing), 3 jacks, 1 bus header.
@@ -790,7 +809,12 @@ each standoff's panel end and wherever a panel meets the frame rails. CN3/CN5: W
 
 ---
 
-## 17. Status (v5.0, 2026-10-27)
+## 17. Status (v5.1, 2026-10-27)
+
+v5.1 (CS10):
+- **Netlist:** 906 pin entries / 0 mismatches, check_fp 312 / 0, ERC 0.
+- **Simulation:** `tools/sim_netlist.py` 39/39, `tools/sim_console.py` 35/35, `sim/review/cs10/rail_loss.py`.
+- **Placement:** 312 footprints, 0 DRC violations, 0 parity issues, 312 / 312 linked; D16 / D17 added, nothing moved.
 
 v5.0 (CS1):
 - **Netlist:** 902 pin entries / 0 mismatches, check_fp 310 / 0, ERC 0.

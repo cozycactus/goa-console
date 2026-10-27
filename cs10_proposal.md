@@ -1,8 +1,8 @@
 # CS10: a reverse Schottky across each audio rail of every strip and group board (proposal, 2026-10-27)
 
-**Not signed off.** The change is `cs10_proposal.patch`. It touches tools only: `gen.py`, `strip_draw.py`,
-`gen_group.py`, `master_lib.py`, `schgen.py`, `place_strip.py` and `place_group.py`. It was applied to a trial tree,
-checked (§5) and reverted, so nothing in the design has changed. The simulation is `sim/review/cs10/rail_loss.py`; its
+**Signed off by Ruslan on 2026-10-27 (as proposed: D16 / D17 on every strip, D5 / D6 on every group board) and applied
+the same day (strip v5.1); see "Applied" at the end.** The change is `cs10_proposal.patch`. It touches tools only:
+`gen.py`, `strip_draw.py`, `gen_group.py`, `master_lib.py`, `schgen.py`, `place_strip.py` and `place_group.py`. The simulation is `sim/review/cs10/rail_loss.py`; its
 output is in `rail_loss.out`.
 
 ## 1. Why
@@ -104,6 +104,16 @@ board rules don't change. The trial kept the committed files.
 
 ## Sign-off
 
-- [ ] **CS10** as proposed: D16 / D17 on every strip, D5 / D6 on every group board.
+- [x] **CS10** as proposed: D16 / D17 on every strip, D5 / D6 on every group board. Ruslan, 2026-10-27.
 - [ ] Option B instead: four SS54s on the master after the wing PTCs.
 - [ ] Neither.
+
+## Applied (2026-10-27, strip v5.1)
+
+- **Applied:** the patch, plus revision 5.1 in `gen.py`.
+- **Regenerated and re-exported:** strip and group netlists, BOMs, PDFs and `order_bom.csv` (56 + 3 spare
+  PMEG4010CEH).
+- **Re-placed:** both boards; against the committed boards only the four diodes are new.
+- **Netrules:** re-written; the group's `.kicad_pro` files kept their committed form.
+- **Documents:** strip spec v5.1 (changes, §2.1, §14, §15, §17), master spec (group power), CLAUDE.md.
+

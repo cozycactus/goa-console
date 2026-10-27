@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/channel_strip.kicad_sch")
-		(date "2026-10-27T12:49:41")
+		(date "2026-10-27T17:01:21")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -11,12 +11,12 @@
 			(title_block
 				(title "Channel strip - goa console")
 				(company)
-				(rev "5.0")
+				(rev "5.1")
 				(date "2026-10-19")
 				(source "channel_strip.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.0")
+					(value "Generated from channel_strip_schematic_spec.md v5.1")
 				)
 				(comment
 					(number "2")
@@ -59,12 +59,12 @@
 			(title_block
 				(title "LINE INPUT, GAIN")
 				(company "Channel strip - goa console")
-				(rev "5.0")
+				(rev "5.1")
 				(date "2026-10-19")
 				(source "02_line_input.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.0")
+					(value "Generated from channel_strip_schematic_spec.md v5.1")
 				)
 				(comment
 					(number "2")
@@ -107,12 +107,12 @@
 			(title_block
 				(title "HPF, INSERT POSITION JUMPERS")
 				(company "Channel strip - goa console")
-				(rev "5.0")
+				(rev "5.1")
 				(date "2026-10-19")
 				(source "03_hpf.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.0")
+					(value "Generated from channel_strip_schematic_spec.md v5.1")
 				)
 				(comment
 					(number "2")
@@ -155,12 +155,12 @@
 			(title_block
 				(title "EQ")
 				(company "Channel strip - goa console")
-				(rev "5.0")
+				(rev "5.1")
 				(date "2026-10-19")
 				(source "04_eq.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.0")
+					(value "Generated from channel_strip_schematic_spec.md v5.1")
 				)
 				(comment
 					(number "2")
@@ -203,12 +203,12 @@
 			(title_block
 				(title "EQ MID TUNING")
 				(company "Channel strip - goa console")
-				(rev "5.0")
+				(rev "5.1")
 				(date "2026-10-19")
 				(source "05_eq_mid_tuning.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.0")
+					(value "Generated from channel_strip_schematic_spec.md v5.1")
 				)
 				(comment
 					(number "2")
@@ -251,12 +251,12 @@
 			(title_block
 				(title "EQ MID TUNING, EQ IN")
 				(company "Channel strip - goa console")
-				(rev "5.0")
+				(rev "5.1")
 				(date "2026-10-19")
 				(source "06_eq_mid_tuning.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.0")
+					(value "Generated from channel_strip_schematic_spec.md v5.1")
 				)
 				(comment
 					(number "2")
@@ -299,12 +299,12 @@
 			(title_block
 				(title "INSERT")
 				(company "Channel strip - goa console")
-				(rev "5.0")
+				(rev "5.1")
 				(date "2026-10-19")
 				(source "07_insert.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.0")
+					(value "Generated from channel_strip_schematic_spec.md v5.1")
 				)
 				(comment
 					(number "2")
@@ -347,12 +347,12 @@
 			(title_block
 				(title "OVERLOAD DETECTOR")
 				(company "Channel strip - goa console")
-				(rev "5.0")
+				(rev "5.1")
 				(date "2026-10-19")
 				(source "08_overload_detector.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.0")
+					(value "Generated from channel_strip_schematic_spec.md v5.1")
 				)
 				(comment
 					(number "2")
@@ -395,12 +395,12 @@
 			(title_block
 				(title "OVERLOAD DETECTOR, PFL")
 				(company "Channel strip - goa console")
-				(rev "5.0")
+				(rev "5.1")
 				(date "2026-10-19")
 				(source "09_overload_detector.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.0")
+					(value "Generated from channel_strip_schematic_spec.md v5.1")
 				)
 				(comment
 					(number "2")
@@ -443,12 +443,12 @@
 			(title_block
 				(title "ON-SOFT MUTE")
 				(company "Channel strip - goa console")
-				(rev "5.0")
+				(rev "5.1")
 				(date "2026-10-19")
 				(source "10_on_soft_mute.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.0")
+					(value "Generated from channel_strip_schematic_spec.md v5.1")
 				)
 				(comment
 					(number "2")
@@ -491,12 +491,12 @@
 			(title_block
 				(title "FADER + POST-AMP")
 				(company "Channel strip - goa console")
-				(rev "5.0")
+				(rev "5.1")
 				(date "2026-10-19")
 				(source "11_fader_post_amp.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.0")
+					(value "Generated from channel_strip_schematic_spec.md v5.1")
 				)
 				(comment
 					(number "2")
@@ -539,12 +539,12 @@
 			(title_block
 				(title "AUX SENDS, DIRECT OUT")
 				(company "Channel strip - goa console")
-				(rev "5.0")
+				(rev "5.1")
 				(date "2026-10-19")
 				(source "12_aux_sends.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.0")
+					(value "Generated from channel_strip_schematic_spec.md v5.1")
 				)
 				(comment
 					(number "2")
@@ -587,12 +587,12 @@
 			(title_block
 				(title "PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX")
 				(company "Channel strip - goa console")
-				(rev "5.0")
+				(rev "5.1")
 				(date "2026-10-19")
 				(source "13_pan_pan_buffers.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.0")
+					(value "Generated from channel_strip_schematic_spec.md v5.1")
 				)
 				(comment
 					(number "2")
@@ -635,12 +635,12 @@
 			(title_block
 				(title "ROUTING MATRIX")
 				(company "Channel strip - goa console")
-				(rev "5.0")
+				(rev "5.1")
 				(date "2026-10-19")
 				(source "14_routing_matrix.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.0")
+					(value "Generated from channel_strip_schematic_spec.md v5.1")
 				)
 				(comment
 					(number "2")
@@ -683,12 +683,12 @@
 			(title_block
 				(title "ROUTING MATRIX")
 				(company "Channel strip - goa console")
-				(rev "5.0")
+				(rev "5.1")
 				(date "2026-10-19")
 				(source "15_routing_matrix.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.0")
+					(value "Generated from channel_strip_schematic_spec.md v5.1")
 				)
 				(comment
 					(number "2")
@@ -731,12 +731,12 @@
 			(title_block
 				(title "POWER ENTRY")
 				(company "Channel strip - goa console")
-				(rev "5.0")
+				(rev "5.1")
 				(date "2026-10-19")
 				(source "16_power_entry.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.0")
+					(value "Generated from channel_strip_schematic_spec.md v5.1")
 				)
 				(comment
 					(number "2")
@@ -779,12 +779,12 @@
 			(title_block
 				(title "POWER ENTRY, MOTHERLOOM")
 				(company "Channel strip - goa console")
-				(rev "5.0")
+				(rev "5.1")
 				(date "2026-10-19")
 				(source "17_power_entry.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.0")
+					(value "Generated from channel_strip_schematic_spec.md v5.1")
 				)
 				(comment
 					(number "2")
@@ -18540,6 +18540,126 @@
 			)
 		)
 		(comp
+			(ref "D16")
+			(value "PMEG4010CEH")
+			(footprint "Diode_SMD:D_SOD-123F")
+			(fields
+				(field
+					(name "MPN") "Nexperia PMEG4010CEH,115")
+				(field
+					(name "Footprint") "Diode_SMD:D_SOD-123F")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "D_Schottky")
+				(description "Schottky diode")
+			)
+			(property
+				(name "MPN")
+				(value "Nexperia PMEG4010CEH,115")
+			)
+			(property
+				(name "Sheetname")
+				(value "16 POWER ENTRY")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/16_power_entry.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "diode Schottky")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "TO-???* *_Diode_* *SingleDiode* D_*")
+			)
+			(sheetpath
+				(names "/16 POWER ENTRY/")
+				(tstamps "/98332d40-7d3b-5987-80e5-3726f5a2120e/")
+			)
+			(tstamps "4eacc5f8-93c4-5e85-82bd-0361afbc7ec6")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D17")
+			(value "PMEG4010CEH")
+			(footprint "Diode_SMD:D_SOD-123F")
+			(fields
+				(field
+					(name "MPN") "Nexperia PMEG4010CEH,115")
+				(field
+					(name "Footprint") "Diode_SMD:D_SOD-123F")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "D_Schottky")
+				(description "Schottky diode")
+			)
+			(property
+				(name "MPN")
+				(value "Nexperia PMEG4010CEH,115")
+			)
+			(property
+				(name "Sheetname")
+				(value "16 POWER ENTRY")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/16_power_entry.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "diode Schottky")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "TO-???* *_Diode_* *SingleDiode* D_*")
+			)
+			(sheetpath
+				(names "/16 POWER ENTRY/")
+				(tstamps "/98332d40-7d3b-5987-80e5-3726f5a2120e/")
+			)
+			(tstamps "8f78bffa-2458-5869-82fe-db93c7e9f75a")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "NT1")
 			(value "AGND-LGND star")
 			(footprint "NetTie:NetTie-2_SMD_Pad0.5mm")
@@ -20521,6 +20641,43 @@
 		)
 		(libpart
 			(lib "Device")
+			(part "D_Schottky")
+			(description "Schottky diode")
+			(footprints
+				(fp "TO-???*")
+				(fp "*_Diode_*")
+				(fp "*SingleDiode*")
+				(fp "D_*")
+			)
+			(fields
+				(field
+					(name "Reference") "D")
+				(field
+					(name "Value") "D_Schottky")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Schottky diode")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "K")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "A")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Device")
 			(part "LED")
 			(description "Light emitting diode")
 			(footprints
@@ -21314,6 +21471,12 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "D16")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
 				(ref "J3")
 				(pin "4")
 				(pinfunction "Pin_4_4")
@@ -21682,6 +21845,12 @@
 			(node
 				(ref "C93")
 				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "D17")
+				(pin "2")
+				(pinfunction "A_2")
 				(pintype "passive")
 			)
 			(node
@@ -22681,6 +22850,18 @@
 				(ref "CN4")
 				(pin "1")
 				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "D16")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "D17")
+				(pin "1")
+				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
@@ -24798,7 +24979,7 @@
 		(net
 			(code "110")
 			(name "Net-(R135-Pad1)")
-			(class "Default")
+			(class "Switching")
 			(node
 				(ref "R135")
 				(pin "1")
@@ -26035,7 +26216,7 @@
 		(net
 			(code "166")
 			(name "OL_NN")
-			(class "Default")
+			(class "Switching")
 			(node
 				(ref "C103")
 				(pin "1")
@@ -26170,7 +26351,7 @@
 		(net
 			(code "171")
 			(name "PK")
-			(class "Default")
+			(class "Switching")
 			(node
 				(ref "C12")
 				(pin "1")

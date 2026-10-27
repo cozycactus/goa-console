@@ -105,7 +105,7 @@ _ret2 = take('STEREO RETURN 2', *RET2_ROUTE)
 for u in (r for r in _ret2 if r.startswith('U')): RETURN2 += [u] + [r for r in beside(u) if r in _ret2]
 RETURN2 += [r for r in _ret2 if r not in RETURN2]
 SUPPLY_R = [r for r in take('POWER AND GROUNDS') if VAL[r].startswith('10R') and {'+VBUS', '-VBUS'} & NETS_OF[r]]
-POWER = [r for r in take('POWER AND GROUNDS') if r not in SUPPLY_R]
+POWER = [r for r in take('POWER AND GROUNDS') if r not in SUPPLY_R and VAL[r] != 'PMEG4010CEH']   # CS10's by MOVES
 ZONES = [
  # bottom side first: links and electrolytics. The return rows' pins fill the bottom at the top of the board (RET1), so
  # the links go below them, where the bottom is empty (ribbons ~150 mm; the strip's is ~136 mm)
@@ -144,6 +144,9 @@ MOVES.update({'R57': (34.22, 160.38, 0, 'B'), 'R55': (32.47, 166.65, 180, 'B'), 
 # E11 (decouplers_proposal.md): decouplers more than 5.5 mm from their supply pin moved to it, most on the bottom
 # under the pin (placer `moves`)
 MOVES.update({'C43': (6.97, 218.9, 90, 'F')})
+# CS10 (cs10_proposal.md, signed off 2026-10-27): the reverse Schottkys beside C1 (+VA) and C2 (-VA), placed by MOVES alone (never packed)
+CS10 = {'D5': (28.5, 290.25, 90, 'F'), 'D6': (14.5, 304.0, 0, 'F')}
+MOVES.update(CS10)
 # untangle_proposal.md: two-pad parts turned in place (degrees) so their ratsnest crosses less, measured with
 # tools/ratsnest.py (placer `turns`, after packing and the moves)
 TURNS = {'JP7': 90, 'R5': 90, 'R11': 180, 'R20': 180, 'R22': 180, 'R25': 180, 'R26': 180, 'R30': 180, 'R34': 180,
@@ -151,6 +154,6 @@ TURNS = {'JP7': 90, 'R5': 90, 'R11': 180, 'R20': 180, 'R22': 180, 'R25': 180, 'R
          'R74': 180, 'R77': 180, 'R78': 180, 'R80': 180, 'R86': 180, 'R89': 180, 'R90': 180, 'R96': 180, 'R107': 180,
          'R109': 180, 'R110': 180, 'R112': 180, 'R115': 270, 'R117': 270}
 place(os.path.join(PROJ, 'group.net'), os.path.join(PROJ, 'group.kicad_pcb'),
-      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, turns=TURNS, layers=4, rails=(0.5, 5.5), holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
+      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS10), turns=TURNS, layers=4, rails=(0.5, 5.5), holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
            keepout=[(22.0, 185.0, 23.5, 215.0, 'B')],          # silk room beside the links' boxes
            hole_value='M3 standoff 11.5 mm', attach=True))

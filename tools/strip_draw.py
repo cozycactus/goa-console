@@ -453,6 +453,8 @@ def power_rails(d):
         d.w((r, 2), (19, y)); d.port(out, (19, y), 'R')
         d.at(cb, 8, y + 1.5, rot=180 if neg else 0, text='L')
         if cs: d.at(cs, 11, y + 1.5, rot=180 if neg else 0)
+        if k == 0: d.v('D16', 14.5, y + 1.5, top=out, text='R')               # CS10: reverse Schottky, K on +VA
+        if k == 1: d.at('D17', 14.5, y + 1.5, rot=270, mirror='x', text='R')  # CS10: A on -VA (D16's text layout)
         d.at(flag, 16, y)
     d.at('#FLG05', 24, 2); d.at('#FLG06', 24, 10)
     d.at('NT1', 30, 2); d.at('CN4', 38, 10); d.at('R5', 30, 17)

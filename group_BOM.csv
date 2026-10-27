@@ -19,6 +19,7 @@
 "1","Aux AFL red","LED_THT:LED_D3.0mm","Kingbright WP710A10ID","","D2"
 "1","Return PFL red","LED_THT:LED_D3.0mm","Kingbright WP710A10ID","","D3"
 "1","Return 2 PFL red","LED_THT:LED_D3.0mm","Kingbright WP710A10ID","","D4"
+"2","PMEG4010CEH","Diode_SMD:D_SOD-123F","Nexperia PMEG4010CEH,115","","D5 D6"
 "2","Ferrite 220R@100MHz","Inductor_SMD:L_0805_2012Metric","Murata BLM21PG221SN1D","","FB1 FB2"
 "2","10R","Resistor_SMD:R_0805_2012Metric","Panasonic ERJ-P06J100V","","R1 R2"
 "2","10R","Resistor_SMD:R_0805_2012Metric","","","R3 R4"

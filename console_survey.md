@@ -247,7 +247,7 @@ design weaker than common practice; the findings below either confirm it or add 
     resistance limits the gain to perhaps 10-20 dB.
   - *First:* measure a PTB0143's residual at the bottom stop (`sample_order.md` check 9). Propose values only if it is
     worse than about −80 dB. Then sim U2A's stability with the added ground-leg resistor.
-- [ ] **CS10 Reverse-biased diodes on each rail of every strip / group board** (GL2: 1N4002 per rail per board). Worked up in `cs10_proposal.md` (patch, simulation, trial checks).
+- [x] **CS10 Reverse-biased diodes on each rail of every strip / group board** (GL2: 1N4002 per rail per board). Signed off and applied 2026-10-27 (strip v5.1, `cs10_proposal.md`).
   - *Why:* if a wing loses one rail (a PTC trips, a ribbon conductor opens), the op-amps can drag that rail past
     ground. A strip's C3 is a polar 220 µF on −VA and C1 one on +VA.
   - *Today:* the master has SS54 clamps at its supply entry, but nothing on the strips or groups.

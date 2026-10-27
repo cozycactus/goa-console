@@ -8,8 +8,8 @@ def block(title): return schgen.block(title, draw=strip_draw.for_title(title))  
 SYM.update({'CONN6': ('Connector_Generic', 'Conn_01x06'), 'CONN2': ('Connector_Generic', 'Conn_01x02'),
             'LINK': ('Connector_Generic', 'Conn_02x05_Odd_Even'),
             'DG': ('Analog_Switch', 'DG413xY'), 'ZEN': ('Diode', 'BZX84Cxx'), 'SCH': ('Diode', 'BAT54W'),
-            'LED2': ('Device', 'LED_Dual_AKA'), 'PNP': ('Transistor_BJT', 'MMBT3906'), 'DD': ('Diode', 'BAV99')})
-schgen.MPN.update({'LED2': 'Kingbright WP3VEGW', 'PNP': 'onsemi MMBT3906LT1G', 'DD': 'Nexperia BAV99,215',
+            'LED2': ('Device', 'LED_Dual_AKA'), 'PNP': ('Transistor_BJT', 'MMBT3906'), 'DD': ('Diode', 'BAV99'), 'DSK': ('Device', 'D_Schottky')})
+schgen.MPN.update({'LED2': 'Kingbright WP3VEGW', 'PNP': 'onsemi MMBT3906LT1G', 'DD': 'Nexperia BAV99,215', 'DSK': 'Nexperia PMEG4010CEH,115',
                    'DG': 'Vishay DG413DY-E3', 'ZEN': 'Nexperia BZX84-C5V1,215', 'SCH': 'Nexperia BAT54W,115',
                    'OPA': 'TI OPA1612AIDR', 'CMP': 'TI LM393BIDR', 'JFET': 'onsemi MMBFJ112', 'D': 'Vishay 1N4148-TAP'})
 # strip_parts_review.md T9/T10: ceramics >= 25 V (50 V X7R here), anti-surge resistors where the power is marginal
@@ -29,7 +29,7 @@ CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '10n': 'Samsung CL21B103
 RX_MPN = 'Panasonic ERA-6AEB103V'          # 10K 0.1 % 0805, as the master's receivers
 FILM_2U2 = 'Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2'
 LED_MPN = {'red': 'Kingbright WP710A10ID', 'green': 'Kingbright WP710A10GD', 'yellow': 'Kingbright WP710A10YD'}
-FP.update({'LED2': 'goa-console:LED_D3.0mm-3_P2.00mm', 'PNP': 'Package_TO_SOT_SMD:SOT-23', 'DD': 'Package_TO_SOT_SMD:SOT-23',
+FP.update({'LED2': 'goa-console:LED_D3.0mm-3_P2.00mm', 'PNP': 'Package_TO_SOT_SMD:SOT-23', 'DD': 'Package_TO_SOT_SMD:SOT-23', 'DSK': 'Diode_SMD:D_SOD-123F',
            'CONN6': 'Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical',
            'CONN2': 'Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical',
            'LINK': 'Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical'})
@@ -55,6 +55,11 @@ P(b,'R1','R','10R',{1:'+VBUS',2:'+VA'},mpn='Panasonic ERJ-P06J100V'); P(b,'C1','
 P(b,'C2','C','100n',{1:'+VA',2:'GNDA'})
 P(b,'R2','R','10R',{1:'-VBUS',2:'-VA'},mpn='Panasonic ERJ-P06J100V'); P(b,'C3','CP','220u 25V',{1:'GNDA',2:'-VA'})
 P(b,'C4','C','100n',{1:'GNDA',2:'-VA'})
+# CS10 (console_survey.md §7): a reverse Schottky across each audio rail. If one supply rail is lost (a wing PTC trips,
+# a ribbon conductor opens), the op-amps' ~87 mA keeps flowing into the dead rail and drives it past ground: C1 / C3
+# would sit reversed by up to ~13 V and the ICs' pin-protection diodes carry the current (sim/review/cs10/rail_loss.py).
+# PMEG4010CEH (40 V, 1 A; 0.34 V at 100 mA) holds the dead rail within 0.36 V of ground
+P(b,'D16','DSK','PMEG4010CEH',{1:'+VA',2:'GNDA'}); P(b,'D17','DSK','PMEG4010CEH',{1:'GNDA',2:'-VA'})
 P(b,'R3','R','10R',{1:'+VBUS',2:'+VL'}); P(b,'C5','CP','47u 25V',{1:'+VL',2:'GNDD'},fp='Capacitor_THT:CP_Radial_D6.3mm_P2.50mm')
 P(b,'R4','R','10R',{1:'-VBUS',2:'-VL'}); P(b,'C6','CP','47u 25V',{1:'GNDD',2:'-VL'},fp='Capacitor_THT:CP_Radial_D6.3mm_P2.50mm')
 P(b,'NT1','NT','AGND-LGND star',{1:'GNDA',2:'GNDD'})
@@ -351,12 +356,12 @@ for _, ps in schgen.blocks:                     # ceramic MPNs by value (X7R 50 
     for pt in ps:
         if pt['key'] in ('C', 'CP') and not pt['mpn']: pt['mpn'] = CAP_MPN.get(pt['value'], '')
 build(OUT, 'channel_strip', 'Channel strip - goa console',
-      {1: 'Generated from channel_strip_schematic_spec.md v5.0', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
+      {1: 'Generated from channel_strip_schematic_spec.md v5.1', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
        3: 'A Delta Theatre input without the mic stage'},
-      paper='auto', revision='5.0', pages=dict(paper='A4', folder='strip_sheets'), **strip_draw.SHEET)   # A4 sub-sheets
+      paper='auto', revision='5.1', pages=dict(paper='A4', folder='strip_sheets'), **strip_draw.SHEET)   # A4 sub-sheets
 if os.environ.get('PILOT'):                     # only the drawn blocks, on a sheet of their own (layout review)
     build(os.environ['PILOT'], 'pilot', 'Channel strip - drawn blocks (pilot)', {1: 'tools/strip_draw.py', 2: ''},
-          paper='auto', revision='5.0', only=lambda t: strip_draw.for_title(t) is not None, **strip_draw.SHEET)
+          paper='auto', revision='5.1', only=lambda t: strip_draw.for_title(t) is not None, **strip_draw.SHEET)
 
 # ---------------------------------------------------------------- jack board (its own PCB; same net names)
 schgen.blocks.clear()

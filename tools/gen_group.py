@@ -12,7 +12,7 @@ SYM.update({'SJO': ('Jumper', 'SolderJumper_2_Open')})
 FP.update({'SJO': 'Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm'})
 
 reset(); collect_jacks()                     # panel jacks go on the group's jack board
-b = block('POWER AND GROUNDS  (as a strip: 10R + 220u per audio rail, 10R + 47u logic rails, spade, 10R ground cancel)')
+b = bpw = block('POWER AND GROUNDS  (as a strip: 10R + 220u per audio rail, 10R + 47u logic rails, spade, 10R ground cancel)')
 for rail, cv, g in (('VA', '220u 25V', 'GNDA'), ('VL', '47u 25V', 'GNDD')):
     k = dict(mpn='Panasonic ERJ-P06J100V') if rail == 'VA' else {}     # anti-surge, as strip R1/R2 (MG17)
     r1 = R(b, '10R', '+VBUS', '+' + rail, **k); c1 = CP(b, cv, '+' + rail, g)
@@ -112,6 +112,16 @@ link_header(b, NL, LINK, f'Jack board link 2x{NL}')
 NL2, LINK2 = link_pins(JACKS[5:], skip=('CHASSIS',))
 b = block(f'JACK BOARD LINK 2  2x{NL2} IDC ribbon to the group jack board (return 2); bottom side, beside the first')
 link_header(b, NL2, LINK2, f'Jack board link 2 2x{NL2}')
+
+# CS10 (console_survey.md §7): a reverse Schottky across each audio rail, as the strip's D16 / D17: a lost supply rail
+# (a wing PTC trips) would otherwise be driven past ground by the op-amps' quiescent current (sim/review/cs10/rail_loss.py).
+# Created last so every other ref stays; drawn in the power block
+dsp, dsn = ref('D'), ref('D')
+P(bpw, dsp, 'DSK', 'PMEG4010CEH', {1: '+VA', 2: 'GNDA'}); P(bpw, dsn, 'DSK', 'PMEG4010CEH', {1: 'GNDA', 2: '-VA'})
+def _rail_diodes(d):                            # as the strip's D16 / D17 (strip_draw.power_rails): K on +VA, A on -VA
+    d.port('+VA', (0, 0)); d.w((0, 0), (4, 0)); d.v(dsp, 4, 1.5, top='+VA', text='R')
+    d.port('-VA', (14, 0)); d.w((14, 0), (18, 0)); d.at(dsn, 18, 1.5, rot=270, mirror='x', text='R')
+frag(bpw, 28, 6, _rail_diodes)
 
 project_file(OUT); parts_sidecar(OUT)
 build(OUT, 'group', 'Group module - goa console (sub + return + aux master)',

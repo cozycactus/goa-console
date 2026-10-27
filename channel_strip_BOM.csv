@@ -34,6 +34,7 @@
 "1","3-4 yellow","LED_THT:LED_D3.0mm","Kingbright WP710A10YD","","D8"
 "1","BZX84C5V1","Package_TO_SOT_SMD:SOT-23","Nexperia BZX84-C5V1,215","","D9"
 "2","BAT54W","Package_TO_SOT_SMD:SOT-323_SC-70","Nexperia BAT54W,115","","D10 D11"
+"2","PMEG4010CEH","Diode_SMD:D_SOD-123F","Nexperia PMEG4010CEH,115","","D16 D17"
 "1","VCA module socket","Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical","","DNP","J3"
 "1","VCA control in","Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical","","DNP","J4"
 "2","MMBFJ112","Package_TO_SOT_SMD:SOT-23","onsemi MMBFJ112","","Q1 Q2"
