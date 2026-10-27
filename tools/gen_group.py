@@ -14,7 +14,8 @@ FP.update({'SJO': 'Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm'})
 reset(); collect_jacks()                     # panel jacks go on the group's jack board
 b = bpw = block('POWER AND GROUNDS  (as a strip: 10R + 220u per audio rail, 10R + 47u logic rails, spade, 10R ground cancel)')
 for rail, cv, g in (('VA', '220u 25V', 'GNDA'), ('VL', '47u 25V', 'GNDD')):
-    k = dict(mpn='Panasonic ERJ-P06J100V') if rail == 'VA' else {}     # anti-surge, as strip R1/R2 (MG17)
+    # CS6 (cs6_proposal.md): fusible, as strip R1-R4 (was an anti-surge 0805 on VA, MG17): a short behind one opens it
+    k = dict(fp='Resistor_SMD:R_1206_3216Metric', mpn='Vishay M251206BB1009JP500')
     r1 = R(b, '10R', '+VBUS', '+' + rail, **k); c1 = CP(b, cv, '+' + rail, g)
     r2 = R(b, '10R', '-VBUS', '-' + rail, **k); c2 = CP(b, cv, g, '-' + rail)
     chain(b, '+VBUS', [('s', r1), ('g', c1)], '+' + rail); chain(b, '-VBUS', [('s', r2), ('g', c2)], '-' + rail)

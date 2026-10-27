@@ -28,7 +28,8 @@ ribbon. Four identical 8 HP **group modules** (`group.kicad_sch`, `tools/gen_gro
 subgroup (§12), one aux master (aux 1–4, §13) and two stereo returns (§16; the second since v0.12). Solder jumpers pick which
 SUB and AUX bus a group sums, and each group buffers GCANCEL locally for its re-inverters. Groups have
 strip-style power and grounds (10 Ω + 220 µF, spade, 10 Ω to GCANCEL; since 2026-10-27 a PMEG4010CEH reverse clamp
-across each audio rail, D5 / D6, as the strip's D16 / D17, `cs10_proposal.md`). The 16 HP **master module**
+across each audio rail, D5 / D6, as the strip's D16 / D17, `cs10_proposal.md`; R1-R4 fusible Vishay M25SI 1206 as the
+strip's, `cs6_proposal.md`: power the console down before plugging a module). The 16 HP **master module**
 (`master.kicad_sch`, `tools/gen_master.py`) carries everything else: power entry and both wing
 headers, MIX L/R, master fader, mono, main outputs, power-on mute, aux masters 5–6, monitoring, PFL and
 meters.

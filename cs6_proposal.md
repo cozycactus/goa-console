@@ -1,7 +1,8 @@
 # CS6: fusible supply resistors on every ribbon module (proposal, 2026-10-27)
 
-**Not signed off.** The change is `cs6_proposal.patch`. It touches tools only: `gen.py`, `gen_group.py` and
-`place_strip.py`. It was applied to a trial tree, checked (§5) and reverted, so nothing in the design has changed.
+**Signed off by Ruslan on 2026-10-27 (as proposed: M25SI for R1-R4 on every strip and group, with the power-down rule)
+and applied the same day as strip v5.3; see "Applied" at the end.** The change is `cs6_proposal.patch`. It touches tools
+only: `gen.py`, `gen_group.py` and `place_strip.py`.
 
 **Calculation:** `sim/review/cs6/fusible.py` (duty, faults, surges in ngspice). Its output is in `fusible.out`.
 
@@ -120,7 +121,18 @@ fusibles.**
 
 ## Sign-off
 
-- [ ] **CS6** as proposed: Vishay M25SI 10R 1206 for R1-R4 on every strip and group, with the "power down before
-  plugging a module" rule.
+- [x] **CS6** as proposed: Vishay M25SI 10R 1206 for R1-R4 on every strip and group, with the "power down before
+  plugging a module" rule. Ruslan, 2026-10-27.
 - [ ] Only R1 / R2 (the audio rails): the ±VL pair stay plain 0805s.
 - [ ] Neither.
+
+## Applied (2026-10-27, strip v5.3)
+
+- **Applied:** the patch, plus revision 5.3 in `gen.py`.
+- **Regenerated and re-exported:** strip and group netlists (921 / 789 pins, 0 mismatches), BOMs, PDFs and
+  `order_bom.csv` (M251206BB1009JP500: 112 + 12 spares; the 0805 10Rs drop to the ground-cancel ones).
+- **Re-placed:** against the committed boards only R1-R4 moved, on both. Netrules re-run.
+- **Project files:** the `.kicad_pro` and jack-board files keep their committed form.
+- **Documents:** strip spec v5.3 (changes, §2.1, §17), master spec (groups), `offboard_bom.md` (the plugging rule),
+  CLAUDE.md, `console_survey.md`.
+

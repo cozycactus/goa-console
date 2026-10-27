@@ -220,8 +220,8 @@ strongly the library supports them.
     - the master holds pin 29 at 0 V and reads the current, so the line no longer swings 0.5 → 0.92 V beside the PFL
       bus;
     - re-run `sim/pfldet.py` (clamp, debounce, back-feed into the LEDs). Master only.
-- [ ] **CS6 Per-strip fusible supply feed.** Worked up 2026-10-27 in `cs6_proposal.md` (Vishay M25SI 10R 1206 for R1-R4 on
-  every strip and group), not signed off.
+- [x] **CS6 Per-strip fusible supply feed.** Signed off and applied 2026-10-27 as strip v5.3 (`cs6_proposal.md`): Vishay
+  M25SI 10R 1206 for R1-R4 on every strip and group; power the console down before plugging a module.
   - *Library:* Series Five (fusible 10R per sub-rail), Series Two (4R7 fusible), SSL (2 A fuses per module), PM-5000
     (IC protector per channel).
   - *Ours:* a shorted strip trips its wing's PTC, which silences 12 strips; anti-surge resistors are built not to open.

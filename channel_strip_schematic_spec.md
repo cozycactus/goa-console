@@ -1,4 +1,4 @@
-# Channel Strip — Component-Level Specification v5.2
+# Channel Strip — Component-Level Specification v5.3
 ## Soundcraft Delta Theatre input without the mic stage. One PCB per channel, ×24.
 
 Bus pinout, grounding and power: `console_architecture.md`. Stage-by-stage comparison with the
@@ -7,6 +7,28 @@ Reference designators are those of `tools/gen.py`; Delta drawing numbers are giv
 circuit comes from a Delta sheet (ED3344A/B/C = Theatre input RH board, ED3151 = LH board).
 
 ---
+
+## Changes in v5.3 (2026-10-27, signed off; `cs6_proposal.md` CS6, from `console_survey.md` §5)
+
+**R1-R4 are fusible:** Vishay Draloric M25SI, 10 Ω 5 % 1206, 0.25 W (M251206BB1009JP500). They were 0805s, the
+anti-surge ERJ-P06J100V on the audio rails. Nets and values are unchanged: 921 pin entries, 317 parts. The group's R1-R4
+change the same way.
+- **Why:** a short behind one of them draws ~1.66 A, 27.5 W in the resistor. The wing carries 3.1-3.7 A on +V
+  (2.7-3.0 A on −V), under its PTC's trip current, so nothing was certain to open; the 0805 did whatever an overloaded
+  0805 does.
+- **Now:** the M25SI fuses at ≥ 3 W; a hard short opens it in < 0.07 s and only this strip goes quiet
+  (`sim/review/cs6/fusible.py`).
+- **Normal duty:**
+  - R1 / R2: 30-50 % of the 0.25 W rating, film ≤ 67 °C in the 40 °C tub;
+  - R3 / R4: ≤ 2 %.
+- **After fusing:** ≤ 17.3 V across the open part (M25SI at 10 Ω: ~22 V).
+- **Rule: power the console down before plugging or unplugging a module.** A module plugged into a live wing charges
+  C1 through R1 at 1.59 A peak, 30 mJ, 1.6 ms above 6.5 W, where the fastest M25SIs fuse in ~1 ms. Power-up through the
+  PSU's soft start (0.04 A) and plugging in the PSU lead (0.76 A, never over 3 W) are safe.
+- **Placement:** R1-R4 leave the packer and are placed by `moves_only`; nothing else moved.
+  - **Top:** R1 / R2 at their old spots.
+  - **Bottom:** R3 / R4, by the header's power pins.
+  - **Around them:** C2 / C4 are fixed where they were, and the old 0805 spots are a packing keepout (User.Comments).
 
 ## Changes in v5.2 (2026-10-27, signed off; `cs4_proposal.md` CS4, from `console_survey.md` §5)
 
@@ -280,7 +302,7 @@ unlatched = 2–3 (5–6). The latched throw still needs confirming on a real PV
 
 ### 2.1 Audio rails (bus pins 30–34)
 ```
-+V (pins 32–34) ── R1 10 Ω ── +VA ── C1 220 µF/25 V ── C2 100 nF ── AGND
++V (pins 32–34) ── R1 10 Ω ── +VA ── C1 220 µF/25 V ── C2 100 nF ── AGND      (R1–R4 fusible M25SI 1206, v5.3, CS6)
 −V (pins 30, 31) ── R2 10 Ω ── −VA ── C3 220 µF/25 V ── C4 100 nF ── AGND
 +VA ── D16 PMEG4010CEH (K) ── (A) AGND          AGND ── D17 PMEG4010CEH (K) ── (A) −VA        (v5.1, CS10)
 ```
@@ -836,7 +858,12 @@ each standoff's panel end and wherever a panel meets the frame rails. CN3/CN5: W
 
 ---
 
-## 17. Status (v5.2, 2026-10-27)
+## 17. Status (v5.3, 2026-10-27)
+
+v5.3 (CS6):
+- **Netlist:** 921 pin entries / 0 mismatches, check_fp 317 / 0, ERC 0; R1-R4 1206 M25SI.
+- **Calculation:** `sim/review/cs6/fusible.py` (duty, faults, surges).
+- **Placement:** 0 DRC violations, 0 parity issues, 317 / 317 linked; R1-R4 moved, nothing else.
 
 v5.2 (CS4):
 - **Netlist:** 921 pin entries / 0 mismatches, check_fp 317 / 0, ERC 0.

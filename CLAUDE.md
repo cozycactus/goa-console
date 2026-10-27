@@ -13,11 +13,11 @@ Line level only. One identical main PCB per channel (plus a small jack board), j
 ribbon "motherloom".
 Channel = a Soundcraft Delta Theatre input without the mic stage (decided 2026-10-22): line gain,
 Ø, HPF, 4-band EQ, post-EQ insert, ON, PFL, aux 1-6 with PRE switches, pan + PAN switch, routing,
-direct out. Strip spec v5.2 (v4.0 + the stability / ratings fixes of 2026-10-23, film couplers and MUSE ES bipolars and the sweepable HPF 2026-10-24, buffered receiver, chassis sleeves, K1 / K3 and the design review 2026-10-25, the signal / OL bicolour LED and PAN1 2026-10-26, P1 / P2 / E6, the five-point OL detector CS1, the rail clamps CS10 and the jack-link clamps CS4 2026-10-27), schematics and placement (main board +
+direct out. Strip spec v5.3 (v4.0 + the stability / ratings fixes of 2026-10-23, film couplers and MUSE ES bipolars and the sweepable HPF 2026-10-24, buffered receiver, chassis sleeves, K1 / K3 and the design review 2026-10-25, the signal / OL bicolour LED and PAN1 2026-10-26, P1 / P2 / E6, the five-point OL detector CS1, the rail clamps CS10, the jack-link clamps CS4 and the fusible supply resistors CS6 2026-10-27), schematics and placement (main board +
 jack board) done.
 
 ## Files
-- `channel_strip.kicad_sch` / `.kicad_pro` — channel strip schematic v5.2 (KiCad 7 file format, opens in KiCad 10).
+- `channel_strip.kicad_sch` / `.kicad_pro` — channel strip schematic v5.3 (KiCad 7 file format, opens in KiCad 10).
   HIERARCHICAL on A4 since 2026-10-25, like the master: a root sheet plus 17 pages in `strip_sheets/` (the group: 7
   pages in `group_sheets/`); strip_draw blocks too big for a page are lists of pieces (KHN per band, routing per
   assign key, power in rows), packed apart on pages and drawn in turn on a flat sheet (PILOT).
@@ -87,7 +87,7 @@ jack board) done.
   Exports: jack_board.net/.pdf/_BOM.csv. Same verify/check_fp/ERC loop with `jack_board` in place of `channel_strip`.
 - `channel_strip.kicad_pcb` — strip main board (the strip project's own board since 2026-10-26; was
   `channel_strip_v4.kicad_pcb`), 4-layer since 2026-10-27, 38 × 400 mm (y 44–444) at 11.5 mm under an 8 HP × 12U
-  panel (two pot columns), 317 parts + 6 M3 holes (v5.2); `jack_board.kicad_pcb` — 38 × 43 mm (y 0–43) at 24.0 mm
+  panel (two pot columns), 317 parts + 6 M3 holes (v5.3); `jack_board.kicad_pcb` — 38 × 43 mm (y 0–43) at 24.0 mm
   under the panel. Same y frame, so they overlay. Component placement only: no tracks, vias or copper zones.
   Rebuild both with `tools/build_strip_pcb.sh [main.kicad_pcb [jack.kicad_pcb]]` or, per board,
   `/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3 tools/place_strip.py channel_strip.net channel_strip.kicad_pcb`
@@ -202,13 +202,13 @@ jack board) done.
   series (Phonic OEM), Spirit E8, Mackie 1604 / 1402-VLZ and 8•Bus; nothing weaker in ours. New proposals CS9 (fader
   shut-off compensation as A&H, only if the PTB0143 sample's residual is worse than -80 dB), CS10 (reverse diodes per
   rail on every strip / group board), CS11 (jig tests: output balance, measured CMR, fader breakthrough, GCANCEL current).
-- `cs6_proposal.md` (+ `cs6_proposal.patch`, tools only) — CS6 worked up, not signed off (2026-10-27): R1-R4 (10R to
+- `cs6_proposal.md` (+ `cs6_proposal.patch`, tools only) — CS6, signed off by Ruslan and applied 2026-10-27 (strip v5.3): R1-R4 (10R to
   +VA / -VA / +VL / -VL) on every strip and group as Vishay M25SI fusibles (M251206BB1009JP500, 1206 0.25 W, fuses >= 3 W;
   DigiKey stock; TT FCR0805 / 1206 too small at 0.1 / 0.125 W, FCR1210 not stocked). `sim/review/cs6/fusible.py`: a
   short behind one draws 1.66 A, 27.5 W, opens it in < 0.07 s while the wing PTC stays under its trip current; duty
   32-73 % of rating (film <= 79 C in the 40 C tub); a module plugged into a live wing (1.59 A, 30 mJ, 1.6 ms over 6.5 W)
   may open them: power down first. Strip R1-R4 leave the packer (moves_only, C2 / C4 fixed, old spots kept out), nothing
-  else moved. Trial tree 61 / 61.
+  else moved.
 - `sim/review/cs5/pfl_xtalk.py` (2026-10-27, CS5 check, no change): one wing's conductors 25-31 with the PFL summer and
   PFL DET; everything into the PFL sum sits at or below its ~-93..-97 dBu floor. AUX2 -105 dB at 20 kHz; -V ripple
   -122 dBu; a key press -94 dBu peak, at the DG413's own click; key decouplers (CS5a) can't help (+VL is already
@@ -389,7 +389,7 @@ jack board) done.
 - `delta_clone_comparison.md` — the strip as a Delta Theatre input without the mic stage, stage by
   stage against the old strip; 7 decisions signed off 2026-10-22 (§3), now in spec v4.0 and the schematic.
 - `console_architecture.md` — whole-console architecture, v3.0. Authoritative.
-- `channel_strip_schematic_spec.md` — strip component-level spec, v5.2. Authoritative.
+- `channel_strip_schematic_spec.md` — strip component-level spec, v5.3. Authoritative.
 - `channel_strip_BOM.csv`, `channel_strip.net`, `channel_strip.pdf` — exports.
 
 ## Decisions made (do not silently change)
@@ -594,6 +594,11 @@ jack board) done.
   jack-link signal at the header, as the strip's (group D7-D20 at CN3 / CN4, 14 per board; master D79-D102 at CN5, 24),
   made last by `master_lib.link_clamps()` so no ref moved. Phantom on a DRV135 output now leaves its 10 uF 25 V coupler
   and Sense pin at 17.7 V (47.7 before); the no-phantom note stays. Group 781 pins / 279 parts, master 1758 / 603.
+- Strip v5.3 / group (signed off by Ruslan 2026-10-27, `cs6_proposal.md` CS6): R1-R4 (10R to +VA / -VA / +VL / -VL) on
+  every strip and group are Vishay M25SI fusibles (M251206BB1009JP500, 1206, 0.25 W): a short behind one opens it in
+  < 0.07 s and only that module goes quiet (the wing PTC never reached its trip current). **Power the console down
+  before plugging or unplugging a module** (a live plug can open them; `offboard_bom.md`). Strip R1-R4 placed by
+  moves_only (C2 / C4 fixed, old spots kept out); the group's packed as before.
 - Strip v5.2 (signed off by Ruslan 2026-10-27, `cs4_proposal.md` CS4): a BAV199 at CN3 on each jack-link signal (D18
   IN_T, D19 IN_R, D20 RET_RAW, D21 SEND, D22 DO_T; pin 3 the signal, pin 2 +VA, pin 1 -VA), ahead of every series
   part: ESD into the op-amps 50-100x lower, phantom on SEND / DO_T clamped (C51 / C52 17.7 V, not 41.9; the no-phantom
@@ -767,7 +772,7 @@ jack board) done.
   PSU board's 8 silk-edge items are the TO-220s at its edge (since 8b38deb). Strip report unchanged; group 3.0 / 6.2 / 2,
   8.5 / 20.2 / 31. Group and master panels pixel-identical but for the group's new rows; strip panel one numeral (HF "9"
   in place of HPF "50") since `panel_layout.layout()` takes parts in reference order.
-- Whole project (2026-10-27, strip v5.2, `tools/check_all.py --full`): 61 / 61 checks pass on the committed tree: every board's
+- Whole project (2026-10-27, strip v5.3, `tools/check_all.py --full`): 61 / 61 checks pass on the committed tree: every board's
   netlist vs intended (strip 921 pins, group 789, master 1786, jack boards 32 / 60 / 89, jig 364 / 153, PSU 119), pins vs
   footprints, ERC 0, parity DRC (only the known footprint items), 1498 / 1498 footprint links, route_check 0 ERR;
   sim_netlist 39/39, sim_console 35/35, every DRC rule fires (15), route_check_test 8 / 8, panel checks 0, ol.py red

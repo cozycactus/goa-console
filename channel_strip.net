@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/channel_strip.kicad_sch")
-		(date "2026-10-27T18:06:09")
+		(date "2026-10-27T20:24:03")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -11,12 +11,12 @@
 			(title_block
 				(title "Channel strip - goa console")
 				(company)
-				(rev "5.2")
+				(rev "5.3")
 				(date "2026-10-19")
 				(source "channel_strip.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.2")
+					(value "Generated from channel_strip_schematic_spec.md v5.3")
 				)
 				(comment
 					(number "2")
@@ -59,12 +59,12 @@
 			(title_block
 				(title "JACK LINK CLAMPS, LINE INPUT")
 				(company "Channel strip - goa console")
-				(rev "5.2")
+				(rev "5.3")
 				(date "2026-10-19")
 				(source "02_jack_link_clamps.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.2")
+					(value "Generated from channel_strip_schematic_spec.md v5.3")
 				)
 				(comment
 					(number "2")
@@ -107,12 +107,12 @@
 			(title_block
 				(title "GAIN")
 				(company "Channel strip - goa console")
-				(rev "5.2")
+				(rev "5.3")
 				(date "2026-10-19")
 				(source "03_gain.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.2")
+					(value "Generated from channel_strip_schematic_spec.md v5.3")
 				)
 				(comment
 					(number "2")
@@ -155,12 +155,12 @@
 			(title_block
 				(title "HPF, INSERT POSITION JUMPERS")
 				(company "Channel strip - goa console")
-				(rev "5.2")
+				(rev "5.3")
 				(date "2026-10-19")
 				(source "04_hpf.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.2")
+					(value "Generated from channel_strip_schematic_spec.md v5.3")
 				)
 				(comment
 					(number "2")
@@ -203,12 +203,12 @@
 			(title_block
 				(title "EQ")
 				(company "Channel strip - goa console")
-				(rev "5.2")
+				(rev "5.3")
 				(date "2026-10-19")
 				(source "05_eq.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.2")
+					(value "Generated from channel_strip_schematic_spec.md v5.3")
 				)
 				(comment
 					(number "2")
@@ -251,12 +251,12 @@
 			(title_block
 				(title "EQ MID TUNING")
 				(company "Channel strip - goa console")
-				(rev "5.2")
+				(rev "5.3")
 				(date "2026-10-19")
 				(source "06_eq_mid_tuning.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.2")
+					(value "Generated from channel_strip_schematic_spec.md v5.3")
 				)
 				(comment
 					(number "2")
@@ -299,12 +299,12 @@
 			(title_block
 				(title "EQ MID TUNING, EQ IN")
 				(company "Channel strip - goa console")
-				(rev "5.2")
+				(rev "5.3")
 				(date "2026-10-19")
 				(source "07_eq_mid_tuning.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.2")
+					(value "Generated from channel_strip_schematic_spec.md v5.3")
 				)
 				(comment
 					(number "2")
@@ -347,12 +347,12 @@
 			(title_block
 				(title "INSERT")
 				(company "Channel strip - goa console")
-				(rev "5.2")
+				(rev "5.3")
 				(date "2026-10-19")
 				(source "08_insert.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.2")
+					(value "Generated from channel_strip_schematic_spec.md v5.3")
 				)
 				(comment
 					(number "2")
@@ -395,12 +395,12 @@
 			(title_block
 				(title "OVERLOAD DETECTOR")
 				(company "Channel strip - goa console")
-				(rev "5.2")
+				(rev "5.3")
 				(date "2026-10-19")
 				(source "09_overload_detector.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.2")
+					(value "Generated from channel_strip_schematic_spec.md v5.3")
 				)
 				(comment
 					(number "2")
@@ -443,12 +443,12 @@
 			(title_block
 				(title "OVERLOAD DETECTOR, PFL")
 				(company "Channel strip - goa console")
-				(rev "5.2")
+				(rev "5.3")
 				(date "2026-10-19")
 				(source "10_overload_detector.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.2")
+					(value "Generated from channel_strip_schematic_spec.md v5.3")
 				)
 				(comment
 					(number "2")
@@ -491,12 +491,12 @@
 			(title_block
 				(title "ON-SOFT MUTE")
 				(company "Channel strip - goa console")
-				(rev "5.2")
+				(rev "5.3")
 				(date "2026-10-19")
 				(source "11_on_soft_mute.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.2")
+					(value "Generated from channel_strip_schematic_spec.md v5.3")
 				)
 				(comment
 					(number "2")
@@ -539,12 +539,12 @@
 			(title_block
 				(title "FADER + POST-AMP")
 				(company "Channel strip - goa console")
-				(rev "5.2")
+				(rev "5.3")
 				(date "2026-10-19")
 				(source "12_fader_post_amp.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.2")
+					(value "Generated from channel_strip_schematic_spec.md v5.3")
 				)
 				(comment
 					(number "2")
@@ -587,12 +587,12 @@
 			(title_block
 				(title "AUX SENDS, DIRECT OUT")
 				(company "Channel strip - goa console")
-				(rev "5.2")
+				(rev "5.3")
 				(date "2026-10-19")
 				(source "13_aux_sends.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.2")
+					(value "Generated from channel_strip_schematic_spec.md v5.3")
 				)
 				(comment
 					(number "2")
@@ -635,12 +635,12 @@
 			(title_block
 				(title "PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX")
 				(company "Channel strip - goa console")
-				(rev "5.2")
+				(rev "5.3")
 				(date "2026-10-19")
 				(source "14_pan_pan_buffers.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.2")
+					(value "Generated from channel_strip_schematic_spec.md v5.3")
 				)
 				(comment
 					(number "2")
@@ -683,12 +683,12 @@
 			(title_block
 				(title "ROUTING MATRIX")
 				(company "Channel strip - goa console")
-				(rev "5.2")
+				(rev "5.3")
 				(date "2026-10-19")
 				(source "15_routing_matrix.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.2")
+					(value "Generated from channel_strip_schematic_spec.md v5.3")
 				)
 				(comment
 					(number "2")
@@ -731,12 +731,12 @@
 			(title_block
 				(title "ROUTING MATRIX")
 				(company "Channel strip - goa console")
-				(rev "5.2")
+				(rev "5.3")
 				(date "2026-10-19")
 				(source "16_routing_matrix.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.2")
+					(value "Generated from channel_strip_schematic_spec.md v5.3")
 				)
 				(comment
 					(number "2")
@@ -779,12 +779,12 @@
 			(title_block
 				(title "POWER ENTRY")
 				(company "Channel strip - goa console")
-				(rev "5.2")
+				(rev "5.3")
 				(date "2026-10-19")
 				(source "17_power_entry.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.2")
+					(value "Generated from channel_strip_schematic_spec.md v5.3")
 				)
 				(comment
 					(number "2")
@@ -827,12 +827,12 @@
 			(title_block
 				(title "POWER ENTRY, MOTHERLOOM")
 				(company "Channel strip - goa console")
-				(rev "5.2")
+				(rev "5.3")
 				(date "2026-10-19")
 				(source "18_power_entry.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.2")
+					(value "Generated from channel_strip_schematic_spec.md v5.3")
 				)
 				(comment
 					(number "2")
@@ -19082,12 +19082,12 @@
 		(comp
 			(ref "R1")
 			(value "10R")
-			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(footprint "Resistor_SMD:R_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "Panasonic ERJ-P06J100V")
+					(name "MPN") "Vishay M251206BB1009JP500")
 				(field
-					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+					(name "Footprint") "Resistor_SMD:R_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -19102,7 +19102,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ERJ-P06J100V")
+				(value "Vishay M251206BB1009JP500")
 			)
 			(property
 				(name "Sheetname")
@@ -19142,12 +19142,12 @@
 		(comp
 			(ref "R2")
 			(value "10R")
-			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(footprint "Resistor_SMD:R_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "Panasonic ERJ-P06J100V")
+					(name "MPN") "Vishay M251206BB1009JP500")
 				(field
-					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+					(name "Footprint") "Resistor_SMD:R_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -19162,7 +19162,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ERJ-P06J100V")
+				(value "Vishay M251206BB1009JP500")
 			)
 			(property
 				(name "Sheetname")
@@ -19202,10 +19202,12 @@
 		(comp
 			(ref "R3")
 			(value "10R")
-			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(footprint "Resistor_SMD:R_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+					(name "MPN") "Vishay M251206BB1009JP500")
+				(field
+					(name "Footprint") "Resistor_SMD:R_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -19217,6 +19219,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Vishay M251206BB1009JP500")
 			)
 			(property
 				(name "Sheetname")
@@ -19256,10 +19262,12 @@
 		(comp
 			(ref "R4")
 			(value "10R")
-			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(footprint "Resistor_SMD:R_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+					(name "MPN") "Vishay M251206BB1009JP500")
+				(field
+					(name "Footprint") "Resistor_SMD:R_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -19271,6 +19279,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Vishay M251206BB1009JP500")
 			)
 			(property
 				(name "Sheetname")

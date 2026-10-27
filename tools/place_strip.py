@@ -108,6 +108,14 @@ MOVES.update(CS10)
 CS4 = {'D18': (31.75, 138.25, 0, 'B'), 'D19': (25.0, 124.75, 0, 'B'), 'D20': (20.25, 138.5, 0, 'B'),
        'D21': (25.0, 120.5, 0, 'B'), 'D22': (13.0, 124.75, 0, 'B')}
 MOVES.update(CS4)
+# CS6 (cs6_proposal.md): R1-R4 are fusible 1206s (Vishay M25SI), too big for the E4 cluster, so they leave the packer:
+# placed by MOVES alone at probed spots by the header's power pins (R1 / R2 top, at their old spots; R3 / R4 bottom).
+# C2 / C4 stay fixed where they were, and the old 0805 spots are kept out of packing, so every other part packs as before
+CS6 = {'R1': (32.75, 297.0, 90, 'F'), 'R2': (28.75, 298.5, 0, 'F'), 'R3': (31.75, 297.75, 0, 'B'), 'R4': (25.0, 305.0, 0, 'B')}
+MOVES.update(CS6)
+FIX.update({'C2': (31.745, 302.025, 0, 'F'), 'C4': (19.745, 302.525, 0, 'F')})
+CS6_KEEP = [(31.0, 296.0, 34.45, 297.99, 'F'), (26.0, 297.5, 29.45, 299.49, 'F'), (30.0, 298.5, 33.45, 300.49, 'F'),
+            (26.0, 300.0, 29.45, 301.99, 'F')]
 # D1 leaves the OL detector zone, so the packer shifts five of its neighbours one slot along (R39 into R15's, R15 into
 # R104's, ...): they go back to their v4.9 spots, in this order (pre-turn angles: R15 and R107 are in TURNS)
 MOVES.update({'R39': (36.27, 101.3, 90, 'F'), 'R15': (35.995, 58.225, 90, 'F'), 'R104': (35.995, 62.225, 90, 'F'),
@@ -139,7 +147,7 @@ ZONES = [
  ('fader film coupler (bottom)', (1, 330, 37, 444), ['C13'], 'B'),
  ('PFL send DC block, film (bottom; K1)', (1, 260, 37, 340), ['C96'], 'B'),
  # Top side. E4: the 10R supply filters first, beside the header's power pins, so unfiltered bus power runs a few mm
- ('supply filters at the bus header (E4)', (18, 296, 37, 318), ['R1', 'R2', 'R3', 'R4', 'C2', 'C4'], 'F'),
+ # (the E4 supply-filter cluster, R1-R4 with C2 / C4, is placed by CS6 below: MOVES and FIX)
  # Top side, roughly in signal order
  # stability caps right after their op-amp's decouplers: the placer gives list order the closest spots
  # input followers (ground_study.md G3) at the top beside SW15: placed first, the receiver and the KHN keep their spots
@@ -209,5 +217,5 @@ if '(ref "CN5")' in open(NET).read():                           # jack board net
                   hole_value='M3 standoff = jack body height (~24 mm)')
 else:
     layout = dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, holes=HOLES, zones=ZONES, notes=NOTES, near=NEAR,
-                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, moves_only=tuple(NEW49) + tuple(CS1) + tuple(CS10) + tuple(CS4), turns=TURNS, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
+                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, moves_only=tuple(NEW49) + tuple(CS1) + tuple(CS10) + tuple(CS4) + tuple(CS6), keepout=CS6_KEEP, turns=TURNS, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
 place(NET, OUT, layout)

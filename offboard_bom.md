@@ -71,6 +71,7 @@ in the countersunk Ø3.4 / 90° to Ø6.5 holes on the DXFs' CSK_NO_STUDS layer a
 | TO-220 insulators | 4 + 4 | rule | Silicone pad and shoulder washer per tab (the tabs sit at +17 V and 0 V); M3 screws |
 | PSU case | 1 | code | Hammond 1402KV; Fischer SK 47 75 SA on the front; Schurter DD11 (+ 2 × T2.5 A 5 × 20 fuses), NC7FD-LX, M4 earth stud on the rear; 4 TO-220 silicone pads + shoulder washers; 2 mm aluminium shelf on 4 × M3 × 45 posts; 4 × M3 × 8 board standoffs; panel-clip LED. Drilling in `psu_case/` (`psu_case_proposal.md`). 0 V stays isolated from earth in the PSU. |
 | PSU PCB standoffs | 4 | rule | M3, to the case floor |
+| Module plugging | — | rule | Power the console down before plugging or unplugging a strip or group: their R1-R4 are fusible (CS6, `cs6_proposal.md`) and a module plugged into a live wing may open them |
 
 ## Decisions this list needs from you
 

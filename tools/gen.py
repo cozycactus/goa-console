@@ -51,17 +51,20 @@ JB_OUT = os.path.join(os.path.dirname(OUT), 'jack_board.kicad_sch')
 
 # ---------------------------------------------------------------- netlist
 b = block('POWER ENTRY, LOGIC SUPPLY, GROUNDS, DECOUPLING')
-P(b,'R1','R','10R',{1:'+VBUS',2:'+VA'},mpn='Panasonic ERJ-P06J100V'); P(b,'C1','CP','220u 25V',{1:'+VA',2:'GNDA'})
+# CS6 (cs6_proposal.md): the four supply resistors are fusible (Vishay M25SI, 1206 0.25 W): a short behind one of them
+# draws ~1.7 A (28 W) and opens it in well under 0.1 s, so only this strip goes quiet; the wing PTC would not trip
+FUSIBLE = dict(fp='Resistor_SMD:R_1206_3216Metric', mpn='Vishay M251206BB1009JP500')
+P(b,'R1','R','10R',{1:'+VBUS',2:'+VA'},**FUSIBLE); P(b,'C1','CP','220u 25V',{1:'+VA',2:'GNDA'})
 P(b,'C2','C','100n',{1:'+VA',2:'GNDA'})
-P(b,'R2','R','10R',{1:'-VBUS',2:'-VA'},mpn='Panasonic ERJ-P06J100V'); P(b,'C3','CP','220u 25V',{1:'GNDA',2:'-VA'})
+P(b,'R2','R','10R',{1:'-VBUS',2:'-VA'},**FUSIBLE); P(b,'C3','CP','220u 25V',{1:'GNDA',2:'-VA'})
 P(b,'C4','C','100n',{1:'GNDA',2:'-VA'})
 # CS10 (console_survey.md §7): a reverse Schottky across each audio rail. If one supply rail is lost (a wing PTC trips,
 # a ribbon conductor opens), the op-amps' ~87 mA keeps flowing into the dead rail and drives it past ground: C1 / C3
 # would sit reversed by up to ~13 V and the ICs' pin-protection diodes carry the current (sim/review/cs10/rail_loss.py).
 # PMEG4010CEH (40 V, 1 A; 0.34 V at 100 mA) holds the dead rail within 0.36 V of ground
 P(b,'D16','DSK','PMEG4010CEH',{1:'+VA',2:'GNDA'}); P(b,'D17','DSK','PMEG4010CEH',{1:'GNDA',2:'-VA'})
-P(b,'R3','R','10R',{1:'+VBUS',2:'+VL'}); P(b,'C5','CP','47u 25V',{1:'+VL',2:'GNDD'},fp='Capacitor_THT:CP_Radial_D6.3mm_P2.50mm')
-P(b,'R4','R','10R',{1:'-VBUS',2:'-VL'}); P(b,'C6','CP','47u 25V',{1:'GNDD',2:'-VL'},fp='Capacitor_THT:CP_Radial_D6.3mm_P2.50mm')
+P(b,'R3','R','10R',{1:'+VBUS',2:'+VL'},**FUSIBLE); P(b,'C5','CP','47u 25V',{1:'+VL',2:'GNDD'},fp='Capacitor_THT:CP_Radial_D6.3mm_P2.50mm')
+P(b,'R4','R','10R',{1:'-VBUS',2:'-VL'},**FUSIBLE); P(b,'C6','CP','47u 25V',{1:'GNDD',2:'-VL'},fp='Capacitor_THT:CP_Radial_D6.3mm_P2.50mm')
 P(b,'NT1','NT','AGND-LGND star',{1:'GNDA',2:'GNDD'})
 P(b,'CN4','TAB','Ground spade 6.3mm',{1:'GNDA'})
 P(b,'R5','R','10R GND cancel',{1:'GNDA',2:'GCANCEL'})
@@ -365,12 +368,12 @@ for _, ps in schgen.blocks:                     # ceramic MPNs by value (X7R 50 
     for pt in ps:
         if pt['key'] in ('C', 'CP') and not pt['mpn']: pt['mpn'] = CAP_MPN.get(pt['value'], '')
 build(OUT, 'channel_strip', 'Channel strip - goa console',
-      {1: 'Generated from channel_strip_schematic_spec.md v5.2', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
+      {1: 'Generated from channel_strip_schematic_spec.md v5.3', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
        3: 'A Delta Theatre input without the mic stage'},
-      paper='auto', revision='5.2', pages=dict(paper='A4', folder='strip_sheets'), **strip_draw.SHEET)   # A4 sub-sheets
+      paper='auto', revision='5.3', pages=dict(paper='A4', folder='strip_sheets'), **strip_draw.SHEET)   # A4 sub-sheets
 if os.environ.get('PILOT'):                     # only the drawn blocks, on a sheet of their own (layout review)
     build(os.environ['PILOT'], 'pilot', 'Channel strip - drawn blocks (pilot)', {1: 'tools/strip_draw.py', 2: ''},
-          paper='auto', revision='5.2', only=lambda t: strip_draw.for_title(t) is not None, **strip_draw.SHEET)
+          paper='auto', revision='5.3', only=lambda t: strip_draw.for_title(t) is not None, **strip_draw.SHEET)
 
 # ---------------------------------------------------------------- jack board (its own PCB; same net names)
 schgen.blocks.clear()

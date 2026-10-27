@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/group.kicad_sch")
-		(date "2026-10-27T19:29:51")
+		(date "2026-10-27T20:22:03")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -17169,12 +17169,12 @@
 		(comp
 			(ref "R1")
 			(value "10R")
-			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(footprint "Resistor_SMD:R_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "Panasonic ERJ-P06J100V")
+					(name "MPN") "Vishay M251206BB1009JP500")
 				(field
-					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+					(name "Footprint") "Resistor_SMD:R_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -17189,7 +17189,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ERJ-P06J100V")
+				(value "Vishay M251206BB1009JP500")
 			)
 			(property
 				(name "Sheetname")
@@ -17229,12 +17229,12 @@
 		(comp
 			(ref "R2")
 			(value "10R")
-			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(footprint "Resistor_SMD:R_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "Panasonic ERJ-P06J100V")
+					(name "MPN") "Vishay M251206BB1009JP500")
 				(field
-					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+					(name "Footprint") "Resistor_SMD:R_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -17249,7 +17249,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ERJ-P06J100V")
+				(value "Vishay M251206BB1009JP500")
 			)
 			(property
 				(name "Sheetname")
@@ -17289,10 +17289,12 @@
 		(comp
 			(ref "R3")
 			(value "10R")
-			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(footprint "Resistor_SMD:R_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+					(name "MPN") "Vishay M251206BB1009JP500")
+				(field
+					(name "Footprint") "Resistor_SMD:R_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -17304,6 +17306,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Vishay M251206BB1009JP500")
 			)
 			(property
 				(name "Sheetname")
@@ -17343,10 +17349,12 @@
 		(comp
 			(ref "R4")
 			(value "10R")
-			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(footprint "Resistor_SMD:R_1206_3216Metric")
 			(fields
 				(field
-					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+					(name "MPN") "Vishay M251206BB1009JP500")
+				(field
+					(name "Footprint") "Resistor_SMD:R_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -17358,6 +17366,10 @@
 				(lib "Device")
 				(part "R")
 				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Vishay M251206BB1009JP500")
 			)
 			(property
 				(name "Sheetname")
