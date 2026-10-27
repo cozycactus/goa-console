@@ -88,6 +88,25 @@ an average-reading meter; Yamaha uses a 12.7 kHz filter.
 | Jack-facing I/O protection | **PM-5000:** DAN217 clamps to the rails at every insert, direct and line output and return. Others: none seen | None (the BAT54W on the signal-LED detector is the only clamp) | Missing (§5 CS4) |
 | Op-amps | TL072 / NE5532 / 5534, discrete pairs, hybrids | OPA1612 / OPA1656, C0G stability caps, build-outs | Ours ahead; stability practice the same |
 
+### Addendum: Mackie 8•Bus (24•8 / 32•8), read 2026-10-27
+
+From `~/Downloads/mackie_8-buss_mixer.zip`, channel board 990-009-00 rev U, sheet 09-1, top right; the owner's manual
+gives the three points.
+- **Taps:** three, each through 200K and a 1N4148 (D101-D103): the mic/line preamp out, after the EQ in/out switch, and
+  after the fader amp. They charge C113 0.22 µF ∥ R119 100K.
+- **Comparator:** U101A (a "2403" quad) against 2.78 V from R120 200K / R121 36K / R122 510 on +18 V.
+- **Polarity:** positive peaks only.
+- **Attack:** slow. 200K × 0.22 µF (with the 100K, a 3:1 divider) needs a sustained overload. The hold is set by
+  0.22 µF ∥ 100K, about 22 ms.
+- **−20 LED (U101B):** one point, the post-EQ node, through R171 200K with D110 clamping the negative half, against
+  39 mV.
+
+**Against strip v5.0:**
+- Mackie has 3 taps to our 5, positive only against our both polarities.
+- Its attack takes many cycles; ours is 0.1 ms, so a single peak lights.
+- Holds: ~22 ms against our ~150 ms.
+- The −20 / green LED reads one point in both designs.
+
 ## 4. Where ours is ahead of everything in the library
 
 - **Line receiver:** the only input that keeps its CMRR against a synth's unbalanced output impedance.
