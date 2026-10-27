@@ -220,6 +220,10 @@ jack board) done.
   to them, nine on the bottom under their op-amp; every C0G cap on an op-amp input <= 6.3 mm. The caps move after packing (`placer.py` `moves`, 2026-10-27),
   so the greedy packer doesn't re-shuffle ~90 parts into the slots they leave. E9b (group 11 / master 13 caps, up to
   13 mm -> <= 6.4 mm, `stab_caps_e9b.patch`) signed off and applied 2026-10-27; the jig stub was already <= 6.3 mm.
+- `input_nets_proposal.md` (+ `input_nets_proposal.patch`) — E10 (2026-10-27, not signed off, placement only): 18 resistor
+  moves (strip 9, group 7, master 2) shorten the long high-impedance op-amp input nets (MST over 20 mm: strip 17 -> 9,
+  group 10 -> 3; e.g. group return receiver U9B- 39 -> 13 mm, master post-amp U5A- 27 -> 13), no net longer, C0G caps
+  untouched; 0 DRC / parity.
 - `sample_order.md` — the parts to order with the prototype panel and the eight physical checks they settle.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.

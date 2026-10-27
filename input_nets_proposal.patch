@@ -1,0 +1,46 @@
+diff --git a/tools/place_group.py b/tools/place_group.py
+index 20c094e..a6b679f 100644
+--- a/tools/place_group.py
++++ b/tools/place_group.py
+@@ -136,6 +136,11 @@ MOVES = {'C35': (36.65, 377.02, 270, 'B'), 'C34': (33.13, 377.52, 180, 'B'), 'C5
+          'C39': (32.72, 243.65, 270, 'B'), 'C50': (35.88, 139.72, 180, 'B'), 'C76': (28.27, 182.88, 90, 'B'),
+          'C44': (20.77, 116.38, 90, 'B'), 'C19': (2.27, 236.36, 270, 'B'), 'C7': (35.72, 398.13, 270, 'B'),
+          'C59': (25.77, 158.11, 270, 'B'), 'C60': (28.52, 158.88, 180, 'B')}
++# E10 (input_nets_proposal.md): one SMD part per long high-impedance op-amp input net moved so the net shrinks by
++# >= 5 mm without its other net growing more than that (placer `moves`)
++MOVES.update({'R57': (34.22, 160.38, 0, 'B'), 'R55': (32.47, 166.65, 180, 'B'), 'R53': (32.02, 157.11, 180, 'B'),
++              'R32': (35.15, 384.77, 180, 'F'), 'R43': (6.27, 139.88, 180, 'B'), 'R46': (10.22, 140.88, 270, 'B'),
++              'R10': (31.88, 438.72, 0, 'B')})
+ place(os.path.join(PROJ, 'group.net'), os.path.join(PROJ, 'group.kicad_pcb'),
+       dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
+            keepout=[(22.0, 185.0, 23.5, 215.0, 'B')],          # silk room beside the links' boxes
+diff --git a/tools/place_master.py b/tools/place_master.py
+index b167762..2044708 100644
+--- a/tools/place_master.py
++++ b/tools/place_master.py
+@@ -183,6 +183,9 @@ MOVES = {'C37': (41.775, 440.635, 270, 'B'), 'C83': (9.22, 149.65, 180, 'F'), 'C
+          'C36': (39.025, 442.655, 0, 'B'), 'C153': (12.72, 282.63, 270, 'B'), 'C32': (35.575, 442.135, 0, 'B'),
+          'C94': (56.77, 144.38, 90, 'B'), 'C174': (74.12, 353.38, 270, 'B'), 'C146': (9.27, 282.61, 270, 'B'),
+          'C91': (9.27, 269.88, 0, 'B')}
++# E10 (input_nets_proposal.md): one SMD part per long high-impedance op-amp input net moved so the net shrinks by
++# >= 5 mm without its other net growing more than that (placer `moves`)
++MOVES.update({'R38': (47.525, 438.635, 0, 'F'), 'R33': (30.325, 441.615, 180, 'B')})
+ place(os.path.join(PROJ, 'master.net'), os.path.join(PROJ, 'master.kicad_pcb'),
+       dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
+            grounds=('GNDA', 'GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'), silk_text_off=('K',), hole_value='M3 standoff 11.5 mm',
+diff --git a/tools/place_strip.py b/tools/place_strip.py
+index f9e2610..6563c11 100644
+--- a/tools/place_strip.py
++++ b/tools/place_strip.py
+@@ -57,6 +57,11 @@ MOVES = {'C84': (5.72, 149.9, 180, 'F'), 'C81': (17.72, 243.65, 180, 'F'), 'C37'
+          'C71': (28.22, 151.13, 180, 'B'), 'C80': (13.02, 238.38, 90, 'B'), 'C83': (3.77, 240.38, 180, 'B'),
+          'C41': (15.47, 89.63, 180, 'B'), 'C78': (2.27, 65.88, 270, 'B'), 'C75': (3.77, 130.38, 180, 'B'),
+          'C85': (11.27, 90.13, 180, 'B'), 'C86': (6.27, 84.61, 0, 'F'), 'C70': (26.52, 148.61, 0, 'B')}
++# E10 (input_nets_proposal.md): one SMD part per long high-impedance op-amp input net moved so the net shrinks by
++# >= 5 mm without its other net growing more than that (placer `moves`)
++MOVES.update({'R50': (15.47, 91.63, 0, 'B'), 'R92': (34.47, 127.13, 270, 'B'), 'R103': (19.77, 84.11, 270, 'F'),
++              'R55': (25.77, 147.86, 0, 'F'), 'R85': (7.77, 130.38, 180, 'B'), 'R94': (35.22, 135.15, 180, 'B'),
++              'R67': (2.27, 147.86, 90, 'B'), 'R9': (4.52, 67.13, 270, 'B'), 'R57': (32.02, 124.86, 270, 'B')})
+ # PAN1 (pan_buffer_proposal.md): U3 and U8 pinned where they were, so pan buffer L (U8B) stays beside the pan pot
+ FIX.update({'U2': (33.245, 403.245, 90, 'F'), 'U3': (16.745, 239.745, 0, 'F'), 'U8': (4.745, 239.745, 0, 'F'), 'C17': (18.26875, 261.34, 0, 'B'),
+             'C16': (16.0, 202.3, 90, 'B'), 'C79': (10.2, 242.35, 270, 'F'),
