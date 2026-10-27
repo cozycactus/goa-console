@@ -1,0 +1,31 @@
+1. DRV135 output balance, 1 kohm 0.1 % per leg: common mode against differential (dB) at 100 Hz / 1 kHz / 20 kHz
+   jig stub (no loop resistor)      both 10 uF              :  -89.5 /  -90.9 /  -61.7
+   jig stub (no loop resistor)      10 / 8 uF (20 % apart)  :  -25.4 /  -35.4 /  -64.5
+   console (22R in the loop, CS4c)  both 10 uF              :  -89.6 /  -90.7 /  -63.9
+   console (22R in the loop, CS4c)  10 / 8 uF (20 % apart)  :  -25.8 /  -38.1 /  -67.2
+
+2. Line-input CMR of a strip (netlist, ideal resistors: the capacitors' limit), dB
+   1 kohm on the tip leg (a synth)   :    50 Hz  60.1,  1000 Hz  56.0, 10000 Hz  38.3, 20000 Hz  32.3
+   matched 100 ohm pair (0.01 %)     :    50 Hz 160.1,  1000 Hz 156.0, 10000 Hz 138.2, 20000 Hz 132.3
+   with 0.1 % bridge resistors (ground_study.md §5.2, 50 Hz, median / worst 5 %): 1 kohm 60.0 / 54.1, 100 ohm 68.0 / 58.7
+
+3. End-stop residuals against the pot's end resistance r (dB)
+   r   0.1 ohm: fader down against its "0" mark  -89.8 dB;  pan hard over, the far side -100.0 dB
+   r   0.3 ohm: fader down against its "0" mark  -80.3 dB;  pan hard over, the far side  -90.5 dB
+   r   1.0 ohm: fader down against its "0" mark  -69.8 dB;  pan hard over, the far side  -80.0 dB
+   r   3.0 ohm: fader down against its "0" mark  -60.3 dB;  pan hard over, the far side  -70.5 dB
+   r  10.0 ohm: fader down against its "0" mark  -49.8 dB;  pan hard over, the far side  -60.0 dB
+   r  20.0 ohm: fader down against its "0" mark  -43.8 dB;  pan hard over, the far side  -54.0 dB
+
+4. MIX L noise, every fader down, N channels routed (4 strips + the load board), 20 Hz-20 kHz unweighted
+   N  4: -106.7 dBu
+   N  8: -104.7 dBu
+   N 12: -103.2 dBu
+   N 16: -102.0 dBu
+   N 20: -101.0 dBu
+   N 24: -100.1 dBu
+
+5. GCANCEL: each module's 10R R5 to the line; the master end draws nothing (100K keeper, follower inputs).
+   A module whose ground sits dV from the mean of the others drives dV / (10 + 10 / (m - 1)) through its R5.
+   normal running: ~0.1 mV between strip grounds (spade wires, return currents): 5 modules on the line (4 strips + load board):  0.008 mA in that strip's R5,  0.080 mV across it
+   test 2: 100 mV injected in one strip's spade lead: 5 modules on the line (4 strips + load board):  8.000 mA in that strip's R5, 80.000 mV across it

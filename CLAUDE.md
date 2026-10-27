@@ -202,6 +202,12 @@ jack board) done.
   series (Phonic OEM), Spirit E8, Mackie 1604 / 1402-VLZ and 8•Bus; nothing weaker in ours. New proposals CS9 (fader
   shut-off compensation as A&H, only if the PTB0143 sample's residual is worse than -80 dB), CS10 (reverse diodes per
   rail on every strip / group board), CS11 (jig tests: output balance, measured CMR, fader breakthrough, GCANCEL current).
+- `cs11_proposal.md` (+ `cs11_proposal.patch`, `test_jig_spec.md` only) — CS11 worked up, not signed off (2026-10-27): jig
+  tests 13-17 with targets from `sim/review/cs11/jig_targets.py`: DRV134 output balance (-90 dB with matched 10 uF, but
+  -25 / -35 dB at 100 Hz / 1 kHz with them 20 % apart: the DRV floats its outputs; larger or matched couplers a possible
+  follow-up), line CMR (1 kohm tip: 60 / 56 / 38 / 32 dB at 50 / 1k / 10k / 20k, the 100 pF caps), fader / pan
+  residuals vs end resistance (-80 dB needs <= 0.3 ohm: decides CS9), faders-down MIX noise N 4..24 (-106.7..-100.1
+  dBu), GCANCEL current.
 - `cs6_proposal.md` (+ `cs6_proposal.patch`, tools only) — CS6, signed off by Ruslan and applied 2026-10-27 (strip v5.3): R1-R4 (10R to
   +VA / -VA / +VL / -VL) on every strip and group as Vishay M25SI fusibles (M251206BB1009JP500, 1206 0.25 W, fuses >= 3 W;
   DigiKey stock; TT FCR0805 / 1206 too small at 0.1 / 0.125 W, FCR1210 not stocked). `sim/review/cs6/fusible.py`: a
