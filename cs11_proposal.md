@@ -1,7 +1,8 @@
 # CS11: five jig tests from the console survey (proposal, 2026-10-27)
 
-**Not signed off.** The change is `cs11_proposal.patch`. It touches `test_jig_spec.md` only, as tests 13-17 in §4 and
-v0.9 (strip v5.3), so no board or schematic changes.
+**Signed off by Ruslan on 2026-10-27 (as proposed: tests 13-17 in `test_jig_spec.md` v0.9) and applied the same day.**
+The change is `cs11_proposal.patch`. It touches `test_jig_spec.md` only, as tests 13-17 in §4 and v0.9 (strip v5.3), so
+no board or schematic changes.
 
 **Targets:** `sim/review/cs11/jig_targets.py`; its output is in `jig_targets.out`. Section 1 needs TI's DRV134 model
 via `TI_MODELS`.
@@ -59,6 +60,6 @@ and not as a bare number.
 
 ## Sign-off
 
-- [ ] **CS11** as proposed: tests 13-17 into `test_jig_spec.md` (v0.9).
+- [x] **CS11** as proposed: tests 13-17 into `test_jig_spec.md` (v0.9). Ruslan, 2026-10-27; applied the same day.
 - [ ] Also work up the DRV135 coupler follow-up (larger or matched couplers).
 - [ ] Neither.

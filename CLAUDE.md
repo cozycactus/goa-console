@@ -202,7 +202,7 @@ jack board) done.
   series (Phonic OEM), Spirit E8, Mackie 1604 / 1402-VLZ and 8•Bus; nothing weaker in ours. New proposals CS9 (fader
   shut-off compensation as A&H, only if the PTB0143 sample's residual is worse than -80 dB), CS10 (reverse diodes per
   rail on every strip / group board), CS11 (jig tests: output balance, measured CMR, fader breakthrough, GCANCEL current).
-- `cs11_proposal.md` (+ `cs11_proposal.patch`, `test_jig_spec.md` only) — CS11 worked up, not signed off (2026-10-27): jig
+- `cs11_proposal.md` (+ `cs11_proposal.patch`, `test_jig_spec.md` only) — CS11, signed off by Ruslan and applied 2026-10-27: jig
   tests 13-17 with targets from `sim/review/cs11/jig_targets.py`: DRV134 output balance (-90 dB with matched 10 uF, but
   -25 / -35 dB at 100 Hz / 1 kHz with them 20 % apart: the DRV floats its outputs; larger or matched couplers a possible
   follow-up), line CMR (1 kohm tip: 60 / 56 / 38 / 32 dB at 50 / 1k / 10k / 20k, the 100 pF caps), fader / pan
@@ -389,7 +389,8 @@ jack board) done.
   stability with datasheet-fitted macros (`sim/review/strip/stripdeck.py` OPA_MODEL=fit, `n1_stab.py`, `n1_compare.py`;
   the fit reads 3-24° below TI on the as-built strip): every N1 unit ≥ 50.1° over 21 states; +115 mA typ console-wide.
   Open: distortion (CMOS input capacitance), only the jig A/B can settle it. `sim/review/strip_noise/noise.py n1`.
-- `test_jig_spec.md` — test jig v0.8 (strip v5.0: the CS1 overload checks, negative pulse / post-amp / gain stage / power-off; v0.7 strip v4.7: signal / OL LED checks; v0.6 strip v4.4; 4.2: the OPA1656 A/B for `strip_noise_proposal.md` N1): 4 real strips with jack boards + master stub (A/D/22R-tie
+- `test_jig_spec.md` — test jig v0.9 (CS11: tests 13-17, output balance, line CMR, fader / pan residuals, faders-down noise,
+  GCANCEL current; v0.8 strip v5.0: the CS1 overload checks, negative pulse / post-amp / gain stage / power-off; v0.7 strip v4.7: signal / OL LED checks; v0.6 strip v4.4; 4.2: the OPA1656 A/B for `strip_noise_proposal.md` N1): 4 real strips with jack boards + master stub (A/D/22R-tie
   jumpers) + load board (dummy channels for 24-channel noise gain, 1 nF bus-capacitance jumpers); 11 bus
   tests and a per-strip function checklist with targets.
 - `delta_clone_comparison.md` — the strip as a Delta Theatre input without the mic stage, stage by

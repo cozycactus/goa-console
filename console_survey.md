@@ -282,8 +282,8 @@ design weaker than common practice; the findings below either confirm it or add 
   - *Proposed:* two Schottky or 1N4002-class diodes per board, after R1 / R2, cathode to +VA / GNDA, anode to GNDA /
     −VA.
   - *Cost:* about 2 parts per board, placed by `moves_only`.
-- [ ] **CS11 Jig test additions** (AMEK big's test protocol, Mackie's per-bus ground) — `test_jig_spec.md` only. Worked up
-  2026-10-27 in `cs11_proposal.md` (tests 13-17 with targets), not signed off:
+- [x] **CS11 Jig test additions** (AMEK big's test protocol, Mackie's per-bus ground) — `test_jig_spec.md` only. Signed
+  off and applied 2026-10-27 as tests 13-17 in `test_jig_spec.md` v0.9 (`cs11_proposal.md`):
   - output balance of the DRV135 outputs with matched 1 kΩ legs;
   - a measured line-input CMR with a 0.01 %-matched 100 Ω pair, plus the 1 kΩ-unbalanced case our 54 dB claim rests on;
   - fader breakthrough and pan isolation;
