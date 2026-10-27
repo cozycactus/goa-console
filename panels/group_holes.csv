@@ -29,7 +29,9 @@ x mm,y mm,diameter / slot,what
 28.15,397.00,Ø8.0,SW7 ck_pva2
 36.15,397.00,Ø3.2,D3 led
 9.99,413.20,"M3 blind stud, back side, not through",H1 jack-board standoff (bonds CHASSIS to the panel: metal contact)
+9.99,413.20,"Ø3.4 through, countersunk 90° to Ø6.5 (M3 flat head)",H1 jack-board standoff: ONLY IF NO WELDED STUDS (met1_ret1_review.md P4); a star washer under the standoff
 30.31,413.20,"M3 blind stud, back side, not through",H2 jack-board standoff (bonds CHASSIS to the panel: metal contact)
+30.31,413.20,"Ø3.4 through, countersunk 90° to Ø6.5 (M3 flat head)",H2 jack-board standoff: ONLY IF NO WELDED STUDS (met1_ret1_review.md P4); a star washer under the standoff
 9.99,425.00,Ø12.0,J6 neutrik_nj6fd_v
 30.31,425.00,Ø12.0,J7 neutrik_nj6fd_v
 9.99,447.00,Ø12.0,J4 neutrik_nj6fd_v

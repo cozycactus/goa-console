@@ -509,8 +509,10 @@ jack board) done.
     25 mA); C100 100n on VREF.
   - **E6:** C101 / C102 10n base to emitter on Q3 / Q4 (SIG_B's 0.75 V edges 17.6 us / 1.04 ms; the LED current still
     switches in us).
-  - **Declined / decided:** P3 declined. P4: blind M3 studs pressed into the panel backs if the maker offers them,
-    else no panel-end screw.
+  - **Declined / decided:** P3 declined. P4: welded blind M3 studs on the panel backs if the maker offers them
+    (pressed-in PEM studs need a 1.6 mm sheet; the panels are 1.5), else the main-board standoffs are spacers. The
+    jack-board standoffs (CHASSIS bond, G2) then get countersunk M3 screws (Ø3.4, 90° to Ø6.5) with star washers.
+    Positions are in `panels/` (DXF layers STUDS / CSK_NO_STUDS, hole tables), clear of cut-outs and print.
   - **Placement:** placed by `placer.py` `moves_only` (never packed), so no other part moved.
 - Board layers (Ruslan, 2026-10-27, `layer_study.md`): the strip, group and master main boards are 4-layer (In1.Cu "GND" a
   solid GNDA plane, the return for F.Cu; In2.Cu "GND2" GNDA fill, the return for B.Cu, with the rails and the GNDD spine

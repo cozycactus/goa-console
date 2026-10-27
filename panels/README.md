@@ -29,6 +29,10 @@ has been re-exported.
   - **Pressed-in studs won't do:** PEM's concealed-head clinch studs need a 1.60 mm sheet.
   - **The jack-board studs:** they also bond CHASSIS to the panel, so they need bare metal contact.
   - **Checked:** every stud's 6 mm area stays 1 mm or more from every front cut-out.
+- **Without welded studs:** the jack-board standoffs get countersunk M3 screws instead: Ø3.4 through, 90° to Ø6.5
+  (DXF layer CSK_NO_STUDS; hole-table rows "ONLY IF NO WELDED STUDS"). Every countersink clears the cut-outs and the
+  print, the tightest being group H1, its head 0.78 mm from the RET 1 title.
+  - **Ordering:** a maker who can't weld studs drills these; one who can ignores them.
   Use it to check a maker's quote or a first article.
 
 ## Cut-outs

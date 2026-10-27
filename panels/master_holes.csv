@@ -64,8 +64,10 @@ x mm,y mm,diameter / slot,what
 45.15,369.00,"M3 blind stud, back side, not through",H1 main-board standoff
 60.45,369.00,Ø7.2,RV5 alpha_pot
 9.15,406.00,"M3 blind stud, back side, not through",H3 jack-board standoff (bonds CHASSIS to the panel: metal contact)
+9.15,406.00,"Ø3.4 through, countersunk 90° to Ø6.5 (M3 flat head)",H3 jack-board standoff: ONLY IF NO WELDED STUDS (met1_ret1_review.md P4); a star washer under the standoff
 42.15,411.00,Ø12.0,J12 neutrik_nj6fd_v
 74.45,413.00,"M3 blind stud, back side, not through",H2 jack-board standoff (bonds CHASSIS to the panel: metal contact)
+74.45,413.00,"Ø3.4 through, countersunk 90° to Ø6.5 (M3 flat head)",H2 jack-board standoff: ONLY IF NO WELDED STUDS (met1_ret1_review.md P4); a star washer under the standoff
 27.05,414.10,Ø3.2,J5 neutrik_nc3mav fixing
 17.15,424.00,Ø22.2,J5 neutrik_nc3mav
 42.15,431.00,Ø12.0,J6 neutrik_nj6fd_v
@@ -81,6 +83,7 @@ x mm,y mm,diameter / slot,what
 27.05,478.10,Ø3.2,J3 neutrik_nc3mav fixing
 17.15,488.00,Ø22.2,J3 neutrik_nc3mav
 74.45,488.00,"M3 blind stud, back side, not through",H1 jack-board standoff (bonds CHASSIS to the panel: metal contact)
+74.45,488.00,"Ø3.4 through, countersunk 90° to Ø6.5 (M3 flat head)",H1 jack-board standoff: ONLY IF NO WELDED STUDS (met1_ret1_review.md P4); a star washer under the standoff
 42.15,491.00,Ø12.0,J1 neutrik_nj6fd_v
 61.15,491.00,Ø12.0,J2 neutrik_nj6fd_v
 7.25,497.90,Ø3.2,J3 neutrik_nc3mav fixing

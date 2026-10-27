@@ -95,7 +95,7 @@ def dxf(path, P, circles, slots, shapes):
     X = lambda x: x - P.x0; Y = lambda y: P.y1 - y           # front view, origin bottom-left, y up
     o = ['0', 'SECTION', '2', 'HEADER', '9', '$INSUNITS', '70', '4', '9', '$MEASUREMENT', '70', '1', '0', 'ENDSEC',
          '0', 'SECTION', '2', 'TABLES', '0', 'TABLE', '2', 'LAYER', '70', '3']
-    for i, (n, col) in enumerate((('OUTLINE', 7), ('CUT', 1), ('LEGEND', 2), ('STUDS', 5))):
+    for i, (n, col) in enumerate((('OUTLINE', 7), ('CUT', 1), ('LEGEND', 2), ('STUDS', 5), ('CSK_NO_STUDS', 6))):
         o += ['0', 'LAYER', '2', n, '70', '0', '62', str(col), '6', 'CONTINUOUS']
     o += ['0', 'ENDTAB', '0', 'ENDSEC', '0', 'SECTION', '2', 'ENTITIES']
     def poly(layer, pts):
@@ -112,6 +112,10 @@ def dxf(path, P, circles, slots, shapes):
         for dx, dy in ((1, 0), (0, 1)):
             o += ['0', 'LINE', '8', 'STUDS', '10', f'{X(x - dx * STUD_D / 2):.4f}', '20', f'{Y(y - dy * STUD_D / 2):.4f}',
                   '11', f'{X(x + dx * STUD_D / 2):.4f}', '21', f'{Y(y + dy * STUD_D / 2):.4f}']
+    for x, y, ref, bd in P.studs:                         # only if no welded studs: through-hole + countersink outline
+        if bd != 'jack': continue
+        for d_ in (L.CSK_HOLE, L.CSK_D):
+            o += ['0', 'CIRCLE', '8', 'CSK_NO_STUDS', '10', f'{X(x):.4f}', '20', f'{Y(y):.4f}', '40', f'{d_ / 2:.4f}']
     o += ['0', 'ENDSEC', '0', 'EOF']
     open(path, 'w').write('\n'.join(o) + '\n')
 
@@ -151,6 +155,9 @@ def holes_csv(path, P):
         rows += [(x, y, 'M3 blind stud, back side, not through',
                   f'{ref} {"jack-board standoff (bonds CHASSIS to the panel: metal contact)" if bd == "jack" else "main-board standoff"}')
                  for x, y, ref, bd in P.studs]
+        rows += [(x, y, f'Ø{L.CSK_HOLE:.1f} through, countersunk 90° to Ø{L.CSK_D:.1f} (M3 flat head)',
+                  f'{ref} jack-board standoff: ONLY IF NO WELDED STUDS (met1_ret1_review.md P4); a star washer under the standoff')
+                 for x, y, ref, bd in P.studs if bd == 'jack']
         for x, y, s, what in sorted(rows, key=lambda r: (round(-r[1], 2), r[0])):
             w.writerow([f'{x - P.x0:.2f}', f'{P.y1 - y:.2f}', s, what])
 
@@ -190,6 +197,15 @@ def check(P, circles, slots, shapes):
                 if dmin < c[3] + INK_GAP: n_ink += 1; bad.append(f'print {dmin - c[3]:+.2f} mm from the cut-out at ({c[1]:.1f}, {c[2]:.1f})'); break
             else:
                 n_ink += 1; bad.append(f'print box touches the slot at ({c[1]:.1f}, {c[2]:.1f})'); break
+    for x, y, ref, bd in P.studs:                    # without studs: the countersink, as a cut-out of its own
+        if bd != 'jack': continue
+        for c in cuts:
+            g = gap(('c', x, y, L.CSK_D / 2), c)
+            if g < WEB: bad.append(f'countersink {ref} at ({x:.1f}, {y:.1f}) {g:.2f} mm from the cut-out at ({c[1]:.1f}, {c[2]:.1f})')
+        for pts, (bx0, by0, bx1, by1) in shapes:
+            if bx1 < x - L.CSK_D / 2 - INK_GAP or bx0 > x + L.CSK_D / 2 + INK_GAP or by1 < y - L.CSK_D / 2 - INK_GAP or by0 > y + L.CSK_D / 2 + INK_GAP: continue
+            dmin = min(math.hypot(p[0] - x, p[1] - y) for p in pts)
+            if dmin < L.CSK_D / 2 + INK_GAP: bad.append(f'print {dmin - L.CSK_D / 2:+.2f} mm from the countersink {ref} at ({x:.1f}, {y:.1f})')
     for x, y, ref, bd in P.studs:                    # the stud's boss behind the plate stays clear of every front cut-out
         for c in cuts:
             g = gap(('c', x, y, STUD_BOSS / 2), c)

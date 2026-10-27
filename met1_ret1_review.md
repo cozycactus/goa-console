@@ -203,4 +203,9 @@ stress load sits elsewhere. That is still far from any limit.
   - **Stud type:** pressed-in (PEM concealed-head) M3 studs need a 1.60 mm sheet and the panels are 1.5 mm, so b means
     welded studs.
   - **Drawings:** their positions are in `panels/` (hole tables, DXF layer STUDS), all clear of the front cut-outs.
-  - **Open:** the jack-board standoffs carry CHASSIS to the panel (G2), so under c they need another bond.
+  - **Without studs (Ruslan, 2026-10-27):** the jack-board standoffs, which carry CHASSIS to the panel (G2), get
+    countersunk M3 flat-head screws through the panel: Ø3.4, 90° to Ø6.5, with an internal-tooth star washer under
+    each standoff. The main-board standoffs stay spacers.
+  - **In the drawings:** the DXF layer CSK_NO_STUDS and the hole tables, rows marked "ONLY IF NO WELDED STUDS".
+  - **Checked:** every countersink is clear of the cut-outs and the print, so no legend moved. The tightest is group
+    H1, its head 0.78 mm from the RET 1 title.

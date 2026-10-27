@@ -13,6 +13,7 @@ HP = 5.08
 WIDTH = {'strip': 8 * HP - 0.34, 'group': 8 * HP - 0.34, 'master': 16 * HP - 0.34}   # 40.30 / 80.94 mm
 X0, Y0, Y1 = -1.15, -11.0, 503.0
 SCREW_D = 3.2                                  # M3 panel screws on the end rails, 3 mm from each end
+CSK_HOLE, CSK_D = 3.4, 6.5                     # P4 without studs: the jack-board standoffs' M3 flat-head screws, 90 deg
 LABEL = {'master': 'MASTER'}
 # the console: 12 strips | groups 1-2 | master (16 HP) | groups 3-4 | 12 strips, on an 8 HP pitch
 ORDER = ['S'] * 12 + ['G1', 'G2', 'M', 'G3', 'G4'] + ['S'] * 12
@@ -287,7 +288,11 @@ def layout(key, data=None, number=None):
         for p in sorted(bd['parts'], key=lambda p: (p['ref'].rstrip('0123456789'), int('0' + p['ref'][len(p['ref'].rstrip('0123456789')):]))):
             fp, ref = p['fp'], p['ref']
             if ref.startswith('H') and fp.startswith('MountingHole'):     # a standoff: a blind stud in the panel's back
-                P.studs.append((p['x'], p['y'], ref, 'jack' if 'jack' in bd['file'] else 'main')); continue
+                kind_ = 'jack' if 'jack' in bd['file'] else 'main'
+                P.studs.append((p['x'], p['y'], ref, kind_))
+                if kind_ == 'jack':                       # without studs: a countersunk M3 screw (P4), so the print keeps off it
+                    obst.append((p['x'], p['y'], CSK_D / 2 + 0.6, ref, CSK_D / 2))
+                continue
             name, colour = names.get(ref, ('', 'grey'))
             f = p.get('feature'); reg = lookup(fp)
             if 'LED_D' in fp:
