@@ -49,6 +49,27 @@ So the CS2 network is the parent's, value for value:
 The law follows from the drawing: centre −2.71 dB, hard +1.73 dB. The PAN-off stage (Option B) is the parent's IC6-B at
 +1.4 dB; our U2B would use 1.22× to match the buffers exactly.
 
+### The 200 Delta (Technical Manual ZZ2593, checked 2026-10-27)
+
+The 200 Delta's own input drawing, ED2774 (manual p.69), is listed in the manual but not in the scanned PDF (`ref/`,
+the iCloud copy). The rest of the manual agrees with the Theatre:
+
+- **Printed p.34** (Standard Input Module D202, "Routing"): at centre both sides get equal levels with a 4.5 dB drop
+  against fully clockwise or anticlockwise. This is the law stated outright, the same as the Theatre's network
+  (4.44 dB).
+- **Printed p.56:** the law resistors set the centre drop and are fed from the buffer outputs.
+- **The spare parts, printed pp.151-152** (Standard Input Module):
+  - VR10 "ALPS 16MM C/D 10KB LIN X 2";
+  - TL072s;
+  - R39 2K2 / R40 4K7, the +10 dB post-amp named on p.56;
+  - then R42 3K3, R43 2K2, R44 10K, R45 3K3, (R46 not listed), R47 10K: two law resistors and the 2K2 / 10K gain pairs;
+  - R48-R53 10K 1/2 W, the routing resistors.
+- **Printed p.14** (specification): panpot rejection > 85 dB at 1 kHz (> 80 dB at 10 kHz), fader rejection > 80 dB at
+  1 kHz. These are jig test 15's targets.
+- **No PAN switch on the 200 Delta:** the D202's switches are +48V, LINE, 5-6, PFL, ON, MIX, 1-2 and 3-4, and its
+  parts list has no 1K8. Every bus is panned. The PAN switch and its +1.4 dB IC6-B feed came with the Theatre
+  (ED3344C), our decision 6.
+
 ### How the −6 dB got in (git history, checked 2026-10-27)
 
 The −6 dB was never a decision. It is half of the Delta's pan stage, copied without the other half.
