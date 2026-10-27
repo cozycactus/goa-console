@@ -74,6 +74,13 @@ FIX.update({'U2': (33.245, 403.245, 90, 'F'), 'U3': (16.745, 239.745, 0, 'F'), '
             'C16': (16.0, 202.3, 90, 'B'), 'C79': (10.2, 242.35, 270, 'F'),
             'R38': (32.61, 413.72, 0, 'F'), 'JP1': (36.38, 414.22, 90, 'F'), 'R18': (32.88, 416.22, 0, 'F'),
             'R44': (29.225, 418.995, 0, 'F')})
+# untangle_proposal.md: two-pad parts turned in place (degrees) so their ratsnest crosses less, measured with
+# tools/ratsnest.py (placer `turns`, after packing and the moves)
+TURNS = {'C12': 180, 'C28': 180, 'C97': 180, 'C99': 180, 'R5': 90, 'R6': 180, 'R11': 180, 'R15': 180, 'R16': 180,
+         'R17': 180, 'R23': 180, 'R24': 180, 'R25': 180, 'R26': 180, 'R28': 180, 'R29': 180, 'R33': 270, 'R34': 270,
+         'R37': 270, 'R46': 180, 'R47': 270, 'R58': 180, 'R60': 90, 'R64': 180, 'R76': 180, 'R79': 180, 'R86': 180,
+         'R88': 180, 'R96': 180, 'R99': 180, 'R100': 180, 'R106': 180, 'R107': 180, 'R108': 180, 'R117': 180,
+         'R119': 180}
 # The upper board's op-amps where the reviewed placement had them (2026-10-26, before the EMC changes): the packer
 # re-shuffles every IC after any change near the top (E1-E3 moved 163 parts and starved the HPF), so they are fixed
 # and their own parts pack around them as before
@@ -171,5 +178,5 @@ if '(ref "CN5")' in open(NET).read():                           # jack board net
                   hole_value='M3 standoff = jack body height (~24 mm)')
 else:
     layout = dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, holes=HOLES, zones=ZONES, notes=NOTES, near=NEAR,
-                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
+                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, turns=TURNS, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
 place(NET, OUT, layout)

@@ -72,7 +72,7 @@ jack board) done.
   decoupling pairs for placement). Same verify/check_fp/ERC loop. PCBs (placement only):
   `$KPY tools/place_jig.py` → `jig_master_stub.kicad_pcb`, `jig_load_board.kicad_pcb`; parity DRC in place.
 - Placement engine `tools/placer.py` (`place(net, out, layout)`: fixed parts, zone packer, near-placement,
-  silk labels and references; optional per-zone gap, `silk_text_off`, `keepout`, `moves`: parts moved to fixed spots after packing, with a collision guard that also checks a THT part's leads) plus the shared 8 HP frame (`pot`, `sw`,
+  silk labels and references; optional per-zone gap, `silk_text_off`, `keepout`, `moves`: parts moved to fixed spots after packing, with a collision guard that also checks a THT part's leads; `turns`: parts turned in place, same guard; `layers` / `rails`: 4-layer boards and the rail corridor) plus the shared 8 HP frame (`pot`, `sw`,
   `led`, `jack`, `FADER`, `BUS`, `SPADE`); place_strip / place_group / place_master / place_jig / place_psu are layouts.
   `attach=True` (strip, group, master, jig; 2026-10-23): parts follow the IC pin they belong to, from the netlist's pin
   types: decouplers at their supply pin, input / feedback / summing parts at the input pin, output networks at the
@@ -242,6 +242,12 @@ jack board) done.
   2026-10-27 (no shipping): JLCPCB phase 1 $43.50 all 2L vs $70.50 with the three main boards on 4L, full build $106 vs
   $199 ($1.25 per strip); PCBWay +$50 / +$184; Aisler +EUR 58 / +EUR 472 (4L ENIG only). Recommendation: 4L for the strip,
   group and master mains, 2L for every other board. Decided by Ruslan 2026-10-27 and applied (see Decisions).
+- `untangle_proposal.md` — ratsnest untangling (2026-10-27): `tools/ratsnest.py` (KiCad Python) measures each board's
+  signal-net ratsnest and crossings (grounds / rails left out; incremental `Rats.trial()` checked against full and
+  brute-force counts). Applied, placement only: two-pad parts turned in place (`placer.py` `turns`, `TURNS` in the three
+  main-board layouts): crossings strip 1292 -> 1211, group 1674 -> 1600, master 2419 -> 2261, no part moved, DRC / rules
+  clean. Unit / channel swaps measured: at most -12 crossings, none recommended. `placer.py` now ignores rule areas
+  when refusing to overwrite a routed board.
 - `sample_order.md` — the parts to order with the prototype panel and the eight physical checks they settle.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.

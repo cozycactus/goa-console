@@ -237,4 +237,6 @@ footprint's own items on the jack boards.
 ## Before routing
 
 - Re-check placement with `$KPY tools/emc_check.py <board>.kicad_pcb` after any manual move.
+- `$KPY tools/ratsnest.py <board>.kicad_pcb` gives the signal ratsnest length and crossings; a manual move or turn that
+  lowers the crossings is worth keeping (`untangle_proposal.md`).
 - After routing, use parity DRC as usual. `emc_check.py` also reads routed boards, but it measures pads, not tracks.

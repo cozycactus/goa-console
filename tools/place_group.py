@@ -144,7 +144,13 @@ MOVES.update({'R57': (34.22, 160.38, 0, 'B'), 'R55': (32.47, 166.65, 180, 'B'), 
 # E11 (decouplers_proposal.md): decouplers more than 5.5 mm from their supply pin moved to it, most on the bottom
 # under the pin (placer `moves`)
 MOVES.update({'C43': (6.97, 218.9, 90, 'F')})
+# untangle_proposal.md: two-pad parts turned in place (degrees) so their ratsnest crosses less, measured with
+# tools/ratsnest.py (placer `turns`, after packing and the moves)
+TURNS = {'JP7': 90, 'R5': 90, 'R11': 180, 'R20': 180, 'R22': 180, 'R25': 180, 'R26': 180, 'R30': 180, 'R34': 180,
+         'R37': 180, 'R51': 180, 'R54': 90, 'R56': 180, 'R59': 180, 'R61': 180, 'R62': 180, 'R72': 180, 'R73': 180,
+         'R74': 180, 'R77': 180, 'R78': 180, 'R80': 180, 'R86': 180, 'R89': 180, 'R90': 180, 'R96': 180, 'R107': 180,
+         'R109': 180, 'R110': 180, 'R112': 180, 'R115': 270, 'R117': 270}
 place(os.path.join(PROJ, 'group.net'), os.path.join(PROJ, 'group.kicad_pcb'),
-      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, layers=4, rails=(0.5, 5.5), holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
+      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, turns=TURNS, layers=4, rails=(0.5, 5.5), holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
            keepout=[(22.0, 185.0, 23.5, 215.0, 'B')],          # silk room beside the links' boxes
            hole_value='M3 standoff 11.5 mm', attach=True))

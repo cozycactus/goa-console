@@ -23,6 +23,8 @@ place(net, out, layout) builds a board from a KiCad netlist and a layout:
          stays as without the moves (no part re-packs into the slots they leave). Refuses a spot whose courtyard
          meets another part's on that side, or that meets a through-hole pad or the board edge; a through-hole part's own
          leads must also clear every other part's pads and courtyards on both sides.
+  turns  {ref: degrees} parts turned in place about their origin after packing and the moves (untangle_proposal.md:
+         two-pad parts turned so their ratsnest crosses less), with the same refusal as moves.
 After placing, the report gives each decoupler's distance to its supply pin and, per local high-impedance input net
 (an IC input not driven by an output directly or through a coupling cap, not a connector line or a reference shared
 by three or more inputs), the farthest R/C/L/D/FB/JP pad from the pin.
@@ -79,8 +81,9 @@ def place(NET, OUT, L):
     # Preserve any later manual routing. Rebuild into a separate file once routing has started.
     if os.path.exists(OUT):
         old = sexp(open(OUT).read())
+        rule_area = lambda z: any(isinstance(x, list) and x and x[0] == 'keepout' for x in z[1:])   # RAILS: not copper
         copper = [item[0] for item in old[1:] if isinstance(item, list) and
-                  item and item[0] in ('segment', 'arc', 'via', 'zone')]
+                  item and (item[0] in ('segment', 'arc', 'via') or (item[0] == 'zone' and not rule_area(item)))]
         if copper:
             raise SystemExit(f'{OUT}: contains routing or zones; choose a separate placement output')
     BOARD, FIX, HOLES, ZONES = L['board'], L['fix'], L.get('holes', []), L['zones']
@@ -452,14 +455,12 @@ def place(NET, OUT, L):
         for r2, z2 in waiting.pop(t, ()):
             if r2 not in tried: place_one(r2, z2); settle(r2)
 
-    # ---------------------------------------------------------------- moves (after packing)
-    for ref, (x, y, rot, side) in L.get('moves', {}).items():
-        fp = board.FindFootprintByReference(ref)
-        if fp.IsFlipped(): flip(fp)
-        fp.SetOrientationDegrees(rot); fp.SetPosition(pcbnew.VECTOR2I_MM(x, y))
-        if side == 'B': flip(fp)
-        fp.BuildCourtyardCaches()
-        cy = lambda f: f.GetCourtyard(pcbnew.B_CrtYd if f.IsFlipped() else pcbnew.F_CrtYd)
+    # ---------------------------------------------------------------- moves and turns (after packing)
+    cy = lambda f: f.GetCourtyard(pcbnew.B_CrtYd if f.IsFlipped() else pcbnew.F_CrtYd)
+    def check_spot(fp, what):
+        """refuse a spot whose courtyard meets another part's on that side, a through-hole pad or the board edge, or whose
+        own leads meet another part's pad or courtyard"""
+        ref = fp.GetReference(); fp.BuildCourtyardCaches()
         mine, box = cy(fp), courtyard(fp)
         bad = [f.GetReference() for f in board.GetFootprints() if f.GetReference() != ref and f.IsFlipped() == fp.IsFlipped()
                and cy(f).OutlineCount() and overlaps(box, [courtyard(f)], 0) and cy(f).Collide(mine)]
@@ -470,7 +471,17 @@ def place(NET, OUT, L):
                     (overlaps(courtyard(f), mine_tht, 0) or
                      any(overlaps(q, mine_tht, 0) for q in [bbox(p.GetBoundingBox()) for p in f.Pads()]))]
         if bad or box[0] < BOARD[0] or box[1] < BOARD[1] or box[2] > BOARD[2] or box[3] > BOARD[3]:
-            raise SystemExit(f'moves: {ref} at ({x}, {y}, {rot}, {side}) meets {sorted(set(bad)) or "the board edge"}')
+            raise SystemExit(f'{what}: {ref} meets {sorted(set(bad)) or "the board edge"}')
+    for ref, (x, y, rot, side) in L.get('moves', {}).items():
+        fp = board.FindFootprintByReference(ref)
+        if fp.IsFlipped(): flip(fp)
+        fp.SetOrientationDegrees(rot); fp.SetPosition(pcbnew.VECTOR2I_MM(x, y))
+        if side == 'B': flip(fp)
+        check_spot(fp, f'moves ({x}, {y}, {rot}, {side})')
+    for ref, da in L.get('turns', {}).items():
+        fp = board.FindFootprintByReference(ref)
+        fp.SetOrientationDegrees(fp.GetOrientationDegrees() + da)
+        check_spot(fp, f'turns ({da})')
 
     # ---------------------------------------------------------------- placement report
     LIM_DEC, LIM_IN = L.get('limits', (5.0, 6.0))

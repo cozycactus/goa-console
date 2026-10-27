@@ -192,8 +192,20 @@ MOVES.update({'C193': (56.77, 147.9, 90, 'B'), 'C180': (68.56, 414.975, 270, 'B'
               'C150': (57.595, 167.695, 270, 'B'), 'C116': (58.22, 280.61, 270, 'B'),
               'C58': (57.865, 180.135, 180, 'B'), 'C31': (38.825, 439.905, 270, 'B'),
               'C74': (12.72, 116.15, 270, 'F')})
+# untangle_proposal.md: two-pad parts turned in place (degrees) so their ratsnest crosses less, measured with
+# tools/ratsnest.py (placer `turns`, after packing and the moves)
+TURNS = {'C160': 180, 'D7': 180, 'R9': 90, 'R27': 270, 'R29': 180, 'R44': 270, 'R47': 180, 'R50': 180, 'R59': 180,
+         'R62': 180, 'R63': 180, 'R65': 180, 'R67': 180, 'R70': 180, 'R72': 270, 'R73': 180, 'R74': 180, 'R76': 180,
+         'R80': 180, 'R81': 90, 'R82': 180, 'R90': 270, 'R95': 90, 'R98': 180, 'R99': 180, 'R100': 180, 'R101': 180,
+         'R105': 180, 'R110': 90, 'R111': 270, 'R114': 180, 'R117': 180, 'R119': 180, 'R120': 180, 'R121': 180,
+         'R122': 180, 'R133': 180, 'R134': 180, 'R135': 180, 'R138': 180, 'R139': 180, 'R141': 180, 'R143': 180,
+         'R145': 270, 'R148': 180, 'R149': 270, 'R151': 180, 'R152': 180, 'R153': 90, 'R155': 180, 'R159': 180,
+         'R160': 180, 'R167': 180, 'R168': 180, 'R169': 180, 'R175': 180, 'R176': 180, 'R178': 180, 'R187': 90,
+         'R190': 180, 'R191': 180, 'R193': 180, 'R195': 90, 'R196': 180, 'R197': 180, 'R198': 90, 'R199': 180,
+         'R202': 180, 'R203': 180, 'R204': 180, 'R205': 180, 'R206': 180, 'R212': 180, 'R213': 180, 'R214': 180,
+         'R216': 180, 'R218': 180, 'R219': 180, 'R221': 180}
 place(os.path.join(PROJ, 'master.net'), os.path.join(PROJ, 'master.kicad_pcb'),
-      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, layers=4, rails=(0.5, 6.5), holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
+      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, turns=TURNS, layers=4, rails=(0.5, 6.5), holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
            grounds=('GNDA', 'GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'), silk_text_off=('K',), hole_value='M3 standoff 11.5 mm',
            attach=True, keepout=[(0, 186, EL, 299), (ER, 186, W, 299),
                                  (21.0, 202.2, 58.0, 220.0, 'B')]))     # J1's wire entries (its +y face): room for the wires
