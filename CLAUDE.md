@@ -225,6 +225,12 @@ jack board) done.
   Sub to MIX +3.3 dB at centre (sim_console GPANC). TI models: U3B / U5A 74.5 / 75.3 deg, 55.3 / 55.9 with 47 pF, no unit
   worse. `sim/review/cs2/group_pan.py`. (Corrected 2026-10-28: the follower figures of that run came from a stand-in
   `OPA1656.LIB`, TI's OPA161x under the OPA1656 name; the group deck's followers still need `OPA1656_FIT`.)
+- `eqmid_proposal.md` (+ `eqmid_proposal.patch`, tools only) — EQM1, proposed 2026-10-28, NOT signed off: the KHN mid ranges
+  retuned to the Delta's measured ones (Audio Precision plots, 200 Delta Tech Manual p.17; overlay from `sim/eq_curves.py`):
+  HI-MID R86 / R87 430R -> 392R and R56 / R57 4K7 -> 4K99 (686 Hz-10.5 kHz -> 598 Hz-9.93 kHz), LO-MID R60 / R61 4K7 -> 4K22
+  (148 Hz-2.29 kHz -> 165 Hz-2.54 kHz). Boost / cut / Q, noise and TI stability unchanged. Closed-form fit
+  `sim/review/eqmid/retune.py`, netlist measurement `measure.py`; four new sim_netlist peak-frequency checks (45); panel
+  FREQ numerals. Cause: the tuning copied a model of the "100KC" pot; ED2911A reads "DUAL 100K REVLOG".
 - `cs7_proposal.md` (+ `cs7_proposal.patch`, tools + `sim/review/master/configs.py`) — CS7, signed off by Ruslan and applied
   2026-10-28: DIM on C/Room (SW4, a PVA2 at (29.16, 178) beside POWER; R236 / R237 91K between CRSB and each C/ROOM pot top, shorted
   by the released key; -20.0..-20.75 dB, phones / meters +0.08 dB; made last). Main R's DRV135 U8 + C47-C50 / R224 / R225

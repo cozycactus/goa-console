@@ -1,0 +1,91 @@
+diff --git a/tools/gen.py b/tools/gen.py
+index 1ea5910..48c5a5f 100644
+--- a/tools/gen.py
++++ b/tools/gen.py
+@@ -182,14 +182,16 @@ P(b,'C50','C','100n C0G',{1:'EQ_FP',2:'GNDA'},fp=C0G); P(b,'R65','R','5K1',{1:'E
+ # band-pass with the same response (peak 0.407, Q 0.275, in phase) into U6A/U6B's + input, tuned by a stocked
+ # A10K dual: each gang a divider from the driving op-amp (pin 3) to 430R (pin 1), 13K wiper-to-top, wiper -> 4K7
+ # -> integrator. CW = higher frequency, within 0.3 octave of a log sweep. sim/mid_tuning.py, strip spec 6.2.
++# EQM1 (eqmid_proposal.md): R0 / RB per band so the ranges match the Delta's measured ones (Audio Precision plots, 200
++# Delta Tech Manual p.17): HI-MID 430R / 4K7 -> 392R / 4K99 (600 Hz - 9.9 kHz), LO-MID 4K7 -> 4K22 (165 Hz - 2.54 kHz)
+ b = block('EQ MID TUNING  KHN band-pass per mid band: summer (10K x3, BP via 2K2/10K), two integrators, A10K dual')
+-for (nm, wip, bp, sm, sp, hp, lp, d1, d2, r1, r2, i1, i2, pot, ci1, ci2, c1v, c2v, rb1, rb2, rs, us, ui1, ui2, cs) in (
++for (nm, wip, bp, sm, sp, hp, lp, d1, d2, r1, r2, i1, i2, pot, ci1, ci2, c1v, c2v, rb1, rb2, rs, us, ui1, ui2, cs, r0v, rbv) in (
+         ('HI-MID', 'EQ_WHM', 'EQ_MP', 'EQ_MSM', 'EQ_MSP', 'EQ_MHP', 'EQ_MLP', 'EQ_MD1', 'EQ_MD2', 'EQ_MR1', 'EQ_MR2',
+          'EQ_MI1', 'EQ_MI2', 'RV12', 'C44', 'C45', '2n2 C0G', '4n7 C0G', 'R56', 'R57',
+-         ('R81', 'R82', 'R83', 'R84', 'R85', 'R86', 'R87', 'R88', 'R89'), ('U12', 1), ('U12', 2), ('U13', 1), ('C74', 'C75')),
++         ('R81', 'R82', 'R83', 'R84', 'R85', 'R86', 'R87', 'R88', 'R89'), ('U12', 1), ('U12', 2), ('U13', 1), ('C74', 'C75'), '392R 1%', '4K99 1%'),
+         ('LO-MID', 'EQ_WLM', 'EQ_LP', 'EQ_LSM', 'EQ_LSP', 'EQ_LHP', 'EQ_LLP', 'EQ_LD1', 'EQ_LD2', 'EQ_LR1', 'EQ_LR2',
+          'EQ_LI1', 'EQ_LI2', 'RV14', 'C46', 'C47', '10n C0G', '22n C0G', 'R60', 'R61',
+-         ('R90', 'R91', 'R92', 'R93', 'R94', 'R95', 'R96', 'R97', 'R98'), ('U13', 2), ('U14', 1), ('U14', 2), ('C76', 'C77'))):
++         ('R90', 'R91', 'R92', 'R93', 'R94', 'R95', 'R96', 'R97', 'R98'), ('U13', 2), ('U14', 1), ('U14', 2), ('C76', 'C77'), '430R 1%', '4K22 1%')):
+     rin, rlp, rfb, r4, r5, r0a, r0b, rta, rtb = rs
+     P(b,rin,'R','10K 1%',{1:wip,2:sm}); P(b,rlp,'R','10K 1%',{1:lp,2:sm}); P(b,rfb,'R','10K 1%',{1:hp,2:sm})
+     P(b,r4,'R','2K2 1%',{1:bp,2:sp}); P(b,r5,'R','10K 1%',{1:sp,2:'GNDA'})
+@@ -199,9 +201,9 @@ for (nm, wip, bp, sm, sp, hp, lp, d1, d2, r1, r2, i1, i2, pot, ci1, ci2, c1v, c2
+     P(b,us[0],'OPA','OPA1612',dict(zip(pp[us[1]], (sp, sm, hp))),unit=us[1])            # summer: HP out
+     # integrator 1 (HP -> BP) through gang A, integrator 2 (BP -> LP) through gang B
+     P(b,pot,'POT2',f'{nm} freq 10K A dual',{3:hp,2:d1,1:r1,6:bp,5:d2,4:r2},mpn=POT2A)
+-    P(b,r0a,'R','430R 1%',{1:r1,2:'GNDA'}); P(b,r0b,'R','430R 1%',{1:r2,2:'GNDA'})
++    P(b,r0a,'R',r0v,{1:r1,2:'GNDA'}); P(b,r0b,'R',r0v,{1:r2,2:'GNDA'})
+     P(b,rta,'R','13K 1%',{1:hp,2:d1}); P(b,rtb,'R','13K 1%',{1:bp,2:d2})
+-    P(b,rb1,'R','4K7 1%',{1:d1,2:i1}); P(b,rb2,'R','4K7 1%',{1:d2,2:i2})
++    P(b,rb1,'R',rbv,{1:d1,2:i1}); P(b,rb2,'R',rbv,{1:d2,2:i2})
+     P(b,ci1,'C',c1v,{1:bp,2:i1},fp=C0G); P(b,ci2,'C',c2v,{1:lp,2:i2},fp=C0G)
+     P(b,ui1[0],'OPA','OPA1612',dict(zip(pp[ui1[1]], ('GNDA', i1, bp))),unit=ui1[1])
+     P(b,ui2[0],'OPA','OPA1612',dict(zip(pp[ui2[1]], ('GNDA', i2, lp))),unit=ui2[1])
+diff --git a/tools/panel_layout.py b/tools/panel_layout.py
+index c2a6041..6e2b34d 100644
+--- a/tools/panel_layout.py
++++ b/tools/panel_layout.py
+@@ -143,8 +143,8 @@ def gain_theta(db):
+ def both(*pairs):
+     """Labels in priority order: each (theta, text) and its mirror (1 - theta, text)."""
+     return [q for t, a in pairs for q in ((t, a), (1 - t, a))][:None]
+-KHN = {'RV12': [(0.0, '0.7'), (1.0, '10KHz'), (0.5, '2.2'), (0.25, '1.6'), (0.75, '4.8')],   # sim/mid_tuning.py 10e3:
+-       'RV14': [(0.0, '0.15'), (1.0, '2.3KHz'), (0.5, '0.48'), (0.25, '0.34'), (0.75, '1.0')],  # KHN f0 at theta 0..1
++KHN = {'RV12': [(0.0, '0.6'), (1.0, '10KHz'), (0.5, '2.1'), (0.25, '1.5'), (0.75, '4.6')],   # sim/review/eqmid/measure.py
++       'RV14': [(0.0, '0.17'), (1.0, '2.5KHz'), (0.5, '0.52'), (0.25, '0.37'), (0.75, '1.1')],  # (EQM1): KHN f0 at theta 0..1
+        'RV16': [(0.0, '20'), (1.0, '400Hz'), (0.5, '85'), (0.2, '50'), (0.7, '170')]}   # HPF -3 dB, khn_hpf.py law
+ SCALES = {   # (dots, labels in priority order, unit at 6 o'clock); as the real Delta panels (ref/delta200_panels, photos)
+     'gain': ([k / 20 for k in range(21)], [(gain_theta(d), f'{d:+d}' if d else '0') for d in (-15, 15, 0, -10, 10, -5, 5)], 'dB'),
+diff --git a/tools/sim_netlist.py b/tools/sim_netlist.py
+index 4432ad9..d778139 100644
+--- a/tools/sim_netlist.py
++++ b/tools/sim_netlist.py
+@@ -161,22 +161,29 @@ for th, lo, hi, label in ((0.5, 80, 95, 'mid rotation'), (0.0, 19, 24, 'CCW'), (
+     check(f'HPF in, freq {label}: -3 dB frequency at PRE', r.get('f3'), lo, hi, 'Hz')
+     check(f'HPF in, freq {label}: no peaking', r.get('gmax'), -0.5, 0.3)
+ for ref, pos_, at, lo, hi, label in (('RV10', 1, 12e3, 10.5, 12.5, 'HF CW at 12 kHz'), ('RV10', 0, 12e3, -12.5, -10.5, 'HF CCW at 12 kHz'),
+-                                     ('RV11', 1, 670, 13.5, 15.5, 'HI-MID CW, freq CCW, at 670 Hz'),
+-                                     ('RV13', 1, 148, 13.5, 15.5, 'LO-MID CW, freq CCW, at 148 Hz'),
++                                     ('RV11', 1, 600, 13.5, 15.5, 'HI-MID CW, freq CCW, at 600 Hz'),
++                                     ('RV13', 1, 165, 13.5, 15.5, 'LO-MID CW, freq CCW, at 165 Hz'),
+                                      ('RV15', 1, 54, 13.3, 15.3, 'LF CW at 54 Hz'), ('RV15', 0, 54, -15.3, -13.3, 'LF CCW at 54 Hz')):
+     r = run({**TOP, ref: pos_, 'RV12': 0.0, 'RV14': 0.0}, ON, f'ac lin 1 {at} {at}', [dbu('PRE'), 'print x_PRE'])
+     check(label, r.get('x_pre'), lo, hi)
+-for ref, at, lo, hi, label in (('RV12', 10.5e3, 13.5, 15.5, 'HI-MID CW, freq CW, at 10.5 kHz'),
+-                               ('RV14', 2.31e3, 13.5, 15.5, 'LO-MID CW, freq CW, at 2.31 kHz')):
++for ref, at, lo, hi, label in (('RV12', 9.93e3, 13.5, 15.5, 'HI-MID CW, freq CW, at 9.93 kHz'),     # EQM1: the Delta's
++                               ('RV14', 2.54e3, 13.5, 15.5, 'LO-MID CW, freq CW, at 2.54 kHz')):    # measured ranges
+     gain = 'RV11' if ref == 'RV12' else 'RV13'                  # boost only the band under test
+     r = run({**TOP, gain: 1, ref: 1.0, ('RV14' if ref == 'RV12' else 'RV12'): 0.5}, ON,
+             f'ac lin 1 {at} {at}', [dbu('PRE'), 'print x_PRE'])
+     check(label, r.get('x_pre'), lo, hi)
+-for ref, gain, at, label in (('RV12', 'RV11', 2.2e3, 'HI-MID CW, freq at mid rotation (law), at 2.2 kHz'),
+-                              ('RV14', 'RV13', 480, 'LO-MID CW, freq at mid rotation (law), at 480 Hz')):
++for ref, gain, at, label in (('RV12', 'RV11', 2.09e3, 'HI-MID CW, freq at mid rotation (law), at 2.09 kHz'),
++                              ('RV14', 'RV13', 521, 'LO-MID CW, freq at mid rotation (law), at 521 Hz')):
+     r = run({**TOP, gain: 1, ref: 0.5, ('RV14' if ref == 'RV12' else 'RV12'): 0.5}, ON,
+             f'ac lin 1 {at} {at}', [dbu('PRE'), 'print x_PRE'])
+     check(label, r.get('x_pre'), 13.5, 15.5)
++# EQM1 (eqmid_proposal.md): the mid ranges themselves, as the Delta measures them (Audio Precision plots, 200 Delta Tech
++# Manual p.17): the boosted band's peak frequency at each end of its frequency pot
++for gain, ref, th, lo, hi, label in (('RV11', 'RV12', 0.0, 570, 630, 'HI-MID freq CCW'), ('RV11', 'RV12', 1.0, 9.4e3, 10.5e3, 'HI-MID freq CW'),
++                                     ('RV13', 'RV14', 0.0, 157, 173, 'LO-MID freq CCW'), ('RV13', 'RV14', 1.0, 2.41e3, 2.67e3, 'LO-MID freq CW')):
++    r = run({**TOP, gain: 1, ref: th, ('RV13' if gain == 'RV11' else 'RV11'): 0.5}, ON, 'ac dec 400 20 30k',
++            ['let g = db(v(PRE)/0.7746)', 'meas ac fpk max_at g'])
++    check(f'{label}: peak frequency', r.get('fpk'), lo, hi, 'Hz')
+ r = run({**TOP, 'RV10': 1, 'RV11': 1, 'RV13': 1, 'RV15': 1}, {**ON, 'SW12': False}, 'ac dec 20 20 20k',
+         ['let g = db(v(PRE)/0.7746)', 'meas ac gmax max g', 'meas ac gmin min g'])
+ check('EQ out (all bands at full boost): max deviation', max(abs(r.get('gmax', 99)), abs(r.get('gmin', 99))), 0, 0.5)

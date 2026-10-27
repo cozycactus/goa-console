@@ -1,0 +1,12 @@
+== HI-MID
+   freq 0.00: f0     686 Hz, boost +14.48 dB, cut -14.69 dB, Q 1.44
+   freq 0.25: f0    1564 Hz, boost +14.47 dB, cut -14.71 dB, Q 1.45
+   freq 0.50: f0    2209 Hz, boost +14.45 dB, cut -14.74 dB, Q 1.45
+   freq 0.75: f0    4779 Hz, boost +14.39 dB, cut -14.84 dB, Q 1.45
+   freq 1.00: f0   10519 Hz, boost +14.40 dB, cut -14.92 dB, Q 1.46
+== LO-MID
+   freq 0.00: f0     148 Hz, boost +14.48 dB, cut -14.68 dB, Q 1.42
+   freq 0.25: f0     340 Hz, boost +14.48 dB, cut -14.69 dB, Q 1.42
+   freq 0.50: f0     480 Hz, boost +14.48 dB, cut -14.69 dB, Q 1.42
+   freq 0.75: f0    1039 Hz, boost +14.48 dB, cut -14.70 dB, Q 1.42
+   freq 1.00: f0    2287 Hz, boost +14.45 dB, cut -14.75 dB, Q 1.43
