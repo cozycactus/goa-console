@@ -87,7 +87,7 @@ jack board) done.
   Exports: jack_board.net/.pdf/_BOM.csv. Same verify/check_fp/ERC loop with `jack_board` in place of `channel_strip`.
 - `channel_strip.kicad_pcb` — strip main board (the strip project's own board since 2026-10-26; was
   `channel_strip_v4.kicad_pcb`), 4-layer since 2026-10-27, 38 × 400 mm (y 44–444) at 11.5 mm under an 8 HP × 12U
-  panel (two pot columns), 260 parts + 6 M3 holes; `jack_board.kicad_pcb` — 38 × 43 mm (y 0–43) at 24.0 mm
+  panel (two pot columns), 295 parts + 6 M3 holes (v4.9); `jack_board.kicad_pcb` — 38 × 43 mm (y 0–43) at 24.0 mm
   under the panel. Same y frame, so they overlay. Component placement only: no tracks, vias or copper zones.
   Rebuild both with `tools/build_strip_pcb.sh [main.kicad_pcb [jack.kicad_pcb]]` or, per board,
   `/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3 tools/place_strip.py channel_strip.net channel_strip.kicad_pcb`
@@ -148,7 +148,7 @@ jack board) done.
   $KC sch erc --severity-all channel_strip.kicad_sch
   $KC sch export pdf -o channel_strip.pdf channel_strip.kicad_sch
   ```
-  python3 tools/sim_netlist.py channel_strip.net jack_board.net   # both netlists joined by the ribbon: 25 checks
+  python3 tools/sim_netlist.py channel_strip.net jack_board.net   # both netlists joined by the ribbon: 39 checks
   python3 tools/sim_console.py     # the whole console from the netlists: 24 strips + 4 groups + master + ribbon, 35 checks
   BOM (every board; quoted fields, because some MPNs contain commas; DNP column): `$KC sch export bom -o channel_strip_BOM.csv --fields '${QUANTITY},Value,Footprint,MPN,${DNP},Reference' --labels 'Qty,Value,Footprint,MPN,DNP,References' --group-by 'Value,Footprint,MPN,${DNP}' --ref-delimiter ' ' --ref-range-delimiter '' channel_strip.kicad_sch`
   `.venv/` (gitignored) holds kiutils 1.4.8. gen.py finds the symbol libs at the Linux or macOS
@@ -184,8 +184,9 @@ jack board) done.
   stage R115 / C97, ~150 ms) signed off and applied 2026-10-25 (strip spec v4.5). Everything else passes.
 - `met1_ret1_review.md` — independent review of MET1 / RET1 (2026-10-26): no faults; applied: group jack board CN1 moved
   1 mm off J5's tip joint, return keys labelled R1 / R2 on the group panel, D2's footprint outline / no model line,
-  3-lead spacer for D2, `sim/pfldet.py` at 42 keys. Proposals P1-P4 open (1K in series with U4A / U17A discharge,
-  100 nF on VREF, optional 10M hysteresis, panel-end fastening of standoffs). Group stability with return 2 (TI OPA161x +
+  3-lead spacer for D2, `sim/pfldet.py` at 42 keys. Proposals P1-P4 (1K in series with U4A / U17A discharge,
+  100 nF on VREF, optional 10M hysteresis, panel-end fastening of standoffs): P1 / P2 applied (strip v4.9), P3 declined,
+  P4 decided (studs or spacers, countersunk screws at the jack boards; Decisions, strip v4.9). Group stability with return 2 (TI OPA161x +
   fitted OPA1656, `sweep.py ret none 0.08`): receivers >= 66.4 deg, level buffers >= 70.9, followers >= 52.1. Group review
   decks: fix set `none` since rev 0.2 (`mg` re-pins U2B onto a floating node; `fixes.apply()` now refuses it) and
   `OPA1656_FIT` for the followers (TI's OPA1656 model doesn't converge in the deck on ngspice 46).
@@ -206,11 +207,12 @@ jack board) done.
   J112 mute on the bottom under their op-amps (2.7-3.5 / 1.3 mm), supply filters at the bus header (strip 5.5-8 mm,
   group 15-16), jack board C8/C9 between J1's pins, master flasher diode at U22 and PFL detect by the PFL switcher.
   The strip's upper op-amps (U1, U4-U7, U12-U16) are now fixed in place_strip.py (the packer re-shuffled every IC);
-  placer.py lets a fixed part stay in its zone as an anchor. E6 (10 nF base caps) and E7 (ferrites) are open.
+  placer.py lets a fixed part stay in its zone as an anchor. E6 (10 nF base caps) applied in strip v4.9 (it slows SIG_B's edges, not the LED current's); E7 (ferrites) open
+  until the jig.
 - `routing_guide.md` — routing notes for the strip, group, master, the jack boards, the jig stub / load board and the PSU (2026-10-26; group / master / PSU 2026-10-27): ground and
   supply strategy, the sensitive nets with lengths (IN_T/IN_R, pan buffer L's wiper line (165 -> 24 mm with PAN1), FPIN, KHN nodes, aux
   sends, PRESRC, VREF; jig GCREF / GCREF_BUF ~175 mm), the switching nets to keep away, CHASSIS on the jack boards,
-  suggested net classes (not written into the projects).
+  the net classes and rules (written into the projects by `tools/netrules.py`, below), the 4-layer stackup and return vias.
 - `pan_buffer_proposal.md` (+ `pan_buffer_proposal.patch`) — PAN1, signed off and applied 2026-10-26 (strip v4.8): pan
   buffer L moved from U2B (fader end, 165 mm wiper line) into the spare U8B beside the pan pot (24 mm); U2B is the spare.
   Options (a) both buffers in U3 and (b) U2 at the pot rejected. the local (gitignored) `sim/review/strip/results_none.json`
@@ -686,6 +688,11 @@ jack board) done.
   PSU board's 8 silk-edge items are the TO-220s at its edge (since 8b38deb). Strip report unchanged; group 3.0 / 6.2 / 2,
   8.5 / 20.2 / 31. Group and master panels pixel-identical but for the group's new rows; strip panel one numeral (HF "9"
   in place of HPF "50") since `panel_layout.layout()` takes parts in reference order.
+- Whole project (2026-10-27, `tools/check_all.py --full`): 60 / 60 checks pass on the committed tree: every board's
+  netlist vs intended (strip 861 pins, group 735, master 1686, jack boards 32 / 60 / 89, jig 364 / 153, PSU 119), pins vs
+  footprints, ERC 0, parity DRC (only the known footprint items), 1418 / 1418 footprint links, route_check 0 ERR;
+  sim_netlist 39/39, sim_console 35/35, every DRC rule fires (15), route_check_test 8 / 8, panel checks 0, ol.py red
+  18.4 / green -19.5 dBu.
 - E11 applied (2026-10-27, placement only): strip 13 / group 1 / master 7 decouplers moved, nothing else; 0 DRC, 0 parity,
   every footprint linked; decouplers median / max / over 5 mm: strip 2.5 / 5.4 / 1, group 2.9 / 5.1 / 1, master
   3.1 / 11.5 / 20 (C144 / C145 THT stay). Routing rules re-generated, all 8 fire.
