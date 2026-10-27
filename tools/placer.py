@@ -16,7 +16,8 @@ place(net, out, layout) builds a board from a KiCad netlist and a layout:
   keepout  [(x0, y0, x1, y1)] areas kept free of parts on both sides, or [(x0, y0, x1, y1, side)] on one side.
   moves  {ref: (x, y, rot, 'F'|'B')} parts packed as usual, then moved to these spots before the report: the packing
          stays as without the moves (no part re-packs into the slots they leave). Refuses a spot whose courtyard
-         meets another part's on that side, or that meets a through-hole pad or the board edge.
+         meets another part's on that side, or that meets a through-hole pad or the board edge; a through-hole part's own
+         leads must also clear every other part's pads and courtyards on both sides.
 After placing, the report gives each decoupler's distance to its supply pin and, per local high-impedance input net
 (an IC input not driven by an output directly or through a coupling cap, not a connector line or a reference shared
 by three or more inputs), the farthest R/C/L/D/FB/JP pad from the pin.
@@ -446,6 +447,11 @@ def place(NET, OUT, L):
         bad = [f.GetReference() for f in board.GetFootprints() if f.GetReference() != ref and f.IsFlipped() == fp.IsFlipped()
                and cy(f).OutlineCount() and overlaps(box, [courtyard(f)], 0) and cy(f).Collide(mine)]
         bad += [f.GetReference() for f in board.GetFootprints() if f.GetReference() != ref and overlaps(box, tht_pads(f), 0)]
+        mine_tht = tht_pads(fp)                       # its own leads go through: no other part's pad or courtyard there
+        if mine_tht:
+            bad += [f.GetReference() for f in board.GetFootprints() if f.GetReference() != ref and
+                    (overlaps(courtyard(f), mine_tht, 0) or
+                     any(overlaps(q, mine_tht, 0) for q in [bbox(p.GetBoundingBox()) for p in f.Pads()]))]
         if bad or box[0] < BOARD[0] or box[1] < BOARD[1] or box[2] > BOARD[2] or box[3] > BOARD[3]:
             raise SystemExit(f'moves: {ref} at ({x}, {y}, {rot}, {side}) meets {sorted(set(bad)) or "the board edge"}')
 

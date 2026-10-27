@@ -1,0 +1,49 @@
+diff --git a/tools/place_group.py b/tools/place_group.py
+index a6b679f..2e473e5 100644
+--- a/tools/place_group.py
++++ b/tools/place_group.py
+@@ -141,6 +141,9 @@ MOVES = {'C35': (36.65, 377.02, 270, 'B'), 'C34': (33.13, 377.52, 180, 'B'), 'C5
+ MOVES.update({'R57': (34.22, 160.38, 0, 'B'), 'R55': (32.47, 166.65, 180, 'B'), 'R53': (32.02, 157.11, 180, 'B'),
+               'R32': (35.15, 384.77, 180, 'F'), 'R43': (6.27, 139.88, 180, 'B'), 'R46': (10.22, 140.88, 270, 'B'),
+               'R10': (31.88, 438.72, 0, 'B')})
++# E11 (decouplers_proposal.md): decouplers more than 5.5 mm from their supply pin moved to it, most on the bottom
++# under the pin (placer `moves`)
++MOVES.update({'C43': (6.97, 218.9, 90, 'F')})
+ place(os.path.join(PROJ, 'group.net'), os.path.join(PROJ, 'group.kicad_pcb'),
+       dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
+            keepout=[(22.0, 185.0, 23.5, 215.0, 'B')],          # silk room beside the links' boxes
+diff --git a/tools/place_master.py b/tools/place_master.py
+index 2044708..4bacb72 100644
+--- a/tools/place_master.py
++++ b/tools/place_master.py
+@@ -186,6 +186,12 @@ MOVES = {'C37': (41.775, 440.635, 270, 'B'), 'C83': (9.22, 149.65, 180, 'F'), 'C
+ # E10 (input_nets_proposal.md): one SMD part per long high-impedance op-amp input net moved so the net shrinks by
+ # >= 5 mm without its other net growing more than that (placer `moves`)
+ MOVES.update({'R38': (47.525, 438.635, 0, 'F'), 'R33': (30.325, 441.615, 180, 'B')})
++# E11 (decouplers_proposal.md): decouplers more than 5.5 mm from their supply pin moved to it, most on the bottom
++# under the pin (placer `moves`); not C144 / C145, the LME49600's through-hole 10 uF: no spot nearer clears U27's pads
++MOVES.update({'C193': (56.77, 147.9, 90, 'B'), 'C180': (68.56, 414.975, 270, 'B'),
++              'C150': (57.595, 167.695, 270, 'B'), 'C116': (58.22, 280.61, 270, 'B'),
++              'C58': (57.865, 180.135, 180, 'B'), 'C31': (38.825, 439.905, 270, 'B'),
++              'C74': (12.72, 116.15, 270, 'F')})
+ place(os.path.join(PROJ, 'master.net'), os.path.join(PROJ, 'master.kicad_pcb'),
+       dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
+            grounds=('GNDA', 'GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'), silk_text_off=('K',), hole_value='M3 standoff 11.5 mm',
+diff --git a/tools/place_strip.py b/tools/place_strip.py
+index 6563c11..d3f1dd8 100644
+--- a/tools/place_strip.py
++++ b/tools/place_strip.py
+@@ -62,6 +62,13 @@ MOVES = {'C84': (5.72, 149.9, 180, 'F'), 'C81': (17.72, 243.65, 180, 'F'), 'C37'
+ MOVES.update({'R50': (15.47, 91.63, 0, 'B'), 'R92': (34.47, 127.13, 270, 'B'), 'R103': (19.77, 84.11, 270, 'F'),
+               'R55': (25.77, 147.86, 0, 'F'), 'R85': (7.77, 130.38, 180, 'B'), 'R94': (35.22, 135.15, 180, 'B'),
+               'R67': (2.27, 147.86, 90, 'B'), 'R9': (4.52, 67.13, 270, 'B'), 'R57': (32.02, 124.86, 270, 'B')})
++# E11 (decouplers_proposal.md): decouplers more than 5.5 mm from their supply pin moved to it, most on the bottom
++# under the pin (placer `moves`)
++MOVES.update({'C60': (28.77, 384.61, 180, 'B'), 'C57': (28.77, 367.11, 180, 'B'), 'C61': (35.72, 385.88, 180, 'B'),
++              'C58': (35.72, 368.38, 180, 'B'), 'C92': (18.59, 56.77, 270, 'B'), 'C93': (24.15, 58.22, 270, 'B'),
++              'C25': (13.27, 243.65, 0, 'F'), 'C59': (34.72, 383.11, 90, 'B'), 'C56': (34.72, 365.61, 90, 'B'),
++              'C54': (28.77, 352.61, 180, 'B'), 'C53': (35.72, 352.61, 180, 'B'), 'C98': (2.84, 313.77, 180, 'B'),
++              'C55': (34.72, 355.38, 270, 'B')})
+ # PAN1 (pan_buffer_proposal.md): U3 and U8 pinned where they were, so pan buffer L (U8B) stays beside the pan pot
+ FIX.update({'U2': (33.245, 403.245, 90, 'F'), 'U3': (16.745, 239.745, 0, 'F'), 'U8': (4.745, 239.745, 0, 'F'), 'C17': (18.26875, 261.34, 0, 'B'),
+             'C16': (16.0, 202.3, 90, 'B'), 'C79': (10.2, 242.35, 270, 'F'),

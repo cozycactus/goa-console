@@ -72,7 +72,7 @@ jack board) done.
   decoupling pairs for placement). Same verify/check_fp/ERC loop. PCBs (placement only):
   `$KPY tools/place_jig.py` → `jig_master_stub.kicad_pcb`, `jig_load_board.kicad_pcb`; parity DRC in place.
 - Placement engine `tools/placer.py` (`place(net, out, layout)`: fixed parts, zone packer, near-placement,
-  silk labels and references; optional per-zone gap, `silk_text_off`, `keepout`, `moves`: parts moved to fixed spots after packing, with a collision guard) plus the shared 8 HP frame (`pot`, `sw`,
+  silk labels and references; optional per-zone gap, `silk_text_off`, `keepout`, `moves`: parts moved to fixed spots after packing, with a collision guard that also checks a THT part's leads) plus the shared 8 HP frame (`pot`, `sw`,
   `led`, `jack`, `FADER`, `BUS`, `SPADE`); place_strip / place_group / place_master / place_jig / place_psu are layouts.
   `attach=True` (strip, group, master, jig; 2026-10-23): parts follow the IC pin they belong to, from the netlist's pin
   types: decouplers at their supply pin, input / feedback / summing parts at the input pin, output networks at the
@@ -224,6 +224,17 @@ jack board) done.
   moves (strip 9, group 7, master 2) shorten the long high-impedance op-amp input nets (MST over 20 mm: strip 17 -> 9,
   group 10 -> 3; e.g. group return receiver U9B- 39 -> 13 mm, master post-amp U5A- 27 -> 13), no net longer, C0G caps
   untouched; 0 DRC / parity.
+- `decouplers_proposal.md` (+ `decouplers_proposal.patch`) — E11 (2026-10-27, not signed off, placement only): 21 SMD
+  decouplers over 5.5 mm from their supply pin moved to it (strip 13, incl. the DG413s' 6-10 mm -> <= 0.55; group 1; master
+  7); decouplers over 5 mm strip 14 -> 1, group 2 -> 1, master 27 -> 20 (C144 / C145, the LME49600's THT 10 uF, have no
+  nearer spot). 0 DRC / parity.
+- Routing rules (2026-10-27): `tools/netrules.py` (KiCad Python) writes net classes (Ground, Chassis, Power, LogicSupply,
+  Bus, Entry, HighZ, Switching, Default; exact net names from the placed board) into each project and custom rules into
+  `X.kicad_dru` (strip, group, master, jig boards, jack boards): HighZ / Entry / Bus copper 1 mm from Switching and 0.5
+  from logic supplies, their tracks 0.3 from other copper, GNDD 0.5 from GNDA, CHASSIS 0.5, HighZ <= 60 mm, Power /
+  Ground widths. `tools/netrules_test.py` proves every rule fires (KiCad silently drops a rule it can't evaluate, e.g.
+  `!(...)`; the later rule in the file wins for the same constraint). Re-run netrules.py after any re-placement or netlist
+  change. Generators that copy master.kicad_pro keep each project's net settings (`schgen.keep_net_settings`).
 - `sample_order.md` — the parts to order with the prototype panel and the eight physical checks they settle.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.

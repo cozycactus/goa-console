@@ -3,5 +3,375 @@
     "filename": "jig_master_stub.kicad_pro",
     "version": 1
   },
-  "sheets": []
+  "sheets": [],
+  "net_settings": {
+    "classes": [
+      {
+        "bus_width": 12,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Default",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2147483647,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.25,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Ground",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 1,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.6,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.5,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Chassis",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 1.5,
+        "tuning_profile": "",
+        "via_diameter": 0.8,
+        "via_drill": 0.4,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Power",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 3,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.8,
+        "tuning_profile": "",
+        "via_diameter": 0.8,
+        "via_drill": 0.4,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "LogicSupply",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 4,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.4,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Bus",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 5,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.3,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Entry",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 6,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.3,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "HighZ",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 7,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.2,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Switching",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 8,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.25,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      }
+    ],
+    "meta": {
+      "version": 5
+    },
+    "net_colors": {},
+    "netclass_assignments": {},
+    "netclass_patterns": [
+      {
+        "netclass": "Power",
+        "pattern": "/+VA"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "/+VBUS"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "/+VBUS_R"
+      },
+      {
+        "netclass": "LogicSupply",
+        "pattern": "/+VL"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "/-VA"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "/-VBUS"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "/-VBUS_R"
+      },
+      {
+        "netclass": "LogicSupply",
+        "pattern": "/-VL"
+      },
+      {
+        "netclass": "Bus",
+        "pattern": "/AUX1"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "/AUX1_VE"
+      },
+      {
+        "netclass": "Bus",
+        "pattern": "/AUX2"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "/AUX2_VE"
+      },
+      {
+        "netclass": "Entry",
+        "pattern": "/AUX_1_BNC"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "/AUX_1_DN"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "/AUX_1_DP"
+      },
+      {
+        "netclass": "Entry",
+        "pattern": "/AUX_2_BNC"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "/AUX_2_DN"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "/AUX_2_DP"
+      },
+      {
+        "netclass": "Entry",
+        "pattern": "/BAL_N"
+      },
+      {
+        "netclass": "Entry",
+        "pattern": "/BAL_P"
+      },
+      {
+        "netclass": "Chassis",
+        "pattern": "/CHASSIS"
+      },
+      {
+        "netclass": "Bus",
+        "pattern": "/GCANCEL"
+      },
+      {
+        "netclass": "Bus",
+        "pattern": "/MIXL"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "/MIXL_VE"
+      },
+      {
+        "netclass": "Bus",
+        "pattern": "/MIXR"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "/MIXR_VE"
+      },
+      {
+        "netclass": "Entry",
+        "pattern": "/MIX_L_BNC"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "/MIX_L_DN"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "/MIX_L_DP"
+      },
+      {
+        "netclass": "Entry",
+        "pattern": "/MIX_R_BNC"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "/MIX_R_DN"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "/MIX_R_DP"
+      },
+      {
+        "netclass": "Bus",
+        "pattern": "/PFL"
+      },
+      {
+        "netclass": "Bus",
+        "pattern": "/PFLDET"
+      },
+      {
+        "netclass": "Switching",
+        "pattern": "/PFL_LA"
+      },
+      {
+        "netclass": "Switching",
+        "pattern": "/PFL_LK"
+      },
+      {
+        "netclass": "Entry",
+        "pattern": "/PFL_MIX_BNC"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "/PFL_MIX_DN"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "/PFL_MIX_DP"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "/PFL_VE"
+      },
+      {
+        "netclass": "Bus",
+        "pattern": "/SUB1"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "/SUB1_VE"
+      },
+      {
+        "netclass": "Entry",
+        "pattern": "/SUB_1_BNC"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "/SUB_1_DN"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "/SUB_1_DP"
+      },
+      {
+        "netclass": "Ground",
+        "pattern": "GNDA"
+      },
+      {
+        "netclass": "Ground",
+        "pattern": "GNDD"
+      }
+    ]
+  }
 }

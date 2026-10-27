@@ -37,6 +37,7 @@ def project(name):          # a .kicad_pro next to each schematic, so ERC uses t
     import json
     d = json.load(open(os.path.join(ROOT, 'master.kicad_pro')))
     d['meta']['filename'] = name + '.kicad_pro'; d['sheets'] = []
+    from schgen import keep_net_settings; keep_net_settings(d, os.path.join(ROOT, name + '.kicad_pro'))
     with open(os.path.join(ROOT, name + '.kicad_pro'), 'w') as f: json.dump(d, f, indent=2); f.write('\n')
 
 # ================================================================ master stub  [jig spec 2]

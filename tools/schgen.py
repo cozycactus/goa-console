@@ -503,3 +503,16 @@ def write_intended(out, only=None):
                 if k in intended and intended[k] != net: raise SystemExit(f'{k} assigned to {intended[k]} and {net}')
                 intended[k] = net
     json.dump(intended, open(out.replace('.kicad_sch', '_intended.json'), 'w'), indent=0)
+
+
+def keep_net_settings(d, path):
+    """Net classes and patterns are each project's own (tools/netrules.py writes them): a generator that writes a
+    .kicad_pro from master.kicad_pro keeps the existing project's net settings, and a project without any starts with
+    the Default class only (never another board's classes and patterns)."""
+    import json, os
+    old = json.load(open(path)) if os.path.exists(path) else {}
+    if 'net_settings' in old: d['net_settings'] = old['net_settings']; return d
+    ns = d.get('net_settings', {})
+    ns['classes'] = [c for c in ns.get('classes', []) if c['name'] == 'Default']
+    ns['netclass_patterns'] = []; ns['netclass_assignments'] = {}
+    return d

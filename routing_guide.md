@@ -3,7 +3,7 @@
 Notes for routing the first boards to build: the jig and four strips. They are drawn from the placed boards (net lengths
 are Manhattan minimum-spanning-tree estimates from the pads, as `tools/emc_check.py` measures them) and from
 `emc_placement_study.md`, whose rules and sources apply throughout. Copper is Ruslan's, so this is advice, not a spec.
-The net classes at the end are suggestions only; nothing is written into the project files.
+The net classes and DRC rules at the end are written into the projects by `tools/netrules.py`.
 
 ## Channel strip (main board)
 
@@ -120,16 +120,49 @@ The net classes at the end are suggestions only; nothing is written into the pro
 - **The 1 nF jumpers' ground:** must be the bus's own reference, so the added capacitance is what the test intends.
 - **±VBUS:** about 140 mm, only if the load board takes supply (it passes the ribbon's) — wide.
 
-## Suggested net classes (for you to set, if wanted)
+## Net classes and DRC rules (in the projects, 2026-10-27)
 
-| Class | Nets | Width | Clearance | Notes |
-|---|---|---|---|---|
-| Power | ±VBUS, ±VA, ±VP / ±VM (master) | 0.6–0.8 mm (±VBUS 1.0 on the jig stub) | 0.25 mm | ±17 V: no special clearance needed |
-| Logic supply | +VL, −VL, +5VL | 0.4 mm | 0.2 mm | |
-| Ground (where not a pour) | GNDA, GNDD | 0.8 mm + pour | 0.2 mm | GNDD separate, joined at NT1 only |
-| Chassis | CHASSIS | ≥ 1.5 mm / pour | 0.3 mm | jack boards and the jig XLR only |
-| Bus | MIX L / R, SUB 1–4, AUX 1–6, PFL, PFLDET, GCANCEL, GCREF* | 0.3 mm | 0.3 mm | guarded where possible |
-| Audio (default) | everything else | 0.25 mm | 0.2 mm | |
+`tools/netrules.py` writes them into each board's project. Run it with KiCad's Python after any re-placement or netlist
+change, because nets are assigned by exact name:
+- **Where:** net classes go in `X.kicad_pro`, custom rules in `X.kicad_dru`, for the strip, group, master, both jig
+  boards and the three jack boards.
+- **Regeneration:** the generators that copy `master.kicad_pro` (jack boards, jig, PSU) keep each project's own net
+  settings.
+- **Tests:** `tools/netrules_test.py` draws one offending track group per rule on a scratch copy of the strip and its
+  jack board, and checks that DRC reports every rule. KiCad drops a rule whose condition it can't evaluate without
+  saying so; `!( … )` was one such condition.
+
+**Net classes**, assigned from the placed board, first match wins:
+
+| Class | Nets | Track | Via |
+|---|---|---|---|
+| Ground | GNDA, GNDD, GNDM, PHONESGND | 0.6 mm (min 0.4 by rule) | 0.6 / 0.3 |
+| Chassis | CHASSIS | 1.5 mm | 0.8 / 0.4 |
+| Power | ±VBUS*, ±VA, ±VP, ±VM | 0.8 mm (min 0.5 by rule) | 0.8 / 0.4 |
+| LogicSupply | ±VL, +5VL | 0.4 mm | 0.6 / 0.3 |
+| Bus | signal pins of the 34-way bus header | 0.3 mm | 0.6 / 0.3 |
+| Entry | signal lines on jacks and board-to-board links | 0.3 mm | 0.6 / 0.3 |
+| HighZ | op-amp input nets with no op-amp output on them | 0.2 mm | 0.6 / 0.3 |
+| Switching | LED, comparator-output, DG413-logic, relay-coil, transistor nets | 0.25 mm | 0.6 / 0.3 |
+| Default | everything else (op-amp outputs, low-impedance audio) | 0.25 mm | 0.6 / 0.3 |
+
+- **Class clearances:** 0.2 mm everywhere. Footprints have pad gaps down to 0.25 mm (the load board's slide switches),
+  so the wider spacings below are rules on tracks.
+- **The jig stub's ±VBUS:** feeds four strips; widen it to 1.0 mm by hand.
+
+**Custom rules** (`X.kicad_dru`). Where several set the same constraint, KiCad takes the later one in the file, so
+they are written general first:
+- **0.3 mm:** Bus, Entry and HighZ tracks keep 0.3 mm from other copper.
+- **0.5 mm:** HighZ, Entry and Bus copper keeps 0.5 mm from the logic supplies.
+- **1 mm:** HighZ, Entry and Bus copper keeps 1 mm from Switching nets. Pad-to-pad is placement, measured by
+  `tools/emc_check.py`; a DG413's logic pin is 0.67 mm from a bus pin by its pinout.
+- **GNDD vs GNDA:** 0.5 mm between them. They meet only at the net tie, so keep the two pours apart.
+- **CHASSIS:** 0.5 mm from everything else.
+- **Length:** a HighZ net routed longer than 60 mm is flagged (today's longest is 28 mm of pads).
+- **Track widths:** Power at least 0.5 mm, Ground at least 0.4 mm.
+
+On today's placement, DRC is unchanged with the rules: 0 violations on the main and jig boards, and only the NJ6FD-V
+footprint's own items on the jack boards.
 
 ## Before routing
 
