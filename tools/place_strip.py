@@ -81,6 +81,16 @@ TURNS = {'C12': 180, 'C28': 180, 'C97': 180, 'C99': 180, 'R5': 90, 'R6': 180, 'R
          'R37': 270, 'R46': 180, 'R47': 270, 'R58': 180, 'R60': 90, 'R64': 180, 'R76': 180, 'R79': 180, 'R86': 180,
          'R88': 180, 'R96': 180, 'R99': 180, 'R100': 180, 'R106': 180, 'R107': 180, 'R108': 180, 'R117': 180,
          'R119': 180}
+# v4.9 (P1): the hold networks no longer touch the comparator outputs (R126 / R127 between), so the placer would
+# re-anchor them; kept where v4.8 had them (angles before their TURNS), with U17, which their fixed spots would
+# otherwise push 50 mm down (its ring no longer fits)
+FIX.update({'U17': (3.745, 316.245, 90, 'F'), 'C97': (32.77, 67.84, 0, 'F'), 'R115': (35.77, 72.84, 90, 'F'), 'C99': (2.34, 306.72, 0, 'F'), 'R121': (9.34, 322.22, 90, 'F')})
+# strip v4.9 (P1 / P2 / E6, 2026-10-27): the five new parts are placed by MOVES alone (placer `moves_only`), so the
+# rest of the board keeps its packing: R126 / R127 between each comparator output and its hold cap, C100 under R41,
+# C101 / C102 across Q3's / Q4's base and emitter (probed like E9, both sides)
+NEW49 = {'R126': (31.27, 75.84, 90, 'B'), 'R127': (6.09, 313.97, 90, 'B'), 'C100': (31.8575, 88.88, 90, 'B'),
+         'C101': (28.9125, 49.795, 270, 'B'), 'C102': (32.4125, 55.045, 0, 'B')}
+MOVES.update(NEW49)
 # The upper board's op-amps where the reviewed placement had them (2026-10-26, before the EMC changes): the packer
 # re-shuffles every IC after any change near the top (E1-E3 moved 163 parts and starved the HPF), so they are fixed
 # and their own parts pack around them as before
@@ -178,5 +188,5 @@ if '(ref "CN5")' in open(NET).read():                           # jack board net
                   hole_value='M3 standoff = jack body height (~24 mm)')
 else:
     layout = dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, holes=HOLES, zones=ZONES, notes=NOTES, near=NEAR,
-                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, turns=TURNS, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
+                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, moves_only=tuple(NEW49), turns=TURNS, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
 place(NET, OUT, layout)

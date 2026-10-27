@@ -232,10 +232,11 @@ def overload(d):
     d.w(('D1', 1), ('U4', 2)); d.at('C12', 11, 5.5, text='L'); d.at('R14', 15, 5.5, text='L')
     d.w(('U4', 3), (16, 6), (16, 9)); d.at('R41', 16, 10.5)
     d.at('R40', 12.5, 9, rot=90); d.w((8, 9), ('R40', 1)); d.port('+VL', (8, 9)); d.w(('R40', 2), (16, 9))
+    d.at('C100', 20, 10.5, text='R'); d.w((16, 9), (20, 9))                                      # P2
     # hold stage (K3): U4A discharges OL_HOLD (R115 to +VL, C97 to GNDD); U4B lights D2 while it is below VREF
     d.at('U4', 40, 6, unit=2)
-    d.w(('U4', 1), (37, 5)); d.w((37, 5), ('U4', 5))
-    d.at('R115', 28, 3.5, text='L'); d.w(('R115', 1), (28, 0)); d.port('+VL', (28, 0), 'U')
+    d.at('R126', 25.5, 5, rot=90); d.w(('U4', 1), ('R126', 1)); d.w(('R126', 2), (37, 5)); d.w((37, 5), ('U4', 5))   # P1
+    d.at('R115', 28, 3.5, text='R'); d.w(('R115', 1), (28, 0)); d.port('+VL', (28, 0), 'U')
     d.at('C97', 31, 6.5, text='L'); d.gnd(('C97', 2), 'GNDD')
     d.w((15, 9), (15, 14), (35, 14), (35, 7), ('U4', 6))          # VREF to U4B's - input, under the hold network
     # MET1: U4B drives the red half of the bicolour D2 through the PNP Q3 (R116 base, R117 pull-up, R15 to the anode)
@@ -243,6 +244,7 @@ def overload(d):
     d.at('Q3', 56, 6, mirror='x'); d.w(('R116', 2), ('Q3', 1))                  # emitter up to +VL, collector down
     d.at('R117', 53, 2.5); d.w(('R117', 2), (53, 6)); d.w(('R117', 1), (53, 0)); d.port('+VL', (53, 0), 'U')
     d.port('+VL', ('Q3', 2), 'U')
+    d.at('C101', 53, 9.5, text='L'); d.w(('C101', 1), (53, 6)); d.port('+VL', ('C101', 2), 'D')   # E6: base to emitter
     d.at('R15', 57, 12.5); d.w(('Q3', 3), ('R15', 1)); d.port('OL_A', ('R15', 2), 'D')
     d.at('D2', 66, 14); d.port('OL_A', ('D2', 1), 'R'); d.gnd(('D2', 2), 'GNDD'); d.port('SIG_A', ('D2', 3), 'R')
     # the signal detector (U17, as U4 one level lower) and the green driver, in a row below
@@ -255,7 +257,7 @@ def overload(d):
     d.at('R120', 13, Y + 10); d.w(('R119', 2), ('R120', 1)); d.gnd(('R120', 2))
     d.w(('U17', 3), (16, Y + 2), (16, Y + 8), (13, Y + 8))
     d.at('U17', 40, Y + 2, unit=2)
-    d.w(('U17', 1), (37, Y + 1)); d.w((37, Y + 1), ('U17', 5))
+    d.at('R127', 25.5, Y + 1, rot=90); d.w(('U17', 1), ('R127', 1)); d.w(('R127', 2), (37, Y + 1)); d.w((37, Y + 1), ('U17', 5))   # P1
     d.at('R121', 28, Y - 2.5, text='L'); d.w(('R121', 2), (28, Y + 1)); d.w(('R121', 1), (28, Y - 5)); d.port('+VL', (28, Y - 5), 'U')
     d.at('C99', 31, Y + 2.5, text='L'); d.gnd(('C99', 2), 'GNDD')
     d.port('VREF', ('U17', 6), 'L')
@@ -263,6 +265,7 @@ def overload(d):
     d.at('Q4', 56, Y + 2, mirror='x'); d.w(('R122', 2), ('Q4', 1))
     d.at('R123', 53, Y - 1.5); d.w(('R123', 2), (53, Y + 2)); d.w(('R123', 1), (53, Y - 4)); d.port('+VL', (53, Y - 4), 'U')
     d.port('+VL', ('Q4', 2), 'U')
+    d.at('C102', 51, Y + 5.5, text='L'); d.w(('C102', 1), (51, Y + 2)); d.port('+VL', ('C102', 2), 'D')   # E6
     d.at('R124', 57, Y + 8.5); d.w(('Q4', 3), ('R124', 1)); d.port('SIG_A', ('R124', 2), 'D')
     # Q5 holds Q4's base at +VL while U4B lights the red (base from U4B's output, OL_K), so an overload shows red alone
     d.port('SIG_B', (53, Y + 2), 'D')

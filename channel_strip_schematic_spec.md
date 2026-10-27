@@ -1,4 +1,4 @@
-# Channel Strip — Component-Level Specification v4.8
+# Channel Strip — Component-Level Specification v4.9
 ## Soundcraft Delta Theatre input without the mic stage. One PCB per channel, ×24.
 
 Bus pinout, grounding and power: `console_architecture.md`. Stage-by-stage comparison with the
@@ -7,6 +7,26 @@ Reference designators are those of `tools/gen.py`; Delta drawing numbers are giv
 circuit comes from a Delta sheet (ED3344A/B/C = Theatre input RH board, ED3151 = LH board).
 
 ---
+
+## Changes in v4.9 (2026-10-27, signed off; `met1_ret1_review.md` P1 / P2, `emc_placement_study.md` E6)
+
+Five parts on the overload / signal detector (§8.1); 861 pin entries.
+
+**P1. R126 / R127 1K** between U4A's / U17A's output and its hold node (OL_HOLD / SIG_HOLD).
+- **Why:** each discharge of the 220 nF hold cap used to pull the comparator output at its own current limit, at or
+  above the LM393B's 25 mA output rating. The peak is now 15.9 mA.
+- **Unchanged:** the thresholds (red +18.1 / +18.4 / +18.5 dBu at 50 Hz / 1 kHz / 10 kHz, green −19.5 dBu) and the
+  holds (red 151–190 ms, green 170 ms) (`sim/review/gaps/ol.py`).
+
+**P2. C100 100 nF** on VREF at R40 / R41: VREF runs about 215 mm to U17.
+
+**E6. C101 / C102 10 nF** base to emitter on Q3 / Q4 (Samsung CL21B103KBANNNC). With the 47K bases they slow the edges on
+SIG_B, the 258 mm line from R122 to Q4. It swings only 0.75 V (Q4's base clamps it); its edges go from 0.8 / 2.0 µs to
+17.6 µs falling / 1.04 ms rising. The LED current itself still switches in a few µs (2.4 µs on, 38 µs off), but that
+loop is short since E1.
+
+**Placement:** the five are placed by the placer's `moves_only` (never packed), and C97 / R115 / C99 / R121 / U17 are
+fixed where v4.8 had them. No other part moved.
 
 ## Changes in v4.8 (2026-10-26, signed off; `pan_buffer_proposal.md` PAN1)
 
@@ -719,7 +739,14 @@ each standoff's panel end and wherever a panel meets the frame rails. CN3/CN5: W
 
 ---
 
-## 17. Status (v4.8, 2026-10-26)
+## 17. Status (v4.9, 2026-10-27)
+
+v4.9 (P1 / P2 / E6):
+- **Netlist:** 861 pin entries / 0 mismatches, check_fp 295 / 0, ERC 0.
+- **Simulation:** `tools/sim_netlist.py` 39/39, `tools/sim_console.py` 35/35, `sim/review/gaps/ol.py` as in the change
+  notes. The deck now steps at 2 µs: at 20 µs its ideal switches showed a false 26 µs blink.
+- **Placement:** 295 footprints, 0 DRC violations, 0 parity issues, 295 / 295 linked; only the five new parts added.
+  Decouplers 2.5 / 5.4 / 1.
 
 v4.8 (`pan_buffer_proposal.md` PAN1):
 - **Netlist:** 851 pin entries / 0 mismatches, check_fp 290 / 0, ERC 0.

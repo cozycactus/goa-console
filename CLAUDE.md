@@ -13,11 +13,11 @@ Line level only. One identical main PCB per channel (plus a small jack board), j
 ribbon "motherloom".
 Channel = a Soundcraft Delta Theatre input without the mic stage (decided 2026-10-22): line gain,
 Ø, HPF, 4-band EQ, post-EQ insert, ON, PFL, aux 1-6 with PRE switches, pan + PAN switch, routing,
-direct out. Strip spec v4.8 (v4.0 + the stability / ratings fixes of 2026-10-23, film couplers and MUSE ES bipolars and the sweepable HPF 2026-10-24, buffered receiver, chassis sleeves, K1 / K3 and the design review 2026-10-25, the signal / OL bicolour LED and PAN1 2026-10-26), schematics and placement (main board +
+direct out. Strip spec v4.9 (v4.0 + the stability / ratings fixes of 2026-10-23, film couplers and MUSE ES bipolars and the sweepable HPF 2026-10-24, buffered receiver, chassis sleeves, K1 / K3 and the design review 2026-10-25, the signal / OL bicolour LED and PAN1 2026-10-26, P1 / P2 / E6 2026-10-27), schematics and placement (main board +
 jack board) done.
 
 ## Files
-- `channel_strip.kicad_sch` / `.kicad_pro` — channel strip schematic v4.8 (KiCad 7 file format, opens in KiCad 10).
+- `channel_strip.kicad_sch` / `.kicad_pro` — channel strip schematic v4.9 (KiCad 7 file format, opens in KiCad 10).
   HIERARCHICAL on A4 since 2026-10-25, like the master: a root sheet plus 15 pages in `strip_sheets/` (the group: 7
   pages in `group_sheets/`); strip_draw blocks too big for a page are lists of pieces (KHN per band, routing per
   assign key, power in rows), packed apart on pages and drawn in turn on a flat sheet (PILOT).
@@ -323,7 +323,7 @@ jack board) done.
 - `delta_clone_comparison.md` — the strip as a Delta Theatre input without the mic stage, stage by
   stage against the old strip; 7 decisions signed off 2026-10-22 (§3), now in spec v4.0 and the schematic.
 - `console_architecture.md` — whole-console architecture, v3.0. Authoritative.
-- `channel_strip_schematic_spec.md` — strip component-level spec, v4.8. Authoritative.
+- `channel_strip_schematic_spec.md` — strip component-level spec, v4.9. Authoritative.
 - `channel_strip_BOM.csv`, `channel_strip.net`, `channel_strip.pdf` — exports.
 
 ## Decisions made (do not silently change)
@@ -504,6 +504,14 @@ jack board) done.
   wall with the NC7MD-LX, 14 mm cap strip; the 21 mm channel's open top is the outlet, 0.026 m2), open underside; console
   raised 25 mm (panel front edge 99 mm above the desk). Supply cable through back-rail vent slot 14. Geometry in
   `panel_layout.py`; drawings `tub/` (`python3 tools/tub_fab.py`).
+- Strip v4.9 (signed off by Ruslan 2026-10-27; `met1_ret1_review.md` P1 / P2, `emc_placement_study.md` E6):
+  - **P1 / P2:** R126 / R127 1K between U4A / U17A and their hold caps (discharge peak 15.9 mA, inside the LM393B's
+    25 mA); C100 100n on VREF.
+  - **E6:** C101 / C102 10n base to emitter on Q3 / Q4 (SIG_B's 0.75 V edges 17.6 us / 1.04 ms; the LED current still
+    switches in us).
+  - **Declined / decided:** P3 declined. P4: blind M3 studs pressed into the panel backs if the maker offers them,
+    else no panel-end screw.
+  - **Placement:** placed by `placer.py` `moves_only` (never packed), so no other part moved.
 - Board layers (Ruslan, 2026-10-27, `layer_study.md`): the strip, group and master main boards are 4-layer (In1.Cu "GND" a
   solid GNDA plane, the return for F.Cu; In2.Cu "GND2" GNDA fill, the return for B.Cu, with the rails and the GNDD spine
   only in a left-edge rail corridor, rule area RAILS, `placer.py` `rails=`; branches to the ICs on F.Cu / B.Cu; signals

@@ -13,7 +13,8 @@ schgen.MPN.update({'LED2': 'Kingbright WP3VEGW', 'PNP': 'onsemi MMBT3906LT1G',
                    'DG': 'Vishay DG413DY-E3', 'ZEN': 'Nexperia BZX84-C5V1,215', 'SCH': 'Nexperia BAT54W,115',
                    'OPA': 'TI OPA1612AIDR', 'CMP': 'TI LM393BIDR', 'JFET': 'onsemi MMBFJ112', 'D': 'Vishay 1N4148-TAP'})
 # strip_parts_review.md T9/T10: ceramics >= 25 V (50 V X7R here), anti-surge resistors where the power is marginal
-CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Murata GRM21BR71H105KA12L (X7R 50V)',
+CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '10n': 'Samsung CL21B103KBANNNC (X7R 50V)',   # 10n: E6
+           '1u': 'Murata GRM21BR71H105KA12L (X7R 50V)',
            '220n': 'Samsung CL21B224KBFNNNE (X7R 50V)',
            # every strip C0G sits on the 1206 footprint (C0G below); a value's voltage is its minimum rating
            '10p C0G': 'KEMET C1206C100J5GACTU', '22p C0G': 'KEMET C1206C220J5GACTU', '33p C0G': 'KEMET C1206C330J5GACTU',
@@ -207,7 +208,11 @@ b = block('OVERLOAD DETECTOR (~+18 dBu, ~150 ms hold) + SIGNAL (~-20 dBu): one r
 P(b,'R39','R','1K',{1:'PRESRC',2:'PKA'}); P(b,'D1','D','1N4148',{2:'PKA',1:'PK'})
 P(b,'C12','C','100n',{1:'PK',2:'GNDA'}); P(b,'R14','R','470K',{1:'PK',2:'GNDA'})
 P(b,'R40','R','10K',{1:'+VL',2:'VREF'}); P(b,'R41','R','10K',{1:'VREF',2:'GNDA'})
-P(b,'U4','CMP','LM393',{2:'PK',3:'VREF',1:'OL_HOLD'},unit=1)
+# P2 (met1_ret1_review.md, signed off 2026-10-27): 100 nF on VREF at the divider; VREF runs ~215 mm to U17
+P(b,'C100','C','100n',{1:'VREF',2:'GNDA'})
+# P1 (met1_ret1_review.md, signed off 2026-10-27): a 1K between each discharge output and its 220n hold cap keeps the
+# LM393B's output under its 25 mA rating (17 mA peak); thresholds unchanged (sim/review/gaps/ol.py)
+P(b,'U4','CMP','LM393',{2:'PK',3:'VREF',1:'OL_DIS'},unit=1); P(b,'R126','R','1K',{1:'OL_DIS',2:'OL_HOLD'})
 P(b,'R115','R','1M',{1:'+VL',2:'OL_HOLD'}); P(b,'C97','C','220n',{1:'OL_HOLD',2:'GNDD'})
 P(b,'U4','CMP','LM393',{5:'OL_HOLD',6:'VREF',7:'OL_K'},unit=2)
 # MET1 (feature_gaps.md, signed off 2026-10-26): D2 is a red / green bicolour (Kingbright WP3VEGW, common cathode) in the
@@ -218,14 +223,17 @@ P(b,'U4','CMP','LM393',{5:'OL_HOLD',6:'VREF',7:'OL_K'},unit=2)
 # forced beta ~10 at 3 mA. PRESRC reaches U17A through 47K with a BAT54W clamp to GNDD (sim/review/gaps/ol.py).
 P(b,'R116','R','47K',{1:'OL_K',2:'OL_B'}); P(b,'R117','R','47K',{1:'+VL',2:'OL_B'})
 P(b,'Q3','PNP','MMBT3906',{1:'OL_B',2:'+VL',3:'OL_C'})
+# E6 (emc_placement_study.md, signed off 2026-10-27): 10 nF base to emitter on each LED switch: with the 47K base the
+# LED current ramps over ~0.5 ms, so no MET1 line switches fast
+P(b,'C101','C','10n',{1:'OL_B',2:'+VL'})
 P(b,'R15','R','4K7',{1:'OL_C',2:'OL_A'})                                   # ~3 mA, as the other LEDs
 P(b,'R118','R','47K',{1:'PRESRC',2:'SIG_IN'}); P(b,'D11','SCH','BAT54W',{1:'GNDD',3:'SIG_IN',2:'NC'})
 P(b,'R119','R','750K',{1:'VREF',2:'VTH'}); P(b,'R120','R','10K',{1:'VTH',2:'GNDA'})   # 760K: loads VREF by 0.7 %
-P(b,'U17','CMP','LM393',{2:'SIG_IN',3:'VTH',1:'SIG_HOLD'},unit=1)
+P(b,'U17','CMP','LM393',{2:'SIG_IN',3:'VTH',1:'SIG_DIS'},unit=1); P(b,'R127','R','1K',{1:'SIG_DIS',2:'SIG_HOLD'})
 P(b,'R121','R','1M',{1:'+VL',2:'SIG_HOLD'}); P(b,'C99','C','220n',{1:'SIG_HOLD',2:'GNDD'})
 P(b,'U17','CMP','LM393',{5:'SIG_HOLD',6:'VREF',7:'SIG_K'},unit=2)
 P(b,'R122','R','47K',{1:'SIG_K',2:'SIG_B'}); P(b,'R123','R','47K',{1:'+VL',2:'SIG_B'})
-P(b,'Q4','PNP','MMBT3906',{1:'SIG_B',2:'+VL',3:'SIG_C'})
+P(b,'Q4','PNP','MMBT3906',{1:'SIG_B',2:'+VL',3:'SIG_C'}); P(b,'C102','C','10n',{1:'SIG_B',2:'+VL'})   # E6
 P(b,'R124','R','4K7',{1:'SIG_C',2:'SIG_A'})
 P(b,'R125','R','47K',{1:'OL_K',2:'GATE_B'}); P(b,'Q5','PNP','MMBT3906',{1:'GATE_B',2:'+VL',3:'SIG_B'})
 P(b,'D2','LED2','OL red / SIG green',{1:'OL_A',2:'GNDD',3:'SIG_A'})
@@ -328,12 +336,12 @@ for _, ps in schgen.blocks:                     # ceramic MPNs by value (X7R 50 
     for pt in ps:
         if pt['key'] in ('C', 'CP') and not pt['mpn']: pt['mpn'] = CAP_MPN.get(pt['value'], '')
 build(OUT, 'channel_strip', 'Channel strip - goa console',
-      {1: 'Generated from channel_strip_schematic_spec.md v4.8', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
+      {1: 'Generated from channel_strip_schematic_spec.md v4.9', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
        3: 'A Delta Theatre input without the mic stage'},
-      paper='auto', revision='4.8', pages=dict(paper='A4', folder='strip_sheets'), **strip_draw.SHEET)   # A4 sub-sheets
+      paper='auto', revision='4.9', pages=dict(paper='A4', folder='strip_sheets'), **strip_draw.SHEET)   # A4 sub-sheets
 if os.environ.get('PILOT'):                     # only the drawn blocks, on a sheet of their own (layout review)
     build(os.environ['PILOT'], 'pilot', 'Channel strip - drawn blocks (pilot)', {1: 'tools/strip_draw.py', 2: ''},
-          paper='auto', revision='4.8', only=lambda t: strip_draw.for_title(t) is not None, **strip_draw.SHEET)
+          paper='auto', revision='4.9', only=lambda t: strip_draw.for_title(t) is not None, **strip_draw.SHEET)
 
 # ---------------------------------------------------------------- jack board (its own PCB; same net names)
 schgen.blocks.clear()

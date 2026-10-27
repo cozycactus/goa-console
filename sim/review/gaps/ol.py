@@ -5,11 +5,14 @@ VREF, and Q3 feeds the red anode through R15.
 Green (signal, MET1): PRESRC -> R118 47K -> SIG_IN (BAT54W clamp to GNDD) -> U17A - input against VTH = VREF / 76;
 U17A discharges SIG_HOLD (R121 / C99); U17B pulls Q4's base (R122 / R123) while SIG_HOLD is below VREF, Q4 feeds the green
 anode through R124. Q5 (base from U4B's output through R125) holds Q4's base at +VL while the red is lit.
+Since 2026-10-27: P1, U4A / U17A discharge their holds through R126 / R127 1K (the output current peak is measured);
+P2, C100 100n on VREF; E6, C101 / C102 10n base to emitter on Q3 / Q4 (the LED current's 10-90 % rise is measured).
 Part values are read from channel_strip.net, so the deck follows the schematic.
 usage: python3 sim/review/gaps/ol.py
 Models: 1N4148, BAT54 and a generic 2N3906 (standard), GaAsP red ~1.9 V and GaP green ~2.0 V at 3 mA, LM393
 halves as sink switches (60 ohm, ideal speed; the real 1.3 us is far below the 0.1 ms attack). The source is ideal:
-PRESRC is an op-amp output."""
+PRESRC is an op-amp output. Time step 2 us: at 20 us the ideal switches showed a false 26 us blink where the hold node
+crosses VREF (gone at 1 and 0.2 us)."""
 import os, re, sys, math, subprocess, tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.join(HERE, '..', '..', '..')
@@ -39,13 +42,17 @@ C12 pk 0 {v('C12')}
 R14 pk 0 {v('R14')}
 R40 vl vref {v('R40')}
 R41 vref 0 {v('R41')}
-S4A hold 0 pk vref SW393
+C100 vref 0 {v('C100')}
+S4A dis 0 pk vref SW393
+R126 dis disi {v('R126')}
+VI4 hold disi 0
 R115 vl hold {v('R115')}
 C97 hold 0 {v('C97')}
 S4B olk 0 vref hold SW393
 R116 olk olb {v('R116')}
 R117 vl olb {v('R117')}
 Q3 olc olb vl Q3906
+C101 olb vl {v('C101')}
 R15 olc ola {v('R15')}
 VLEDR ola ola2 0
 D2R ola2 0 LEDR
@@ -53,23 +60,26 @@ R118 presrc sigin {v('R118')}
 D11 0 sigin DBAT54
 R119 vref vth {v('R119')}
 R120 vth 0 {v('R120')}
-S17A shold 0 sigin vth SW393
+S17A sdis 0 sigin vth SW393
+R127 sdis sdisi {v('R127')}
+VI17 shold sdisi 0
 R121 vl shold {v('R121')}
 C99 shold 0 {v('C99')}
 S17B sigk 0 vref shold SW393
 R122 sigk sigb {v('R122')}
 R123 vl sigb {v('R123')}
 Q4 sigc sigb vl Q3906
+C102 sigb vl {v('C102')}
 R124 sigc siga {v('R124')}
 R125 olk gateb {v('R125')}
 Q5 sigb gateb vl Q3906
 VLEDG siga siga2 0
 D2G siga2 0 LEDG
-.ic v(hold)={VL} v(shold)={VL}
+.ic v(hold)={VL} v(shold)={VL} v(vref)={VL / 2}
 {extra}
 .control
 set noaskquit
-tran 20u {tstop} 0 20u
+tran 2u {tstop} 0 2u
 meas tran pkmax max v(pk)
 meas tran redon when i(VLEDR)=1m rise=1
 meas tran redoff when i(VLEDR)=1m fall=1
@@ -80,6 +90,10 @@ meas tran gmax max i(VLEDG)
 meas tran gend find i(VLEDG) at={tstop}
 meas tran rend find i(VLEDR) at={tstop}
 meas tran vin_min min v(sigin)
+meas tran i4max max i(VI4)
+meas tran i17max max i(VI17)
+meas tran r10 when i(VLEDR)=0.3m rise=1
+meas tran r90 when i(VLEDR)=2.7m rise=1
 .endc
 .end"""
 
@@ -130,3 +144,14 @@ if __name__ == '__main__':
     print(f'+22 dBu, 1 kHz (overload): red {r["rend"] * 1e3:.2f} mA, green {r["gend"] * 1e6:.1f} uA (gated off); SIG_IN min {r["vin_min"]:.2f} V')
     r = run(deck('VS presrc 0 DC 0', 0.3))
     print(f'silence: red {r["rend"] * 1e6:.2f} uA, green {r["gend"] * 1e6:.2f} uA')
+    r = run(deck(sine(22, 1000), 0.3))
+    print(f'P1: discharge current peak, U4A {r["i4max"] * 1e3:.1f} mA (+22 dBu), ', end='')
+    r2 = run(deck(sine(0, 1000), 0.3)); print(f'U17A {r2["i17max"] * 1e3:.1f} mA (0 dBu); LM393B output rating 25 mA')
+    if r.get('r10') and r.get('r90'): print(f'E6: red LED current 10-90 % rise {(r["r90"] - r["r10"]) * 1e6:.1f} us')
+    a0 = vrms(0.0) * math.sqrt(2); hi = VL
+    d = deck(f'BS presrc 0 V = {a0} * sin(6.283185307e3 * (time - 1m)) * (time > 1m) * (time < 21m)', 0.5)
+    lo = run(d.replace('.endc', 'meas tran bmin min v(sigb)\n.endc'))['bmin']; s_ = hi - lo
+    r = run(d.replace('.endc', f'meas tran b90 when v(sigb)={lo + 0.9 * s_} fall=1\nmeas tran b10 when v(sigb)={lo + 0.1 * s_} fall=1\n'
+                               f'meas tran c10 when v(sigb)={lo + 0.1 * s_} rise=1\nmeas tran c90 when v(sigb)={lo + 0.9 * s_} rise=1\n.endc'))
+    print(f'E6: SIG_B (the 258 mm line to Q4) swings {s_:.2f} V; edges {(r["b10"] - r["b90"]) * 1e6:.1f} us falling, '
+          f'{(r["c90"] - r["c10"]) * 1e3:.2f} ms rising (0.8 / 2.0 us without C102)')

@@ -599,6 +599,14 @@
         "pattern": "Net-(R122-Pad1)"
       },
       {
+        "netclass": "Switching",
+        "pattern": "Net-(R126-Pad1)"
+      },
+      {
+        "netclass": "Switching",
+        "pattern": "Net-(R127-Pad1)"
+      },
+      {
         "netclass": "HighZ",
         "pattern": "Net-(U12A-+)"
       },
@@ -647,10 +655,6 @@
         "pattern": "Net-(U16B-+)"
       },
       {
-        "netclass": "Switching",
-        "pattern": "Net-(U17B-+)"
-      },
-      {
         "netclass": "HighZ",
         "pattern": "Net-(U1A-+)"
       },
@@ -669,10 +673,6 @@
       {
         "netclass": "HighZ",
         "pattern": "Net-(U3A-+)"
-      },
-      {
-        "netclass": "Switching",
-        "pattern": "Net-(U4B-+)"
       },
       {
         "netclass": "HighZ",

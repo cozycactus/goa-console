@@ -183,7 +183,11 @@ Signed off by Ruslan on 2026-10-26: E1–E5 and E8 (placement only). E6 and E7 a
 - [x] **E3** Soft-mute JFETs at U3B's input.
 - [x] **E4** Supply entry filters at the header (strip and group).
 - [x] **E5** Jack board: C8 / C9 at J1; a chassis standoff beside J1's sleeve.
-- [ ] **E6** 10 nF base caps on Q3 / Q4 (circuit). Later.
+- [x] **E6** 10 nF base caps on Q3 / Q4 (circuit). Signed off 2026-10-27, applied (strip v4.9: C101 / C102).
+  - **Correction:** the proposal said the LED current would ramp over ~0.5 ms. The sim
+    (`sim/review/gaps/ol.py`, 2 µs step) shows the current still switches in µs (2.4 µs on, 38 µs off).
+  - **What it does slow:** the voltage on the long SIG_B line, 0.75 V (Q4's base clamps it), from 0.8 / 2.0 µs to
+    17.6 µs / 1.04 ms. That edge is the one coupling into the audio along the strip.
 - [ ] **E7** Ferrites at the jack, only if the jig shows RF pickup (circuit, deferred).
 - [x] **E8** Master: flasher next to its LED; PFL_ON_RAW away from the phones input.
 

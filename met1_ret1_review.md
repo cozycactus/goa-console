@@ -196,7 +196,7 @@ stress load sits elsewhere. That is still far from any limit.
 
 ## Sign-off
 
-- [ ] **P1** 1K between the U4A / U17A outputs and their hold nodes.
-- [ ] **P2** 100 nF on VREF at R40 / R41.
-- [ ] **P3** 10M hysteresis on U4B / U17B (optional).
-- [ ] **P4** Standoff fastening at the panel: a / **b** / c.
+- [x] **P1** 1K between the U4A / U17A outputs and their hold nodes. Signed off 2026-10-27, applied (strip v4.9: R126 / R127).
+- [x] **P2** 100 nF on VREF at R40 / R41. Signed off 2026-10-27, applied (C100).
+- [ ] **P3** 10M hysteresis on U4B / U17B (optional). Declined 2026-10-27: the sim shows no chatter at a 1-2 us step.
+- [x] **P4** Standoff fastening at the panel: **b if the panel maker offers blind M3 studs, else c** (Ruslan, 2026-10-27).

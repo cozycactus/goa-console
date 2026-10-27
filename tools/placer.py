@@ -23,6 +23,8 @@ place(net, out, layout) builds a board from a KiCad netlist and a layout:
          stays as without the moves (no part re-packs into the slots they leave). Refuses a spot whose courtyard
          meets another part's on that side, or that meets a through-hole pad or the board edge; a through-hole part's own
          leads must also clear every other part's pads and courtyards on both sides.
+  moves_only  refs that only `moves` places: not packed, not part of any IC's attach ring, so adding a part to a
+         finished layout moves nothing else (strip v4.9: P1 / P2 / E6).
   turns  {ref: degrees} parts turned in place about their origin after packing and the moves (untangle_proposal.md:
          two-pad parts turned so their ratsnest crosses less), with the same refusal as moves.
 After placing, the report gives each decoupler's distance to its supply pin and, per local high-impedance input net
@@ -128,7 +130,9 @@ def place(NET, OUT, L):
                 padnet[(field(nd, 'ref'), field(nd, 'pin'))] = name; pintype[(field(nd, 'ref'), field(nd, 'pin'))] = field(nd, 'pintype')
 
     # a FIX part may also be listed in a zone: there it anchors its parts (attach, decouplers) but is not moved
-    every = list(FIX) + [r for z in ZONES for r in z[2] if r not in FIX]
+    MOVES_ONLY = set(L.get('moves_only', ()))           # placed by `moves` alone: never packed, no attach links
+    if MOVES_ONLY - set(L.get('moves', {})): raise SystemExit(f'moves_only without a move: {sorted(MOVES_ONLY - set(L.get("moves", {})))}')
+    every = list(FIX) + [r for z in ZONES for r in z[2] if r not in FIX] + sorted(MOVES_ONLY)
     placed = set(every); twice = sorted({r for r in every if every.count(r) > 1})
     missing = sorted(set(parts) - placed); extra = sorted(placed - set(parts))
     if missing or extra or twice:
@@ -471,9 +475,11 @@ def place(NET, OUT, L):
                     (overlaps(courtyard(f), mine_tht, 0) or
                      any(overlaps(q, mine_tht, 0) for q in [bbox(p.GetBoundingBox()) for p in f.Pads()]))]
         if bad or box[0] < BOARD[0] or box[1] < BOARD[1] or box[2] > BOARD[2] or box[3] > BOARD[3]:
-            raise SystemExit(f'{what}: {ref} meets {sorted(set(bad)) or "the board edge"}')
+            msg = f'{what}: {ref} meets {sorted(set(bad)) or "the board edge"}'
+            if os.environ.get('PLACER_SKIP_GUARD'): print('  GUARD (skipped, debugging only):', msg)   # to see the cascade
+            else: raise SystemExit(msg)
     for ref, (x, y, rot, side) in L.get('moves', {}).items():
-        fp = board.FindFootprintByReference(ref)
+        fp = load(ref) if ref in MOVES_ONLY else board.FindFootprintByReference(ref)
         if fp.IsFlipped(): flip(fp)
         fp.SetOrientationDegrees(rot); fp.SetPosition(pcbnew.VECTOR2I_MM(x, y))
         if side == 'B': flip(fp)
