@@ -187,8 +187,8 @@ The same layer plan and tools; rail corridor x 0.5–6.5 (±VA, ±VP, ±VM, +VL,
 reservoirs and clamps.
 - **Wing feeds:** ±VBUS_L / R run 68–129 mm to the wing headers CN2 / CN3. Each carries a whole wing, up to about
   2 A on +V.
-  - **Width:** wide copper, not the Power class's 0.8 mm. At 2 A, use 2 mm or more on the outer layers, and more if
-    any part runs on In2 (0.5 oz there).
+  - **Width:** they are the WingFeed class (every net through a wing PTC): DRC asks for at least 1.5 mm, 2 mm
+    preferred, and more if any part runs on In2 (0.5 oz there). The jig stub's PTC feeds are in the same class.
   - **Where:** keep them on their edge keep-outs.
 - **Rails:** ±VA (52 / 50 pads, about 720 mm), ±VM (meters, 517–566 mm), ±VP (phones, 207–216 mm). In the corridor,
   with branches on F.Cu / B.Cu.
@@ -293,6 +293,7 @@ change, because nets are assigned by exact name:
 |---|---|---|---|
 | Ground | GNDA, GNDD, GNDM, PHONESGND | 0.6 mm (min 0.4 by rule) | 0.6 / 0.3 |
 | Chassis | CHASSIS | 1.5 mm | 0.8 / 0.4 |
+| WingFeed | nets through a wing PTC (master ±VBUS, ±VBUS_L / R; jig stub) | 2.0 mm (min 1.5 by rule) | 1.0 / 0.5 |
 | Power | ±VBUS*, ±VA, ±VP, ±VM | 0.8 mm (min 0.5 by rule) | 0.8 / 0.4 |
 | LogicSupply | ±VL, +5VL | 0.4 mm | 0.6 / 0.3 |
 | Bus | signal pins of the 34-way bus header | 0.3 mm | 0.6 / 0.3 |

@@ -56,9 +56,14 @@ def jtrack(net, a, z, w):
     t.SetWidth(M(w)); t.SetLayer(pcbnew.B_Cu); t.SetNet(jb.FindNet(net)); jb.Add(t)
 jtrack('/CHASSIS', (14, 2), (22, 2), 1.5); jtrack('GNDA', (14, 3.35), (22, 3.35), 0.6)
 pcbnew.SaveBoard(jpath, jb)
+# the wing feeds exist on the master only: a 1.0 mm +VBUS_L track there
+for ext in ('kicad_pcb', 'kicad_pro', 'kicad_dru'): shutil.copy(os.path.join(ROOT, 'master.' + ext), tmp)
+mpath = os.path.join(tmp, 'master.kicad_pcb'); mb = pcbnew.LoadBoard(mpath)
+t_ = pcbnew.PCB_TRACK(mb); t_.SetStart(pcbnew.VECTOR2I(M(70), M(300))); t_.SetEnd(pcbnew.VECTOR2I(M(70), M(305))); t_.SetWidth(M(1.0))
+t_.SetLayer(pcbnew.B_Cu); t_.SetNet(mb.FindNet('+VBUS_L')); mb.Add(t_); pcbnew.SaveBoard(mpath, mb)
 rules = [l.split('"')[1] for l in open(os.path.join(ROOT, 'channel_strip.kicad_dru')) if l.startswith('(rule')]   # the strip has the 4-layer rules too
 hits = {}
-for name in ('channel_strip', 'jack_board'):
+for name in ('channel_strip', 'jack_board', 'master'):
     subprocess.run([KC, 'pcb', 'drc', '--severity-all', '-o', os.path.join(tmp, name + '.rpt'), os.path.join(tmp, name + '.kicad_pcb')],
                    capture_output=True)
     rpt = open(os.path.join(tmp, name + '.rpt')).read()

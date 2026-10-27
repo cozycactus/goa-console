@@ -23,6 +23,9 @@
 (rule "power tracks wide"
   (condition "A.NetClass == 'Power' && A.Type == 'Track'")
   (constraint track_width (min 0.5mm) (opt 0.8mm)))
+(rule "wing feeds wide (a whole wing, up to ~2 A)"
+  (condition "A.NetClass == 'WingFeed' && A.Type == 'Track'")
+  (constraint track_width (min 1.5mm) (opt 2.0mm)))
 (rule "ground tracks wide"
   (condition "A.NetClass == 'Ground' && A.Type == 'Track'")
   (constraint track_width (min 0.4mm) (opt 0.6mm)))

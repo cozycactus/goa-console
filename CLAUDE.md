@@ -235,7 +235,8 @@ jack board) done.
   Ground widths. `tools/netrules_test.py` proves every rule fires (KiCad silently drops a rule it can't evaluate, e.g.
   `!(...)`; the later rule in the file wins for the same constraint). The 4-layer boards add five: no tracks on In1.Cu, no
   zone there but ground, no HighZ / Entry / Bus tracks on In2.Cu, rails / GNDD on In2 only inside RAILS, no HighZ / Entry
-  / Bus on B.Cu over RAILS (13 rules on the strip, all fire). Re-run netrules.py after any re-placement or netlist
+  / Bus on B.Cu over RAILS (13 rules on the strip, all fire). WingFeed class (nets through a wing PTC: master ±VBUS / ±VBUS_L / _R, the jig
+  stub's feeds): tracks >= 1.5 mm, 2.0 preferred (14 rules in the test, all fire). Re-run netrules.py after any re-placement or netlist
   change. Generators that copy master.kicad_pro keep each project's net settings (`schgen.keep_net_settings`).
 - `layer_study.md` — 2 vs 4 layers (2026-10-27, for Ruslan's decision): the main boards need about one full signal layer
   of routing (ratsnest 63-72 mm/cm2, 118-161 crossings per 10 cm2; jig / PSU / jack boards 8-17 and 2-14). Quotes on

@@ -5,6 +5,7 @@ or netlist change (the classes are assigned by exact net name, and unnamed nets 
 It also writes the board-wide fab limits (FAB, JLCPCB's capabilities) into every project, the PSU's too.
 Classes, first match wins:
   Ground       GNDA, GNDD, GNDM, PHONESGND (pours; tracks where a pour can't reach)
+  WingFeed     nets through a wing PTC (the master's +-VBUS and +-VBUS_L / _R): a whole wing, up to ~2 A
   Chassis      CHASSIS (jack sleeves and the plated standoffs)
   Power        the bus and op-amp rails (+-VBUS*, +-VA, +-VP, +-VM)
   LogicSupply  +-VL, +5VL
@@ -47,7 +48,8 @@ OPAMP = ('OPA', 'DRV13')
 # name: (track width, clearance, via diameter, via drill), mm
 CLASSES = {'Default': (0.25, 0.2, 0.6, 0.3), 'Ground': (0.6, 0.2, 0.6, 0.3), 'Chassis': (1.5, 0.5, 0.8, 0.4),
            'Power': (0.8, 0.2, 0.8, 0.4), 'LogicSupply': (0.4, 0.2, 0.6, 0.3), 'Bus': (0.3, 0.2, 0.6, 0.3),
-           'Entry': (0.3, 0.2, 0.6, 0.3), 'HighZ': (0.2, 0.2, 0.6, 0.3), 'Switching': (0.25, 0.2, 0.6, 0.3)}
+           'Entry': (0.3, 0.2, 0.6, 0.3), 'HighZ': (0.2, 0.2, 0.6, 0.3), 'Switching': (0.25, 0.2, 0.6, 0.3),
+           'WingFeed': (2.0, 0.3, 1.0, 0.5)}
 # class clearances stay at the board's 0.2 mm: footprints have pad gaps down to 0.25 mm (the load board's slide switches);
 # the wider spacings are track rules in DRU
 DRU = """(version 1)
@@ -75,6 +77,9 @@ DRU = """(version 1)
 (rule "power tracks wide"
   (condition "A.NetClass == 'Power' && A.Type == 'Track'")
   (constraint track_width (min 0.5mm) (opt 0.8mm)))
+(rule "wing feeds wide (a whole wing, up to ~2 A)"
+  (condition "A.NetClass == 'WingFeed' && A.Type == 'Track'")
+  (constraint track_width (min 1.5mm) (opt 2.0mm)))
 (rule "ground tracks wide"
   (condition "A.NetClass == 'Ground' && A.Type == 'Track'")
   (constraint track_width (min 0.4mm) (opt 0.6mm)))
@@ -118,6 +123,7 @@ def classes_of(path):
         ins = [p for r, p, xy, s in ps if r.startswith('U') and parts[r]['value'].startswith(OPAMP) and p in ('2', '3', '5', '6')]
         outs = [p for r, p, xy, s in ps if r.startswith('U') and parts[r]['value'].startswith(OPAMP) and p in ('1', '7')]
         if n in GROUND: c = 'Ground'
+        elif any(r.startswith('F') and r[1:].isdigit() for r, p, xy, s in ps): c = 'WingFeed'   # through a wing PTC: up to ~2 A
         elif n == 'CHASSIS': c = 'Chassis'
         elif POWER.match(n): c = 'Power'
         elif n in LOGIC: c = 'LogicSupply'
