@@ -199,13 +199,31 @@ def level_buffer(b, wiper, out, name, unity=True):          # [13, 16] pot wiper
     rg = R(b, 'DNF (2K2 = +10 dB)', fn, 'GNDA', dnp=True)
     frag(b, 26, 17, lambda d: frags.noninv(d, wiper, out, uu, cin, rsh, csh, rf, cf, rg))
 
-def drv134(b, inp, op, on):                                 # [7]
+DRV_RX = []                     # CS4c: the resistors inside the DRV135 loops, created last by drv_loop_rs()
+
+def drv134(b, inp, op, on, rx=True):                        # [7]
+    """rx (CS4c): a 22R between each output pin and its 10u, inside the Sense loop; created last (drv_loop_rs), so
+    every other ref stays. The jig stub passes rx=False."""
     vop, von, u = op + '_VO', on + '_VO', ref('U')
-    P(b, u, 'DRV134', 'DRV135', {4: inp, 3: 'GNDA', 6: '+VA', 5: '-VA', 8: vop, 1: von, 7: op, 2: on})
+    pp, pn = (op + '_DRV', on + '_DRV') if rx else (vop, von)
+    P(b, u, 'DRV134', 'DRV135', {4: inp, 3: 'GNDA', 6: '+VA', 5: '-VA', 8: pp, 1: pn, 7: op, 2: on})
     cs = (C(b, '10u NP 25V', vop, op), C(b, '10u NP 25V', von, on), C(b, '1u', '+VA', 'GNDA'), C(b, '1u', 'GNDA', '-VA'))
     for c in cs: near(c, u)
-    frag(b, 30, 15, lambda d: frags.drv134(d, inp, op, on, u, *cs))
+    rs = []
+    if rx: DRV_RX.append((b, u, ((pp, vop), (pn, von)), rs))
+    frag(b, 35 if rx else 30, 15, lambda d: frags.drv134(d, inp, op, on, u, *cs, rs=rs))
     return u
+
+def drv_loop_rs():
+    """CS4c: create the resistors inside the DRV135 loops (output pin -> 22R -> 10u), anti-surge 0805, each in its
+    DRV135's block: an 8 kV discharge on a leg leaves the output pin 0.84 A with the CS4b clamp (5.9 A without). Call
+    it last: they take the next free R refs, so every other part keeps its ref."""
+    out = []
+    while DRV_RX:
+        b, u, legs, rs = DRV_RX.pop(0)
+        for a, c in legs:
+            r = R(b, '22R', a, c, mpn='Panasonic ERJ-P06J220V'); rs.append(r); out.append(r)   # placed by moves alone
+    return out
 
 def relay(b, a_in, a_out, b_in, b_out, gnd='GNDA', anchor=None):   # [8] G6K-2F-Y: COM 3/6, NC 2/7, NO 4/5
     """Mute relay: COM to the connector side, NO to the driver (Sense node), NC to ground, so a de-energised relay
@@ -399,4 +417,4 @@ def parts_sidecar(out):
 def reset():
     """Start a new schematic: empty block list, references from 1, no half-used packages."""
     global jackboard
-    schgen.blocks.clear(); cnt.clear(); free.clear(); decoupling.clear(); DEFER.clear(); jackboard = None
+    schgen.blocks.clear(); cnt.clear(); free.clear(); decoupling.clear(); DEFER.clear(); DRV_RX.clear(); jackboard = None

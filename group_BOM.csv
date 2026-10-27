@@ -43,6 +43,7 @@
 "4","43K","Resistor_SMD:R_0805_2012Metric","","","R65 R66 R105 R106"
 "8","220R","Resistor_SMD:R_0805_2012Metric","","","R70 R71 R75 R76 R110 R111 R115 R116"
 "8","100R","Resistor_SMD:R_0805_2012Metric","","","R72 R73 R77 R78 R112 R113 R117 R118"
+"4","22R","Resistor_SMD:R_0805_2012Metric","Panasonic ERJ-P06J220V","","R119 R120 R121 R122"
 "1","Sub fader 10K log 100mm","goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm","Bourns PTB0143-2010BPA103","","RV1"
 "1","Sub pan 10K lin dual CD","Potentiometer_THT:Potentiometer_Alps_RK09L_Double_Vertical","ALPS RK09L1240015","","RV2"
 "1","Aux master 10K log","Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical","Alpha RD901F-40-15R1-A10K","","RV3"

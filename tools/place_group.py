@@ -154,6 +154,11 @@ CS4B = {'D7': (13.0, 197.5, 90, 'B'), 'D8': (16.5, 197.5, 90, 'B'), 'D9': (20.0,
         'D16': (21.25, 208.5, 0, 'B'), 'D17': (25.0, 183.0, 0, 'B'), 'D18': (25.0, 179.5, 0, 'B'),
         'D19': (22.25, 204.75, 0, 'B'), 'D20': (32.75, 215.75, 0, 'F')}
 MOVES.update(CS4B)
+# CS4c (cs4c_proposal.md): the 22R inside each DRV135 loop at its output pin (U4 sub out, U7 aux out), placed by MOVES alone
+CS4C = {'R119': (35.75, 203.75, 90, 'B'), 'R120': (36.0, 207.75, 90, 'B'), 'R121': (2.0, 209.0, 90, 'F'),
+        'R122': (1.75, 205.0, 90, 'F')}
+MOVES.update(CS4C)
+for z in ZONES: z[2][:] = [r for r in z[2] if r not in CS4C]   # their drivers' blocks list them too
 # untangle_proposal.md: two-pad parts turned in place (degrees) so their ratsnest crosses less, measured with
 # tools/ratsnest.py (placer `turns`, after packing and the moves)
 TURNS = {'JP7': 90, 'R5': 90, 'R11': 180, 'R20': 180, 'R22': 180, 'R25': 180, 'R26': 180, 'R30': 180, 'R34': 180,
@@ -161,6 +166,6 @@ TURNS = {'JP7': 90, 'R5': 90, 'R11': 180, 'R20': 180, 'R22': 180, 'R25': 180, 'R
          'R74': 180, 'R77': 180, 'R78': 180, 'R80': 180, 'R86': 180, 'R89': 180, 'R90': 180, 'R96': 180, 'R107': 180,
          'R109': 180, 'R110': 180, 'R112': 180, 'R115': 270, 'R117': 270}
 place(os.path.join(PROJ, 'group.net'), os.path.join(PROJ, 'group.kicad_pcb'),
-      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS10) + tuple(CS4B), turns=TURNS, layers=4, rails=(0.5, 5.5), holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
+      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS10) + tuple(CS4B) + tuple(CS4C), wire=tuple(CS4C), turns=TURNS, layers=4, rails=(0.5, 5.5), holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
            keepout=[(22.0, 185.0, 23.5, 215.0, 'B')],          # silk room beside the links' boxes
            hole_value='M3 standoff 11.5 mm', attach=True))

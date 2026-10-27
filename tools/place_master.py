@@ -214,8 +214,16 @@ CS4B = {'D79': (16.0, 123.75, 0, 'F'), 'D80': (20.25, 123.75, 0, 'F'), 'D81': (2
         'D97': (62.5, 123.75, 0, 'F'), 'D98': (54.75, 130.0, 0, 'B'), 'D99': (63.5, 126.25, 0, 'B'),
         'D100': (66.5, 117.25, 90, 'F'), 'D101': (67.75, 126.25, 0, 'B'), 'D102': (63.5, 130.0, 90, 'B')}
 MOVES.update(CS4B)
+# CS4c (cs4c_proposal.md): the 22R inside each DRV135 loop at its output pin, placed by MOVES alone (never packed)
+CS4C = {'R222': (10.25, 163.5, 0, 'B'), 'R223': (6.0, 168.5, 0, 'B'), 'R224': (37.0, 174.5, 0, 'F'),
+        'R225': (33.0, 179.0, 0, 'B'), 'R226': (25.75, 203.75, 0, 'B'), 'R227': (20.75, 203.75, 0, 'B'),
+        'R228': (7.25, 114.75, 0, 'B'), 'R229': (3.25, 114.25, 0, 'B'), 'R230': (71.25, 114.5, 0, 'F'),
+        'R231': (68.25, 126.25, 0, 'F'), 'R232': (56.5, 219.0, 0, 'B'), 'R233': (52.25, 220.25, 0, 'B'),
+        'R234': (31.5, 231.5, 90, 'B'), 'R235': (28.25, 228.75, 0, 'F')}
+MOVES.update(CS4C)
+for z in ZONES: z[2][:] = [r for r in z[2] if r not in CS4C]   # their drivers' blocks list them too
 place(os.path.join(PROJ, 'master.net'), os.path.join(PROJ, 'master.kicad_pcb'),
-      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS4B), turns=TURNS, layers=4, rails=(0.5, 6.5), holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
+      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS4B) + tuple(CS4C), wire=tuple(CS4C), turns=TURNS, layers=4, rails=(0.5, 6.5), holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
            grounds=('GNDA', 'GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'), silk_text_off=('K',), hole_value='M3 standoff 11.5 mm',
            attach=True, keepout=[(0, 186, EL, 299), (ER, 186, W, 299),
                                  (21.0, 202.2, 58.0, 220.0, 'B')]))     # J1's wire entries (its +y face): room for the wires

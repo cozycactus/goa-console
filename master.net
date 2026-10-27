@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/master.kicad_sch")
-		(date "2026-10-27T18:24:37")
+		(date "2026-10-27T19:29:53")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -7273,6 +7273,246 @@
 			)
 		)
 		(comp
+			(ref "R222")
+			(value "22R")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "Panasonic ERJ-P06J220V")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERJ-P06J220V")
+			)
+			(property
+				(name "Sheetname")
+				(value "06 MAIN OUTPUTS")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master_sheets/06_main_outputs.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/06 MAIN OUTPUTS/")
+				(tstamps "/26728e81-c1bc-58b7-aa83-3e2309a5771a/")
+			)
+			(tstamps "cef33505-a5c9-5335-8dff-a116c4500dec")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R223")
+			(value "22R")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "Panasonic ERJ-P06J220V")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERJ-P06J220V")
+			)
+			(property
+				(name "Sheetname")
+				(value "06 MAIN OUTPUTS")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master_sheets/06_main_outputs.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/06 MAIN OUTPUTS/")
+				(tstamps "/26728e81-c1bc-58b7-aa83-3e2309a5771a/")
+			)
+			(tstamps "5edf0f25-5b6c-52eb-865a-7c0b193bc929")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R224")
+			(value "22R")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "Panasonic ERJ-P06J220V")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERJ-P06J220V")
+			)
+			(property
+				(name "Sheetname")
+				(value "06 MAIN OUTPUTS")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master_sheets/06_main_outputs.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/06 MAIN OUTPUTS/")
+				(tstamps "/26728e81-c1bc-58b7-aa83-3e2309a5771a/")
+			)
+			(tstamps "b8cf3912-4f81-5aee-8c30-55c909fa8741")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R225")
+			(value "22R")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "Panasonic ERJ-P06J220V")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERJ-P06J220V")
+			)
+			(property
+				(name "Sheetname")
+				(value "06 MAIN OUTPUTS")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master_sheets/06_main_outputs.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/06 MAIN OUTPUTS/")
+				(tstamps "/26728e81-c1bc-58b7-aa83-3e2309a5771a/")
+			)
+			(tstamps "47c7cb8e-d51f-57a0-8bae-0deb38810584")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "U7")
 			(value "DRV135")
 			(footprint "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
@@ -8392,6 +8632,126 @@
 				(tstamps "/a776b4e5-28b2-5f25-b674-e1b154dc9404/")
 			)
 			(tstamps "40dd0634-2c9a-50f3-aa72-6747e2d8dcfd")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R226")
+			(value "22R")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "Panasonic ERJ-P06J220V")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERJ-P06J220V")
+			)
+			(property
+				(name "Sheetname")
+				(value "07 MAIN OUTPUTS, POWER-ON MUTE")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master_sheets/07_main_outputs.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/07 MAIN OUTPUTS, POWER-ON MUTE/")
+				(tstamps "/a776b4e5-28b2-5f25-b674-e1b154dc9404/")
+			)
+			(tstamps "5f95ddde-1559-5022-a42b-d1cdcfb8d87e")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R227")
+			(value "22R")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "Panasonic ERJ-P06J220V")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERJ-P06J220V")
+			)
+			(property
+				(name "Sheetname")
+				(value "07 MAIN OUTPUTS, POWER-ON MUTE")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master_sheets/07_main_outputs.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/07 MAIN OUTPUTS, POWER-ON MUTE/")
+				(tstamps "/a776b4e5-28b2-5f25-b674-e1b154dc9404/")
+			)
+			(tstamps "dcde4bfb-45f0-5b47-8e1a-ff31fb660dbb")
 			(units
 				(unit
 					(name "A")
@@ -11044,6 +11404,126 @@
 			)
 		)
 		(comp
+			(ref "R228")
+			(value "22R")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "Panasonic ERJ-P06J220V")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERJ-P06J220V")
+			)
+			(property
+				(name "Sheetname")
+				(value "09 AUX MASTER 5")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master_sheets/09_aux_master_5.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/09 AUX MASTER 5/")
+				(tstamps "/5e16c1a8-73b4-5817-9448-5b80f076822d/")
+			)
+			(tstamps "e71ed087-442b-5537-b9cf-ef3733bb9213")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R229")
+			(value "22R")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "Panasonic ERJ-P06J220V")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERJ-P06J220V")
+			)
+			(property
+				(name "Sheetname")
+				(value "09 AUX MASTER 5")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master_sheets/09_aux_master_5.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/09 AUX MASTER 5/")
+				(tstamps "/5e16c1a8-73b4-5817-9448-5b80f076822d/")
+			)
+			(tstamps "eb0b540b-13f7-5df9-9535-4c3959b1dbc0")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "SW1")
 			(value "Aux 5 AFL")
 			(footprint "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2")
@@ -12625,6 +13105,126 @@
 				(tstamps "/0cb1dc8b-06f4-5944-b5a3-fb1de7ef2f3d/")
 			)
 			(tstamps "18803059-ec0d-5372-a9d9-2764f7c7699c")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R230")
+			(value "22R")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "Panasonic ERJ-P06J220V")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERJ-P06J220V")
+			)
+			(property
+				(name "Sheetname")
+				(value "10 AUX MASTER 6")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master_sheets/10_aux_master_6.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/10 AUX MASTER 6/")
+				(tstamps "/0cb1dc8b-06f4-5944-b5a3-fb1de7ef2f3d/")
+			)
+			(tstamps "118b1e6c-09ee-5085-8eb5-a88a17ebca57")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R231")
+			(value "22R")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "Panasonic ERJ-P06J220V")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERJ-P06J220V")
+			)
+			(property
+				(name "Sheetname")
+				(value "10 AUX MASTER 6")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master_sheets/10_aux_master_6.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/10 AUX MASTER 6/")
+				(tstamps "/0cb1dc8b-06f4-5944-b5a3-fb1de7ef2f3d/")
+			)
+			(tstamps "da15f281-a6c3-5184-afff-4bf8151c3cde")
 			(units
 				(unit
 					(name "A")
@@ -20805,6 +21405,126 @@
 			)
 		)
 		(comp
+			(ref "R232")
+			(value "22R")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "Panasonic ERJ-P06J220V")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERJ-P06J220V")
+			)
+			(property
+				(name "Sheetname")
+				(value "16 CONTROL ROOM")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master_sheets/16_control_room.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/16 CONTROL ROOM/")
+				(tstamps "/ae606098-4d19-5e6f-96c3-f8396b299d29/")
+			)
+			(tstamps "11d11a0b-ea87-5f13-9027-b0eae11939fe")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R233")
+			(value "22R")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "Panasonic ERJ-P06J220V")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERJ-P06J220V")
+			)
+			(property
+				(name "Sheetname")
+				(value "16 CONTROL ROOM")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master_sheets/16_control_room.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/16 CONTROL ROOM/")
+				(tstamps "/ae606098-4d19-5e6f-96c3-f8396b299d29/")
+			)
+			(tstamps "027eecab-f053-5399-8c28-2fe1b118e7ae")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "RV5")
 			(value "C/Room level 10K log dual")
 			(footprint "Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical")
@@ -22032,6 +22752,126 @@
 				(tstamps "/e7a14d63-0014-58e6-a066-7216b72f5cf9/")
 			)
 			(tstamps "c4e066a9-5503-510c-873c-29e5f98c67f2")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R234")
+			(value "22R")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "Panasonic ERJ-P06J220V")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERJ-P06J220V")
+			)
+			(property
+				(name "Sheetname")
+				(value "17 CONTROL ROOM, HEADPHONES")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master_sheets/17_control_room.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/17 CONTROL ROOM, HEADPHONES/")
+				(tstamps "/e7a14d63-0014-58e6-a066-7216b72f5cf9/")
+			)
+			(tstamps "40bb7deb-b964-5914-84e4-bb05d23fbfbd")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R235")
+			(value "22R")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "Panasonic ERJ-P06J220V")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "MPN")
+				(value "Panasonic ERJ-P06J220V")
+			)
+			(property
+				(name "Sheetname")
+				(value "17 CONTROL ROOM, HEADPHONES")
+			)
+			(property
+				(name "Sheetfile")
+				(value "master_sheets/17_control_room.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/17 CONTROL ROOM, HEADPHONES/")
+				(tstamps "/e7a14d63-0014-58e6-a066-7216b72f5cf9/")
+			)
+			(tstamps "3d7f1f2a-cdec-58cf-8b17-a50215c5e89b")
 			(units
 				(unit
 					(name "A")
@@ -47691,6 +48531,156 @@
 		)
 		(net
 			(code "176")
+			(name "Net-(C43-Pad1)")
+			(class "Default")
+			(node
+				(ref "C43")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R222")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "177")
+			(name "Net-(C44-Pad1)")
+			(class "Default")
+			(node
+				(ref "C44")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R223")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "178")
+			(name "Net-(C47-Pad1)")
+			(class "Default")
+			(node
+				(ref "C47")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R224")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "179")
+			(name "Net-(C48-Pad1)")
+			(class "Default")
+			(node
+				(ref "C48")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R225")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "180")
+			(name "Net-(C51-Pad1)")
+			(class "Default")
+			(node
+				(ref "C51")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R226")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "181")
+			(name "Net-(C52-Pad1)")
+			(class "Default")
+			(node
+				(ref "C52")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R227")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "182")
+			(name "Net-(C71-Pad1)")
+			(class "Default")
+			(node
+				(ref "C71")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R228")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "183")
+			(name "Net-(C72-Pad1)")
+			(class "Default")
+			(node
+				(ref "C72")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R229")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "184")
+			(name "Net-(C84-Pad1)")
+			(class "Default")
+			(node
+				(ref "C84")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R230")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "185")
+			(name "Net-(C85-Pad1)")
+			(class "Default")
+			(node
+				(ref "C85")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R231")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "186")
 			(name "Net-(C98-Pad1)")
 			(class "Default")
 			(node
@@ -47705,7 +48695,7 @@
 			)
 		)
 		(net
-			(code "177")
+			(code "187")
 			(name "Net-(C99-Pad1)")
 			(class "Default")
 			(node
@@ -47720,7 +48710,67 @@
 			)
 		)
 		(net
-			(code "178")
+			(code "188")
+			(name "Net-(C130-Pad1)")
+			(class "Default")
+			(node
+				(ref "C130")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R232")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "189")
+			(name "Net-(C131-Pad1)")
+			(class "Default")
+			(node
+				(ref "C131")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R233")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "190")
+			(name "Net-(C134-Pad1)")
+			(class "Default")
+			(node
+				(ref "C134")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R234")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "191")
+			(name "Net-(C135-Pad1)")
+			(class "Default")
+			(node
+				(ref "C135")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R235")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "192")
 			(name "Net-(C160-Pad1)")
 			(class "Default")
 			(node
@@ -47740,7 +48790,7 @@
 			)
 		)
 		(net
-			(code "179")
+			(code "193")
 			(name "Net-(C178-Pad1)")
 			(class "Default")
 			(node
@@ -47760,7 +48810,7 @@
 			)
 		)
 		(net
-			(code "180")
+			(code "194")
 			(name "Net-(D3-A)")
 			(class "Switching")
 			(node
@@ -47776,7 +48826,7 @@
 			)
 		)
 		(net
-			(code "181")
+			(code "195")
 			(name "Net-(D4-K)")
 			(class "Switching")
 			(node
@@ -47797,7 +48847,7 @@
 			)
 		)
 		(net
-			(code "182")
+			(code "196")
 			(name "Net-(D5-K)")
 			(class "Switching")
 			(node
@@ -47818,7 +48868,7 @@
 			)
 		)
 		(net
-			(code "183")
+			(code "197")
 			(name "Net-(D6-K)")
 			(class "Switching")
 			(node
@@ -47839,7 +48889,7 @@
 			)
 		)
 		(net
-			(code "184")
+			(code "198")
 			(name "Net-(D8-K)")
 			(class "Default")
 			(node
@@ -47855,7 +48905,7 @@
 			)
 		)
 		(net
-			(code "185")
+			(code "199")
 			(name "Net-(D10-K)")
 			(class "Default")
 			(node
@@ -47871,7 +48921,7 @@
 			)
 		)
 		(net
-			(code "186")
+			(code "200")
 			(name "Net-(D12-A)")
 			(class "Switching")
 			(node
@@ -47887,7 +48937,7 @@
 			)
 		)
 		(net
-			(code "187")
+			(code "201")
 			(name "Net-(D13-A)")
 			(class "Switching")
 			(node
@@ -47903,7 +48953,7 @@
 			)
 		)
 		(net
-			(code "188")
+			(code "202")
 			(name "Net-(D16-K)")
 			(class "Default")
 			(node
@@ -47920,7 +48970,7 @@
 			)
 		)
 		(net
-			(code "189")
+			(code "203")
 			(name "Net-(D19-A)")
 			(class "Switching")
 			(node
@@ -47936,7 +48986,7 @@
 			)
 		)
 		(net
-			(code "190")
+			(code "204")
 			(name "Net-(D20-K)")
 			(class "Switching")
 			(node
@@ -47957,7 +49007,7 @@
 			)
 		)
 		(net
-			(code "191")
+			(code "205")
 			(name "Net-(D21-K)")
 			(class "Switching")
 			(node
@@ -47978,7 +49028,7 @@
 			)
 		)
 		(net
-			(code "192")
+			(code "206")
 			(name "Net-(D22-K)")
 			(class "Switching")
 			(node
@@ -47999,7 +49049,7 @@
 			)
 		)
 		(net
-			(code "193")
+			(code "207")
 			(name "Net-(D23-K)")
 			(class "Default")
 			(node
@@ -48021,7 +49071,7 @@
 			)
 		)
 		(net
-			(code "194")
+			(code "208")
 			(name "Net-(D24-K)")
 			(class "Default")
 			(node
@@ -48048,7 +49098,7 @@
 			)
 		)
 		(net
-			(code "195")
+			(code "209")
 			(name "Net-(D25-A)")
 			(class "Default")
 			(node
@@ -48075,7 +49125,7 @@
 			)
 		)
 		(net
-			(code "196")
+			(code "210")
 			(name "Net-(D25-K)")
 			(class "Default")
 			(node
@@ -48097,7 +49147,7 @@
 			)
 		)
 		(net
-			(code "197")
+			(code "211")
 			(name "Net-(D26-A)")
 			(class "Default")
 			(node
@@ -48124,7 +49174,7 @@
 			)
 		)
 		(net
-			(code "198")
+			(code "212")
 			(name "Net-(D27-K)")
 			(class "Default")
 			(node
@@ -48141,7 +49191,7 @@
 			)
 		)
 		(net
-			(code "199")
+			(code "213")
 			(name "Net-(D29-A)")
 			(class "Switching")
 			(node
@@ -48169,7 +49219,7 @@
 			)
 		)
 		(net
-			(code "200")
+			(code "214")
 			(name "Net-(D29-K)")
 			(class "Switching")
 			(node
@@ -48191,7 +49241,7 @@
 			)
 		)
 		(net
-			(code "201")
+			(code "215")
 			(name "Net-(D30-K)")
 			(class "Switching")
 			(node
@@ -48213,7 +49263,7 @@
 			)
 		)
 		(net
-			(code "202")
+			(code "216")
 			(name "Net-(D31-K)")
 			(class "Switching")
 			(node
@@ -48235,7 +49285,7 @@
 			)
 		)
 		(net
-			(code "203")
+			(code "217")
 			(name "Net-(D32-K)")
 			(class "Switching")
 			(node
@@ -48257,7 +49307,7 @@
 			)
 		)
 		(net
-			(code "204")
+			(code "218")
 			(name "Net-(D34-K)")
 			(class "Switching")
 			(node
@@ -48279,7 +49329,7 @@
 			)
 		)
 		(net
-			(code "205")
+			(code "219")
 			(name "Net-(D35-K)")
 			(class "Switching")
 			(node
@@ -48301,7 +49351,7 @@
 			)
 		)
 		(net
-			(code "206")
+			(code "220")
 			(name "Net-(D36-K)")
 			(class "Switching")
 			(node
@@ -48323,7 +49373,7 @@
 			)
 		)
 		(net
-			(code "207")
+			(code "221")
 			(name "Net-(D37-K)")
 			(class "Switching")
 			(node
@@ -48345,7 +49395,7 @@
 			)
 		)
 		(net
-			(code "208")
+			(code "222")
 			(name "Net-(D39-K)")
 			(class "Default")
 			(node
@@ -48362,7 +49412,7 @@
 			)
 		)
 		(net
-			(code "209")
+			(code "223")
 			(name "Net-(D41-A)")
 			(class "Switching")
 			(node
@@ -48390,7 +49440,7 @@
 			)
 		)
 		(net
-			(code "210")
+			(code "224")
 			(name "Net-(D41-K)")
 			(class "Switching")
 			(node
@@ -48412,7 +49462,7 @@
 			)
 		)
 		(net
-			(code "211")
+			(code "225")
 			(name "Net-(D42-K)")
 			(class "Switching")
 			(node
@@ -48434,7 +49484,7 @@
 			)
 		)
 		(net
-			(code "212")
+			(code "226")
 			(name "Net-(D43-K)")
 			(class "Switching")
 			(node
@@ -48456,7 +49506,7 @@
 			)
 		)
 		(net
-			(code "213")
+			(code "227")
 			(name "Net-(D44-K)")
 			(class "Switching")
 			(node
@@ -48478,7 +49528,7 @@
 			)
 		)
 		(net
-			(code "214")
+			(code "228")
 			(name "Net-(D46-K)")
 			(class "Switching")
 			(node
@@ -48500,7 +49550,7 @@
 			)
 		)
 		(net
-			(code "215")
+			(code "229")
 			(name "Net-(D47-K)")
 			(class "Switching")
 			(node
@@ -48522,7 +49572,7 @@
 			)
 		)
 		(net
-			(code "216")
+			(code "230")
 			(name "Net-(D48-K)")
 			(class "Switching")
 			(node
@@ -48544,7 +49594,7 @@
 			)
 		)
 		(net
-			(code "217")
+			(code "231")
 			(name "Net-(D49-K)")
 			(class "Switching")
 			(node
@@ -48566,7 +49616,7 @@
 			)
 		)
 		(net
-			(code "218")
+			(code "232")
 			(name "Net-(D51-K)")
 			(class "Default")
 			(node
@@ -48588,7 +49638,7 @@
 			)
 		)
 		(net
-			(code "219")
+			(code "233")
 			(name "Net-(D52-K)")
 			(class "Default")
 			(node
@@ -48615,7 +49665,7 @@
 			)
 		)
 		(net
-			(code "220")
+			(code "234")
 			(name "Net-(D53-A)")
 			(class "Default")
 			(node
@@ -48642,7 +49692,7 @@
 			)
 		)
 		(net
-			(code "221")
+			(code "235")
 			(name "Net-(D53-K)")
 			(class "Default")
 			(node
@@ -48664,7 +49714,7 @@
 			)
 		)
 		(net
-			(code "222")
+			(code "236")
 			(name "Net-(D54-A)")
 			(class "Default")
 			(node
@@ -48691,7 +49741,7 @@
 			)
 		)
 		(net
-			(code "223")
+			(code "237")
 			(name "Net-(D55-K)")
 			(class "Default")
 			(node
@@ -48708,7 +49758,7 @@
 			)
 		)
 		(net
-			(code "224")
+			(code "238")
 			(name "Net-(D57-A)")
 			(class "Switching")
 			(node
@@ -48736,7 +49786,7 @@
 			)
 		)
 		(net
-			(code "225")
+			(code "239")
 			(name "Net-(D57-K)")
 			(class "Switching")
 			(node
@@ -48758,7 +49808,7 @@
 			)
 		)
 		(net
-			(code "226")
+			(code "240")
 			(name "Net-(D58-K)")
 			(class "Switching")
 			(node
@@ -48780,7 +49830,7 @@
 			)
 		)
 		(net
-			(code "227")
+			(code "241")
 			(name "Net-(D59-K)")
 			(class "Switching")
 			(node
@@ -48802,7 +49852,7 @@
 			)
 		)
 		(net
-			(code "228")
+			(code "242")
 			(name "Net-(D60-K)")
 			(class "Switching")
 			(node
@@ -48824,7 +49874,7 @@
 			)
 		)
 		(net
-			(code "229")
+			(code "243")
 			(name "Net-(D62-K)")
 			(class "Switching")
 			(node
@@ -48846,7 +49896,7 @@
 			)
 		)
 		(net
-			(code "230")
+			(code "244")
 			(name "Net-(D63-K)")
 			(class "Switching")
 			(node
@@ -48868,7 +49918,7 @@
 			)
 		)
 		(net
-			(code "231")
+			(code "245")
 			(name "Net-(D64-K)")
 			(class "Switching")
 			(node
@@ -48890,7 +49940,7 @@
 			)
 		)
 		(net
-			(code "232")
+			(code "246")
 			(name "Net-(D65-K)")
 			(class "Switching")
 			(node
@@ -48912,7 +49962,7 @@
 			)
 		)
 		(net
-			(code "233")
+			(code "247")
 			(name "Net-(D67-K)")
 			(class "Default")
 			(node
@@ -48929,7 +49979,7 @@
 			)
 		)
 		(net
-			(code "234")
+			(code "248")
 			(name "Net-(D69-A)")
 			(class "Switching")
 			(node
@@ -48957,7 +50007,7 @@
 			)
 		)
 		(net
-			(code "235")
+			(code "249")
 			(name "Net-(D69-K)")
 			(class "Switching")
 			(node
@@ -48979,7 +50029,7 @@
 			)
 		)
 		(net
-			(code "236")
+			(code "250")
 			(name "Net-(D70-K)")
 			(class "Switching")
 			(node
@@ -49001,7 +50051,7 @@
 			)
 		)
 		(net
-			(code "237")
+			(code "251")
 			(name "Net-(D71-K)")
 			(class "Switching")
 			(node
@@ -49023,7 +50073,7 @@
 			)
 		)
 		(net
-			(code "238")
+			(code "252")
 			(name "Net-(D72-K)")
 			(class "Switching")
 			(node
@@ -49045,7 +50095,7 @@
 			)
 		)
 		(net
-			(code "239")
+			(code "253")
 			(name "Net-(D74-K)")
 			(class "Switching")
 			(node
@@ -49067,7 +50117,7 @@
 			)
 		)
 		(net
-			(code "240")
+			(code "254")
 			(name "Net-(D75-K)")
 			(class "Switching")
 			(node
@@ -49089,7 +50139,7 @@
 			)
 		)
 		(net
-			(code "241")
+			(code "255")
 			(name "Net-(D76-K)")
 			(class "Switching")
 			(node
@@ -49111,7 +50161,7 @@
 			)
 		)
 		(net
-			(code "242")
+			(code "256")
 			(name "Net-(D77-K)")
 			(class "Switching")
 			(node
@@ -49133,7 +50183,7 @@
 			)
 		)
 		(net
-			(code "243")
+			(code "257")
 			(name "Net-(JP1-B)")
 			(class "Default")
 			(node
@@ -49154,7 +50204,7 @@
 			)
 		)
 		(net
-			(code "244")
+			(code "258")
 			(name "Net-(JP1-C)")
 			(class "Default")
 			(node
@@ -49171,7 +50221,7 @@
 			)
 		)
 		(net
-			(code "245")
+			(code "259")
 			(name "Net-(JP2-B)")
 			(class "Default")
 			(node
@@ -49192,7 +50242,7 @@
 			)
 		)
 		(net
-			(code "246")
+			(code "260")
 			(name "Net-(JP2-C)")
 			(class "Default")
 			(node
@@ -49209,7 +50259,7 @@
 			)
 		)
 		(net
-			(code "247")
+			(code "261")
 			(name "Net-(R130-Pad1)")
 			(class "Default")
 			(node
@@ -49224,7 +50274,7 @@
 			)
 		)
 		(net
-			(code "248")
+			(code "262")
 			(name "Net-(R134-Pad1)")
 			(class "Default")
 			(node
@@ -49239,7 +50289,7 @@
 			)
 		)
 		(net
-			(code "249")
+			(code "263")
 			(name "Net-(R143-Pad2)")
 			(class "Default")
 			(node
@@ -49255,7 +50305,7 @@
 			)
 		)
 		(net
-			(code "250")
+			(code "264")
 			(name "Net-(R146-Pad2)")
 			(class "Default")
 			(node
@@ -49270,7 +50320,7 @@
 			)
 		)
 		(net
-			(code "251")
+			(code "265")
 			(name "Net-(R180-Pad2)")
 			(class "Default")
 			(node
@@ -49286,7 +50336,7 @@
 			)
 		)
 		(net
-			(code "252")
+			(code "266")
 			(name "Net-(R183-Pad2)")
 			(class "Default")
 			(node
@@ -49301,7 +50351,7 @@
 			)
 		)
 		(net
-			(code "253")
+			(code "267")
 			(name "Net-(SW1B-A)")
 			(class "Default")
 			(node
@@ -49322,7 +50372,7 @@
 			)
 		)
 		(net
-			(code "254")
+			(code "268")
 			(name "Net-(SW2B-A)")
 			(class "Default")
 			(node
@@ -49343,7 +50393,7 @@
 			)
 		)
 		(net
-			(code "255")
+			(code "269")
 			(name "Net-(U1B--)")
 			(class "HighZ")
 			(node
@@ -49369,7 +50419,7 @@
 			)
 		)
 		(net
-			(code "256")
+			(code "270")
 			(name "Net-(U2A-+)")
 			(class "HighZ")
 			(node
@@ -49395,7 +50445,7 @@
 			)
 		)
 		(net
-			(code "257")
+			(code "271")
 			(name "Net-(U2A--)")
 			(class "HighZ")
 			(node
@@ -49421,7 +50471,7 @@
 			)
 		)
 		(net
-			(code "258")
+			(code "272")
 			(name "Net-(U2B-+)")
 			(class "HighZ")
 			(node
@@ -49442,7 +50492,7 @@
 			)
 		)
 		(net
-			(code "259")
+			(code "273")
 			(name "Net-(U2B--)")
 			(class "Default")
 			(node
@@ -49463,7 +50513,7 @@
 			)
 		)
 		(net
-			(code "260")
+			(code "274")
 			(name "Net-(U3A--)")
 			(class "HighZ")
 			(node
@@ -49489,7 +50539,7 @@
 			)
 		)
 		(net
-			(code "261")
+			(code "275")
 			(name "Net-(U3B-+)")
 			(class "HighZ")
 			(node
@@ -49515,7 +50565,7 @@
 			)
 		)
 		(net
-			(code "262")
+			(code "276")
 			(name "Net-(U3B--)")
 			(class "HighZ")
 			(node
@@ -49541,7 +50591,7 @@
 			)
 		)
 		(net
-			(code "263")
+			(code "277")
 			(name "Net-(U4A-+)")
 			(class "HighZ")
 			(node
@@ -49562,7 +50612,7 @@
 			)
 		)
 		(net
-			(code "264")
+			(code "278")
 			(name "Net-(U4A--)")
 			(class "Default")
 			(node
@@ -49583,7 +50633,7 @@
 			)
 		)
 		(net
-			(code "265")
+			(code "279")
 			(name "Net-(U4B--)")
 			(class "HighZ")
 			(node
@@ -49614,7 +50664,7 @@
 			)
 		)
 		(net
-			(code "266")
+			(code "280")
 			(name "Net-(U5A-+)")
 			(class "HighZ")
 			(node
@@ -49640,7 +50690,7 @@
 			)
 		)
 		(net
-			(code "267")
+			(code "281")
 			(name "Net-(U5A--)")
 			(class "HighZ")
 			(node
@@ -49666,7 +50716,7 @@
 			)
 		)
 		(net
-			(code "268")
+			(code "282")
 			(name "Net-(U5B-+)")
 			(class "HighZ")
 			(node
@@ -49692,7 +50742,7 @@
 			)
 		)
 		(net
-			(code "269")
+			(code "283")
 			(name "Net-(U5B--)")
 			(class "HighZ")
 			(node
@@ -49718,7 +50768,7 @@
 			)
 		)
 		(net
-			(code "270")
+			(code "284")
 			(name "Net-(U6A--)")
 			(class "HighZ")
 			(node
@@ -49744,7 +50794,7 @@
 			)
 		)
 		(net
-			(code "271")
+			(code "285")
 			(name "Net-(U6B--)")
 			(class "Default")
 			(node
@@ -49760,11 +50810,11 @@
 			)
 		)
 		(net
-			(code "272")
+			(code "286")
 			(name "Net-(U7-+VO)")
 			(class "Default")
 			(node
-				(ref "C43")
+				(ref "R222")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -49776,11 +50826,11 @@
 			)
 		)
 		(net
-			(code "273")
+			(code "287")
 			(name "Net-(U7--VO)")
 			(class "Default")
 			(node
-				(ref "C44")
+				(ref "R223")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -49792,11 +50842,11 @@
 			)
 		)
 		(net
-			(code "274")
+			(code "288")
 			(name "Net-(U8-+VO)")
 			(class "Default")
 			(node
-				(ref "C47")
+				(ref "R224")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -49808,11 +50858,11 @@
 			)
 		)
 		(net
-			(code "275")
+			(code "289")
 			(name "Net-(U8--VO)")
 			(class "Default")
 			(node
-				(ref "C48")
+				(ref "R225")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -49824,11 +50874,11 @@
 			)
 		)
 		(net
-			(code "276")
+			(code "290")
 			(name "Net-(U9-+VO)")
 			(class "Default")
 			(node
-				(ref "C51")
+				(ref "R226")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -49840,11 +50890,11 @@
 			)
 		)
 		(net
-			(code "277")
+			(code "291")
 			(name "Net-(U9--VO)")
 			(class "Default")
 			(node
-				(ref "C52")
+				(ref "R227")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -49856,7 +50906,7 @@
 			)
 		)
 		(net
-			(code "278")
+			(code "292")
 			(name "Net-(U12A--)")
 			(class "HighZ")
 			(node
@@ -49882,7 +50932,7 @@
 			)
 		)
 		(net
-			(code "279")
+			(code "293")
 			(name "Net-(U12B-+)")
 			(class "HighZ")
 			(node
@@ -49908,7 +50958,7 @@
 			)
 		)
 		(net
-			(code "280")
+			(code "294")
 			(name "Net-(U12B--)")
 			(class "HighZ")
 			(node
@@ -49934,7 +50984,7 @@
 			)
 		)
 		(net
-			(code "281")
+			(code "295")
 			(name "Net-(U13A-+)")
 			(class "HighZ")
 			(node
@@ -49960,7 +51010,7 @@
 			)
 		)
 		(net
-			(code "282")
+			(code "296")
 			(name "Net-(U13A--)")
 			(class "HighZ")
 			(node
@@ -49986,7 +51036,7 @@
 			)
 		)
 		(net
-			(code "283")
+			(code "297")
 			(name "Net-(U13B-+)")
 			(class "HighZ")
 			(node
@@ -50012,7 +51062,7 @@
 			)
 		)
 		(net
-			(code "284")
+			(code "298")
 			(name "Net-(U13B--)")
 			(class "HighZ")
 			(node
@@ -50038,11 +51088,11 @@
 			)
 		)
 		(net
-			(code "285")
+			(code "299")
 			(name "Net-(U14-+VO)")
 			(class "Default")
 			(node
-				(ref "C71")
+				(ref "R228")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -50054,11 +51104,11 @@
 			)
 		)
 		(net
-			(code "286")
+			(code "300")
 			(name "Net-(U14--VO)")
 			(class "Default")
 			(node
-				(ref "C72")
+				(ref "R229")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -50070,7 +51120,7 @@
 			)
 		)
 		(net
-			(code "287")
+			(code "301")
 			(name "Net-(U15A--)")
 			(class "HighZ")
 			(node
@@ -50096,7 +51146,7 @@
 			)
 		)
 		(net
-			(code "288")
+			(code "302")
 			(name "Net-(U15B-+)")
 			(class "HighZ")
 			(node
@@ -50122,7 +51172,7 @@
 			)
 		)
 		(net
-			(code "289")
+			(code "303")
 			(name "Net-(U15B--)")
 			(class "HighZ")
 			(node
@@ -50148,11 +51198,11 @@
 			)
 		)
 		(net
-			(code "290")
+			(code "304")
 			(name "Net-(U16-+VO)")
 			(class "Default")
 			(node
-				(ref "C84")
+				(ref "R230")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -50164,11 +51214,11 @@
 			)
 		)
 		(net
-			(code "291")
+			(code "305")
 			(name "Net-(U16--VO)")
 			(class "Default")
 			(node
-				(ref "C85")
+				(ref "R231")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -50180,7 +51230,7 @@
 			)
 		)
 		(net
-			(code "292")
+			(code "306")
 			(name "Net-(U17A-+)")
 			(class "HighZ")
 			(node
@@ -50206,7 +51256,7 @@
 			)
 		)
 		(net
-			(code "293")
+			(code "307")
 			(name "Net-(U17A--)")
 			(class "HighZ")
 			(node
@@ -50232,7 +51282,7 @@
 			)
 		)
 		(net
-			(code "294")
+			(code "308")
 			(name "Net-(U17B-+)")
 			(class "HighZ")
 			(node
@@ -50258,7 +51308,7 @@
 			)
 		)
 		(net
-			(code "295")
+			(code "309")
 			(name "Net-(U17B--)")
 			(class "HighZ")
 			(node
@@ -50284,7 +51334,7 @@
 			)
 		)
 		(net
-			(code "296")
+			(code "310")
 			(name "Net-(U18A--)")
 			(class "HighZ")
 			(node
@@ -50310,7 +51360,7 @@
 			)
 		)
 		(net
-			(code "297")
+			(code "311")
 			(name "Net-(U18B-+)")
 			(class "HighZ")
 			(node
@@ -50336,7 +51386,7 @@
 			)
 		)
 		(net
-			(code "298")
+			(code "312")
 			(name "Net-(U18B--)")
 			(class "HighZ")
 			(node
@@ -50362,7 +51412,7 @@
 			)
 		)
 		(net
-			(code "299")
+			(code "313")
 			(name "Net-(U19A-+)")
 			(class "HighZ")
 			(node
@@ -50388,7 +51438,7 @@
 			)
 		)
 		(net
-			(code "300")
+			(code "314")
 			(name "Net-(U19A--)")
 			(class "Default")
 			(node
@@ -50409,7 +51459,7 @@
 			)
 		)
 		(net
-			(code "301")
+			(code "315")
 			(name "Net-(U19B--)")
 			(class "Default")
 			(node
@@ -50425,7 +51475,7 @@
 			)
 		)
 		(net
-			(code "302")
+			(code "316")
 			(name "Net-(U23A-+)")
 			(class "HighZ")
 			(node
@@ -50451,7 +51501,7 @@
 			)
 		)
 		(net
-			(code "303")
+			(code "317")
 			(name "Net-(U23B-+)")
 			(class "HighZ")
 			(node
@@ -50477,11 +51527,11 @@
 			)
 		)
 		(net
-			(code "304")
+			(code "318")
 			(name "Net-(U24-+VO)")
 			(class "Default")
 			(node
-				(ref "C130")
+				(ref "R232")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -50493,11 +51543,11 @@
 			)
 		)
 		(net
-			(code "305")
+			(code "319")
 			(name "Net-(U24--VO)")
 			(class "Default")
 			(node
-				(ref "C131")
+				(ref "R233")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -50509,11 +51559,11 @@
 			)
 		)
 		(net
-			(code "306")
+			(code "320")
 			(name "Net-(U25-+VO)")
 			(class "Default")
 			(node
-				(ref "C134")
+				(ref "R234")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -50525,11 +51575,11 @@
 			)
 		)
 		(net
-			(code "307")
+			(code "321")
 			(name "Net-(U25--VO)")
 			(class "Default")
 			(node
-				(ref "C135")
+				(ref "R235")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -50541,7 +51591,7 @@
 			)
 		)
 		(net
-			(code "308")
+			(code "322")
 			(name "Net-(U26A-+)")
 			(class "HighZ")
 			(node
@@ -50567,7 +51617,7 @@
 			)
 		)
 		(net
-			(code "309")
+			(code "323")
 			(name "Net-(U26A--)")
 			(class "HighZ")
 			(node
@@ -50593,7 +51643,7 @@
 			)
 		)
 		(net
-			(code "310")
+			(code "324")
 			(name "Net-(U26B-+)")
 			(class "HighZ")
 			(node
@@ -50619,7 +51669,7 @@
 			)
 		)
 		(net
-			(code "311")
+			(code "325")
 			(name "Net-(U26B--)")
 			(class "HighZ")
 			(node
@@ -50645,7 +51695,7 @@
 			)
 		)
 		(net
-			(code "312")
+			(code "326")
 			(name "Net-(U27-IN)")
 			(class "Default")
 			(node
@@ -50666,7 +51716,7 @@
 			)
 		)
 		(net
-			(code "313")
+			(code "327")
 			(name "Net-(U28-IN)")
 			(class "Default")
 			(node
@@ -50687,7 +51737,7 @@
 			)
 		)
 		(net
-			(code "314")
+			(code "328")
 			(name "Net-(U29B--)")
 			(class "Default")
 			(node
@@ -50725,7 +51775,7 @@
 			)
 		)
 		(net
-			(code "315")
+			(code "329")
 			(name "Net-(U36B--)")
 			(class "Default")
 			(node
@@ -50763,7 +51813,7 @@
 			)
 		)
 		(net
-			(code "316")
+			(code "330")
 			(name "Net-(U43A-+)")
 			(class "HighZ")
 			(node
@@ -50784,7 +51834,7 @@
 			)
 		)
 		(net
-			(code "317")
+			(code "331")
 			(name "Net-(U43A--)")
 			(class "Default")
 			(node
@@ -50805,7 +51855,7 @@
 			)
 		)
 		(net
-			(code "318")
+			(code "332")
 			(name "Net-(U43B-+)")
 			(class "HighZ")
 			(node
@@ -50826,7 +51876,7 @@
 			)
 		)
 		(net
-			(code "319")
+			(code "333")
 			(name "Net-(U43B--)")
 			(class "Default")
 			(node
@@ -50847,7 +51897,7 @@
 			)
 		)
 		(net
-			(code "320")
+			(code "334")
 			(name "Net-(U44A-+)")
 			(class "HighZ")
 			(node
@@ -50868,7 +51918,7 @@
 			)
 		)
 		(net
-			(code "321")
+			(code "335")
 			(name "Net-(U44A--)")
 			(class "Default")
 			(node
@@ -50889,7 +51939,7 @@
 			)
 		)
 		(net
-			(code "322")
+			(code "336")
 			(name "Net-(U44B-+)")
 			(class "HighZ")
 			(node
@@ -50910,7 +51960,7 @@
 			)
 		)
 		(net
-			(code "323")
+			(code "337")
 			(name "Net-(U44B--)")
 			(class "Default")
 			(node
@@ -50931,7 +51981,7 @@
 			)
 		)
 		(net
-			(code "324")
+			(code "338")
 			(name "PFL")
 			(class "Bus")
 			(node
@@ -50965,7 +52015,7 @@
 			)
 		)
 		(net
-			(code "325")
+			(code "339")
 			(name "PFLDET")
 			(class "Bus")
 			(node
@@ -51025,7 +52075,7 @@
 			)
 		)
 		(net
-			(code "326")
+			(code "340")
 			(name "PFLN")
 			(class "Bus")
 			(node
@@ -51042,7 +52092,7 @@
 			)
 		)
 		(net
-			(code "327")
+			(code "341")
 			(name "PFL_MIX")
 			(class "Default")
 			(node
@@ -51067,7 +52117,7 @@
 			)
 		)
 		(net
-			(code "328")
+			(code "342")
 			(name "PFL_ON")
 			(class "Switching")
 			(node
@@ -51097,7 +52147,7 @@
 			)
 		)
 		(net
-			(code "329")
+			(code "343")
 			(name "PFL_ON_RAW")
 			(class "Switching")
 			(node
@@ -51122,7 +52172,7 @@
 			)
 		)
 		(net
-			(code "330")
+			(code "344")
 			(name "PFL_PT")
 			(class "Default")
 			(node
@@ -51138,7 +52188,7 @@
 			)
 		)
 		(net
-			(code "331")
+			(code "345")
 			(name "PFL_REF")
 			(class "Default")
 			(node
@@ -51165,7 +52215,7 @@
 			)
 		)
 		(net
-			(code "332")
+			(code "346")
 			(name "PFL_SIG")
 			(class "Default")
 			(node
@@ -51185,7 +52235,7 @@
 			)
 		)
 		(net
-			(code "333")
+			(code "347")
 			(name "PFL_SUM")
 			(class "Default")
 			(node
@@ -51210,7 +52260,7 @@
 			)
 		)
 		(net
-			(code "334")
+			(code "348")
 			(name "PFL_W")
 			(class "Default")
 			(node
@@ -51226,7 +52276,7 @@
 			)
 		)
 		(net
-			(code "335")
+			(code "349")
 			(name "PHJ_L")
 			(class "Entry")
 			(node
@@ -51248,7 +52298,7 @@
 			)
 		)
 		(net
-			(code "336")
+			(code "350")
 			(name "PHJ_R")
 			(class "Entry")
 			(node
@@ -51270,7 +52320,7 @@
 			)
 		)
 		(net
-			(code "337")
+			(code "351")
 			(name "PHONESGND")
 			(class "Ground")
 			(node
@@ -51297,7 +52347,7 @@
 			)
 		)
 		(net
-			(code "338")
+			(code "352")
 			(name "PHO_L")
 			(class "Default")
 			(node
@@ -51317,7 +52367,7 @@
 			)
 		)
 		(net
-			(code "339")
+			(code "353")
 			(name "PHO_R")
 			(class "Default")
 			(node
@@ -51337,7 +52387,7 @@
 			)
 		)
 		(net
-			(code "340")
+			(code "354")
 			(name "PHW_L")
 			(class "Default")
 			(node
@@ -51353,7 +52403,7 @@
 			)
 		)
 		(net
-			(code "341")
+			(code "355")
 			(name "PHW_R")
 			(class "Default")
 			(node
@@ -51369,7 +52419,7 @@
 			)
 		)
 		(net
-			(code "342")
+			(code "356")
 			(name "POST_L")
 			(class "Default")
 			(node
@@ -51401,7 +52451,7 @@
 			)
 		)
 		(net
-			(code "343")
+			(code "357")
 			(name "POST_R")
 			(class "Default")
 			(node
@@ -51433,7 +52483,7 @@
 			)
 		)
 		(net
-			(code "344")
+			(code "358")
 			(name "PRE_L")
 			(class "Default")
 			(node
@@ -51454,7 +52504,7 @@
 			)
 		)
 		(net
-			(code "345")
+			(code "359")
 			(name "PRE_R")
 			(class "Default")
 			(node
@@ -51475,7 +52525,7 @@
 			)
 		)
 		(net
-			(code "346")
+			(code "360")
 			(name "RAIL_OK")
 			(class "Switching")
 			(node
@@ -51510,7 +52560,7 @@
 			)
 		)
 		(net
-			(code "347")
+			(code "361")
 			(name "RLY_B")
 			(class "Switching")
 			(node
@@ -51538,7 +52588,7 @@
 			)
 		)
 		(net
-			(code "348")
+			(code "362")
 			(name "RLY_DRV")
 			(class "Switching")
 			(node
@@ -51615,7 +52665,7 @@
 			)
 		)
 		(net
-			(code "349")
+			(code "363")
 			(name "SENSE_N")
 			(class "Default")
 			(node
@@ -51636,7 +52686,7 @@
 			)
 		)
 		(net
-			(code "350")
+			(code "364")
 			(name "SENSE_P")
 			(class "Default")
 			(node
@@ -51657,7 +52707,7 @@
 			)
 		)
 		(net
-			(code "351")
+			(code "365")
 			(name "SPARE1")
 			(class "Bus")
 			(node
@@ -51674,7 +52724,7 @@
 			)
 		)
 		(net
-			(code "352")
+			(code "366")
 			(name "SPARE3")
 			(class "Bus")
 			(node
@@ -51691,7 +52741,7 @@
 			)
 		)
 		(net
-			(code "353")
+			(code "367")
 			(name "SPARE5")
 			(class "Bus")
 			(node
@@ -51708,7 +52758,7 @@
 			)
 		)
 		(net
-			(code "354")
+			(code "368")
 			(name "SPARE7")
 			(class "Bus")
 			(node
@@ -51725,7 +52775,7 @@
 			)
 		)
 		(net
-			(code "355")
+			(code "369")
 			(name "SPARE19")
 			(class "Bus")
 			(node
@@ -51742,7 +52792,7 @@
 			)
 		)
 		(net
-			(code "356")
+			(code "370")
 			(name "SUB1")
 			(class "Bus")
 			(node
@@ -51759,7 +52809,7 @@
 			)
 		)
 		(net
-			(code "357")
+			(code "371")
 			(name "SUB2")
 			(class "Bus")
 			(node
@@ -51776,7 +52826,7 @@
 			)
 		)
 		(net
-			(code "358")
+			(code "372")
 			(name "SUB3")
 			(class "Bus")
 			(node
@@ -51793,7 +52843,7 @@
 			)
 		)
 		(net
-			(code "359")
+			(code "373")
 			(name "SUB4")
 			(class "Bus")
 			(node
@@ -51810,7 +52860,7 @@
 			)
 		)
 		(net
-			(code "360")
+			(code "374")
 			(name "SUM_L")
 			(class "Default")
 			(node
@@ -51835,7 +52885,7 @@
 			)
 		)
 		(net
-			(code "361")
+			(code "375")
 			(name "SUM_R")
 			(class "Default")
 			(node
@@ -51860,7 +52910,7 @@
 			)
 		)
 		(net
-			(code "362")
+			(code "376")
 			(name "SWML_S")
 			(class "Default")
 			(node
@@ -51880,7 +52930,7 @@
 			)
 		)
 		(net
-			(code "363")
+			(code "377")
 			(name "SWMR_S")
 			(class "Default")
 			(node
@@ -51900,7 +52950,7 @@
 			)
 		)
 		(net
-			(code "364")
+			(code "378")
 			(name "SWPL_S")
 			(class "Default")
 			(node
@@ -51920,7 +52970,7 @@
 			)
 		)
 		(net
-			(code "365")
+			(code "379")
 			(name "SWPR_S")
 			(class "Default")
 			(node
@@ -51940,7 +52990,7 @@
 			)
 		)
 		(net
-			(code "366")
+			(code "380")
 			(name "VREF6")
 			(class "Default")
 			(node
@@ -51973,7 +53023,7 @@
 			)
 		)
 		(net
-			(code "367")
+			(code "381")
 			(name "unconnected-(D14-NC-Pad2)")
 			(class "Default")
 			(node
@@ -51984,7 +53034,7 @@
 			)
 		)
 		(net
-			(code "368")
+			(code "382")
 			(name "unconnected-(D15-NC-Pad2)")
 			(class "Default")
 			(node
@@ -51995,7 +53045,7 @@
 			)
 		)
 		(net
-			(code "369")
+			(code "383")
 			(name "unconnected-(SW1B-C-Pad6)")
 			(class "Default")
 			(node
@@ -52006,7 +53056,7 @@
 			)
 		)
 		(net
-			(code "370")
+			(code "384")
 			(name "unconnected-(SW2B-C-Pad6)")
 			(class "Default")
 			(node
@@ -52017,7 +53067,7 @@
 			)
 		)
 		(net
-			(code "371")
+			(code "385")
 			(name "unconnected-(U27-BW-Pad1)")
 			(class "Default")
 			(node
@@ -52028,7 +53078,7 @@
 			)
 		)
 		(net
-			(code "372")
+			(code "386")
 			(name "unconnected-(U28-BW-Pad1)")
 			(class "Default")
 			(node

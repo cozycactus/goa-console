@@ -76,7 +76,7 @@ for bus, s, o, rf, part in (('MIXL', 'SUM_ML', 'MIX_L', '4K7', 'OPA1612'), ('MIX
 b = block('OUTPUTS  each re-inverter -> 100R -> BNC;  MIX L also -> DRV134 -> XLR male (balanced checks, test 11)')
 for s, o in OUTS:
     R(b, '100R', o, o + '_BNC'); P(b, ref('J'), 'BNC', o.replace('_', ' ') + ' out', {1: o + '_BNC', 2: 'GNDA'})
-drv134(b, 'MIX_L', 'BAL_P', 'BAL_N')
+drv134(b, 'MIX_L', 'BAL_P', 'BAL_N', rx=False)
 P(b, ref('J'), 'XLR3', 'MIX L balanced out', {1: 'CHASSIS', 2: 'BAL_P', 3: 'BAL_N'})
 
 b = block('PFL DETECT  comparator vs ~0.50 V (one press gives 0.92 V on PFLDET; 2 x 1N4148 clamp, as the master), red LED')

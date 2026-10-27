@@ -350,6 +350,11 @@ def place(NET, OUT, L):
         need = sum(fp_area(q) for q, (kind, t, _) in attach.items() if t == ref and zone_side.get(q) == zone_side.get(ref)) / 0.7
         return 0.0 if not need else (-(w + h) + math.sqrt((w + h) ** 2 + 4 * need)) / 4
 
+    anet = dict(padnet)                                # `wire`: two-pin parts the targets see through, so a part behind
+    for w in L.get('wire', ()):                        # one (CS4c: a DRV135's 10u behind its loop resistor) keeps the pin
+        a, b = padnet.get((w, '1')), padnet.get((w, '2'))                      # it had before the part went in
+        for k, n in anet.items():
+            if n == b: anet[k] = a
     def target_xy(ref, fp):
         """Where a part wants to be: its IC pin (attach), or NEAR's first pad on a shared non-ground net."""
         a = attach.get(ref)
@@ -360,9 +365,9 @@ def place(NET, OUT, L):
         if tpin is not None:
             pad = next((p for p in t.Pads() if p.GetNumber() == tpin), None)
             return (mm(pad.GetPosition().x), mm(pad.GetPosition().y)) if pad else None
-        nets = {padnet.get((ref, p.GetNumber())) for p in fp.Pads()} - GROUNDS - {None}
+        nets = {anet.get((ref, p.GetNumber())) for p in fp.Pads()} - GROUNDS - {None}
         for p in t.Pads():
-            if padnet.get((tref, p.GetNumber())) in nets:
+            if anet.get((tref, p.GetNumber())) in nets:
                 return mm(p.GetPosition().x), mm(p.GetPosition().y)
 
     def shape(fp, side, rot):                          # courtyard and THT pads at the origin, translated per candidate.

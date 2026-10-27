@@ -127,6 +127,8 @@ frag(bpw, 28, 6, _rail_diodes)
 # and phantom on the jacks; sim/review/cs4/jack_protect.py, jack_protect_mg.py). Created last: no other ref moves
 b = block('JACK LINK CLAMPS: a BAV199 to the audio rails on every jack signal at the links (CS4b)')
 link_clamps(b, list(LINK.values()) + list(LINK2.values()))
+# CS4c (cs4c_proposal.md): 22R inside each DRV135 loop, drawn with its driver; created last as well
+drv_loop_rs()
 
 project_file(OUT); parts_sidecar(OUT)
 build(OUT, 'group', 'Group module - goa console (sub + return + aux master)',

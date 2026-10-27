@@ -1,8 +1,9 @@
 # CS4c: a resistor inside each DRV135 loop (proposal, 2026-10-27)
 
-**Not signed off.** The change is `cs4c_proposal.patch`. It touches tools only: `master_lib.py`, `frags.py`,
-`gen_group.py`, `gen_master.py`, `gen_jig.py`, `placer.py`, `place_group.py` and `place_master.py`. It was applied to a
-trial tree, checked (§5) and reverted, so nothing in the design has changed.
+**Signed off by Ruslan on 2026-10-27 (as proposed: 22R in each DRV135 loop, group R119-R122, master R222-R235) and
+applied the same day; see "Applied" at the end.** The change is `cs4c_proposal.patch`. It touches tools only:
+`master_lib.py`, `frags.py`, `gen_group.py`, `gen_master.py`, `gen_jig.py`, `placer.py`, `place_group.py` and
+`place_master.py`.
 
 **Simulation:** `sim/review/cs4/cs4c_drv.py` on TI's DRV134 model (SBOM004A; the DRV135 is the same die in SO-8). Its
 output is in `cs4c_drv.out`. TI's model stays out of the repo: run it with `TI_MODELS=<folder>`.
@@ -113,6 +114,17 @@ its Sense run, so their loop area stays small.
 
 ## Sign-off
 
-- [ ] **CS4c** as proposed: 22R ERJ-P06J220V inside each DRV135 loop (group R119-R122, master R222-R235).
+- [x] **CS4c** as proposed: 22R ERJ-P06J220V inside each DRV135 loop (group R119-R122, master R222-R235). Ruslan, 2026-10-27.
 - [ ] CS4c with 33R instead (0.67 A; −0.24 dB into 600R).
 - [ ] Neither (keep 5.9 A into the output pin at 8 kV; the clamp alone).
+
+## Applied (2026-10-27)
+
+- **Applied:** the patch.
+- **Regenerated and re-exported:** group and master netlists (789 / 1786 pins), BOMs, PDFs and `order_bom.csv`
+  (ERJ-P06J220V: 30 + 10 spares).
+- **Re-placed:** both boards; against the committed boards only R119-R122 and R222-R235 are new.
+- **Project files:** netrules re-run. The `.kicad_pro` files and the jack boards keep their committed form; the jack
+  boards' rewrites were UUID-only.
+- **Documents:** master spec (Part 1 note), CLAUDE.md, `console_survey.md`.
+

@@ -140,16 +140,21 @@ def insert(d, src, send, rr, dst, rs, cin, rin, rprot, cprot, u, rbo, cout, rout
     d.w((cout, 2), (38, 7)); d.port(dst, (38, 7), 'R'); d.at(rout, 36, 8.5)
 
 
-def drv134(d, inp, op, on, u, cs_p, cs_n, cv_p, cv_n):
-    """DRV134 line driver: 10u NP from each Sense pin to its output, supply decoupling beside.  30 x 15"""
+def drv134(d, inp, op, on, u, cs_p, cs_n, cv_p, cv_n, rs=()):
+    """DRV134 line driver: 10u NP from each Sense pin to its output, supply decoupling beside; rs: the CS4c resistors
+    (output pin -> rs -> 10u), drawn in the loop ahead of each 10u.  30 x 15, 35 x 15 with rs"""
+    k = 5 if rs else 0
     d.at(u, 8, 8)
     d.w((0, 8), (u, 4)); d.port(inp, (0, 8))
     d.w((u, 3), (3, 10), (3, 11)); d.gnd((3, 11))
-    d.at(cs_p, 15.5, 4, rot=90, text='U'); d.w((u, 8), (13, 6), (13, 4), (cs_p, 1))
-    d.w((u, 7), (18, 7)); d.w((cs_p, 2), (18, 4), (18, 7)); d.w((18, 7), (21, 7)); d.port(op, (21, 7), 'R')
-    d.at(cs_n, 15.5, 12, rot=90, text='D'); d.w((u, 1), (13, 10), (13, 12), (cs_n, 1))
-    d.w((u, 2), (18, 9)); d.w((cs_n, 2), (18, 12), (18, 9)); d.w((18, 9), (21, 9)); d.port(on, (21, 9), 'R')
-    d.at(cv_p, 28, 5.5); d.at(cv_n, 33, 5.5, rot=180)
+    for (c, r, pin, sp, y, ys, side) in ((cs_p, rs[0] if rs else None, 8, 7, 4, 7, 'U'), (cs_n, rs[1] if rs else None, 1, 2, 12, 9, 'D')):
+        d.at(c, 15.5 + k, y, rot=90, text=side)
+        if r:
+            d.at(r, 15.5, y, rot=90, text=side); d.w((u, pin), (13, (6 if pin == 8 else 10)), (13, y), (r, 1)); d.w((r, 2), (c, 1))
+        else: d.w((u, pin), (13, (6 if pin == 8 else 10)), (13, y), (c, 1))
+        d.w((u, sp), (18 + k, ys)); d.w((c, 2), (18 + k, y), (18 + k, ys)); d.w((18 + k, ys), (21 + k, ys))
+        d.port(op if pin == 8 else on, (21 + k, ys), 'R')
+    d.at(cv_p, 28 + k, 5.5); d.at(cv_n, 33 + k, 5.5, rot=180)
 
 
 def relay(d, k, rcoil, dfly, nc_net):

@@ -14,8 +14,10 @@ goes to the signal, pin 2 to +VA, pin 1 to −VA.
   pin. The no-phantom rule (§7) still holds.
 - **ESD:** an 8 kV contact discharge into a DRV135 output pin drops from 22.8 A to 5.9 A; a receiver or insert return
   drops to ~0.1 A or less (`sim/review/cs4/jack_protect.py`, `jack_protect_mg.py`).
-- **Open (CS4c, `cs4c_proposal.md`, not signed off):** 22 Ω inside each DRV135 loop takes the output pin to 0.84 A
-  (TI model: no loss of stability; +21 Ω differential output impedance, 0.16 dB into 600R).
+- **CS4c (`cs4c_proposal.md`, signed off 2026-10-27):** a 22 Ω anti-surge 0805 (ERJ-P06J220V) between each DRV135
+  output pin and its 10 µF, inside the Sense loop (group R119-R122, master R222-R235, made last by
+  `master_lib.drv_loop_rs()`). The 8 kV case drops to 0.84 A into the output pin. On TI's model: no loss of stability,
+  differential output impedance 52.6 -> 73.8 Ω, 0.16 dB less into 600R, clip into 600R +27.5 -> +27.2 dBu.
 
 Written to the same rules as `channel_strip_schematic_spec.md`; whole-console context is in
 `console_architecture.md` section 4. Part 2 starts at section 12, Part 3 at 16, Part 4 at 17,
