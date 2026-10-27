@@ -31,6 +31,7 @@ The net classes at the end are suggestions only; nothing is written into the pro
 | U8B + input (pan buffer L, from the pan pot; PAN1, strip v4.8) | 24 mm | the pan wiper, up to 2.5 kΩ; was 165 mm from U2B at the fader end until PAN1 | RV8 pin 2 → C79 → U8 pin 5 directly, ground beside it. C79's ground end at U8's ground |
 | FPIN (fader wiper → U2A) | 72 mm | fader wiper, up to 2.5 kΩ | ground beside; away from SIG_B and the routing lines |
 | EQ_LP, EQ_MP, U12–U14 integrator nodes | 35–105 mm | KHN nodes, 10K-ish | short as placed; no logic crossing |
+| Op-amp summing nodes and resistor-fed + inputs (E10) | ≤ 28 mm, most 11–20 mm | high impedance at RF | route each from the pin outwards, parts in the order placed; nothing switching alongside. The longest left: U5B − 28 mm (HF EQ), U12A − 25 mm |
 | MUTEOUT, BUF1 | 88–89 mm | op-amp outputs, low impedance | ordinary care |
 | Aux send lines (pot wiper → 22K at the header, R20–R25) | about 125–145 mm | up to 2.5 kΩ wipers; their 22K at the header is right (bus side short) | run them together as a bundle with ground between pairs where possible; away from SIG_B and the RTE lines |
 | PRESRC → R118 (to U17) | 254 mm | low impedance (U7B output), but it carries the full pre-fader signal past the fader area | away from the routing 4K7s, the DG413 bus side and MUTEOUT |

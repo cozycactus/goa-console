@@ -220,7 +220,7 @@ jack board) done.
   to them, nine on the bottom under their op-amp; every C0G cap on an op-amp input <= 6.3 mm. The caps move after packing (`placer.py` `moves`, 2026-10-27),
   so the greedy packer doesn't re-shuffle ~90 parts into the slots they leave. E9b (group 11 / master 13 caps, up to
   13 mm -> <= 6.4 mm, `stab_caps_e9b.patch`) signed off and applied 2026-10-27; the jig stub was already <= 6.3 mm.
-- `input_nets_proposal.md` (+ `input_nets_proposal.patch`) — E10 (2026-10-27, not signed off, placement only): 18 resistor
+- `input_nets_proposal.md` (+ `input_nets_proposal.patch`) — E10, signed off and applied 2026-10-27 (placement only): 18 resistor
   moves (strip 9, group 7, master 2) shorten the long high-impedance op-amp input nets (MST over 20 mm: strip 17 -> 9,
   group 10 -> 3; e.g. group return receiver U9B- 39 -> 13 mm, master post-amp U5A- 27 -> 13), no net longer, C0G caps
   untouched; 0 DRC / parity.
@@ -611,6 +611,9 @@ jack board) done.
   PSU board's 8 silk-edge items are the TO-220s at its edge (since 8b38deb). Strip report unchanged; group 3.0 / 6.2 / 2,
   8.5 / 20.2 / 31. Group and master panels pixel-identical but for the group's new rows; strip panel one numeral (HF "9"
   in place of HPF "50") since `panel_layout.layout()` takes parts in reference order.
+- E10 applied (2026-10-27, placement only): strip 9 / group 7 / master 2 resistors moved, nothing else; 0 DRC, 0 parity,
+  every footprint linked on all six boards; input nets over 20 mm strip 17 -> 9, group 10 -> 3, master 23 -> 21, none
+  longer; emc_check: strip U5B- 7.6 -> 13.6 mm from U4's output, group U9A- 7.0 -> 15.1 mm from D3.
 - E9b applied (2026-10-27, placement only): group 11 / master 13 caps moved, nothing else; 0 DRC, 0 parity, every
   footprint linked; reports: group high-Z 8.5 / 20.2 / 30 -> 7.8 / 20.2 / 26, master 8.1 / 97.0 / 77 -> 76, decouplers
   unchanged; every C0G cap on an op-amp input <= 6.1 mm (group) / 6.4 mm (master), was 13.0.

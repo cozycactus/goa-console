@@ -183,6 +183,9 @@ MOVES = {'C37': (41.775, 440.635, 270, 'B'), 'C83': (9.22, 149.65, 180, 'F'), 'C
          'C36': (39.025, 442.655, 0, 'B'), 'C153': (12.72, 282.63, 270, 'B'), 'C32': (35.575, 442.135, 0, 'B'),
          'C94': (56.77, 144.38, 90, 'B'), 'C174': (74.12, 353.38, 270, 'B'), 'C146': (9.27, 282.61, 270, 'B'),
          'C91': (9.27, 269.88, 0, 'B')}
+# E10 (input_nets_proposal.md): one SMD part per long high-impedance op-amp input net moved so the net shrinks by
+# >= 5 mm without its other net growing more than that (placer `moves`)
+MOVES.update({'R38': (47.525, 438.635, 0, 'F'), 'R33': (30.325, 441.615, 180, 'B')})
 place(os.path.join(PROJ, 'master.net'), os.path.join(PROJ, 'master.kicad_pcb'),
       dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
            grounds=('GNDA', 'GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'), silk_text_off=('K',), hole_value='M3 standoff 11.5 mm',

@@ -1,9 +1,9 @@
 # Shorter high-impedance op-amp input nets (proposal E10, 2026-10-27)
 
-**Status: proposal, not signed off.**
+**Signed off by Ruslan on 2026-10-27 and applied the same day; see "Applied" at the end.**
 - **What changes:** placement only, after E9 / E9b. No netlist, part or BOM change.
-- **The trial:** `input_nets_proposal.patch`, a `MOVES.update` in `place_strip.py`, `place_group.py` and
-  `place_master.py`. The committed boards are unchanged.
+- **The change:** `input_nets_proposal.patch`, a `MOVES.update` in `place_strip.py`, `place_group.py` and
+  `place_master.py`.
 
 ## Why
 
@@ -83,10 +83,11 @@ net 26 → 16, and GNDA on the strip and group.
 
 ## Sign-off
 
-- [ ] **E10:** the 18 resistor moves above (strip 9, group 7, master 2), by `moves`.
+- [x] **E10:** the 18 resistor moves above (strip 9, group 7, master 2), by `moves`.
 
-If signed off, applying it means:
-- apply the patch and re-place the three boards (identical to the trial);
-- parity DRC, links and `emc_check.py`;
-- re-export `render/*.json`;
-- update `routing_guide.md` and CLAUDE.md.
+## Applied (2026-10-27)
+
+- **Boards:** the three re-placed identically to the trial (0 parts differ). Against E9 / E9b, 9 / 7 / 2 resistors
+  moved.
+- **Checks:** 0 DRC violations, 0 parity issues; every footprint linked on all six boards (the jack boards unchanged).
+- **Exports and docs:** `render/*.json` re-exported; `routing_guide.md` and CLAUDE.md updated.

@@ -136,6 +136,11 @@ MOVES = {'C35': (36.65, 377.02, 270, 'B'), 'C34': (33.13, 377.52, 180, 'B'), 'C5
          'C39': (32.72, 243.65, 270, 'B'), 'C50': (35.88, 139.72, 180, 'B'), 'C76': (28.27, 182.88, 90, 'B'),
          'C44': (20.77, 116.38, 90, 'B'), 'C19': (2.27, 236.36, 270, 'B'), 'C7': (35.72, 398.13, 270, 'B'),
          'C59': (25.77, 158.11, 270, 'B'), 'C60': (28.52, 158.88, 180, 'B')}
+# E10 (input_nets_proposal.md): one SMD part per long high-impedance op-amp input net moved so the net shrinks by
+# >= 5 mm without its other net growing more than that (placer `moves`)
+MOVES.update({'R57': (34.22, 160.38, 0, 'B'), 'R55': (32.47, 166.65, 180, 'B'), 'R53': (32.02, 157.11, 180, 'B'),
+              'R32': (35.15, 384.77, 180, 'F'), 'R43': (6.27, 139.88, 180, 'B'), 'R46': (10.22, 140.88, 270, 'B'),
+              'R10': (31.88, 438.72, 0, 'B')})
 place(os.path.join(PROJ, 'group.net'), os.path.join(PROJ, 'group.kicad_pcb'),
       dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
            keepout=[(22.0, 185.0, 23.5, 215.0, 'B')],          # silk room beside the links' boxes
