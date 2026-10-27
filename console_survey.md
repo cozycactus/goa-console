@@ -6,7 +6,7 @@ design has changed; the proposals in §5 wait for sign-off. One documentation er
 
 ## 1. Sources
 
-Eight readers each took one console family. They rendered the scanned schematics, read values from crops and
+Eight readers each took one console family, and a second batch of six read the consoles in Ruslan's Downloads (§7). They rendered the scanned schematics, read values from crops and
 compared them against a reference card of our design. Their full reports, with PDF page numbers, are in
 `docs/console_survey/`. Each report marks every claim as **read** (from the drawing) or **inferred** (calculated or
 deduced).
@@ -22,6 +22,13 @@ deduced).
 | SSL 4000G | 1993 | console service manual (82E291 channel amps, 82E26 mix amp, PSU) | `ssl_4000g.md` |
 | Yamaha PM-4000 / PM-5000 | 1990s / 2000s | PM-5000 service manual, PM-4000 circuit board scans | `yamaha_pm4000_pm5000.md` |
 | Sony MXP-3000 | 1980s | operation / maintenance manual, module, mother-board and PSU schematics | `sony_mxp3000.md` |
+| *Second batch (§7, from `~/Downloads`):* | | | |
+| Allen & Heath GL2 (+ GL2200) | 1993 / 1999 | GL2 service manual AP0179, GL2200 schematics (the GL4 isn't in the PDF) | `ah_gl2_gl4.md` |
+| Allen & Heath GL3300 ("L3D") | 1997-2000 | 26 pages of schematics, no spec page | `ah_gl3300.md` |
+| AMEK big (by Langley) | 1994-97 | technical manual MAN/BIG: specs, alignment, test methods, PSUs; no circuit diagrams | `amek.md` |
+| Yamaha MC803 / 1203 / 1603 / 2403 (a Phonic OEM design) | 1993 | service manual with the full schematic | `yamaha_mc.md` |
+| Soundcraft Spirit E series (E8) | 2000s | technical manual schematics S-S2001AS-02A | `soundcraft_e8.md` |
+| Mackie CR1604-VLZ, MS1402-VLZ, 8•Bus | 1990s | VLZ service manuals; the 8•Bus board schematics (zip) | `mackie.md` |
 
 **Not used:**
 - Delta 8 and Soundcraft 500 / 600: user guides only.
@@ -207,6 +214,63 @@ strongly the library supports them.
 - **Others, each with the reason in its console report:** discrete summing pairs; DC blocking at the summing node;
   ground-cancel ties or trims (our sim: a 22 Ω tie costs 45 dB); cap multipliers or remote sense on the supply; Sony's
   one reference line per bus family (worth revisiting only if the jig shows aux hum).
+
+## 7. Second batch: the consoles in Downloads (2026-10-27)
+
+Same method and reference card (strip v5.0). These are smaller desks and one large one without circuits. None shows our
+design weaker than common practice; the findings below either confirm it or add two cheap protections and a measurement.
+
+### What they confirm
+
+| Topic | Second batch | Ours |
+|---|---|---|
+| Line input | **No separate line receiver in any of them.** Line reaches the mic pre through a resistive pad (GL2 8K2 / 4K7, GL3300 10K per leg, Mackie VLZ 10K / 1K3, Yamaha MC 20 dB, E8 4K3 / 1K2) | Buffered receiver, 1 MΩ legs: still the only one that keeps CMRR against a synth's output impedance |
+| Fader + post-amp | **"0" 10 dB down, then about +10 dB:** GL2, GL3300, Mackie (NJM4560, 1K1 / 510), Yamaha MC (10K / 4K7), E8 (+10.5 dB) | The same; the gain structure is industry standard |
+| Fader shut-off | **GL2 and GL3300 inject an anti-phase copy of the fader top into the post-amp's ground leg** ("FADER SHUTOFF COMPENSATION", GL3300 C3100: 100K into 10R, J9 to disable) | Nothing; see CS9 |
+| Mute | Mechanical in the path (GL2, Mackie, Yamaha MC, E8); GL3300 J111 shunts with a 10 ms ramp and four mute groups | J112 soft mute, also on pre sends: ahead of all of them |
+| Pan | Passive, unbuffered (GL2, GL3300, VLZ, Yamaha MC, E8: −3 dB pan-taper duals); the 8•Bus buffers like ours | Buffered, −6 dB (CS2 is about the law, not the buffer) |
+| Routing | Mechanical keys switching the resistor's bus end (GL3300) or source end (GL2) to ground | DG413 at the bus end; the key carries logic only |
+| Summers | DC block in series with the summing node (GL2, GL3300, Yamaha MC, E8 on aux / solo) | Coupling at each source; a summing-node cap would fight ground cancel |
+| Bus ground | **Mackie VLZ: one ground-sense line per bus** (G-MAIN, G-AUX-n, G-SUB-n), 510 Ω from each channel, summer + input on it; GL2, GL3300, Yamaha MC, E8: local ground only | One GCANCEL line for every summer, 10 Ω per strip, and re-inverters |
+| Channel OL | Multi-point on GL2 (3 taps), E8 (4 taps: preamp, insert return, EQ, post-fader), 8•Bus (3 taps); single point on the 1604-VLZ, GL3300, Yamaha MC. **All positive half only**, holds 0-22 ms | 5 taps, both polarities, ~150 ms hold (v5.0) |
+| Master meters | Precision rectifier into a series LED string with one current source and a comparator per LED (GL3300, 1604-VLZ, E8) | The same architecture |
+| Outputs | Cross-coupled op-amp pairs (GL3300, GL2200, Yamaha MC), SSM2142 (GL2), impedance-balanced (E8); **no mute relay in any** (Yamaha MC has a transistor shunt at the master fader) | DRV135 + relay with power-on delay |
+| Power | 10R + 47 µF per rail per board (GL2, GL3300, "PF" fusible on the GL3300), separate LED rail with its own ground (1604-VLZ), **reverse diodes on each rail of every board** (GL2 1N4002) | 10R anti-surge + 220 µF; no reverse diodes on the strips (see CS10); fusible feeds already CS6 |
+| Levels | Internal −2 dBu (GL2, GL3300), +4 dBu (AMEK big, 17 dB headroom), about 0 dBu (Yamaha MC, Mackie) | 0 dBu, 23 dB to clip |
+
+### Proposals (not applied; for sign-off)
+
+- [ ] **CS9 Fader shut-off compensation, if the sample needs it** (GL2, GL3300).
+  - *What:* a resistor from the fader top (MUTEOUT) into a few ohms under R38 in U2A's ground leg. The anti-phase
+    copy cancels the residual that the fader's end resistance leaks at the bottom stop.
+  - *Numbers:* the GL3300's 100K / 10R cancels about −83 dB, i.e. ~0.7 Ω of end resistance on 10K. The spread of end
+    resistance limits the gain to perhaps 10-20 dB.
+  - *First:* measure a PTB0143's residual at the bottom stop (`sample_order.md` check 9). Propose values only if it is
+    worse than about −80 dB. Then sim U2A's stability with the added ground-leg resistor.
+- [ ] **CS10 Reverse-biased diodes on each rail of every strip / group board** (GL2: 1N4002 per rail per board).
+  - *Why:* if a wing loses one rail (a PTC trips, a ribbon conductor opens), the op-amps can drag that rail past
+    ground. A strip's C3 is a polar 220 µF on −VA and C1 one on +VA.
+  - *Today:* the master has SS54 clamps at its supply entry, but nothing on the strips or groups.
+  - *Proposed:* two Schottky or 1N4002-class diodes per board, after R1 / R2, cathode to +VA / GNDA, anode to GNDA /
+    −VA.
+  - *Cost:* about 2 parts per board, placed by `moves_only`.
+- [ ] **CS11 Jig test additions** (AMEK big's test protocol, Mackie's per-bus ground) — `test_jig_spec.md` only:
+  - output balance of the DRV135 outputs with matched 1 kΩ legs;
+  - a measured line-input CMR with a 0.01 %-matched 100 Ω pair, plus the 1 kΩ-unbalanced case our 54 dB claim rests on;
+  - fader breakthrough and pan isolation;
+  - mix noise at N = 4…24 with faders down (comparable with the published figures in §2);
+  - the current in the GCANCEL conductor with four strips (our 10 Ω against Mackie's 510 Ω per channel).
+
+**Considered and not proposed (second batch):**
+- **A removable 10 Ω between the console star and chassis** (AMEK): conflicts with the signed G1-G3 grounding. Worth a
+  note only as a hum-hunting option, after the jig.
+- **Mackie's per-bus ground-sense lines:** needs conductors the 34-way loom doesn't have; Sony's version was declined
+  the same way (§5).
+- **Mute groups on the spare ribbon pins** (GL3300): no panel room for group keys on an 8 HP strip.
+- **The 8•Bus's 20 Ω + 220 pF on the summing node:** only if the jig shows RF or ringing; our sim is clean to 2.2 nF.
+- **Wiper-fed aux pots, a global pre / post, A+C taper pan, a JFET-mute null resistor, the discrete cross-coupled
+  output:** each either needs the unbuffered topology we don't have, or (the cross-coupled driver) is a fallback to keep
+  on file in case the DRV135 goes.
 
 ## 6. Correction made
 

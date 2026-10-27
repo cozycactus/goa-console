@@ -198,6 +198,10 @@ jack board) done.
   unrecorded departure), summer headroom check / sum below unity, jack I/O clamp diodes, PFL crosstalk (SW3 / SW4
   supply-pole caps per the Series Two field mod, pin 28 dummy track, virtual-earth PFL DET), fusible per-strip feeds,
   C/Room dim, deeper mute (jig). Corrected master spec §3's misreading of the Delta's monitor-select receivers.
+  Second batch (§7, 2026-10-27, from ~/Downloads): A&H GL2 / GL2200 and GL3300, AMEK big (no circuits), Yamaha MC
+  series (Phonic OEM), Spirit E8, Mackie 1604 / 1402-VLZ and 8•Bus; nothing weaker in ours. New proposals CS9 (fader
+  shut-off compensation as A&H, only if the PTB0143 sample's residual is worse than -80 dB), CS10 (reverse diodes per
+  rail on every strip / group board), CS11 (jig tests: output balance, measured CMR, fader breakthrough, GCANCEL current).
 - `cs1_proposal.md` (+ `cs1_proposal.patch`, tools only) — CS1, signed off by Ruslan and applied 2026-10-27 (strip v5.0): the OL LED from
   RECV / GOUT / EQOUT / PRESRC / FPOST through 1K + BAV99 each; positive peaks into PK as built, negative peaks into
   OL_NN (C103 // R134, PK's mirror) read by a new U18A through a 4M99 / 10M divider from +VL (thresholds ratios of +VL
@@ -301,7 +305,7 @@ jack board) done.
   HighZ / Entry / Bus on F.Cu, Switching on B.Cu (both planes between them), the rest greedily to clear crossings, once
   per board. `docs/escape/<board>_layers.csv` per net; the three densest 30 mm windows per board as SVGs. Strip worst:
   y 121-151, the column between U12 / U13 (RV13, RV15, SW12, CN3).
-- `sample_order.md` — the parts to order with the prototype panel and the eight physical checks they settle.
+- `sample_order.md` — the parts to order with the prototype panel and the nine physical checks they settle (9: the fader's residual at the bottom stop, for CS9).
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.
 - `film_np_proposal.md` (+ `film_np_proposal.patch`) — film couplers and MUSE ES bipolars, F1-F4 signed off and applied

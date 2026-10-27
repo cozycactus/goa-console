@@ -75,3 +75,10 @@ Most checks need the prototype panel and a 1:1 print of the strip board's top si
 Write each result into `panel_parts_drawings.md` and `CLAUDE.md`'s open items. Anything that changes a hole, a
 footprint or a value goes through the generators (`panel_layout.py`, `footprints.py`, `gen.py`), never by hand, so
 the panels, boards and 3D model stay in step.
+9. **Fader residual at the bottom stop** (for `console_survey.md` CS9).
+   - **Setup:** a PTB0143 wired as on the strip: 0 dBu at 1 kHz on the top, the bottom pin to ground through a short
+     wire, the wiper into 100K.
+   - **Measure:** the wiper level with the fader at its bottom stop, and the end resistance (bottom pin to wiper,
+     with a 4-wire ohmmeter if you have one). Repeat at both ends of the travel and on the second sample.
+   - **Decide:** below −80 dB, nothing to do. Worse than that, size CS9's injection resistor from the measured end
+     resistance.
