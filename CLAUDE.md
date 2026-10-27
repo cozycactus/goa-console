@@ -13,11 +13,11 @@ Line level only. One identical main PCB per channel (plus a small jack board), j
 ribbon "motherloom".
 Channel = a Soundcraft Delta Theatre input without the mic stage (decided 2026-10-22): line gain,
 Ø, HPF, 4-band EQ, post-EQ insert, ON, PFL, aux 1-6 with PRE switches, pan + PAN switch, routing,
-direct out. Strip spec v5.3 (v4.0 + the stability / ratings fixes of 2026-10-23, film couplers and MUSE ES bipolars and the sweepable HPF 2026-10-24, buffered receiver, chassis sleeves, K1 / K3 and the design review 2026-10-25, the signal / OL bicolour LED and PAN1 2026-10-26, P1 / P2 / E6, the five-point OL detector CS1, the rail clamps CS10, the jack-link clamps CS4 and the fusible supply resistors CS6 2026-10-27), schematics and placement (main board +
+direct out. Strip spec v5.4 (v4.0 + the stability / ratings fixes of 2026-10-23, film couplers and MUSE ES bipolars and the sweepable HPF 2026-10-24, buffered receiver, chassis sleeves, K1 / K3 and the design review 2026-10-25, the signal / OL bicolour LED and PAN1 2026-10-26, P1 / P2 / E6, the five-point OL detector CS1, the rail clamps CS10, the jack-link clamps CS4, the fusible supply resistors CS6 and the Delta's pan law CS2 2026-10-27), schematics and placement (main board +
 jack board) done.
 
 ## Files
-- `channel_strip.kicad_sch` / `.kicad_pro` — channel strip schematic v5.3 (KiCad 7 file format, opens in KiCad 10).
+- `channel_strip.kicad_sch` / `.kicad_pro` — channel strip schematic v5.4 (KiCad 7 file format, opens in KiCad 10).
   HIERARCHICAL on A4 since 2026-10-25, like the master: a root sheet plus 17 pages in `strip_sheets/` (the group: 7
   pages in `group_sheets/`); strip_draw blocks too big for a page are lists of pieces (KHN per band, routing per
   assign key, power in rows), packed apart on pages and drawn in turn on a flat sheet (PILOT).
@@ -87,7 +87,7 @@ jack board) done.
   Exports: jack_board.net/.pdf/_BOM.csv. Same verify/check_fp/ERC loop with `jack_board` in place of `channel_strip`.
 - `channel_strip.kicad_pcb` — strip main board (the strip project's own board since 2026-10-26; was
   `channel_strip_v4.kicad_pcb`), 4-layer since 2026-10-27, 38 × 400 mm (y 44–444) at 11.5 mm under an 8 HP × 12U
-  panel (two pot columns), 317 parts + 6 M3 holes (v5.3); `jack_board.kicad_pcb` — 38 × 43 mm (y 0–43) at 24.0 mm
+  panel (two pot columns), 325 parts + 6 M3 holes (v5.4); `jack_board.kicad_pcb` — 38 × 43 mm (y 0–43) at 24.0 mm
   under the panel. Same y frame, so they overlay. Component placement only: no tracks, vias or copper zones.
   Rebuild both with `tools/build_strip_pcb.sh [main.kicad_pcb [jack.kicad_pcb]]` or, per board,
   `/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3 tools/place_strip.py channel_strip.net channel_strip.kicad_pcb`
@@ -148,7 +148,7 @@ jack board) done.
   $KC sch erc --severity-all channel_strip.kicad_sch
   $KC sch export pdf -o channel_strip.pdf channel_strip.kicad_sch
   ```
-  python3 tools/sim_netlist.py channel_strip.net jack_board.net   # both netlists joined by the ribbon: 39 checks
+  python3 tools/sim_netlist.py channel_strip.net jack_board.net   # both netlists joined by the ribbon: 41 checks
   python3 tools/sim_console.py     # the whole console from the netlists: 24 strips + 4 groups + master + ribbon, 35 checks
   BOM (every board; quoted fields, because some MPNs contain commas; DNP column): `$KC sch export bom -o channel_strip_BOM.csv --fields '${QUANTITY},Value,Footprint,MPN,${DNP},Reference' --labels 'Qty,Value,Footprint,MPN,DNP,References' --group-by 'Value,Footprint,MPN,${DNP}' --ref-delimiter ' ' --ref-range-delimiter '' channel_strip.kicad_sch`
   `.venv/` (gitignored) holds kiutils 1.4.8. gen.py finds the symbol libs at the Linux or macOS
@@ -208,12 +208,13 @@ jack board) done.
   follow-up), line CMR (1 kohm tip: 60 / 56 / 38 / 32 dB at 50 / 1k / 10k / 20k, the 100 pF caps), fader / pan
   residuals vs end resistance (-80 dB needs <= 0.3 ohm: decides CS9), faders-down MIX noise N 4..24 (-106.7..-100.1
   dBu), GCANCEL current.
-- `cs2_proposal.md` (+ `cs2_proposal.patch`, tools only) — CS2 worked up, not signed off (2026-10-27): the Delta's pan law
+- `cs2_proposal.md` (+ `cs2_proposal.patch`, tools only) — CS2, signed off by Ruslan (Option A) and applied 2026-10-27 (strip v5.4): the Delta's pan law
   (ED3344C) on the strip: U8B / U3A at 1.22x (2K2 / 10K) with 3K3 back to the wipers (R136-R141), -2.7 dB centre, +1.7 dB
   hard (4.4 dB law); 22p C0G across each 2K2 (C105 / C106) needed: without it TI's model gives 32 / 14 deg, with it
   81.6-85.3. Mix +3.3 dB at centre (summer headroom 29.5 -> 26.2 dB per source), S/N unchanged; PAN off stays POST
   (1.7 dB under a hard pan; matching it needs a bus coupler no D10 spot allows). sim_netlist 41/41, sim_console 35/35
-  with shifted targets, trial 61 / 61. `sim/review/cs2/pan_law.py`.
+  with shifted targets. `sim/review/cs2/pan_law.py`. The -6 dB was a transfer error (v3 copied the buffers as followers),
+  confirmed against ED3344C and the 200 Delta manual (p.34: 4.5 dB centre drop).
 - `cs11b_proposal.md` (+ `cs11b_proposal.patch`, tools only) — CS11b, signed off by Ruslan and applied 2026-10-27: each DRV135's
   two 10 uF couplers as a pair sorted within 2 % (MPN note; LME49600 bypasses and the jig stub as bought; 10 sorting
   spares in `order_bom.py`). `sim/review/cs11/drv_couplers.py` (TI model): output balance worst 5 % at 1 kHz / 100 Hz
@@ -409,7 +410,7 @@ jack board) done.
 - `delta_clone_comparison.md` — the strip as a Delta Theatre input without the mic stage, stage by
   stage against the old strip; 7 decisions signed off 2026-10-22 (§3), now in spec v4.0 and the schematic.
 - `console_architecture.md` — whole-console architecture, v3.0. Authoritative.
-- `channel_strip_schematic_spec.md` — strip component-level spec, v5.3. Authoritative.
+- `channel_strip_schematic_spec.md` — strip component-level spec, v5.4. Authoritative.
 - `channel_strip_BOM.csv`, `channel_strip.net`, `channel_strip.pdf` — exports.
 
 ## Decisions made (do not silently change)
@@ -618,6 +619,11 @@ jack board) done.
   jack-link signal at the header, as the strip's (group D7-D20 at CN3 / CN4, 14 per board; master D79-D102 at CN5, 24),
   made last by `master_lib.link_clamps()` so no ref moved. Phantom on a DRV135 output now leaves its 10 uF 25 V coupler
   and Sense pin at 17.7 V (47.7 before); the no-phantom note stays. Group 781 pins / 279 parts, master 1758 / 603.
+- Strip v5.4 (signed off by Ruslan 2026-10-27, `cs2_proposal.md` CS2 Option A): the Delta's -4.4 dB pan law. U8B / U3A at
+  1.22x (R137 / R140 2K2, R138 / R141 10K, C105 / C106 22p C0G across the 2K2s for stability) with R136 / R139 3K3 from
+  each output back to its wiper: -2.7 dB centre, +1.7 dB hard. Mix +3.3 dB at centre (S/N unchanged, summer headroom
+  29.5 -> 26.2 dB per source); PAN off stays POST (1.7 dB under a hard pan). The old -6 dB was never a decision.
+  937 pins, 325 parts.
 - Strip v5.3 / group (signed off by Ruslan 2026-10-27, `cs6_proposal.md` CS6): R1-R4 (10R to +VA / -VA / +VL / -VL) on
   every strip and group are Vishay M25SI fusibles (M251206BB1009JP500, 1206, 0.25 W): a short behind one opens it in
   < 0.07 s and only that module goes quiet (the wing PTC never reached its trip current). **Power the console down
@@ -796,10 +802,10 @@ jack board) done.
   PSU board's 8 silk-edge items are the TO-220s at its edge (since 8b38deb). Strip report unchanged; group 3.0 / 6.2 / 2,
   8.5 / 20.2 / 31. Group and master panels pixel-identical but for the group's new rows; strip panel one numeral (HF "9"
   in place of HPF "50") since `panel_layout.layout()` takes parts in reference order.
-- Whole project (2026-10-27, strip v5.3, `tools/check_all.py --full`): 61 / 61 checks pass on the committed tree: every board's
-  netlist vs intended (strip 921 pins, group 789, master 1786, jack boards 32 / 60 / 89, jig 364 / 153, PSU 119), pins vs
-  footprints, ERC 0, parity DRC (only the known footprint items), 1498 / 1498 footprint links, route_check 0 ERR;
-  sim_netlist 39/39, sim_console 35/35, every DRC rule fires (15), route_check_test 8 / 8, panel checks 0, ol.py red
+- Whole project (2026-10-27, strip v5.4, `tools/check_all.py --full`): 61 / 61 checks pass on the committed tree: every board's
+  netlist vs intended (strip 937 pins, group 789, master 1786, jack boards 32 / 60 / 89, jig 364 / 153, PSU 119), pins vs
+  footprints, ERC 0, parity DRC (only the known footprint items), 1506 / 1506 footprint links, route_check 0 ERR;
+  sim_netlist 41/41, sim_console 35/35, every DRC rule fires (15), route_check_test 8 / 8, panel checks 0, ol.py red
   18.4 / green -19.5 dBu, ol_multi.py pulses +9.01 / -9.30 V.
 - E11 applied (2026-10-27, placement only): strip 13 / group 1 / master 7 decouplers moved, nothing else; 0 DRC, 0 parity,
   every footprint linked; decouplers median / max / over 5 mm: strip 2.5 / 5.4 / 1, group 2.9 / 5.1 / 1, master

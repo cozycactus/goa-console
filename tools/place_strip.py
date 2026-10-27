@@ -108,6 +108,12 @@ MOVES.update(CS10)
 CS4 = {'D18': (31.75, 138.25, 0, 'B'), 'D19': (25.0, 124.75, 0, 'B'), 'D20': (20.25, 138.5, 0, 'B'),
        'D21': (25.0, 120.5, 0, 'B'), 'D22': (13.0, 124.75, 0, 'B')}
 MOVES.update(CS4)
+# CS2 (cs2_proposal.md): the pan buffers' gain resistors, their 22p and the 3K3s back to the wipers, under U8 / U3 on the bottom,
+# placed by MOVES alone
+CS2 = {'R137': (7.5, 240.5, 90, 'B'), 'R138': (10.0, 240.5, 90, 'B'), 'R136': (7.25, 243.75, 0, 'B'),
+        'R140': (20.5, 235.75, 0, 'B'), 'R141': (10.25, 236.5, 90, 'B'), 'R139': (11.75, 244.5, 90, 'B'),
+        'C105': (6.25, 237.25, 0, 'B'), 'C106': (16.5, 235.75, 0, 'B')}
+MOVES.update(CS2)
 # CS6 (cs6_proposal.md): R1-R4 are fusible 1206s (Vishay M25SI), too big for the E4 cluster, so they leave the packer:
 # placed by MOVES alone at probed spots by the header's power pins (R1 / R2 top, at their old spots; R3 / R4 bottom).
 # C2 / C4 stay fixed where they were, and the old 0805 spots are kept out of packing, so every other part packs as before
@@ -217,5 +223,5 @@ if '(ref "CN5")' in open(NET).read():                           # jack board net
                   hole_value='M3 standoff = jack body height (~24 mm)')
 else:
     layout = dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, holes=HOLES, zones=ZONES, notes=NOTES, near=NEAR,
-                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, moves_only=tuple(NEW49) + tuple(CS1) + tuple(CS10) + tuple(CS4) + tuple(CS6), keepout=CS6_KEEP, turns=TURNS, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
+                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, moves_only=tuple(NEW49) + tuple(CS1) + tuple(CS10) + tuple(CS4) + tuple(CS6) + tuple(CS2), keepout=CS6_KEEP, turns=TURNS, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
 place(NET, OUT, layout)

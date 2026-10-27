@@ -271,8 +271,8 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
 ## 6. Mono
 
 - U3A: inverting sum of POST_L and POST_R, 10K inputs, 10K feedback with 100 pF.
-  A centre-panned mono source arrives at −6 dB in each side, so mono gives 0 dB for it.
-  A hard-panned source also gives 0 dB.
+  A centre-panned mono source arrives at −2.7 dB in each side since strip v5.4 (CS2, the Delta's −4.4 dB law), so mono
+  gives +3.3 dB for it; a hard-panned source gives +1.7 dB (it was −6 dB per side and 0 dB for both).
 - U3B: unity inverter (10K/10K, 22 pF C0G across the feedback 10K for stability, review 2026-10-23) to restore
   polarity, then DRV134, relay, XLR.
 - Optional mono fader is left out; mono follows the master fader.

@@ -331,8 +331,14 @@ P(b,'RV8','POT2','Pan 10K lin dual CD',{1:'POST',3:'GNDA',2:'PANWL',4:'GNDA',6:'
   fp='Potentiometer_THT:Potentiometer_Alps_RK09L_Double_Vertical',mpn='ALPS RK09L1240015')
 # PAN1 (pan_buffer_proposal.md): pan buffer L in U8B (it was the spare), beside the pan pot; U2B at the fader end is
 # the spare now, so the pan L wiper no longer runs 165 mm to the fader end
-P(b,'U8','OPA','OPA1612',{5:'PANWL',6:'PBL',7:'PBL'},unit=2); P(b,'C79','C','10p C0G',{1:'PANWL',2:'GNDA'},fp=C0G)
-P(b,'U3','OPA','OPA1612',{3:'PANWR',2:'PBR',1:'PBR'},unit=1); P(b,'C80','C','10p C0G',{1:'PANWR',2:'GNDA'},fp=C0G)
+# CS2 (cs2_proposal.md): the Delta's pan law (ED3344C): each buffer at 1.22x (2K2 / 10K) with 3K3 from its output back
+# to its wiper: -2.7 dB at centre, +1.7 dB hard over, a 4.4 dB law (was a plain -6 dB with followers)
+P(b,'U8','OPA','OPA1612',{5:'PANWL',6:'PBL_N',7:'PBL'},unit=2); P(b,'C79','C','10p C0G',{1:'PANWL',2:'GNDA'},fp=C0G)
+P(b,'U3','OPA','OPA1612',{3:'PANWR',2:'PBR_N',1:'PBR'},unit=1); P(b,'C80','C','10p C0G',{1:'PANWR',2:'GNDA'},fp=C0G)
+P(b,'R136','R','3K3',{1:'PBL',2:'PANWL'}); P(b,'R137','R','2K2',{1:'PBL_N',2:'PBL'}); P(b,'R138','R','10K',{1:'GNDA',2:'PBL_N'})
+P(b,'R139','R','3K3',{1:'PBR',2:'PANWR'}); P(b,'R140','R','2K2',{1:'PBR_N',2:'PBR'}); P(b,'R141','R','10K',{1:'GNDA',2:'PBR_N'})
+# C0G across each 2K2: the op-amp's input capacitance against 2K2 // 10K puts a pole at the 15-20 MHz crossover
+P(b,'C105','C','22p C0G',{1:'PBL_N',2:'PBL'},fp=C0G); P(b,'C106','C','22p C0G',{1:'PBR_N',2:'PBR'},fp=C0G)
 P(b,'C16','C','100u NP 25V',{1:'PBL',2:'PANL'},fp=CAP_FP['220u']); P(b,'R36','R','47K',{1:'PANL',2:'GNDA'})
 P(b,'C17','C','100u NP 25V',{1:'PBR',2:'PANR'},fp=CAP_FP['220u']); P(b,'R37','R','47K',{1:'PANR',2:'GNDA'})
 
@@ -368,12 +374,12 @@ for _, ps in schgen.blocks:                     # ceramic MPNs by value (X7R 50 
     for pt in ps:
         if pt['key'] in ('C', 'CP') and not pt['mpn']: pt['mpn'] = CAP_MPN.get(pt['value'], '')
 build(OUT, 'channel_strip', 'Channel strip - goa console',
-      {1: 'Generated from channel_strip_schematic_spec.md v5.3', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
+      {1: 'Generated from channel_strip_schematic_spec.md v5.4', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
        3: 'A Delta Theatre input without the mic stage'},
-      paper='auto', revision='5.3', pages=dict(paper='A4', folder='strip_sheets'), **strip_draw.SHEET)   # A4 sub-sheets
+      paper='auto', revision='5.4', pages=dict(paper='A4', folder='strip_sheets'), **strip_draw.SHEET)   # A4 sub-sheets
 if os.environ.get('PILOT'):                     # only the drawn blocks, on a sheet of their own (layout review)
     build(os.environ['PILOT'], 'pilot', 'Channel strip - drawn blocks (pilot)', {1: 'tools/strip_draw.py', 2: ''},
-          paper='auto', revision='5.3', only=lambda t: strip_draw.for_title(t) is not None, **strip_draw.SHEET)
+          paper='auto', revision='5.4', only=lambda t: strip_draw.for_title(t) is not None, **strip_draw.SHEET)
 
 # ---------------------------------------------------------------- jack board (its own PCB; same net names)
 schgen.blocks.clear()

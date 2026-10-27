@@ -124,7 +124,7 @@ Targets from `tools/sim_netlist.py` (the exported netlists, 39 checks), `sim/mid
 | EQ IN off, all bands at full boost | flat within 0.5 dB |
 | Insert: nothing plugged (normal), send/return through a cable | 0 dB change |
 | Direct out (DIR + PRE 5-6, aux 6 at the top) | 0 dBu at J5 tip; aux 6 bus silent |
-| Routing: L-R, 1-2, 3-4 on and off (DG413) | +3.8 dBu on the bus with pan at centre; off: below −80 dB; LED follows the switch |
+| Routing: L-R, 1-2, 3-4 on and off (DG413) | +7.1 dBu on the bus with pan at centre, +11.5 dBu hard over, the far side below −80 dB (v5.4 pan law, CS2); PAN off +9.9 dBu; off: below −80 dB; LED follows the switch |
 | PFL: bus level, PFL DET, LED | 0 dBu; master PFL logic switches |
 | Signal LED (D2 green), 1 kHz sine at PRE | lights from about −20 dBu (sim −19.5); stays lit about 170 ms after the signal stops; dark with the input terminated |
 | Overload LED (D2 red), 1 kHz sine at PRE | red alone (green off) from about +18 dBu (sim +18.4; +18.1 at 50 Hz); a 2-cycle burst at +19 dBu lights it for about 150 ms |

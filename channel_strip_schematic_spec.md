@@ -1,4 +1,4 @@
-# Channel Strip — Component-Level Specification v5.3
+# Channel Strip — Component-Level Specification v5.4
 ## Soundcraft Delta Theatre input without the mic stage. One PCB per channel, ×24.
 
 Bus pinout, grounding and power: `console_architecture.md`. Stage-by-stage comparison with the
@@ -7,6 +7,27 @@ Reference designators are those of `tools/gen.py`; Delta drawing numbers are giv
 circuit comes from a Delta sheet (ED3344A/B/C = Theatre input RH board, ED3151 = LH board).
 
 ---
+
+## Changes in v5.4 (2026-10-27, signed off; `cs2_proposal.md` CS2 Option A, from `console_survey.md` §5)
+
+**The Delta's pan law, −4.4 dB.** Ours had been a plain −6 dB. That was a transfer error, not a decision
+(`cs2_proposal.md` §1): the v3 strip copied the Delta's pan buffers as followers and dropped the gain and law resistors.
+- **Source:** the parent's network, value for value: ED3344C IC11 with R120-R125; the 200 Delta D202 with R42-R47.
+- **The change:** U8B / U3A become 1.22× stages (R137 / R140 2K2, R138 / R141 10K), and R136 / R139 3K3 run from each
+  output back to its wiper (the "law resistors").
+- **Result:** −2.7 dB at centre, +1.7 dB hard over.
+- **Stability:** C105 / C106 22 pF C0G across the 2K2s. Without them TI's OPA161x model gave 32° at centre and 14° hard
+  over; with them 81.6-85.3° over the 21 configurations.
+- **Size:** 937 pin entries, 325 parts.
+- **Levels:**
+  - mix and subs +3.3 dB at centre, +1.7 dB hard over;
+  - summer headroom per centred source 29.5 → 26.2 dB;
+  - S/N unchanged.
+- **PAN off** (SW14 unlatched) still sends POST: 1.7 dB under a hard pan, 2.7 dB over a centred one. Option B, the
+  matched feed, was not taken.
+- **Not covered:** the overload LED taps FPOST, so a hard-panned signal can clip the pan buffers 1.7 dB before it
+  lights.
+- **Placement:** by `moves_only`, on the bottom under U8 / U3; nothing else moved.
 
 ## Changes in v5.3 (2026-10-27, signed off; `cs6_proposal.md` CS6, from `console_survey.md` §5)
 
@@ -619,11 +640,13 @@ DOUT ── R71 75R ── C52 33 µF NP ── J5 tip ── R72 47K to AGND;  
 ## 12. Pan, pan buffers, PAN switch
 
 ```
-POST ── RV8 (10K B dual, centre detent: ALPS RK09L1240015) ── wipers (C79 / C80 10 pF) ── U8B / U3A followers ── C16 / C17 100 µF NP ── PANL / PANR (R36/R37 47K)
+POST ── RV8 (10K B dual, centre detent: ALPS RK09L1240015) ── wipers (C79 / C80 10 pF) ── U8B / U3A ×1.22 ── C16 / C17 100 µF NP ── PANL / PANR (R36/R37 47K)
+          U8B: R137 2K2 (// C105 22p) out → −, R138 10K − → GNDA, R136 3K3 out → wiper  (U3A: R140 / C106, R141, R139)  (v5.4)
 SW14 pole A: SUBSRC_L = PANL (latched, PAN) or POST (unlatched)
 SW14 pole B: SUBSRC_R = PANR (latched)       or POST (unlatched)
 ```
-- MIX is always panned (−6 dB at centre with the linear pot). With PAN off the subgroups get the
+- MIX is always panned. The law is −4.4 dB since v5.4 (CS2), the Delta's: 1.22× buffers with 3K3 law resistors from
+  each output back to its wiper, −2.7 dB at centre and +1.7 dB hard over. It was −6 dB with followers. With PAN off the subgroups get the
   unpanned post-fader signal at full level: the Delta's behaviour (ED3151 "post pan switch"),
   for using a subgroup pair as two mono groups.
 - Why the buffers: unbuffered, the routing load moves the pan law by up to 5 dB (v3 analysis,
@@ -692,14 +715,14 @@ directly; no debounce RC, because the DG413 inputs have no hysteresis.
 | U1 | OPA1612 | receiver | gain stage |
 | U16 | OPA1656 | input follower, tip | input follower, ring |
 | U2 | OPA1612 | fader post-amp | spare, tied off (v4.8) |
-| U3 | OPA1612 | pan buffer R | mute output buffer |
+| U3 | OPA1612 | pan buffer R (1.22×, v5.4) | mute output buffer |
 | U4 | LM393 | OL comparator | OL hold (v4.5) |
 | U17 | LM393 | signal comparator (v4.7) | signal hold |
 | U18 | LM393 | negative-peak OL comparator (v5.0) | spare, tied off |
 | U5 | OPA1612 | HPF summer | EQ HF |
 | U6 | OPA1612 | EQ HI-MID | EQ LO-MID |
 | U7 | OPA1612 | EQ LF | insert return buffer |
-| U8 | OPA1612 | direct out | pan buffer L (v4.8) |
+| U8 | OPA1612 | direct out | pan buffer L (v4.8; 1.22×, v5.4) |
 | U9–U11 | DG413 | routing switches L-R, 1-2, 3-4 (two SPDT each) | |
 | U12 | OPA1612 | HI-MID KHN summer | HI-MID integrator 1 (BP) |
 | U13 | OPA1612 | HI-MID integrator 2 (LP) | LO-MID KHN summer |
@@ -858,7 +881,17 @@ each standoff's panel end and wherever a panel meets the frame rails. CN3/CN5: W
 
 ---
 
-## 17. Status (v5.3, 2026-10-27)
+## 17. Status (v5.4, 2026-10-27)
+
+v5.4 (CS2):
+- **Netlist:** 937 pin entries / 0 mismatches, check_fp 325 / 0, ERC 0.
+- **Simulation:**
+  - `tools/sim_netlist.py` 41/41: MIX +7.1 dBu at centre, +11.5 hard left, far side −108.5 dB;
+  - `tools/sim_console.py` 35/35, with targets shifted by PANC / PANH;
+  - TI stability over 21 states: U8B / U3A 81.6-85.3°;
+  - `sim/review/cs2/pan_law.py`.
+- **Placement:** 325 footprints, 0 DRC violations, 0 parity issues, 325 / 325 linked; R136-R141, C105 / C106 added,
+  nothing moved.
 
 v5.3 (CS6):
 - **Netlist:** 921 pin entries / 0 mismatches, check_fp 317 / 0, ERC 0; R1-R4 1206 M25SI.

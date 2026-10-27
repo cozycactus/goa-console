@@ -298,9 +298,11 @@ def deg(expr, name): return [f'let {name} = ph({expr})*180/pi', f'print {name}']
 SRC = 0.7746                                          # 0 dBu
 # Expected levels follow the gain structure. Unity through a strip and the master at their faders' "0" marks is
 # -0.8 dB here: each "0" mark gives -10.19 dB (the wiper's ~2.2 kohm drives the post-amp's 100K), each post-amp
-# +9.93 dB (1 + 4K7/2K2), and the master's insert 75R and post-amp 47R build-outs -0.18 dB. Pan centre is -6 dB
-# per side (linear dual), the DRV134 +6 dB differential, the CRS build-out -0.3 dB.
+# +9.93 dB (1 + 4K7/2K2), and the master's insert 75R and post-amp 47R build-outs -0.18 dB. The DRV134 adds +6 dB
+# differential, the CRS build-out -0.3 dB. UNITY assumes the old -6 dB pan centre; since CS2 (cs2_proposal.md, the
+# Delta's law) a strip's pan sits PANC higher at centre (-2.7 dB, not -6) and PANH above POST hard over.
 UNITY = -0.82
+PANC, PANH = 3.27, 1.68
 
 checks = []
 def check(name, got, lo, hi, unit='dB'):
@@ -323,17 +325,17 @@ def t_levels():
     s, g, m = default_console(one(0))
     r, _ = run(console(s, g, m), AC1K + dbu(diff(XLR['L']), 'ml') + dbu(diff(XLR['R']), 'mr') + dbu(diff(XLR['M']), 'mm')
                + deg(diff(XLR['L']), 'pl') + dbu('v(JB_CRL_XP,JB_CRL_XN)', 'cr') + dbu('v(JB_PHJ_L)', 'ph'))
-    check('main L (XLR differential), 0 dBu in, pan centre, faders at "0" (unity -0.8 dB)', r.get('ml'), UNITY - 0.2, UNITY + 0.2)
-    check('main R', r.get('mr'), UNITY - 0.2, UNITY + 0.2)
+    check('main L (XLR differential), 0 dBu in, pan centre (-2.7 dB), faders at "0"', r.get('ml'), UNITY + PANC - 0.2, UNITY + PANC + 0.2)
+    check('main R', r.get('mr'), UNITY + PANC - 0.2, UNITY + PANC + 0.2)
     check('main L polarity: XLR pin 2 in phase with the input tip', abs(r.get('pl', 99)), 0, 5, 'deg')
-    check('main mono (L + R of a centre-panned source: +6 dB)', r.get('mm'), UNITY + 5.8, UNITY + 6.2)
-    check('C/Room L (TRS differential, C/ROOM at the top; CRS build-out -0.3 dB)', r.get('cr'), UNITY - 0.5, UNITY - 0.1)
-    check('phones L into 32 ohm (PHONES at the top, single-ended, +9.9 dB)', r.get('ph'), UNITY - 0.3 - 6.02 + 9.93 - 0.3, UNITY - 0.3 - 6.02 + 9.93 + 0.3)
+    check('main mono (L + R of a centre-panned source: +6 dB)', r.get('mm'), UNITY + PANC + 5.8, UNITY + PANC + 6.2)
+    check('C/Room L (TRS differential, C/ROOM at the top; CRS build-out -0.3 dB)', r.get('cr'), UNITY + PANC - 0.5, UNITY + PANC - 0.1)
+    check('phones L into 32 ohm (PHONES at the top, single-ended, +9.9 dB)', r.get('ph'), UNITY + PANC - 0.3 - 6.02 + 9.93 - 0.3, UNITY + PANC - 0.3 - 6.02 + 9.93 + 0.3)
 
 def t_pan():
     s, g, m = default_console(one(0, pos={'RV8': 0.0}))
     r, _ = run(console(s, g, m), AC1K + dbu(diff(XLR['L']), 'ml') + dbu(diff(XLR['R']), 'mr'))
-    check('pan hard left: main L (+6 dB against centre)', r.get('ml'), UNITY + 5.8, UNITY + 6.2)
+    check('pan hard left: main L (+4.4 dB against centre: the Delta\'s law)', r.get('ml'), UNITY + 6.02 + PANH - 0.2, UNITY + 6.02 + PANH + 0.2)
     check('pan hard left: main R (pan rejection)', r.get('mr'), -400, -60)
 
 def t_mute_route():
@@ -348,12 +350,12 @@ def t_sub():
     """Strip 1 routed 1-2 (not L-R), pan centre -> group 1 (SUB 1) -> sub out; then sub to MIX."""
     s, g, m = default_console(one(0, sw={'SW5': False, 'SW6': True}))
     r, _ = run(console(s, g, m), AC1K + dbu('v(g1_JB_S_OP,g1_JB_S_ON)', 'so') + dbu(diff(XLR['L']), 'ml'))
-    check('strip 1 to SUB 1: group 1 sub out (TRS differential, sub fader at "0")', r.get('so'), -1.2, -0.6)
+    check('strip 1 to SUB 1: group 1 sub out (TRS differential, sub fader at "0")', r.get('so'), -1.2 + PANC, -0.6 + PANC)
     check('SUB not routed to MIX: main L', r.get('ml'), -400, -75)
     s, g, m = default_console(one(0, sw={'SW5': False, 'SW6': True}), group_cfg=lambda k: dict(sw={'SW1': True}) if k == 0 else {})
     r, _ = run(console(s, g, m), AC1K + dbu(diff(XLR['L']), 'ml') + dbu(diff(XLR['R']), 'mr'))
-    check('SUB 1 to MIX (sub pan centre, -6 dB): main L', r.get('ml'), -7.7, -7.0)
-    check('SUB 1 to MIX: main R', r.get('mr'), -7.7, -7.0)
+    check('SUB 1 to MIX (sub pan centre, -6 dB): main L', r.get('ml'), -7.7 + PANC, -7.0 + PANC)
+    check('SUB 1 to MIX: main R', r.get('mr'), -7.7 + PANC, -7.0 + PANC)
 
 def t_aux():
     s, g, m = default_console(one(0, pos={'RV2': 1.0, 'RV6': 1.0}, sw={'SW8': True, 'SW10': True}))
@@ -443,7 +445,7 @@ def t_noise():
     then a single strip routed (the others unassigned)."""
     # a strip's PRE noise with EQ in is -92.9 dBu: -96.7 from its resistors, the rest the OPA1612's 1.7 pA/rtHz current
     # noise in the 22K EQ and KHN networks. 24 such strips at pan centre sum to -84.9 dBu on MIX L; +6 dB DRV134
-    for label, f, lo, hi in (('24 strips routed', None, -81, -77), ('1 strip routed', lambda k: dict(sw={'SW5': k == 0}), -93, -89)):
+    for label, f, lo, hi in (('24 strips routed', None, -81 + PANC, -77 + PANC), ('1 strip routed', lambda k: dict(sw={'SW5': k == 0}), -93 + PANC, -89 + PANC)):
         s, g, m = default_console(f)
         s[0].plugs['JB_J1'] = ('src', 1, 50, False)
         r, out = run(console(s, g, m), [f'noise {diff(XLR["L"])} v{s[0].name}_JB_J1 dec 20 20 20k', 'setplot noise2',

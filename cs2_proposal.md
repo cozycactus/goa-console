@@ -1,8 +1,8 @@
 # CS2: the Delta's −4.4 dB pan law (proposal, 2026-10-27)
 
-**Not signed off.** The change is `cs2_proposal.patch`. It touches tools only: `gen.py`, `strip_draw.py`,
-`place_strip.py`, `sim_netlist.py` and `sim_console.py`. It was applied to a trial tree, checked (§5) and reverted, so
-nothing in the design has changed. A taste decision: yours.
+**Signed off by Ruslan on 2026-10-27 (Option A: the Delta's law; PAN off stays at POST) and applied the same day as strip
+v5.4; see "Applied" at the end.** The change is `cs2_proposal.patch`. It touches tools only: `gen.py`,
+`strip_draw.py`, `place_strip.py`, `sim_netlist.py` and `sim_console.py`.
 
 **Calculation and simulation:**
 - `sim/review/cs2/pan_law.py`, with its output in `pan_law.out`;
@@ -198,6 +198,22 @@ A follow-up could give the groups the same law.
 
 ## Sign-off
 
-- [ ] **CS2** Option A as proposed: the Delta's law on every strip (R136-R141, C105 / C106); PAN off stays at POST.
+- [x] **CS2** Option A as proposed: the Delta's law on every strip (R136-R141, C105 / C106); PAN off stays at POST. Ruslan, 2026-10-27.
 - [ ] Option B as well: the PAN-off feed matched through U2B with a 33 µF D8 coupler (departs from the 100 µF rule).
 - [ ] Neither: keep the −6 dB law, and record it as a decision.
+
+## Applied (2026-10-27, strip v5.4)
+
+- **Applied:** the patch, plus revision 5.4 in `gen.py`.
+- **Regenerated and re-exported:**
+  - strip netlist (937 pins, 0 mismatches) and its BOM: +2 × 3K3, 2K2, 10K and 22p per strip;
+  - the PDF;
+  - `order_bom.csv`.
+- **Re-placed:** only R136-R141 and C105 / C106 are new. Netrules re-run.
+- **Documents:**
+  - strip spec v5.4 (changes, §12, IC table, §17);
+  - master spec §6 (mono levels);
+  - jig spec 4.1 (routing levels);
+  - the erratum in `delta_clone_comparison.md`;
+  - CLAUDE.md and `console_survey.md`.
+

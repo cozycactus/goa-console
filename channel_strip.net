@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/channel_strip.kicad_sch")
-		(date "2026-10-27T20:24:03")
+		(date "2026-10-27T23:31:18")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -11,12 +11,12 @@
 			(title_block
 				(title "Channel strip - goa console")
 				(company)
-				(rev "5.3")
+				(rev "5.4")
 				(date "2026-10-19")
 				(source "channel_strip.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.3")
+					(value "Generated from channel_strip_schematic_spec.md v5.4")
 				)
 				(comment
 					(number "2")
@@ -59,12 +59,12 @@
 			(title_block
 				(title "JACK LINK CLAMPS, LINE INPUT")
 				(company "Channel strip - goa console")
-				(rev "5.3")
+				(rev "5.4")
 				(date "2026-10-19")
 				(source "02_jack_link_clamps.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.3")
+					(value "Generated from channel_strip_schematic_spec.md v5.4")
 				)
 				(comment
 					(number "2")
@@ -107,12 +107,12 @@
 			(title_block
 				(title "GAIN")
 				(company "Channel strip - goa console")
-				(rev "5.3")
+				(rev "5.4")
 				(date "2026-10-19")
 				(source "03_gain.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.3")
+					(value "Generated from channel_strip_schematic_spec.md v5.4")
 				)
 				(comment
 					(number "2")
@@ -155,12 +155,12 @@
 			(title_block
 				(title "HPF, INSERT POSITION JUMPERS")
 				(company "Channel strip - goa console")
-				(rev "5.3")
+				(rev "5.4")
 				(date "2026-10-19")
 				(source "04_hpf.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.3")
+					(value "Generated from channel_strip_schematic_spec.md v5.4")
 				)
 				(comment
 					(number "2")
@@ -203,12 +203,12 @@
 			(title_block
 				(title "EQ")
 				(company "Channel strip - goa console")
-				(rev "5.3")
+				(rev "5.4")
 				(date "2026-10-19")
 				(source "05_eq.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.3")
+					(value "Generated from channel_strip_schematic_spec.md v5.4")
 				)
 				(comment
 					(number "2")
@@ -251,12 +251,12 @@
 			(title_block
 				(title "EQ MID TUNING")
 				(company "Channel strip - goa console")
-				(rev "5.3")
+				(rev "5.4")
 				(date "2026-10-19")
 				(source "06_eq_mid_tuning.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.3")
+					(value "Generated from channel_strip_schematic_spec.md v5.4")
 				)
 				(comment
 					(number "2")
@@ -299,12 +299,12 @@
 			(title_block
 				(title "EQ MID TUNING, EQ IN")
 				(company "Channel strip - goa console")
-				(rev "5.3")
+				(rev "5.4")
 				(date "2026-10-19")
 				(source "07_eq_mid_tuning.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.3")
+					(value "Generated from channel_strip_schematic_spec.md v5.4")
 				)
 				(comment
 					(number "2")
@@ -347,12 +347,12 @@
 			(title_block
 				(title "INSERT")
 				(company "Channel strip - goa console")
-				(rev "5.3")
+				(rev "5.4")
 				(date "2026-10-19")
 				(source "08_insert.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.3")
+					(value "Generated from channel_strip_schematic_spec.md v5.4")
 				)
 				(comment
 					(number "2")
@@ -395,12 +395,12 @@
 			(title_block
 				(title "OVERLOAD DETECTOR")
 				(company "Channel strip - goa console")
-				(rev "5.3")
+				(rev "5.4")
 				(date "2026-10-19")
 				(source "09_overload_detector.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.3")
+					(value "Generated from channel_strip_schematic_spec.md v5.4")
 				)
 				(comment
 					(number "2")
@@ -443,12 +443,12 @@
 			(title_block
 				(title "OVERLOAD DETECTOR, PFL")
 				(company "Channel strip - goa console")
-				(rev "5.3")
+				(rev "5.4")
 				(date "2026-10-19")
 				(source "10_overload_detector.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.3")
+					(value "Generated from channel_strip_schematic_spec.md v5.4")
 				)
 				(comment
 					(number "2")
@@ -491,12 +491,12 @@
 			(title_block
 				(title "ON-SOFT MUTE")
 				(company "Channel strip - goa console")
-				(rev "5.3")
+				(rev "5.4")
 				(date "2026-10-19")
 				(source "11_on_soft_mute.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.3")
+					(value "Generated from channel_strip_schematic_spec.md v5.4")
 				)
 				(comment
 					(number "2")
@@ -539,12 +539,12 @@
 			(title_block
 				(title "FADER + POST-AMP")
 				(company "Channel strip - goa console")
-				(rev "5.3")
+				(rev "5.4")
 				(date "2026-10-19")
 				(source "12_fader_post_amp.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.3")
+					(value "Generated from channel_strip_schematic_spec.md v5.4")
 				)
 				(comment
 					(number "2")
@@ -587,12 +587,12 @@
 			(title_block
 				(title "AUX SENDS, DIRECT OUT")
 				(company "Channel strip - goa console")
-				(rev "5.3")
+				(rev "5.4")
 				(date "2026-10-19")
 				(source "13_aux_sends.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.3")
+					(value "Generated from channel_strip_schematic_spec.md v5.4")
 				)
 				(comment
 					(number "2")
@@ -630,17 +630,17 @@
 		)
 		(sheet
 			(number "14")
-			(name "/14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX/")
+			(name "/14 PAN + PAN BUFFERS, PAN SWITCH/")
 			(tstamps "/b10b9ba2-0906-562c-b7a2-bf46b5e1024f/")
 			(title_block
-				(title "PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX")
+				(title "PAN + PAN BUFFERS, PAN SWITCH")
 				(company "Channel strip - goa console")
-				(rev "5.3")
+				(rev "5.4")
 				(date "2026-10-19")
 				(source "14_pan_pan_buffers.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.3")
+					(value "Generated from channel_strip_schematic_spec.md v5.4")
 				)
 				(comment
 					(number "2")
@@ -683,12 +683,12 @@
 			(title_block
 				(title "ROUTING MATRIX")
 				(company "Channel strip - goa console")
-				(rev "5.3")
+				(rev "5.4")
 				(date "2026-10-19")
 				(source "15_routing_matrix.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.3")
+					(value "Generated from channel_strip_schematic_spec.md v5.4")
 				)
 				(comment
 					(number "2")
@@ -731,12 +731,12 @@
 			(title_block
 				(title "ROUTING MATRIX")
 				(company "Channel strip - goa console")
-				(rev "5.3")
+				(rev "5.4")
 				(date "2026-10-19")
 				(source "16_routing_matrix.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.3")
+					(value "Generated from channel_strip_schematic_spec.md v5.4")
 				)
 				(comment
 					(number "2")
@@ -779,12 +779,12 @@
 			(title_block
 				(title "POWER ENTRY")
 				(company "Channel strip - goa console")
-				(rev "5.3")
+				(rev "5.4")
 				(date "2026-10-19")
 				(source "17_power_entry.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.3")
+					(value "Generated from channel_strip_schematic_spec.md v5.4")
 				)
 				(comment
 					(number "2")
@@ -827,12 +827,12 @@
 			(title_block
 				(title "POWER ENTRY, MOTHERLOOM")
 				(company "Channel strip - goa console")
-				(rev "5.3")
+				(rev "5.4")
 				(date "2026-10-19")
 				(source "18_power_entry.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.3")
+					(value "Generated from channel_strip_schematic_spec.md v5.4")
 				)
 				(comment
 					(number "2")
@@ -14901,7 +14901,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX")
+				(value "14 PAN + PAN BUFFERS, PAN SWITCH")
 			)
 			(property
 				(name "Sheetfile")
@@ -14916,7 +14916,7 @@
 				(value "C_*")
 			)
 			(sheetpath
-				(names "/14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX/")
+				(names "/14 PAN + PAN BUFFERS, PAN SWITCH/")
 				(tstamps "/b10b9ba2-0906-562c-b7a2-bf46b5e1024f/")
 			)
 			(tstamps "ee42f980-b1fb-504f-b4d4-e02a6048c60a")
@@ -14961,7 +14961,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX")
+				(value "14 PAN + PAN BUFFERS, PAN SWITCH")
 			)
 			(property
 				(name "Sheetfile")
@@ -14976,70 +14976,10 @@
 				(value "C_*")
 			)
 			(sheetpath
-				(names "/14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX/")
+				(names "/14 PAN + PAN BUFFERS, PAN SWITCH/")
 				(tstamps "/b10b9ba2-0906-562c-b7a2-bf46b5e1024f/")
 			)
 			(tstamps "d9e16365-c6ea-5645-bd49-3f56ef277e09")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C62")
-			(value "1u")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
-			(fields
-				(field
-					(name "MPN") "Murata GRM21BR71H105KA12L (X7R 50V)")
-				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Device")
-				(part "C")
-				(description "Unpolarized capacitor")
-			)
-			(property
-				(name "MPN")
-				(value "Murata GRM21BR71H105KA12L (X7R 50V)")
-			)
-			(property
-				(name "Sheetname")
-				(value "14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX")
-			)
-			(property
-				(name "Sheetfile")
-				(value "strip_sheets/14_pan_pan_buffers.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "cap capacitor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "C_*")
-			)
-			(sheetpath
-				(names "/14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX/")
-				(tstamps "/b10b9ba2-0906-562c-b7a2-bf46b5e1024f/")
-			)
-			(tstamps "33923736-4c48-56ae-912f-f33aee75ff74")
 			(units
 				(unit
 					(name "A")
@@ -15081,7 +15021,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX")
+				(value "14 PAN + PAN BUFFERS, PAN SWITCH")
 			)
 			(property
 				(name "Sheetfile")
@@ -15096,7 +15036,7 @@
 				(value "C_*")
 			)
 			(sheetpath
-				(names "/14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX/")
+				(names "/14 PAN + PAN BUFFERS, PAN SWITCH/")
 				(tstamps "/b10b9ba2-0906-562c-b7a2-bf46b5e1024f/")
 			)
 			(tstamps "1831038f-b0ea-5813-8cf1-3bc60ac43ba2")
@@ -15141,7 +15081,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX")
+				(value "14 PAN + PAN BUFFERS, PAN SWITCH")
 			)
 			(property
 				(name "Sheetfile")
@@ -15156,7 +15096,7 @@
 				(value "C_*")
 			)
 			(sheetpath
-				(names "/14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX/")
+				(names "/14 PAN + PAN BUFFERS, PAN SWITCH/")
 				(tstamps "/b10b9ba2-0906-562c-b7a2-bf46b5e1024f/")
 			)
 			(tstamps "68667b12-343c-5eb4-9686-f291e7b29308")
@@ -15175,14 +15115,14 @@
 			)
 		)
 		(comp
-			(ref "D9")
-			(value "BZX84C5V1")
-			(footprint "Package_TO_SOT_SMD:SOT-23")
+			(ref "C105")
+			(value "22p C0G")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "Nexperia BZX84-C5V1,215")
+					(name "MPN") "KEMET C1206C220J5GACTU")
 				(field
-					(name "Footprint") "Package_TO_SOT_SMD:SOT-23")
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -15191,17 +15131,17 @@
 				)
 			)
 			(libsource
-				(lib "Diode")
-				(part "BZX84Cxx")
-				(description "300mW Zener Diode, SOT-23")
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
 			)
 			(property
 				(name "MPN")
-				(value "Nexperia BZX84-C5V1,215")
+				(value "KEMET C1206C220J5GACTU")
 			)
 			(property
 				(name "Sheetname")
-				(value "14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX")
+				(value "14 PAN + PAN BUFFERS, PAN SWITCH")
 			)
 			(property
 				(name "Sheetfile")
@@ -15209,43 +15149,40 @@
 			)
 			(property
 				(name "ki_keywords")
-				(value "zener diode")
+				(value "cap capacitor")
 			)
 			(property
 				(name "ki_fp_filters")
-				(value "SOT?23*")
+				(value "C_*")
 			)
 			(sheetpath
-				(names "/14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX/")
+				(names "/14 PAN + PAN BUFFERS, PAN SWITCH/")
 				(tstamps "/b10b9ba2-0906-562c-b7a2-bf46b5e1024f/")
 			)
-			(tstamps "89b354cd-be53-5a16-94ff-cbb04f2ca448")
+			(tstamps "54da8659-c186-5565-b37b-2a2858a58aff")
 			(units
 				(unit
 					(name "A")
 					(pins
 						(pin
-							(num "3")
+							(num "1")
 						)
 						(pin
 							(num "2")
-						)
-						(pin
-							(num "1")
 						)
 					)
 				)
 			)
 		)
 		(comp
-			(ref "D10")
-			(value "BAT54W")
-			(footprint "Package_TO_SOT_SMD:SOT-323_SC-70")
+			(ref "C106")
+			(value "22p C0G")
+			(footprint "Capacitor_SMD:C_1206_3216Metric")
 			(fields
 				(field
-					(name "MPN") "Nexperia BAT54W,115")
+					(name "MPN") "KEMET C1206C220J5GACTU")
 				(field
-					(name "Footprint") "Package_TO_SOT_SMD:SOT-323_SC-70")
+					(name "Footprint") "Capacitor_SMD:C_1206_3216Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -15254,17 +15191,17 @@
 				)
 			)
 			(libsource
-				(lib "Diode")
-				(part "BAT54W")
-				(description "Schottky barrier diode, SOT-323")
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
 			)
 			(property
 				(name "MPN")
-				(value "Nexperia BAT54W,115")
+				(value "KEMET C1206C220J5GACTU")
 			)
 			(property
 				(name "Sheetname")
-				(value "14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX")
+				(value "14 PAN + PAN BUFFERS, PAN SWITCH")
 			)
 			(property
 				(name "Sheetfile")
@@ -15272,29 +15209,26 @@
 			)
 			(property
 				(name "ki_keywords")
-				(value "schottky diode")
+				(value "cap capacitor")
 			)
 			(property
 				(name "ki_fp_filters")
-				(value "SOT?323*")
+				(value "C_*")
 			)
 			(sheetpath
-				(names "/14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX/")
+				(names "/14 PAN + PAN BUFFERS, PAN SWITCH/")
 				(tstamps "/b10b9ba2-0906-562c-b7a2-bf46b5e1024f/")
 			)
-			(tstamps "81e57c3e-327c-5238-abf4-50b7fa408cca")
+			(tstamps "0f73c104-6407-5715-9805-a114d7579829")
 			(units
 				(unit
 					(name "A")
 					(pins
 						(pin
-							(num "3")
+							(num "1")
 						)
 						(pin
 							(num "2")
-						)
-						(pin
-							(num "1")
 						)
 					)
 				)
@@ -15321,7 +15255,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX")
+				(value "14 PAN + PAN BUFFERS, PAN SWITCH")
 			)
 			(property
 				(name "Sheetfile")
@@ -15336,7 +15270,7 @@
 				(value "R_*")
 			)
 			(sheetpath
-				(names "/14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX/")
+				(names "/14 PAN + PAN BUFFERS, PAN SWITCH/")
 				(tstamps "/b10b9ba2-0906-562c-b7a2-bf46b5e1024f/")
 			)
 			(tstamps "9f29654c-7db0-5d69-98b8-fab2f60d958b")
@@ -15375,7 +15309,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX")
+				(value "14 PAN + PAN BUFFERS, PAN SWITCH")
 			)
 			(property
 				(name "Sheetfile")
@@ -15390,7 +15324,7 @@
 				(value "R_*")
 			)
 			(sheetpath
-				(names "/14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX/")
+				(names "/14 PAN + PAN BUFFERS, PAN SWITCH/")
 				(tstamps "/b10b9ba2-0906-562c-b7a2-bf46b5e1024f/")
 			)
 			(tstamps "105fc52d-3b35-53be-8518-51cc7dd581aa")
@@ -15409,8 +15343,8 @@
 			)
 		)
 		(comp
-			(ref "R80")
-			(value "4K7")
+			(ref "R136")
+			(value "3K3")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
 				(field
@@ -15429,7 +15363,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX")
+				(value "14 PAN + PAN BUFFERS, PAN SWITCH")
 			)
 			(property
 				(name "Sheetfile")
@@ -15444,10 +15378,280 @@
 				(value "R_*")
 			)
 			(sheetpath
-				(names "/14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX/")
+				(names "/14 PAN + PAN BUFFERS, PAN SWITCH/")
 				(tstamps "/b10b9ba2-0906-562c-b7a2-bf46b5e1024f/")
 			)
-			(tstamps "cd1fa7f4-7ab6-5053-b8d1-dd58b93493d9")
+			(tstamps "8ca906ae-4e7e-56c7-8021-7949770fca3b")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R137")
+			(value "2K2")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "Sheetname")
+				(value "14 PAN + PAN BUFFERS, PAN SWITCH")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/14_pan_pan_buffers.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/14 PAN + PAN BUFFERS, PAN SWITCH/")
+				(tstamps "/b10b9ba2-0906-562c-b7a2-bf46b5e1024f/")
+			)
+			(tstamps "168cf02c-cf05-5998-bfb2-ea0ad830c505")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R138")
+			(value "10K")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "Sheetname")
+				(value "14 PAN + PAN BUFFERS, PAN SWITCH")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/14_pan_pan_buffers.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/14 PAN + PAN BUFFERS, PAN SWITCH/")
+				(tstamps "/b10b9ba2-0906-562c-b7a2-bf46b5e1024f/")
+			)
+			(tstamps "4fd7956c-8a45-51b0-956f-4f09e931df82")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R139")
+			(value "3K3")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "Sheetname")
+				(value "14 PAN + PAN BUFFERS, PAN SWITCH")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/14_pan_pan_buffers.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/14 PAN + PAN BUFFERS, PAN SWITCH/")
+				(tstamps "/b10b9ba2-0906-562c-b7a2-bf46b5e1024f/")
+			)
+			(tstamps "1a07bcce-eed4-5009-aa46-7a652422183e")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R140")
+			(value "2K2")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "Sheetname")
+				(value "14 PAN + PAN BUFFERS, PAN SWITCH")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/14_pan_pan_buffers.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/14 PAN + PAN BUFFERS, PAN SWITCH/")
+				(tstamps "/b10b9ba2-0906-562c-b7a2-bf46b5e1024f/")
+			)
+			(tstamps "7c68e4a3-c104-5355-ac2a-334cb909ff7e")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R141")
+			(value "10K")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "Sheetname")
+				(value "14 PAN + PAN BUFFERS, PAN SWITCH")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/14_pan_pan_buffers.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/14 PAN + PAN BUFFERS, PAN SWITCH/")
+				(tstamps "/b10b9ba2-0906-562c-b7a2-bf46b5e1024f/")
+			)
+			(tstamps "519bbb94-2b8b-5666-9f41-02336ba8f1c2")
 			(units
 				(unit
 					(name "A")
@@ -15489,7 +15693,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX")
+				(value "14 PAN + PAN BUFFERS, PAN SWITCH")
 			)
 			(property
 				(name "Sheetfile")
@@ -15504,7 +15708,7 @@
 				(value "Potentiometer*")
 			)
 			(sheetpath
-				(names "/14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX/")
+				(names "/14 PAN + PAN BUFFERS, PAN SWITCH/")
 				(tstamps "/b10b9ba2-0906-562c-b7a2-bf46b5e1024f/")
 			)
 			(tstamps "c2e123ad-d8f7-548c-aa95-33041fdc05d6")
@@ -15561,7 +15765,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX")
+				(value "14 PAN + PAN BUFFERS, PAN SWITCH")
 			)
 			(property
 				(name "Sheetfile")
@@ -15576,7 +15780,7 @@
 				(value "SW*DPDT*")
 			)
 			(sheetpath
-				(names "/14 PAN + PAN BUFFERS, PAN SWITCH, ROUTING MATRIX/")
+				(names "/14 PAN + PAN BUFFERS, PAN SWITCH/")
 				(tstamps "/b10b9ba2-0906-562c-b7a2-bf46b5e1024f/")
 			)
 			(tstamps "b4b71b0f-b099-5a60-a6fe-cd473ef17328" "896ee125-f0d3-5946-ab36-1ab7fc104a92")
@@ -15792,12 +15996,12 @@
 			)
 		)
 		(comp
-			(ref "C56")
-			(value "100n")
+			(ref "C62")
+			(value "1u")
 			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
+					(name "MPN") "Murata GRM21BR71H105KA12L (X7R 50V)")
 				(field
 					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
@@ -15814,7 +16018,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
+				(value "Murata GRM21BR71H105KA12L (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
@@ -15836,127 +16040,7 @@
 				(names "/15 ROUTING MATRIX/")
 				(tstamps "/6be469e8-ba9b-582c-90b7-83fadea8262b/")
 			)
-			(tstamps "d96a8f3c-a316-56cf-84c2-92d580dc9aed")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C57")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
-			(fields
-				(field
-					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
-				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Device")
-				(part "C")
-				(description "Unpolarized capacitor")
-			)
-			(property
-				(name "MPN")
-				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
-			)
-			(property
-				(name "Sheetname")
-				(value "15 ROUTING MATRIX")
-			)
-			(property
-				(name "Sheetfile")
-				(value "strip_sheets/15_routing_matrix.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "cap capacitor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "C_*")
-			)
-			(sheetpath
-				(names "/15 ROUTING MATRIX/")
-				(tstamps "/6be469e8-ba9b-582c-90b7-83fadea8262b/")
-			)
-			(tstamps "3e4af15c-0e4e-5450-a591-f27dda56ef0c")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C58")
-			(value "100n")
-			(footprint "Capacitor_SMD:C_0805_2012Metric")
-			(fields
-				(field
-					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
-				(field
-					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Device")
-				(part "C")
-				(description "Unpolarized capacitor")
-			)
-			(property
-				(name "MPN")
-				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
-			)
-			(property
-				(name "Sheetname")
-				(value "15 ROUTING MATRIX")
-			)
-			(property
-				(name "Sheetfile")
-				(value "strip_sheets/15_routing_matrix.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "cap capacitor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "C_*")
-			)
-			(sheetpath
-				(names "/15 ROUTING MATRIX/")
-				(tstamps "/6be469e8-ba9b-582c-90b7-83fadea8262b/")
-			)
-			(tstamps "1003ff68-de71-5d23-abe0-debed37ad5af")
+			(tstamps "33923736-4c48-56ae-912f-f33aee75ff74")
 			(units
 				(unit
 					(name "A")
@@ -16032,14 +16116,14 @@
 			)
 		)
 		(comp
-			(ref "D7")
-			(value "1-2 yellow")
-			(footprint "LED_THT:LED_D3.0mm")
+			(ref "D9")
+			(value "BZX84C5V1")
+			(footprint "Package_TO_SOT_SMD:SOT-23")
 			(fields
 				(field
-					(name "MPN") "Kingbright WP710A10YD")
+					(name "MPN") "Nexperia BZX84-C5V1,215")
 				(field
-					(name "Footprint") "LED_THT:LED_D3.0mm")
+					(name "Footprint") "Package_TO_SOT_SMD:SOT-23")
 				(field
 					(name "Datasheet")
 				)
@@ -16048,13 +16132,13 @@
 				)
 			)
 			(libsource
-				(lib "Device")
-				(part "LED")
-				(description "Light emitting diode")
+				(lib "Diode")
+				(part "BZX84Cxx")
+				(description "300mW Zener Diode, SOT-23")
 			)
 			(property
 				(name "MPN")
-				(value "Kingbright WP710A10YD")
+				(value "Nexperia BZX84-C5V1,215")
 			)
 			(property
 				(name "Sheetname")
@@ -16066,26 +16150,92 @@
 			)
 			(property
 				(name "ki_keywords")
-				(value "LED diode")
+				(value "zener diode")
 			)
 			(property
 				(name "ki_fp_filters")
-				(value "LED* LED_SMD:* LED_THT:*")
+				(value "SOT?23*")
 			)
 			(sheetpath
 				(names "/15 ROUTING MATRIX/")
 				(tstamps "/6be469e8-ba9b-582c-90b7-83fadea8262b/")
 			)
-			(tstamps "4c23b207-5768-500a-9a21-0ec7f62befd2")
+			(tstamps "89b354cd-be53-5a16-94ff-cbb04f2ca448")
 			(units
 				(unit
 					(name "A")
 					(pins
 						(pin
-							(num "1")
+							(num "3")
 						)
 						(pin
 							(num "2")
+						)
+						(pin
+							(num "1")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D10")
+			(value "BAT54W")
+			(footprint "Package_TO_SOT_SMD:SOT-323_SC-70")
+			(fields
+				(field
+					(name "MPN") "Nexperia BAT54W,115")
+				(field
+					(name "Footprint") "Package_TO_SOT_SMD:SOT-323_SC-70")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Diode")
+				(part "BAT54W")
+				(description "Schottky barrier diode, SOT-323")
+			)
+			(property
+				(name "MPN")
+				(value "Nexperia BAT54W,115")
+			)
+			(property
+				(name "Sheetname")
+				(value "15 ROUTING MATRIX")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/15_routing_matrix.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "schottky diode")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "SOT?323*")
+			)
+			(sheetpath
+				(names "/15 ROUTING MATRIX/")
+				(tstamps "/6be469e8-ba9b-582c-90b7-83fadea8262b/")
+			)
+			(tstamps "81e57c3e-327c-5238-abf4-50b7fa408cca")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "1")
 						)
 					)
 				)
@@ -16185,114 +16335,6 @@
 				(tstamps "/6be469e8-ba9b-582c-90b7-83fadea8262b/")
 			)
 			(tstamps "cf011b36-d82c-5d86-bc11-3b0b78064621")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R28")
-			(value "4K7 1%")
-			(footprint "Resistor_SMD:R_0805_2012Metric")
-			(fields
-				(field
-					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Device")
-				(part "R")
-				(description "Resistor")
-			)
-			(property
-				(name "Sheetname")
-				(value "15 ROUTING MATRIX")
-			)
-			(property
-				(name "Sheetfile")
-				(value "strip_sheets/15_routing_matrix.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/15 ROUTING MATRIX/")
-				(tstamps "/6be469e8-ba9b-582c-90b7-83fadea8262b/")
-			)
-			(tstamps "07fbcd15-6df3-533c-8ee4-2aac32d9ca00")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R29")
-			(value "4K7 1%")
-			(footprint "Resistor_SMD:R_0805_2012Metric")
-			(fields
-				(field
-					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Device")
-				(part "R")
-				(description "Resistor")
-			)
-			(property
-				(name "Sheetname")
-				(value "15 ROUTING MATRIX")
-			)
-			(property
-				(name "Sheetfile")
-				(value "strip_sheets/15_routing_matrix.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/15 ROUTING MATRIX/")
-				(tstamps "/6be469e8-ba9b-582c-90b7-83fadea8262b/")
-			)
-			(tstamps "5eb5491d-4d60-5032-a9a1-2c6d800fc7fe")
 			(units
 				(unit
 					(name "A")
@@ -16416,61 +16458,7 @@
 			)
 		)
 		(comp
-			(ref "R76")
-			(value "100K")
-			(footprint "Resistor_SMD:R_0805_2012Metric")
-			(fields
-				(field
-					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Device")
-				(part "R")
-				(description "Resistor")
-			)
-			(property
-				(name "Sheetname")
-				(value "15 ROUTING MATRIX")
-			)
-			(property
-				(name "Sheetfile")
-				(value "strip_sheets/15_routing_matrix.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/15 ROUTING MATRIX/")
-				(tstamps "/6be469e8-ba9b-582c-90b7-83fadea8262b/")
-			)
-			(tstamps "5bd2dec7-a23c-5aac-8e29-d8ed857d2067")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R77")
+			(ref "R80")
 			(value "4K7")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
 			(fields
@@ -16508,7 +16496,7 @@
 				(names "/15 ROUTING MATRIX/")
 				(tstamps "/6be469e8-ba9b-582c-90b7-83fadea8262b/")
 			)
-			(tstamps "e6eb691c-1554-59e0-865b-75e75dcb10be")
+			(tstamps "cd1fa7f4-7ab6-5053-b8d1-dd58b93493d9")
 			(units
 				(unit
 					(name "A")
@@ -16601,83 +16589,6 @@
 			)
 		)
 		(comp
-			(ref "SW6")
-			(value "Assign 1-2")
-			(footprint "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2")
-			(fields
-				(field
-					(name "MPN") "C&K PVA2 EE H1 1.7N V2")
-				(field
-					(name "Footprint") "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Switch")
-				(part "SW_DPDT_x2")
-				(description "Switch, dual pole double throw, separate symbols")
-			)
-			(property
-				(name "MPN")
-				(value "C&K PVA2 EE H1 1.7N V2")
-			)
-			(property
-				(name "Sheetname")
-				(value "15 ROUTING MATRIX")
-			)
-			(property
-				(name "Sheetfile")
-				(value "strip_sheets/15_routing_matrix.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "switch dual-pole double-throw DPDT spdt ON-ON")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "SW*DPDT*")
-			)
-			(sheetpath
-				(names "/15 ROUTING MATRIX/")
-				(tstamps "/6be469e8-ba9b-582c-90b7-83fadea8262b/")
-			)
-			(tstamps "52ac3227-37ed-5ff8-83a1-a6630afcd7df" "39108872-6d93-59e5-8f9e-3a0d65bed463")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "2")
-						)
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "3")
-						)
-					)
-				)
-				(unit
-					(name "B")
-					(pins
-						(pin
-							(num "5")
-						)
-						(pin
-							(num "4")
-						)
-						(pin
-							(num "6")
-						)
-					)
-				)
-			)
-		)
-		(comp
 			(ref "U9")
 			(value "DG413")
 			(footprint "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm")
@@ -16722,8 +16633,8 @@
 				(names "/15 ROUTING MATRIX/")
 				(tstamps "/6be469e8-ba9b-582c-90b7-83fadea8262b/")
 			)
-			(tstamps "86047889-249f-5d1f-b54e-d85b861882f8" "64a8dd7a-92d8-5a73-9d45-5b60f5639d6b"
-				"6198970f-85e5-55eb-a7be-8537832d234c" "46b25b82-320f-53cb-8f6b-0e90cd77937f"
+			(tstamps "64a8dd7a-92d8-5a73-9d45-5b60f5639d6b" "6198970f-85e5-55eb-a7be-8537832d234c"
+				"46b25b82-320f-53cb-8f6b-0e90cd77937f" "86047889-249f-5d1f-b54e-d85b861882f8"
 				"2678d8f6-555a-5c57-8732-16b0fa511779"
 			)
 			(units
@@ -16803,14 +16714,14 @@
 			)
 		)
 		(comp
-			(ref "U10")
-			(value "DG413")
-			(footprint "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm")
+			(ref "C56")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
 			(fields
 				(field
-					(name "MPN") "Vishay DG413DY-E3")
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
 				(field
-					(name "Footprint") "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm")
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
 				(field
 					(name "Datasheet")
 				)
@@ -16819,109 +16730,164 @@
 				)
 			)
 			(libsource
-				(lib "Analog_Switch")
-				(part "DG413xY")
-				(description "Quad SPST Monolithic CMOS Analog Switches, normally 2xON + 2xOFF, 17Ohm Ron, SOIC-16")
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
 			)
 			(property
 				(name "MPN")
-				(value "Vishay DG413DY-E3")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
 			)
 			(property
 				(name "Sheetname")
-				(value "15 ROUTING MATRIX")
+				(value "16 ROUTING MATRIX")
 			)
 			(property
 				(name "Sheetfile")
-				(value "strip_sheets/15_routing_matrix.kicad_sch")
+				(value "strip_sheets/16_routing_matrix.kicad_sch")
 			)
 			(property
 				(name "ki_keywords")
-				(value "CMOS Analog Switch")
+				(value "cap capacitor")
 			)
 			(property
 				(name "ki_fp_filters")
-				(value "SOIC*3.9x9.9mm*P1.27mm*")
+				(value "C_*")
 			)
 			(sheetpath
-				(names "/15 ROUTING MATRIX/")
-				(tstamps "/6be469e8-ba9b-582c-90b7-83fadea8262b/")
+				(names "/16 ROUTING MATRIX/")
+				(tstamps "/98332d40-7d3b-5987-80e5-3726f5a2120e/")
 			)
-			(tstamps "94d4d35b-236c-5eba-9814-e471775016a3" "a0ac6679-cf07-53e6-976a-6a1add496e60"
-				"80603b1c-c79a-54dc-845b-caf6b3fc325c" "c1df86b4-c52a-510e-abe6-12af13afaf9a"
-				"7d51d1bd-3a64-5890-8649-ea761d852df0"
-			)
+			(tstamps "d96a8f3c-a316-56cf-84c2-92d580dc9aed")
 			(units
 				(unit
 					(name "A")
 					(pins
 						(pin
+							(num "1")
+						)
+						(pin
 							(num "2")
 						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C57")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
+			)
+			(property
+				(name "Sheetname")
+				(value "16 ROUTING MATRIX")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/16_routing_matrix.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/16 ROUTING MATRIX/")
+				(tstamps "/98332d40-7d3b-5987-80e5-3726f5a2120e/")
+			)
+			(tstamps "3e4af15c-0e4e-5450-a591-f27dda56ef0c")
+			(units
+				(unit
+					(name "A")
+					(pins
 						(pin
 							(num "1")
 						)
 						(pin
-							(num "3")
+							(num "2")
 						)
 					)
 				)
-				(unit
-					(name "B")
-					(pins
-						(pin
-							(num "6")
-						)
-						(pin
-							(num "8")
-						)
-						(pin
-							(num "7")
-						)
-					)
+			)
+		)
+		(comp
+			(ref "C58")
+			(value "100n")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(fields
+				(field
+					(name "MPN") "Samsung CL21B104KBCNNNC (X7R 50V)")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+				(field
+					(name "Datasheet")
 				)
-				(unit
-					(name "C")
-					(pins
-						(pin
-							(num "10")
-						)
-						(pin
-							(num "9")
-						)
-						(pin
-							(num "11")
-						)
-					)
+				(field
+					(name "Description")
 				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "MPN")
+				(value "Samsung CL21B104KBCNNNC (X7R 50V)")
+			)
+			(property
+				(name "Sheetname")
+				(value "16 ROUTING MATRIX")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/16_routing_matrix.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/16 ROUTING MATRIX/")
+				(tstamps "/98332d40-7d3b-5987-80e5-3726f5a2120e/")
+			)
+			(tstamps "1003ff68-de71-5d23-abe0-debed37ad5af")
+			(units
 				(unit
-					(name "D")
+					(name "A")
 					(pins
 						(pin
-							(num "15")
+							(num "1")
 						)
 						(pin
-							(num "16")
-						)
-						(pin
-							(num "14")
-						)
-					)
-				)
-				(unit
-					(name "E")
-					(pins
-						(pin
-							(num "13")
-						)
-						(pin
-							(num "5")
-						)
-						(pin
-							(num "12")
-						)
-						(pin
-							(num "4")
+							(num "2")
 						)
 					)
 				)
@@ -17108,6 +17074,66 @@
 			)
 		)
 		(comp
+			(ref "D7")
+			(value "1-2 yellow")
+			(footprint "LED_THT:LED_D3.0mm")
+			(fields
+				(field
+					(name "MPN") "Kingbright WP710A10YD")
+				(field
+					(name "Footprint") "LED_THT:LED_D3.0mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "LED")
+				(description "Light emitting diode")
+			)
+			(property
+				(name "MPN")
+				(value "Kingbright WP710A10YD")
+			)
+			(property
+				(name "Sheetname")
+				(value "16 ROUTING MATRIX")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/16_routing_matrix.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "LED diode")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "LED* LED_SMD:* LED_THT:*")
+			)
+			(sheetpath
+				(names "/16 ROUTING MATRIX/")
+				(tstamps "/98332d40-7d3b-5987-80e5-3726f5a2120e/")
+			)
+			(tstamps "4c23b207-5768-500a-9a21-0ec7f62befd2")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "D8")
 			(value "3-4 yellow")
 			(footprint "LED_THT:LED_D3.0mm")
@@ -17153,6 +17179,114 @@
 				(tstamps "/98332d40-7d3b-5987-80e5-3726f5a2120e/")
 			)
 			(tstamps "83e0536a-4d2c-5552-a76e-e56214e86f22")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R28")
+			(value "4K7 1%")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "Sheetname")
+				(value "16 ROUTING MATRIX")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/16_routing_matrix.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/16 ROUTING MATRIX/")
+				(tstamps "/98332d40-7d3b-5987-80e5-3726f5a2120e/")
+			)
+			(tstamps "07fbcd15-6df3-533c-8ee4-2aac32d9ca00")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R29")
+			(value "4K7 1%")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "Sheetname")
+				(value "16 ROUTING MATRIX")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/16_routing_matrix.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/16 ROUTING MATRIX/")
+				(tstamps "/98332d40-7d3b-5987-80e5-3726f5a2120e/")
+			)
+			(tstamps "5eb5491d-4d60-5032-a9a1-2c6d800fc7fe")
 			(units
 				(unit
 					(name "A")
@@ -17276,6 +17410,114 @@
 			)
 		)
 		(comp
+			(ref "R76")
+			(value "100K")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "Sheetname")
+				(value "16 ROUTING MATRIX")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/16_routing_matrix.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/16 ROUTING MATRIX/")
+				(tstamps "/98332d40-7d3b-5987-80e5-3726f5a2120e/")
+			)
+			(tstamps "5bd2dec7-a23c-5aac-8e29-d8ed857d2067")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R77")
+			(value "4K7")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "Sheetname")
+				(value "16 ROUTING MATRIX")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/16_routing_matrix.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/16 ROUTING MATRIX/")
+				(tstamps "/98332d40-7d3b-5987-80e5-3726f5a2120e/")
+			)
+			(tstamps "e6eb691c-1554-59e0-865b-75e75dcb10be")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "R78")
 			(value "100K")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
@@ -17384,6 +17626,83 @@
 			)
 		)
 		(comp
+			(ref "SW6")
+			(value "Assign 1-2")
+			(footprint "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2")
+			(fields
+				(field
+					(name "MPN") "C&K PVA2 EE H1 1.7N V2")
+				(field
+					(name "Footprint") "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Switch")
+				(part "SW_DPDT_x2")
+				(description "Switch, dual pole double throw, separate symbols")
+			)
+			(property
+				(name "MPN")
+				(value "C&K PVA2 EE H1 1.7N V2")
+			)
+			(property
+				(name "Sheetname")
+				(value "16 ROUTING MATRIX")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/16_routing_matrix.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "switch dual-pole double-throw DPDT spdt ON-ON")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "SW*DPDT*")
+			)
+			(sheetpath
+				(names "/16 ROUTING MATRIX/")
+				(tstamps "/98332d40-7d3b-5987-80e5-3726f5a2120e/")
+			)
+			(tstamps "52ac3227-37ed-5ff8-83a1-a6630afcd7df" "39108872-6d93-59e5-8f9e-3a0d65bed463")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "3")
+						)
+					)
+				)
+				(unit
+					(name "B")
+					(pins
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "6")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "SW7")
 			(value "Assign 3-4")
 			(footprint "Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2")
@@ -17461,6 +17780,131 @@
 			)
 		)
 		(comp
+			(ref "U10")
+			(value "DG413")
+			(footprint "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm")
+			(fields
+				(field
+					(name "MPN") "Vishay DG413DY-E3")
+				(field
+					(name "Footprint") "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Analog_Switch")
+				(part "DG413xY")
+				(description "Quad SPST Monolithic CMOS Analog Switches, normally 2xON + 2xOFF, 17Ohm Ron, SOIC-16")
+			)
+			(property
+				(name "MPN")
+				(value "Vishay DG413DY-E3")
+			)
+			(property
+				(name "Sheetname")
+				(value "16 ROUTING MATRIX")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/16_routing_matrix.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "CMOS Analog Switch")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "SOIC*3.9x9.9mm*P1.27mm*")
+			)
+			(sheetpath
+				(names "/16 ROUTING MATRIX/")
+				(tstamps "/98332d40-7d3b-5987-80e5-3726f5a2120e/")
+			)
+			(tstamps "a0ac6679-cf07-53e6-976a-6a1add496e60" "94d4d35b-236c-5eba-9814-e471775016a3"
+				"80603b1c-c79a-54dc-845b-caf6b3fc325c" "c1df86b4-c52a-510e-abe6-12af13afaf9a"
+				"7d51d1bd-3a64-5890-8649-ea761d852df0"
+			)
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "3")
+						)
+					)
+				)
+				(unit
+					(name "B")
+					(pins
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "7")
+						)
+					)
+				)
+				(unit
+					(name "C")
+					(pins
+						(pin
+							(num "10")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "11")
+						)
+					)
+				)
+				(unit
+					(name "D")
+					(pins
+						(pin
+							(num "15")
+						)
+						(pin
+							(num "16")
+						)
+						(pin
+							(num "14")
+						)
+					)
+				)
+				(unit
+					(name "E")
+					(pins
+						(pin
+							(num "13")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "12")
+						)
+						(pin
+							(num "4")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "U11")
 			(value "DG413")
 			(footprint "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm")
@@ -17505,8 +17949,8 @@
 				(names "/16 ROUTING MATRIX/")
 				(tstamps "/98332d40-7d3b-5987-80e5-3726f5a2120e/")
 			)
-			(tstamps "d47d3f72-3aa4-59b4-8630-c096cf804bbf" "a627556c-b4c8-5d3a-b3c4-db2d0630a58d"
-				"299842b9-329b-5659-9ef8-a5243068f417" "f1e989bf-bb8f-583a-abd3-158c4c923119"
+			(tstamps "a627556c-b4c8-5d3a-b3c4-db2d0630a58d" "299842b9-329b-5659-9ef8-a5243068f417"
+				"f1e989bf-bb8f-583a-abd3-158c4c923119" "d47d3f72-3aa4-59b4-8630-c096cf804bbf"
 				"2206b584-4eb9-5d2b-95ed-ce88c9a5974e"
 			)
 			(units
@@ -23376,8 +23820,18 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "R138")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "R14")
 				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R141")
+				(pin "1")
 				(pintype "passive")
 			)
 			(node
@@ -24540,6 +24994,66 @@
 		)
 		(net
 			(code "60")
+			(name "Net-(C105-Pad2)")
+			(class "Default")
+			(node
+				(ref "C105")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C16")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R136")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R137")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U8")
+				(pin "7")
+				(pintype "output")
+			)
+		)
+		(net
+			(code "61")
+			(name "Net-(C106-Pad2)")
+			(class "Default")
+			(node
+				(ref "C106")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C17")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R139")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R140")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "1")
+				(pintype "output")
+			)
+		)
+		(net
+			(code "62")
 			(name "Net-(D1-K-Pad3)")
 			(class "Default")
 			(node
@@ -24555,7 +25069,7 @@
 			)
 		)
 		(net
-			(code "61")
+			(code "63")
 			(name "Net-(D3-A)")
 			(class "Switching")
 			(node
@@ -24571,7 +25085,7 @@
 			)
 		)
 		(net
-			(code "62")
+			(code "64")
 			(name "Net-(D4-A)")
 			(class "Switching")
 			(node
@@ -24587,7 +25101,7 @@
 			)
 		)
 		(net
-			(code "63")
+			(code "65")
 			(name "Net-(D5-A)")
 			(class "Switching")
 			(node
@@ -24603,7 +25117,7 @@
 			)
 		)
 		(net
-			(code "64")
+			(code "66")
 			(name "Net-(D6-A)")
 			(class "Switching")
 			(node
@@ -24619,7 +25133,7 @@
 			)
 		)
 		(net
-			(code "65")
+			(code "67")
 			(name "Net-(D7-A)")
 			(class "Switching")
 			(node
@@ -24635,7 +25149,7 @@
 			)
 		)
 		(net
-			(code "66")
+			(code "68")
 			(name "Net-(D8-A)")
 			(class "Switching")
 			(node
@@ -24651,7 +25165,7 @@
 			)
 		)
 		(net
-			(code "67")
+			(code "69")
 			(name "Net-(D12-K-Pad3)")
 			(class "Default")
 			(node
@@ -24667,7 +25181,7 @@
 			)
 		)
 		(net
-			(code "68")
+			(code "70")
 			(name "Net-(D13-K-Pad3)")
 			(class "Default")
 			(node
@@ -24683,7 +25197,7 @@
 			)
 		)
 		(net
-			(code "69")
+			(code "71")
 			(name "Net-(D14-K-Pad3)")
 			(class "Default")
 			(node
@@ -24699,7 +25213,7 @@
 			)
 		)
 		(net
-			(code "70")
+			(code "72")
 			(name "Net-(D15-K-Pad3)")
 			(class "Default")
 			(node
@@ -24715,7 +25229,7 @@
 			)
 		)
 		(net
-			(code "71")
+			(code "73")
 			(name "Net-(JP2-C)")
 			(class "Default")
 			(node
@@ -24732,7 +25246,7 @@
 			)
 		)
 		(net
-			(code "72")
+			(code "74")
 			(name "Net-(JP3-C)")
 			(class "Default")
 			(node
@@ -24749,7 +25263,7 @@
 			)
 		)
 		(net
-			(code "73")
+			(code "75")
 			(name "Net-(JP4-C)")
 			(class "Default")
 			(node
@@ -24766,7 +25280,7 @@
 			)
 		)
 		(net
-			(code "74")
+			(code "76")
 			(name "Net-(Q1-D)")
 			(class "Default")
 			(node
@@ -24787,7 +25301,7 @@
 			)
 		)
 		(net
-			(code "75")
+			(code "77")
 			(name "Net-(Q1-G)")
 			(class "Default")
 			(node
@@ -24814,7 +25328,7 @@
 			)
 		)
 		(net
-			(code "76")
+			(code "78")
 			(name "Net-(Q2-D)")
 			(class "HighZ")
 			(node
@@ -24841,7 +25355,7 @@
 			)
 		)
 		(net
-			(code "77")
+			(code "79")
 			(name "Net-(Q3-B)")
 			(class "Switching")
 			(node
@@ -24867,7 +25381,7 @@
 			)
 		)
 		(net
-			(code "78")
+			(code "80")
 			(name "Net-(Q3-C)")
 			(class "Switching")
 			(node
@@ -24883,7 +25397,7 @@
 			)
 		)
 		(net
-			(code "79")
+			(code "81")
 			(name "Net-(Q4-C)")
 			(class "Switching")
 			(node
@@ -24899,7 +25413,7 @@
 			)
 		)
 		(net
-			(code "80")
+			(code "82")
 			(name "Net-(Q5-B)")
 			(class "Switching")
 			(node
@@ -24915,7 +25429,7 @@
 			)
 		)
 		(net
-			(code "81")
+			(code "83")
 			(name "Net-(R20-Pad1)")
 			(class "Default")
 			(node
@@ -24931,7 +25445,7 @@
 			)
 		)
 		(net
-			(code "82")
+			(code "84")
 			(name "Net-(R21-Pad1)")
 			(class "Default")
 			(node
@@ -24947,7 +25461,7 @@
 			)
 		)
 		(net
-			(code "83")
+			(code "85")
 			(name "Net-(R22-Pad1)")
 			(class "Default")
 			(node
@@ -24963,7 +25477,7 @@
 			)
 		)
 		(net
-			(code "84")
+			(code "86")
 			(name "Net-(R23-Pad1)")
 			(class "Default")
 			(node
@@ -24979,7 +25493,7 @@
 			)
 		)
 		(net
-			(code "85")
+			(code "87")
 			(name "Net-(R24-Pad1)")
 			(class "Default")
 			(node
@@ -24995,7 +25509,7 @@
 			)
 		)
 		(net
-			(code "86")
+			(code "88")
 			(name "Net-(R26-Pad2)")
 			(class "Default")
 			(node
@@ -25015,7 +25529,7 @@
 			)
 		)
 		(net
-			(code "87")
+			(code "89")
 			(name "Net-(R27-Pad2)")
 			(class "Default")
 			(node
@@ -25035,7 +25549,7 @@
 			)
 		)
 		(net
-			(code "88")
+			(code "90")
 			(name "Net-(R28-Pad2)")
 			(class "Default")
 			(node
@@ -25055,7 +25569,7 @@
 			)
 		)
 		(net
-			(code "89")
+			(code "91")
 			(name "Net-(R29-Pad2)")
 			(class "Default")
 			(node
@@ -25075,7 +25589,7 @@
 			)
 		)
 		(net
-			(code "90")
+			(code "92")
 			(name "Net-(R30-Pad2)")
 			(class "Default")
 			(node
@@ -25095,7 +25609,7 @@
 			)
 		)
 		(net
-			(code "91")
+			(code "93")
 			(name "Net-(R31-Pad2)")
 			(class "Default")
 			(node
@@ -25115,7 +25629,7 @@
 			)
 		)
 		(net
-			(code "92")
+			(code "94")
 			(name "Net-(R45-Pad2)")
 			(class "Default")
 			(node
@@ -25131,7 +25645,7 @@
 			)
 		)
 		(net
-			(code "93")
+			(code "95")
 			(name "Net-(R46-Pad1)")
 			(class "Default")
 			(node
@@ -25147,7 +25661,7 @@
 			)
 		)
 		(net
-			(code "94")
+			(code "96")
 			(name "Net-(R56-Pad1)")
 			(class "Default")
 			(node
@@ -25168,7 +25682,7 @@
 			)
 		)
 		(net
-			(code "95")
+			(code "97")
 			(name "Net-(R57-Pad1)")
 			(class "Default")
 			(node
@@ -25189,7 +25703,7 @@
 			)
 		)
 		(net
-			(code "96")
+			(code "98")
 			(name "Net-(R60-Pad1)")
 			(class "Default")
 			(node
@@ -25210,7 +25724,7 @@
 			)
 		)
 		(net
-			(code "97")
+			(code "99")
 			(name "Net-(R61-Pad1)")
 			(class "Default")
 			(node
@@ -25231,7 +25745,7 @@
 			)
 		)
 		(net
-			(code "98")
+			(code "100")
 			(name "Net-(R64-Pad1)")
 			(class "Default")
 			(node
@@ -25247,7 +25761,7 @@
 			)
 		)
 		(net
-			(code "99")
+			(code "101")
 			(name "Net-(R86-Pad1)")
 			(class "Default")
 			(node
@@ -25263,7 +25777,7 @@
 			)
 		)
 		(net
-			(code "100")
+			(code "102")
 			(name "Net-(R87-Pad1)")
 			(class "Default")
 			(node
@@ -25279,7 +25793,7 @@
 			)
 		)
 		(net
-			(code "101")
+			(code "103")
 			(name "Net-(R95-Pad1)")
 			(class "Default")
 			(node
@@ -25295,7 +25809,7 @@
 			)
 		)
 		(net
-			(code "102")
+			(code "104")
 			(name "Net-(R96-Pad1)")
 			(class "Default")
 			(node
@@ -25311,7 +25825,7 @@
 			)
 		)
 		(net
-			(code "103")
+			(code "105")
 			(name "Net-(R104-Pad1)")
 			(class "Default")
 			(node
@@ -25327,7 +25841,7 @@
 			)
 		)
 		(net
-			(code "104")
+			(code "106")
 			(name "Net-(R105-Pad2)")
 			(class "Default")
 			(node
@@ -25348,7 +25862,7 @@
 			)
 		)
 		(net
-			(code "105")
+			(code "107")
 			(name "Net-(R107-Pad1)")
 			(class "Default")
 			(node
@@ -25364,7 +25878,7 @@
 			)
 		)
 		(net
-			(code "106")
+			(code "108")
 			(name "Net-(R108-Pad2)")
 			(class "Default")
 			(node
@@ -25385,7 +25899,7 @@
 			)
 		)
 		(net
-			(code "107")
+			(code "109")
 			(name "Net-(R122-Pad1)")
 			(class "Switching")
 			(node
@@ -25400,7 +25914,7 @@
 			)
 		)
 		(net
-			(code "108")
+			(code "110")
 			(name "Net-(R126-Pad1)")
 			(class "Switching")
 			(node
@@ -25415,7 +25929,7 @@
 			)
 		)
 		(net
-			(code "109")
+			(code "111")
 			(name "Net-(R127-Pad1)")
 			(class "Switching")
 			(node
@@ -25430,7 +25944,7 @@
 			)
 		)
 		(net
-			(code "110")
+			(code "112")
 			(name "Net-(R135-Pad1)")
 			(class "Switching")
 			(node
@@ -25445,7 +25959,7 @@
 			)
 		)
 		(net
-			(code "111")
+			(code "113")
 			(name "Net-(SW3A-B)")
 			(class "Default")
 			(node
@@ -25461,7 +25975,7 @@
 			)
 		)
 		(net
-			(code "112")
+			(code "114")
 			(name "Net-(SW3B-A)")
 			(class "Default")
 			(node
@@ -25482,7 +25996,7 @@
 			)
 		)
 		(net
-			(code "113")
+			(code "115")
 			(name "Net-(SW4A-B)")
 			(class "Default")
 			(node
@@ -25498,7 +26012,7 @@
 			)
 		)
 		(net
-			(code "114")
+			(code "116")
 			(name "Net-(SW4B-A)")
 			(class "Default")
 			(node
@@ -25514,7 +26028,7 @@
 			)
 		)
 		(net
-			(code "115")
+			(code "117")
 			(name "Net-(SW5B-A)")
 			(class "Default")
 			(node
@@ -25530,7 +26044,7 @@
 			)
 		)
 		(net
-			(code "116")
+			(code "118")
 			(name "Net-(SW6B-A)")
 			(class "Default")
 			(node
@@ -25546,7 +26060,7 @@
 			)
 		)
 		(net
-			(code "117")
+			(code "119")
 			(name "Net-(SW7B-A)")
 			(class "Default")
 			(node
@@ -25562,7 +26076,7 @@
 			)
 		)
 		(net
-			(code "118")
+			(code "120")
 			(name "Net-(SW8A-B)")
 			(class "Default")
 			(node
@@ -25585,7 +26099,7 @@
 			)
 		)
 		(net
-			(code "119")
+			(code "121")
 			(name "Net-(SW9A-B)")
 			(class "Default")
 			(node
@@ -25608,7 +26122,7 @@
 			)
 		)
 		(net
-			(code "120")
+			(code "122")
 			(name "Net-(SW10A-B)")
 			(class "Default")
 			(node
@@ -25631,7 +26145,7 @@
 			)
 		)
 		(net
-			(code "121")
+			(code "123")
 			(name "Net-(SW11A-A)")
 			(class "Default")
 			(node
@@ -25668,7 +26182,7 @@
 			)
 		)
 		(net
-			(code "122")
+			(code "124")
 			(name "Net-(SW12A-B)")
 			(class "Default")
 			(node
@@ -25684,7 +26198,7 @@
 			)
 		)
 		(net
-			(code "123")
+			(code "125")
 			(name "Net-(SW12B-A)")
 			(class "Default")
 			(node
@@ -25700,7 +26214,7 @@
 			)
 		)
 		(net
-			(code "124")
+			(code "126")
 			(name "Net-(SW13A-B)")
 			(class "Default")
 			(node
@@ -25717,7 +26231,7 @@
 			)
 		)
 		(net
-			(code "125")
+			(code "127")
 			(name "Net-(SW15A-A)")
 			(class "Default")
 			(node
@@ -25739,7 +26253,7 @@
 			)
 		)
 		(net
-			(code "126")
+			(code "128")
 			(name "Net-(SW15A-B)")
 			(class "Default")
 			(node
@@ -25755,7 +26269,7 @@
 			)
 		)
 		(net
-			(code "127")
+			(code "129")
 			(name "Net-(SW15A-C)")
 			(class "Default")
 			(node
@@ -25777,7 +26291,7 @@
 			)
 		)
 		(net
-			(code "128")
+			(code "130")
 			(name "Net-(SW15B-B)")
 			(class "Default")
 			(node
@@ -25793,7 +26307,7 @@
 			)
 		)
 		(net
-			(code "129")
+			(code "131")
 			(name "Net-(U1A-+)")
 			(class "HighZ")
 			(node
@@ -25819,7 +26333,7 @@
 			)
 		)
 		(net
-			(code "130")
+			(code "132")
 			(name "Net-(U1A--)")
 			(class "HighZ")
 			(node
@@ -25845,7 +26359,7 @@
 			)
 		)
 		(net
-			(code "131")
+			(code "133")
 			(name "Net-(U1B--)")
 			(class "HighZ")
 			(node
@@ -25867,7 +26381,7 @@
 			)
 		)
 		(net
-			(code "132")
+			(code "134")
 			(name "Net-(U2A--)")
 			(class "HighZ")
 			(node
@@ -25893,7 +26407,7 @@
 			)
 		)
 		(net
-			(code "133")
+			(code "135")
 			(name "Net-(U2B--)")
 			(class "Default")
 			(node
@@ -25909,12 +26423,17 @@
 			)
 		)
 		(net
-			(code "134")
+			(code "136")
 			(name "Net-(U3A-+)")
 			(class "HighZ")
 			(node
 				(ref "C80")
 				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R139")
+				(pin "2")
 				(pintype "passive")
 			)
 			(node
@@ -25931,18 +26450,23 @@
 			)
 		)
 		(net
-			(code "135")
+			(code "137")
 			(name "Net-(U3A--)")
 			(class "Default")
 			(node
-				(ref "C17")
+				(ref "C106")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "U3")
+				(ref "R140")
 				(pin "1")
-				(pintype "output")
+				(pintype "passive")
+			)
+			(node
+				(ref "R141")
+				(pin "2")
+				(pintype "passive")
 			)
 			(node
 				(ref "U3")
@@ -25952,7 +26476,7 @@
 			)
 		)
 		(net
-			(code "136")
+			(code "138")
 			(name "Net-(U5A-+)")
 			(class "HighZ")
 			(node
@@ -25978,7 +26502,7 @@
 			)
 		)
 		(net
-			(code "137")
+			(code "139")
 			(name "Net-(U5A--)")
 			(class "HighZ")
 			(node
@@ -26004,7 +26528,7 @@
 			)
 		)
 		(net
-			(code "138")
+			(code "140")
 			(name "Net-(U5B--)")
 			(class "HighZ")
 			(node
@@ -26035,7 +26559,7 @@
 			)
 		)
 		(net
-			(code "139")
+			(code "141")
 			(name "Net-(U6A--)")
 			(class "HighZ")
 			(node
@@ -26066,7 +26590,7 @@
 			)
 		)
 		(net
-			(code "140")
+			(code "142")
 			(name "Net-(U6B--)")
 			(class "HighZ")
 			(node
@@ -26097,7 +26621,7 @@
 			)
 		)
 		(net
-			(code "141")
+			(code "143")
 			(name "Net-(U7A--)")
 			(class "HighZ")
 			(node
@@ -26123,7 +26647,7 @@
 			)
 		)
 		(net
-			(code "142")
+			(code "144")
 			(name "Net-(U7B-+)")
 			(class "HighZ")
 			(node
@@ -26144,7 +26668,7 @@
 			)
 		)
 		(net
-			(code "143")
+			(code "145")
 			(name "Net-(U8A--)")
 			(class "Default")
 			(node
@@ -26165,12 +26689,17 @@
 			)
 		)
 		(net
-			(code "144")
+			(code "146")
 			(name "Net-(U8B-+)")
 			(class "HighZ")
 			(node
 				(ref "C79")
 				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R136")
+				(pin "2")
 				(pintype "passive")
 			)
 			(node
@@ -26187,12 +26716,22 @@
 			)
 		)
 		(net
-			(code "145")
+			(code "147")
 			(name "Net-(U8B--)")
 			(class "Default")
 			(node
-				(ref "C16")
+				(ref "C105")
 				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R137")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R138")
+				(pin "2")
 				(pintype "passive")
 			)
 			(node
@@ -26201,14 +26740,9 @@
 				(pinfunction "-_6")
 				(pintype "input")
 			)
-			(node
-				(ref "U8")
-				(pin "7")
-				(pintype "output")
-			)
 		)
 		(net
-			(code "146")
+			(code "148")
 			(name "Net-(U12A-+)")
 			(class "HighZ")
 			(node
@@ -26234,7 +26768,7 @@
 			)
 		)
 		(net
-			(code "147")
+			(code "149")
 			(name "Net-(U12A--)")
 			(class "HighZ")
 			(node
@@ -26265,7 +26799,7 @@
 			)
 		)
 		(net
-			(code "148")
+			(code "150")
 			(name "Net-(U12B--)")
 			(class "HighZ")
 			(node
@@ -26286,7 +26820,7 @@
 			)
 		)
 		(net
-			(code "149")
+			(code "151")
 			(name "Net-(U13A--)")
 			(class "HighZ")
 			(node
@@ -26307,7 +26841,7 @@
 			)
 		)
 		(net
-			(code "150")
+			(code "152")
 			(name "Net-(U13B-+)")
 			(class "HighZ")
 			(node
@@ -26333,7 +26867,7 @@
 			)
 		)
 		(net
-			(code "151")
+			(code "153")
 			(name "Net-(U13B--)")
 			(class "HighZ")
 			(node
@@ -26364,7 +26898,7 @@
 			)
 		)
 		(net
-			(code "152")
+			(code "154")
 			(name "Net-(U14A--)")
 			(class "HighZ")
 			(node
@@ -26385,7 +26919,7 @@
 			)
 		)
 		(net
-			(code "153")
+			(code "155")
 			(name "Net-(U14B--)")
 			(class "HighZ")
 			(node
@@ -26406,7 +26940,7 @@
 			)
 		)
 		(net
-			(code "154")
+			(code "156")
 			(name "Net-(U15A--)")
 			(class "HighZ")
 			(node
@@ -26427,7 +26961,7 @@
 			)
 		)
 		(net
-			(code "155")
+			(code "157")
 			(name "Net-(U15B--)")
 			(class "HighZ")
 			(node
@@ -26448,7 +26982,7 @@
 			)
 		)
 		(net
-			(code "156")
+			(code "158")
 			(name "Net-(U16A-+)")
 			(class "HighZ")
 			(node
@@ -26469,7 +27003,7 @@
 			)
 		)
 		(net
-			(code "157")
+			(code "159")
 			(name "Net-(U16A--)")
 			(class "Default")
 			(node
@@ -26490,7 +27024,7 @@
 			)
 		)
 		(net
-			(code "158")
+			(code "160")
 			(name "Net-(U16B-+)")
 			(class "HighZ")
 			(node
@@ -26511,7 +27045,7 @@
 			)
 		)
 		(net
-			(code "159")
+			(code "161")
 			(name "Net-(U16B--)")
 			(class "Default")
 			(node
@@ -26532,7 +27066,7 @@
 			)
 		)
 		(net
-			(code "160")
+			(code "162")
 			(name "Net-(U17A-+)")
 			(class "Default")
 			(node
@@ -26553,7 +27087,7 @@
 			)
 		)
 		(net
-			(code "161")
+			(code "163")
 			(name "Net-(U17B-+)")
 			(class "Default")
 			(node
@@ -26579,7 +27113,7 @@
 			)
 		)
 		(net
-			(code "162")
+			(code "164")
 			(name "Net-(U18A-+)")
 			(class "Default")
 			(node
@@ -26600,7 +27134,7 @@
 			)
 		)
 		(net
-			(code "163")
+			(code "165")
 			(name "OL_A")
 			(class "Switching")
 			(node
@@ -26616,7 +27150,7 @@
 			)
 		)
 		(net
-			(code "164")
+			(code "166")
 			(name "OL_HOLD")
 			(class "Default")
 			(node
@@ -26647,7 +27181,7 @@
 			)
 		)
 		(net
-			(code "165")
+			(code "167")
 			(name "OL_K")
 			(class "Switching")
 			(node
@@ -26667,7 +27201,7 @@
 			)
 		)
 		(net
-			(code "166")
+			(code "168")
 			(name "OL_NN")
 			(class "Switching")
 			(node
@@ -26717,7 +27251,7 @@
 			)
 		)
 		(net
-			(code "167")
+			(code "169")
 			(name "PANL")
 			(class "Default")
 			(node
@@ -26743,7 +27277,7 @@
 			)
 		)
 		(net
-			(code "168")
+			(code "170")
 			(name "PANR")
 			(class "Default")
 			(node
@@ -26769,7 +27303,7 @@
 			)
 		)
 		(net
-			(code "169")
+			(code "171")
 			(name "PFL")
 			(class "Bus")
 			(node
@@ -26786,7 +27320,7 @@
 			)
 		)
 		(net
-			(code "170")
+			(code "172")
 			(name "PFLDET")
 			(class "Bus")
 			(node
@@ -26802,7 +27336,7 @@
 			)
 		)
 		(net
-			(code "171")
+			(code "173")
 			(name "PK")
 			(class "Switching")
 			(node
@@ -26853,7 +27387,7 @@
 			)
 		)
 		(net
-			(code "172")
+			(code "174")
 			(name "POST")
 			(class "Default")
 			(node
@@ -26910,7 +27444,7 @@
 			)
 		)
 		(net
-			(code "173")
+			(code "175")
 			(name "PRE")
 			(class "Default")
 			(node
@@ -26935,7 +27469,7 @@
 			)
 		)
 		(net
-			(code "174")
+			(code "176")
 			(name "PRESRC")
 			(class "Default")
 			(node
@@ -26961,7 +27495,7 @@
 			)
 		)
 		(net
-			(code "175")
+			(code "177")
 			(name "RECV")
 			(class "Default")
 			(node
@@ -26991,7 +27525,7 @@
 			)
 		)
 		(net
-			(code "176")
+			(code "178")
 			(name "RET_RAW")
 			(class "Entry")
 			(node
@@ -27013,7 +27547,7 @@
 			)
 		)
 		(net
-			(code "177")
+			(code "179")
 			(name "RTE_12")
 			(class "Switching")
 			(node
@@ -27049,7 +27583,7 @@
 			)
 		)
 		(net
-			(code "178")
+			(code "180")
 			(name "RTE_34")
 			(class "Switching")
 			(node
@@ -27085,7 +27619,7 @@
 			)
 		)
 		(net
-			(code "179")
+			(code "181")
 			(name "RTE_LR")
 			(class "Switching")
 			(node
@@ -27121,7 +27655,7 @@
 			)
 		)
 		(net
-			(code "180")
+			(code "182")
 			(name "SEND")
 			(class "Entry")
 			(node
@@ -27143,7 +27677,7 @@
 			)
 		)
 		(net
-			(code "181")
+			(code "183")
 			(name "SIG_A")
 			(class "Switching")
 			(node
@@ -27159,7 +27693,7 @@
 			)
 		)
 		(net
-			(code "182")
+			(code "184")
 			(name "SIG_B")
 			(class "Switching")
 			(node
@@ -27191,7 +27725,7 @@
 			)
 		)
 		(net
-			(code "183")
+			(code "185")
 			(name "SIG_IN")
 			(class "Default")
 			(node
@@ -27213,7 +27747,7 @@
 			)
 		)
 		(net
-			(code "184")
+			(code "186")
 			(name "SUB1")
 			(class "Bus")
 			(node
@@ -27229,7 +27763,7 @@
 			)
 		)
 		(net
-			(code "185")
+			(code "187")
 			(name "SUB2")
 			(class "Bus")
 			(node
@@ -27245,7 +27779,7 @@
 			)
 		)
 		(net
-			(code "186")
+			(code "188")
 			(name "SUB3")
 			(class "Bus")
 			(node
@@ -27261,7 +27795,7 @@
 			)
 		)
 		(net
-			(code "187")
+			(code "189")
 			(name "SUB4")
 			(class "Bus")
 			(node
@@ -27277,7 +27811,7 @@
 			)
 		)
 		(net
-			(code "188")
+			(code "190")
 			(name "SUBSRC_L")
 			(class "Default")
 			(node
@@ -27298,7 +27832,7 @@
 			)
 		)
 		(net
-			(code "189")
+			(code "191")
 			(name "SUBSRC_R")
 			(class "Default")
 			(node
@@ -27319,7 +27853,7 @@
 			)
 		)
 		(net
-			(code "190")
+			(code "192")
 			(name "VCAIN")
 			(class "Entry")
 			(node
@@ -27341,7 +27875,7 @@
 			)
 		)
 		(net
-			(code "191")
+			(code "193")
 			(name "VCA_CTRL")
 			(class "Entry")
 			(node
@@ -27363,7 +27897,7 @@
 			)
 		)
 		(net
-			(code "192")
+			(code "194")
 			(name "VREF")
 			(class "Default")
 			(node
@@ -27418,7 +27952,7 @@
 			)
 		)
 		(net
-			(code "193")
+			(code "195")
 			(name "unconnected-(CN1-Pin_1-Pad1)")
 			(class "Default")
 			(node
@@ -27429,7 +27963,7 @@
 			)
 		)
 		(net
-			(code "194")
+			(code "196")
 			(name "unconnected-(CN1-Pin_3-Pad3)")
 			(class "Default")
 			(node
@@ -27440,7 +27974,7 @@
 			)
 		)
 		(net
-			(code "195")
+			(code "197")
 			(name "unconnected-(CN1-Pin_5-Pad5)")
 			(class "Default")
 			(node
@@ -27451,7 +27985,7 @@
 			)
 		)
 		(net
-			(code "196")
+			(code "198")
 			(name "unconnected-(CN1-Pin_7-Pad7)")
 			(class "Default")
 			(node
@@ -27462,7 +27996,7 @@
 			)
 		)
 		(net
-			(code "197")
+			(code "199")
 			(name "unconnected-(CN1-Pin_19-Pad19)")
 			(class "Default")
 			(node
@@ -27473,7 +28007,7 @@
 			)
 		)
 		(net
-			(code "198")
+			(code "200")
 			(name "unconnected-(CN1-Pin_28-Pad28)")
 			(class "Default")
 			(node
@@ -27484,7 +28018,7 @@
 			)
 		)
 		(net
-			(code "199")
+			(code "201")
 			(name "unconnected-(D9-NC-Pad2)")
 			(class "Default")
 			(node
@@ -27495,7 +28029,7 @@
 			)
 		)
 		(net
-			(code "200")
+			(code "202")
 			(name "unconnected-(D10-NC-Pad2)")
 			(class "Default")
 			(node
@@ -27506,7 +28040,7 @@
 			)
 		)
 		(net
-			(code "201")
+			(code "203")
 			(name "unconnected-(D11-NC-Pad2)")
 			(class "Default")
 			(node
@@ -27517,7 +28051,7 @@
 			)
 		)
 		(net
-			(code "202")
+			(code "204")
 			(name "unconnected-(SW3B-C-Pad6)")
 			(class "Default")
 			(node
@@ -27528,7 +28062,7 @@
 			)
 		)
 		(net
-			(code "203")
+			(code "205")
 			(name "unconnected-(SW4B-C-Pad6)")
 			(class "Default")
 			(node
@@ -27539,7 +28073,7 @@
 			)
 		)
 		(net
-			(code "204")
+			(code "206")
 			(name "unconnected-(SW5B-C-Pad6)")
 			(class "Default")
 			(node
@@ -27550,7 +28084,7 @@
 			)
 		)
 		(net
-			(code "205")
+			(code "207")
 			(name "unconnected-(SW6B-C-Pad6)")
 			(class "Default")
 			(node
@@ -27561,7 +28095,7 @@
 			)
 		)
 		(net
-			(code "206")
+			(code "208")
 			(name "unconnected-(SW7B-C-Pad6)")
 			(class "Default")
 			(node
@@ -27572,7 +28106,7 @@
 			)
 		)
 		(net
-			(code "207")
+			(code "209")
 			(name "unconnected-(SW8B-A-Pad4)")
 			(class "Default")
 			(node
@@ -27583,7 +28117,7 @@
 			)
 		)
 		(net
-			(code "208")
+			(code "210")
 			(name "unconnected-(SW8B-B-Pad5)")
 			(class "Default")
 			(node
@@ -27594,7 +28128,7 @@
 			)
 		)
 		(net
-			(code "209")
+			(code "211")
 			(name "unconnected-(SW8B-C-Pad6)")
 			(class "Default")
 			(node
@@ -27605,7 +28139,7 @@
 			)
 		)
 		(net
-			(code "210")
+			(code "212")
 			(name "unconnected-(SW9B-A-Pad4)")
 			(class "Default")
 			(node
@@ -27616,7 +28150,7 @@
 			)
 		)
 		(net
-			(code "211")
+			(code "213")
 			(name "unconnected-(SW9B-B-Pad5)")
 			(class "Default")
 			(node
@@ -27627,7 +28161,7 @@
 			)
 		)
 		(net
-			(code "212")
+			(code "214")
 			(name "unconnected-(SW9B-C-Pad6)")
 			(class "Default")
 			(node
@@ -27638,7 +28172,7 @@
 			)
 		)
 		(net
-			(code "213")
+			(code "215")
 			(name "unconnected-(SW10B-A-Pad4)")
 			(class "Default")
 			(node
@@ -27649,7 +28183,7 @@
 			)
 		)
 		(net
-			(code "214")
+			(code "216")
 			(name "unconnected-(SW10B-B-Pad5)")
 			(class "Default")
 			(node
@@ -27660,7 +28194,7 @@
 			)
 		)
 		(net
-			(code "215")
+			(code "217")
 			(name "unconnected-(SW10B-C-Pad6)")
 			(class "Default")
 			(node
@@ -27671,7 +28205,7 @@
 			)
 		)
 		(net
-			(code "216")
+			(code "218")
 			(name "unconnected-(SW11B-A-Pad4)")
 			(class "Default")
 			(node
@@ -27682,7 +28216,7 @@
 			)
 		)
 		(net
-			(code "217")
+			(code "219")
 			(name "unconnected-(SW11B-B-Pad5)")
 			(class "Default")
 			(node
@@ -27693,7 +28227,7 @@
 			)
 		)
 		(net
-			(code "218")
+			(code "220")
 			(name "unconnected-(SW11B-C-Pad6)")
 			(class "Default")
 			(node
@@ -27704,7 +28238,7 @@
 			)
 		)
 		(net
-			(code "219")
+			(code "221")
 			(name "unconnected-(SW12B-C-Pad6)")
 			(class "Default")
 			(node
@@ -27715,7 +28249,7 @@
 			)
 		)
 		(net
-			(code "220")
+			(code "222")
 			(name "unconnected-(SW13B-C-Pad6)")
 			(class "Default")
 			(node
@@ -27726,7 +28260,7 @@
 			)
 		)
 		(net
-			(code "221")
+			(code "223")
 			(name "unconnected-(U18-Pad7)")
 			(class "Default")
 			(node

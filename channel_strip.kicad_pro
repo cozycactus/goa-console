@@ -718,6 +718,10 @@
       },
       {
         "netclass": "HighZ",
+        "pattern": "Net-(U3A--)"
+      },
+      {
+        "netclass": "HighZ",
         "pattern": "Net-(U5A-+)"
       },
       {
@@ -747,6 +751,10 @@
       {
         "netclass": "HighZ",
         "pattern": "Net-(U8B-+)"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "Net-(U8B--)"
       },
       {
         "netclass": "Switching",
