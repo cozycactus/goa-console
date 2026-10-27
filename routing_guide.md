@@ -5,45 +5,76 @@ are Manhattan minimum-spanning-tree estimates from the pads, as `tools/emc_check
 `emc_placement_study.md`, whose rules and sources apply throughout. Copper is Ruslan's, so this is advice, not a spec.
 The net classes and DRC rules at the end are written into the projects by `tools/netrules.py`.
 
-## Layers (`layer_study.md`, decided 2026-10-27)
+## Layers (`layer_study.md`, decided 2026-10-27; In2 as ground 2026-10-27)
 
 **The strip, group and master main boards are 4-layer:**
 
-| Layer | Use |
-|---|---|
-| F.Cu | parts, signals; ground fill stitched to GND where there's room |
-| In1.Cu "GND" | a solid GNDA plane, unbroken. No tracks; no zone but ground (DRC rules) |
-| In2.Cu "PWR" | ±VA, +VL / −VL, +5VL as wide tracks or pour strips along the board, and the GNDD spine. No HighZ / Entry / Bus tracks (DRC rule) |
-| B.Cu | the bottom parts, signals; ground fill stitched to GND |
+| Layer | Use | Its return |
+|---|---|---|
+| F.Cu | parts, signals | In1, about 0.2 mm below |
+| In1.Cu "GND" | a solid GNDA plane, unbroken. No tracks; no zone but ground | — |
+| In2.Cu "GND2" | GNDA fill everywhere, except the rail corridor along the left edge, where the supply rails and GNDD run. Outside the corridor: no tracks at all | — |
+| B.Cu | the bottom parts, signals | In2, about 0.2 mm above |
 
-- **Every GNDA pad:** one via to In1, next to the pad. For the bottom-side caps (E9 / E11) the via that joins them to
-  their pin is the only layer change.
-- **GNDD:** a wide spine on In2 (Ground class, ≥ 0.4 mm), routed beside +VL / +5VL from each logic cluster to the net
-  tie. The LED and logic currents go out and come back side by side over the plane, never through it.
-  - Its clusters on the strip are D2 at y 50, U4 at 68–88, D5 at 142, the keys / LEDs / U17 at 265–323 and the DG413s
-    at 345–392; NT1 is at (5, 351).
-  - GNDD pads take a via down to the spine. Keep 0.5 mm from GNDA vias (DRC rule).
-- **Signals:** route on F.Cu and B.Cu, crossing at right angles where they cross. Change layer freely; the plane is the
-  return either way.
-- **Fills:** a fill on F.Cu or B.Cu is GNDA only, stitched to In1 every 10–15 mm and along the edges. No GNDD fill.
+**Why In2 is ground, not power.** In the fab's standard 1.6 mm build, B.Cu is about 0.2 mm from In2 and about 1.3 mm
+from In1 (thin prepreg on each outer pair, a thick core in the middle). A bottom trace's return current flows in In2,
+right under the trace; above roughly 10 kHz it hugs the trace, and at RF entirely so. If In2 were split into supply
+strips, a bottom trace crossing a gap would lose its return there, and the current would detour through the nearest
+decoupler: a bigger loop, more pickup.
+- **Ordering:** when you order, check the stackup has the thin dielectric on both outer pairs; JLCPCB's default 1.6 mm
+  4-layer build does.
 
-**The jack boards, both jig boards and the PSU are 2-layer:** a bottom GNDA pour (CHASSIS on the jack boards as below),
-signals on top, short bottom jumpers at right angles.
+**The rail corridor (rule area RAILS)**, drawn by `placer.py` along the left edge, all the board's length: x 0.5–5.5 mm
+on the strip and group, 0.5–6.5 mm on the master.
+- **What runs in it:** on In2, ±VA, +VL / −VL, +5VL (the master adds ±VP / ±VM) and the GNDD spine, side by side.
+  GNDD sits beside +VL / +5VL, which feed the logic and LEDs, so their currents go out and back together. Fill GNDA
+  between them where there's room.
+- **On B.Cu over it:** no HighZ / Entry / Bus track (DRC rule), because B.Cu there sits over the rails, not over
+  ground.
+- **Why the left edge:** fewest through-hole pins (22 / 25 / 28 in the band on the three boards, against 37 / 38 / 31 on
+  the right). The rails pass the switch pins and the M3 holes H4 / H5 on their inner side.
+- **Branches to the ICs:** a via at the corridor's edge, then across on F.Cu or B.Cu, straight to the decoupler's
+  supply pad, which feeds the pin (E11). Not on In2, which stays whole outside the corridor (DRC rule).
+- **Feeds into the corridor:** cross the board on an outer layer, as wide tracks (Power class, ≥ 0.5 mm).
+  - **Strip:** from the filters R1–R4 by the bus header (right side, y ≈ 296–300).
+  - **Group:** from the filters by its header.
+  - **Master:** from the power entry in the middle (y 186–236). The master's GNDD / GNDM / PHONESGND leave the
+    corridor the same way to their net ties at the star (NT1–NT4, x 33–46, y 208–220).
+- **GNDD to NT1:**
+  - **Strip:** NT1 is at (5, 351), at the corridor's edge.
+  - **GNDD pads:** each takes a via to its spine.
+  - **Clearance:** the spine keeps 0.5 mm from GNDA (DRC rule), including the GNDA stitching vias.
+
+**Returns and vias:**
+- **Every GNDA pad:** one via, next to the pad, joining In1 and In2 (and any outer fill).
+- **Ground via beside every signal via:** a signal changing between F.Cu and B.Cu moves its return from In1 to In2.
+  Put a GNDA via within about 1 mm of each such signal via so the return can follow. For HighZ, Entry and Bus nets
+  this is a must; for the rest, wherever there's room.
+- **Stitching:** stitch In1 and In2 (and any outer GNDA fill) every 10–15 mm over the whole board, along both edges of
+  the corridor and along the board edges.
+- **Prefer F.Cu for the sensitive nets** (HighZ, Entry, Bus): they sit over the unbroken In1. Use B.Cu for short runs
+  and the bottom parts' connections.
+- **Fills:** a fill on F.Cu or B.Cu is GNDA only. No GNDD fill anywhere.
+
+**The jack boards, both jig boards and the PSU are 2-layer:**
+- **Layout:** a bottom GNDA pour (CHASSIS on the jack boards as below), signals on top.
+- **Jumpers:** short bottom jumpers, at right angles, with a ground stitching via at each end. Each one cuts the top
+  traces' return, so keep them off HighZ and bus lines.
 
 ## Channel strip (main board)
 
 ### Ground and supply
-- **GNDA:** the In1 plane. The ribbon's even pins (2–16) and the spade (CN4) are where it leaves the board. Every
+- **GNDA:** the In1 plane and the In2 fill. The ribbon's even pins (2–16) and the spade (CN4) are where it leaves the board. Every
   op-amp decoupler's GNDA end takes its via at the cap.
 - **GNDD:** the logic ground, for the LM393s (U4, U17), the LED switches (Q3–Q5), every LED cathode, the DG413 logic
-  side, +5VL (D9 / C62) and the PVA2 pole-B returns. It runs as the spine on In2 (see Layers).
+  side, +5VL (D9 / C62) and the PVA2 pole-B returns. It runs as the spine in the rail corridor on In2 (see Layers).
   - It joins GNDA only at NT1, beside the spade.
   - No GNDA current through GNDD, and no LED current through GNDA.
 - **±VBUS:** header pins 30–34 to the 10R filters R1–R4 (5–8 mm since E4). After them the rails are ±VA (op-amps),
   +VL / −VL (logic, LEDs) and +5VL from D9.
   - Strip current: about 104 mA on +V and 87 mA on −V.
-  - ±VA reach 34–36 pads over about 560 mm. Run them on In2 as wide tracks or pour strips along the board, each
-    decoupler and supply pin taking its own via. Not a daisy chain through decoupler pads.
+  - ±VA reach 34–36 pads over about 560 mm. Run them on In2 in the rail corridor, with a branch on F.Cu / B.Cu to
+    each decoupler. Not a daisy chain through decoupler pads.
 - **GCANCEL:** header pin 26 to R5 (10R) at the spade. It carries no current; route it as a quiet signal next to
   ground.
 
@@ -192,6 +223,13 @@ they are written general first:
 - **CHASSIS:** 0.5 mm from everything else.
 - **Length:** a HighZ net routed longer than 60 mm is flagged (today's longest is 28 mm of pads).
 - **Track widths:** Power at least 0.5 mm, Ground at least 0.4 mm.
+- **On the 4-layer boards only:**
+  - no tracks on In1 (GND), and no zone there but ground;
+  - no HighZ / Entry / Bus tracks on In2 (GND2);
+  - rails and GNDD on In2 only inside the rail corridor;
+  - no HighZ / Entry / Bus track on B.Cu over the corridor.
+
+  Thirteen rules in all on these boards, eight on the 2-layer ones.
 
 On today's placement, DRC is unchanged with the rules: 0 violations on the main and jig boards, and only the NJ6FD-V
 footprint's own items on the jack boards.

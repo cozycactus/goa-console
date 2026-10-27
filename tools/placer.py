@@ -15,8 +15,10 @@ place(net, out, layout) builds a board from a KiCad netlist and a layout:
   limits  (decoupling, input reach) in mm for the placement report (default 5, 6).
   keepout  [(x0, y0, x1, y1)] areas kept free of parts on both sides, or [(x0, y0, x1, y1, side)] on one side.
   layers  copper layers, 2 (default) or 4 (layer_study.md: the strip, group and master main boards). On 4 layers In1.Cu
-         is named GND (a solid GNDA plane) and In2.Cu PWR (the supply rails and the GNDD spine to the net tie);
-         the fab's standard 1.6 mm stackup.
+         is named GND (a solid GNDA plane, the return for F.Cu) and In2.Cu GND2 (GNDA fill, the return for B.Cu, with
+         the supply rails and the GNDD spine confined to the rail corridor); the fab's standard 1.6 mm stackup.
+  rails  (x0, x1): the rail corridor, a rule area named RAILS on In2.Cu and B.Cu along the whole board (no keepout of its
+         own; tools/netrules.py's rules use it: rails and GNDD on In2 only inside it, no sensitive B.Cu track over it).
   moves  {ref: (x, y, rot, 'F'|'B')} parts packed as usual, then moved to these spots before the report: the packing
          stays as without the moves (no part re-packs into the slots they leave). Refuses a spot whose courtyard
          meets another part's on that side, or that meets a through-hole pad or the board edge; a through-hole part's own
@@ -134,7 +136,16 @@ def place(NET, OUT, L):
     board.SetCopperLayerCount(L.get('layers', 2))
     if L.get('layers', 2) == 4:
         board.SetLayerName(pcbnew.In1_Cu, 'GND'); board.SetLayerType(pcbnew.In1_Cu, pcbnew.LT_POWER)
-        board.SetLayerName(pcbnew.In2_Cu, 'PWR'); board.SetLayerType(pcbnew.In2_Cu, pcbnew.LT_MIXED)
+        board.SetLayerName(pcbnew.In2_Cu, 'GND2'); board.SetLayerType(pcbnew.In2_Cu, pcbnew.LT_MIXED)
+    if L.get('rails'):                                 # the rail corridor (layer_study.md): a named rule area, no keepouts
+        x0, x1 = L['rails']; y0, y1 = L['board'][1] + 0.5, L['board'][3] - 0.5
+        ra = pcbnew.ZONE(board); ra.SetIsRuleArea(True); ra.SetZoneName('RAILS')
+        ls = pcbnew.LSET(); ls.AddLayer(pcbnew.In2_Cu); ls.AddLayer(pcbnew.B_Cu); ra.SetLayerSet(ls)
+        for fn in ('SetDoNotAllowTracks', 'SetDoNotAllowVias', 'SetDoNotAllowPads', 'SetDoNotAllowZoneFills', 'SetDoNotAllowFootprints'):
+            if hasattr(ra, fn): getattr(ra, fn)(False)
+        o = ra.Outline(); o.NewOutline()
+        for px, py in ((x0, y0), (x1, y0), (x1, y1), (x0, y1)): o.Append(pcbnew.FromMM(px), pcbnew.FromMM(py))
+        board.Add(ra)
     netinfo = {}
     for name in sorted(set(padnet.values())):
         ni = pcbnew.NETINFO_ITEM(board, name); board.Add(ni); netinfo[name] = ni

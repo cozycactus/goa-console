@@ -90,7 +90,7 @@ pour.
 |---|---|
 | L1 (top) | parts, signals |
 | L2 | solid GNDA plane, unbroken |
-| L3 | power: ±VA, +VL / −VL, +5VL as wide traces or pour regions along the board, and the GNDD spine beside +VL / +5VL to the net tie; a few low-impedance signals where needed |
+| L3 | GND2: GNDA fill (the return for L4), with ±VA, +VL / −VL, +5VL and the GNDD spine only in a rail corridor along the left edge (see Applied, In2 as ground) |
 | L4 (bottom) | the bottom parts, signals, GNDA fill stitched to L2 |
 
 **What it means:**
@@ -98,7 +98,8 @@ pour.
   free.
 - **Ground:** every GNDA pad takes one via straight to L2 (GNDD pads to their spine; see Applied). The ground is the same solid plane everywhere, under every
   HighZ net, bus line and decoupler loop.
-- **Supplies:** the trees leave the signal layers entirely, and so do their ~500 / 470 / 1500 crossings.
+- **Supplies:** the trees run in the rail corridor on L3, and their ~500 / 470 / 1500 crossings mostly leave the signal layers.
+  The branches cross to each IC on L1 / L4.
 - **Bottom parts:** the bottom-side caps (E9 / E11) via straight through to their pins with L2 / L3 right there, which
   is what those moves were for.
 
@@ -177,7 +178,7 @@ slower, and its ground quality depends on how each jumper is routed.
 
 **Boards:**
 - **Layer count:** `placer.py` takes `layers=4`. The strip, group and master layouts use it.
-- **Inner layers:** In1.Cu is named GND (plane type), In2.Cu PWR (mixed). The board thickness is 1.6 mm, the fab's
+- **Inner layers:** In1.Cu is named GND (plane type), In2.Cu PWR (mixed; renamed GND2 and made a ground layer the same day, see In2 as ground). The board thickness is 1.6 mm, the fab's
   standard 4-layer stackup.
 - **Re-placed:** 0 parts moved, 0 DRC violations, 0 parity issues, every footprint linked. The jack boards, jig and PSU
   stay 2-layer.
@@ -188,7 +189,7 @@ slower, and its ground quality depends on how each jumper is routed.
 - **Master:** four groups around its net ties.
 
 A partition in the GND plane would be a long, fragmented finger. So L2 stays a solid GNDA plane, and GNDD runs as a wide
-spine on L3 (PWR), beside the +VL / +5VL that feed the logic and LEDs, to the net tie. Their currents go out and back
+spine on L3 (PWR at first; in the rail corridor on GND2 since, see In2 as ground), beside the +VL / +5VL that feed the logic and LEDs, to the net tie. Their currents go out and back
 side by side over the GNDA plane and never through it. The GNDD 0.5 mm rule keeps the spine clear of the GNDA vias
 passing through L3.
 
@@ -196,3 +197,28 @@ passing through L3.
 - no tracks on In1.Cu;
 - no zone on In1.Cu but a ground one;
 - no HighZ / Entry / Bus tracks on In2.Cu.
+
+## In2 as ground (2026-10-27, Ruslan)
+
+**The flaw in the first 4-layer plan: it ignored where B.Cu's return current flows.**
+- **The stackup:** the fab's standard 1.6 mm build has thin prepreg (about 0.2 mm) on each outer pair and a thick core
+  (about 1.1 mm) in the middle. So F.Cu's return flows in In1, and B.Cu's in In2.
+- **The plan:** In2 was to be supply strips plus the GNDD spine. A bottom trace crossing a gap between strips loses its
+  return there (above roughly 10 kHz the return hugs the trace), and the current detours through a decoupler.
+- **Worse:** the GNDD spine would have sat 0.2 mm under bottom audio traces.
+
+**Applied the same day:**
+- **In2 "GND2":** GNDA fill, the return for B.Cu.
+- **The rail corridor:** the supply rails and the GNDD spine run only in a corridor along the left edge (x 0.5–5.5 mm on
+  the strip and group, 0.5–6.5 mm on the master: the fewest through-hole pins). `placer.py` draws it as the rule area
+  RAILS (`rails=(x0, x1)`; no keepout of its own).
+- **Branches** from the corridor to each IC's decoupler cross on F.Cu / B.Cu, each over its own ground layer.
+- **Rules** in `tools/netrules.py` (all fire in `netrules_test.py`, 13 on the 4-layer boards):
+  - no HighZ / Entry / Bus tracks on In2;
+  - rails and GNDD on In2 only inside RAILS (`!A.insideArea('RAILS')`: KiCad negates a single function call but
+    drops `!( … )` and `insideArea(...) == 0` silently);
+  - no HighZ / Entry / Bus track on B.Cu over RAILS.
+- **Guide** (`routing_guide.md`): a GNDA via within about 1 mm of every signal via that changes between F.Cu and B.Cu
+  (the return moves from In1 to In2); stitching every 10–15 mm and along the corridor; sensitive nets preferably on
+  F.Cu.
+- **Re-placed:** 0 parts moved, 0 DRC violations, 0 parity issues, every footprint linked.

@@ -233,8 +233,9 @@ jack board) done.
   `X.kicad_dru` (strip, group, master, jig boards, jack boards): HighZ / Entry / Bus copper 1 mm from Switching and 0.5
   from logic supplies, their tracks 0.3 from other copper, GNDD 0.5 from GNDA, CHASSIS 0.5, HighZ <= 60 mm, Power /
   Ground widths. `tools/netrules_test.py` proves every rule fires (KiCad silently drops a rule it can't evaluate, e.g.
-  `!(...)`; the later rule in the file wins for the same constraint). The 4-layer boards add three: no tracks on In1.Cu, no
-  zone there but ground, no HighZ / Entry / Bus tracks on In2.Cu (11 rules on the strip, all fire). Re-run netrules.py after any re-placement or netlist
+  `!(...)`; the later rule in the file wins for the same constraint). The 4-layer boards add five: no tracks on In1.Cu, no
+  zone there but ground, no HighZ / Entry / Bus tracks on In2.Cu, rails / GNDD on In2 only inside RAILS, no HighZ / Entry
+  / Bus on B.Cu over RAILS (13 rules on the strip, all fire). Re-run netrules.py after any re-placement or netlist
   change. Generators that copy master.kicad_pro keep each project's net settings (`schgen.keep_net_settings`).
 - `layer_study.md` — 2 vs 4 layers (2026-10-27, for Ruslan's decision): the main boards need about one full signal layer
   of routing (ratsnest 63-72 mm/cm2, 118-161 crossings per 10 cm2; jig / PSU / jack boards 8-17 and 2-14). Quotes on
@@ -470,8 +471,9 @@ jack board) done.
   raised 25 mm (panel front edge 99 mm above the desk). Supply cable through back-rail vent slot 14. Geometry in
   `panel_layout.py`; drawings `tub/` (`python3 tools/tub_fab.py`).
 - Board layers (Ruslan, 2026-10-27, `layer_study.md`): the strip, group and master main boards are 4-layer (In1.Cu "GND" a
-  solid GNDA plane, In2.Cu "PWR" the supply rails and the GNDD spine to the net tie; signals on F.Cu / B.Cu; the fab's
-  1.6 mm stackup; `placer.py` `layers=4`), every jack board, both jig boards and the PSU 2-layer. JLCPCB quotes
+  solid GNDA plane, the return for F.Cu; In2.Cu "GND2" GNDA fill, the return for B.Cu, with the rails and the GNDD spine
+  only in a left-edge rail corridor, rule area RAILS, `placer.py` `rails=`; branches to the ICs on F.Cu / B.Cu; signals
+  on F.Cu / B.Cu; the fab's 1.6 mm stackup; `placer.py` `layers=4`), every jack board, both jig boards and the PSU 2-layer. JLCPCB quotes
   2026-10-27: +$27 for phase 1, +$93 for the whole console. 4-layer DRC rules in `tools/netrules.py`.
 - Faders (2026-10-23): Bourns PTB0143-2010BPA103 (strips, groups) / PTB0144-2010BPA103 (master), stocked, BP lever
   (8.0 x 1.3 mm flat blade, 5.0 mm above the panel), caps Sifam LK110 tang 01 (8.0 x 1.2, socket 4.0 deep: 1.0 mm

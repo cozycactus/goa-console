@@ -26,8 +26,11 @@
 (rule "ground tracks wide"
   (condition "A.NetClass == 'Ground' && A.Type == 'Track'")
   (constraint track_width (min 0.4mm) (opt 0.6mm)))
-# 4-layer boards (layer_study.md): In1.Cu = GND plane (GNDA with the GNDD partition, joined at the net tie),
-# In2.Cu = PWR (the supply rails as pours or wide tracks)
+# 4-layer boards (layer_study.md): In1.Cu = GND, a solid GNDA plane (the return for F.Cu); In2.Cu = GND2, GNDA fill
+# (the return for B.Cu) with the supply rails and the GNDD spine only inside the rail corridor, the rule area RAILS that
+# placer.py draws along the board's left edge; rails reach their ICs on F.Cu / B.Cu, so GND2 stays whole outside it.
+# KiCad negates a single function call (!A.insideArea(...)) but silently drops a negated expression !( ... ) and
+# a comparison like insideArea(...) == 0: tools/netrules_test.py checks every rule fires
 (rule "GND plane: no tracks"
   (layer "In1.Cu")
   (constraint disallow track))
@@ -35,7 +38,15 @@
   (layer "In1.Cu")
   (condition "A.Type == 'Zone' && A.NetClass != 'Ground'")
   (constraint disallow zone))
-(rule "sensitive nets off the power layer"
+(rule "sensitive nets off GND2"
   (layer "In2.Cu")
   (condition "A.NetClass == 'HighZ' || A.NetClass == 'Entry' || A.NetClass == 'Bus'")
+  (constraint disallow track))
+(rule "GND2: rails and GNDD only in the rail corridor"
+  (layer "In2.Cu")
+  (condition "(A.NetClass == 'Power' || A.NetClass == 'LogicSupply' || A.NetName == 'GNDD') && !A.insideArea('RAILS')")
+  (constraint disallow track))
+(rule "no sensitive B.Cu track over the rail corridor"
+  (layer "B.Cu")
+  (condition "(A.NetClass == 'HighZ' || A.NetClass == 'Entry' || A.NetClass == 'Bus') && A.intersectsArea('RAILS')")
   (constraint disallow track))

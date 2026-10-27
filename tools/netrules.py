@@ -16,7 +16,8 @@ The rules keep HighZ / Entry / Bus copper 1 mm from Switching and 0.5 mm from Lo
 pad to pad is placement, which tools/emc_check.py measures: a DG413's logic pin sits 0.67 mm from a bus pin), GNDD 0.5 mm from GNDA (the two
 grounds meet only at the net tie), CHASSIS 0.5 mm from everything else, Power and Ground tracks wide, and flag a HighZ
 net routed longer than 60 mm. On the 4-layer boards (the strip, group and master mains) they also keep In1.Cu (GND) free
-of tracks and of anything but ground zones, and HighZ / Entry / Bus tracks off In2.Cu (PWR)."""
+of tracks and of anything but ground zones, HighZ / Entry / Bus tracks off In2.Cu (GND2), the rails and GNDD on In2
+inside the rail corridor (the RAILS rule area), and HighZ / Entry / Bus tracks on B.Cu out of that corridor."""
 import json, os, re, sys
 import pcbnew
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -65,8 +66,11 @@ DRU = """(version 1)
   (constraint track_width (min 0.4mm) (opt 0.6mm)))
 """
 
-DRU4 = """# 4-layer boards (layer_study.md): In1.Cu = GND, a solid GNDA plane; In2.Cu = PWR, the supply rails as pours or wide
-# tracks and the GNDD spine beside +VL / +5VL to the net tie
+DRU4 = """# 4-layer boards (layer_study.md): In1.Cu = GND, a solid GNDA plane (the return for F.Cu); In2.Cu = GND2, GNDA fill
+# (the return for B.Cu) with the supply rails and the GNDD spine only inside the rail corridor, the rule area RAILS that
+# placer.py draws along the board's left edge; rails reach their ICs on F.Cu / B.Cu, so GND2 stays whole outside it.
+# KiCad negates a single function call (!A.insideArea(...)) but silently drops a negated expression !( ... ) and
+# a comparison like insideArea(...) == 0: tools/netrules_test.py checks every rule fires
 (rule "GND plane: no tracks"
   (layer "In1.Cu")
   (constraint disallow track))
@@ -74,9 +78,17 @@ DRU4 = """# 4-layer boards (layer_study.md): In1.Cu = GND, a solid GNDA plane; I
   (layer "In1.Cu")
   (condition "A.Type == 'Zone' && A.NetClass != 'Ground'")
   (constraint disallow zone))
-(rule "sensitive nets off the power layer"
+(rule "sensitive nets off GND2"
   (layer "In2.Cu")
   (condition "A.NetClass == 'HighZ' || A.NetClass == 'Entry' || A.NetClass == 'Bus'")
+  (constraint disallow track))
+(rule "GND2: rails and GNDD only in the rail corridor"
+  (layer "In2.Cu")
+  (condition "(A.NetClass == 'Power' || A.NetClass == 'LogicSupply' || A.NetName == 'GNDD') && !A.insideArea('RAILS')")
+  (constraint disallow track))
+(rule "no sensitive B.Cu track over the rail corridor"
+  (layer "B.Cu")
+  (condition "(A.NetClass == 'HighZ' || A.NetClass == 'Entry' || A.NetClass == 'Bus') && A.intersectsArea('RAILS')")
   (constraint disallow track))
 """
 

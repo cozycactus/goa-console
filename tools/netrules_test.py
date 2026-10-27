@@ -13,7 +13,7 @@ pads = [p.GetBoundingBox() for f in b.GetFootprints() for p in f.Pads()]
 crt = [f.GetCourtyard(pcbnew.B_CrtYd).BBox() for f in b.GetFootprints() if f.IsFlipped()]
 def spots(w, h):
     for y10 in range(500, 4400, 10):
-        for x10 in range(10, 380 - int(w * 10), 10):
+        for x10 in range(80, 380 - int(w * 10), 10):          # right of the rail corridor (x 0.5-5.5)
             r = pcbnew.BOX2I(pcbnew.VECTOR2I(M(x10 / 10), M(y10 / 10)), pcbnew.VECTOR2L(M(w), M(h)))
             if not any(r.Intersects(q) for q in pads + crt): yield x10 / 10, y10 / 10
 free = spots(8, 3); used = []
@@ -38,6 +38,11 @@ for i in range(9): track(HZ, (x + .5 + (7 if i % 2 else 0), y + .5 + 0.4 * i), (
 # 4-layer rules (the strip main is 4-layer): a track on the GND plane, a high-Z track on the PWR layer, a signal zone on GND
 x, y = spot(); track('POST', (x + .5, y + .5), (x + 7.5, y + .5), 0.25, pcbnew.In1_Cu)
 x, y = spot(); track(HZ, (x + .5, y + .5), (x + 7.5, y + .5), 0.2, pcbnew.In2_Cu)
+# the rail corridor (rule area RAILS): a rail on GND2 outside it, a high-Z B.Cu track inside it
+ra = [z for z in b.Zones() if z.GetIsRuleArea() and z.GetZoneName() == 'RAILS'][0].GetBoundingBox()
+cx, cy0 = pcbnew.ToMM(ra.GetLeft()) + 1.0, pcbnew.ToMM(ra.GetTop()) + 60
+x, y = spot(); track('+VA', (x + .5, y + .5), (x + 7.5, y + .5), 0.8, pcbnew.In2_Cu)
+track(HZ, (cx, cy0), (cx, cy0 + 5), 0.2, pcbnew.B_Cu)
 x, y = spot(); z = pcbnew.ZONE(b); z.SetLayer(pcbnew.In1_Cu); z.SetNet(b.FindNet('POST'))
 ol = z.Outline(); ol.NewOutline()
 for px, py in ((x + .5, y + .5), (x + 7.5, y + .5), (x + 7.5, y + 2.5), (x + .5, y + 2.5)): ol.Append(M(px), M(py))
