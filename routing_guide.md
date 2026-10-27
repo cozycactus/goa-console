@@ -1,4 +1,4 @@
-# Routing guide: strip, strip jack board, jig master stub, jig load board (2026-10-26, layers 2026-10-27)
+# Routing guide: strip, group, master, their jack boards, and the jig (2026-10-26; layers, group and master 2026-10-27)
 
 Notes for routing the first boards to build: the jig and four strips. They are drawn from the placed boards (net lengths
 are Manhattan minimum-spanning-tree estimates from the pads, as `tools/emc_check.py` measures them) and from
@@ -138,6 +138,97 @@ on the strip and group, 0.5–6.5 mm on the master.
   including the fader post-amps' C32 / C33 / C36 / C37 under U5 (`stab_caps_proposal.md`).
 - **Don't lengthen them:** a trace between such a cap and its pin undoes the stabilising, so don't route the input
   net to the cap first and on to the pin.
+
+## Group module (main board, 4-layer)
+
+The same layer plan, rules and tools as the strip: GND / GND2 planes, rail corridor x 0.5–5.5, `route_check.py`,
+`escape_plan.py` (`docs/escape/group_*.svg`). Measured on the placed board (Manhattan MST of the pads).
+
+**Supply and ground**
+- **Supply:** ±VBUS from the header CN2 to the filters R1–R4, 15–16 mm (E4), then ±VA (32 pads, about 500 mm) and +VL
+  in the corridor.
+- **GCANCEL:** header to R5 and the local buffer U1 / U6 input, 101 mm; quiet, ground beside it.
+  - **GC_BUF:** to the re-inverters, 44 mm.
+  - **The rule:** a cut or noisy GCANCEL costs the whole ground-cancel scheme.
+
+**Bus lines** (Bus class: F.Cu, ground both sides where possible, nothing switching alongside). They run from CN2 to
+the routing keys and jumpers far up the board:
+- MIX L / R 243–252 mm (to SW1 / SW4 / SW8);
+- SUB 1–4 221–227 mm (to SW5 / SW6 / SW9 / SW10 and JP1–JP4);
+- AUX 1–4 42–51 mm;
+- PFL 256 mm, PFLDET 239 mm.
+
+They are summing-bus lines: low impedance at audio, but their copper adds to the master's bus capacitance (fine to
+2.2 nF; roughly 0.1 pF per mm of track).
+
+**Entry and outputs**
+- **The links:** to the jack board, run as pairs with a ground between pairs:
+  - CN3: the aux master's DRV135 outputs A_OP / A_ON (133–139 mm), the sub's S_OP / S_ON (50–53 mm), the insert
+    SUB_SEND (267 mm, behind its 75R) and SUB_RETRAW (89 mm);
+  - CN4: return 2.
+- **The returns:** each run from its receiver through the level pot and PRE / PFL to the routing.
+  - **Return 1:** RT_RTNL / RTNR 168–176 mm; the pot wipers RT_WL / WR 71–90 mm.
+  - **Return 2:** RT2_ 45–111 mm.
+  - **How:** low impedance after the followers; keep them on F.Cu, away from the LED lines.
+
+**Switching**
+- **LED anode lines:** D3 / D4 run 64–67 mm. On B.Cu.
+- **Closest:** U11B+ (a return receiver input) is 3.8 mm from D4's anode pad, and U15B+ 5.2 mm. Cross at right angles,
+  and keep the anode line on B.Cu past them.
+
+**Summing nodes** (short as placed): A_SUM 11 mm at U6. The sub summer's node is at U1, with S_SUM its output (54 mm
+to R7, low impedance).
+
+## Master module (main board, 4-layer)
+
+The same layer plan and tools; rail corridor x 0.5–6.5 (±VA, ±VP, ±VM, +VL, −VL, +5VL, GNDD).
+
+**Power entry** (y 186–236, by J1 and the M4 star). +VBUS runs J1 → the wing PTCs F1 / F3, 257 mm in all with the
+reservoirs and clamps.
+- **Wing feeds:** ±VBUS_L / R run 68–129 mm to the wing headers CN2 / CN3. Each carries a whole wing, up to about
+  2 A on +V.
+  - **Width:** wide copper, not the Power class's 0.8 mm. At 2 A, use 2 mm or more on the outer layers, and more if
+    any part runs on In2 (0.5 oz there).
+  - **Where:** keep them on their edge keep-outs.
+- **Rails:** ±VA (52 / 50 pads, about 720 mm), ±VM (meters, 517–566 mm), ±VP (phones, 207–216 mm). In the corridor,
+  with branches on F.Cu / B.Cu.
+- **Grounds:** the star joins GNDA, GNDD, GNDM and PHONESGND through NT1–NT4 (x 33–46, y 208–220).
+  - **Separate routes:** each ground keeps its own route to its net tie. GNDM (meters) and PHONESGND (120 mm) are not
+    GNDA fill.
+
+**Ground cancel**
+- **GCANCEL:** 222 mm, from both wing headers to R10, the buffer U1 and the re-inverters U12 / U15.
+- **GCANCEL_BUF:** 99 mm, to every re-inverter's reference resistor (R14, R24, R64, R75, R100).
+- **How:** quiet, on F.Cu over the plane, ground both sides, no switching line within the 1 mm rule. This pair carries
+  what the ground-cancel checks measure.
+
+**Buses between the wings:** MIX L / R 167–176 mm, AUX 5 / 6 141–147 mm, PFL 290 mm, SUB 1–4 66 mm, header to header.
+- **How:** Bus class, straight, with ground between.
+- **Summing nodes:** short as placed (MIX_L 9 mm, MIX_R 19 mm, PFL_SUM 18 mm); keep them so.
+
+**Outputs and inserts** (to the jack board on CN5, pairs with ground between):
+- **The main outputs:** after the relays, MAIN_L / R / M _XP / XN, 54–111 mm, each pair together; before the relays,
+  10–49 mm.
+- **The insert:** MIX_L / R_SEND 145–158 mm behind their 75R; MIX_L / R_RETRAW 183–198 mm.
+- **Phones:** PHO_L / R 159–165 mm from the LME49600s to K6. Route each beside PHONESGND, the phones' own return,
+  as a pair.
+
+**The C/Room path**
+- **CRSB_L / R:** 233–277 mm, from the followers' 100R build-outs (pad-length, MG3) to the pots and the meters.
+- **CRS_L / R:** the follower inputs, 22–29 mm. They sit 1.3 mm from the PFL switcher's logic line PFL_ON at U20's
+  pins. That's the DG413 pinout (a logic pin next to a switch pin), as on the strip. Bring PFL_ON to U20 from the side
+  away from CRS, on B.Cu.
+
+**Switching** (B.Cu, away from all of the above)
+- **RLY_DRV:** 204 mm, the six relay coils from Q1. It passes 3.0 mm from U2A's − input at D20; cross at right angles,
+  never alongside.
+- **MUTE_GO:** 99 mm.
+- **The key LEDs' anode lines:** D12 / D13, 129–137 mm.
+- **The meters:** the LM2901 outputs and LED strings sit 3.8–4.9 mm from the detector nodes (MR_DETO, ML_DETO, ML_X2,
+  U36 / U37 inputs).
+  - **How:** detector nodes on F.Cu, the strings and comparator outputs on B.Cu, both planes between them.
+  - **Hot spot:** the meter area, y 320–350, is the master's third densest window (`docs/escape/master_3.svg`).
+- **The flasher:** FL_N runs 97 mm behind D18 (E8, intended). It's a slow RC node; keep it off the audio anyway.
 
 ## Strip jack board
 
