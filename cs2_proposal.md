@@ -24,6 +24,31 @@ transcription loss.
 The "power sum" column is L² + R² against hard over. A centred mono synth sits 1.6 dB higher against panned stereo
 sources than it does today, as on the parent console.
 
+### The parent's circuit, re-read from the drawings (2026-10-27)
+
+**ED3344C** (`ref/Sndcft_DeltaDLX_Schems.pdf` p.17, rendered at 300 dpi):
+
+| Part | What the drawing shows |
+|---|---|
+| VR10 | "10KB CD" dual. Both gangs' tops on the post-fader line, marked −2 dBu; bottoms to ground |
+| IC11-A / IC11-B (TL072) | Non-inverting buffers. R122 / R123 2K2 from the output to −in, R124 / R125 10K from −in to ground: 1.22× |
+| R120 / R121 3K3 | From each buffer's output to its + input, which is the wiper (VR10-B pin 5 / VR10-A pin 2) |
+| C54 / C55 220 µF + R67 / R68 47K | The bus coupling: POST PAN R / L |
+| IC6-B (TL072) | The post-fader feed. R145 1K8 / R146 10K, +1.4 dB, its output marked "−0.5 dB": POST FADER through C56 220 µF / R69 47K |
+| SW5-A / SW5-B (PAN) | Pick POST PAN L / R (latched) or POST FADER (unlatched) for the groups only: SW5-B → R126 / R127 10K 0.5 W → SW6-B "2" / SW7-A "4". MIX takes POST PAN L / R directly, always panned, as our SW14 |
+
+**The 200 Delta Technical Manual** (ZZ2593, printed p.56, Part 2 PDF p.6) describes the pan buffers as an active design
+for better rejection (about 85 dB cut-off). It calls the law resistors the parts that set the centre gain drop, fed
+from the buffer outputs rather than the pot tops.
+
+So the CS2 network is the parent's, value for value:
+- the buffers in OPA1612 (TL072 on the Delta);
+- C105 / C106 added for the OPA1612's faster loop;
+- AC coupling at the strip's 100 µF.
+
+The law follows from the drawing: centre −2.71 dB, hard +1.73 dB. The PAN-off stage (Option B) is the parent's IC6-B at
++1.4 dB; our U2B would use 1.22× to match the buffers exactly.
+
 ### How the −6 dB got in (git history, checked 2026-10-27)
 
 The −6 dB was never a decision. It is half of the Delta's pan stage, copied without the other half.
