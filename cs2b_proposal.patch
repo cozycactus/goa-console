@@ -1,0 +1,106 @@
+diff --git a/tools/frags.py b/tools/frags.py
+index a5bd3d4..a109e2d 100644
+--- a/tools/frags.py
++++ b/tools/frags.py
+@@ -112,6 +112,21 @@ def follower(d, src, out, u, cap=None):
+     if cap: d.at(cap, 2, 3.5, text='L')
+ 
+ 
++def law_buffer(d, src, out, u, cap, parts):
++    """The Delta's pan buffer (ED3344C, CS2 / CS2b): + on top, 1.22x (rf 2K2 // cf 22p out -> -, rg 10K - -> ground),
++    rlaw 3K3 from the output back to the + input (the wiper); cap: a C from + to ground. parts: [rlaw, rf, rg, cf],
++    filled when they are created (last, so no other ref moves).  16 x 14"""
++    p = pins(u); rlaw, rf, rg, cf = parts
++    d.at(u[0], 8, 3, unit=u[1], text='U')
++    d.w((0, 2), (u[0], p[0])); d.port(src, (0, 2))
++    d.w((u[0], p[2]), (12, 3)); d.w((12, 3), (15, 3)); d.port(out, (15, 3), 'R')
++    d.at(rf, 8, 7, rot=90, text='U'); d.w((12, 3), (12, 7), (rf, 2)); d.w((rf, 1), (4, 7), (4, 4), (u[0], p[1]))
++    d.at(cf, 8, 9, rot=90, text='D'); d.w((6.5, 7), (6.5, 9), (cf, 1)); d.w((cf, 2), (9.5, 9), (9.5, 7))
++    d.at(rg, 4, 8.5, text='L'); d.gnd((rg, 2))
++    d.at(rlaw, 7.5, -2, rot=90, text='U'); d.w((12, 3), (12, -2), (rlaw, 2)); d.w((rlaw, 1), (2, -2), (2, 2))
++    if cap: d.at(cap, 2, 3.5, text='L')
++
++
+ def rx_buffers(d, tip, ring, tb, rb, ut, ur, st, sr, rt, rr, ot, orr, ct, cr):
+     """Balanced receiver's input followers (ground_study.md G3b): per leg 1M to ground, 220R, 100p at the + input, a
+     unity follower, a 100R build-out to the bridge.  32 x 17"""
+diff --git a/tools/gen_group.py b/tools/gen_group.py
+index 43f02f2..3008b8c 100644
+--- a/tools/gen_group.py
++++ b/tools/gen_group.py
+@@ -59,9 +59,13 @@ jack(b, 'JACK', 'Sub out TRS', {'T': s + '_OP', 'R': s + '_ON', 'S': 'CHASSIS'})
+ rp = ref('RV'); P(b, rp, 'POT2', 'Sub pan 10K lin dual CD', {1: s + '_POST', 3: 'GNDA', 2: s + '_PWL', 4: 'GNDA', 6: s + '_POST', 5: s + '_PWR'},
+                   fp='Potentiometer_THT:Potentiometer_Alps_RK09L_Double_Vertical', mpn='ALPS RK09L1240015')   # as strip RV8 (design_review.md R2)
+ frag(b, 14, 8, lambda d: frags.pot2(d, rp))
++# CS2b (cs2b_proposal.md): the Delta's pan law on the sub pan too, as the strip's (CS2): each buffer at 1.22x with a 3K3
++# law resistor back to its wiper, -2.7 dB at centre, +1.7 dB hard over; the R / C are made last (after drv_loop_rs())
++LAW = []
+ for sd in 'LR':                 # 10p against the pan wiper's Cdiff lag (MG5)
+-    pc = C(b, '10p C0G', f'{s}_PW{sd}', 'GNDA'); near(pc, amp(b, f'{s}_PW{sd}', f'{s}_PB{sd}', f'{s}_PB{sd}'))
+-    frag(b, 16, 9, lambda d, u=LAST[0], c=pc, sd=sd: frags.follower(d, f'{s}_PW{sd}', f'{s}_PB{sd}', u, cap=c))
++    pc = C(b, '10p C0G', f'{s}_PW{sd}', 'GNDA'); near(pc, amp(b, f'{s}_PW{sd}', f'{s}_PBN{sd}', f'{s}_PB{sd}'))
++    LAW.append((b, sd, LAST[0], []))
++    frag(b, 16, 14, lambda d, u=LAST[0], c=pc, sd=sd, ps=LAW[-1][3]: frags.law_buffer(d, f'{s}_PW{sd}', f'{s}_PB{sd}', u, c, ps))
+ for sd in 'LR':
+     chain(b, f'{s}_PB{sd}', [('s', C(b, '220u NP 25V', f'{s}_PB{sd}', f'{s}_PAN{sd}')), ('g', R(b, '47K', f'{s}_PAN{sd}', 'GNDA'))], f'{s}_PAN{sd}')
+ routing(b, s + '_PANL', s + '_PANR', 'MIXL', 'MIXR', 'Sub to MIX')
+@@ -130,6 +134,10 @@ b = block('JACK LINK CLAMPS: a BAV199 to the audio rails on every jack signal at
+ link_clamps(b, list(LINK.values()) + list(LINK2.values()))
+ # CS4c (cs4c_proposal.md): 22R inside each DRV135 loop, drawn with its driver; created last as well
+ drv_loop_rs()
++# CS2b: the sub pan buffers' law network, made last so every other ref stays
++for bb, sd, u, ps in LAW:
++    ps += [R(bb, '3K3', f'{s}_PW{sd}', f'{s}_PB{sd}'), R(bb, '2K2', f'{s}_PBN{sd}', f'{s}_PB{sd}'),
++           R(bb, '10K', f'{s}_PBN{sd}', 'GNDA'), C(bb, '22p C0G', f'{s}_PBN{sd}', f'{s}_PB{sd}')]
+ 
+ project_file(OUT); parts_sidecar(OUT)
+ build(OUT, 'group', 'Group module - goa console (sub + return + aux master)',
+diff --git a/tools/place_group.py b/tools/place_group.py
+index 7e74069..b3ce5cf 100644
+--- a/tools/place_group.py
++++ b/tools/place_group.py
+@@ -158,7 +158,12 @@ MOVES.update(CS4B)
+ CS4C = {'R119': (35.75, 203.75, 90, 'B'), 'R120': (36.0, 207.75, 90, 'B'), 'R121': (2.0, 209.0, 90, 'F'),
+         'R122': (1.75, 205.0, 90, 'F')}
+ MOVES.update(CS4C)
+-for z in ZONES: z[2][:] = [r for r in z[2] if r not in CS4C]   # their drivers' blocks list them too
++# CS2b (cs2b_proposal.md): the sub pan buffers' law network (U3B pan L, U5A pan R), placed by MOVES alone
++CS2B = {'C96': (4.25, 240.75, 90, 'B'), 'R124': (2.0, 240.0, 90, 'B'), 'R125': (12.75, 236.75, 90, 'F'),
++        'R123': (3.75, 244.25, 0, 'B'), 'C97': (28.75, 243.25, 0, 'B'), 'R127': (25.25, 244.5, 90, 'B'),
++        'R128': (22.25, 241.0, 90, 'F'), 'R126': (29.0, 245.75, 0, 'B')}
++MOVES.update(CS2B)
++for z in ZONES: z[2][:] = [r for r in z[2] if r not in CS4C and r not in CS2B]   # their drivers' blocks list them too
+ # untangle_proposal.md: two-pad parts turned in place (degrees) so their ratsnest crosses less, measured with
+ # tools/ratsnest.py (placer `turns`, after packing and the moves)
+ TURNS = {'JP7': 90, 'R5': 90, 'R11': 180, 'R20': 180, 'R22': 180, 'R25': 180, 'R26': 180, 'R30': 180, 'R34': 180,
+@@ -166,6 +171,6 @@ TURNS = {'JP7': 90, 'R5': 90, 'R11': 180, 'R20': 180, 'R22': 180, 'R25': 180, 'R
+          'R74': 180, 'R77': 180, 'R78': 180, 'R80': 180, 'R86': 180, 'R89': 180, 'R90': 180, 'R96': 180, 'R107': 180,
+          'R109': 180, 'R110': 180, 'R112': 180, 'R115': 270, 'R117': 270}
+ place(os.path.join(PROJ, 'group.net'), os.path.join(PROJ, 'group.kicad_pcb'),
+-      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS10) + tuple(CS4B) + tuple(CS4C), wire=tuple(CS4C), turns=TURNS, layers=4, rails=(0.5, 5.5), holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
++      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS10) + tuple(CS4B) + tuple(CS4C) + tuple(CS2B), wire=tuple(CS4C), turns=TURNS, layers=4, rails=(0.5, 5.5), holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
+            keepout=[(22.0, 185.0, 23.5, 215.0, 'B')],          # silk room beside the links' boxes
+            hole_value='M3 standoff 11.5 mm', attach=True))
+diff --git a/tools/sim_console.py b/tools/sim_console.py
+index 38f62c7..70fb502 100644
+--- a/tools/sim_console.py
++++ b/tools/sim_console.py
+@@ -303,6 +303,7 @@ SRC = 0.7746                                          # 0 dBu
+ # Delta's law) a strip's pan sits PANC higher at centre (-2.7 dB, not -6) and PANH above POST hard over.
+ UNITY = -0.82
+ PANC, PANH = 3.27, 1.68
++GPANC = 3.32                                          # CS2b (cs2b_proposal.md): the group's sub pan, the same law
+ 
+ checks = []
+ def check(name, got, lo, hi, unit='dB'):
+@@ -354,8 +355,8 @@ def t_sub():
+     check('SUB not routed to MIX: main L', r.get('ml'), -400, -75)
+     s, g, m = default_console(one(0, sw={'SW5': False, 'SW6': True}), group_cfg=lambda k: dict(sw={'SW1': True}) if k == 0 else {})
+     r, _ = run(console(s, g, m), AC1K + dbu(diff(XLR['L']), 'ml') + dbu(diff(XLR['R']), 'mr'))
+-    check('SUB 1 to MIX (sub pan centre, -6 dB): main L', r.get('ml'), -7.7 + PANC, -7.0 + PANC)
+-    check('SUB 1 to MIX: main R', r.get('mr'), -7.7 + PANC, -7.0 + PANC)
++    check('SUB 1 to MIX (sub pan centre, -2.7 dB since CS2b): main L', r.get('ml'), -7.7 + PANC + GPANC, -7.0 + PANC + GPANC)
++    check('SUB 1 to MIX: main R', r.get('mr'), -7.7 + PANC + GPANC, -7.0 + PANC + GPANC)
+ 
+ def t_aux():
+     s, g, m = default_console(one(0, pos={'RV2': 1.0, 'RV6': 1.0}, sw={'SW8': True, 'SW10': True}))

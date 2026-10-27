@@ -219,6 +219,11 @@ jack board) done.
   (1.7 dB under a hard pan; matching it needs a bus coupler no D10 spot allows). sim_netlist 41/41, sim_console 35/35
   with shifted targets. `sim/review/cs2/pan_law.py`. The -6 dB was a transfer error (v3 copied the buffers as followers),
   confirmed against ED3344C and the 200 Delta manual (p.34: 4.5 dB centre drop).
+- `cs2b_proposal.md` (+ `cs2b_proposal.patch`, tools only) — CS2b, proposed 2026-10-28, NOT signed off: the strip's law on
+  the group's sub pan (U3B / U5A at 1.22x, R123-R128, C96 / C97, made last; placed by moves_only under U3 / U5, <= 5.9 mm).
+  Master spec §12 says the sub pan copies the strip; the parent's ED2778A MONITOR PAN is passive (3K9 / 8K2), -4.6 dB.
+  Sub to MIX +3.3 dB at centre (sim_console GPANC). TI models: U3B / U5A 74.5 / 75.3 deg, 55.3 / 55.9 with 47 pF, no unit
+  worse. `sim/review/cs2/group_pan.py`. TI's OPA1656 model reached an operating point in the group deck on 2026-10-28.
 - `cs11b_proposal.md` (+ `cs11b_proposal.patch`, tools only) — CS11b, signed off by Ruslan and applied 2026-10-27: each DRV135's
   two 10 uF couplers as a pair sorted within 2 % (MPN note; LME49600 bypasses and the jig stub as bought; 10 sorting
   spares in `order_bom.py`). `sim/review/cs11/drv_couplers.py` (TI model): output balance worst 5 % at 1 kHz / 100 Hz
