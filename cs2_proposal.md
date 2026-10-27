@@ -24,6 +24,38 @@ transcription loss.
 The "power sum" column is L² + R² against hard over. A centred mono synth sits 1.6 dB higher against panned stereo
 sources than it does today, as on the parent console.
 
+### How the −6 dB got in (git history, checked 2026-10-27)
+
+The −6 dB was never a decision. It is half of the Delta's pan stage, copied without the other half.
+
+1. **v3, the initial commit (`4e2640c`, 2026-10-19), before the Delta clone.**
+   - **The changelog:** "Added pan buffers L/R. (ED3344C, IC11)".
+   - **The drawing:** IC2B / IC3A as plain followers.
+   - **The stated reason:** "the buffers isolate the pan law from the routing load", which a follower does.
+   - **The law was left open:** "VR7: 10K dual-gang pan pot (constant-power / MN taper, or linear 'B' with the Delta's
+     buffer arrangement)". So linear B was only right together with the Delta's arrangement, and that arrangement was
+     never drawn: R122 / R124 for 1.22× and the R120 / R121 3K3 law resistors.
+2. **v4.0, the Delta clone (`a38b542`, 2026-10-22).**
+   - **Strip spec §12:**
+     - RV8 becomes a "10K B dual" and the condition is dropped;
+     - the followers stay;
+     - a new sentence, "MIX is always panned (−6 dB at centre with the linear pot)", states the result as a fact.
+   - **`delta_clone_comparison.md`:**
+     - Its stage table reads the Delta as "pan buffers with gain" and ours as "unity followers", and proposes "Keep our
+       buffers; add PAN switch (decision 6)". The gain was seen, but not what it is for. The 3K3 law resistors aren't
+       listed.
+     - Decision 6 covered only the PAN switch, so the law never reached sign-off.
+   - **The PAN-off feed:** the Delta takes it from IC6-B at +1.4 dB (1K8 / 10K) to match its +1.7 dB buffers. It was
+     copied as plain POST.
+   - **The checks:** the same commit's verification targets fixed "mix bus out +3.8 dBu (pan centre)", the −6 dB
+     value, in `sim_netlist.py`. Every later check confirmed the law instead of questioning it.
+3. **The ALPS RK09L (`17d7614`, 2026-10-25).** The pan pot stayed linear B (it was picked for its centre detent),
+   still into followers.
+
+So the fix restores the omitted half: the 1.22× gain and the 3K3s. The same omission covers the PAN-off gain (Option
+B). The Delta's own IC6-B is +1.4 dB against its buffers' +1.7 dB, so even the parent leaves PAN off 0.3 dB under a
+hard pan.
+
 ## 2. The circuit (the Delta's, ED3344C)
 
 U8B / U3A go from followers to 1.22× stages, and a 3K3 from each output back to its wiper lifts the middle of the
