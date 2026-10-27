@@ -205,6 +205,12 @@ jack board) done.
 - `sim/review/cs3/bus_headroom.py` (2026-10-27, CS3 check, no change): per source the summer, re-inverter, master fader
   top and post-amp all carry -6.4 dBu (29.5 dB to clip), the XLR -0.9 dBu against the DRV135's +27 dBu (27.9 dB); 24
   strips at nominal leave 15.7 dB at the summer. The summer clips first only with the master fader > 1.6 dB below "0".
+- `cs4_proposal.md` (+ `cs4_proposal.patch`, tools only) — CS4 worked up, not signed off (2026-10-27): a BAV199 (pin 3 to
+  the signal, pins 2 / 1 to +VA / -VA) on each jack-link signal at CN3 (D18 IN_T, D19 IN_R, D20 RET_RAW, D21 SEND,
+  D22 DO_T), ahead of every series part. `sim/review/cs4/jack_protect.py`: an 8 kV contact discharge leaves the input
+  op-amp 0.09 A (9.6 A as built), an output 0.38 A (18.9 A); phantom leaves C51 / C52 at 17.7 V (41.9). A TVS at the
+  jacks was rejected (-93 / -99 dB THD at 20 kHz from 1 kohm); the clamps cost -106 dB at +20 dBu 20 kHz, nothing at
+  0 dBu. Trial tree 59 / 59, nothing moved. CS4b (group / master) would follow.
 - `cs10_proposal.md` (+ `cs10_proposal.patch`, tools only) — CS10, signed off by Ruslan and applied 2026-10-27 (strip v5.1): a PMEG4010CEH
   reverse Schottky across each audio rail of every strip (D16 / D17) and group board (D5 / D6, created last so no ref
   moves). `sim/review/cs10/rail_loss.py`: a lost rail (wing PTC trip, open ribbon conductor) is driven past ground by

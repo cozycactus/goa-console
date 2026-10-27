@@ -1,0 +1,63 @@
+1. IEC 61000-4-2 contact discharge on the tip: current and charge into the IC pin's own diodes (an HBM 2 kV
+   pin rating, as TI rates its OPA165x / OPA166x audio op-amps, is about 1.33 A peak / 0.2 uC). 8 kV: IEC level 4;
+   4 kV: the contact level EN 55103-2 asks of professional audio (on accessible metal, not usually connector pins)
+     8 kV IN_T     as built                IC  9.616 A, 1.1748 uC, pin  37.0 V
+     8 kV IN_T     link clamps (proposed)  IC  0.094 A, 0.0036 uC, pin  17.9 V; clamp  38.3 A, I2t 2.1e-05 A2s
+     8 kV IN_T     pin clamps              IC  2.764 A, 0.3506 uC, pin  23.3 V; clamp   6.9 A, I2t 3.5e-06 A2s
+     8 kV IN_T     TVS at the jacks        IC  0.793 A, 0.0562 uC, pin  19.3 V
+     8 kV RET_RAW  as built                IC  5.913 A, 1.0163 uC, pin  29.6 V
+     8 kV RET_RAW  link clamps (proposed)  IC  0.001 A, 0.0001 uC, pin  17.5 V; clamp  22.9 A, I2t 1.4e-05 A2s
+     8 kV RET_RAW  pin clamps              IC  1.665 A, 0.3034 uC, pin  21.1 V; clamp   4.3 A, I2t 1.7e-06 A2s
+     8 kV RET_RAW  TVS at the jacks        IC  0.163 A, 0.0118 uC, pin  18.0 V
+     8 kV SEND     as built                IC 18.893 A, 1.1980 uC, pin  50.5 V
+     8 kV SEND     link clamps (proposed)  IC  0.377 A, 0.0843 uC, pin   7.5 V; clamp  22.5 A, I2t 1.4e-05 A2s
+     8 kV SEND     pin clamps              IC  0.377 A, 0.0843 uC, pin   7.5 V; clamp  22.5 A, I2t 1.4e-05 A2s
+     8 kV SEND     TVS at the jacks        IC  2.249 A, 0.1743 uC, pin  20.2 V
+     8 kV DO_T     as built                IC 18.868 A, 1.1960 uC, pin  50.5 V
+     8 kV DO_T     link clamps (proposed)  IC  0.377 A, 0.0843 uC, pin   7.5 V; clamp  22.5 A, I2t 1.4e-05 A2s
+     8 kV DO_T     pin clamps              IC  0.377 A, 0.0843 uC, pin   7.5 V; clamp  22.5 A, I2t 1.4e-05 A2s
+     8 kV DO_T     TVS at the jacks        IC  2.248 A, 0.1742 uC, pin  20.2 V
+     4 kV IN_T     as built                IC  4.789 A, 0.5843 uC, pin  27.4 V
+     4 kV IN_T     link clamps (proposed)  IC  0.047 A, 0.0017 uC, pin  17.7 V; clamp  19.1 A, I2t 5.3e-06 A2s
+     4 kV IN_T     pin clamps              IC  1.378 A, 0.1806 uC, pin  20.5 V; clamp   3.4 A, I2t 8.5e-07 A2s
+     4 kV IN_T     TVS at the jacks        IC  0.416 A, 0.0345 uC, pin  18.5 V
+     4 kV RET_RAW  as built                IC  2.946 A, 0.5061 uC, pin  23.7 V
+     4 kV RET_RAW  link clamps (proposed)  IC  0.000 A, 0.0000 uC, pin  17.5 V; clamp  11.4 A, I2t 3.6e-06 A2s
+     4 kV RET_RAW  pin clamps              IC  0.817 A, 0.1565 uC, pin  19.4 V; clamp   2.2 A, I2t 4.2e-07 A2s
+     4 kV RET_RAW  TVS at the jacks        IC  0.073 A, 0.0070 uC, pin  17.8 V
+     4 kV SEND     as built                IC  9.428 A, 0.5990 uC, pin  33.3 V
+     4 kV SEND     link clamps (proposed)  IC  0.281 A, 0.0792 uC, pin   5.6 V; clamp  11.2 A, I2t 3.3e-06 A2s
+     4 kV SEND     pin clamps              IC  0.281 A, 0.0792 uC, pin   5.6 V; clamp  11.2 A, I2t 3.3e-06 A2s
+     4 kV SEND     TVS at the jacks        IC  1.184 A, 0.1135 uC, pin  18.2 V
+     4 kV DO_T     as built                IC  9.415 A, 0.5979 uC, pin  33.3 V
+     4 kV DO_T     link clamps (proposed)  IC  0.281 A, 0.0792 uC, pin   5.6 V; clamp  11.2 A, I2t 3.3e-06 A2s
+     4 kV DO_T     pin clamps              IC  0.281 A, 0.0792 uC, pin   5.6 V; clamp  11.2 A, I2t 3.3e-06 A2s
+     4 kV DO_T     TVS at the jacks        IC  1.184 A, 0.1134 uC, pin  18.2 V
+
+2. phantom 48 V / 6K8 on an output, steady state (C51 / C52 are 33 uF 25 V)
+   SEND  as built  : C51 (EQOUT) at  41.9 V
+   SEND  rail clamp: C51 (EQOUT) at  17.7 V
+   DO_T  as built  : C52 (DO_T) at  41.9 V
+   DO_T  rail clamp: C52 (DO_T) at  17.7 V
+
+3. THD at U16's input, 1 kohm source (C8 100p, 220R, C94 100p, the op-amp's 9 pF); the solver's floor is about
+   2e-5 % (-134 dB): the as-built rows show it
+    1000 Hz +20 dBu as built              : THD 6.6e-06 % (-143.6 dB)
+    1000 Hz +20 dBu link clamps (proposed): THD 2.7e-05 % (-131.4 dB)
+    1000 Hz +20 dBu pin clamps            : THD 3.2e-05 % (-130.0 dB)
+    1000 Hz +20 dBu TVS at the jacks      : THD 1.1e-04 % (-119.0 dB)
+    1000 Hz  +0 dBu as built              : THD 1.7e-05 % (-135.2 dB)
+    1000 Hz  +0 dBu link clamps (proposed): THD 1.8e-05 % (-134.7 dB)
+    1000 Hz  +0 dBu pin clamps            : THD 2.1e-05 % (-133.5 dB)
+    1000 Hz  +0 dBu TVS at the jacks      : THD 4.7e-05 % (-126.5 dB)
+   20000 Hz +20 dBu as built              : THD 2.0e-05 % (-134.0 dB)
+   20000 Hz +20 dBu link clamps (proposed): THD 5.2e-04 % (-105.7 dB)
+   20000 Hz +20 dBu pin clamps            : THD 6.3e-04 % (-104.0 dB)
+   20000 Hz +20 dBu TVS at the jacks      : THD 2.3e-03 % ( -92.8 dB)
+   20000 Hz  +0 dBu as built              : THD 1.5e-05 % (-136.5 dB)
+   20000 Hz  +0 dBu link clamps (proposed): THD 2.0e-05 % (-133.8 dB)
+   20000 Hz  +0 dBu pin clamps            : THD 6.1e-06 % (-144.4 dB)
+   20000 Hz  +0 dBu TVS at the jacks      : THD 1.1e-03 % ( -99.4 dB)
+
+   DC offset on a 1 Mohm leg from the BAV199's leakage: 3 pA typ -> 3 uV; 5 nA max (at 75 V, far above the
+   ~17 V it sees) -> 5 mV. BAV199 surge: 4 A for 1 us, i.e. an I2t of about 1.6e-5 A2s, against the clamp rows above

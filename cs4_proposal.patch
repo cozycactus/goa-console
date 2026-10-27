@@ -1,0 +1,73 @@
+diff --git a/tools/gen.py b/tools/gen.py
+index e38d6ec..7bb7909 100644
+--- a/tools/gen.py
++++ b/tools/gen.py
+@@ -85,6 +85,15 @@ hdr.update({k:'GNDA' for k in range(2,17,2)})
+ b = block('MOTHERLOOM  (Delta pinout; one header, crimped socket on a daisy-chained ribbon)')
+ P(b,'CN1','HDR','Bus 2x17',hdr,mpn='Wurth 61203421621 (2x17 box header)')
+ 
++b = block('JACK LINK CLAMPS: a BAV199 to the audio rails on every jack signal at CN3 (CS4)')
++# CS4 (console_survey.md §5): ESD and faults on a jack's tip or ring reach the main board through the 10-way link. A
++# low-leakage BAV199 per signal at CN3, ahead of every series part, takes them to the rails' reservoirs: an 8 kV contact
++# discharge leaves the input op-amp 0.09 A (9.6 A as built) and an output's 0.38 A (18.9 A); 48 V phantom on the insert
++# send or the direct out leaves C51 / C52 at 17.7 V, not 41.9 V (sim/review/cs4/jack_protect.py). 3 pA typ leakage
++# into the input legs' 1M; ~2 pF, reverse-biased by the rails: -106 dB at +20 dBu, 20 kHz from a 1 kohm source
++for d_, n_ in (('D18', 'IN_T'), ('D19', 'IN_R'), ('D20', 'RET_RAW'), ('D21', 'SEND'), ('D22', 'DO_T')):
++    P(b, d_, 'DD', 'BAV199', {1: '-VA', 3: n_, 2: '+VA'}, mpn='Nexperia BAV199,215')
++
+ b = block('LINE INPUT - buffered ground-compensated receiver (inverting), Ø switch  SW15: latched = phase reversed')
+ P(b,'CN3','LINK','Jack board link 2x5',LINK,mpn=LINK_MPN)   # J1/J2/J5 and the RF caps C8/C9 are on the jack board
+ # G3 (ground_study.md, signed off 2026-10-25): OPA1656 followers with 1M bias per leg raise the common-mode input
+diff --git a/tools/place_strip.py b/tools/place_strip.py
+index 70a1132..d376336 100644
+--- a/tools/place_strip.py
++++ b/tools/place_strip.py
+@@ -104,6 +104,10 @@ MOVES.update(CS1)
+ # CS10 (cs10_proposal.md, signed off 2026-10-27): the reverse Schottkys beside C1 (+VA) and C3 (-VA), placed by MOVES alone
+ CS10 = {'D16': (15.5, 300.5, 0, 'F'), 'D17': (3.25, 298.25, 0, 'F')}
+ MOVES.update(CS10)
++# CS4 (cs4_proposal.md): the jack-link clamps (BAV199) beside CN3, bottom side, placed by MOVES alone
++CS4 = {'D18': (31.75, 138.25, 0, 'B'), 'D19': (25.0, 124.75, 0, 'B'), 'D20': (20.25, 138.5, 0, 'B'),
++       'D21': (25.0, 120.5, 0, 'B'), 'D22': (13.0, 124.75, 0, 'B')}
++MOVES.update(CS4)
+ # D1 leaves the OL detector zone, so the packer shifts five of its neighbours one slot along (R39 into R15's, R15 into
+ # R104's, ...): they go back to their v4.9 spots, in this order (pre-turn angles: R15 and R107 are in TURNS)
+ MOVES.update({'R39': (36.27, 101.3, 90, 'F'), 'R15': (35.995, 58.225, 90, 'F'), 'R104': (35.995, 62.225, 90, 'F'),
+@@ -205,5 +209,5 @@ if '(ref "CN5")' in open(NET).read():                           # jack board net
+                   hole_value='M3 standoff = jack body height (~24 mm)')
+ else:
+     layout = dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, holes=HOLES, zones=ZONES, notes=NOTES, near=NEAR,
+-                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, moves_only=tuple(NEW49) + tuple(CS1) + tuple(CS10), turns=TURNS, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
++                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, moves_only=tuple(NEW49) + tuple(CS1) + tuple(CS10) + tuple(CS4), turns=TURNS, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
+ place(NET, OUT, layout)
+diff --git a/tools/strip_draw.py b/tools/strip_draw.py
+index d1223a7..0562064 100644
+--- a/tools/strip_draw.py
++++ b/tools/strip_draw.py
+@@ -27,6 +27,17 @@ def receiver(d):
+     d.at('R9', S + 27, 13.5); d.at('C78', S + 33, 13.5); d.w((S + 27, 12), ('C78', 1))
+ 
+ 
++def link_clamps(d):
++    """CS4: a BAV199 per jack signal at CN3 (pin 3 to the signal, pin 2 to +VA, pin 1 to -VA)."""
++    d.shift(0, 4)
++    for k, (dd, net) in enumerate((('D18', 'IN_T'), ('D19', 'IN_R'), ('D20', 'RET_RAW'), ('D21', 'SEND'), ('D22', 'DO_T'))):
++        x = 2 + 14 * k
++        d.at(dd, x + 3, 2)
++        d.w((dd, 1), (x, 0)); d.port('-VA', (x, 0), 'U')
++        d.w((dd, 2), (x + 6, 0)); d.port('+VA', (x + 6, 0), 'U')
++        d.w((dd, 3), (x + 3, 6)); d.port(net, (x + 3, 6), 'D')
++
++
+ def gain(d):
+     """U1B inverting gain stage: RV9 between the two 2K2s, wiper to the - input; C38 / C91 couplers to HIN."""
+     d.w((1, 4), (3, 4)); d.port('RECV', (1, 4))
+@@ -501,7 +512,7 @@ def jumpers(d):
+ 
+ 
+ # a list: the block's pieces, drawn in turn on one sheet, packed separately on pages (schgen.build pages=)
+-DRAWINGS = {'LINE INPUT': receiver, 'GAIN': gain, 'HPF': hpf, 'EQ  ': eq, 'EQ MID TUNING': [khn_band(0), khn_band(1)],
++DRAWINGS = {'JACK LINK CLAMPS': link_clamps, 'LINE INPUT': receiver, 'GAIN': gain, 'HPF': hpf, 'EQ  ': eq, 'EQ MID TUNING': [khn_band(0), khn_band(1)],
+             'EQ IN': eq_in, 'INSERT (': insert, 'OVERLOAD': [overload, overload_cs1], 'PFL': pfl, 'ON / SOFT MUTE': mute, 'FADER': fader,
+             'AUX SENDS': aux, 'DIRECT OUT': direct_out, 'PAN + PAN': pan, 'PAN SWITCH': pan_switch,
+             'ROUTING': [routing_vl] + [routing_assign(k) for k in range(3)],
