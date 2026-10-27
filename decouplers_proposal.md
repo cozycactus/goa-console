@@ -1,9 +1,9 @@
 # Decouplers at their supply pins (proposal E11, 2026-10-27)
 
-**Status: proposal, not signed off.**
+**Signed off by Ruslan on 2026-10-27 and applied the same day; see "Applied" at the end.**
 - **What changes:** placement only, after E9 / E9b / E10. No netlist, part or BOM change.
-- **The trial:** `decouplers_proposal.patch`, a `MOVES.update` in `place_strip.py`, `place_group.py` and
-  `place_master.py`. The committed boards are unchanged.
+- **The change:** `decouplers_proposal.patch`, a `MOVES.update` in `place_strip.py`, `place_group.py` and
+  `place_master.py`.
 
 ## Why
 
@@ -69,4 +69,11 @@ courtyards, through-hole pads, holes, board edge), placed in turn and moved afte
 
 ## Sign-off
 
-- [ ] **E11:** the 21 decouplers above at their supply pins, by `moves`.
+- [x] **E11:** the 21 decouplers above at their supply pins, by `moves`.
+
+## Applied (2026-10-27)
+
+- **Boards:** the three re-placed identically to the trial (13 / 1 / 7 caps moved, nothing else).
+- **Checks:** 0 DRC violations, 0 parity issues, every footprint linked.
+- **Routing rules:** `tools/netrules.py` re-run (net classes unchanged); `tools/netrules_test.py` passes.
+- **Exports and docs:** `render/*.json` re-exported; `routing_guide.md` and CLAUDE.md updated.

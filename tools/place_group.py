@@ -141,6 +141,9 @@ MOVES = {'C35': (36.65, 377.02, 270, 'B'), 'C34': (33.13, 377.52, 180, 'B'), 'C5
 MOVES.update({'R57': (34.22, 160.38, 0, 'B'), 'R55': (32.47, 166.65, 180, 'B'), 'R53': (32.02, 157.11, 180, 'B'),
               'R32': (35.15, 384.77, 180, 'F'), 'R43': (6.27, 139.88, 180, 'B'), 'R46': (10.22, 140.88, 270, 'B'),
               'R10': (31.88, 438.72, 0, 'B')})
+# E11 (decouplers_proposal.md): decouplers more than 5.5 mm from their supply pin moved to it, most on the bottom
+# under the pin (placer `moves`)
+MOVES.update({'C43': (6.97, 218.9, 90, 'F')})
 place(os.path.join(PROJ, 'group.net'), os.path.join(PROJ, 'group.kicad_pcb'),
       dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
            keepout=[(22.0, 185.0, 23.5, 215.0, 'B')],          # silk room beside the links' boxes

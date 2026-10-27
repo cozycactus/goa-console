@@ -224,7 +224,7 @@ jack board) done.
   moves (strip 9, group 7, master 2) shorten the long high-impedance op-amp input nets (MST over 20 mm: strip 17 -> 9,
   group 10 -> 3; e.g. group return receiver U9B- 39 -> 13 mm, master post-amp U5A- 27 -> 13), no net longer, C0G caps
   untouched; 0 DRC / parity.
-- `decouplers_proposal.md` (+ `decouplers_proposal.patch`) — E11 (2026-10-27, not signed off, placement only): 21 SMD
+- `decouplers_proposal.md` (+ `decouplers_proposal.patch`) — E11, signed off and applied 2026-10-27 (placement only): 21 SMD
   decouplers over 5.5 mm from their supply pin moved to it (strip 13, incl. the DG413s' 6-10 mm -> <= 0.55; group 1; master
   7); decouplers over 5 mm strip 14 -> 1, group 2 -> 1, master 27 -> 20 (C144 / C145, the LME49600's THT 10 uF, have no
   nearer spot). 0 DRC / parity.
@@ -622,6 +622,9 @@ jack board) done.
   PSU board's 8 silk-edge items are the TO-220s at its edge (since 8b38deb). Strip report unchanged; group 3.0 / 6.2 / 2,
   8.5 / 20.2 / 31. Group and master panels pixel-identical but for the group's new rows; strip panel one numeral (HF "9"
   in place of HPF "50") since `panel_layout.layout()` takes parts in reference order.
+- E11 applied (2026-10-27, placement only): strip 13 / group 1 / master 7 decouplers moved, nothing else; 0 DRC, 0 parity,
+  every footprint linked; decouplers median / max / over 5 mm: strip 2.5 / 5.4 / 1, group 2.9 / 5.1 / 1, master
+  3.1 / 11.5 / 20 (C144 / C145 THT stay). Routing rules re-generated, all 8 fire.
 - E10 applied (2026-10-27, placement only): strip 9 / group 7 / master 2 resistors moved, nothing else; 0 DRC, 0 parity,
   every footprint linked on all six boards; input nets over 20 mm strip 17 -> 9, group 10 -> 3, master 23 -> 21, none
   longer; emc_check: strip U5B- 7.6 -> 13.6 mm from U4's output, group U9A- 7.0 -> 15.1 mm from D3.

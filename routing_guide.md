@@ -63,6 +63,14 @@ The net classes and DRC rules at the end are written into the projects by `tools
   the drain to the M1 / M2 nodes is a short stub (Self, "offness").
 - **Input:** C94 / C95's GNDA ends via down beside U16's decoupler ground.
 
+### Decouplers (E11)
+- **Where they are:** every SMD decoupler is within 5.5 mm of its supply pin, most on the bottom right under the pin.
+  This includes the DG413s' three each and U16's.
+- **Joining them:** one via from the pin to the cap's rail pad; the cap's ground end vias straight to its own ground,
+  GNDA or GNDD per the netlist.
+- **No daisy chain:** don't run the rail through the cap and on to the next part; the rail tree feeds the cap, and the
+  cap feeds the pin.
+
 ### Stability caps (E9)
 - **Where they are:** the C0G stability caps sit at their op-amp pins, nine of them on the bottom under the op-amp:
   C37, C41, C70, C71, C75, C78, C80, C83 and C85.

@@ -186,6 +186,12 @@ MOVES = {'C37': (41.775, 440.635, 270, 'B'), 'C83': (9.22, 149.65, 180, 'F'), 'C
 # E10 (input_nets_proposal.md): one SMD part per long high-impedance op-amp input net moved so the net shrinks by
 # >= 5 mm without its other net growing more than that (placer `moves`)
 MOVES.update({'R38': (47.525, 438.635, 0, 'F'), 'R33': (30.325, 441.615, 180, 'B')})
+# E11 (decouplers_proposal.md): decouplers more than 5.5 mm from their supply pin moved to it, most on the bottom
+# under the pin (placer `moves`); not C144 / C145, the LME49600's through-hole 10 uF: no spot nearer clears U27's pads
+MOVES.update({'C193': (56.77, 147.9, 90, 'B'), 'C180': (68.56, 414.975, 270, 'B'),
+              'C150': (57.595, 167.695, 270, 'B'), 'C116': (58.22, 280.61, 270, 'B'),
+              'C58': (57.865, 180.135, 180, 'B'), 'C31': (38.825, 439.905, 270, 'B'),
+              'C74': (12.72, 116.15, 270, 'F')})
 place(os.path.join(PROJ, 'master.net'), os.path.join(PROJ, 'master.kicad_pcb'),
       dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
            grounds=('GNDA', 'GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'), silk_text_off=('K',), hole_value='M3 standoff 11.5 mm',
