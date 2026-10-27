@@ -1,0 +1,35 @@
+1. one side against the pan position (0 = hard to the other side, 0.5 = centre, 1 = hard to this side), dB
+   pos   as built   Delta    Delta - hard   const. power (sin/cos)
+    0.0  -999.00  -999.00   -1000.73     -999.00
+    0.1   -20.00   -17.74     -19.46      -16.11
+    0.2   -13.98   -11.27     -13.00      -10.20
+    0.3   -10.46    -7.42      -9.15       -6.86
+    0.4    -7.96    -4.72      -6.44       -4.62
+    0.5    -6.02    -2.71      -4.44       -3.01
+    0.6    -4.44    -1.20      -2.92       -1.84
+    0.7    -3.10    -0.06      -1.79       -1.00
+    0.8    -1.94     0.77      -0.96       -0.44
+    0.9    -0.92     1.35      -0.38       -0.11
+    1.0     0.00     1.73       0.00        0.00
+
+   centre -2.71 dB, hard +1.73 dB: the law 4.44 dB (as built 6.02, constant power 3.01)
+   power sum L^2 + R^2 against hard over, dB (0 = constant power):
+     pos 0.0 as built:  +0.00 dB
+     pos 0.0 Delta   :  +0.00 dB
+     pos 0.1 as built:  -0.86 dB
+     pos 0.1 Delta   :  -0.32 dB
+     pos 0.2 as built:  -1.67 dB
+     pos 0.2 Delta   :  -0.70 dB
+     pos 0.3 as built:  -2.37 dB
+     pos 0.3 Delta   :  -1.06 dB
+     pos 0.4 as built:  -2.84 dB
+     pos 0.4 Delta   :  -1.33 dB
+     pos 0.5 as built:  -3.01 dB
+     pos 0.5 Delta   :  -1.43 dB
+
+2. levels and headroom (0 dBu in, gain at the detent, faders at "0"; cs3/bus_headroom.py, sim_console.py)
+   mix and subs per source: +3.31 dB at centre, +1.73 dB hard over (PAN off: unchanged, POST)
+   summer per centred source: -6.4 -> -3.1 dBu (29.5 -> 26.2 dB to clip)
+   24 strips at nominal: summer +7.4 -> 10.7 dBu (12.4 dB margin); main XLR +12.9 -> 16.2 dBu
+   main L, one centred source at unity: -0.8 -> 2.5 dBu (sim_console +2.45)
+   the pan buffers clip 1.7 dB before POST when hard over: the overload LED (taps FPOST) misses that window

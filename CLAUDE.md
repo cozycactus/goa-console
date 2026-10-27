@@ -208,6 +208,12 @@ jack board) done.
   follow-up), line CMR (1 kohm tip: 60 / 56 / 38 / 32 dB at 50 / 1k / 10k / 20k, the 100 pF caps), fader / pan
   residuals vs end resistance (-80 dB needs <= 0.3 ohm: decides CS9), faders-down MIX noise N 4..24 (-106.7..-100.1
   dBu), GCANCEL current.
+- `cs2_proposal.md` (+ `cs2_proposal.patch`, tools only) — CS2 worked up, not signed off (2026-10-27): the Delta's pan law
+  (ED3344C) on the strip: U8B / U3A at 1.22x (2K2 / 10K) with 3K3 back to the wipers (R136-R141), -2.7 dB centre, +1.7 dB
+  hard (4.4 dB law); 22p C0G across each 2K2 (C105 / C106) needed: without it TI's model gives 32 / 14 deg, with it
+  81.6-85.3. Mix +3.3 dB at centre (summer headroom 29.5 -> 26.2 dB per source), S/N unchanged; PAN off stays POST
+  (1.7 dB under a hard pan; matching it needs a bus coupler no D10 spot allows). sim_netlist 41/41, sim_console 35/35
+  with shifted targets, trial 61 / 61. `sim/review/cs2/pan_law.py`.
 - `cs11b_proposal.md` (+ `cs11b_proposal.patch`, tools only) — CS11b, signed off by Ruslan and applied 2026-10-27: each DRV135's
   two 10 uF couplers as a pair sorted within 2 % (MPN note; LME49600 bypasses and the jig stub as bought; 10 sorting
   spares in `order_bom.py`). `sim/review/cs11/drv_couplers.py` (TI model): output balance worst 5 % at 1 kHz / 100 Hz

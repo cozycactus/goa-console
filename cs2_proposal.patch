@@ -1,0 +1,172 @@
+diff --git a/tools/gen.py b/tools/gen.py
+index 4cfc885..bcdca1b 100644
+--- a/tools/gen.py
++++ b/tools/gen.py
+@@ -331,8 +331,14 @@ P(b,'RV8','POT2','Pan 10K lin dual CD',{1:'POST',3:'GNDA',2:'PANWL',4:'GNDA',6:'
+   fp='Potentiometer_THT:Potentiometer_Alps_RK09L_Double_Vertical',mpn='ALPS RK09L1240015')
+ # PAN1 (pan_buffer_proposal.md): pan buffer L in U8B (it was the spare), beside the pan pot; U2B at the fader end is
+ # the spare now, so the pan L wiper no longer runs 165 mm to the fader end
+-P(b,'U8','OPA','OPA1612',{5:'PANWL',6:'PBL',7:'PBL'},unit=2); P(b,'C79','C','10p C0G',{1:'PANWL',2:'GNDA'},fp=C0G)
+-P(b,'U3','OPA','OPA1612',{3:'PANWR',2:'PBR',1:'PBR'},unit=1); P(b,'C80','C','10p C0G',{1:'PANWR',2:'GNDA'},fp=C0G)
++# CS2 (cs2_proposal.md): the Delta's pan law (ED3344C): each buffer at 1.22x (2K2 / 10K) with 3K3 from its output back
++# to its wiper: -2.7 dB at centre, +1.7 dB hard over, a 4.4 dB law (was a plain -6 dB with followers)
++P(b,'U8','OPA','OPA1612',{5:'PANWL',6:'PBL_N',7:'PBL'},unit=2); P(b,'C79','C','10p C0G',{1:'PANWL',2:'GNDA'},fp=C0G)
++P(b,'U3','OPA','OPA1612',{3:'PANWR',2:'PBR_N',1:'PBR'},unit=1); P(b,'C80','C','10p C0G',{1:'PANWR',2:'GNDA'},fp=C0G)
++P(b,'R136','R','3K3',{1:'PBL',2:'PANWL'}); P(b,'R137','R','2K2',{1:'PBL_N',2:'PBL'}); P(b,'R138','R','10K',{1:'GNDA',2:'PBL_N'})
++P(b,'R139','R','3K3',{1:'PBR',2:'PANWR'}); P(b,'R140','R','2K2',{1:'PBR_N',2:'PBR'}); P(b,'R141','R','10K',{1:'GNDA',2:'PBR_N'})
++# C0G across each 2K2: the op-amp's input capacitance against 2K2 // 10K puts a pole at the 15-20 MHz crossover
++P(b,'C105','C','22p C0G',{1:'PBL_N',2:'PBL'},fp=C0G); P(b,'C106','C','22p C0G',{1:'PBR_N',2:'PBR'},fp=C0G)
+ P(b,'C16','C','100u NP 25V',{1:'PBL',2:'PANL'},fp=CAP_FP['220u']); P(b,'R36','R','47K',{1:'PANL',2:'GNDA'})
+ P(b,'C17','C','100u NP 25V',{1:'PBR',2:'PANR'},fp=CAP_FP['220u']); P(b,'R37','R','47K',{1:'PANR',2:'GNDA'})
+ 
+diff --git a/tools/place_strip.py b/tools/place_strip.py
+index 3c305f1..b9e2a83 100644
+--- a/tools/place_strip.py
++++ b/tools/place_strip.py
+@@ -108,6 +108,12 @@ MOVES.update(CS10)
+ CS4 = {'D18': (31.75, 138.25, 0, 'B'), 'D19': (25.0, 124.75, 0, 'B'), 'D20': (20.25, 138.5, 0, 'B'),
+        'D21': (25.0, 120.5, 0, 'B'), 'D22': (13.0, 124.75, 0, 'B')}
+ MOVES.update(CS4)
++# CS2 (cs2_proposal.md): the pan buffers' gain resistors, their 22p and the 3K3s back to the wipers, under U8 / U3 on the bottom,
++# placed by MOVES alone
++CS2 = {'R137': (7.5, 240.5, 90, 'B'), 'R138': (10.0, 240.5, 90, 'B'), 'R136': (7.25, 243.75, 0, 'B'),
++        'R140': (20.5, 235.75, 0, 'B'), 'R141': (10.25, 236.5, 90, 'B'), 'R139': (11.75, 244.5, 90, 'B'),
++        'C105': (6.25, 237.25, 0, 'B'), 'C106': (16.5, 235.75, 0, 'B')}
++MOVES.update(CS2)
+ # CS6 (cs6_proposal.md): R1-R4 are fusible 1206s (Vishay M25SI), too big for the E4 cluster, so they leave the packer:
+ # placed by MOVES alone at probed spots by the header's power pins (R1 / R2 top, at their old spots; R3 / R4 bottom).
+ # C2 / C4 stay fixed where they were, and the old 0805 spots are kept out of packing, so every other part packs as before
+@@ -217,5 +223,5 @@ if '(ref "CN5")' in open(NET).read():                           # jack board net
+                   hole_value='M3 standoff = jack body height (~24 mm)')
+ else:
+     layout = dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, holes=HOLES, zones=ZONES, notes=NOTES, near=NEAR,
+-                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, moves_only=tuple(NEW49) + tuple(CS1) + tuple(CS10) + tuple(CS4) + tuple(CS6), keepout=CS6_KEEP, turns=TURNS, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
++                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, moves_only=tuple(NEW49) + tuple(CS1) + tuple(CS10) + tuple(CS4) + tuple(CS6) + tuple(CS2), keepout=CS6_KEEP, turns=TURNS, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
+ place(NET, OUT, layout)
+diff --git a/tools/sim_console.py b/tools/sim_console.py
+index bc3eb2c..38f62c7 100644
+--- a/tools/sim_console.py
++++ b/tools/sim_console.py
+@@ -298,9 +298,11 @@ def deg(expr, name): return [f'let {name} = ph({expr})*180/pi', f'print {name}']
+ SRC = 0.7746                                          # 0 dBu
+ # Expected levels follow the gain structure. Unity through a strip and the master at their faders' "0" marks is
+ # -0.8 dB here: each "0" mark gives -10.19 dB (the wiper's ~2.2 kohm drives the post-amp's 100K), each post-amp
+-# +9.93 dB (1 + 4K7/2K2), and the master's insert 75R and post-amp 47R build-outs -0.18 dB. Pan centre is -6 dB
+-# per side (linear dual), the DRV134 +6 dB differential, the CRS build-out -0.3 dB.
++# +9.93 dB (1 + 4K7/2K2), and the master's insert 75R and post-amp 47R build-outs -0.18 dB. The DRV134 adds +6 dB
++# differential, the CRS build-out -0.3 dB. UNITY assumes the old -6 dB pan centre; since CS2 (cs2_proposal.md, the
++# Delta's law) a strip's pan sits PANC higher at centre (-2.7 dB, not -6) and PANH above POST hard over.
+ UNITY = -0.82
++PANC, PANH = 3.27, 1.68
+ 
+ checks = []
+ def check(name, got, lo, hi, unit='dB'):
+@@ -323,17 +325,17 @@ def t_levels():
+     s, g, m = default_console(one(0))
+     r, _ = run(console(s, g, m), AC1K + dbu(diff(XLR['L']), 'ml') + dbu(diff(XLR['R']), 'mr') + dbu(diff(XLR['M']), 'mm')
+                + deg(diff(XLR['L']), 'pl') + dbu('v(JB_CRL_XP,JB_CRL_XN)', 'cr') + dbu('v(JB_PHJ_L)', 'ph'))
+-    check('main L (XLR differential), 0 dBu in, pan centre, faders at "0" (unity -0.8 dB)', r.get('ml'), UNITY - 0.2, UNITY + 0.2)
+-    check('main R', r.get('mr'), UNITY - 0.2, UNITY + 0.2)
++    check('main L (XLR differential), 0 dBu in, pan centre (-2.7 dB), faders at "0"', r.get('ml'), UNITY + PANC - 0.2, UNITY + PANC + 0.2)
++    check('main R', r.get('mr'), UNITY + PANC - 0.2, UNITY + PANC + 0.2)
+     check('main L polarity: XLR pin 2 in phase with the input tip', abs(r.get('pl', 99)), 0, 5, 'deg')
+-    check('main mono (L + R of a centre-panned source: +6 dB)', r.get('mm'), UNITY + 5.8, UNITY + 6.2)
+-    check('C/Room L (TRS differential, C/ROOM at the top; CRS build-out -0.3 dB)', r.get('cr'), UNITY - 0.5, UNITY - 0.1)
+-    check('phones L into 32 ohm (PHONES at the top, single-ended, +9.9 dB)', r.get('ph'), UNITY - 0.3 - 6.02 + 9.93 - 0.3, UNITY - 0.3 - 6.02 + 9.93 + 0.3)
++    check('main mono (L + R of a centre-panned source: +6 dB)', r.get('mm'), UNITY + PANC + 5.8, UNITY + PANC + 6.2)
++    check('C/Room L (TRS differential, C/ROOM at the top; CRS build-out -0.3 dB)', r.get('cr'), UNITY + PANC - 0.5, UNITY + PANC - 0.1)
++    check('phones L into 32 ohm (PHONES at the top, single-ended, +9.9 dB)', r.get('ph'), UNITY + PANC - 0.3 - 6.02 + 9.93 - 0.3, UNITY + PANC - 0.3 - 6.02 + 9.93 + 0.3)
+ 
+ def t_pan():
+     s, g, m = default_console(one(0, pos={'RV8': 0.0}))
+     r, _ = run(console(s, g, m), AC1K + dbu(diff(XLR['L']), 'ml') + dbu(diff(XLR['R']), 'mr'))
+-    check('pan hard left: main L (+6 dB against centre)', r.get('ml'), UNITY + 5.8, UNITY + 6.2)
++    check('pan hard left: main L (+4.4 dB against centre: the Delta\'s law)', r.get('ml'), UNITY + 6.02 + PANH - 0.2, UNITY + 6.02 + PANH + 0.2)
+     check('pan hard left: main R (pan rejection)', r.get('mr'), -400, -60)
+ 
+ def t_mute_route():
+@@ -348,12 +350,12 @@ def t_sub():
+     """Strip 1 routed 1-2 (not L-R), pan centre -> group 1 (SUB 1) -> sub out; then sub to MIX."""
+     s, g, m = default_console(one(0, sw={'SW5': False, 'SW6': True}))
+     r, _ = run(console(s, g, m), AC1K + dbu('v(g1_JB_S_OP,g1_JB_S_ON)', 'so') + dbu(diff(XLR['L']), 'ml'))
+-    check('strip 1 to SUB 1: group 1 sub out (TRS differential, sub fader at "0")', r.get('so'), -1.2, -0.6)
++    check('strip 1 to SUB 1: group 1 sub out (TRS differential, sub fader at "0")', r.get('so'), -1.2 + PANC, -0.6 + PANC)
+     check('SUB not routed to MIX: main L', r.get('ml'), -400, -75)
+     s, g, m = default_console(one(0, sw={'SW5': False, 'SW6': True}), group_cfg=lambda k: dict(sw={'SW1': True}) if k == 0 else {})
+     r, _ = run(console(s, g, m), AC1K + dbu(diff(XLR['L']), 'ml') + dbu(diff(XLR['R']), 'mr'))
+-    check('SUB 1 to MIX (sub pan centre, -6 dB): main L', r.get('ml'), -7.7, -7.0)
+-    check('SUB 1 to MIX: main R', r.get('mr'), -7.7, -7.0)
++    check('SUB 1 to MIX (sub pan centre, -6 dB): main L', r.get('ml'), -7.7 + PANC, -7.0 + PANC)
++    check('SUB 1 to MIX: main R', r.get('mr'), -7.7 + PANC, -7.0 + PANC)
+ 
+ def t_aux():
+     s, g, m = default_console(one(0, pos={'RV2': 1.0, 'RV6': 1.0}, sw={'SW8': True, 'SW10': True}))
+@@ -443,7 +445,7 @@ def t_noise():
+     then a single strip routed (the others unassigned)."""
+     # a strip's PRE noise with EQ in is -92.9 dBu: -96.7 from its resistors, the rest the OPA1612's 1.7 pA/rtHz current
+     # noise in the 22K EQ and KHN networks. 24 such strips at pan centre sum to -84.9 dBu on MIX L; +6 dB DRV134
+-    for label, f, lo, hi in (('24 strips routed', None, -81, -77), ('1 strip routed', lambda k: dict(sw={'SW5': k == 0}), -93, -89)):
++    for label, f, lo, hi in (('24 strips routed', None, -81 + PANC, -77 + PANC), ('1 strip routed', lambda k: dict(sw={'SW5': k == 0}), -93 + PANC, -89 + PANC)):
+         s, g, m = default_console(f)
+         s[0].plugs['JB_J1'] = ('src', 1, 50, False)
+         r, out = run(console(s, g, m), [f'noise {diff(XLR["L"])} v{s[0].name}_JB_J1 dec 20 20 20k', 'setplot noise2',
+diff --git a/tools/sim_netlist.py b/tools/sim_netlist.py
+index 6a3e5f6..4432ad9 100644
+--- a/tools/sim_netlist.py
++++ b/tools/sim_netlist.py
+@@ -141,7 +141,10 @@ r = run(TOP, ON, AC1K, [dbu('PRE'), dbu('POST'), dbu('MIXL_O'), 'print x_PRE', '
+ check('PRE, 0 dBu in, gain at detent, EQ flat', r.get('x_pre'), -0.3, 0.3)
+ check('PRE phase (tip = hot)', r.get('ph'), -5, 5, 'deg')
+ check('POST, fader at top (+10 dB post-amp)', r.get('x_post'), 9.5, 10.3)
+-check('MIX L bus out, pan centre', r.get('x_mixl_o'), 3.3, 4.3)
++check('MIX L bus out, pan centre (CS2: -2.7 dB against POST, the Delta\'s law)', r.get('x_mixl_o'), 6.6, 7.6)
++r = run({**TOP, 'RV8': 0.0}, ON, AC1K, [dbu('MIXL_O'), dbu('MIXR_O'), 'print x_MIXL_O', 'print x_MIXR_O'])
++check('pan hard left: MIX L bus out (+1.7 dB against POST)', r.get('x_mixl_o'), 11.1, 12.0)
++check('pan hard left: MIX R (the far side)', r.get('x_mixr_o'), -400, -60)
+ for th, lo, hi in ((0.0, -15.5, -14.5), (1.0, 14.3, 15.3)):
+     r = run({**TOP, 'RV9': th}, ON, AC1K, [dbu('PRE'), 'print x_PRE'])
+     check(f'gain pot at {"CCW" if th == 0 else "CW"}', r.get('x_pre'), lo, hi)
+@@ -192,11 +195,11 @@ check('ON unlatched, DIR + PRE 5-6: direct out muted', r.get('x_' + node('J5','T
+ r = run({**TOP, 'RV2': 1.0}, ON, AC1K, [dbu('AUX1_O'), 'print x_AUX1_O'])
+ check('PRE 1-2 off: aux 1 bus out (post-fader, fader at top)', r.get('x_aux1_o'), 9.5, 10.3)
+ r = run(TOP, {**ON, 'SW6': True}, AC1K, [dbu('SUB1_O'), 'print x_SUB1_O'])
+-check('PAN on, routed 1-2: SUB 1 out (panned, centre)', r.get('x_sub1_o'), 3.3, 4.3)
++check('PAN on, routed 1-2: SUB 1 out (panned, centre)', r.get('x_sub1_o'), 6.6, 7.6)
+ r = run(TOP, {**ON, 'SW6': True, 'SW14': False}, AC1K, [dbu('SUB1_O'), 'print x_SUB1_O'])
+-check('PAN off, routed 1-2: SUB 1 out (POST, unpanned)', r.get('x_sub1_o'), 9.4, 10.3)
++check('PAN off, routed 1-2: SUB 1 out (POST, unpanned; 1.7 dB under a hard pan since CS2)', r.get('x_sub1_o'), 9.4, 10.3)
+ r = run(TOP, {**ON, 'SW7': True}, AC1K, [dbu('SUB4_O'), 'print x_SUB4_O'])
+-check('routed 3-4: SUB 4 out (right side, panned, centre)', r.get('x_sub4_o'), 3.3, 4.3)
++check('routed 3-4: SUB 4 out (right side, panned, centre)', r.get('x_sub4_o'), 6.6, 7.6)
+ r = run(TOP, {**ON, 'SW5': False}, AC1K, [dbu('MIXL_O'), dbu('MIXR_O'), 'print x_MIXL_O', 'print x_MIXR_O'])
+ check('L-R off: MIX L silent (4K7 end to AGND through the DG413)', r.get('x_mixl_o'), -400, -60)
+ check('L-R off: MIX R silent', r.get('x_mixr_o'), -400, -60)
+diff --git a/tools/strip_draw.py b/tools/strip_draw.py
+index 0562064..e425c22 100644
+--- a/tools/strip_draw.py
++++ b/tools/strip_draw.py
+@@ -396,13 +396,22 @@ def pan(d):
+     for pn, x in (('3', 11), ('4', 13)): d.w(('RV8', pn), (x, 16)); d.gnd((x, 16))
+     d.w(('RV8', 1), (8, 18), (16, 18), ('RV8', 6)); d.w((8, 18), (5, 18)); d.port('POST', (5, 18))
+     d.at('U8', 8, 6, mirror='x', unit=2)
+-    d.w(('U8', 7), (12, 6), (12, 3), (4, 3), (4, 5), ('U8', 6))
++    # CS2: 1.22x (R137 2K2 / R138 10K) and R136 3K3 back to the wiper: the Delta's -4.4 dB law
++    d.at('R137', 10.5, 3, rot=90, text='U'); d.w(('U8', 7), (12, 6), (12, 3), ('R137', 2))
++    d.w(('R137', 1), (4, 3), (4, 5), ('U8', 6))
++    d.at('R138', 2.5, 3, rot=90, text='U'); d.w(('R138', 2), (4, 3)); d.w(('R138', 1), (1, 4)); d.gnd((1, 4))
++    d.at('C105', 10.5, 1, rot=90, text='U'); d.w((9, 3), (9, 1), ('C105', 1)); d.w(('C105', 2), (12, 1), (12, 3))
+     d.w(('U8', 5), (3, 7), (3, 10), (9.5, 10), ('RV8', 2)); d.at('C79', 3, 11.5, text='L')
++    d.at('R136', 12, 8.5, text='R'); d.w((12, 6), ('R136', 1)); d.w(('R136', 2), (12, 10), (9.5, 10))
+     d.at('C16', 15.5, 6, rot=90, text='U'); d.w((12, 6), ('C16', 1))
+     d.w(('C16', 2), (21, 6)); d.port('PANL', (21, 6), 'R'); d.at('R36', 18, 7.5)
+     d.at('U3', 36, 6, mirror='x', unit=1)
+-    d.w(('U3', 1), (40, 6), (40, 3), (32, 3), (32, 5), ('U3', 2))
++    d.at('R140', 38.5, 3, rot=90, text='U'); d.w(('U3', 1), (40, 6), (40, 3), ('R140', 2))
++    d.w(('R140', 1), (32, 3), (32, 5), ('U3', 2))
++    d.at('R141', 30.5, 3, rot=90, text='U'); d.w(('R141', 2), (32, 3)); d.w(('R141', 1), (29, 4)); d.gnd((29, 4))
++    d.at('C106', 38.5, 1, rot=90, text='U'); d.w((37, 3), (37, 1), ('C106', 1)); d.w(('C106', 2), (40, 1), (40, 3))
+     d.w(('U3', 3), (31, 7), (31, 11), (14.5, 11), ('RV8', 5)); d.at('C80', 31, 12.5)
++    d.at('R139', 40, 8.5, text='R'); d.w((40, 6), ('R139', 1)); d.w(('R139', 2), (40, 11), (31, 11))
+     d.at('C17', 43.5, 6, rot=90, text='U'); d.w((40, 6), ('C17', 1))
+     d.w(('C17', 2), (49, 6)); d.port('PANR', (49, 6), 'R'); d.at('R37', 46, 7.5)
+ 

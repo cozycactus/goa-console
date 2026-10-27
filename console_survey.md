@@ -142,7 +142,8 @@ strongly the library supports them.
     clip level.
   - *Cost:* about 4-8 small parts per strip, likely no new IC. Re-run `sim/review/gaps/ol.py`; check loading on U1B /
     U2A (C0G and phase margin).
-- [ ] **CS2 Pan law −4.4 dB, as the Delta (ED3344C) and Venue Theatre (ED3151).**
+- [ ] **CS2 Pan law −4.4 dB, as the Delta (ED3344C) and Venue Theatre (ED3151).** Worked up 2026-10-27 in
+  `cs2_proposal.md` (the Delta's network, the 22 pF it needs on our OPA1612s, PAN off unmatched), not signed off.
   - *The circuit:* 3K3 from each pan buffer's output back to its pot wiper; buffers at 1.22× (2K2 / 10K). Result:
     −2.7 dB at centre, +1.7 dB hard-panned.
   - *The gap:* ours is a plain −6 dB, so a centred mono synth sits 1.6 dB lower against panned stereo sources than on
