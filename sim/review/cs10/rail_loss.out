@@ -1,0 +1,15 @@
+strip / group audio rails, 100 ms after the event (R_PIN: the ICs' own protection paths to ground)
+event                           R_PIN  diodes |  -VA max  +VA min |  IC paths peak
+lose -V                            20    none |    +2.51   +16.00 |       87.00 mA
+lose -V                            20    PMEG |    +0.36   +16.00 |        0.00 mA
+lose -V                           200    none |   +12.70   +16.00 |       59.72 mA
+lose -V                           200    PMEG |    +0.36   +16.00 |        0.00 mA
+lose +V                            20    none |   -16.13    -2.51 |       87.00 mA
+lose +V                            20    PMEG |   -16.13    -0.36 |        0.00 mA
+lose +V                           200    none |   -16.13   -12.81 |       60.26 mA
+lose +V                           200    PMEG |   -16.13    -0.36 |        0.00 mA
+power-down, +V faster              20    none |    -0.00    -0.11 |        0.00 mA
+power-down, +V faster              20    PMEG |    -0.00    -0.11 |        0.00 mA
+power-down, +V faster             200    none |    -0.00    -0.11 |        0.00 mA
+power-down, +V faster             200    PMEG |    -0.00    -0.11 |        0.00 mA
+without the diodes, -VA crosses +0.3 V 42.0 ms after -V is lost

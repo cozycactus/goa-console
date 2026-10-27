@@ -202,6 +202,12 @@ jack board) done.
   series (Phonic OEM), Spirit E8, Mackie 1604 / 1402-VLZ and 8•Bus; nothing weaker in ours. New proposals CS9 (fader
   shut-off compensation as A&H, only if the PTB0143 sample's residual is worse than -80 dB), CS10 (reverse diodes per
   rail on every strip / group board), CS11 (jig tests: output balance, measured CMR, fader breakthrough, GCANCEL current).
+- `cs10_proposal.md` (+ `cs10_proposal.patch`, tools only) — CS10 worked up, not signed off (2026-10-27): a PMEG4010CEH
+  reverse Schottky across each audio rail of every strip (D16 / D17) and group board (D5 / D6, created last so no ref
+  moves). `sim/review/cs10/rail_loss.py`: a lost rail (wing PTC trip, open ribbon conductor) is driven past ground by
+  the op-amps' 87 mA, C1 / C3 reversed by 2.5-12.7 V and 60-87 mA through the ICs' protection diodes; with the diodes
+  +-0.36 V and 0 mA. Trial tree 59 / 59, placement by moves_only (nothing else moved). Option B: four SS54s on the master
+  after the wing PTCs.
 - `cs1_proposal.md` (+ `cs1_proposal.patch`, tools only) — CS1, signed off by Ruslan and applied 2026-10-27 (strip v5.0): the OL LED from
   RECV / GOUT / EQOUT / PRESRC / FPOST through 1K + BAV99 each; positive peaks into PK as built, negative peaks into
   OL_NN (C103 // R134, PK's mirror) read by a new U18A through a 4M99 / 10M divider from +VL (thresholds ratios of +VL
