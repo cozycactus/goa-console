@@ -53,6 +53,7 @@ CLASSES = {'Default': (0.25, 0.2, 0.6, 0.3), 'Ground': (0.6, 0.2, 0.6, 0.3), 'Ch
            'WingFeed': (2.0, 0.3, 1.0, 0.5), 'HighCurrent': (3.0, 0.3, 1.0, 0.5)}
 # the PSU (psu_spec.md section 7): its 4 A paths, SMPS in -> chokes -> LDOs -> output, and the 0 V return
 PSU_HIGH = {'POS_IN', 'NEG_IN', 'POS_LC', 'NEG_LC', '+V', '-V', '0V'}
+DETECTOR = {'PK', 'OL_NN'}     # strip overload peak lines (CS1): diode current pulses at overload, up to ~330 mm long
 # class clearances stay at the board's 0.2 mm: footprints have pad gaps down to 0.25 mm (the load board's slide switches);
 # the wider spacings are track rules in DRU
 DRU = """(version 1)
@@ -138,7 +139,7 @@ def classes_of(path):
         elif n in bus: c = 'Bus'
         elif n in entry: c = 'Entry'
         elif ins and not outs and len(ins) < 3: c = 'HighZ'
-        elif n in agg: c = 'Switching'
+        elif n in agg or n in DETECTOR: c = 'Switching'
         else: c = 'Default'
         out[real.get(n, n)] = c
     return out

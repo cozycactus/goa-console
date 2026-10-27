@@ -1,8 +1,9 @@
-# Test Jig — Specification, v0.7 (draft)
+# Test Jig — Specification, v0.8 (draft)
 ## Bus and grounding tests before ordering 24 strips
 
 Implements `console_architecture.md` section 9 with the designs as they now stand
-(strip spec v4.7 with its jack board, master spec v0.12; v0.6, 2026-10-25: the N1 A/B brought to strip v4.4, 4.2;
+(strip spec v5.0 with its jack board, master spec v0.12; v0.8, 2026-10-27: the five-point, two-polarity overload LED
+(CS1) in 4.1; v0.6, 2026-10-25: the N1 A/B brought to strip v4.4, 4.2;
 v0.7, 2026-10-26: the strip's signal / overload LED (MET1) in 4.1 and the strip current at v4.7).
 The strips' bus header carries +V on pin 34 too (wing_power_proposal.md W1), as the stub's and load board's do. Goal: confirm the Delta-style unbalanced bus with ground
 cancel (config **D**) against the same bus without it (config **A**), and measure noise, hum,
@@ -122,6 +123,10 @@ Targets from `tools/sim_netlist.py` (the exported netlists, 39 checks), `sim/mid
 | PFL: bus level, PFL DET, LED | 0 dBu; master PFL logic switches |
 | Signal LED (D2 green), 1 kHz sine at PRE | lights from about −20 dBu (sim −19.5); stays lit about 170 ms after the signal stops; dark with the input terminated |
 | Overload LED (D2 red), 1 kHz sine at PRE | red alone (green off) from about +18 dBu (sim +18.4; +18.1 at 50 Hz); a 2-cycle burst at +19 dBu lights it for about 150 ms |
+| Overload LED, negative peaks (v5.0, CS1) | a 1 kHz, 10 % pulse wave at the input, gain at the detent: red from about 9.0 V on the narrow peak whichever its polarity (sim +9.01 / −9.30 V); invert the pulse and it lights at the same level |
+| Overload LED, post-amp (v5.0) | +14 dBu at PRE (red off), then the fader to the top: red lights (FPOST clips at about +23 dBu) |
+| Overload LED, gain stage (v5.0) | 1 kHz at +15 dBu in, gain +9 dB (GOUT clips), LO-MID fully cut with its frequency at 1 kHz: red lights though PRE stays near +8 dBu |
+| Overload LED at power-off | no red flash as the rails fall (the v5.0 negative side depends on +VL only); the ~150 ms red at power-up is the hold cap charging |
 | D2 brightness behind the panel | both colours readable at about 3.2 mA (R15 / R124 4K7); change those two resistors if not |
 | Supply current per strip (typical) | about 100 mA +V (104 with the green lit), 87 mA −V; more than 125 / 105 mA means a fault |
 

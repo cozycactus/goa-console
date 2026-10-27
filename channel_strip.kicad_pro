@@ -645,6 +645,10 @@
         "pattern": "Net-(R127-Pad1)"
       },
       {
+        "netclass": "Switching",
+        "pattern": "Net-(R135-Pad1)"
+      },
+      {
         "netclass": "HighZ",
         "pattern": "Net-(U12A-+)"
       },
@@ -753,12 +757,20 @@
         "pattern": "OL_K"
       },
       {
+        "netclass": "Switching",
+        "pattern": "OL_NN"
+      },
+      {
         "netclass": "Bus",
         "pattern": "PFL"
       },
       {
         "netclass": "Bus",
         "pattern": "PFLDET"
+      },
+      {
+        "netclass": "Switching",
+        "pattern": "PK"
       },
       {
         "netclass": "Entry",

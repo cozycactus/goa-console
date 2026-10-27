@@ -1,33 +1,33 @@
-proposed: RT 1K per tap; NN rest 0.51 V, NC rest 11.45 V against VREF 8.45 V; NN trips at -8.48 V, PK at +8.45 V
+v5.0: RT 1K per tap; NN rest 0.51 V, NC rest 11.45 V against VREF 8.45 V; NN trips at -8.48 V, PK at +8.45 V
 
 1. sine threshold on each tap alone (dBu; the op-amps clip at +23.0 dBu):
-   as built, PRESRC, 1 kHz:  18.4
-   proposed, recv   1 kHz:  18.4
-   proposed, gout   1 kHz:  18.4
-   proposed, eqout  1 kHz:  18.4
-   proposed, presrc 1 kHz:  18.4
-   proposed, fpost  1 kHz:  18.4
-   proposed, presrc    50 Hz:  18.1
-   proposed, presrc 10000 Hz:  18.5
+   v4.9, PRESRC, 1 kHz:  18.4
+   v5.0, recv   1 kHz:  18.4
+   v5.0, gout   1 kHz:  18.4
+   v5.0, eqout  1 kHz:  18.4
+   v5.0, presrc 1 kHz:  18.4
+   v5.0, fpost  1 kHz:  18.4
+   v5.0, presrc    50 Hz:  18.1
+   v5.0, presrc 10000 Hz:  18.5
 
 2. polarity: 10 % pulse wave on PRESRC, the narrow peak (V) that lights the red:
-   positive: as built  9.01, proposed  9.01
-   negative: as built never (> 30), proposed  9.29
-   one half-cycle at 1 kHz: as built + 10.46 V; proposed + 10.46 V / - 10.76 V
+   positive: v4.9  9.01, v5.0  9.01
+   negative: v4.9 never (> 30), v5.0  9.29
+   one half-cycle at 1 kHz: v4.9 + 10.46 V; v5.0 + 10.46 V / - 10.76 V
 
 3. clipping the as-built detector misses (1 kHz):
-   gain stage clips, EQ cuts 10 dB after it (in +15 dBu, gain +9 dB): as built off, proposed RED
-   post-amp clips: PRE +14 dBu, fader at the top (FPOST +24 dBu): as built off, proposed RED
-   negative-going 10 % pulse, -14 V narrow peak, everywhere: as built off, proposed RED
-   input clips at the receiver (+26 dBu), gain -15 dB: as built off, proposed RED
+   gain stage clips, EQ cuts 10 dB after it (in +15 dBu, gain +9 dB): v4.9 off, v5.0 RED
+   post-amp clips: PRE +14 dBu, fader at the top (FPOST +24 dBu): v4.9 off, v5.0 RED
+   negative-going 10 % pulse, -14 V narrow peak, everywhere: v4.9 off, v5.0 RED
+   input clips at the receiver (+26 dBu), gain -15 dB: v4.9 off, v5.0 RED
 
-4. no false red (proposed):
+4. no false red (v5.0):
    +16 dBu sine on all five taps: red off
    +16 dBu at 10 kHz on all five: red off
    10 % pulses, +-8 V narrow peaks, mixed polarity: red off
    silence: red off
 
-5. a 1 kHz burst on PRESRC, n cycles: red lit for (proposed / as built)
+5. a 1 kHz burst on PRESRC, n cycles: red lit for (v5.0 / v4.9)
      20 dBu: 1: 153 / 153 ms; 2: 159 / 159 ms; 5: 164 / 164 ms
      22 dBu: 1: 165 / 165 ms; 2: 170 / 170 ms; 5: 175 / 175 ms
 
@@ -39,14 +39,14 @@ proposed: RT 1K per tap; NN rest 0.51 V, NC rest 11.45 V against VREF 8.45 V; NN
      18 dBu: + 274.9 / -293.4 uA, error 5.87 uV peak (-123.4 dB re the signal)
 
 7. rails switching (silence): peak red LED current while +VL > 2.5 V, mA
-   power-down, rails fall together (60 ms)                        as built 0.00, first try 1.83, proposed 0.00
-   power-down, +V first (280 / 240 V/s: 2.8 / 2.4 A into ~10 mF)  as built 0.00, first try 1.89, proposed 0.00
-   power-down, -V first                                           as built 0.00, first try 1.67, proposed 0.00
-   power-up together (180 ms soft start)                          as built 3.18, first try 3.18, proposed 3.18
-   power-up, +V 30 ms ahead                                       as built 3.18, first try 3.18, proposed 3.18
-   power-up, -V 30 ms ahead                                       as built 3.18, first try 3.18, proposed 3.18
+   power-down, rails fall together (60 ms)                        v4.9 0.00, first try 1.83, v5.0 0.00
+   power-down, +V first (280 / 240 V/s: 2.8 / 2.4 A into ~10 mF)  v4.9 0.00, first try 1.89, v5.0 0.00
+   power-down, -V first                                           v4.9 0.00, first try 1.67, v5.0 0.00
+   power-up together (180 ms soft start)                          v4.9 3.18, first try 3.18, v5.0 3.18
+   power-up, +V 30 ms ahead                                       v4.9 3.18, first try 3.18, v5.0 3.18
+   power-up, -V 30 ms ahead                                       v4.9 3.18, first try 3.18, v5.0 3.18
 
-8. tolerances (proposed):
+8. tolerances (v5.0):
    negative trip with the LM393B input bias at its 25 nA maximum: 9.54 V (vs 9.29 V, +0.24 dB)
    R_A +1 %, R_B -1 %: NN trips at -8.15 V (-0.35 dB)
    R_A -1 %, R_B +1 %: NN trips at -8.83 V (+0.34 dB)

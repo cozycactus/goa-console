@@ -102,6 +102,8 @@ on the strip and group, 0.5–6.5 mm on the master.
 | +5VL | 182 mm | DC, zener-derived; quiet but a logic supply |
 | LED anode lines (D3–D8, D2) | short since E1 | key-latched LEDs; D2 by MET1 |
 | U17 output / SIG_HOLD area (beside U17) | local | U17A discharges its hold cap on every signal peak above −20 dBu: an audio-rate pulse; keep the C99 loop tight to GNDD |
+| PK / OL_NN (overload peak lines, strip v5.0 CS1: D1 / D12–D15 → C12 / C103 at U4 / U18) | ~390 mm each (the FPOST tap, D15, is at U2) | held DC nodes (100 nF at the detector end); diode current pulses only when a tap peaks above ±9 V. Route them as a pair on B.Cu, away from the HPF / EQ high-Z nodes; Switching class |
+| OL_HOLD (R126 / R135 → C97) | ~11 mm more since v5.0 | U4A / U18A discharge it at overload |
 
 **Crossing rules:**
 - **Crossings:** cross a sensitive net at right angles; never run alongside it.
@@ -338,7 +340,7 @@ change, because nets are assigned by exact name:
 | Bus | signal pins of the 34-way bus header | 0.3 mm | 0.6 / 0.3 |
 | Entry | signal lines on jacks and board-to-board links | 0.3 mm | 0.6 / 0.3 |
 | HighZ | op-amp input nets with no op-amp output on them | 0.2 mm | 0.6 / 0.3 |
-| Switching | LED, comparator-output, DG413-logic, relay-coil, transistor nets | 0.25 mm | 0.6 / 0.3 |
+| Switching | LED, comparator-output, DG413-logic, relay-coil, transistor nets; the strip's PK / OL_NN (v5.0) | 0.25 mm | 0.6 / 0.3 |
 | Default | everything else (op-amp outputs, low-impedance audio) | 0.25 mm | 0.6 / 0.3 |
 
 - **Class clearances:** 0.2 mm everywhere. Footprints have pad gaps down to 0.25 mm (the load board's slide switches),

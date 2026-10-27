@@ -1,10 +1,11 @@
-"""CS1 (console_survey.md): the strip's overload LED from five points, both polarities, against the detector as built.
+"""The strip's overload LED from five points, both polarities (CS1, cs1_proposal.md; strip v5.0, signed off 2026-10-27),
+against the v4.9 detector it replaced. Part values are read from channel_strip.net.
 
-As built (spec 8.1, sim/review/gaps/ol.py): PRESRC -> R39 1K -> D1 -> PK (C12 100n // R14 470K) -> U4A against
+v4.9 (sim/review/gaps/ol.py): PRESRC -> R39 1K -> D1 -> PK (C12 100n // R14 470K) -> U4A against
 VREF = +VL / 2; U4A discharges OL_HOLD through R126 1K; U4B lights the red while OL_HOLD is below VREF. Positive peaks
 of PRESRC only, from ~9.1 V peak (+18.4 dBu, 4.6 dB below the op-amps' +-15.5 V swing).
 
-Proposed ("mirror"): each tap (RECV U1A, GOUT U1B, EQOUT, PRESRC, FPOST U2A) -> 1K -> the middle of a BAV99:
+v5.0 ("mirror"): each tap (RECV U1A, GOUT U1B, EQOUT, PRESRC, FPOST U2A) -> 1K -> the middle of a BAV99:
 - top diode into PK, as D1 today: positive peaks of any tap charge PK (C12 // R14 unchanged);
 - bottom diode from NN: negative peaks of any tap pull NN down. NN mirrors PK: C_N 100n // R_N 470K to GNDA, so the
   attack (1K x 100n) and the decay (47 ms) match;
@@ -16,7 +17,7 @@ Hold, LED drive and the green signal detector are unchanged.
 
 Taps are ideal sources (op-amp outputs). Models and switch comparators as in ol.py. A tap's series impedance can be
 set to estimate the error the detector's diode current makes at the tap.
-usage: python3 sim/review/cs1/ol_multi.py"""
+usage: python3 sim/review/cs1/ol_multi.py [--quick]   (--quick: the pulse thresholds, both polarities, ~1 min)"""
 import os, sys, math
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, '..', 'gaps'))
@@ -24,7 +25,7 @@ import ol
 from ol import v, run, vrms, VL
 
 TAPS = ['recv', 'gout', 'eqout', 'presrc', 'fpost']
-MIRROR = dict(RT=1e3, RA=4.99e6, RB=10e6, RN=470e3, NREF='0', CN=100e-9, RDIS=1e3, IB=0.0)
+MIRROR = dict(RT=v('R128'), RA=v('R132'), RB=v('R133'), RN=v('R134'), NREF='0', CN=v('C103'), RDIS=v('R135'), IB=0.0)
 FIRST = dict(RT=1e3, RA=499e3, RB=1e6, RN=750e3, NREF='vln', CN=100e-9, RDIS=1e3, IB=0.0)
 VSW = 15.5                                            # op-amp swing limit (sim/review/gaps/headroom.py)
 
@@ -36,7 +37,7 @@ def rest(p, vl=VL, vln=VL):
     return nn, vl * (1 - k) + nn * k
 
 def deck(src, tstop, mode='new', zout=0.0, extra='', p=MIRROR):
-    """src: dict tap -> SPICE source body ('SIN(...)' or 'V = expr'); missing taps sit at 0 V. mode 'old' = as built."""
+    """src: dict tap -> SPICE source body ('SIN(...)' or 'V = expr'); missing taps sit at 0 V. mode 'old' = v4.9."""
     lines = []
     for t in TAPS:
         body = src.get(t, 'DC 0'); el = 'B' if body.startswith('V =') else 'V'
@@ -103,26 +104,30 @@ def half_cycle(p, sgn, mode='new'):
         return run(deck(b, 0.3, mode, p=p)).get('redon') is not None
     return bsearch(lit_at, 5, 40, 12)
 
-if __name__ == '__main__':
+if __name__ == '__main__' and '--quick' in sys.argv:
+    pos = bsearch(lambda a: red({'presrc': pulse(a)})[0], 1, 30, 10)
+    neg = bsearch(lambda a: red({'presrc': pulse(-a)})[0], 1, 30, 10)
+    print(f'pulse thresholds: +{pos:.2f} V / -{neg:.2f} V')
+elif __name__ == '__main__':
     p = MIRROR; nn, nc = rest(p); k = p['RA'] / (p['RA'] + p['RB'])
-    print(f'proposed: RT 1K per tap; NN rest {nn:.2f} V, NC rest {nc:.2f} V against VREF {VL / 2:.2f} V; '
+    print(f'v5.0: RT 1K per tap; NN rest {nn:.2f} V, NC rest {nc:.2f} V against VREF {VL / 2:.2f} V; '
           f'NN trips at {VL * (1 - 1 / (2 * k)):.2f} V, PK at +{VL / 2:.2f} V', flush=True)
 
     print('\n1. sine threshold on each tap alone (dBu; the op-amps clip at +23.0 dBu):', flush=True)
-    print(f'   as built, PRESRC, 1 kHz: {bsearch(lambda L: red({"presrc": sine(L)}, mode="old")[0], 10, 24):5.1f}')
+    print(f'   v4.9, PRESRC, 1 kHz: {bsearch(lambda L: red({"presrc": sine(L)}, mode="old")[0], 10, 24):5.1f}')
     for t in TAPS:
-        print(f'   proposed, {t:6s} 1 kHz: {bsearch(lambda L: red({t: sine(L)})[0], 10, 24):5.1f}', flush=True)
+        print(f'   v5.0, {t:6s} 1 kHz: {bsearch(lambda L: red({t: sine(L)})[0], 10, 24):5.1f}', flush=True)
     for f in (50, 10000):
-        print(f'   proposed, presrc {f:5d} Hz: {bsearch(lambda L: red({"presrc": sine(L, f)})[0], 10, 24):5.1f}')
+        print(f'   v5.0, presrc {f:5d} Hz: {bsearch(lambda L: red({"presrc": sine(L, f)})[0], 10, 24):5.1f}')
 
     print('\n2. polarity: 10 % pulse wave on PRESRC, the narrow peak (V) that lights the red:', flush=True)
     for sgn, name in ((1, 'positive'), (-1, 'negative')):
         old = bsearch(lambda a: red({'presrc': pulse(sgn * a)}, mode='old')[0], 1, 30)
         new = bsearch(lambda a: red({'presrc': pulse(sgn * a)})[0], 1, 30)
         fmt = lambda x: f'{x:5.2f}' if x < 29.9 else 'never (> 30)'
-        print(f'   {name}: as built {fmt(old)}, proposed {fmt(new)}')
-    print(f'   one half-cycle at 1 kHz: as built + {half_cycle(p, 1, "old"):5.2f} V; '
-          f'proposed + {half_cycle(p, 1):5.2f} V / - {half_cycle(p, -1):5.2f} V')
+        print(f'   {name}: v4.9 {fmt(old)}, v5.0 {fmt(new)}')
+    print(f'   one half-cycle at 1 kHz: v4.9 + {half_cycle(p, 1, "old"):5.2f} V; '
+          f'v5.0 + {half_cycle(p, 1):5.2f} V / - {half_cycle(p, -1):5.2f} V')
 
     print('\n3. clipping the as-built detector misses (1 kHz):', flush=True)
     cases = [
@@ -138,9 +143,9 @@ if __name__ == '__main__':
     ]
     for name, src in cases:
         o = red({'presrc': src['presrc']}, mode='old')[0]; n = red(src)[0]
-        print(f'   {name}: as built {"RED" if o else "off"}, proposed {"RED" if n else "off"}')
+        print(f'   {name}: v4.9 {"RED" if o else "off"}, v5.0 {"RED" if n else "off"}')
 
-    print('\n4. no false red (proposed):', flush=True)
+    print('\n4. no false red (v5.0):', flush=True)
     for name, src in [('+16 dBu sine on all five taps', {t: sine(16) for t in TAPS}),
                       ('+16 dBu at 10 kHz on all five', {t: sine(16, 10000) for t in TAPS}),
                       ('10 % pulses, +-8 V narrow peaks, mixed polarity', {'recv': pulse(8), 'gout': pulse(-8),
@@ -149,7 +154,7 @@ if __name__ == '__main__':
         n, r = red(src)
         print(f'   {name}: red {"ON (false)" if n else "off"}')
 
-    print('\n5. a 1 kHz burst on PRESRC, n cycles: red lit for (proposed / as built)', flush=True)
+    print('\n5. a 1 kHz burst on PRESRC, n cycles: red lit for (v5.0 / v4.9)', flush=True)
     for lvl in (20.0, 22.0):
         out = []
         for n in (1, 2, 5):
@@ -178,10 +183,10 @@ if __name__ == '__main__':
            ('power-up together (180 ms soft start)', 0.19, 0.19, True),
            ('power-up, +V 30 ms ahead', 0.19, 0.22, True), ('power-up, -V 30 ms ahead', 0.22, 0.19, True)]
     for name, tp, tn, up in seq:
-        print(f'   {name:62s} as built {rails(p, "old", tp, tn, up):4.2f}, first try {rails(FIRST, "new", tp, tn, up):4.2f}, '
-              f'proposed {rails(p, "new", tp, tn, up):4.2f}', flush=True)
+        print(f'   {name:62s} v4.9 {rails(p, "old", tp, tn, up):4.2f}, first try {rails(FIRST, "new", tp, tn, up):4.2f}, '
+              f'v5.0 {rails(p, "new", tp, tn, up):4.2f}', flush=True)
 
-    print('\n8. tolerances (proposed):', flush=True)
+    print('\n8. tolerances (v5.0):', flush=True)
     th0 = bsearch(lambda a: red({'presrc': pulse(-a)})[0], 1, 30)
     th_ib = bsearch(lambda a: red({'presrc': pulse(-a)}, p=dict(p, IB=25e-9))[0], 1, 30)
     print(f'   negative trip with the LM393B input bias at its 25 nA maximum: {th_ib:.2f} V (vs {th0:.2f} V, '

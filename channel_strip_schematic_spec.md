@@ -1,4 +1,4 @@
-# Channel Strip — Component-Level Specification v4.9
+# Channel Strip — Component-Level Specification v5.0
 ## Soundcraft Delta Theatre input without the mic stage. One PCB per channel, ×24.
 
 Bus pinout, grounding and power: `console_architecture.md`. Stage-by-stage comparison with the
@@ -7,6 +7,43 @@ Reference designators are those of `tools/gen.py`; Delta drawing numbers are giv
 circuit comes from a Delta sheet (ED3344A/B/C = Theatre input RH board, ED3151 = LH board).
 
 ---
+
+## Changes in v5.0 (2026-10-27, signed off; `cs1_proposal.md` CS1, from `console_survey.md`)
+
+The overload LED reads five points, both polarities (§8.1); 902 pin entries, 310 parts (15 new).
+
+**Why:**
+- **One point:** v4.9 read PRESRC only, so it missed the stages that clip first in other settings
+  (`sim/review/gaps/headroom.py`): the post-amp with the fader up, the gain stage or receiver when the gain or an EQ
+  cut brings PRESRC back down.
+- **One polarity:** it read positive peaks only, so it missed every negative-going peak (a synth pulse wave's large
+  side, and our stages invert).
+- **Library:** seven of the nine consoles in `console_survey.md` watch two to four stages; four catch both polarities.
+
+**Taps:** RECV (U1A), GOUT (U1B), EQOUT, PRESRC and FPOST (U2A). Each goes through 1K (R128-R131; R39 for PRESRC) into
+the middle of a BAV99 (D12-D15; D1 is now a BAV99 too).
+
+**Positive side, as before:** each BAV99's top diode charges PK, and U4A trips at +VL / 2.
+
+**Negative side, PK's mirror:**
+- **Node:** each bottom diode pulls OL_NN down. OL_NN is C103 100n ∥ R134 470K to GNDA, so attack and decay match PK.
+- **Comparator:** U18A (LM393B) compares OL_NC = 2/3 +VL + 1/3 OL_NN (R132 4M99 from +VL, R133 10M) with VREF. It trips
+  at OL_NN < −VL / 2 and discharges OL_HOLD through R135 1K, wired-OR with U4A.
+- **Spare half:** U18B is tied off; C104 decouples U18.
+- **Why +VL only:** every threshold is a ratio of +VL. A first try biased OL_NN from −VL lit the red at every power-down.
+
+**Results** (`sim/review/cs1/ol_multi.py`):
+- **Thresholds:** +18.4 dBu on every tap; a 10 % pulse lights at +9.01 / −9.30 V.
+- **Misses closed:** it catches the four cases v4.9 missed.
+- **Nothing else changes:** no false red at +16 dBu on all taps, holds and power-up / power-down behaviour as v4.9,
+  tap loading −123 dB.
+
+**Placement** (`moves_only`):
+- **Moved:** only D1, from its DO-35 spot to a SOT-23 on the bottom beside R39. Five neighbours that the packer would
+  shift are moved back.
+- **PK / OL_NN:** run about 390 mm (the FPOST tap is at U2) and are in the Switching net class (`tools/netrules.py`).
+
+**Schematic:** the overload block runs on to a second page (page 9, with PFL); 17 pages.
 
 ## Changes in v4.9 (2026-10-27, signed off; `met1_ret1_review.md` P1 / P2, `emc_placement_study.md` E6)
 
@@ -423,9 +460,21 @@ JP7: PRESRC = BUF1 (1-2, default) or EQOUT (2-3)       ── C11 100 µF NP ─
 
 ## 8. Pre-fade section
 
-### 8.1 OL detector and signal LED (U4, U17, logic rails)
-From PRESRC (always the signal entering PRE: post-EQ, post-insert): R39 1K, D1 1N4148,
-C12 100 nF (v4.5, was 1 µF), R14 470K; U4A compares against R40/R41 for ≈ +18 dBu.
+### 8.1 OL detector and signal LED (U4, U17, U18, logic rails)
+**v5.0 (CS1): five taps, both polarities.**
+- **Taps:** RECV (U1A), GOUT (U1B), EQOUT, PRESRC and FPOST (U2A). Each goes through 1K (R128, R129, R130, R39, R131)
+  into pin 3 of a BAV99 (D12, D13, D14, D1, D15; Nexperia pinout: 1 anode, 2 cathode, 3 common).
+- **Positive peaks:** the top diodes charge PK: C12 100 nF (v4.5, was 1 µF) ∥ R14 470K. U4A compares PK with
+  VREF = +VL / 2 (R40 / R41): ≈ +18.4 dBu (9.0 V peak), 4.6 dB below the op-amps' ±15.5 V swing.
+- **Negative peaks:** the bottom diodes pull OL_NN down: C103 100 nF ∥ R134 470K to GNDA, PK's mirror.
+  - R132 4M99 from +VL and R133 10M make OL_NC = 2/3 +VL + 1/3 OL_NN.
+  - U18A (+ = OL_NC, − = VREF) trips at OL_NN < −VL / 2 (−9.3 V peak) and discharges OL_HOLD through R135 1K,
+    wired-OR with U4A / R126.
+  - U18B is tied off (+ on VREF, − on GNDD).
+  - Every threshold is a ratio of +VL only, so the rails' switching order can't light the red.
+- **Sim:** `sim/review/cs1/ol_multi.py`; `ol.py` covers the hold, the drive and the green.
+- **Why five taps:** they are the stages that clip first in some setting (`sim/review/gaps/headroom.py`). The EQ's
+  inner stages run at most 1.4 dB above EQOUT, inside the 4.6 dB margin.
 - **v4.5 hold:** U4A's output discharges OL_HOLD (R115 1M to +VL, C97 220 nF to LGND). U4B (+ = OL_HOLD,
   − = VREF) drives the red OL LED D2 via R15 4K7, so the LED stays lit ≈ 150 ms after the last overload (K3).
 - **LED current:** ≈ 3 mA, as the other LEDs (v4.1; R15 was 1K, 14 mA in an 0805).
@@ -580,6 +629,7 @@ directly; no debounce RC, because the DG413 inputs have no hysteresis.
 | U3 | OPA1612 | pan buffer R | mute output buffer |
 | U4 | LM393 | OL comparator | OL hold (v4.5) |
 | U17 | LM393 | signal comparator (v4.7) | signal hold |
+| U18 | LM393 | negative-peak OL comparator (v5.0) | spare, tied off |
 | U5 | OPA1612 | HPF summer | EQ HF |
 | U6 | OPA1612 | EQ HI-MID | EQ LO-MID |
 | U7 | OPA1612 | EQ LF | insert return buffer |
@@ -591,14 +641,15 @@ directly; no debounce RC, because the DG413 inputs have no hysteresis.
 | U15 | OPA1612 | HPF integrator 1 (BP) | HPF integrator 2 (LP) |
 | Q1, Q2 | MMBFJ112 (J112 in SOT-23) | soft mute | |
 | Q3–Q5 | MMBT3906 | red / green LED switches, green gate (v4.7) | |
+| D1, D12–D15 | BAV99 | OL taps: PRESRC, RECV, GOUT, EQOUT, FPOST (v5.0) | |
 
 ---
 
 ## 15. Bill of materials
 
-`channel_strip_BOM.csv` (main board, exported from the schematic, with a DNP column): 265 parts per channel, of which
-three are the DNP VCA-option parts (J3, J4, R44), so 262 fitted (the netlist's 273 also counts the solder jumpers
-JP1–JP7 and the net tie NT1, which aren't bought); `jack_board_BOM.csv`: 6. Panel parts per channel:
+`channel_strip_BOM.csv` (main board, exported from the schematic, with a DNP column): 302 parts per channel (v5.0), of
+which three are the DNP VCA-option parts (J3, J4, R44), so 299 fitted (the netlist's 310 also counts the solder
+jumpers JP1–JP7 and the net tie NT1, which aren't bought); `jack_board_BOM.csv`: 6. Panel parts per channel:
 16 pots (fader, 6 aux, pan, gain, 4 EQ gain, 2 dual EQ frequency, dual HPF frequency), 13 switches, 7 LEDs (OL / signal bicolour, PFL,
 ON, EQ, 3 routing), 3 jacks, 1 bus header.
 
@@ -739,7 +790,14 @@ each standoff's panel end and wherever a panel meets the frame rails. CN3/CN5: W
 
 ---
 
-## 17. Status (v4.9, 2026-10-27)
+## 17. Status (v5.0, 2026-10-27)
+
+v5.0 (CS1):
+- **Netlist:** 902 pin entries / 0 mismatches, check_fp 310 / 0, ERC 0.
+- **Simulation:** `tools/sim_netlist.py` 39/39, `tools/sim_console.py` 35/35, `sim/review/cs1/ol_multi.py` as in the
+  change notes, `sim/review/gaps/ol.py` unchanged.
+- **Placement:** 310 footprints, 0 DRC violations, 0 parity issues, 310 / 310 linked; D1 moved, 15 parts added.
+  Decouplers 2.5 / 5.4 / 1.
 
 v4.9 (P1 / P2 / E6):
 - **Netlist:** 861 pin entries / 0 mismatches, check_fp 295 / 0, ERC 0.

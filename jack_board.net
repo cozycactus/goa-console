@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/jack_board.kicad_sch")
-		(date "2026-10-25T23:01:14")
+		(date "2026-10-27T12:49:41")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -786,7 +786,7 @@
 		(net
 			(code "1")
 			(name "/CHASSIS")
-			(class "Default")
+			(class "Chassis")
 			(node
 				(ref "C8")
 				(pin "2")
@@ -823,7 +823,7 @@
 		(net
 			(code "2")
 			(name "/DO_R")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "CN5")
 				(pin "9")
@@ -839,7 +839,7 @@
 		(net
 			(code "3")
 			(name "/DO_T")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "CN5")
 				(pin "8")
@@ -855,7 +855,7 @@
 		(net
 			(code "4")
 			(name "/IN_R")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "C9")
 				(pin "1")
@@ -876,7 +876,7 @@
 		(net
 			(code "5")
 			(name "/IN_T")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "C8")
 				(pin "1")
@@ -897,7 +897,7 @@
 		(net
 			(code "6")
 			(name "/RET_RAW")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "CN5")
 				(pin "6")
@@ -913,7 +913,7 @@
 		(net
 			(code "7")
 			(name "/SEND")
-			(class "Default")
+			(class "Entry")
 			(node
 				(ref "CN5")
 				(pin "4")
@@ -934,7 +934,7 @@
 		(net
 			(code "8")
 			(name "GNDA")
-			(class "Default")
+			(class "Ground")
 			(node
 				(ref "CN5")
 				(pin "10")

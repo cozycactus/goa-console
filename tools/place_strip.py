@@ -91,6 +91,20 @@ FIX.update({'U17': (3.745, 316.245, 90, 'F'), 'C97': (32.77, 67.84, 0, 'F'), 'R1
 NEW49 = {'R126': (31.27, 75.84, 90, 'B'), 'R127': (6.09, 313.97, 90, 'B'), 'C100': (31.8575, 88.88, 90, 'B'),
          'C101': (28.9125, 49.795, 270, 'B'), 'C102': (32.4125, 55.045, 0, 'B')}
 MOVES.update(NEW49)
+# CS1 (cs1_proposal.md, signed off 2026-10-27): the multi-point overload detector's parts by MOVES alone, like
+# NEW49: each tap's 1K + BAV99 beside its op-amp (RECV / GOUT at U1, EQOUT at C51, FPOST at U2; D1, now a SOT-23 BAV99,
+# where the DO-35 was), U18 and the negative side's divider / hold / discharge beside U4 (probed free spots)
+CS1 = {'D1': (35.75, 100.75, 90, 'B'), 'R128': (2.25, 61.5, 90, 'B'), 'D12': (2.5, 58.0, 0, 'B'),
+       'R129': (5.5, 58.75, 90, 'B'), 'D13': (12.75, 58.75, 90, 'B'), 'R130': (13.0, 78.75, 0, 'B'),
+       'D14': (12.5, 76.0, 0, 'B'), 'R131': (35.5, 405.75, 90, 'B'), 'D15': (35.0, 410.5, 0, 'B'),
+       'U18': (34.25, 82.5, 270, 'B'), 'C104': (36.25, 84.5, 90, 'F'), 'R132': (34.25, 77.5, 0, 'B'),
+       'R133': (34.25, 75.25, 0, 'B'), 'R134': (33.75, 70.75, 0, 'B'), 'C103': (34.25, 73.0, 0, 'B'),
+       'R135': (28.25, 77.5, 0, 'B')}
+MOVES.update(CS1)
+# D1 leaves the OL detector zone, so the packer shifts five of its neighbours one slot along (R39 into R15's, R15 into
+# R104's, ...): they go back to their v4.9 spots, in this order (pre-turn angles: R15 and R107 are in TURNS)
+MOVES.update({'R39': (36.27, 101.3, 90, 'F'), 'R15': (35.995, 58.225, 90, 'F'), 'R104': (35.995, 62.225, 90, 'F'),
+              'R107': (35.995, 66.225, 90, 'F'), 'R116': (35.72, 76.61, 90, 'F')})
 # The upper board's op-amps where the reviewed placement had them (2026-10-26, before the EMC changes): the packer
 # re-shuffles every IC after any change near the top (E1-E3 moved 163 parts and starved the HPF), so they are fixed
 # and their own parts pack around them as before
@@ -128,7 +142,7 @@ ZONES = [
  ('input followers RF / stability RC, under U16 (bottom)', (8, 52, 30, 76), ['R110', 'R111', 'C94', 'C95'], 'B'),
  ('input receiver + gain', (1, 45, 37, 100), ['U1', 'C20', 'C21', 'C7', 'C78', 'R6', 'R7', 'R8', 'R9', 'R10',
                                               'R45', 'R46', 'C37', 'R47'], 'F'),
- ('OL detector', (1, 45, 37, 100), ['U4', 'C26', 'R39', 'D1', 'C12', 'R14', 'R40', 'R41', 'R15', 'R115', 'C97', 'R116'], 'F'),
+ ('OL detector', (1, 45, 37, 100), ['U4', 'C26', 'R39', 'C12', 'R14', 'R40', 'R41', 'R15', 'R115', 'C97', 'R116'], 'F'),
  ('HPF', (1, 44, 37, 135), ['U5', 'C29', 'C30', 'C85', 'C86', 'R100', 'R101', 'R102', 'R103',
                              'U15', 'C89', 'C90', 'C87', 'C88', 'R104', 'R105', 'R106', 'R107', 'R108', 'R109'], 'F'),
  ('EQ', (1, 82, 37, 200), ['U6', 'C31', 'C32', 'C69', 'C70', 'C71', 'C72', 'U7', 'C33', 'C34', 'C73', 'C48',
@@ -188,5 +202,5 @@ if '(ref "CN5")' in open(NET).read():                           # jack board net
                   hole_value='M3 standoff = jack body height (~24 mm)')
 else:
     layout = dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, holes=HOLES, zones=ZONES, notes=NOTES, near=NEAR,
-                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, moves_only=tuple(NEW49), turns=TURNS, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
+                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, moves_only=tuple(NEW49) + tuple(CS1), turns=TURNS, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
 place(NET, OUT, layout)

@@ -227,9 +227,11 @@ def insert(d):
 def overload(d):
     d.shift(0, 6)
     d.at('R39', 3.5, 4, rot=90); d.w((0, 4), ('R39', 1)); d.port('PRESRC', (0, 4))
-    d.at('D1', 6.5, 4, rot=180); d.w(('R39', 2), ('D1', 2))
+    # CS1: D1 is a BAV99 (pin 3 the middle): the top diode charges PK, the bottom one pulls OL_NN down
+    d.at('D1', 6, 1); d.w(('R39', 2), (6, 4), ('D1', 3)); d.w(('D1', 1), (3, -1)); d.port('OL_NN', (3, -1), 'U')
     d.at('U4', 21, 5, mirror='x', unit=1)
-    d.w(('D1', 1), ('U4', 2)); d.at('C12', 11, 5.5, text='L'); d.at('R14', 15, 5.5, text='L')
+    d.w(('D1', 2), (9, 4), ('U4', 2)); d.port('PK', (13, 4), 'U')
+    d.at('C12', 11, 5.5, text='L'); d.at('R14', 15, 5.5, text='L')
     d.w(('U4', 3), (16, 6), (16, 9)); d.at('R41', 16, 10.5)
     d.at('R40', 12.5, 9, rot=90); d.w((8, 9), ('R40', 1)); d.port('+VL', (8, 9)); d.w(('R40', 2), (16, 9))
     d.at('C100', 20, 10.5, text='R'); d.w((16, 9), (20, 9))                                      # P2
@@ -237,7 +239,7 @@ def overload(d):
     d.at('U4', 40, 6, unit=2)
     d.at('R126', 25.5, 5, rot=90); d.w(('U4', 1), ('R126', 1)); d.w(('R126', 2), (37, 5)); d.w((37, 5), ('U4', 5))   # P1
     d.at('R115', 28, 3.5, text='R'); d.w(('R115', 1), (28, 0)); d.port('+VL', (28, 0), 'U')
-    d.at('C97', 31, 6.5, text='L'); d.gnd(('C97', 2), 'GNDD')
+    d.at('C97', 31, 6.5, text='L'); d.gnd(('C97', 2), 'GNDD'); d.port('OL_HOLD', (34, 5), 'U')
     d.w((15, 9), (15, 14), (35, 14), (35, 7), ('U4', 6))          # VREF to U4B's - input, under the hold network
     # MET1: U4B drives the red half of the bicolour D2 through the PNP Q3 (R116 base, R117 pull-up, R15 to the anode)
     d.w(('U4', 7), (46, 6)); d.at('R116', 49.5, 6, rot=90); d.w((46, 6), ('R116', 1))
@@ -272,6 +274,33 @@ def overload(d):
     d.at('Q5', 70, Y + 2, mirror='x'); d.port('+VL', ('Q5', 2), 'U'); d.port('SIG_B', ('Q5', 3), 'D')
     d.at('R125', 64.5, Y + 2, rot=90); d.w(('R125', 2), ('Q5', 1)); d.w(('R125', 1), (63, Y - 2)); d.port('OL_K', (63, Y - 2), 'U')
     d.port('OL_K', (46, 6), 'D')
+
+
+def overload_cs1(d):
+    """CS1 (console_survey.md), the overload detector's second piece: four more taps and the negative side."""
+    d.shift(0, 44)
+    # CS1: the other four taps (receiver, gain stage, EQ out, post-amp), each 1K into a BAV99 like D1
+    Y2 = 4
+    for k, (r_, d_, tap) in enumerate((('R128', 'D12', 'RECV'), ('R129', 'D13', 'GOUT'), ('R130', 'D14', 'EQOUT'),
+                                       ('R131', 'D15', 'FPOST'))):
+        x0 = 18 * k
+        d.at(r_, x0 + 3.5, Y2, rot=90); d.w((x0, Y2), (r_, 1)); d.port(tap, (x0, Y2))
+        d.at(d_, x0 + 8, Y2 - 2); d.w((r_, 2), (d_, 3))
+        d.w((d_, 1), (x0 + 5, Y2 - 4)); d.port('OL_NN', (x0 + 5, Y2 - 4), 'U')
+        d.w((d_, 2), (x0 + 11, Y2 - 4)); d.port('PK', (x0 + 11, Y2 - 4), 'U')
+    # CS1 negative side, PK's mirror: OL_NN (R134 // C103 to GNDA); U18A trips when OL_NC (2/3 +VL + 1/3 OL_NN) falls
+    # below VREF, i.e. OL_NN < -VL / 2, and discharges OL_HOLD through R135 like U4A through R126
+    Y3 = 14
+    d.at('U18', 21, Y3 + 1, mirror='x', unit=1)
+    d.w(('U18', 2), (16, Y3)); d.port('VREF', (16, Y3), 'U')
+    d.v('R132', 12, Y3 + 0.5, top='+VL', text='L'); d.w(('R132', 1), (12, Y3 - 3)); d.port('+VL', (12, Y3 - 3), 'U')
+    d.w(('U18', 3), (12, Y3 + 2))
+    d.v('R133', 12, Y3 + 3.5, top='OL_NC', text='R')
+    d.w(('R133', 2), (3, Y3 + 5)); d.port('OL_NN', (3, Y3 + 5), 'L')
+    d.v('C103', 9, Y3 + 6.5, text='R'); d.gnd(('C103', 2)); d.v('R134', 5.5, Y3 + 6.5, text='L'); d.gnd(('R134', 2))
+    d.at('R135', 25.5, Y3 + 1, rot=90); d.w(('U18', 1), ('R135', 1)); d.w(('R135', 2), (30, Y3 + 1)); d.port('OL_HOLD', (30, Y3 + 1), 'R')
+    d.at('U18', 40, Y3 + 2, unit=2)                                   # spare half: + on VREF, - on GNDD, output off
+    d.port('VREF', ('U18', 5), 'L'); d.w(('U18', 6), (35, Y3 + 3), (35, Y3 + 4)); d.gnd((35, Y3 + 4), 'GNDD')
 
 
 def pfl(d):
@@ -451,10 +480,10 @@ def power_ops(lo, hi):
 
 
 def power_vl(d):
-    """The comparators' (U4, U17) logic supply."""
+    """The comparators' (U4, U17, U18) logic supply."""
     d.shift(0, 6); Y = YP
     X = X0 + P * len(OPS) + 2
-    for u, c, X in (('U4', 'C26', X), ('U17', 'C98', X + 9)):         # U17: the signal detector (MET1)
+    for u, c, X in (('U4', 'C26', X), ('U17', 'C98', X + 9), ('U18', 'C104', X + 18)):   # U17 MET1, U18 CS1
         d.at(u, X, Y, unit=3); d.at(c, X + 3, Y)
         d.w((u, 8), (X - 1, Y - 5), (X + 3, Y - 5), (c, 1)); d.port('+VL', (X + 3, Y - 5), 'R')
         d.w((u, 4), (X - 1, Y + 5), (X + 3, Y + 5), (c, 2)); d.gnd((X + 3, Y + 5), 'GNDD')
@@ -471,7 +500,7 @@ def jumpers(d):
 
 # a list: the block's pieces, drawn in turn on one sheet, packed separately on pages (schgen.build pages=)
 DRAWINGS = {'LINE INPUT': receiver, 'GAIN': gain, 'HPF': hpf, 'EQ  ': eq, 'EQ MID TUNING': [khn_band(0), khn_band(1)],
-            'EQ IN': eq_in, 'INSERT (': insert, 'OVERLOAD': overload, 'PFL': pfl, 'ON / SOFT MUTE': mute, 'FADER': fader,
+            'EQ IN': eq_in, 'INSERT (': insert, 'OVERLOAD': [overload, overload_cs1], 'PFL': pfl, 'ON / SOFT MUTE': mute, 'FADER': fader,
             'AUX SENDS': aux, 'DIRECT OUT': direct_out, 'PAN + PAN': pan, 'PAN SWITCH': pan_switch,
             'ROUTING': [routing_vl] + [routing_assign(k) for k in range(3)],
             'POWER ENTRY': [power_rails, power_ops(0, 6), power_ops(6, len(OPS)), power_vl], 'MOTHERLOOM': motherloom,

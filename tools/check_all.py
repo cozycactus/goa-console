@@ -1,11 +1,12 @@
 """Every project check in one run, without changing a tracked file (netlists, reports and panel outputs go to a temp
 folder). Plain Python 3:
-  python3 tools/check_all.py [--full]          (--full adds the overload / signal sim, ~2 min)
+  python3 tools/check_all.py [--full]          (--full adds the overload / signal sims, ~3 min)
 Per board: KiCad netlist vs its intended JSON (verify.py), pins vs footprint pads (check_fp.py), ERC (0 errors), parity
 DRC (0 violations, footprint-internal KNOWN items of fab_out.py aside, 0 parity issues), footprint-symbol links
 (check_links.py). Then: sim_netlist (strip + jack board through the ribbon), sim_console (the whole console),
 netrules_test (every DRC rule fires), route_check_test (the post-route checker finds its planted faults),
-route_check on every board (0 ERR), panel_fab's checks. Prints one line per check and a summary; exit 1 on any FAIL."""
+route_check on every board (0 ERR), panel_fab's checks; --full: sim/review/gaps/ol.py and
+sim/review/cs1/ol_multi.py --quick (the red from a negative and a positive pulse). Prints one line per check and a summary; exit 1 on any FAIL."""
 import json, os, re, subprocess, sys, tempfile, time
 
 TOOLS = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(TOOLS)
@@ -77,6 +78,10 @@ def main():
         m = re.search(r'1000 Hz: red\s+([\d.]+) dBu, green\s+([-\d.]+) dBu', out)
         report('ol.py (overload / signal LED)', code == 0 and bool(m) and 17.5 < float(m.group(1)) < 19.5 and -21 < float(m.group(2)) < -18,
                f'red {m.group(1)} dBu, green {m.group(2)} dBu at 1 kHz' if m else out.strip()[-120:])
+        code, out = run(['python3', os.path.join(ROOT, 'sim', 'review', 'cs1', 'ol_multi.py'), '--quick'], timeout=900)
+        m = re.search(r'pulse thresholds: \+([\d.]+) V / -([\d.]+) V', out)
+        report('ol_multi.py (OL from both polarities)', code == 0 and bool(m) and 8.5 < float(m.group(1)) < 9.6 and 8.5 < float(m.group(2)) < 9.8,
+               f'10 % pulse lights the red at +{m.group(1)} / -{m.group(2)} V' if m else out.strip()[-120:])
     bad = [n for n, ok in results if not ok]
     print(f'\n{len(results) - len(bad)} / {len(results)} checks pass in {time.time() - t0:.0f} s' + (f'; FAILED: {", ".join(bad)}' if bad else ''))
     sys.exit(1 if bad else 0)

@@ -1,8 +1,8 @@
 # CS1: the overload LED from five points, both polarities (proposal, 2026-10-27)
 
-**Not signed off.** The change is `cs1_proposal.patch`. It touches tools only: `gen.py`, `strip_draw.py`,
-`place_strip.py` and `netrules.py`. It was applied to a trial tree, checked (§6) and reverted, so nothing in the
-design has changed. The simulation is `sim/review/cs1/ol_multi.py`; its output is in `sim/review/cs1/ol_multi.out`.
+**Signed off by Ruslan on 2026-10-27 (as proposed: five taps, both polarities) and applied the same day as strip v5.0;
+see "Applied" at the end.** The change is `cs1_proposal.patch`. It touches tools only: `gen.py`, `strip_draw.py`,
+`place_strip.py` and `netrules.py`. The simulation is `sim/review/cs1/ol_multi.py`; its output is in `sim/review/cs1/ol_multi.out`.
 
 ## 1. Why
 
@@ -167,7 +167,19 @@ pinout (1 anode, 2 cathode, 3 common); only the names are wrong.
 
 ## Sign-off
 
-- [ ] **CS1** as proposed: five taps, both polarities (U18 added).
+- [x] **CS1** as proposed: five taps, both polarities (U18 added). Ruslan, 2026-10-27.
 - [ ] **CS1-lite** instead: the four extra taps on the positive side only (R128-R131 and four single diodes into PK, no
   U18, no negative side). It catches 3a, 3b and 3d but not 3c (negative peaks).
 - [ ] Neither.
+
+## Applied (2026-10-27, strip v5.0)
+
+- **Applied:** the patch, plus revision 5.0 in `gen.py`.
+- **Regenerated and re-exported:** the netlist, BOM (302 parts, 3 DNP), PDF and `order_bom.csv`.
+- **Re-placed:** against the committed board only D1 moved; the 15 new parts are at the trial's spots. Netrules
+  re-written.
+- **Simulation:** `sim/review/cs1/ol_multi.py` now reads its part values from the netlist (output refreshed). Its
+  `--quick` mode runs in `tools/check_all.py --full`.
+- **Documents:** spec v5.0 (changes, §8.1, §14, §15, §17); `routing_guide.md` (PK / OL_NN / OL_HOLD); `test_jig_spec.md`
+  v0.8 (four overload checks); CLAUDE.md.
+
