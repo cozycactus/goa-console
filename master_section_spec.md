@@ -168,7 +168,10 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
 
 - U1A's output is −Σ(channels) + V(GCANCEL): it is clean when read **relative to GCANCEL**,
   not relative to master ground. U1B reads it differentially and hands a clean signal to
-  master ground. The Delta does the same job with differential receivers on MIX L+/L−.
+  master ground. The Delta has no equivalent on its mix: its mix summers reference local ground, and only its aux
+  summers take GND CANCEL (one transistor base on the line, ED2779A). Its MIX L+/L− receivers (ED2780 sheet 1, IC7)
+  are the monitor-select inputs fed from the balanced outputs, not ground cancel (`console_survey.md`, 2026-10-27;
+  this line said otherwise before).
 - U1B: unity-gain difference amp, inverting input from SUM_L, non-inverting input from
   GCANCEL_BUF. Four 2K2 0.1 % resistors (or a matched quad network).
 - **GCANCEL buffer (an OPA1612 half as a follower; in the generated schematic it shares a package with the

@@ -190,6 +190,14 @@ jack board) done.
   fitted OPA1656, `sweep.py ret none 0.08`): receivers >= 66.4 deg, level buffers >= 70.9, followers >= 52.1. Group review
   decks: fix set `none` since rev 0.2 (`mg` re-pins U2B onto a floating node; `fixes.apply()` now refuses it) and
   `OPA1656_FIT` for the followers (TI's OPA1656 model doesn't converge in the deck on ngspice 46).
+- `console_survey.md` (2026-10-27) — the whole design against the ten analogue consoles in Ruslan's service-manual library
+  (Delta / DLX, Venue II / Theatre, Series Two, 6000, 200B, Sapphyre, Ghost, Series Five, SSL 4000G, PM-4000 / 5000,
+  Sony MXP-3000); per-console reports with page refs in `docs/console_survey/`. Ours leads on the line receiver, output
+  relays / power-on mute, ground cancel and couplers. Proposals CS1-CS8 open (not signed off): multi-point full-wave
+  OL detect (7 of 9 consoles; ours one point, positive only), pan law -4.4 dB as the Delta's ED3344C (ours -6 dB, an
+  unrecorded departure), summer headroom check / sum below unity, jack I/O clamp diodes, PFL crosstalk (SW3 / SW4
+  supply-pole caps per the Series Two field mod, pin 28 dummy track, virtual-earth PFL DET), fusible per-strip feeds,
+  C/Room dim, deeper mute (jig). Corrected master spec §3's misreading of the Delta's monitor-select receivers.
 - `eq_survey.md` — how other consoles build the swept mid EQ, read from Ruslan's iCloud service manuals (SSL 4000G,
   Yamaha PM-4000/5000, Soundcraft 6000 / 200B / Sapphyre / Ghost / Series Five, Sony MXP-3000) and the Mackie BOM: all
   tune with reverse-log (C-law) pots as rheostats, Ghost / Series Five are KHN like ours but with 200KC / 100KC rheostats;
