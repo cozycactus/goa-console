@@ -2,6 +2,7 @@
 routing_guide.md and emc_placement_study.md. Settings only, no copper. Run with KiCad's Python after any re-placement
 or netlist change (the classes are assigned by exact net name, and unnamed nets are named by their pins):
   $KPY tools/netrules.py [board ...]          (default: the strip, group, master and jig boards with their jack boards)
+It also writes the board-wide fab limits (FAB, JLCPCB's capabilities) into every project, the PSU's too.
 Classes, first match wins:
   Ground       GNDA, GNDD, GNDM, PHONESGND (pours; tracks where a pour can't reach)
   Chassis      CHASSIS (jack sleeves and the plated standoffs)
@@ -26,6 +27,19 @@ from emc_check import load, classify
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 BOARDS = ('channel_strip', 'jack_board', 'group', 'group_jack_board', 'master', 'master_jack_board',
           'jig_master_stub', 'jig_load_board')
+# the board-wide fab limits (Board Setup > Constraints), every project incl. the PSU: JLCPCB's published capabilities
+# (jlcpcb.com/capabilities/pcb-capabilities, read 2026-10-27) or our own stricter choice where noted
+FAB = {'min_clearance': 0.15,                 # pad to pad, different nets (JLCPCB 0.15)
+       'min_track_width': 0.1,                # JLCPCB 0.10 on 2 layers, 0.09 on 4; the net classes use >= 0.2
+       'min_through_hole_diameter': 0.3,      # ours: 0.3 mm holes cost nothing extra (JLCPCB from 0.15)
+       'min_via_diameter': 0.5,               # ours (the classes use 0.6 / 0.8); JLCPCB from 0.25
+       'min_via_annular_width': 0.1,          # JLCPCB: via pad 0.1 (0.15 preferred) over the hole
+       'min_hole_clearance': 0.28,            # JLCPCB: plated hole to track 0.28 (0.35 recommended)
+       'min_hole_to_hole': 0.45,              # JLCPCB: pad holes 0.45 apart (vias 0.2)
+       'min_copper_edge_clearance': 0.5,      # ours (JLCPCB 0.2 to a routed edge)
+       'min_silk_clearance': 0.15,            # JLCPCB: silk 0.15 from pads
+       'min_text_height': 1.0,                # JLCPCB: text >= 1.0 mm high
+       'min_text_thickness': 0.15}            # JLCPCB: silk lines >= 0.15 mm
 GROUND = {'GNDA', 'GNDD', 'GNDM', 'PHONESGND'}
 POWER = re.compile(r'^[+-](VBUS(_[LR])?|VA|VP|VM)$')
 LOGIC = {'+VL', '-VL', '+5VL'}
@@ -115,6 +129,13 @@ def classes_of(path):
         out[real.get(n, n)] = c
     return out
 
+def fab(name):
+    pro = os.path.join(ROOT, name + '.kicad_pro'); d = json.load(open(pro))
+    if 'design_settings' not in d.get('board', {}):     # a minimal project (the PSU's): start from the strip's settings
+        d.setdefault('board', {})['design_settings'] = json.load(open(os.path.join(ROOT, 'channel_strip.kicad_pro')))['board']['design_settings']
+    d['board']['design_settings'].setdefault('rules', {}).update(FAB)
+    with open(pro, 'w') as f: json.dump(d, f, indent=2); f.write('\n')
+
 def write(name):
     pcb, pro = os.path.join(ROOT, name + '.kicad_pcb'), os.path.join(ROOT, name + '.kicad_pro')
     cls = classes_of(pcb)
@@ -139,4 +160,5 @@ def write(name):
     print(f'{name}: ' + ', '.join(f'{k} {count.get(k, 0)}' for k in CLASSES))
 
 if __name__ == '__main__':
-    for n in sys.argv[1:] or BOARDS: write(n)
+    for n in sys.argv[1:] or BOARDS: write(n); fab(n)
+    if not sys.argv[1:]: fab('psu')                    # the PSU gets the fab limits only (no net classes)

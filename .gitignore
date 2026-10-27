@@ -17,3 +17,6 @@ render/fly/
 
 # KiCad lock files (an open editor)
 ~*.lck
+
+# fab outputs (tools/fab_out.py)
+fab/

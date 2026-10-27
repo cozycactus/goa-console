@@ -519,11 +519,11 @@ def place(NET, OUT, L):
     stats = dict(decoupling=sorted(dec, reverse=True), input_reach=sorted(reach, reverse=True))
 
     # ---------------------------------------------------------------- silkscreen reference designators
-    # 0.8 mm text (board minimum), at the nearest spot that clears pads (mask openings), other silk, other
+    # 1.0 mm text (JLCPCB's minimum), at the nearest spot within 7 mm that clears pads (mask openings), other silk, other
     # references and the board edge. Pass 1 also keeps the text off other parts' courtyards, so it stays
     # readable after assembly; pass 2 drops that; if nothing fits, the silk reference is hidden (the Fab layer
     # keeps ${REFERENCE}). Big parts try their own body first.
-    SILK_H, SILK_T, SILK_GAP, MASK_GAP, EDGE_GAP, REACH = 0.8, 0.12, 0.15, 0.1, 0.5, 5.0
+    SILK_H, SILK_T, SILK_GAP, MASK_GAP, EDGE_GAP, REACH = 1.0, 0.15, 0.15, 0.15, 0.5, 7.0   # JLCPCB: text >= 1.0 mm, lines >= 0.15 mm, 0.15 mm from pads
     F = pcbnew.FromMM
     fps = list(board.GetFootprints())           # mounting holes too: their labels must clear the parts
     CELL = 5.0

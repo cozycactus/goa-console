@@ -257,6 +257,21 @@ jack board) done.
   It fills the zones in memory. `tools/route_check_test.py` routes a known fault and a known-good case for each check
   on a scratch strip (8 / 8 found, 0 false alarms). The test showed a via beside a SOIC pin can't get a GNDA via
   within 1 mm (about 1.4 mm), hence the 2 mm limit.
+- Fab limits and outputs (2026-10-27):
+  - **Board rules:** `tools/netrules.py` writes JLCPCB-based limits (`FAB`) into every project, the PSU's too.
+    JLCPCB's capabilities page was read 2026-10-27: text >= 1.0 mm / 0.15 mm lines, plated hole to track 0.28, pad
+    holes 0.45 apart, silk 0.15 from pads, pad to pad 0.15.
+  - **Silk:** `placer.py` writes references at 1.0 / 0.15 mm (was 0.8 / 0.12) within 7 mm. Hidden: master R139, R142,
+    R158, R212; none elsewhere. The group's silk labels are 1.0 mm.
+  - **Re-placed:** every board, no part moved; DRC unchanged except the PSU's TO-220 silk at the edge (20 items, by
+    design).
+  - **`python3 tools/fab_out.py BOARD`:**
+    - **Checks:** DRC (zones refilled, parity) and `route_check.py`. It refuses on anything but the footprint-internal
+      items in `KNOWN`, and a known item must name only footprints.
+    - **Writes `fab/BOARD/` (gitignored):** Gerbers with all copper layers, Excellon PTH / NPTH, a zip, the position
+      file + JLCPCB CPL, BOM, DRC JSON.
+    - **Tried:** on the strip (4L: L1 / L2 GND / L3 GND2 / L4), jack board and PSU with `--allow-unrouted`. The jig
+      load board is refused for its 106 unrouted connections.
 - `sample_order.md` — the parts to order with the prototype panel and the eight physical checks they settle.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.

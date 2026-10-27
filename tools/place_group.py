@@ -69,8 +69,8 @@ JP_Y = [358.0 + 3.5 * k for k in range(4)]
 for k, y in enumerate(JP_Y):
     FIX[f'JP{k + 1}'] = (30.5, y, 0, 'F'); FIX[f'JP{k + 5}'] = (35.0, y, 0, 'F')
 # two boards on one bus rail both summers (master_group_review.md MG19): write the board's group number in GRP __
-LABELS = [(32.75, 352.4, 'GRP __', 0.9), (30.5, 355.2, 'SUB', 1.0), (35.0, 355.2, 'AUX', 1.0)] + \
-         [(28.3, y, str(k + 1), 0.9) for k, y in enumerate(JP_Y)]
+LABELS = [(32.75, 352.4, 'GRP __', 1.0), (30.5, 355.2, 'SUB', 1.0), (35.0, 355.2, 'AUX', 1.0)] + \
+         [(28.3, y, str(k + 1), 1.0) for k, y in enumerate(JP_Y)]   # JLCPCB: silk text >= 1.0 mm
 HOLES = [(34.2, 117), (XC, 160), (XC, 215)] + FADER_HOLES   # (34.2, 117): XC is a pot's pins
 
 RADIAL = {r for r, f in FPN.items() if 'CP_Radial' in f or 'C_Rect' in f}   # electrolytics, 2.2u film: too tall for the 11.5 mm panel gap -> bottom

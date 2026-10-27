@@ -235,6 +235,35 @@ they are written general first:
 On today's placement, DRC is unchanged with the rules: 0 violations on the main and jig boards, and only the NJ6FD-V
 footprint's own items on the jack boards.
 
+## Fab limits and outputs (2026-10-27)
+
+**Board Setup > Constraints in every project, the PSU's too** (`tools/netrules.py` `FAB`), from JLCPCB's published
+capabilities (read 2026-10-27):
+- **Copper:** 0.15 mm pad to pad, tracks ≥ 0.1 mm (the classes use ≥ 0.2), holes ≥ 0.3 mm and vias ≥ 0.5 mm (our
+  choice, at no extra cost), via annulus ≥ 0.1 mm.
+- **Holes:** a plated hole 0.28 mm from a track, pad holes 0.45 mm apart.
+- **Edge:** 0.5 mm from the board edge (ours; JLCPCB 0.2).
+- **Silk:** 0.15 mm from pads; text ≥ 1.0 mm high with ≥ 0.15 mm lines.
+
+**Silk:** the placer now writes every reference at 1.0 mm text with 0.15 mm lines (it was 0.8 / 0.12, below JLCPCB's
+minimum).
+- **Search:** a free spot within 7 mm of the part.
+- **Hidden:** only four master references (R139, R142, R158, R212) find no room. They stay on the Fab layer.
+- **Group labels:** the group's "GRP __" and jumper numbers are 1.0 mm too.
+
+**When a board is routed:** `python3 tools/fab_out.py <board>` runs the checks, then writes `fab/<board>/` (gitignored).
+- **The checks:**
+  - DRC with zones refilled and schematic parity;
+  - `route_check.py`;
+  - it refuses on any DRC violation, parity issue, unrouted connection or route_check ERR. The footprint-internal
+    items listed in its `KNOWN` are accepted: the NJ6FD-V jacks, the PSU's overhanging TO-220s.
+- **The files:**
+  - Gerbers with every copper layer;
+  - Excellon drill, PTH and NPTH separate, with maps;
+  - `<board>_gerbers.zip` to upload;
+  - the position file and a JLCPCB CPL;
+  - the BOM and the DRC report.
+
 ## Before routing
 
 - **After each routing session:** run `$KPY tools/route_check.py <board>.kicad_pcb`. It checks what DRC can't:
