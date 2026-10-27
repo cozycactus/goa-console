@@ -61,9 +61,14 @@ for ext in ('kicad_pcb', 'kicad_pro', 'kicad_dru'): shutil.copy(os.path.join(ROO
 mpath = os.path.join(tmp, 'master.kicad_pcb'); mb = pcbnew.LoadBoard(mpath)
 t_ = pcbnew.PCB_TRACK(mb); t_.SetStart(pcbnew.VECTOR2I(M(70), M(300))); t_.SetEnd(pcbnew.VECTOR2I(M(70), M(305))); t_.SetWidth(M(1.0))
 t_.SetLayer(pcbnew.B_Cu); t_.SetNet(mb.FindNet('+VBUS_L')); mb.Add(t_); pcbnew.SaveBoard(mpath, mb)
+# the 4 A paths exist on the PSU only: a 2.0 mm +V track there
+for ext in ('kicad_pcb', 'kicad_pro', 'kicad_dru'): shutil.copy(os.path.join(ROOT, 'psu.' + ext), tmp)
+ppath = os.path.join(tmp, 'psu.kicad_pcb'); pb = pcbnew.LoadBoard(ppath)
+t_ = pcbnew.PCB_TRACK(pb); t_.SetStart(pcbnew.VECTOR2I(M(60), M(30))); t_.SetEnd(pcbnew.VECTOR2I(M(66), M(30))); t_.SetWidth(M(2.0))
+t_.SetLayer(pcbnew.B_Cu); t_.SetNet(pb.FindNet('/+V')); pb.Add(t_); pcbnew.SaveBoard(ppath, pb)
 rules = [l.split('"')[1] for l in open(os.path.join(ROOT, 'channel_strip.kicad_dru')) if l.startswith('(rule')]   # the strip has the 4-layer rules too
 hits = {}
-for name in ('channel_strip', 'jack_board', 'master'):
+for name in ('channel_strip', 'jack_board', 'master', 'psu'):
     subprocess.run([KC, 'pcb', 'drc', '--severity-all', '-o', os.path.join(tmp, name + '.rpt'), os.path.join(tmp, name + '.kicad_pcb')],
                    capture_output=True)
     rpt = open(os.path.join(tmp, name + '.rpt')).read()

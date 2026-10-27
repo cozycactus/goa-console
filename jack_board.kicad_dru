@@ -26,6 +26,9 @@
 (rule "wing feeds wide (a whole wing, up to ~2 A)"
   (condition "A.NetClass == 'WingFeed' && A.Type == 'Track'")
   (constraint track_width (min 1.5mm) (opt 2.0mm)))
+(rule "PSU 4 A paths wide (psu_spec.md: 3 mm tracks or pours)"
+  (condition "A.NetClass == 'HighCurrent' && A.Type == 'Track'")
+  (constraint track_width (min 3.0mm) (opt 4.0mm)))
 (rule "ground tracks wide"
   (condition "A.NetClass == 'Ground' && A.Type == 'Track'")
   (constraint track_width (min 0.4mm) (opt 0.6mm)))

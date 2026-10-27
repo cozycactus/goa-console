@@ -1,4 +1,4 @@
-# Routing guide: strip, group, master, their jack boards, and the jig (2026-10-26; layers, group and master 2026-10-27)
+# Routing guide: strip, group, master, their jack boards, the jig and the PSU (2026-10-26; layers, group, master, PSU 2026-10-27)
 
 Notes for routing the first boards to build: the jig and four strips. They are drawn from the placed boards (net lengths
 are Manhattan minimum-spanning-tree estimates from the pads, as `tools/emc_check.py` measures them) and from
@@ -230,6 +230,44 @@ reservoirs and clamps.
   - **Hot spot:** the meter area, y 320–350, is the master's third densest window (`docs/escape/master_3.svg`).
 - **The flasher:** FL_N runs 97 mm behind D18 (E8, intended). It's a slow RC node; keep it off the audio anyway.
 
+## PSU board (2-layer, `psu_spec.md` §7)
+
+**The layout:** two identical floating regulators. The −V one is the same circuit stacked under the +V one: its
+"output" is 0V and its return is −V, so 0V carries 4 A from both rails.
+- **The 4 A paths:** the SMPS in (J1 / J2) → chokes L1 / L2 → reservoirs → LM1084 U1 / U3 → output caps → J3.
+- **How to route them:** the HighCurrent class (POS_IN, NEG_IN, POS_LC, NEG_LC, +V, −V, 0V); DRC wants at least
+  3 mm tracks, 4 preferred, or pours.
+  - **Layers:** on both layers, stitched with via arrays: about 1 A per 0.5 mm via, so 5 or more per layer change.
+  - **The fault path:** the crowbar SCRs Q2 / Q4 short a rail to its return in a fault, through +V / 0V / −V. The
+    same copper takes that surge until the SMPS current limit acts.
+
+**The regulators**
+- **Adjust dividers (Kelvin):** the adjust divider sets each output, Vout = 1.25 × (1 + R2 / R1). R1 / R2 (and R10 /
+  R11 on −V) sit about 30 mm from U1 / U3.
+  - **R1:** take its OUT end from the regulator's OUT pin by its own track, not from the 4 A copper. Otherwise the
+    drop along that copper raises the output by the same amount.
+  - **R2:** its low end goes to the output side's return at J3, so the output is held at the console's connector.
+  - **The ADJ line:** low impedance at audio (47 µF C3 / C9 on it), so its length is harmless. Keep it off the
+    choke's field.
+- **The chokes:** L1 / L2 are horizontal toroids. Don't run the ADJ, sense or LED lines through the toroid's
+  middle or close past its ends.
+
+**Crowbar sensing**
+- **The divider:** the TL431 divider (R4 / R5, R13 / R14 on −V) should sense the rail where it leaves the board.
+  Take R4's top from the +V copper at J3, not from U1's pin, so the trip point (19.1 V) is the console's voltage.
+- **The reference node:** POS_REF / NEG_REF is the TL431's high-impedance input, with C6 / C12 on it. Keep it short
+  and away from the SCR gate lines.
+
+**Grounds and earth**
+- **0V star:** at J3's 0V pins (4 / 5). The SMPS returns, the reservoirs, the output caps, the divider low ends and
+  the crowbar return meet there, each by its own copper. The reservoir ripple then doesn't ride on the sense
+  returns.
+- **EARTH** (J3 pin 1 to the case stud J4) is the console's safety earth. It stays isolated from 0V on this board
+  (psu_spec): Chassis class, 0.5 mm from everything (DRC rule). Run it as one wide track straight to J4.
+
+**Heat:** the four TO-220s sit at the top edge, tabs over it onto the heatsink (PC1). Keep their legs' copper wide
+right up to the pads; that is part of the 4 A path.
+
 ## Strip jack board
 
 - **CHASSIS copper:**
@@ -293,6 +331,7 @@ change, because nets are assigned by exact name:
 |---|---|---|---|
 | Ground | GNDA, GNDD, GNDM, PHONESGND | 0.6 mm (min 0.4 by rule) | 0.6 / 0.3 |
 | Chassis | CHASSIS | 1.5 mm | 0.8 / 0.4 |
+| HighCurrent | the PSU's 4 A paths (POS_IN, NEG_IN, POS_LC, NEG_LC, +V, −V, 0V) | 4.0 mm (min 3.0 by rule) or pours | 1.0 / 0.5 |
 | WingFeed | nets through a wing PTC (master ±VBUS, ±VBUS_L / R; jig stub) | 2.0 mm (min 1.5 by rule) | 1.0 / 0.5 |
 | Power | ±VBUS*, ±VA, ±VP, ±VM | 0.8 mm (min 0.5 by rule) | 0.8 / 0.4 |
 | LogicSupply | ±VL, +5VL | 0.4 mm | 0.6 / 0.3 |

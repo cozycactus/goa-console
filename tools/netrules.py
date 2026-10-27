@@ -6,6 +6,7 @@ It also writes the board-wide fab limits (FAB, JLCPCB's capabilities) into every
 Classes, first match wins:
   Ground       GNDA, GNDD, GNDM, PHONESGND (pours; tracks where a pour can't reach)
   WingFeed     nets through a wing PTC (the master's +-VBUS and +-VBUS_L / _R): a whole wing, up to ~2 A
+  HighCurrent  the PSU's 4 A paths (SMPS in, after the chokes, the outputs, 0 V); the PSU's EARTH is Chassis
   Chassis      CHASSIS (jack sleeves and the plated standoffs)
   Power        the bus and op-amp rails (+-VBUS*, +-VA, +-VP, +-VM)
   LogicSupply  +-VL, +5VL
@@ -49,7 +50,9 @@ OPAMP = ('OPA', 'DRV13')
 CLASSES = {'Default': (0.25, 0.2, 0.6, 0.3), 'Ground': (0.6, 0.2, 0.6, 0.3), 'Chassis': (1.5, 0.5, 0.8, 0.4),
            'Power': (0.8, 0.2, 0.8, 0.4), 'LogicSupply': (0.4, 0.2, 0.6, 0.3), 'Bus': (0.3, 0.2, 0.6, 0.3),
            'Entry': (0.3, 0.2, 0.6, 0.3), 'HighZ': (0.2, 0.2, 0.6, 0.3), 'Switching': (0.25, 0.2, 0.6, 0.3),
-           'WingFeed': (2.0, 0.3, 1.0, 0.5)}
+           'WingFeed': (2.0, 0.3, 1.0, 0.5), 'HighCurrent': (3.0, 0.3, 1.0, 0.5)}
+# the PSU (psu_spec.md section 7): its 4 A paths, SMPS in -> chokes -> LDOs -> output, and the 0 V return
+PSU_HIGH = {'POS_IN', 'NEG_IN', 'POS_LC', 'NEG_LC', '+V', '-V', '0V'}
 # class clearances stay at the board's 0.2 mm: footprints have pad gaps down to 0.25 mm (the load board's slide switches);
 # the wider spacings are track rules in DRU
 DRU = """(version 1)
@@ -80,6 +83,9 @@ DRU = """(version 1)
 (rule "wing feeds wide (a whole wing, up to ~2 A)"
   (condition "A.NetClass == 'WingFeed' && A.Type == 'Track'")
   (constraint track_width (min 1.5mm) (opt 2.0mm)))
+(rule "PSU 4 A paths wide (psu_spec.md: 3 mm tracks or pours)"
+  (condition "A.NetClass == 'HighCurrent' && A.Type == 'Track'")
+  (constraint track_width (min 3.0mm) (opt 4.0mm)))
 (rule "ground tracks wide"
   (condition "A.NetClass == 'Ground' && A.Type == 'Track'")
   (constraint track_width (min 0.4mm) (opt 0.6mm)))
@@ -122,7 +128,9 @@ def classes_of(path):
         if n.startswith('unconnected'): continue
         ins = [p for r, p, xy, s in ps if r.startswith('U') and parts[r]['value'].startswith(OPAMP) and p in ('2', '3', '5', '6')]
         outs = [p for r, p, xy, s in ps if r.startswith('U') and parts[r]['value'].startswith(OPAMP) and p in ('1', '7')]
-        if n in GROUND: c = 'Ground'
+        if os.path.basename(path).startswith('psu'):     # the PSU: its own classes
+            c = 'HighCurrent' if n in PSU_HIGH else 'Chassis' if n == 'EARTH' else 'Default'
+        elif n in GROUND: c = 'Ground'
         elif any(r.startswith('F') and r[1:].isdigit() for r, p, xy, s in ps): c = 'WingFeed'   # through a wing PTC: up to ~2 A
         elif n == 'CHASSIS': c = 'Chassis'
         elif POWER.match(n): c = 'Power'
@@ -166,5 +174,4 @@ def write(name):
     print(f'{name}: ' + ', '.join(f'{k} {count.get(k, 0)}' for k in CLASSES))
 
 if __name__ == '__main__':
-    for n in sys.argv[1:] or BOARDS: write(n); fab(n)
-    if not sys.argv[1:]: fab('psu')                    # the PSU gets the fab limits only (no net classes)
+    for n in sys.argv[1:] or BOARDS + ('psu',): write(n); fab(n)
