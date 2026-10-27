@@ -207,7 +207,7 @@ jack board) done.
   group 15-16), jack board C8/C9 between J1's pins, master flasher diode at U22 and PFL detect by the PFL switcher.
   The strip's upper op-amps (U1, U4-U7, U12-U16) are now fixed in place_strip.py (the packer re-shuffled every IC);
   placer.py lets a fixed part stay in its zone as an anchor. E6 (10 nF base caps) and E7 (ferrites) are open.
-- `routing_guide.md` — routing notes for the strip, group, master, the jack boards and the jig stub / load board (2026-10-26; group / master 2026-10-27): ground and
+- `routing_guide.md` — routing notes for the strip, group, master, the jack boards, the jig stub / load board and the PSU (2026-10-26; group / master / PSU 2026-10-27): ground and
   supply strategy, the sensitive nets with lengths (IN_T/IN_R, pan buffer L's wiper line (165 -> 24 mm with PAN1), FPIN, KHN nodes, aux
   sends, PRESRC, VREF; jig GCREF / GCREF_BUF ~175 mm), the switching nets to keep away, CHASSIS on the jack boards,
   suggested net classes (not written into the projects).
@@ -236,8 +236,10 @@ jack board) done.
   `!(...)`; the later rule in the file wins for the same constraint). The 4-layer boards add five: no tracks on In1.Cu, no
   zone there but ground, no HighZ / Entry / Bus tracks on In2.Cu, rails / GNDD on In2 only inside RAILS, no HighZ / Entry
   / Bus on B.Cu over RAILS (13 rules on the strip, all fire). WingFeed class (nets through a wing PTC: master ±VBUS / ±VBUS_L / _R, the jig
-  stub's feeds): tracks >= 1.5 mm, 2.0 preferred (14 rules in the test, all fire). Re-run netrules.py after any re-placement or netlist
-  change. Generators that copy master.kicad_pro keep each project's net settings (`schgen.keep_net_settings`).
+  stub's feeds): tracks >= 1.5 mm, 2.0 preferred. PSU (2026-10-27): HighCurrent class (POS_IN / NEG_IN / POS_LC / NEG_LC /
+  +V / -V / 0V, the 4 A paths) >= 3 mm, 4 preferred (psu_spec.md §7), EARTH as Chassis; 15 rules in the test, all fire;
+  routing notes in routing_guide.md (Kelvin ADJ dividers, crowbar sense at J3, 0V star). Re-run netrules.py after any
+  re-placement or netlist change. Generators that copy master.kicad_pro keep each project's net settings (`schgen.keep_net_settings`).
 - `layer_study.md` — 2 vs 4 layers (2026-10-27, for Ruslan's decision): the main boards need about one full signal layer
   of routing (ratsnest 63-72 mm/cm2, 118-161 crossings per 10 cm2; jig / PSU / jack boards 8-17 and 2-14). Quotes on
   2026-10-27 (no shipping): JLCPCB phase 1 $43.50 all 2L vs $70.50 with the three main boards on 4L, full build $106 vs
@@ -258,6 +260,11 @@ jack board) done.
   It fills the zones in memory. `tools/route_check_test.py` routes a known fault and a known-good case for each check
   on a scratch strip (8 / 8 found, 0 false alarms). The test showed a via beside a SOIC pin can't get a GNDA via
   within 1 mm (about 1.4 mm), hence the 2 mm limit.
+- `python3 tools/check_all.py [--full]` (2026-10-27) — every project check in one run, tracked files untouched (netlists,
+  reports, panel outputs in a temp folder): per board netlist vs intended, pins vs footprints, ERC, parity DRC (KNOWN
+  items of fab_out.py aside), footprint links, route_check; then sim_netlist, sim_console, netrules_test,
+  route_check_test, panel_fab's checks; `--full` adds `sim/review/gaps/ol.py`. Exit 1 on any FAIL. Run it after any
+  generator, placement or rule change. Doesn't regenerate (run the generators first) or run the TI-model stability decks.
 - Fab limits and outputs (2026-10-27):
   - **Board rules:** `tools/netrules.py` writes JLCPCB-based limits (`FAB`) into every project, the PSU's too.
     JLCPCB's capabilities page was read 2026-10-27: text >= 1.0 mm / 0.15 mm lines, plated hole to track 0.28, pad

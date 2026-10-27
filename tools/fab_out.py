@@ -34,6 +34,16 @@ def run(cmd, **kw):
 def refs_of(item):
     return re.findall(r'\bof ([A-Z]+\d+)\b', item.get('description', ''))
 
+def is_known(name, v):
+    """Every item names a footprint the board's KNOWN rule covers (the board outline may be the other item of an edge
+    clearance); a track, via or zone in it makes it the layout's."""
+    rx = [r for t, r in KNOWN.get(name, []) if t == v.get('type')]
+    items = v.get('items', [])
+    fp = [it for it in items if refs_of(it)]
+    if not rx or not fp: return False
+    if any(not refs_of(it) and not it.get('description', '').endswith('on Edge.Cuts') for it in items): return False
+    return all(any(re.match(x, r) for x in rx) for it in fp for r in refs_of(it))
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith('--')]
     allow_unrouted, force = '--allow-unrouted' in sys.argv, '--force' in sys.argv
@@ -48,12 +58,7 @@ def main():
     run([KC, 'pcb', 'drc', '--format', 'json', '--schematic-parity', '--severity-all', '--refill-zones', '-o', rpt, pcb])
     d = json.load(open(rpt))
     viol = d.get('violations', [])
-    def is_known(v):                                   # every item names a footprint the board's KNOWN rule covers
-        rx = [r for t, r in KNOWN.get(name, []) if t == v.get('type')]
-        items = v.get('items', [])
-        if not rx or not items or not all(refs_of(it) for it in items): return False   # a track or via in it: layout's
-        return all(any(re.match(x, r) for x in rx) for it in items for r in refs_of(it))
-    known = [v for v in viol if is_known(v)]
+    known = [v for v in viol if is_known(name, v)]
     other = [v for v in viol if v not in known]
     unrouted, parity = d.get('unconnected_items', []), d.get('schematic_parity', [])
     print(f'{name}: DRC {len(viol)} violations ({len(known)} known footprint items), {len(parity)} parity issues, '
