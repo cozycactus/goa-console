@@ -92,6 +92,9 @@ the product line is stopped. It is used in 36 places:
 Signed off by Ruslan on 2026-10-25.
 
 - [x] **S1** 10 µF NP → Panasonic ECE-A1EN100U, drop-in (DRV135 sense legs and jig).
+- **CS11b (2026-10-27):** the console's 30 DRV135 couplers are sorted into pairs within 2 %, so `order_bom.csv` orders
+  49 ECE-A1EN100U, 10 of them sorting stock. DigiKey on 2026-10-27: ECE-A1EN100U Active, 5,268 in stock (bulk), and
+  the taped ECE-A1EN100UB 1,999. RS's "discontinued" mark (`master_group_review.md`) is their listing, not the part.
 
 **Applied (2026-10-25).**
 - `master_lib.CAP_MPN['10u NP 25V']` = Panasonic ECE-A1EN100U: 5 × 11 mm, 2.0 mm pitch (RS, Future); stocked at RS

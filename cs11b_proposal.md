@@ -84,4 +84,10 @@ All 61 checks pass:
   `order_bom.csv` (ECE-A1EN100U 49 with the note and the 10 sorting spares).
 - **Re-placed:** both boards for the MPN field; 0 parts moved. Netrules re-run.
 - **Documents:** master spec (Part 1 note), `offboard_bom.md` (the sorting rule), CLAUDE.md, `console_survey.md`.
+- **Finished (2026-10-27):**
+  - `build_records.md` §1: the sorting procedure, a 15-row record, and a bench check per built output against a
+    prediction from the measured pair. Common mode ≈ 20 log10(m) − 13 dB at 100 Hz and − 26 dB at 1 kHz, from
+    `drv_couplers.py` §1, within about 2 dB for m = 1-20 %.
+  - The master spec's parts table notes the pairing.
+  - `sourcing.md` has the order quantity and DigiKey's stock: ECE-A1EN100U Active, 5,268 on 2026-10-27.
 

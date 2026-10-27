@@ -353,6 +353,8 @@ jack board) done.
   HighZ / Entry / Bus on F.Cu, Switching on B.Cu (both planes between them), the rest greedily to clear crossings, once
   per board. `docs/escape/<board>_layers.csv` per net; the three densest 30 mm windows per board as SVGs. Strip worst:
   y 121-151, the column between U12 / U13 (RV13, RV15, SW12, CN3).
+- `build_records.md` — values measured during assembly that later checks depend on: §1 the DRV135 coupler pairs (CS11b:
+  sorting, 15-row record, per-output balance bench check against 20 log10(m) - 13 / - 26 dB at 100 Hz / 1 kHz).
 - `sample_order.md` — the parts to order with the prototype panel and the nine physical checks they settle (9: the fader's residual at the bottom stop, for CS9).
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.

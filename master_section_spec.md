@@ -578,7 +578,7 @@ which stay at 22K so the strip aux pot wipers aren't loaded (architecture sectio
 | OPA1612 | 2 (mix L/R sum + re-invert) + 2 (mix insert/post-amp) + 1 (mono) + 1 (GCANCEL buffer) + 12 (subs) + 3 (aux output buffers) + 6 (aux sum + re-invert) = **27** | |
 | OPA1656 | **0** | (PFL only, §23) |
 | DRV134 | 3 (L, R, mono) + 4 (subs) + 6 (aux) = **13** | |
-| 10 µF NP electrolytic | 2 per DRV134 = **26** | output DC blocking inside the Sense loop |
+| 10 µF NP electrolytic | 2 per DRV134 = **26** | output DC blocking inside the Sense loop; since CS11b a pair sorted within 2 % per driver (their match sets the output balance; `build_records.md` §1) |
 | LM393B | 1½ | mute relay control (rail sense, timer Schmitt) |
 | Omron (Aratas) G6K-2F-Y DC12 | 3 | main output mute (C/Room and phones: §23) |
 | Bourns PTB0144 (dual) | 1 | master fader |
