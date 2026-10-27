@@ -35,6 +35,13 @@ x, y = spot(); track('GNDA', (x + .5, y + .5), (x + 7.5, y + .5), 0.25)     # gr
 # high-Z longer than 60 mm: a zig-zag in one empty column
 x, y = spot()
 for i in range(9): track(HZ, (x + .5 + (7 if i % 2 else 0), y + .5 + 0.4 * i), (x + .5 + (0 if i % 2 else 7), y + .5 + 0.4 * (i + 1)), 0.2)
+# 4-layer rules (the strip main is 4-layer): a track on the GND plane, a high-Z track on the PWR layer, a signal zone on GND
+x, y = spot(); track('POST', (x + .5, y + .5), (x + 7.5, y + .5), 0.25, pcbnew.In1_Cu)
+x, y = spot(); track(HZ, (x + .5, y + .5), (x + 7.5, y + .5), 0.2, pcbnew.In2_Cu)
+x, y = spot(); z = pcbnew.ZONE(b); z.SetLayer(pcbnew.In1_Cu); z.SetNet(b.FindNet('POST'))
+ol = z.Outline(); ol.NewOutline()
+for px, py in ((x + .5, y + .5), (x + 7.5, y + .5), (x + 7.5, y + 2.5), (x + .5, y + 2.5)): ol.Append(M(px), M(py))
+b.Add(z)
 pcbnew.SaveBoard(path, b)
 # CHASSIS lives on the jack board: a CHASSIS track there, 0.3 mm from a GNDA track
 for ext in ('kicad_pcb', 'kicad_pro', 'kicad_dru'): shutil.copy(os.path.join(ROOT, 'jack_board.' + ext), tmp)
@@ -44,7 +51,7 @@ def jtrack(net, a, z, w):
     t.SetWidth(M(w)); t.SetLayer(pcbnew.B_Cu); t.SetNet(jb.FindNet(net)); jb.Add(t)
 jtrack('/CHASSIS', (14, 2), (22, 2), 1.5); jtrack('GNDA', (14, 3.35), (22, 3.35), 0.6)
 pcbnew.SaveBoard(jpath, jb)
-rules = [l.split('"')[1] for l in open(os.path.join(ROOT, 'channel_strip.kicad_dru')) if l.startswith('(rule')]
+rules = [l.split('"')[1] for l in open(os.path.join(ROOT, 'channel_strip.kicad_dru')) if l.startswith('(rule')]   # the strip has the 4-layer rules too
 hits = {}
 for name in ('channel_strip', 'jack_board'):
     subprocess.run([KC, 'pcb', 'drc', '--severity-all', '-o', os.path.join(tmp, name + '.rpt'), os.path.join(tmp, name + '.kicad_pcb')],

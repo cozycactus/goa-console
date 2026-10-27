@@ -15,7 +15,8 @@ Classes, first match wins:
 The rules keep HighZ / Entry / Bus copper 1 mm from Switching and 0.5 mm from LogicSupply (tracks, vias and zones;
 pad to pad is placement, which tools/emc_check.py measures: a DG413's logic pin sits 0.67 mm from a bus pin), GNDD 0.5 mm from GNDA (the two
 grounds meet only at the net tie), CHASSIS 0.5 mm from everything else, Power and Ground tracks wide, and flag a HighZ
-net routed longer than 60 mm."""
+net routed longer than 60 mm. On the 4-layer boards (the strip, group and master mains) they also keep In1.Cu (GND) free
+of tracks and of anything but ground zones, and HighZ / Entry / Bus tracks off In2.Cu (PWR)."""
 import json, os, re, sys
 import pcbnew
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -64,6 +65,21 @@ DRU = """(version 1)
   (constraint track_width (min 0.4mm) (opt 0.6mm)))
 """
 
+DRU4 = """# 4-layer boards (layer_study.md): In1.Cu = GND, a solid GNDA plane; In2.Cu = PWR, the supply rails as pours or wide
+# tracks and the GNDD spine beside +VL / +5VL to the net tie
+(rule "GND plane: no tracks"
+  (layer "In1.Cu")
+  (constraint disallow track))
+(rule "GND plane: ground zones only"
+  (layer "In1.Cu")
+  (condition "A.Type == 'Zone' && A.NetClass != 'Ground'")
+  (constraint disallow zone))
+(rule "sensitive nets off the power layer"
+  (layer "In2.Cu")
+  (condition "A.NetClass == 'HighZ' || A.NetClass == 'Entry' || A.NetClass == 'Bus'")
+  (constraint disallow track))
+"""
+
 def classes_of(path):
     parts, nets = load(path)                          # names without the hierarchical '/'
     vict, agg, entry = classify(parts)
@@ -104,7 +120,8 @@ def write(name):
     ns['netclass_patterns'] = [{'netclass': c, 'pattern': n} for n, c in sorted(cls.items()) if c != 'Default']
     ns['netclass_assignments'] = {}
     with open(pro, 'w') as f: json.dump(d, f, indent=2); f.write('\n')
-    with open(os.path.join(ROOT, name + '.kicad_dru'), 'w') as f: f.write(DRU)
+    four = pcbnew.LoadBoard(pcb).GetCopperLayerCount() == 4
+    with open(os.path.join(ROOT, name + '.kicad_dru'), 'w') as f: f.write(DRU + (DRU4 if four else ''))
     count = {}
     for c in cls.values(): count[c] = count.get(c, 0) + 1
     print(f'{name}: ' + ', '.join(f'{k} {count.get(k, 0)}' for k in CLASSES))

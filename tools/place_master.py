@@ -193,7 +193,7 @@ MOVES.update({'C193': (56.77, 147.9, 90, 'B'), 'C180': (68.56, 414.975, 270, 'B'
               'C58': (57.865, 180.135, 180, 'B'), 'C31': (38.825, 439.905, 270, 'B'),
               'C74': (12.72, 116.15, 270, 'F')})
 place(os.path.join(PROJ, 'master.net'), os.path.join(PROJ, 'master.kicad_pcb'),
-      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
+      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, layers=4, holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
            grounds=('GNDA', 'GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'), silk_text_off=('K',), hole_value='M3 standoff 11.5 mm',
            attach=True, keepout=[(0, 186, EL, 299), (ER, 186, W, 299),
                                  (21.0, 202.2, 58.0, 220.0, 'B')]))     # J1's wire entries (its +y face): room for the wires

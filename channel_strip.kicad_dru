@@ -26,3 +26,16 @@
 (rule "ground tracks wide"
   (condition "A.NetClass == 'Ground' && A.Type == 'Track'")
   (constraint track_width (min 0.4mm) (opt 0.6mm)))
+# 4-layer boards (layer_study.md): In1.Cu = GND plane (GNDA with the GNDD partition, joined at the net tie),
+# In2.Cu = PWR (the supply rails as pours or wide tracks)
+(rule "GND plane: no tracks"
+  (layer "In1.Cu")
+  (constraint disallow track))
+(rule "GND plane: ground zones only"
+  (layer "In1.Cu")
+  (condition "A.Type == 'Zone' && A.NetClass != 'Ground'")
+  (constraint disallow zone))
+(rule "sensitive nets off the power layer"
+  (layer "In2.Cu")
+  (condition "A.NetClass == 'HighZ' || A.NetClass == 'Entry' || A.NetClass == 'Bus'")
+  (constraint disallow track))

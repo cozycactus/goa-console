@@ -665,6 +665,9 @@ between the HF / HI-MID and HI-MID / LO-MID rows; every HPF input network is wit
 `DECOUPLE`); the DG413s (U9–U11) are beside the fader just below CN1, the routing 4K7s between the fader
 and CN1's pins. The old v3.1 placement is `archive/channel_strip_v3.1.kicad_pcb`, kept unchanged.
 
+**Layers (2026-10-27, `layer_study.md`).** The main board is 4-layer: In1.Cu a solid GNDA plane, In2.Cu the supply rails and
+the GNDD spine to NT1, signals on F.Cu / B.Cu; the jack board stays 2-layer. `routing_guide.md` has the layer plan.
+
 **Stability caps at their pins (E9, 2026-10-27, `stab_caps_proposal.md`).** Every C0G cap on an op-amp input (the v4.1
 stability caps) is within 6.3 mm of its pin. Nine of them sit on the bottom under their op-amp: C37, C41, C70, C71,
 C75, C78, C80, C83 and C85. C84 is 5.8 mm from U7 pin 5, the nearest free spot. They move after packing (`placer.py` `moves`), because the greedy

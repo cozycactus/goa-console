@@ -145,6 +145,6 @@ MOVES.update({'R57': (34.22, 160.38, 0, 'B'), 'R55': (32.47, 166.65, 180, 'B'), 
 # under the pin (placer `moves`)
 MOVES.update({'C43': (6.97, 218.9, 90, 'F')})
 place(os.path.join(PROJ, 'group.net'), os.path.join(PROJ, 'group.kicad_pcb'),
-      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
+      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, layers=4, holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
            keepout=[(22.0, 185.0, 23.5, 215.0, 'B')],          # silk room beside the links' boxes
            hole_value='M3 standoff 11.5 mm', attach=True))

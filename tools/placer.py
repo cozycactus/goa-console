@@ -14,6 +14,9 @@ place(net, out, layout) builds a board from a KiCad netlist and a layout:
          to it. Each IC is placed with room around it and followed at once by its parts.
   limits  (decoupling, input reach) in mm for the placement report (default 5, 6).
   keepout  [(x0, y0, x1, y1)] areas kept free of parts on both sides, or [(x0, y0, x1, y1, side)] on one side.
+  layers  copper layers, 2 (default) or 4 (layer_study.md: the strip, group and master main boards). On 4 layers In1.Cu
+         is named GND (a solid GNDA plane) and In2.Cu PWR (the supply rails and the GNDD spine to the net tie);
+         the fab's standard 1.6 mm stackup.
   moves  {ref: (x, y, rot, 'F'|'B')} parts packed as usual, then moved to these spots before the report: the packing
          stays as without the moves (no part re-packs into the slots they leave). Refuses a spot whose courtyard
          meets another part's on that side, or that meets a through-hole pad or the board edge; a through-hole part's own
@@ -128,7 +131,10 @@ def place(NET, OUT, L):
 
     # ---------------------------------------------------------------- board
     board = pcbnew.CreateEmptyBoard()
-    board.SetCopperLayerCount(2)
+    board.SetCopperLayerCount(L.get('layers', 2))
+    if L.get('layers', 2) == 4:
+        board.SetLayerName(pcbnew.In1_Cu, 'GND'); board.SetLayerType(pcbnew.In1_Cu, pcbnew.LT_POWER)
+        board.SetLayerName(pcbnew.In2_Cu, 'PWR'); board.SetLayerType(pcbnew.In2_Cu, pcbnew.LT_MIXED)
     netinfo = {}
     for name in sorted(set(padnet.values())):
         ni = pcbnew.NETINFO_ITEM(board, name); board.Add(ni); netinfo[name] = ni

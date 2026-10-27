@@ -1,7 +1,7 @@
 # 2 vs 4 layers for the console boards (study, 2026-10-27)
 
-**Status: study, for Ruslan's decision.** Nothing in the projects changes until a choice is made. The boards are
-2-layer today, and `tools/netrules.py`'s rules assume nothing about the layer count.
+**Decided by Ruslan on 2026-10-27:** 4 layers for the strip, group and master main boards, 2 layers for every jack board,
+both jig boards and the PSU. Applied the same day; see "Applied" at the end.
 
 ## The boards
 
@@ -89,14 +89,14 @@ pour.
 | Layer | Use |
 |---|---|
 | L1 (top) | parts, signals |
-| L2 | solid GNDA plane. A GNDD partition under the logic area, joined to GNDA at NT1 only (a copper split in the plane, not a separate net elsewhere) |
-| L3 | power: ±VA, +VL / −VL, +5VL as wide traces or pour regions along the board; a few low-impedance signals where needed |
+| L2 | solid GNDA plane, unbroken |
+| L3 | power: ±VA, +VL / −VL, +5VL as wide traces or pour regions along the board, and the GNDD spine beside +VL / +5VL to the net tie; a few low-impedance signals where needed |
 | L4 (bottom) | the bottom parts, signals, GNDA fill stitched to L2 |
 
 **What it means:**
 - **Routing:** two signal layers (L1, L4) for about one layer of demand: about 50 % use, and short layer changes are
   free.
-- **Ground:** every ground pad takes one via straight to L2. The ground is the same solid plane everywhere, under every
+- **Ground:** every GNDA pad takes one via straight to L2 (GNDD pads to their spine; see Applied). The ground is the same solid plane everywhere, under every
   HighZ net, bus line and decoupler loop.
 - **Supplies:** the trees leave the signal layers entirely, and so do their ~500 / 470 / 1500 crossings.
 - **Bottom parts:** the bottom-side caps (E9 / E11) via straight through to their pins with L2 / L3 right there, which
@@ -104,9 +104,7 @@ pour.
 
 **Rules it needs** (`netrules.py` would add them as layer-specific rules):
 - **HighZ:** on L1 / L4 only, never on L3 (the supply layer).
-- **L2:** no tracks; only the GNDD / GNDA split and NT1.
-- **Switching lines:** never cross the GNDD / GNDA split on L1 / L4 over the other ground. A switching line crossing
-  into the GNDA area runs over GNDA.
+- **L2:** no tracks, and no zone but ground.
 - **Power class:** pours on L3; the track-width rule only applies where a rail runs on L1 / L4.
 
 **What it costs:** see Pricing below: at JLCPCB, $27 more for phase 1 and $93 more for the whole console.
@@ -170,7 +168,31 @@ research agent did the reading, so treat the figures as quotes on that date.
   writes the layer count; placement unchanged).
 - **Rules:** add the layer rules to `tools/netrules.py` (HighZ off L3, no tracks on L2) and extend
   `netrules_test.py`.
-- **Guide:** update `routing_guide.md` with the layer plan, including the GNDD / GNDA split on L2 and NT1.
+- **Guide:** update `routing_guide.md` with the layer plan, including where GNDD runs and NT1.
 
 **If you keep 2 layers:** the 2-layer rules above go into `routing_guide.md` and `netrules.py` instead. The routing is
 slower, and its ground quality depends on how each jumper is routed.
+
+## Applied (2026-10-27)
+
+**Boards:**
+- **Layer count:** `placer.py` takes `layers=4`. The strip, group and master layouts use it.
+- **Inner layers:** In1.Cu is named GND (plane type), In2.Cu PWR (mixed). The board thickness is 1.6 mm, the fab's
+  standard 4-layer stackup.
+- **Re-placed:** 0 parts moved, 0 DRC violations, 0 parity issues, every footprint linked. The jack boards, jig and PSU
+  stay 2-layer.
+
+**GNDD on 4 layers:** GNDD's pads are spread in clusters along each board.
+- **Strip:** D2 at y 50, U4 at 68–88, D5 at 142, the keys / LEDs / U17 at 265–323, the DG413s at 345–392; NT1 at 351.
+- **Group:** 7 pads.
+- **Master:** four groups around its net ties.
+
+A partition in the GND plane would be a long, fragmented finger. So L2 stays a solid GNDA plane, and GNDD runs as a wide
+spine on L3 (PWR), beside the +VL / +5VL that feed the logic and LEDs, to the net tie. Their currents go out and back
+side by side over the GNDA plane and never through it. The GNDD 0.5 mm rule keeps the spine clear of the GNDA vias
+passing through L3.
+
+**Rules** (`tools/netrules.py`, 4-layer boards only), each shown to fire by `tools/netrules_test.py`:
+- no tracks on In1.Cu;
+- no zone on In1.Cu but a ground one;
+- no HighZ / Entry / Bus tracks on In2.Cu.

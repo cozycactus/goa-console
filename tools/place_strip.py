@@ -171,5 +171,5 @@ if '(ref "CN5")' in open(NET).read():                           # jack board net
                   hole_value='M3 standoff = jack body height (~24 mm)')
 else:
     layout = dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, holes=HOLES, zones=ZONES, notes=NOTES, near=NEAR,
-                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES)
+                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, layers=4)  # layer_study.md: 4 layers for the main board
 place(NET, OUT, layout)

@@ -1,25 +1,49 @@
-# Routing guide: strip, strip jack board, jig master stub, jig load board (2026-10-26)
+# Routing guide: strip, strip jack board, jig master stub, jig load board (2026-10-26, layers 2026-10-27)
 
 Notes for routing the first boards to build: the jig and four strips. They are drawn from the placed boards (net lengths
 are Manhattan minimum-spanning-tree estimates from the pads, as `tools/emc_check.py` measures them) and from
 `emc_placement_study.md`, whose rules and sources apply throughout. Copper is Ruslan's, so this is advice, not a spec.
 The net classes and DRC rules at the end are written into the projects by `tools/netrules.py`.
 
+## Layers (`layer_study.md`, decided 2026-10-27)
+
+**The strip, group and master main boards are 4-layer:**
+
+| Layer | Use |
+|---|---|
+| F.Cu | parts, signals; ground fill stitched to GND where there's room |
+| In1.Cu "GND" | a solid GNDA plane, unbroken. No tracks; no zone but ground (DRC rules) |
+| In2.Cu "PWR" | ±VA, +VL / −VL, +5VL as wide tracks or pour strips along the board, and the GNDD spine. No HighZ / Entry / Bus tracks (DRC rule) |
+| B.Cu | the bottom parts, signals; ground fill stitched to GND |
+
+- **Every GNDA pad:** one via to In1, next to the pad. For the bottom-side caps (E9 / E11) the via that joins them to
+  their pin is the only layer change.
+- **GNDD:** a wide spine on In2 (Ground class, ≥ 0.4 mm), routed beside +VL / +5VL from each logic cluster to the net
+  tie. The LED and logic currents go out and come back side by side over the plane, never through it.
+  - Its clusters on the strip are D2 at y 50, U4 at 68–88, D5 at 142, the keys / LEDs / U17 at 265–323 and the DG413s
+    at 345–392; NT1 is at (5, 351).
+  - GNDD pads take a via down to the spine. Keep 0.5 mm from GNDA vias (DRC rule).
+- **Signals:** route on F.Cu and B.Cu, crossing at right angles where they cross. Change layer freely; the plane is the
+  return either way.
+- **Fills:** a fill on F.Cu or B.Cu is GNDA only, stitched to In1 every 10–15 mm and along the edges. No GNDD fill.
+
+**The jack boards, both jig boards and the PSU are 2-layer:** a bottom GNDA pour (CHASSIS on the jack boards as below),
+signals on top, short bottom jumpers at right angles.
+
 ## Channel strip (main board)
 
 ### Ground and supply
-- **GNDA:** one continuous reference under the audio circuit. The ribbon's even pins (2–16) and the spade (CN4) are
-  where it leaves the board. Every op-amp decoupler's GNDA end takes its via at the cap.
+- **GNDA:** the In1 plane. The ribbon's even pins (2–16) and the spade (CN4) are where it leaves the board. Every
+  op-amp decoupler's GNDA end takes its via at the cap.
 - **GNDD:** the logic ground, for the LM393s (U4, U17), the LED switches (Q3–Q5), every LED cathode, the DG413 logic
-  side, +5VL (D9 / C62) and the PVA2 pole-B returns.
+  side, +5VL (D9 / C62) and the PVA2 pole-B returns. It runs as the spine on In2 (see Layers).
   - It joins GNDA only at NT1, beside the spade.
-  - No GNDA current through GNDD, and no LED current through GNDA. Don't cross a GNDD region with an audio trace, or
-    the reverse.
+  - No GNDA current through GNDD, and no LED current through GNDA.
 - **±VBUS:** header pins 30–34 to the 10R filters R1–R4 (5–8 mm since E4). After them the rails are ±VA (op-amps),
   +VL / −VL (logic, LEDs) and +5VL from D9.
   - Strip current: about 104 mA on +V and 87 mA on −V.
-  - ±VA reach 34–36 pads over about 560 mm, so give them a tree or a wide trace along the board, not a daisy chain
-    through decoupler pads.
+  - ±VA reach 34–36 pads over about 560 mm. Run them on In2 as wide tracks or pour strips along the board, each
+    decoupler and supply pin taking its own via. Not a daisy chain through decoupler pads.
 - **GCANCEL:** header pin 26 to R5 (10R) at the spade. It carries no current; route it as a quiet signal next to
   ground.
 
