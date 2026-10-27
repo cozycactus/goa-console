@@ -1,0 +1,36 @@
+1. normal duty (M25SI 1206: 0.25 W at 70 C, 216 K/W; film at 40 C ambient, limit 125 C)
+   strip R1 +VA :  89.0 / 112.0 mA typ / max ->  79.2 / 125.4 mW ( 32 /  50 % of rating), film  57.1 /  67.1 C
+   strip R2 -VA :  87.0 / 108.0 mA typ / max ->  75.7 / 116.6 mW ( 30 /  47 % of rating), film  56.3 /  65.2 C
+   strip R3 +VL :  15.0 /  22.0 mA typ / max ->   2.2 /   4.8 mW (  1 /   2 % of rating), film  40.5 /  41.0 C
+   strip R4 -VL :   1.0 /   2.0 mA typ / max ->   0.0 /   0.0 mW (  0 /   0 % of rating), film  40.0 /  40.0 C
+   group R1 +VA : 107.0 / 135.0 mA typ / max -> 114.5 / 182.3 mW ( 46 /  73 % of rating), film  64.7 /  79.4 C
+   group R2 -VA : 107.0 / 135.0 mA typ / max -> 114.5 / 182.3 mW ( 46 /  73 % of rating), film  64.7 /  79.4 C
+   group R3 +VL :  10.0 /  15.0 mA typ / max ->   1.0 /   2.2 mW (  0 /   1 % of rating), film  40.2 /  40.5 C
+   group R4 -VL :   1.0 /   2.0 mA typ / max ->   0.0 /   0.0 mW (  0 /   0 % of rating), film  40.0 /  40.0 C
+
+2. faults behind a resistor at the far end of a wing (the worst source resistance), fault resistance RF
+   +V (MF-RX250/72: hold 2.5 A, trip 5.0 A; wing load 1.48 A typical, 2.07 A in the accepted corner)
+     RF  0.0 ohm: 1.659 A, 27.54 W: fuses in    1.0 ms -    0.07 s (beyond the band: faster); wing 3.14 / 3.73 A (under trip)
+     RF  1.0 ohm: 1.511 A, 22.83 W: fuses in    1.0 ms -    0.07 s (beyond the band: faster); wing 2.99 / 3.58 A (under trip)
+     RF  5.0 ohm: 1.113 A, 12.39 W: fuses in    1.0 ms -    0.07 s (beyond the band: faster); wing 2.59 / 3.18 A (under trip)
+     RF 10.0 ohm: 0.837 A,  7.01 W: fuses in    1.0 ms -    0.45 s; wing 2.32 / 2.91 A (under trip)
+     RF 20.0 ohm: 0.560 A,  3.13 W: fuses in 1067.0 ms -   74.26 s; wing 2.04 / 2.63 A (under trip)
+     RF 30.0 ohm: 0.421 A,  1.77 W: below 3 W: no fusing specified, film ~ 422 C; wing 1.90 / 2.49 A (under trip)
+     RF 47.0 ohm: 0.296 A,  0.87 W: below 3 W: no fusing specified, film ~ 229 C; wing 1.78 / 2.37 A (under trip)
+   -V (MF-RX185/72: hold 1.85 A, trip 3.7 A; wing load 1.05 A typical, 1.3 A in the accepted corner)
+     RF  0.0 ohm: 1.645 A, 27.07 W: fuses in    1.0 ms -    0.07 s (beyond the band: faster); wing 2.70 / 2.95 A (under trip)
+     RF  1.0 ohm: 1.499 A, 22.48 W: fuses in    1.0 ms -    0.07 s (beyond the band: faster); wing 2.55 / 2.80 A (under trip)
+     RF  5.0 ohm: 1.107 A, 12.25 W: fuses in    1.0 ms -    0.07 s (beyond the band: faster); wing 2.16 / 2.41 A (under trip)
+     RF 10.0 ohm: 0.834 A,  6.95 W: fuses in    1.0 ms -    0.48 s; wing 1.88 / 2.13 A (under trip)
+     RF 20.0 ohm: 0.558 A,  3.12 W: fuses in 1116.6 ms -   77.27 s; wing 1.61 / 1.86 A (under trip)
+     RF 30.0 ohm: 0.420 A,  1.76 W: below 3 W: no fusing specified, film ~ 420 C; wing 1.47 / 1.72 A (under trip)
+     RF 47.0 ohm: 0.295 A,  0.87 W: below 3 W: no fusing specified, film ~ 228 C; wing 1.35 / 1.60 A (under trip)
+
+   after fusing: at most the rail (16.9 V) plus a CS10 diode's drop for a +VA-to--VA short: 17.3 V across the open part (M25SI at 10 ohm: ~22 V)
+
+3. surges through a module's 10R (ngspice): peak current, energy, time spent above 6.5 W (where the fastest
+   parts of the band fuse in ~1 ms)
+   power-up through the PSU soft start (all modules)    VA 10R + 220u :  0.04 A peak,    0.91 mJ,  0.00 ms above 6.5 W
+   PSU lead plugged into a running PSU (all modules)    VA 10R + 220u :  0.76 A peak,    5.13 mJ,  0.00 ms above 6.5 W
+   one module plugged into a live wing                  VA 10R + 220u :  1.59 A peak,   29.93 mJ,  1.60 ms above 6.5 W
+   one module plugged into a live wing                  VL 10R + 47u  :  1.55 A peak,    6.14 mJ,  0.33 ms above 6.5 W

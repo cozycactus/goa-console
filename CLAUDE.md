@@ -202,6 +202,13 @@ jack board) done.
   series (Phonic OEM), Spirit E8, Mackie 1604 / 1402-VLZ and 8•Bus; nothing weaker in ours. New proposals CS9 (fader
   shut-off compensation as A&H, only if the PTB0143 sample's residual is worse than -80 dB), CS10 (reverse diodes per
   rail on every strip / group board), CS11 (jig tests: output balance, measured CMR, fader breakthrough, GCANCEL current).
+- `cs6_proposal.md` (+ `cs6_proposal.patch`, tools only) — CS6 worked up, not signed off (2026-10-27): R1-R4 (10R to
+  +VA / -VA / +VL / -VL) on every strip and group as Vishay M25SI fusibles (M251206BB1009JP500, 1206 0.25 W, fuses >= 3 W;
+  DigiKey stock; TT FCR0805 / 1206 too small at 0.1 / 0.125 W, FCR1210 not stocked). `sim/review/cs6/fusible.py`: a
+  short behind one draws 1.66 A, 27.5 W, opens it in < 0.07 s while the wing PTC stays under its trip current; duty
+  32-73 % of rating (film <= 79 C in the 40 C tub); a module plugged into a live wing (1.59 A, 30 mJ, 1.6 ms over 6.5 W)
+  may open them: power down first. Strip R1-R4 leave the packer (moves_only, C2 / C4 fixed, old spots kept out), nothing
+  else moved. Trial tree 61 / 61.
 - `sim/review/cs5/pfl_xtalk.py` (2026-10-27, CS5 check, no change): one wing's conductors 25-31 with the PFL summer and
   PFL DET; everything into the PFL sum sits at or below its ~-93..-97 dBu floor. AUX2 -105 dB at 20 kHz; -V ripple
   -122 dBu; a key press -94 dBu peak, at the DG413's own click; key decouplers (CS5a) can't help (+VL is already
