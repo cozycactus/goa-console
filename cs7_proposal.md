@@ -1,6 +1,6 @@
 # CS7: DIM on C/Room (proposal, 2026-10-28)
 
-**Not signed off.** The change is `cs7_proposal.patch`. It touches tools only: `gen_master.py`, `frags.py`,
+**Signed off by Ruslan on 2026-10-28 (as proposed) and applied the same day; see "Applied" at the end.** The change is `cs7_proposal.patch`. It touches tools only: `gen_master.py`, `frags.py`,
 `place_master.py`, `placer.py`, `panel_layout.py`, `sim_console.py` and `sim/review/master/configs.py`.
 
 **Asked for by Ruslan on 2026-10-28:** a DIM key at (29.16, 178) beside POWER, 91K per side bypassed by the key,
@@ -153,7 +153,19 @@ problems (77 holes).
 
 ## Sign-off
 
-- [ ] **CS7** as proposed: DIM on C/Room, −20 dB (R236 / R237 91K across SW4), key beside POWER; U8's group on the
+- [x] **CS7** as proposed (Ruslan, 2026-10-28): DIM on C/Room, −20 dB (R236 / R237 91K across SW4), key beside POWER; U8's group on the
   bottom beside it.
 - [ ] As proposed, plus a 10 µF NP DC block ahead of each C/ROOM pot top (removes the switching step).
 - [ ] Neither: keep monitor dim excluded.
+
+## Applied (2026-10-28)
+
+- **Applied:** the patch.
+- **Regenerated and re-exported:** the master schematic (1796 pins, 620 parts, 0 mismatches, check_fp 0, ERC 0), its
+  netlist, BOM (+ SW4 PVA2, 2 × 91K), PDF and `order_bom.csv` (PVA2 371, Yageo RC0805FR-0791KL 12).
+- **Re-placed:** identical to the trial (SW4, R236, R237 new; U8's group of 7 moved; nothing else). The master jack
+  board's file only reordered, so it is unchanged. Netrules re-run (classes unchanged).
+- **Panel:** `render/master.json` re-exported, `panels/master.*` regenerated (77 holes, "DIM" beside POWER, 0 problems).
+- **Documents:** `console_architecture.md` (DIM moved from Excluded to Included), master spec §20 / §23,
+  `offboard_bom.md` (PVGY 194), `console_survey.md`, CLAUDE.md.
+- **`check_all --full`:** 61 / 61 (master 1796 pins, 620 / 620 linked, 0 DRC / parity; `sim_console` 38 / 38; 1517 / 1517 links in all).

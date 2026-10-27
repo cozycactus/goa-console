@@ -314,12 +314,13 @@ the NE5532 versus about 80 dB for the OPA1612.
 - 8 stereo aux returns (two per group module)
 - Stereo mix with master insert, master fader, mono out, mute relay
 - Control room, headphones, PFL with auto-switch, rude solo LED, LED meters
+- C/Room DIM, −20 dB (CS7, 2026-10-28; was excluded)
 - External monitor input
 
 ### Excluded
 - Mic preamps, phantom (trim, HPF, EQ and direct outs added back on 2026-10-22, Delta clone)
 - Talkback, oscillator, tape I/O
-- SIP (PFL only), per-channel meters, monitor dim
+- SIP (PFL only), per-channel meters
 - Per-channel dynamics (use inserts)
 - Transformers, in-line monitoring, cue/foldback
 

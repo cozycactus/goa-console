@@ -17,7 +17,7 @@ boards. Dimensions and rules come from `panel_parts_drawings.md`, strip spec §1
 | Knob, 1/4" (6.35) round shaft | 14 / 3 / 5 | 353 | code | **Elma 021-3525**: classic collet knob Ø14.5, matt black with a line (`knob_proposal.md` KN1, signed off 2026-10-25); no nut cover |
 | Knob cap | 15 / 4 / 5 | 381 | code | **Elma 040-30x5**, matt, without a line (KN3): red 040-3035 ×25, grey 040-3015 ×98, blue 040-3045 ×80, yellow 040-3055 ×50, green 040-3065 ×50, black 040-3025 ×78 (colour per function in `knob_proposal.md`) |
 | Knob, 6 mm D shaft (pan, RK09L) | 1 / 1 / 0 | 28 | code | **Elma 021-3425**: the same knob with a 6 mm collet |
-| PV cap for PVA2 | 13 / 11 / 3 | 359 | code | C&K PV, round Ø7.4 × 7 (`knob_proposal.md` KC1): PVGY ×193, PVWH ×100, PVRD ×42, PVBK ×24 (ON). Panel hole Ø8.0. |
+| PV cap for PVA2 | 13 / 11 / 4 | 360 | code | C&K PV, round Ø7.4 × 7 (`knob_proposal.md` KC1): PVGY ×194 (CS7: + master DIM), PVWH ×100, PVRD ×42, PVBK ×24 (ON). Panel hole Ø8.0. |
 | Fader cap | 1 / 1 / 1 | 29 | code | Sifam LK111 01, black with a white line (KC2; 02 LK110 01, RS 281-7197, if only the plain one is stocked). Trial a few generic white / red / yellow 8 × 1.2 caps at the fader sample check; if one fits, strips white, groups red, master yellow. |
 | Fader screws | 2 / 2 / 2 | 58 | rule | M3 into the PTB cover's tapped holes, 120.0 apart, through the 1.5 panel and the 3.5 spacer. M3 × 8 countersunk if the panel is countersunk. |
 | Fader spacer | 2 / 2 / 2 | 58 | rule | 3.5 mm thick, M3 clearance, under the panel at each fixing (the stack puts the lever 5.0 above the panel). |

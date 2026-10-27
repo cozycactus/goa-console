@@ -408,6 +408,18 @@ def t_ext():
     check('EXT L only (0 dBu balanced, R normalled), EXT selected: C/Room L', r.get('cl'), 5.3, 5.9)
     check('EXT L only: C/Room R', r.get('cr'), 5.3, 5.9)
 
+def t_dim():
+    """CS7 (cs7_proposal.md): DIM latched takes C/Room 20 dB down (C/ROOM at the top: -20.75 dB, sim/review/cs7/dim.py);
+    phones and meters keep CRSB (+0.09 dB: the C/ROOM pot no longer loads the 100R build-out)."""
+    out = {}
+    for dim in (False, True):
+        s, g, m = default_console(master_cfg=dict(sw={'SW3': True, 'SW4': dim}, plugs={'JB_J8': ('src', SRC, 50, True)}))
+        out[dim], _ = run(console(s, g, m), AC1K + dbu('v(JB_CRL_XP,JB_CRL_XN)', 'cl') + dbu('v(JB_CRR_XP,JB_CRR_XN)', 'cr')
+                          + dbu('v(JB_PHJ_L)', 'ph'))
+    check('DIM latched: C/Room L against released (C/ROOM at the top)', out[True].get('cl', 0) - out[False].get('cl', 0), -21.1, -20.4)
+    check('DIM latched: C/Room R against released', out[True].get('cr', 0) - out[False].get('cr', 0), -21.1, -20.4)
+    check('DIM latched: phones L against released', out[True].get('ph', 0) - out[False].get('ph', 0), -0.05, 0.2)
+
 def t_crosstalk():
     """Strip 1 hard left at 0 dBu: what leaks into main R, SUB 1 and AUX 1 (ribbon capacitance, ground impedance)."""
     s, g, m = default_console(one(0, pos={'RV8': 0.0}))
@@ -453,7 +465,7 @@ def t_noise():
                                          'let nd = db(onoise_total/0.7746)', 'print nd'])
         check(f'main L noise, {label}', r.get('nd'), lo, hi, 'dBu')
 
-CHECKS = {f.__name__[2:]: f for f in (t_levels, t_pan, t_mute_route, t_sub, t_aux, t_pfl, t_return, t_return2, t_ext, t_crosstalk,
+CHECKS = {f.__name__[2:]: f for f in (t_levels, t_pan, t_mute_route, t_sub, t_aux, t_pfl, t_return, t_return2, t_ext, t_dim, t_crosstalk,
                                        t_ground, t_noise)}
 if __name__ == '__main__':
     if '--list' in sys.argv: print(' '.join(CHECKS)); sys.exit(0)

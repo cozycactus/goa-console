@@ -127,6 +127,14 @@ def law_buffer(d, src, out, u, cap, parts):
     if cap: d.at(cap, 2, 3.5, text='L')
 
 
+def dim(d, src, dst, r, sw, unit):
+    """C/Room dim, one side (CS7): r from src to dst with one pole of the DIM key across it; released, the pole shorts
+    r (full level), latched it leaves r in (-20 dB into the C/ROOM pot). The latched throw is unconnected.  16 x 8"""
+    com, rel = (2, 3) if unit == 1 else (5, 6)
+    d.at(r, 7.5, 6, rot=90, text='D'); d.w((0, 6), (r, 1)); d.port(src, (0, 6)); d.w((r, 2), (15, 6)); d.port(dst, (15, 6), 'R')
+    d.at(sw, 7.5, 2, unit=unit, text='U'); d.w((sw, com), (3, 2), (3, 6)); d.w((sw, rel), (12, 3), (12, 6))
+
+
 def rx_buffers(d, tip, ring, tb, rb, ut, ur, st, sr, rt, rr, ot, orr, ct, cr):
     """Balanced receiver's input followers (ground_study.md G3b): per leg 1M to ground, 220R, 100p at the + input, a
     unity follower, a 100R build-out to the bridge.  32 x 17"""

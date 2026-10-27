@@ -483,6 +483,10 @@ def place(NET, OUT, L):
             msg = f'{what}: {ref} meets {sorted(set(bad)) or "the board edge"}'
             if os.environ.get('PLACER_SKIP_GUARD'): print('  GUARD (skipped, debugging only):', msg)   # to see the cascade
             else: raise SystemExit(msg)
+    # every moved part leaves its packed spot first, so moved parts may take each other's spots (CS7: U8's group around
+    # the DIM key); each is then checked at its new spot against everything already there, so every pair is still checked
+    for ref in L.get('moves', {}):
+        if ref not in MOVES_ONLY: board.FindFootprintByReference(ref).SetPosition(pcbnew.VECTOR2I_MM(-1000.0, -1000.0))
     for ref, (x, y, rot, side) in L.get('moves', {}).items():
         fp = load(ref) if ref in MOVES_ONLY else board.FindFootprintByReference(ref)
         if fp.IsFlipped(): flip(fp)

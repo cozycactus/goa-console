@@ -232,9 +232,9 @@ strongly the library supports them.
   - *Ours:* a shorted strip trips its wing's PTC, which silences 12 strips; anti-surge resistors are built not to open.
   - *Proposed:* R1 / R2 (and R3 / R4) as fusible types sized for the strip's ~92 mA. This needs a part search: an 0805
     fusible 10R that opens fast enough to beat the MF-RX250/72's trip.
-- [ ] **CS7 Dim on C/Room** (Delta −20 dB, Series Five, Ghost). One key and a resistor, or a spare DG413 section, on
+- [x] **CS7 Dim on C/Room** (Delta −20 dB, Series Five, Ghost). One key and a resistor, or a spare DG413 section, on
   the master. A feature, your call. Talkback / slate / oscillator are left out on purpose: they serve mics and tape.
-  - *Proposed 2026-10-28* (`cs7_proposal.md`, not signed off): DIM key SW4 beside POWER, 91K per side shorted by the
+  - *Signed off and applied 2026-10-28* (`cs7_proposal.md`): DIM key SW4 beside POWER, 91K per side shorted by the
     released key, −20.0 to −20.75 dB on C/Room only; main R's DRV135 group moves to the bottom beside the key. TI models:
     the C/Room followers 84.8° dimmed (83.4° released). Reverses "monitor dim" in `console_architecture.md`'s Excluded.
 - [ ] **CS8 Deeper mute (defer to the jig).**

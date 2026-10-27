@@ -754,6 +754,15 @@ PFL is mono and goes to both sides. The meters follow what is being monitored: m
   speakers, which matters more than the main outputs. Two more G6K-2F-Y DC12 (L and R, both
   legs, NC to GNDA), driven by the same control as section 8.
 - Gain: unity at full C/ROOM, then +6 dB differential from the DRV134.
+- **DIM (CS7, `cs7_proposal.md`, signed off 2026-10-28).** SW4, a latching PVA2 beside POWER (panel row POWER | DIM ||
+  EXT | PFL ACTIVE). R236 / R237 91K sit between CRSB_L / R and each C/ROOM pot top (CRP_L / R); each pole shorts its
+  resistor while released, and the latched throws are unconnected, so the key carries audio, as EXT's does.
+  - **Depth:** −20.75 dB with C/ROOM at the top, −20.0 dB from mid-rotation down (`sim/review/cs7/dim.py`); C/Room only.
+    PHONES and the meters stay on CRSB (+0.08 dB while dimmed).
+  - **Switching step:** the CRS follower's offset (0.50 mV on TI's model) steps the C/Room follower by 0.44 mV at full
+    C/ROOM (−59 dBu at the TRS output), decaying with 0.22 s. Add a 10 µF NP DC block per side if the bench hears it.
+  - **Stability (TI models):** C/Room followers 84.8° dimmed (83.4° released), 61.1° with 47 pF; CRS followers 49.7°.
+  - **Placement:** main R's DRV135 U8 with C47-C50 / R224 / R225 moved to the bottom beside the key.
 
 ## 21. Headphones
 
@@ -890,7 +899,7 @@ scale badly (below).
 | G6K-2F-Y DC12 | 3 | CR mute (2), phones mute (1) |
 | RD902F A10K | 2 | C/ROOM, PHONES |
 | RD901F A10K | 1 | SOLO LEVEL |
-| PVA2 | 1 | EXT select |
+| PVA2 | 2 | EXT select, DIM (CS7) |
 | NJ6FD-V | 2 (EXT in) + 2 (CR out) + 1 (phones) = **5** | |
 | LEDs | 40 meter (Kingbright WP710A10GD / ND / ID) + 1 PFL ACTIVE | |
 

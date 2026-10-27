@@ -110,7 +110,7 @@ GROUP = {'RV4': ('RET 1', 'blue'), 'RV5': ('RET 2', 'blue'), 'RV3': ('AUX', 'yel
          'J2': ('SUB OUT', None), 'J1': ('INSERT', None), 'J3': ('AUX OUT', None), 'J4': ('RET 1 L', None),
          'J5': ('RET 1 R', None), 'J6': ('RET 2 L', None), 'J7': ('RET 2 R', None), 'RV1': ('SUB', 'black')}
 MASTER = {'RV2': ('AUX 5', 'black'), 'RV3': ('AUX 6', 'black'), 'RV5': ('C/ROOM', 'grey'), 'RV6': ('PHONES', 'grey'),
-          'RV4': ('SOLO', 'red'), 'SW1': ('AFL', 'red'), 'SW2': ('AFL', 'red'), 'SW3': ('EXT', 'grey'),
+          'RV4': ('SOLO', 'red'), 'SW1': ('AFL', 'red'), 'SW2': ('AFL', 'red'), 'SW3': ('EXT', 'grey'), 'SW4': ('DIM', 'grey'),
           'D12': (None, 'off'), 'D13': (None, 'off'), 'D3': ('POWER', 'green'), 'D15': ('PFL', 'off'),
           'J1': ('INS L', None), 'J2': ('INS R', None), 'J10': ('C/R L', None), 'J11': ('C/R R', None),
           'J8': ('EXT L', None), 'J9': ('EXT R', None), 'J6': ('AUX 5', None), 'J7': ('AUX 6', None),

@@ -51,6 +51,7 @@ x mm,y mm,diameter / slot,what
 9.65,275.00,"M3 blind stud, back side, not through",H2 main-board standoff
 71.25,275.00,"M3 blind stud, back side, not through",H3 main-board standoff
 20.15,325.00,Ø3.2,D3 led
+30.31,325.00,Ø8.0,SW4 ck_pva2
 50.63,325.00,Ø8.0,SW3 ck_pva2
 70.95,325.00,Ø5.2,D19 led
 8.31,347.00,Ø8.0,SW1 ck_pva2

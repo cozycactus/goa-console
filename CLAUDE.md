@@ -43,7 +43,7 @@ jack board) done.
   Legibility was proof-read tile by tile on all three sheets (2026-10-24, three passes); crops with
   `rsvg-convert` of the `kicad-cli sch export svg` output (viewBox in mm) are the quickest check after a drawing change. Live view while editing a drawing: `tools/live.sh [strip|group|master] "note"` regenerates, checks (verify, ERC) and exports SVG for the page served by
   `.claude/launch.json` ("schematic-live", http://localhost:8765).
-- `master.kicad_sch` / `.kicad_pro` — master MODULE (16 HP; 563 parts + its jack board) since the M1 split (2026-10-22).
+- `master.kicad_sch` / `.kicad_pro` — master MODULE (16 HP; 620 parts since CS7 + its jack board) since the M1 split (2026-10-22).
   HIERARCHICAL on A4 since 2026-10-25 (prints on A4): `master.kicad_sch` is the root sheet (one sheet symbol per page),
   `master_sheets/NN_*.kicad_sch` the 27 pages, all GENERATED (`build(pages=dict(paper='A4', folder=...))` in schgen.py:
   the blocks' fragments packed in rows onto each page, a block running on to the next page with "(cont.)", a later
@@ -149,7 +149,7 @@ jack board) done.
   $KC sch export pdf -o channel_strip.pdf channel_strip.kicad_sch
   ```
   python3 tools/sim_netlist.py channel_strip.net jack_board.net   # both netlists joined by the ribbon: 41 checks
-  python3 tools/sim_console.py     # the whole console from the netlists: 24 strips + 4 groups + master + ribbon, 35 checks
+  python3 tools/sim_console.py     # the whole console from the netlists: 24 strips + 4 groups + master + ribbon, 38 checks
   BOM (every board; quoted fields, because some MPNs contain commas; DNP column): `$KC sch export bom -o channel_strip_BOM.csv --fields '${QUANTITY},Value,Footprint,MPN,${DNP},Reference' --labels 'Qty,Value,Footprint,MPN,DNP,References' --group-by 'Value,Footprint,MPN,${DNP}' --ref-delimiter ' ' --ref-range-delimiter '' channel_strip.kicad_sch`
   `.venv/` (gitignored) holds kiutils 1.4.8. gen.py finds the symbol libs at the Linux or macOS
   default path, or `$KICAD_SYMBOL_DIR`. verify.py parses both KiCad 7 and KiCad 8+ netlists
@@ -225,8 +225,8 @@ jack board) done.
   Sub to MIX +3.3 dB at centre (sim_console GPANC). TI models: U3B / U5A 74.5 / 75.3 deg, 55.3 / 55.9 with 47 pF, no unit
   worse. `sim/review/cs2/group_pan.py`. (Corrected 2026-10-28: the follower figures of that run came from a stand-in
   `OPA1656.LIB`, TI's OPA161x under the OPA1656 name; the group deck's followers still need `OPA1656_FIT`.)
-- `cs7_proposal.md` (+ `cs7_proposal.patch`, tools + `sim/review/master/configs.py`) — CS7, proposed 2026-10-28, NOT signed
-  off: DIM on C/Room (SW4, a PVA2 at (29.16, 178) beside POWER; R236 / R237 91K between CRSB and each C/ROOM pot top, shorted
+- `cs7_proposal.md` (+ `cs7_proposal.patch`, tools + `sim/review/master/configs.py`) — CS7, signed off by Ruslan and applied
+  2026-10-28: DIM on C/Room (SW4, a PVA2 at (29.16, 178) beside POWER; R236 / R237 91K between CRSB and each C/ROOM pot top, shorted
   by the released key; -20.0..-20.75 dB, phones / meters +0.08 dB; made last). Main R's DRV135 U8 + C47-C50 / R224 / R225
   move to the bottom beside the key (22R legs 9.0 / 9.8 mm, were 10.2 / 10.5). `placer.py`: moved parts leave their packed
   spots first (U8 and C48 trade spots); strip / group / jig re-place identically. `sim/review/cs7/dim.py`; sim_console dim
@@ -643,6 +643,10 @@ jack board) done.
   each output back to its wiper: -2.7 dB centre, +1.7 dB hard. Mix +3.3 dB at centre (S/N unchanged, summer headroom
   29.5 -> 26.2 dB per source); PAN off stays POST (1.7 dB under a hard pan). The old -6 dB was never a decision.
   937 pins, 325 parts.
+- C/Room DIM (signed off by Ruslan 2026-10-28, `cs7_proposal.md` CS7; reverses console_architecture's "monitor dim"
+  exclusion): SW4 (PVA2, latching, grey cap) beside POWER at (29.16, 178); R236 / R237 91K between CRSB and each C/ROOM pot
+  top (CRP_L / R), shorted by the released key: -20.0..-20.75 dB on C/Room only. Main R's DRV135 U8 and C47-C50 / R224 /
+  R225 on the bottom beside the key. Master 1796 pins / 620 parts.
 - Group sub pan law (signed off by Ruslan 2026-10-28, `cs2b_proposal.md` CS2b): the strip's (CS2) on every group, so the
   sub pan copies the strip again (master spec §12). U3B / U5A at 1.22x (R124 / R127 2K2 with C96 / C97 22p C0G across
   them, R125 / R128 10K), R123 / R126 3K3 from each output back to its wiper: -2.7 dB centre, +1.7 dB hard (ED2778A, the
@@ -826,10 +830,10 @@ jack board) done.
   PSU board's 8 silk-edge items are the TO-220s at its edge (since 8b38deb). Strip report unchanged; group 3.0 / 6.2 / 2,
   8.5 / 20.2 / 31. Group and master panels pixel-identical but for the group's new rows; strip panel one numeral (HF "9"
   in place of HPF "50") since `panel_layout.layout()` takes parts in reference order.
-- Whole project (2026-10-28, strip v5.4, group with CS2b, `tools/check_all.py --full`): 61 / 61 checks pass on the committed tree: every board's
-  netlist vs intended (strip 937 pins, group 805, master 1786, jack boards 32 / 60 / 89, jig 364 / 153, PSU 119), pins vs
-  footprints, ERC 0, parity DRC (only the known footprint items), 1514 / 1514 footprint links, route_check 0 ERR;
-  sim_netlist 41/41, sim_console 35/35, every DRC rule fires (15), route_check_test 8 / 8, panel checks 0, ol.py red
+- Whole project (2026-10-28, strip v5.4, group with CS2b, master with CS7, `tools/check_all.py --full`): 61 / 61 checks pass on the committed tree: every board's
+  netlist vs intended (strip 937 pins, group 805, master 1796, jack boards 32 / 60 / 89, jig 364 / 153, PSU 119), pins vs
+  footprints, ERC 0, parity DRC (only the known footprint items), 1517 / 1517 footprint links, route_check 0 ERR;
+  sim_netlist 41/41, sim_console 38/38, every DRC rule fires (15), route_check_test 8 / 8, panel checks 0, ol.py red
   18.4 / green -19.5 dBu, ol_multi.py pulses +9.01 / -9.30 V.
 - E11 applied (2026-10-27, placement only): strip 13 / group 1 / master 7 decouplers moved, nothing else; 0 DRC, 0 parity,
   every footprint linked; decouplers median / max / over 5 mm: strip 2.5 / 5.4 / 1, group 2.9 / 5.1 / 1, master

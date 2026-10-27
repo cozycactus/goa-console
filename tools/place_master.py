@@ -171,7 +171,7 @@ ZONES = [
  ('meter L', (0.3, 300, 31.2, 444), take('METER L'), 'F'),
  ('meter R', (47.4, 300, W - 0.3, 444), take('METER R'), 'F'),
 ]
-NOTES = ((134, 'AUX 5 | AUX 6 || C/ROOM'), (156, 'AFL 5 | AFL 6 || PHONES | SOLO'), (178, 'POWER || EXT | PFL ACTIVE'),
+NOTES = ((134, 'AUX 5 | AUX 6 || C/ROOM'), (156, 'AFL 5 | AFL 6 || PHONES | SOLO'), (178, 'POWER | DIM || EXT | PFL ACTIVE'),
          (197, 'POWER IN J1 (bottom), star stud CN1 + NT1-4 at y 214; wing supplies along the board edges'),
          (305, 'BUS HEADERS: left wing CN2, right wing CN3 (bottom)'), (372, 'MASTER FADER 100 mm, meters L | R'),
          (118, 'LINK CN5 (bottom) to the jack board, pin 1 left'))
@@ -221,9 +221,18 @@ CS4C = {'R222': (10.25, 163.5, 0, 'B'), 'R223': (6.0, 168.5, 0, 'B'), 'R224': (3
         'R231': (68.25, 126.25, 0, 'F'), 'R232': (56.5, 219.0, 0, 'B'), 'R233': (52.25, 220.25, 0, 'B'),
         'R234': (31.5, 231.5, 90, 'B'), 'R235': (28.25, 228.75, 0, 'F')}
 MOVES.update(CS4C)
-for z in ZONES: z[2][:] = [r for r in z[2] if r not in CS4C]   # their drivers' blocks list them too
+# CS7 (cs7_proposal.md): the DIM key beside POWER in the EXT row (actuator at (XR, 178)) and its two 91K across its poles,
+# placed by MOVES alone. Main R's DRV135 (U8) leaves the key's spot with its loop and decoupling parts, to the bottom side
+# beside it: the 22R legs (pin -> 22R -> 10u -> Sense) 9.0 / 9.8 mm (were 10.2 / 10.4), C49 / C50 0.1 / 2.4 mm from their
+# supply pins (4.3 / 4.0); the 10u radials stay on the bottom (11.5 mm panel gap)
+CS7_U8 = {'U8': (37.0, 174.0, 90, 'B'), 'C47': (43.25, 169.5, 270, 'B'), 'C48': (37.75, 182.0, 90, 'B'),
+          'C49': (35.0, 171.5, 180, 'F'), 'C50': (32.75, 170.0, 270, 'B'), 'R224': (39.75, 171.5, 0, 'F'),
+          'R225': (39.75, 176.5, 0, 'F')}
+CS7 = {'SW4': sw(XR, 178), 'R236': (30.5, 177.75, 180, 'B'), 'R237': (30.5, 183.75, 180, 'B')}
+MOVES.update(CS7_U8); MOVES.update(CS7)
+for z in ZONES: z[2][:] = [r for r in z[2] if r not in CS4C and r not in CS7]   # their drivers' blocks list them too
 place(os.path.join(PROJ, 'master.net'), os.path.join(PROJ, 'master.kicad_pcb'),
-      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS4B) + tuple(CS4C), wire=tuple(CS4C), turns=TURNS, layers=4, rails=(0.5, 6.5), holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
+      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS4B) + tuple(CS4C) + tuple(CS7), wire=tuple(CS4C), turns=TURNS, layers=4, rails=(0.5, 6.5), holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
            grounds=('GNDA', 'GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'), silk_text_off=('K',), hole_value='M3 standoff 11.5 mm',
            attach=True, keepout=[(0, 186, EL, 299), (ER, 186, W, 299),
                                  (21.0, 202.2, 58.0, 220.0, 'B')]))     # J1's wire entries (its +y face): room for the wires
