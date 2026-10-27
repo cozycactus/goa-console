@@ -1,0 +1,84 @@
+1. the cross-coupled loop (Tian probe at VO+): |T| at 1 kHz, |1 + T| at 20 kHz, and the deepest dip of |1 + T| above 20 kHz (a resonance; 0 = oscillating)
+   10K // 1n          RX  0R: |T| 1 kHz 0.963, |1+T| 20 kHz 0.081, dip 0.970 at   2.464 MHz
+   10K // 1n          RX 10R: |T| 1 kHz 0.959, |1+T| 20 kHz 0.085, dip 0.971 at   2.353 MHz
+   10K // 1n          RX 22R: |T| 1 kHz 0.954, |1+T| 20 kHz 0.090, dip 0.972 at   2.246 MHz
+   10K // 1n          RX 33R: |T| 1 kHz 0.950, |1+T| 20 kHz 0.094, dip 0.973 at   2.246 MHz
+   600R               RX  0R: |T| 1 kHz 0.829, |1+T| 20 kHz 0.179, dip 0.997 at   5.158 MHz
+   600R               RX 10R: |T| 1 kHz 0.803, |1+T| 20 kHz 0.204, dip 0.998 at   5.158 MHz
+   600R               RX 22R: |T| 1 kHz 0.773, |1+T| 20 kHz 0.233, dip 0.998 at   5.158 MHz
+   600R               RX 33R: |T| 1 kHz 0.747, |1+T| 20 kHz 0.259, dip 0.998 at   5.158 MHz
+   600R + 47n         RX  0R: |T| 1 kHz 0.823, |1+T| 20 kHz 0.563, dip 0.999 at   0.813 MHz
+   600R + 47n         RX 10R: |T| 1 kHz 0.796, |1+T| 20 kHz 0.634, dip 1.000 at   0.813 MHz
+   600R + 47n         RX 22R: |T| 1 kHz 0.767, |1+T| 20 kHz 0.708, dip 1.000 at   0.852 MHz
+   600R + 47n         RX 33R: |T| 1 kHz 0.741, |1+T| 20 kHz 0.766, dip 1.000 at   0.852 MHz
+   10K + 47n          RX  0R: |T| 1 kHz 0.954, |1+T| 20 kHz 0.597, dip 0.999 at   0.813 MHz
+   10K + 47n          RX 10R: |T| 1 kHz 0.950, |1+T| 20 kHz 0.682, dip 1.000 at   0.813 MHz
+   10K + 47n          RX 22R: |T| 1 kHz 0.945, |1+T| 20 kHz 0.773, dip 1.000 at   0.813 MHz
+   10K + 47n          RX 33R: |T| 1 kHz 0.941, |1+T| 20 kHz 0.844, dip 1.000 at   0.852 MHz
+   TS: N leg shorted  RX  0R: |T| 1 kHz 0.007, |1+T| 20 kHz 0.993, dip 1.000 at   5.657 MHz
+   TS: N leg shorted  RX 10R: |T| 1 kHz 0.006, |1+T| 20 kHz 0.994, dip 1.000 at   5.657 MHz
+   TS: N leg shorted  RX 22R: |T| 1 kHz 0.005, |1+T| 20 kHz 0.994, dip 1.000 at   5.401 MHz
+   TS: N leg shorted  RX 33R: |T| 1 kHz 0.005, |1+T| 20 kHz 0.995, dip 1.000 at   5.401 MHz
+
+2. response at the jack: gain at 1 kHz, peaking above 20 kHz, 20 kHz, 1 V step overshoot
+   10K // 1n          RX  0R:  +6.69 dB, peak -0.00 dB, 20 kHz -0.001 dB, overshoot   0.3 %
+   10K // 1n          RX 10R:  +6.68 dB, peak -0.00 dB, 20 kHz -0.001 dB, overshoot   0.6 %
+   10K // 1n          RX 22R:  +6.67 dB, peak -0.00 dB, 20 kHz -0.001 dB, overshoot   1.2 %
+   10K // 1n          RX 33R:  +6.66 dB, peak -0.00 dB, 20 kHz -0.001 dB, overshoot   1.7 %
+   600R               RX  0R:  +6.35 dB, peak -0.00 dB, 20 kHz -0.001 dB, overshoot   0.2 %
+   600R               RX 10R:  +6.28 dB, peak -0.00 dB, 20 kHz -0.001 dB, overshoot   0.2 %
+   600R               RX 22R:  +6.19 dB, peak -0.00 dB, 20 kHz -0.001 dB, overshoot   0.2 %
+   600R               RX 33R:  +6.11 dB, peak -0.00 dB, 20 kHz -0.001 dB, overshoot   0.2 %
+   600R + 47n         RX  0R:  +6.34 dB, peak -0.07 dB, 20 kHz -0.062 dB, overshoot   0.1 %
+   600R + 47n         RX 10R:  +6.26 dB, peak -0.10 dB, 20 kHz -0.095 dB, overshoot   0.1 %
+   600R + 47n         RX 22R:  +6.17 dB, peak -0.15 dB, 20 kHz -0.142 dB, overshoot   0.1 %
+   600R + 47n         RX 33R:  +6.09 dB, peak -0.21 dB, 20 kHz -0.190 dB, overshoot   0.1 %
+   10K + 47n          RX  0R:  +6.67 dB, peak -0.07 dB, 20 kHz -0.068 dB, overshoot   0.0 %
+   10K + 47n          RX 10R:  +6.66 dB, peak -0.11 dB, 20 kHz -0.105 dB, overshoot   0.0 %
+   10K + 47n          RX 22R:  +6.65 dB, peak -0.17 dB, 20 kHz -0.158 dB, overshoot   0.0 %
+   10K + 47n          RX 33R:  +6.64 dB, peak -0.23 dB, 20 kHz -0.215 dB, overshoot   0.0 %
+   TS: N leg shorted  RX  0R:  +6.62 dB, peak -0.00 dB, 20 kHz -0.004 dB, overshoot   0.0 %
+   TS: N leg shorted  RX 10R:  +6.60 dB, peak -0.00 dB, 20 kHz -0.004 dB, overshoot   0.0 %
+   TS: N leg shorted  RX 22R:  +6.58 dB, peak -0.00 dB, 20 kHz -0.004 dB, overshoot   0.0 %
+   TS: N leg shorted  RX 33R:  +6.56 dB, peak -0.00 dB, 20 kHz -0.005 dB, overshoot   0.0 %
+
+3. differential output impedance at the Sense nodes
+   RX  0R:  52.60 ohm at 1 kHz,  50.17 ohm at 20 kHz
+   RX 10R:  62.18 ohm at 1 kHz,  60.14 ohm at 20 kHz
+   RX 22R:  73.80 ohm at 1 kHz,  72.10 ohm at 20 kHz
+   RX 33R:  84.52 ohm at 1 kHz,  83.05 ohm at 20 kHz
+
+4. headroom: largest 1 kHz output at the jack under 0.1 % THD
+   600R per leg       RX  0R: +27.5 dBu
+   600R per leg       RX 10R: +27.4 dBu
+   600R per leg       RX 22R: +27.2 dBu
+   600R per leg       RX 33R: +27.1 dBu
+   10K per leg        RX  0R: +28.4 dBu
+   10K per leg        RX 10R: +28.4 dBu
+   10K per leg        RX 22R: +28.4 dBu
+   10K per leg        RX 33R: +28.4 dBu
+   TS, 10K on the tip RX  0R: +22.4 dBu
+   TS, 10K on the tip RX 10R: +22.4 dBu
+   TS, 10K on the tip RX 22R: +22.4 dBu
+   TS, 10K on the tip RX 33R: +22.3 dBu
+
+5. 8 kV contact on a leg, BAV199 at the link: current and charge into the output pin
+   RX  0R:  5.91 A,  0.656 uC
+   RX 10R:  1.52 A,  0.269 uC
+   RX 22R:  0.84 A,  0.188 uC
+   RX 33R:  0.67 A,  0.150 uC
+   (an HBM 2 kV pin rating is about 1.33 A / 0.2 uC)
+
+6. the 10u away from the DRV135 (group U7 as placed: ~115 mm each way, ~120 nH in the VO run and in the Sense run; U4 / master U9: 15-30 mm, ~30 nH)
+    30 nH 10K // 1n    RX  0R: dip 0.970 at   2.46 MHz, peak -0.00 dB, overshoot   0.3 %
+    30 nH 10K // 1n    RX 22R: dip 0.972 at   2.25 MHz, peak -0.00 dB, overshoot   1.2 %
+    30 nH 600R + 47n   RX  0R: dip 0.999 at   0.81 MHz, peak -0.07 dB, overshoot   0.1 %
+    30 nH 600R + 47n   RX 22R: dip 1.000 at   0.85 MHz, peak -0.15 dB, overshoot   0.1 %
+   120 nH 10K // 1n    RX  0R: dip 0.968 at   2.46 MHz, peak -0.00 dB, overshoot   0.3 %
+   120 nH 10K // 1n    RX 22R: dip 0.971 at   2.25 MHz, peak -0.00 dB, overshoot   1.2 %
+   120 nH 600R + 47n   RX  0R: dip 0.999 at   0.81 MHz, peak -0.07 dB, overshoot   0.1 %
+   120 nH 600R + 47n   RX 22R: dip 1.000 at   0.81 MHz, peak -0.15 dB, overshoot   0.1 %
+   240 nH 10K // 1n    RX  0R: dip 0.966 at   2.46 MHz, peak -0.00 dB, overshoot   0.2 %
+   240 nH 10K // 1n    RX 22R: dip 0.969 at   2.25 MHz, peak -0.00 dB, overshoot   1.2 %
+   240 nH 600R + 47n   RX  0R: dip 0.999 at   0.81 MHz, peak -0.07 dB, overshoot   0.1 %
+   240 nH 600R + 47n   RX 22R: dip 1.000 at   0.81 MHz, peak -0.15 dB, overshoot   0.1 %

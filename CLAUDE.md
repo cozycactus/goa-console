@@ -209,7 +209,14 @@ jack board) done.
   BAV199 jack-link clamps on the group (14 per board, D7-D20 at CN3 / CN4) and master (24, D79-D102 at CN5), created
   last by `master_lib.link_clamps()` so no ref moves. `sim/review/cs4/jack_protect_mg.py`: phantom on a DRV135 output
   leg puts 47.7 V on its 10 uF 25 V coupler and Sense pin as built, 17.7 V clamped; 8 kV ESD into the output pin
-  22.8 -> 5.9 A. CS4c (10-22R inside the DRV135 loop: 0.84 A) needs a TI stability run first; not started.
+  22.8 -> 5.9 A. CS4c: `cs4c_proposal.md`.
+- `cs4c_proposal.md` (+ `cs4c_proposal.patch`, tools only) — CS4c worked up, not signed off (2026-10-27): 22R ERJ-P06J220V
+  between each DRV135 output pin and its 10 uF, inside the Sense loop (group R119-R122, master R222-R235, created last by
+  `master_lib.drv_loop_rs()`; jig stub unchanged). `sim/review/cs4/cs4c_drv.py` (TI DRV134 model via TI_MODELS): 8 kV
+  into the output pin 5.9 -> 0.84 A; no resonance in the cross-coupled loop up to 300 MHz for any load or 30-240 nH of
+  in-loop track; the loop does NOT null the resistor: differential output impedance 52.6 -> 73.8 ohm, -0.16 dB into
+  600R, clip into 600R +27.5 -> +27.2 dBu. `placer.py` `wire=`: attach targets see through the listed parts (else the
+  DRV caps re-pack). Trial tree 61 / 61, nothing moved. Group U7's 10 uF sit ~115 mm from it (no nearer spot).
 - `cs4_proposal.md` (+ `cs4_proposal.patch`, tools only) — CS4, signed off by Ruslan and applied 2026-10-27 (strip v5.2): a BAV199 (pin 3 to
   the signal, pins 2 / 1 to +VA / -VA) on each jack-link signal at CN3 (D18 IN_T, D19 IN_R, D20 RET_RAW, D21 SEND,
   D22 DO_T), ahead of every series part. `sim/review/cs4/jack_protect.py`: an 8 kV contact discharge leaves the input

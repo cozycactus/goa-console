@@ -47,15 +47,16 @@ and ~20 nH of track separates it from the clamp.
 
 ## 3. Not in this patch: CS4c, a resistor inside each DRV135 loop
 
-**What:** 10-22 Ω between each DRV135 output pin and its 10 µF, inside the Sense loop. The driver's feedback removes it
-from the output impedance.
+**What:** 10-22 Ω between each DRV135 output pin and its 10 µF, inside the Sense loop. (This said the driver's
+feedback would remove it from the output impedance. TI's model says it doesn't: 22 Ω adds ~21 Ω differential;
+`cs4c_proposal.md` §3.)
 
 **What it would buy** (`jack_protect_mg.py` variant, with the clamp):
 - 22 Ω: 0.84 A at 8 kV, 0.63 A at 4 kV into the output pin, against 5.9 / 3.3 A.
 - 10 Ω: 1.5 / 0.87 A.
 
 **Why not here:** it changes the DRV135's loop, so it needs the TI-model stability run first (`sim/review/master`,
-`master_group_review.md`). A proposal of its own if you want it.
+`master_group_review.md`). Worked up in `cs4c_proposal.md` (2026-10-27).
 
 ## 4. Schematic and placement (trial)
 
