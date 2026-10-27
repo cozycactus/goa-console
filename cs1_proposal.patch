@@ -1,0 +1,207 @@
+diff --git a/tools/gen.py b/tools/gen.py
+index 8ba96d4..44ff28a 100644
+--- a/tools/gen.py
++++ b/tools/gen.py
+@@ -8,8 +8,8 @@ def block(title): return schgen.block(title, draw=strip_draw.for_title(title))
+ SYM.update({'CONN6': ('Connector_Generic', 'Conn_01x06'), 'CONN2': ('Connector_Generic', 'Conn_01x02'),
+             'LINK': ('Connector_Generic', 'Conn_02x05_Odd_Even'),
+             'DG': ('Analog_Switch', 'DG413xY'), 'ZEN': ('Diode', 'BZX84Cxx'), 'SCH': ('Diode', 'BAT54W'),
+-            'LED2': ('Device', 'LED_Dual_AKA'), 'PNP': ('Transistor_BJT', 'MMBT3906')})
+-schgen.MPN.update({'LED2': 'Kingbright WP3VEGW', 'PNP': 'onsemi MMBT3906LT1G',
++            'LED2': ('Device', 'LED_Dual_AKA'), 'PNP': ('Transistor_BJT', 'MMBT3906'), 'DD': ('Diode', 'BAV99')})
++schgen.MPN.update({'LED2': 'Kingbright WP3VEGW', 'PNP': 'onsemi MMBT3906LT1G', 'DD': 'Nexperia BAV99,215',
+                    'DG': 'Vishay DG413DY-E3', 'ZEN': 'Nexperia BZX84-C5V1,215', 'SCH': 'Nexperia BAT54W,115',
+                    'OPA': 'TI OPA1612AIDR', 'CMP': 'TI LM393BIDR', 'JFET': 'onsemi MMBFJ112', 'D': 'Vishay 1N4148-TAP'})
+ # strip_parts_review.md T9/T10: ceramics >= 25 V (50 V X7R here), anti-surge resistors where the power is marginal
+@@ -29,7 +29,7 @@ CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '10n': 'Samsung CL21B103
+ RX_MPN = 'Panasonic ERA-6AEB103V'          # 10K 0.1 % 0805, as the master's receivers
+ FILM_2U2 = 'Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2'
+ LED_MPN = {'red': 'Kingbright WP710A10ID', 'green': 'Kingbright WP710A10GD', 'yellow': 'Kingbright WP710A10YD'}
+-FP.update({'LED2': 'goa-console:LED_D3.0mm-3_P2.00mm', 'PNP': 'Package_TO_SOT_SMD:SOT-23',
++FP.update({'LED2': 'goa-console:LED_D3.0mm-3_P2.00mm', 'PNP': 'Package_TO_SOT_SMD:SOT-23', 'DD': 'Package_TO_SOT_SMD:SOT-23',
+            'CONN6': 'Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical',
+            'CONN2': 'Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical',
+            'LINK': 'Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical'})
+@@ -69,6 +69,7 @@ P(b,'U16','OPA1656','OPA1656',{8:'+VA',4:'-VA'},unit=3)   # input followers (gro
+ P(b,'C92','C','100n',{1:'+VA',2:'GNDA'}); P(b,'C93','C','100n',{1:'GNDA',2:'-VA'})
+ P(b,'U4','CMP','LM393',{8:'+VL',4:'GNDD'},unit=3); P(b,'C26','C','100n',{1:'+VL',2:'GNDD'})
+ P(b,'U17','CMP','LM393',{8:'+VL',4:'GNDD'},unit=3); P(b,'C98','C','100n',{1:'+VL',2:'GNDD'})   # signal detector (MET1)
++P(b,'U18','CMP','LM393',{8:'+VL',4:'GNDD'},unit=3); P(b,'C104','C','100n',{1:'+VL',2:'GNDD'})  # negative overload (CS1)
+ for i,n in enumerate(['+VA','-VA','+VL','-VL','GNDA','GNDD']):
+     P(b,f'#FLG0{i+1}','FLAG','PWR_FLAG',{1:n})
+ 
+@@ -205,7 +206,14 @@ b = block('OVERLOAD DETECTOR (~+18 dBu, ~150 ms hold) + SIGNAL (~-20 dBu): one r
+ # K3 (gaps_proposal.md, signed off 2026-10-25): C12 100n for a 0.1 ms attack (1u needed ~20 cycles, so short peaks
+ # never lit the LED); U4A now discharges a hold cap and U4B, the package's spare half, lights the LED while the hold
+ # node is below VREF: ~150 ms after the last overload (sim/review/gaps/ol_fix.py)
+-P(b,'R39','R','1K',{1:'PRESRC',2:'PKA'}); P(b,'D1','D','1N4148',{2:'PKA',1:'PK'})
++# CS1 (console_survey.md): five taps, both polarities. Each tap -> 1K -> a BAV99's middle (pin 3; pin 1 anode, pin 2
++# cathode, Nexperia): the top diode charges PK on positive peaks, the bottom one pulls OL_NN down on negative peaks.
++# Taps: the receiver, the gain stage, the EQ out, PRESRC (as before) and the post-amp: the stages that clip first
++# (sim/review/gaps/headroom.py); one threshold for all, +18.4 dBu, 4.6 dB below their swing (sim/review/cs1/ol_multi.py)
++P(b,'R39','R','1K',{1:'PRESRC',2:'PKA'}); P(b,'D1','DD','BAV99',{1:'OL_NN',3:'PKA',2:'PK'})
++for r_, d_, tap, x_ in (('R128','D12','RECV','PKR'),('R129','D13','GOUT','PKG'),('R130','D14','EQOUT','PKE'),
++                        ('R131','D15','FPOST','PKF')):
++    P(b,r_,'R','1K',{1:tap,2:x_}); P(b,d_,'DD','BAV99',{1:'OL_NN',3:x_,2:'PK'})
+ P(b,'C12','C','100n',{1:'PK',2:'GNDA'}); P(b,'R14','R','470K',{1:'PK',2:'GNDA'})
+ P(b,'R40','R','10K',{1:'+VL',2:'VREF'}); P(b,'R41','R','10K',{1:'VREF',2:'GNDA'})
+ # P2 (met1_ret1_review.md, signed off 2026-10-27): 100 nF on VREF at the divider; VREF runs ~215 mm to U17
+@@ -213,6 +221,13 @@ P(b,'C100','C','100n',{1:'VREF',2:'GNDA'})
+ # P1 (met1_ret1_review.md, signed off 2026-10-27): a 1K between each discharge output and its 220n hold cap keeps the
+ # LM393B's output under its 25 mA rating (17 mA peak); thresholds unchanged (sim/review/gaps/ol.py)
+ P(b,'U4','CMP','LM393',{2:'PK',3:'VREF',1:'OL_DIS'},unit=1); P(b,'R126','R','1K',{1:'OL_DIS',2:'OL_HOLD'})
++# CS1 negative side, PK's mirror: OL_NN rests at ~0.5 V (C103 // R134 to GNDA, as C12 // R14); OL_NC = 2/3 +VL + 1/3
++# OL_NN falls below VREF when OL_NN < -VL / 2, and U18A discharges OL_HOLD through R135 (wired-OR with U4A). Ratios of
++# +VL only, so the rails' switching order can't light it (the first try, biased from -VL, flashed at power-down)
++P(b,'R132','R','4M99 1%',{1:'+VL',2:'OL_NC'}); P(b,'R133','R','10M 1%',{1:'OL_NC',2:'OL_NN'})
++P(b,'R134','R','470K',{1:'OL_NN',2:'GNDA'}); P(b,'C103','C','100n',{1:'OL_NN',2:'GNDA'})
++P(b,'U18','CMP','LM393',{3:'OL_NC',2:'VREF',1:'OL_NDIS'},unit=1); P(b,'R135','R','1K',{1:'OL_NDIS',2:'OL_HOLD'})
++P(b,'U18','CMP','LM393',{5:'VREF',6:'GNDD',7:'NC'},unit=2)        # spare half: + above -, output off
+ P(b,'R115','R','1M',{1:'+VL',2:'OL_HOLD'}); P(b,'C97','C','220n',{1:'OL_HOLD',2:'GNDD'})
+ P(b,'U4','CMP','LM393',{5:'OL_HOLD',6:'VREF',7:'OL_K'},unit=2)
+ # MET1 (feature_gaps.md, signed off 2026-10-26): D2 is a red / green bicolour (Kingbright WP3VEGW, common cathode) in the
+diff --git a/tools/netrules.py b/tools/netrules.py
+index 4db48c4..e183a14 100644
+--- a/tools/netrules.py
++++ b/tools/netrules.py
+@@ -53,6 +53,7 @@ CLASSES = {'Default': (0.25, 0.2, 0.6, 0.3), 'Ground': (0.6, 0.2, 0.6, 0.3), 'Ch
+            'WingFeed': (2.0, 0.3, 1.0, 0.5), 'HighCurrent': (3.0, 0.3, 1.0, 0.5)}
+ # the PSU (psu_spec.md section 7): its 4 A paths, SMPS in -> chokes -> LDOs -> output, and the 0 V return
+ PSU_HIGH = {'POS_IN', 'NEG_IN', 'POS_LC', 'NEG_LC', '+V', '-V', '0V'}
++DETECTOR = {'PK', 'OL_NN'}     # strip overload peak lines (CS1): diode current pulses at overload, up to ~330 mm long
+ # class clearances stay at the board's 0.2 mm: footprints have pad gaps down to 0.25 mm (the load board's slide switches);
+ # the wider spacings are track rules in DRU
+ DRU = """(version 1)
+@@ -138,7 +139,7 @@ def classes_of(path):
+         elif n in bus: c = 'Bus'
+         elif n in entry: c = 'Entry'
+         elif ins and not outs and len(ins) < 3: c = 'HighZ'
+-        elif n in agg: c = 'Switching'
++        elif n in agg or n in DETECTOR: c = 'Switching'
+         else: c = 'Default'
+         out[real.get(n, n)] = c
+     return out
+diff --git a/tools/place_strip.py b/tools/place_strip.py
+index e2baadb..8ba7bb3 100644
+--- a/tools/place_strip.py
++++ b/tools/place_strip.py
+@@ -91,6 +91,20 @@ FIX.update({'U17': (3.745, 316.245, 90, 'F'), 'C97': (32.77, 67.84, 0, 'F'), 'R1
+ NEW49 = {'R126': (31.27, 75.84, 90, 'B'), 'R127': (6.09, 313.97, 90, 'B'), 'C100': (31.8575, 88.88, 90, 'B'),
+          'C101': (28.9125, 49.795, 270, 'B'), 'C102': (32.4125, 55.045, 0, 'B')}
+ MOVES.update(NEW49)
++# CS1 (console_survey.md; proposal, not applied): the multi-point overload detector's parts by MOVES alone, like
++# NEW49: each tap's 1K + BAV99 beside its op-amp (RECV / GOUT at U1, EQOUT at C51, FPOST at U2; D1, now a SOT-23 BAV99,
++# where the DO-35 was), U18 and the negative side's divider / hold / discharge beside U4 (probed free spots)
++CS1 = {'D1': (35.75, 100.75, 90, 'B'), 'R128': (2.25, 61.5, 90, 'B'), 'D12': (2.5, 58.0, 0, 'B'),
++       'R129': (5.5, 58.75, 90, 'B'), 'D13': (12.75, 58.75, 90, 'B'), 'R130': (13.0, 78.75, 0, 'B'),
++       'D14': (12.5, 76.0, 0, 'B'), 'R131': (35.5, 405.75, 90, 'B'), 'D15': (35.0, 410.5, 0, 'B'),
++       'U18': (34.25, 82.5, 270, 'B'), 'C104': (36.25, 84.5, 90, 'F'), 'R132': (34.25, 77.5, 0, 'B'),
++       'R133': (34.25, 75.25, 0, 'B'), 'R134': (33.75, 70.75, 0, 'B'), 'C103': (34.25, 73.0, 0, 'B'),
++       'R135': (28.25, 77.5, 0, 'B')}
++MOVES.update(CS1)
++# D1 leaves the OL detector zone, so the packer shifts five of its neighbours one slot along (R39 into R15's, R15 into
++# R104's, ...): they go back to their v4.9 spots, in this order (pre-turn angles: R15 and R107 are in TURNS)
++MOVES.update({'R39': (36.27, 101.3, 90, 'F'), 'R15': (35.995, 58.225, 90, 'F'), 'R104': (35.995, 62.225, 90, 'F'),
++              'R107': (35.995, 66.225, 90, 'F'), 'R116': (35.72, 76.61, 90, 'F')})
+ # The upper board's op-amps where the reviewed placement had them (2026-10-26, before the EMC changes): the packer
+ # re-shuffles every IC after any change near the top (E1-E3 moved 163 parts and starved the HPF), so they are fixed
+ # and their own parts pack around them as before
+@@ -128,7 +142,7 @@ ZONES = [
+  ('input followers RF / stability RC, under U16 (bottom)', (8, 52, 30, 76), ['R110', 'R111', 'C94', 'C95'], 'B'),
+  ('input receiver + gain', (1, 45, 37, 100), ['U1', 'C20', 'C21', 'C7', 'C78', 'R6', 'R7', 'R8', 'R9', 'R10',
+                                               'R45', 'R46', 'C37', 'R47'], 'F'),
+- ('OL detector', (1, 45, 37, 100), ['U4', 'C26', 'R39', 'D1', 'C12', 'R14', 'R40', 'R41', 'R15', 'R115', 'C97', 'R116'], 'F'),
++ ('OL detector', (1, 45, 37, 100), ['U4', 'C26', 'R39', 'C12', 'R14', 'R40', 'R41', 'R15', 'R115', 'C97', 'R116'], 'F'),
+  ('HPF', (1, 44, 37, 135), ['U5', 'C29', 'C30', 'C85', 'C86', 'R100', 'R101', 'R102', 'R103',
+                              'U15', 'C89', 'C90', 'C87', 'C88', 'R104', 'R105', 'R106', 'R107', 'R108', 'R109'], 'F'),
+  ('EQ', (1, 82, 37, 200), ['U6', 'C31', 'C32', 'C69', 'C70', 'C71', 'C72', 'U7', 'C33', 'C34', 'C73', 'C48',
+@@ -188,5 +202,5 @@ if '(ref "CN5")' in open(NET).read():                           # jack board net
+                   hole_value='M3 standoff = jack body height (~24 mm)')
+ else:
+     layout = dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, holes=HOLES, zones=ZONES, notes=NOTES, near=NEAR,
+-                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, moves_only=tuple(NEW49), turns=TURNS, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
++                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, moves_only=tuple(NEW49) + tuple(CS1), turns=TURNS, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
+ place(NET, OUT, layout)
+diff --git a/tools/strip_draw.py b/tools/strip_draw.py
+index 98e1ef2..0a077dd 100644
+--- a/tools/strip_draw.py
++++ b/tools/strip_draw.py
+@@ -227,9 +227,11 @@ def insert(d):
+ def overload(d):
+     d.shift(0, 6)
+     d.at('R39', 3.5, 4, rot=90); d.w((0, 4), ('R39', 1)); d.port('PRESRC', (0, 4))
+-    d.at('D1', 6.5, 4, rot=180); d.w(('R39', 2), ('D1', 2))
++    # CS1: D1 is a BAV99 (pin 3 the middle): the top diode charges PK, the bottom one pulls OL_NN down
++    d.at('D1', 6, 1); d.w(('R39', 2), (6, 4), ('D1', 3)); d.w(('D1', 1), (3, -1)); d.port('OL_NN', (3, -1), 'U')
+     d.at('U4', 21, 5, mirror='x', unit=1)
+-    d.w(('D1', 1), ('U4', 2)); d.at('C12', 11, 5.5, text='L'); d.at('R14', 15, 5.5, text='L')
++    d.w(('D1', 2), (9, 4), ('U4', 2)); d.port('PK', (13, 4), 'U')
++    d.at('C12', 11, 5.5, text='L'); d.at('R14', 15, 5.5, text='L')
+     d.w(('U4', 3), (16, 6), (16, 9)); d.at('R41', 16, 10.5)
+     d.at('R40', 12.5, 9, rot=90); d.w((8, 9), ('R40', 1)); d.port('+VL', (8, 9)); d.w(('R40', 2), (16, 9))
+     d.at('C100', 20, 10.5, text='R'); d.w((16, 9), (20, 9))                                      # P2
+@@ -237,7 +239,7 @@ def overload(d):
+     d.at('U4', 40, 6, unit=2)
+     d.at('R126', 25.5, 5, rot=90); d.w(('U4', 1), ('R126', 1)); d.w(('R126', 2), (37, 5)); d.w((37, 5), ('U4', 5))   # P1
+     d.at('R115', 28, 3.5, text='R'); d.w(('R115', 1), (28, 0)); d.port('+VL', (28, 0), 'U')
+-    d.at('C97', 31, 6.5, text='L'); d.gnd(('C97', 2), 'GNDD')
++    d.at('C97', 31, 6.5, text='L'); d.gnd(('C97', 2), 'GNDD'); d.port('OL_HOLD', (34, 5), 'U')
+     d.w((15, 9), (15, 14), (35, 14), (35, 7), ('U4', 6))          # VREF to U4B's - input, under the hold network
+     # MET1: U4B drives the red half of the bicolour D2 through the PNP Q3 (R116 base, R117 pull-up, R15 to the anode)
+     d.w(('U4', 7), (46, 6)); d.at('R116', 49.5, 6, rot=90); d.w((46, 6), ('R116', 1))
+@@ -274,6 +276,33 @@ def overload(d):
+     d.port('OL_K', (46, 6), 'D')
+ 
+ 
++def overload_cs1(d):
++    """CS1 (console_survey.md), the overload detector's second piece: four more taps and the negative side."""
++    d.shift(0, 44)
++    # CS1: the other four taps (receiver, gain stage, EQ out, post-amp), each 1K into a BAV99 like D1
++    Y2 = 4
++    for k, (r_, d_, tap) in enumerate((('R128', 'D12', 'RECV'), ('R129', 'D13', 'GOUT'), ('R130', 'D14', 'EQOUT'),
++                                       ('R131', 'D15', 'FPOST'))):
++        x0 = 18 * k
++        d.at(r_, x0 + 3.5, Y2, rot=90); d.w((x0, Y2), (r_, 1)); d.port(tap, (x0, Y2))
++        d.at(d_, x0 + 8, Y2 - 2); d.w((r_, 2), (d_, 3))
++        d.w((d_, 1), (x0 + 5, Y2 - 4)); d.port('OL_NN', (x0 + 5, Y2 - 4), 'U')
++        d.w((d_, 2), (x0 + 11, Y2 - 4)); d.port('PK', (x0 + 11, Y2 - 4), 'U')
++    # CS1 negative side, PK's mirror: OL_NN (R134 // C103 to GNDA); U18A trips when OL_NC (2/3 +VL + 1/3 OL_NN) falls
++    # below VREF, i.e. OL_NN < -VL / 2, and discharges OL_HOLD through R135 like U4A through R126
++    Y3 = 14
++    d.at('U18', 21, Y3 + 1, mirror='x', unit=1)
++    d.w(('U18', 2), (16, Y3)); d.port('VREF', (16, Y3), 'U')
++    d.v('R132', 12, Y3 + 0.5, top='+VL', text='L'); d.w(('R132', 1), (12, Y3 - 3)); d.port('+VL', (12, Y3 - 3), 'U')
++    d.w(('U18', 3), (12, Y3 + 2))
++    d.v('R133', 12, Y3 + 3.5, top='OL_NC', text='R')
++    d.w(('R133', 2), (3, Y3 + 5)); d.port('OL_NN', (3, Y3 + 5), 'L')
++    d.v('C103', 9, Y3 + 6.5, text='R'); d.gnd(('C103', 2)); d.v('R134', 5.5, Y3 + 6.5, text='L'); d.gnd(('R134', 2))
++    d.at('R135', 25.5, Y3 + 1, rot=90); d.w(('U18', 1), ('R135', 1)); d.w(('R135', 2), (30, Y3 + 1)); d.port('OL_HOLD', (30, Y3 + 1), 'R')
++    d.at('U18', 40, Y3 + 2, unit=2)                                   # spare half: + on VREF, - on GNDD, output off
++    d.port('VREF', ('U18', 5), 'L'); d.w(('U18', 6), (35, Y3 + 3), (35, Y3 + 4)); d.gnd((35, Y3 + 4), 'GNDD')
++
++
+ def pfl(d):
+     d.shift(0, 3)
+     d.at('C96', 3.5, 4, rot=90, text='U'); d.w((0, 4), ('C96', 1)); d.port('PRE', (0, 4))     # K1: DC block
+@@ -451,10 +480,10 @@ def power_ops(lo, hi):
+ 
+ 
+ def power_vl(d):
+-    """The comparators' (U4, U17) logic supply."""
++    """The comparators' (U4, U17, U18) logic supply."""
+     d.shift(0, 6); Y = YP
+     X = X0 + P * len(OPS) + 2
+-    for u, c, X in (('U4', 'C26', X), ('U17', 'C98', X + 9)):         # U17: the signal detector (MET1)
++    for u, c, X in (('U4', 'C26', X), ('U17', 'C98', X + 9), ('U18', 'C104', X + 18)):   # U17 MET1, U18 CS1
+         d.at(u, X, Y, unit=3); d.at(c, X + 3, Y)
+         d.w((u, 8), (X - 1, Y - 5), (X + 3, Y - 5), (c, 1)); d.port('+VL', (X + 3, Y - 5), 'R')
+         d.w((u, 4), (X - 1, Y + 5), (X + 3, Y + 5), (c, 2)); d.gnd((X + 3, Y + 5), 'GNDD')
+@@ -471,7 +500,7 @@ def jumpers(d):
+ 
+ # a list: the block's pieces, drawn in turn on one sheet, packed separately on pages (schgen.build pages=)
+ DRAWINGS = {'LINE INPUT': receiver, 'GAIN': gain, 'HPF': hpf, 'EQ  ': eq, 'EQ MID TUNING': [khn_band(0), khn_band(1)],
+-            'EQ IN': eq_in, 'INSERT (': insert, 'OVERLOAD': overload, 'PFL': pfl, 'ON / SOFT MUTE': mute, 'FADER': fader,
++            'EQ IN': eq_in, 'INSERT (': insert, 'OVERLOAD': [overload, overload_cs1], 'PFL': pfl, 'ON / SOFT MUTE': mute, 'FADER': fader,
+             'AUX SENDS': aux, 'DIRECT OUT': direct_out, 'PAN + PAN': pan, 'PAN SWITCH': pan_switch,
+             'ROUTING': [routing_vl] + [routing_assign(k) for k in range(3)],
+             'POWER ENTRY': [power_rails, power_ops(0, 6), power_ops(6, len(OPS)), power_vl], 'MOTHERLOOM': motherloom,

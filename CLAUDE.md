@@ -198,6 +198,13 @@ jack board) done.
   unrecorded departure), summer headroom check / sum below unity, jack I/O clamp diodes, PFL crosstalk (SW3 / SW4
   supply-pole caps per the Series Two field mod, pin 28 dummy track, virtual-earth PFL DET), fusible per-strip feeds,
   C/Room dim, deeper mute (jig). Corrected master spec §3's misreading of the Delta's monitor-select receivers.
+- `cs1_proposal.md` (+ `cs1_proposal.patch`, tools only) — CS1 worked up, not signed off (2026-10-27): the OL LED from
+  RECV / GOUT / EQOUT / PRESRC / FPOST through 1K + BAV99 each; positive peaks into PK as built, negative peaks into
+  OL_NN (C103 // R134, PK's mirror) read by a new U18A through a 4M99 / 10M divider from +VL (thresholds ratios of +VL
+  only: a first try biased from -VL lit the red at every power-down). `sim/review/cs1/ol_multi.py`: +18.4 dBu on every
+  tap, -9.29 / +9.01 V pulse thresholds, catches four cases the as-built misses, no false red, holds unchanged. Trial
+  tree 59 / 59 (strip 902 pins / 310 parts, 0 DRC / parity, 1 existing part moved: D1); PK / OL_NN ~390 mm (FPOST tap
+  at U2), Switching class. Options CS1 / CS1-lite (positive only) / neither.
 - `eq_survey.md` — how other consoles build the swept mid EQ, read from Ruslan's iCloud service manuals (SSL 4000G,
   Yamaha PM-4000/5000, Soundcraft 6000 / 200B / Sapphyre / Ghost / Series Five, Sony MXP-3000) and the Mackie BOM: all
   tune with reverse-log (C-law) pots as rheostats, Ghost / Series Five are KHN like ours but with 200KC / 100KC rheostats;

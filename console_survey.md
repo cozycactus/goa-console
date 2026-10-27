@@ -104,7 +104,7 @@ an average-reading meter; Yamaha uses a 12.7 kHz filter.
 Each is a candidate for its own proposal document with simulation before anything changes. They are ordered by how
 strongly the library supports them.
 
-- [ ] **CS1 Multi-point, full-wave overload detection.**
+- [ ] **CS1 Multi-point, full-wave overload detection.** Worked up in `cs1_proposal.md` (patch, simulation, trial checks).
   - *Library:* seven of nine consoles watch two to four stages; four of them catch both polarities.
   - *The gap:* ours sees only PRESRC's positive peaks. That misses:
     - the gain stage clipping ahead of an EQ cut;
