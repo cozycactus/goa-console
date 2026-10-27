@@ -3,6 +3,19 @@
 ## Part 2: subgroups, aux masters
 ## Part 3: stereo returns · Part 4: monitoring · Part 5: power entry
 
+**Jack-link clamps (2026-10-27, `cs4b_proposal.md` CS4b, signed off).** As the strip's D18-D22 (strip spec v5.2): a
+Nexperia BAV199 on every signal of the jack-board link, at the main board's header, ahead of every series part. Pin 3
+goes to the signal, pin 2 to +VA, pin 1 to −VA.
+- **Master:** D79-D102 at CN5. EXT legs, the mix inserts' sends and returns, main L / R / mono (relay side), aux 5 / 6
+  and C/Room legs, phones.
+- **Group:** D7-D20 at CN3 / CN4. Return 1 and 2 legs, sub insert, sub and aux out legs.
+- **Made by:** `master_lib.link_clamps()`, last, so no other ref moved.
+- **Phantom on a DRV135 output:** the clamps hold a leg at 17.7 V instead of 47.7 V on its 10 µF 25 V coupler and Sense
+  pin. The no-phantom rule (§7) still holds.
+- **ESD:** an 8 kV contact discharge into a DRV135 output pin drops from 22.8 A to 5.9 A; a receiver or insert return
+  drops to ~0.1 A or less (`sim/review/cs4/jack_protect.py`, `jack_protect_mg.py`).
+- **Open (CS4c):** 10-22 Ω inside each DRV135 loop would take the output pin to under 1 A, after a TI stability run.
+
 Written to the same rules as `channel_strip_schematic_spec.md`; whole-console context is in
 `console_architecture.md` section 4. Part 2 starts at section 12, Part 3 at 16, Part 4 at 17,
 Part 5 at 24. Open items are in section 29.
@@ -286,7 +299,8 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
     track.
 - Output connectors: XLR male, Neutrik NC3MAV (vertical, on the master jack board) or panel-mount with flying
   leads, pin 2 hot. Shell to chassis.
-- **No phantom on any balanced output** (main, aux 5/6, C/Room, and the groups' sub and aux outs; v0.8, MG15). P48
+- **No phantom on any balanced output** (main, aux 5/6, C/Room, and the groups' sub and aux outs; v0.8, MG15; since CS4b
+  the BAV199 at the link holds a leg at 17.7 V if it happens). P48
   through 6.81K per leg forces the DRV134's Sense pins above V+ (its input protection conducting, beyond the abs-max
   input range) and silences the output. Phantom tolerance would need 50 V DC-blocking caps at the connector, outside
   the Sense loop.

@@ -204,8 +204,18 @@ TURNS = {'C160': 180, 'D7': 180, 'R9': 90, 'R27': 270, 'R29': 180, 'R44': 270, '
          'R190': 180, 'R191': 180, 'R193': 180, 'R195': 90, 'R196': 180, 'R197': 180, 'R198': 90, 'R199': 180,
          'R202': 180, 'R203': 180, 'R204': 180, 'R205': 180, 'R206': 180, 'R212': 180, 'R213': 180, 'R214': 180,
          'R216': 180, 'R218': 180, 'R219': 180, 'R221': 180}
+# CS4b (cs4b_proposal.md, signed off 2026-10-27): the jack-link clamps (BAV199) beside CN5, placed by MOVES alone (never packed)
+CS4B = {'D79': (16.0, 123.75, 0, 'F'), 'D80': (20.25, 123.75, 0, 'F'), 'D81': (24.25, 123.75, 0, 'F'),
+        'D82': (28.25, 123.75, 0, 'F'), 'D83': (24.75, 126.25, 0, 'B'), 'D84': (33.5, 126.25, 0, 'B'),
+        'D85': (37.5, 126.25, 0, 'B'), 'D86': (33.5, 130.0, 0, 'B'), 'D87': (41.25, 126.5, 90, 'B'),
+        'D88': (37.75, 130.0, 90, 'B'), 'D89': (45.25, 126.25, 0, 'B'), 'D90': (45.25, 130.0, 0, 'B'),
+        'D91': (49.25, 126.25, 0, 'B'), 'D92': (51.0, 123.75, 0, 'F'), 'D93': (50.75, 127.5, 90, 'F'),
+        'D94': (53.25, 126.25, 0, 'B'), 'D95': (54.75, 124.0, 90, 'F'), 'D96': (58.5, 123.75, 0, 'F'),
+        'D97': (62.5, 123.75, 0, 'F'), 'D98': (54.75, 130.0, 0, 'B'), 'D99': (63.5, 126.25, 0, 'B'),
+        'D100': (66.5, 117.25, 90, 'F'), 'D101': (67.75, 126.25, 0, 'B'), 'D102': (63.5, 130.0, 90, 'B')}
+MOVES.update(CS4B)
 place(os.path.join(PROJ, 'master.net'), os.path.join(PROJ, 'master.kicad_pcb'),
-      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, turns=TURNS, layers=4, rails=(0.5, 6.5), holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
+      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS4B), turns=TURNS, layers=4, rails=(0.5, 6.5), holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
            grounds=('GNDA', 'GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'), silk_text_off=('K',), hole_value='M3 standoff 11.5 mm',
            attach=True, keepout=[(0, 186, EL, 299), (ER, 186, W, 299),
                                  (21.0, 202.2, 58.0, 220.0, 'B')]))     # J1's wire entries (its +y face): room for the wires

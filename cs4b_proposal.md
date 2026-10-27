@@ -1,8 +1,8 @@
 # CS4b: the jack-link clamps on the group and master boards (proposal, 2026-10-27)
 
-**Not signed off.** The change is `cs4b_proposal.patch`. It touches tools only: `master_lib.py`, `gen_group.py`,
-`gen_master.py`, `place_group.py` and `place_master.py`. It was applied to a trial tree, checked (§5) and reverted, so
-nothing in the design has changed.
+**Signed off by Ruslan on 2026-10-27 (as proposed: D7-D20 on every group, D79-D102 on the master) and applied the same
+day; see "Applied" at the end.** The change is `cs4b_proposal.patch`. It touches tools only: `master_lib.py`,
+`gen_group.py`, `gen_master.py`, `place_group.py` and `place_master.py`.
 
 **Simulations:**
 - `sim/review/cs4/jack_protect.py`: the receivers and inserts, as for the strip.
@@ -82,6 +82,17 @@ from the output impedance.
 
 ## Sign-off
 
-- [ ] **CS4b** as proposed: D7-D20 on every group, D79-D102 on the master.
+- [x] **CS4b** as proposed: D7-D20 on every group, D79-D102 on the master. Ruslan, 2026-10-27.
 - [ ] Also work up **CS4c** (a resistor inside each DRV135 loop, with the TI stability run).
 - [ ] Neither.
+
+## Applied (2026-10-27)
+
+- **Applied:** the patch.
+- **Regenerated and re-exported:** group and master netlists, BOMs, PDFs and `order_bom.csv` (BAV199: 200 + 10
+  spares, strip, group and master together).
+- **Re-placed:** both boards; against the committed boards only the clamps are new.
+- **Project files:** netrules re-written; the four `.kicad_pro` files kept their committed form. The master jack
+  board's netlist now carries its net classes.
+- **Documents:** master spec (Part 1 note, §7), CLAUDE.md. CS4c is not started.
+

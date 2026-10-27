@@ -49,6 +49,7 @@
 "2","red +14 dB","LED_THT:LED_D3.0mm","Kingbright WP710A10ID","","D48 D76"
 "2","red +16 dB","LED_THT:LED_D3.0mm","Kingbright WP710A10ID","","D49 D77"
 "2","red +18 dB","LED_THT:LED_D3.0mm","Kingbright WP710A10ID","","D50 D78"
+"24","BAV199","Package_TO_SOT_SMD:SOT-23","Nexperia BAV199,215","","D79 D80 D81 D82 D83 D84 D85 D86 D87 D88 D89 D90 D91 D92 D93 D94 D95 D96 D97 D98 D99 D100 D101 D102"
 "2","MF-RX250/72","goa-console:Fuse_Bourns_MF-RX250-72_Radial_P10.16mm","Bourns MF-RX250/72-0","","F1 F3"
 "2","MF-RX185/72","goa-console:Fuse_Bourns_MF-RX185-72_Radial_P5.08mm","Bourns MF-RX185/72-0","","F2 F4"
 "5","Ferrite 220R@100MHz","Inductor_SMD:L_0805_2012Metric","Murata BLM21PG221SN1D","","FB1 FB2 FB3 FB4 FB5"

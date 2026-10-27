@@ -45,6 +45,8 @@ MPN.update({'DRV134': 'TI DRV135UA',   # SO-8: the DRV134 is DIP-8 / SOL-16 only
 MPN['DS'] = 'Diodes B540C-13-F (SS54 class, SMC 40 V 5 A)'
 # CS10: a reverse Schottky across each audio rail of a ribbon board (group), as the strip's D16 / D17
 SYM['DSK'] = ('Device', 'D_Schottky'); FP['DSK'] = 'Diode_SMD:D_SOD-123F'; MPN['DSK'] = 'Nexperia PMEG4010CEH,115'
+# CS4b: a BAV199 per jack-link signal at the link header, as the strip's D18-D22 (pin 3 the signal, 2 +VA, 1 -VA)
+SYM['DD'] = ('Diode', 'BAV99'); FP['DD'] = 'Package_TO_SOT_SMD:SOT-23'; MPN['DD'] = 'Nexperia BAV199,215'
 # wing PTCs MF-RX185/72 (hpf_proposal.md H4, 2026-10-24): same pads as the MF-RX160/72 (kept on the jig stub), a
 # 1.24 mm wider body; hold 1.50 / 1.33 A at 40 / 50 C against a 1.25 A wing
 PTC185 = dict(fp='goa-console:Fuse_Bourns_MF-RX185-72_Radial_P5.08mm', mpn='Bourns MF-RX185/72-0')
@@ -320,6 +322,20 @@ def link_pins(jacks, ground='GNDA', own_ground=('PHONESGND',), skip=()):
     n = next(k for k in LINK_SIZES if 2 * k >= len(pins))
     pins += [ground] * (2 * n - len(pins))
     return n, {i + 1: net for i, net in enumerate(pins)}
+
+LINK_GROUNDS = ('GNDA', 'CHASSIS', 'PHONESGND', 'NC')
+def link_clamps(b, nets):
+    """CS4b: one BAV199 per jack-link signal (pin 3 the signal, pin 2 +VA, pin 1 -VA), each its own fragment. Call it
+    last: the clamps take the next free D refs, so every other part keeps its ref."""
+    refs = []
+    for net in [n for n in nets if n not in LINK_GROUNDS]:
+        d_ = ref('D'); P(b, d_, 'DD', 'BAV199', {1: '-VA', 3: net, 2: '+VA'}); refs.append(d_)
+        def draw(d, dd=d_, n=net):
+            d.at(dd, 4, 3)
+            d.w((dd, 1), (1, 1)); d.port('-VA', (1, 1), 'U'); d.w((dd, 2), (7, 1)); d.port('+VA', (7, 1), 'U')
+            d.w((dd, 3), (4, 7)); d.port(n, (4, 7), 'D')
+        frag(b, 10, 10, draw)
+    return refs
 
 def link_header(b, n, link, value):
     SYM[f'LINK{n}'] = ('Connector_Generic', f'Conn_02x{n:02d}_Odd_Even')

@@ -147,6 +147,13 @@ MOVES.update({'C43': (6.97, 218.9, 90, 'F')})
 # CS10 (cs10_proposal.md, signed off 2026-10-27): the reverse Schottkys beside C1 (+VA) and C2 (-VA), placed by MOVES alone (never packed)
 CS10 = {'D5': (28.5, 290.25, 90, 'F'), 'D6': (14.5, 304.0, 0, 'F')}
 MOVES.update(CS10)
+# CS4b (cs4b_proposal.md, signed off 2026-10-27): the jack-link clamps (BAV199) beside CN3 / CN4, placed by MOVES alone
+CS4B = {'D7': (13.0, 197.5, 90, 'B'), 'D8': (16.5, 197.5, 90, 'B'), 'D9': (20.0, 197.5, 90, 'B'),
+        'D10': (21.25, 201.25, 0, 'B'), 'D11': (13.5, 211.0, 90, 'F'), 'D12': (13.25, 211.25, 0, 'B'),
+        'D13': (14.25, 214.75, 0, 'B'), 'D14': (13.5, 215.25, 90, 'F'), 'D15': (13.0, 219.0, 0, 'F'),
+        'D16': (21.25, 208.5, 0, 'B'), 'D17': (25.0, 183.0, 0, 'B'), 'D18': (25.0, 179.5, 0, 'B'),
+        'D19': (22.25, 204.75, 0, 'B'), 'D20': (32.75, 215.75, 0, 'F')}
+MOVES.update(CS4B)
 # untangle_proposal.md: two-pad parts turned in place (degrees) so their ratsnest crosses less, measured with
 # tools/ratsnest.py (placer `turns`, after packing and the moves)
 TURNS = {'JP7': 90, 'R5': 90, 'R11': 180, 'R20': 180, 'R22': 180, 'R25': 180, 'R26': 180, 'R30': 180, 'R34': 180,
@@ -154,6 +161,6 @@ TURNS = {'JP7': 90, 'R5': 90, 'R11': 180, 'R20': 180, 'R22': 180, 'R25': 180, 'R
          'R74': 180, 'R77': 180, 'R78': 180, 'R80': 180, 'R86': 180, 'R89': 180, 'R90': 180, 'R96': 180, 'R107': 180,
          'R109': 180, 'R110': 180, 'R112': 180, 'R115': 270, 'R117': 270}
 place(os.path.join(PROJ, 'group.net'), os.path.join(PROJ, 'group.kicad_pcb'),
-      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS10), turns=TURNS, layers=4, rails=(0.5, 5.5), holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
+      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS10) + tuple(CS4B), turns=TURNS, layers=4, rails=(0.5, 5.5), holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
            keepout=[(22.0, 185.0, 23.5, 215.0, 'B')],          # silk room beside the links' boxes
            hole_value='M3 standoff 11.5 mm', attach=True))
