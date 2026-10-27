@@ -202,6 +202,9 @@ jack board) done.
   series (Phonic OEM), Spirit E8, Mackie 1604 / 1402-VLZ and 8•Bus; nothing weaker in ours. New proposals CS9 (fader
   shut-off compensation as A&H, only if the PTB0143 sample's residual is worse than -80 dB), CS10 (reverse diodes per
   rail on every strip / group board), CS11 (jig tests: output balance, measured CMR, fader breakthrough, GCANCEL current).
+- `sim/review/cs3/bus_headroom.py` (2026-10-27, CS3 check, no change): per source the summer, re-inverter, master fader
+  top and post-amp all carry -6.4 dBu (29.5 dB to clip), the XLR -0.9 dBu against the DRV135's +27 dBu (27.9 dB); 24
+  strips at nominal leave 15.7 dB at the summer. The summer clips first only with the master fader > 1.6 dB below "0".
 - `cs10_proposal.md` (+ `cs10_proposal.patch`, tools only) — CS10, signed off by Ruslan and applied 2026-10-27 (strip v5.1): a PMEG4010CEH
   reverse Schottky across each audio rail of every strip (D16 / D17) and group board (D5 / D6, created last so no ref
   moves). `sim/review/cs10/rail_loss.py`: a lost rail (wing PTC trip, open ribbon conductor) is driven past ground by

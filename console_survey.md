@@ -154,20 +154,25 @@ strongly the library supports them.
       in the crop; our U3A / U8B arrangement differs, so this needs working out;
     - mix-bus headroom drops by up to 3.3 dB (see CS3).
   - Taste decision, yours.
-- [ ] **CS3 Mix and sub summer headroom: sum below unity.**
-  - *The numbers:*
-    - Each strip at nominal (POST 0 dBu, centred) puts −6 dBu on the summer; 24 uncorrelated strips sum to about
-      +7.8 dBu at the summer output.
-    - With synths 10 dB hot at the "0" gain setting, the sum is about +17.8 dBu, 3 dB from the OPA1612's ≈ +21 dBu
-      clip.
-    - The master fader comes after the summer, so it can't help. CS2 would take another 3.3 dB.
-  - *Library:* the Delta sums at −8.2 dB (3K9 on 10K), the 6000 at −6.8 dB, Series Two at −5.3 dB; all make it up after
-    the master fader or in the output stage.
-  - *Proposed:* feedback 4K7 → about 2K4 (−6 dB) on the MIX / SUB summers, +6 dB more after the master fader.
-  - *Noise:* the summer's noise relative to signal barely moves at N = 24 (the noise gain falls with the signal gain);
-    the make-up stage adds a little.
-  - *First step is only a check:* a `sim_console` run with hot correlated and uncorrelated sources, and the noise
-    figure, before deciding.
+- [x] **CS3 Mix and sub summer headroom: checked 2026-10-27, no change** (`sim/review/cs3/bus_headroom.py`, from the
+  whole-console model).
+  - *Per source* (0 dBu in, pan centre, every fader at "0"): the summer carries −6.4 dBu, as do the re-inverter, the
+    master fader's top and its post-amp; that's 29.5 dB to the ±15.5 V swing (+23.0 dBu). The XLR carries −0.9 dBu
+    against the DRV135's +27 dBu: 27.9 dB.
+  - *A full mix:* 24 strips at their nominal level, uncorrelated, put the summer at +7.4 dBu, a 15.7 dB margin. The XLR
+    is at +12.9 dBu, a 14.1 dB margin.
+  - *Why no change:*
+    - **Balanced chain:** with the master fader at "0" the summer has 1.6 dB more margin than the output stage.
+    - **Pan law:** our −6 dB already sums 6 dB below the strip level, doing what the Delta's −8.2 dB summer gain does.
+      The first draft of this item used a +21 dBu clip and synths left 10 dB hot at the gain detent; both were wrong.
+  - *The one case left:* the summer clips first only when a hot mix is pulled down by the master fader more than
+    1.6 dB below "0". The meters, after the fader, then read low and don't show it.
+  - *Fixes if wanted:*
+    - Operating note: trim with the channel faders and keep the master near "0".
+    - Hardware: a pre-master-fader peak LED on SUM_L / SUM_R. Summing below unity would need more post-amp gain and
+      noise for the same effect.
+  - *CS2 interaction:* the −4.4 dB pan law raises every stage of the master chain by the same 1.6 dB at centre (3.3 dB
+    hard-panned), so the balance holds.
 - [ ] **CS4 Clamp diodes at jack-facing I/O** (PM-5000 practice).
   - *Why:* live patching (hot plugging, a phantom-powered lead, synth DC). 48 V through 6K8 into J1 gives about 7 mA
     through the 220R into U16's internal ESD diodes, near the OPA1656's rating.

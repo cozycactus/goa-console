@@ -1,0 +1,18 @@
+per source: 0 dBu in, pan centre, faders at "0" (clip 23.0 dBu at any op-amp output)
+  strip PRE                                      -0.1 dBu   headroom  23.1 dB
+  strip POST (fader "0", +10 dB post-amp)        -0.4 dBu   headroom  23.4 dB
+  strip PANL (pan centre)                        -6.4 dBu   headroom  29.4 dB
+  master SUM_L (summer out)                      -6.4 dBu   headroom  29.5 dB
+  master MIX_L (re-inverter)                     -6.4 dBu   headroom  29.5 dB
+  master PRE_L (fader top)                       -6.5 dBu   headroom  29.5 dB
+  master post-amp out (MST_L_FPOST)              -6.8 dBu   headroom  29.8 dB
+  main L XLR (differential)                      -0.9 dBu   headroom  27.9 dB
+
+N strips at their nominal level (PRE 0 dBu), pan centre, uncorrelated (sine-equivalent rms), master fader at "0":
+   1 strips: summer  -6.4 dBu (margin 29.5 dB), main XLR  -0.9 dBu (margin 27.9 dB)
+   8 strips: summer   2.6 dBu (margin 20.4 dB), main XLR   8.2 dBu (margin 18.8 dB)
+  16 strips: summer   5.6 dBu (margin 17.4 dB), main XLR  11.2 dBu (margin 15.8 dB)
+  24 strips: summer   7.4 dBu (margin 15.7 dB), main XLR  12.9 dBu (margin 14.1 dB)
+
+with the master fader at "0" the summer has +1.6 dB more margin than the XLR output; it becomes the first
+stage to clip only with the master fader more than 1.6 dB below "0" (the meters, after the fader, then read low)
