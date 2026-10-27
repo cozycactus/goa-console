@@ -248,6 +248,15 @@ jack board) done.
   main-board layouts): crossings strip 1292 -> 1211, group 1674 -> 1600, master 2419 -> 2261, no part moved, DRC / rules
   clean. Unit / channel swaps measured: at most -12 crossings, none recommended. `placer.py` now ignores rule areas
   when refusing to overwrite a routed board.
+- `tools/route_check.py` (2026-10-27, KiCad Python) — post-route checker for what DRC can't see:
+  - return vias: a GNDA via within 1 mm of each signal via, 2 mm at most on HighZ / Entry / Bus;
+  - reference: filled GNDA under every sensitive track on its reference layer (In1 under F.Cu, In2 under B.Cu; on 2
+    layers the other outer layer), gaps with length and position;
+  - high-Z length and vias, decoupler copper path and ground via, stability caps' vias to their pin, no GNDD fill.
+
+  It fills the zones in memory. `tools/route_check_test.py` routes a known fault and a known-good case for each check
+  on a scratch strip (8 / 8 found, 0 false alarms). The test showed a via beside a SOIC pin can't get a GNDA via
+  within 1 mm (about 1.4 mm), hence the 2 mm limit.
 - `sample_order.md` — the parts to order with the prototype panel and the eight physical checks they settle.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.

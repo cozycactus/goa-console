@@ -48,8 +48,9 @@ on the strip and group, 0.5–6.5 mm on the master.
 **Returns and vias:**
 - **Every GNDA pad:** one via, next to the pad, joining In1 and In2 (and any outer fill).
 - **Ground via beside every signal via:** a signal changing between F.Cu and B.Cu moves its return from In1 to In2.
-  Put a GNDA via within about 1 mm of each such signal via so the return can follow. For HighZ, Entry and Bus nets
-  this is a must; for the rest, wherever there's room.
+  Put a GNDA via close to each such signal via so the return can follow: about 1 mm where there's room, 2 mm at most
+  on HighZ, Entry and Bus nets. Beside a SOIC pin, where E9 / E11 put caps under the pins, there is often no pad-free
+  spot nearer than about 1.4 mm. For the other nets, wherever there's room.
 - **Stitching:** stitch In1 and In2 (and any outer GNDA fill) every 10–15 mm over the whole board, along both edges of
   the corridor and along the board edges.
 - **Prefer F.Cu for the sensitive nets** (HighZ, Entry, Bus): they sit over the unbroken In1. Use B.Cu for short runs
@@ -236,6 +237,17 @@ footprint's own items on the jack boards.
 
 ## Before routing
 
+- **After each routing session:** run `$KPY tools/route_check.py <board>.kicad_pcb`. It checks what DRC can't:
+  - **Return vias:** a GNDA via beside each signal via.
+  - **Reference:** filled GNDA under every HighZ / Entry / Bus track on its reference layer, with the gaps' lengths and
+    positions.
+  - **High-Z nets:** routed length and via count.
+  - **Decouplers:** copper path from pin to cap, and the cap's ground via.
+  - **Stability caps:** at most one via to their pin.
+  - **GNDD:** no GNDD fill.
+
+  It fills the zones on its own copy, so draw the GNDA zones first. `tools/route_check_test.py` proves each check on
+  synthetic routing.
 - Re-check placement with `$KPY tools/emc_check.py <board>.kicad_pcb` after any manual move.
 - `$KPY tools/ratsnest.py <board>.kicad_pcb` gives the signal ratsnest length and crossings; a manual move or turn that
   lowers the crossings is worth keeping (`untangle_proposal.md`).
