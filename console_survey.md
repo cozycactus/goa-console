@@ -284,7 +284,7 @@ design weaker than common practice; the findings below either confirm it or add 
   - *Cost:* about 2 parts per board, placed by `moves_only`.
 - [x] **CS11 Jig test additions** (AMEK big's test protocol, Mackie's per-bus ground) — `test_jig_spec.md` only. Signed
   off and applied 2026-10-27 as tests 13-17 in `test_jig_spec.md` v0.9 (`cs11_proposal.md`). Its follow-up, matched DRV135
-  couplers for output balance, is worked up in `cs11b_proposal.md`, not signed off:
+  couplers for output balance, signed off and applied 2026-10-27 (`cs11b_proposal.md`):
   - output balance of the DRV135 outputs with matched 1 kΩ legs;
   - a measured line-input CMR with a 0.01 %-matched 100 Ω pair, plus the 1 kΩ-unbalanced case our 54 dB claim rests on;
   - fader breakthrough and pan isolation;

@@ -18,6 +18,9 @@ goes to the signal, pin 2 to +VA, pin 1 to −VA.
   output pin and its 10 µF, inside the Sense loop (group R119-R122, master R222-R235, made last by
   `master_lib.drv_loop_rs()`). The 8 kV case drops to 0.84 A into the output pin. On TI's model: no loss of stability,
   differential output impedance 52.6 -> 73.8 Ω, 0.16 dB less into 600R, clip into 600R +27.5 -> +27.2 dBu.
+- **CS11b (`cs11b_proposal.md`, signed off 2026-10-27):** each DRV135's two 10 µF couplers are a pair sorted within 2 %
+  (100 Hz, LCR meter); the BOM says so. The DRV floats its outputs, so the couplers' match sets the output balance: worst
+  5 % at 1 kHz / 100 Hz −32 / −20 dB as bought (±20 %), −60 / −47 dB sorted (`sim/review/cs11/drv_couplers.py`).
 
 Written to the same rules as `channel_strip_schematic_spec.md`; whole-console context is in
 `console_architecture.md` section 4. Part 2 starts at section 12, Part 3 at 16, Part 4 at 17,

@@ -200,6 +200,9 @@ def level_buffer(b, wiper, out, name, unity=True):          # [13, 16] pot wiper
     frag(b, 26, 17, lambda d: frags.noninv(d, wiper, out, uu, cin, rsh, csh, rf, cf, rg))
 
 DRV_RX = []                     # CS4c: the resistors inside the DRV135 loops, created last by drv_loop_rs()
+# CS11b (cs11b_proposal.md): each DRV135's two 10 uF couplers are a pair sorted within 2 % (LCR meter, 100 Hz): output
+# balance at 100 Hz / 1 kHz, worst 5 %, -20 / -32 dB as bought (+-20 %) -> -47 / -60 dB (sim/review/cs11/drv_couplers.py)
+DRV_PAIR = 'Panasonic ECE-A1EN100U (matched pair: the two at one DRV135 within 2 %, sorted at 100 Hz)'
 
 def drv134(b, inp, op, on, rx=True):                        # [7]
     """rx (CS4c): a 22R between each output pin and its 10u, inside the Sense loop; created last (drv_loop_rs), so
@@ -209,6 +212,9 @@ def drv134(b, inp, op, on, rx=True):                        # [7]
     P(b, u, 'DRV134', 'DRV135', {4: inp, 3: 'GNDA', 6: '+VA', 5: '-VA', 8: pp, 1: pn, 7: op, 2: on})
     cs = (C(b, '10u NP 25V', vop, op), C(b, '10u NP 25V', von, on), C(b, '1u', '+VA', 'GNDA'), C(b, '1u', 'GNDA', '-VA'))
     for c in cs: near(c, u)
+    if rx:                      # CS11b: the two couplers' match sets the output balance (the DRV floats its outputs)
+        for pt in b:
+            if pt['ref'] in cs[:2]: pt['mpn'] = DRV_PAIR
     rs = []
     if rx: DRV_RX.append((b, u, ((pp, vop), (pn, von)), rs))
     frag(b, 35 if rx else 30, 15, lambda d: frags.drv134(d, inp, op, on, u, *cs, rs=rs))

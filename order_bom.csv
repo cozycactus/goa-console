@@ -30,7 +30,7 @@
 "6","4","2","Nichicon UPW1E471MPD","470u 25V","Capacitor_THT:CP_Radial_D10.0mm_P5.00mm","master 2, jig stub 2",""
 "4","2","2","Nichicon UPW1E102MHD","1000u 25V","Capacitor_THT:CP_Radial_D12.5mm_P5.00mm","master 2",""
 "4","2","2","Rubycon 35ZLH2200MEFC16X25","2200u 35V low-ESR","Capacitor_THT:CP_Radial_D16.0mm_P7.50mm","psu 2",""
-"38","36","2","Panasonic ECE-A1EN100U","10u NP 25V","Capacitor_THT:CP_Radial_D5.0mm_P2.00mm","group 4x4, master 18, jig stub 2",""
+"49","46","3","Panasonic ECE-A1EN100U","10u NP 25V","Capacitor_THT:CP_Radial_D5.0mm_P2.00mm","group 4x4, master 14, master 4, jig stub 2, pair-sorting stock 10","matched pair: the two at one DRV135 within 2 %, sorted at 100 Hz"
 "53","50","3","Panasonic EEU-FR1H470","47u 25V","Capacitor_THT:CP_Radial_D6.3mm_P2.50mm","strip 24x2, psu 2","50V"
 "163","155","8","Nichicon UES1E330MPM","33u NP 25V","Capacitor_THT:CP_Radial_D8.0mm_P3.50mm","strip 24x5, group 4x6, master 11","MUSE ES"
 "16","14","2","Nichicon UPW1J470MPD","47u 25V","Capacitor_THT:CP_Radial_D8.0mm_P3.50mm","group 4x2, master 4, jig stub 2","63V"

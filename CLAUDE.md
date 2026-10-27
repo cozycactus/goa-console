@@ -208,11 +208,11 @@ jack board) done.
   follow-up), line CMR (1 kohm tip: 60 / 56 / 38 / 32 dB at 50 / 1k / 10k / 20k, the 100 pF caps), fader / pan
   residuals vs end resistance (-80 dB needs <= 0.3 ohm: decides CS9), faders-down MIX noise N 4..24 (-106.7..-100.1
   dBu), GCANCEL current.
-- `cs11b_proposal.md` (+ `cs11b_proposal.patch`, tools only) — CS11b worked up, not signed off (2026-10-27): each DRV135's
+- `cs11b_proposal.md` (+ `cs11b_proposal.patch`, tools only) — CS11b, signed off by Ruslan and applied 2026-10-27: each DRV135's
   two 10 uF couplers as a pair sorted within 2 % (MPN note; LME49600 bypasses and the jig stub as bought; 10 sorting
   spares in `order_bom.py`). `sim/review/cs11/drv_couplers.py` (TI model): output balance worst 5 % at 1 kHz / 100 Hz
   -32 / -20 dB as bought -> -60 / -47 dB; 47 / 100 uF cans as bought only -45 / -26 and -52 / -32, and no D6.3 / D8 fits
-  at any of the 30 coupler spots; the coupler value doesn't change the loop (|1+T| min 0.188). Trial 61 / 61, nothing moved.
+  at any of the 30 coupler spots; the coupler value doesn't change the loop (|1+T| min 0.188). Nothing moved.
 - `cs6_proposal.md` (+ `cs6_proposal.patch`, tools only) — CS6, signed off by Ruslan and applied 2026-10-27 (strip v5.3): R1-R4 (10R to
   +VA / -VA / +VL / -VL) on every strip and group as Vishay M25SI fusibles (M251206BB1009JP500, 1206 0.25 W, fuses >= 3 W;
   DigiKey stock; TT FCR0805 / 1206 too small at 0.1 / 0.125 W, FCR1210 not stocked). `sim/review/cs6/fusible.py`: a
@@ -598,6 +598,10 @@ jack board) done.
   R132 4M99 / R133 10M from +VL, wired-OR onto OL_HOLD through R135 1K. Thresholds are ratios of +VL only (+18.4 dBu;
   pulses +9.01 / -9.30 V). Placement by `moves_only`: only D1 moved (DO-35 -> SOT-23 on the bottom). PK / OL_NN are
   Switching class (`netrules.py` DETECTOR), ~390 mm. 902 pins, 310 parts; +~0.5 mA per strip on +VL.
+- DRV135 coupler pairs (signed off by Ruslan 2026-10-27, `cs11b_proposal.md` CS11b): each console DRV135's two 10 uF
+  couplers (groups and master; not the jig stub or the LME49600 bypasses) are a pair sorted within 2 % at 100 Hz; BOM MPN
+  note, 10 sorting spares in `order_bom.py`, the sorting rule in `offboard_bom.md`. Output balance worst 5 % at 1 kHz /
+  100 Hz -32 / -20 -> -60 / -47 dB.
 - DRV135 loop resistors (signed off by Ruslan 2026-10-27, `cs4c_proposal.md` CS4c): 22R ERJ-P06J220V between each
   DRV135 output pin and its 10 uF, inside the Sense loop (group R119-R122, master R222-R235; jig stub without, `rx=False`),
   made last by `master_lib.drv_loop_rs()`. 8 kV into the output pin 5.9 -> 0.84 A; differential output impedance

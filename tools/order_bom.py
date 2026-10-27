@@ -9,7 +9,9 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 BOARDS = [('channel_strip', 'strip', 24), ('jack_board', 'strip jack', 24), ('group', 'group', 4),
           ('group_jack_board', 'group jack', 4), ('master', 'master', 1), ('master_jack_board', 'master jack', 1),
           ('psu', 'psu', 1), ('jig_master_stub', 'jig stub', 1), ('jig_load_board', 'jig load', 1)]
-EXTRA = [('TI OPA1656IDR', 'OPA1656 (jig A/B variant)', 'Package_SO:SOIC-8_3.9x4.9mm_P1.27mm', 'jig A/B', 16)]
+EXTRA = [('TI OPA1656IDR', 'OPA1656 (jig A/B variant)', 'Package_SO:SOIC-8_3.9x4.9mm_P1.27mm', 'jig A/B', 16),
+         # CS11b: 40 bought for the 30 DRV135 couplers sorted into 15 pairs within 2 % (sim/review/cs11/drv_couplers.py)
+         ('Panasonic ECE-A1EN100U', '10u NP 25V', 'Capacitor_THT:CP_Radial_D5.0mm_P2.00mm', 'pair-sorting stock', 10)]
 
 def spares(fp, need):
     """Spares by kind: cheap SMD passives +10 % (at least 10), semis +5 % (at least 2), panel / THT parts +3 %

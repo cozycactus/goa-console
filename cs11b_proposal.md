@@ -1,7 +1,7 @@
 # CS11b: matched DRV135 couplers for output balance (proposal, 2026-10-27)
 
-**Not signed off.** The change is `cs11b_proposal.patch`. It touches tools only: `master_lib.py` and `order_bom.py`. It was
-applied to a trial tree, checked (§5) and reverted, so nothing in the design has changed.
+**Signed off by Ruslan on 2026-10-27 (as proposed: pairs within 2 %, 10 sorting spares) and applied the same day; see
+"Applied" at the end.** The change is `cs11b_proposal.patch`. It touches tools only: `master_lib.py` and `order_bom.py`.
 
 **Simulation:** `sim/review/cs11/drv_couplers.py` on TI's DRV134 model (via `TI_MODELS`), with CS4c's 22R in each loop.
 Its output is in `drv_couplers.out`.
@@ -73,6 +73,15 @@ All 61 checks pass:
 
 ## Sign-off
 
-- [ ] **CS11b** as proposed: the console's DRV135 couplers sorted into pairs within 2 %, 10 sorting spares.
+- [x] **CS11b** as proposed: the console's DRV135 couplers sorted into pairs within 2 %, 10 sorting spares. Ruslan, 2026-10-27.
 - [ ] Within 5 % instead (−52 / −39 dB worst 5 %; fewer spares needed).
 - [ ] Neither (the balance stays as bought; jig test 13 measures it).
+
+## Applied (2026-10-27)
+
+- **Applied:** the patch.
+- **Regenerated and re-exported:** group and master netlists (789 / 1786 pins, 0 mismatches), BOMs, PDFs and
+  `order_bom.csv` (ECE-A1EN100U 49 with the note and the 10 sorting spares).
+- **Re-placed:** both boards for the MPN field; 0 parts moved. Netrules re-run.
+- **Documents:** master spec (Part 1 note), `offboard_bom.md` (the sorting rule), CLAUDE.md, `console_survey.md`.
+

@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/group.kicad_sch")
-		(date "2026-10-27T20:22:03")
+		(date "2026-10-27T20:48:34")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -2136,7 +2136,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Panasonic ECE-A1EN100U (matched pair: the two at one DRV135 within 2 %, sorted at 100 Hz)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -2153,7 +2153,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Panasonic ECE-A1EN100U (matched pair: the two at one DRV135 within 2 %, sorted at 100 Hz)")
 			)
 			(property
 				(name "Sheetname")
@@ -2196,7 +2196,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Panasonic ECE-A1EN100U (matched pair: the two at one DRV135 within 2 %, sorted at 100 Hz)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -2213,7 +2213,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Panasonic ECE-A1EN100U (matched pair: the two at one DRV135 within 2 %, sorted at 100 Hz)")
 			)
 			(property
 				(name "Sheetname")
@@ -5526,7 +5526,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Panasonic ECE-A1EN100U (matched pair: the two at one DRV135 within 2 %, sorted at 100 Hz)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -5543,7 +5543,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Panasonic ECE-A1EN100U (matched pair: the two at one DRV135 within 2 %, sorted at 100 Hz)")
 			)
 			(property
 				(name "Sheetname")
@@ -5586,7 +5586,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic ECE-A1EN100U")
+					(name "MPN") "Panasonic ECE-A1EN100U (matched pair: the two at one DRV135 within 2 %, sorted at 100 Hz)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
 				(field
@@ -5603,7 +5603,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic ECE-A1EN100U")
+				(value "Panasonic ECE-A1EN100U (matched pair: the two at one DRV135 within 2 %, sorted at 100 Hz)")
 			)
 			(property
 				(name "Sheetname")
