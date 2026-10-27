@@ -235,6 +235,12 @@ jack board) done.
   Ground widths. `tools/netrules_test.py` proves every rule fires (KiCad silently drops a rule it can't evaluate, e.g.
   `!(...)`; the later rule in the file wins for the same constraint). Re-run netrules.py after any re-placement or netlist
   change. Generators that copy master.kicad_pro keep each project's net settings (`schgen.keep_net_settings`).
+- `layer_study.md` — 2 vs 4 layers (2026-10-27, for Ruslan's decision): the main boards need about one full signal layer
+  of routing (ratsnest 63-72 mm/cm2, 118-161 crossings per 10 cm2; jig / PSU / jack boards 8-17 and 2-14). Quotes on
+  2026-10-27 (no shipping): JLCPCB phase 1 $43.50 all 2L vs $70.50 with the three main boards on 4L, full build $106 vs
+  $199 ($1.25 per strip); PCBWay +$50 / +$184; Aisler +EUR 58 / +EUR 472 (4L ENIG only). Recommendation: 4L for the strip,
+  group and master mains (L2 solid GNDA with the GNDD partition, L3 power), 2L for every other board; decide before
+  phase 1.
 - `sample_order.md` — the parts to order with the prototype panel and the eight physical checks they settle.
 - `wing_power_proposal.md` — pin 34 as a third +V conductor (W1) and MF-RX250/72 +V wing PTCs (W2), signed off and
   applied 2026-10-25.
