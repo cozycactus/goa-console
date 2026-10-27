@@ -180,7 +180,29 @@ strongly the library supports them.
     at J1's legs after the 220R, the insert return, and the direct-out and insert-send pins.
   - *Master:* DRV135 outputs to be checked against TI's protection notes.
   - *Cost:* about 4 SOT-23 per strip.
-- [ ] **CS5 PFL-bus crosstalk measures.** Three independent items:
+- [x] **CS5 PFL-bus crosstalk measures: checked 2026-10-27, no change** (`sim/review/cs5/pfl_xtalk.py`, output in
+  `pfl_xtalk.out`).
+  - *The model:* one wing of the motherloom (14 segments), conductors 25-31, 2.5 pF to the next conductor per segment as
+    `sim_console.py` and an estimated 0.4 pF to the one after. The master's PFL summer and PFL DET network are as built;
+    strip 1 is pressed.
+  - *Why it is quiet:*
+    - every bus on the ribbon (MIX, SUB, AUX, PFL) is a virtual earth at its summer, so its conductor carries almost no
+      voltage;
+    - the PFL bus (27) lies between GCANCEL (26) and pin 28, and PFL DET (29) is held by the master's 1 µF.
+  - *Results:* against a PFL path floor of about −93 to −97 dBu (the strip's PRE noise, EQ in):
+
+    | Into the PFL sum | as built | (b) pin 28 on GNDA | (c) PFL DET at a virtual earth |
+    |---|---|---|---|
+    | AUX2 at 0 dBu, 20 kHz | −105 dB | −105 dB | −105 dB |
+    | −V, 10 mA AC per strip (a hard worst case) | −122 dBu | −202 dBu | −122 dBu |
+    | A key press (PFL_ON 0 → 5 V in 1 µs), peak | −94 dBu | −105 dBu | −121 dBu |
+    | (a) 1 mA AC on every strip's +VL, 1 pF per key | −104 dBu | | |
+
+  - *Verdict:*
+    - **(a)** can't help: +VL is already 10R / 47 µF at every key, so a local 10 nF changes nothing.
+    - **The press click** coincides with the DG413's own switching click (−70 to −89 dBu, `sim/review/pflswitch`).
+    - **(b)** is the one free option: a wire from CN2 / CN3 pin 28 to GNDA on the master, no part. It isn't needed.
+  - *The three items as surveyed:*
   - **(a) PFL / ON key supply poles:**
     - *Library:* Soundcraft's Series Two field mod (concession 05/06/2002) added 1 nF from the PFL key's audio-ground
       throw (pin 3) to its supply pole (pin 5, an LED / detect rail). That cured distorted crosstalk onto unrouted

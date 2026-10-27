@@ -1,0 +1,19 @@
+1. AUX2 (pin 25, a virtual-earth bus) at 0 dBu from strip 1 -> PFL sum, dB against the programme
+   as built (pin 28 open)            :    1 kHz  -156.7 dB,   20 kHz  -105.3 dB
+   (b) pin 28 on GNDA at the master  :    1 kHz  -156.7 dB,   20 kHz  -105.3 dB
+   (c) PFL DET at a virtual earth    :    1 kHz  -156.7 dB,   20 kHz  -105.3 dB
+
+2. -V (pins 30 / 31): 10 mA AC of supply current per strip (12 strips) -> PFL sum, dBu
+   as built (pin 28 open)            :    1 kHz  -121.9 dBu,   20 kHz  -122.0 dBu
+   (b) pin 28 on GNDA at the master  :    1 kHz  -202.5 dBu,   20 kHz  -202.6 dBu
+   (c) PFL DET at a virtual earth    :    1 kHz  -121.9 dBu,   20 kHz  -122.0 dBu
+
+3. (a) the keys: 1 mA AC into every strip's +VL (its 10R / 47 uF: ~3.4 mV at 1 kHz), 1 pF from each released
+   key's pin 1 to its +VL, onto the PFL bus -> PFL sum, dBu
+   as built (pin 28 open)            :    1 kHz  -104.0 dBu,   20 kHz  -103.9 dBu
+
+4. the press: strip 1's PFL_ON steps 0 -> 5 V in 1 us (the key closing onto +VL); peak at the
+   PFL sum, dBu
+   as built (pin 28 open)            :   -93.7 dBu (peak, as a sine)
+   (b) pin 28 on GNDA at the master  :  -105.0 dBu (peak, as a sine)
+   (c) PFL DET at a virtual earth    :  -120.5 dBu (peak, as a sine)

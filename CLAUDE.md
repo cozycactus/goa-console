@@ -202,6 +202,10 @@ jack board) done.
   series (Phonic OEM), Spirit E8, Mackie 1604 / 1402-VLZ and 8•Bus; nothing weaker in ours. New proposals CS9 (fader
   shut-off compensation as A&H, only if the PTB0143 sample's residual is worse than -80 dB), CS10 (reverse diodes per
   rail on every strip / group board), CS11 (jig tests: output balance, measured CMR, fader breakthrough, GCANCEL current).
+- `sim/review/cs5/pfl_xtalk.py` (2026-10-27, CS5 check, no change): one wing's conductors 25-31 with the PFL summer and
+  PFL DET; everything into the PFL sum sits at or below its ~-93..-97 dBu floor. AUX2 -105 dB at 20 kHz; -V ripple
+  -122 dBu; a key press -94 dBu peak, at the DG413's own click; key decouplers (CS5a) can't help (+VL is already
+  10R / 47 uF). Pin 28 on GNDA at the master (-105 dBu click, -202 dBu ripple) is a free option, not needed.
 - `sim/review/cs3/bus_headroom.py` (2026-10-27, CS3 check, no change): per source the summer, re-inverter, master fader
   top and post-amp all carry -6.4 dBu (29.5 dB to clip), the XLR -0.9 dBu against the DRV135's +27 dBu (27.9 dB); 24
   strips at nominal leave 15.7 dB at the summer. The summer clips first only with the master fader > 1.6 dB below "0".
