@@ -230,9 +230,14 @@ CS7_U8 = {'U8': (37.0, 174.0, 90, 'B'), 'C47': (43.25, 169.5, 270, 'B'), 'C48': 
           'R225': (39.75, 176.5, 0, 'F')}
 CS7 = {'SW4': sw(XR, 178), 'R236': (30.5, 177.75, 180, 'B'), 'R237': (30.5, 183.75, 180, 'B')}
 MOVES.update(CS7_U8); MOVES.update(CS7)
+# D13 (delta_crosscheck.md): the five spare-conductor ground jumpers on the bottom beside the left wing header, placed
+# by MOVES alone (bridged: open them for an 8-group build)
+D13 = {'JP3': (13.3, 321.5, 90, 'B'), 'JP4': (13.3, 325.5, 90, 'B'), 'JP5': (13.3, 329.5, 90, 'B'), 'JP6': (13.3, 333.5, 90, 'B'),
+       'JP7': (13.3, 337.2, 90, 'B')}    # a column between CN2's courtyard (x <= 11.8) and the meter LEDs' leads (x 15.5)
+MOVES.update(D13)
 for z in ZONES: z[2][:] = [r for r in z[2] if r not in CS4C and r not in CS7]   # their drivers' blocks list them too
 place(os.path.join(PROJ, 'master.net'), os.path.join(PROJ, 'master.kicad_pcb'),
-      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS4B) + tuple(CS4C) + tuple(CS7), wire=tuple(CS4C), turns=TURNS, layers=4, rails=(0.5, 6.5), holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
+      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS4B) + tuple(CS4C) + tuple(CS7) + tuple(D13), wire=tuple(CS4C), turns=TURNS, layers=4, rails=(0.5, 6.5), holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
            grounds=('GNDA', 'GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'), silk_text_off=('K',), hole_value='M3 standoff 11.5 mm',
            attach=True, keepout=[(0, 186, EL, 299), (ER, 186, W, 299),
                                  (21.0, 202.2, 58.0, 220.0, 'B')]))     # J1's wire entries (its +y face): room for the wires

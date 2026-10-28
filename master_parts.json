@@ -744,6 +744,16 @@
     "D101",
     "D102"
    ]
+  ],
+  [
+   "SPARE BUS GROUNDING  bridged solder jumpers from each spare conductor to GNDA (D13; open for SUB 5-8)",
+   [
+    "JP3",
+    "JP4",
+    "JP5",
+    "JP6",
+    "JP7"
+   ]
   ]
  ],
  "near": {

@@ -1794,5 +1794,15 @@
 "D101.2": "+VA",
 "D102.1": "-VA",
 "D102.3": "PHJ_R",
-"D102.2": "+VA"
+"D102.2": "+VA",
+"JP3.1": "SPARE1",
+"JP3.2": "GNDA",
+"JP4.1": "SPARE3",
+"JP4.2": "GNDA",
+"JP5.1": "SPARE5",
+"JP5.2": "GNDA",
+"JP6.1": "SPARE7",
+"JP6.2": "GNDA",
+"JP7.1": "SPARE19",
+"JP7.2": "GNDA"
 }

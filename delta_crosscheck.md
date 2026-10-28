@@ -48,89 +48,144 @@ pointer), UNRECORDED (nobody wrote it down: listed for sign-off in §2), N/A (De
 
 ## 2. Unrecorded discrepancies for sign-off
 
-Merged from the four readers (their own numbered lists, with the evidence, are at the end of each Part). "Keep" means
-our circuit stays; "document" names where the departure gets written down.
+Merged from the four readers (their own numbered lists, with the evidence, are at the end of each Part). Each item:
+what the Delta does, what ours does, the recommendation and **why** — the reason is the part to disagree with.
 
 **Decisions needed**
 
 - **D1 Insert jack tip / ring sense (strip J2, master J1 / J2, the groups' sub inserts, the jig).** Delta: tip = return,
   ring = send, console-wide (ED3344A JSK2, ED2780 sht 2 JSK1, manual p.124 / p.128). Ours: tip = send, ring = return,
-  ring normalled to the send — the Mackie / A&H / later-Soundcraft convention. A Delta-wired insert lead or patchbay
-  arrives reversed on ours (no electrical risk: 75R / 47K line level both ways). Readers A and C found it independently;
-  no document records it. Recommendation: **keep tip = send**, state it in strip spec §7 / 16.4, master spec §4, the
-  panel legend ("SEND = tip") and `delta_clone_comparison.md` §2.
+  ring normalled to the send. Readers A and C found it independently; no document records it, and it was never
+  decided (gen.py's `{'T': 'SEND', 'R': 'RET_RAW'}` simply followed the common convention).
+  Recommendation: **keep tip = send, document it** (strip spec §7 / 16.4, master spec §4, `delta_clone_comparison.md`
+  §2; panel legend "INSERT tip = send" when the panels are next regenerated).
+  Why: electrically the two are identical (75R send build-out, 47K return bleed, the normalling works both ways), so
+  the only thing at stake is which cables fit. Tip = send is what Mackie, Allen & Heath, Yamaha, Behringer, later
+  Soundcraft (Spirit, Ghost) and the commercial "insert cable" (the TS marked SEND on the tip) use; ring = send is the
+  1980s Soundcraft convention and serves only Delta-era looms. Adopting the Delta's would make every insert lead bought
+  or made "backwards" relative to its label for the console's life. The one reason to switch: existing Delta-wired
+  looms or a patchbay wired ring = send that are to be reused (then it is a T / R swap in four generators).
 - **D13 Unused / spare bus conductors.** Delta LH master grounds every group bus no module sums (ED2779A links J2-J9);
-  ours leaves pins 1 / 3 / 5 / 7 (SUB 5-8) and 19 floating, joined only wing to wing (SPARE1-7). A floating conductor
-  between grounded ones picks up its neighbours (19 lies between MIX L and AUX6). Recommendation: **adopt as an
-  option**: one solder jumper per spare to GNDA on the master only (the modules keep them unconnected, as decided
-  2026-10-27), default closed; or document only.
+  ours left pins 1 / 3 / 5 / 7 (SUB 5-8) and 19 floating, joined only wing to wing (SPARE1-7). Recommendation:
+  **adopt**: one bridged solder jumper per spare conductor to GNDA on the master only (JP3-JP7, applied below), the
+  modules keep them unconnected as decided 2026-10-27; open the jumpers for an 8-group build.
+  Why: a floating conductor between grounded ones couples capacitively to its neighbours and re-radiates them (19 lies
+  between MIX L on 18 and AUX6 on 20; 1 / 3 / 5 / 7 lie between ground conductors 2-8, so they matter less), and a
+  floating line on a header is also an ESD / hot-plug antenna. Grounding at the master costs five jumpers and no board
+  area, adds a shield between MIX L and AUX6, and changes nothing a module sees (they are NC there). The Delta does
+  exactly this for the same reason. Against: none found; the only cost is remembering to open them for SUB 5-8, which
+  the silk and the spec note cover.
 
 **Keep, document (the record is wrong or silent)**
 
-- **D2 PAN LED.** Delta Theatre LD2 red, shorted by SW5-D when PAN is off; ours none (SW14's poles both carry audio).
-  Document in the strip spec (panel / LED list: 7 LEDs, the Delta's 8).
-- **D3 Soft mute: topology and record.** Delta: series J112 (TR4) into IC6-A's virtual earth + shunt J112 (TR3) with its
-  source on C30 47 µF, gates on MUTE / MUTE-bar from a TR6 / TR7 inverter pair (220K / 100n, 1N4148, 680K bleeds); the
-  Venue the same with the shunt source on a 47 µF (no DC across the FET). Ours: two shunt J112s in a 4K7 ladder into a
-  follower, one 220K / 100n ramp from the key (~86 dB). The topology gap is `console_survey.md` CS8 (open, jig), but
-  `delta_clone_comparison.md` §2 and `console_survey/delta.md` T7 say "same J112 circuit": reword both; add the
-  cap-isolated shunt source to `clicks_proposal.md` RV5 as the zero-cost alternative to AC-coupling MUTEOUT.
+- **D2 PAN LED.** Delta Theatre LD2 red, shorted by SW5-D when PAN is off; ours none (SW14's two poles both carry audio).
+  Recommendation: keep, note it in the strip spec's LED list. Why: adding it needs a third pole (a 4-pole key, which
+  the PVA2 range lacks) or a spare comparator / DG413 section, for an indication the key's latched height already gives
+  (as on the PRE and DIR keys, which the Delta itself leaves without LEDs); not worth a part and a panel hole.
+- **D3 Soft mute: topology and record.** Delta: series J112 (TR4) into IC6-A's virtual earth + shunt J112 (TR3) with
+  its source on C30 47 µF, gates on MUTE / MUTE-bar from a TR6 / TR7 inverter pair (220K / 100n, 1N4148, 680K bleeds);
+  the Venue the same with the shunt source on a 47 µF (no DC across the FET). Ours: two shunt J112s in a 4K7 ladder
+  into a follower, one 220K / 100n ramp from the key (~86 dB). Recommendation: reword `delta_clone_comparison.md` §2
+  and `console_survey/delta.md` T7 (they say "same J112 circuit", which is false); keep the circuit; add the
+  cap-isolated shunt source to `clicks_proposal.md` RV5 as an alternative. Why: the depth question is already
+  `console_survey.md` CS8, deferred to the jig (86 dB simulated against the Delta's 100-110 dB), and a second pass of
+  simulation would not settle what a bench measurement will; but the record must not claim a sameness that isn't
+  there, and the Delta's cap-isolated source is the cheapest fix for RV5's DC-on-the-fader if the bench shows a click.
 - **D4 Insert-return input impedance.** Delta C24 47 µF → R45 4K7 into IC5-B's virtual earth (≈ 4K7; spec sheet says
-  10K); ours 47K + 1K into a follower. Keep (loads the outboard 10x less); document.
-- **D5 Routing resistors.** Delta 10K 0.5 W (R126 / R127, ED3151 R1-R4); ours 4K7 0805 (worst case a rail on the bus:
-  61 mW). Keep; document.
+  10K); ours 47K + 1K into a follower. Recommendation: keep, document. Why: 47K loads an outboard output ten times
+  less than 4K7 (an outboard with a 600R-class output doesn't care; a passive or valve unit does), the follower is
+  already signed off for stability (T8 / C84), and the LF corner of our return (C10 33 µF / 47K: 0.1 Hz) is better.
+- **D5 Routing resistors.** Delta 10K 0.5 W (R126 / R127, ED3151 R1-R4); ours 4K7 1 % 0805 (0.125 W). Recommendation:
+  keep, document. Why: the dissipation case is a bus shorted to a 17 V rail: 17² / 4K7 = 61 mW, half the 0805's rating;
+  normal signal is < 15 mW. The Delta's 0.5 W is its era's metal-film choice (1 % metal film came in 0.5 W), not a
+  dissipation need, and 4K7 against 10K is a recorded decision (3 dB quieter bus).
 - **D6 LED colours and drive.** Delta: one ≈ 6 mA series chain from a 2SA970 current source, routing LEDs amber, EQ
-  green, PFL / PEAK / PAN red, ON green; ours 4K7 per LED from +VL (≈ 3 mA), routing yellow WP710A10YD. Keep (amber
-  = Kingbright WP710A10SEC/J if wanted); document.
+  green, PFL / PEAK / PAN red, ON green; ours 4K7 per LED from +VL (≈ 3 mA), routing yellow WP710A10YD. Recommendation:
+  keep, document (amber = Kingbright WP710A10SEC/J if the colour is wanted). Why: a series chain needs every LED in
+  the loop and shorting poles on every key (the Delta spends a switch pole per LED on it), while per-LED resistors
+  let a lit LED draw only its own 3 mA from the logic rail and leave the keys' poles for logic (the DG413 drive);
+  3 mA in a modern GaP / GaAsP LED is as bright as 6 mA was in 1990's parts. Yellow vs amber is taste.
 - **D7 Aux 5 / 6 pre-EQ option.** Delta links J4-J7 cover aux 1-4 only (aux 5 / 6 PRE = pre-fader); ours JP2-JP4 give
-  all three pairs the choice. A superset; document.
-- **D8 EQ bypass.** Delta SW3-A (Venue S5-A / S3-A) grounds the idle EQ's input; ours SW12 only selects the source (pole
-  B drives the EQ LED), the bypassed EQ keeps running. No measurable effect (one open PVA2 contact between the same
-  programme). Keep; document.
-- **D9 Peak-detect tap.** Delta Theatre: SW3-B output, post-EQ-switch, pre-insert (the Venue the same); not "post-insert"
-  as `delta_clone_comparison.md` §2 says. Ours (CS1) taps EQOUT and PRESRC among five. Fix the row.
+  all three pairs the choice. Recommendation: keep, document. Why: a strict superset (default 1-2 = pre-fader, as the
+  Delta), one solder jumper per pair; removing it would save nothing.
+- **D8 EQ bypass.** Delta SW3-A (Venue S5-A / S3-A) grounds the idle EQ's input; ours SW12 only selects the source
+  (pole B drives the EQ LED), the bypassed EQ keeps running. Recommendation: keep, document. Why: the only path from
+  the idle EQ to the signal is the PVA2's open contact, and the idle EQ carries the same programme (HOUT), so its
+  crosstalk is the programme itself — no level or noise effect is possible; the pole the Delta spends on grounding
+  gives us the EQ-in LED instead, which the Delta has too but pays a chain pole for.
+- **D9 Peak-detect tap.** Delta Theatre: SW3-B output, post-EQ-switch, pre-insert (the Venue the same); not
+  "post-insert" as `delta_clone_comparison.md` §2 says. Ours (CS1) taps EQOUT and PRESRC among five. Recommendation:
+  fix the row. Why: a record error; ours already covers both points, so no circuit change follows.
 - **D10 Peak threshold.** Delta Theatre ≈ +14 dBu by calculation (R92 470K / R88 56K, positive only; the manual's
-  +9 dBu is the Standard input), decay ≈ 1.5 s; ours +18.4 dBu both polarities, 150 ms hold (CS1, `console_survey/
-  delta.md` §4.5). Keep (if the bench shows red too late on EQ boosts, +15 dBu is R40 / R41); document the Delta number.
+  +9 dBu is the Standard input), decay ≈ 1.5 s; ours +18.4 dBu both polarities, 150 ms hold (CS1,
+  `console_survey/delta.md` §4.5). Recommendation: keep, record the Delta's number. Why: the margin question was
+  already argued in CS1 (+18.4 dBu = 4 dB under the strip's +22-23 dBu clip, which the Delta's +14 does not match
+  because its headroom is lower); a lower threshold would light red on EQ boosts that aren't clipping. If the bench
+  disagrees, +15 dBu is a one-resistor change (R40 / R41) — so nothing to decide before the jig.
 - **D11 ON logic levels.** Delta derives ±VM ON / ON-bar (TR6 / TR7, also the ON-LED switch); ours drives the gate RC
-  from the key. Only matters for a remote / group mute, which the Theatre lacks too. Keep; document.
-- **D12 Coupler between HPF and EQ.** Delta C14 47 µF (and C11 before the HPF); ours C38 / C91 before the HPF, HPF → EQ
-  DC-coupled (the KHN summer's few mV reach the EQ's unity inverters and the insert send through C51 / R11). Keep;
-  document.
+  from the key. Recommendation: keep, document. Why: the complementary lines exist on the Delta to drive its
+  series + shunt FET pair and a remote-mute input; ours has one shunt pair and no remote mute (the Theatre has none
+  either), so the inverter would drive nothing.
+- **D12 Coupler between HPF and EQ.** Delta C14 47 µF (and C11 before the HPF); ours C38 / C91 before the HPF, HPF →
+  EQ DC-coupled. Recommendation: keep, document. Why: the KHN HPF's output offset is the summer's Vos plus the
+  integrators' (a few mV); every EQ stage is a unity inverter and the insert send is AC-coupled by C51, so the offset
+  reaches nothing a user can hear or measure, while a 47 µF NP in that spot would add a part, a corner and ~0.5 dB of
+  LF phase in the HPF's own passband.
 - **D14 No +4 dBu / −10 dBV operating-level switch.** Delta S1 (6 poles) pads the post-amps 11.6 dB (1K2 / 430R) and
-  raises the four monitor receivers 10.4 dB (6K8 / 20K / 2K2 T); ours fixed gains, EXT unity. A −10 dBV DAW / tape
-  return on EXT monitors 7.8 dB low (the C/ROOM pot covers it). Keep; document in master spec §17 / §7 with the option:
-  EXT receivers' 10K legs → 24K3 0.1 % (R85 / R90, R87 / R92) for a gain of 2.45.
-- **D15 Peak-meter release.** Spec §22 calls our 0.55 s (C160 / C178 1 µF, R146 + R147 550K) "Delta-like"; the Delta's
-  R306 22K / C301 10 µF is ≈ 0.22 s. Keep 0.55 s; correct the wording.
-- **D16 Remote meter header.** Delta CN8: 1 METER L, 2 ground, 3 +17 V, 4 METER R, 5 −17 V (logic rails); ours CN4: 1
-  MTR_L, 2 MTR_R, 3 +VM, 4 GNDM, 5 −VM. Our own; document in spec §22.
-- **D17 Monitor-select receiver reading.** `docs/console_survey/delta.md` Monitoring omits the switched T on the − leg
-  (6K8 + 20K, 2K2 to ground through S1: −4.1 dB open, +6.3 dB closed; the bridge is 26.8K vs 22K, not ratio-matched).
-  Survey correction only.
+  raises the four monitor receivers 10.4 dB (6K8 / 20K / 2K2 T); ours fixed gains, EXT unity. Recommendation: keep,
+  document in master spec §17 / §7 with the option (EXT receivers' 10K legs → 24K3 0.1 %, R85 / R90 and R87 / R92, for
+  a gain of 2.45). Why: the console's destinations are +4 dBu (DAW interfaces, the bus compressor), so the main
+  outputs need no −10 pad, and a −10 dBV source on EXT is 7.8 dB low on the C/Room only, which the C/ROOM pot covers;
+  a 6-pole switch in the output and monitor paths is contacts in the signal path for a case that is not planned.
+- **D15 Peak-meter release.** Spec §22 calls our 0.55 s (C160 / C178 1 µF, R146 + R147 550K) "Delta-like"; the
+  Delta's R306 22K / C301 10 µF is ≈ 0.22 s. Recommendation: keep 0.55 s, correct the wording. Why: the slower fall
+  is easier to read on a 20-LED bar and is within the usual peak-meter range (DIN 1.5 s, "fast" PPMs ~0.5 s); only
+  the claim of likeness is wrong.
+- **D16 Remote meter header.** Delta CN8: 1 METER L, 2 ground, 3 +17 V, 4 METER R, 5 −17 V (logic rails); ours CN4:
+  1 MTR_L, 2 MTR_R, 3 +VM, 4 GNDM, 5 −VM. Recommendation: keep, document in spec §22. Why: a Delta meter bridge is
+  not going to be plugged in, and ours feeds the bridge from the meter rails and meter ground (GNDM) so a bridge's
+  LED current stays off the audio ground — the better arrangement.
+- **D17 Monitor-select receiver reading.** `docs/console_survey/delta.md` Monitoring omits the switched T on the −
+  leg (6K8 + 20K, 2K2 to ground through S1: −4.1 dB open, +6.3 dB closed; the bridge is 26.8K vs 22K, not
+  ratio-matched). Recommendation: survey correction only. Why: it describes the Delta, not ours.
 - **D18 Returns: what the Delta / Venue returns have and ours don't.** Delta group tape returns: 2-band shelving EQ
-  (IC2-B, VR1 / VR2 10K lin, 4K7 + 6n8, 7K5 + 5K1 + 100n) and an aux-1 send (VR3 / VR8 20K log + 22K); the Venue stereo
-  input: A / B select, Ø, ±15 dB trim, width / mono, 3-band EQ, balance, mono sums, six aux sends, a stereo peak LED.
-  Ours (spec §16): receiver, level, buffers, routing, PFL. Keep; one sentence in §16 that these were seen and left out
-  (an effects return, not a line input; the strips take line sources; a hot return shows only on PFL).
-- **D19 Group insert send build-out.** Delta group R112 220R (its mix insert 75R); ours 75R everywhere. Document.
+  (IC2-B, VR1 / VR2 10K lin, 4K7 + 6n8, 7K5 + 5K1 + 100n) and an aux-1 send (VR3 / VR8 20K log + 22K); the Venue
+  stereo input: A / B select, Ø, ±15 dB trim, width / mono, 3-band EQ, balance, mono sums, six aux sends, a stereo
+  peak LED. Ours (spec §16): receiver, level, buffers, routing, PFL. Recommendation: keep, one sentence in §16 that
+  these were seen and left out. Why: a return here is an effects return (reverb / delay back into the mix), eight of
+  them on four 8 HP panels that are already full (RET 1 / RET 2 knobs + PFL + routing keys per group); anything that
+  needs EQ, trim or an aux send is a line source and takes a strip, which is what the 24 strips are for. A stereo
+  peak LED per return would be 8 × ~12 parts and a panel hole each for a condition PFL shows.
+- **D19 Group insert send build-out.** Delta group R112 220R (its mix insert 75R); ours 75R everywhere. Recommendation:
+  keep, document. Why: 75R vs 220R into a ≥ 10K outboard input is 0.06 dB vs 0.19 dB of loss and no difference in
+  drive; the short-circuit case (a send into ground) is already covered by the anti-surge ERJ-P06J750V; one value
+  for every insert keeps the BOM and the jig's test 13-14 fixtures the same.
 - **D20 PFLDET resistor grading.** Delta LH master R201-R206 100K / 100K / 100K / 82K / 68K / 47K for aux 1-6 (to
-  overcome its TL072 detector's 150K bias); ours 100K on every key (LM393B, 1 µF, `sim/pfldet.py` 42 keys). Keep; document.
+  overcome its TL072 detector's 150K bias); ours 100K on every key (LM393B, 1 µF, `sim/pfldet.py` 42 keys).
+  Recommendation: keep, document. Why: the grading compensates the Delta's detector threshold against the number of
+  keys ahead of it on the line; our detector is a comparator against a fixed 0.50 V reference with a clamp, simulated
+  for one press (0.92 V) through 42 presses with released LEDs at ≤ 20 nA — there is nothing to compensate.
 - **D21 Jack-sleeve ground.** Delta: every jack sleeve and the gain pot's bracket on a socket ground tied to module
-  ground by 10R (ED3344A R144, ED2911A R76, ED2915A R74, ED2776 R45); ours: balanced inputs / direct out on CHASSIS (G2),
-  the insert sleeve on GNDA directly (`ground_study.md` §5.3 evaluated the 10R only for the line input). Keep (an insert
-  device on the jig list); document.
-- **D22 Pin 28.** The Venue stereo input uses pin 28 (PFL−) as a polarity-correcting PFL input when its inverting mute
-  block is fitted (ED2915B note); ours leaves 28 open on every board (CS5: GNDA at the master is a free option). Add one
-  line to the bus decision so a borrowed Venue module isn't expected to PFL.
+  ground by 10R (ED3344A R144, ED2911A R76, ED2915A R74, ED2776 R45); ours: balanced inputs / direct out on CHASSIS
+  (G2), the insert sleeve on GNDA directly (`ground_study.md` §5.3 evaluated the 10R only for the line input).
+  Recommendation: keep, document; the insert with a real earthed processor is on the jig list. Why: G2's CHASSIS for
+  the balanced jacks is the AES48 arrangement and better than a 10R tie; for the unbalanced insert the sleeve is the
+  signal reference, and 10R in it would put the loop current's drop into the send / return reference (the Delta
+  accepts that; we'd rather see on the bench whether a loop exists at all before adding a resistor in the reference).
+- **D22 Pin 28.** The Venue stereo input uses pin 28 (PFL−) as a polarity-correcting PFL input when its inverting
+  mute block is fitted (ED2915B note); ours leaves 28 open on every board (CS5: GNDA at the master is a free option).
+  Recommendation: one line in the bus decision. Why: it only matters if a real Venue stereo module is ever put on
+  our bus, and then its PFL would be silent — the note prevents a puzzling bench hour, nothing more.
 - **D23 Delta line gain ranges, read literally.** ED3344A / ED2911A −15.5…+15.2 dB (S2-D shorts R24 in line mode),
-  ED2915A −13.4…+17.3, ED2776 −13.4…+16.5; ours −15.0…+14.8. Closes `delta_clone_comparison.md` §2's "not fully traced".
+  ED2915A −13.4…+17.3, ED2776 −13.4…+16.5; ours −15.0…+14.8. Recommendation: close `delta_clone_comparison.md` §2's
+  "not fully traced". Why: the numbers match within 0.8 dB; the open note was the only loose end.
 - **D24 Venue oddity, no action.** ED2911A feeds its PFL key through two 22Ks (R46 post-C23, R108 pre-C23); a Venue
-  module on our bus would PFL 6 dB hot. Note only.
+  module on our bus would PFL 6 dB hot. Note only. Why: not our module; the note is for the same borrowed-module case
+  as D22.
 
 **Unread (at 300 dpi):** ED3344A CN5 (two pins on SKT1's normals) and the link positions Z1 / Z2 / Z20 in the ground run
-to the spade (ED3344C); the "−0.5 dB" legend on IC6-B (computed +1.4 dB); VR1 "MASTER LEVEL" value and Z3 / Z4 "L29998" on
-ED2779A; the group PFL LEDs' return path (ED2778A). None touches ours.
+to the spade (ED3344C); the "−0.5 dB" legend on IC6-B (computed +1.4 dB); VR1 "MASTER LEVEL" value and Z3 / Z4 "L29998"
+on ED2779A; the group PFL LEDs' return path (ED2778A). None touches ours.
 
 ## 3. Status
 

@@ -451,11 +451,13 @@ jack board) done.
   (jig spec v0.10), RV11.1-7 (tool fixes, `check_bus.py`, +7 sim_console bus checks, check_all 71 checks), the §3 stale
   facts, the title-block revisions, `render/*.json` and the escape plan regenerated. Open: the circuit batch RV3-RV9
   (`clicks_proposal.md`, not signed off), RV12-RV14 (cleanup).
-- `delta_crosscheck.md` (2026-10-28, not signed off) — every ED sheet of the Delta DLX service manual (17 pages at 300 dpi)
-  against our schematics stage by stage: ~200 table rows (Delta as read / ours / SAME, RECORDED, UNRECORDED, N/A, UNREAD)
-  in Parts A-D (strip, group + aux master, master, Venue / stereo / dual line); no fault in ours; 24 unrecorded items
-  D1-D24 for sign-off, two needing a decision: D1 insert jack sense (ours tip = send, the Delta ring = send) and D13
-  grounding the spare bus conductors at the master as the Delta's J2-J9 do; the rest documentation.
+- `delta_crosscheck.md` (2026-10-28) — every ED sheet of the Delta DLX service manual (17 pages at 300 dpi) against our
+  schematics stage by stage: ~200 table rows (Delta as read / ours / SAME, RECORDED, UNRECORDED, N/A, UNREAD) in Parts
+  A-D (strip, group + aux master, master, Venue / stereo / dual line); no fault in ours; 24 unrecorded items D1-D24, each
+  with its reason, signed off by Ruslan 2026-10-28 as recommended: D1 insert jacks stay tip = send (the Delta: ring =
+  send; documented), D13 applied (the spares grounded at the master, JP3-JP7, made last, placed by moves_only: master
+  1806 pins / 625 parts, DRC 0, nothing else moved), D2-D12 / D14-D24 documentation (specs, `delta_clone_comparison.md`,
+  `console_survey/delta.md`, `clicks_proposal.md` RV5).
 - `channel_strip_schematic_spec.md` — strip component-level spec, v5.5. Authoritative.
 - `channel_strip_BOM.csv`, `channel_strip.net`, `channel_strip.pdf` — exports.
 
@@ -501,7 +503,10 @@ jack board) done.
   -V 30-31, +V 32-34 (pin 34 is the Delta's +48 V; a third +V conductor since 2026-10-25, `wing_power_proposal.md` W1,
   Ruslan: the IDC sockets are 1 A per contact). Spares: 19 (and 28 on the strips). **Pins 1, 3, 5, 7 are reserved for
   SUB 5-8** (Ruslan, 2026-10-27; the Venue pinout: groups 5 / 6 on 7 / 5, 7 / 8 on 3 / 1, `eight_groups_study.md`). Keep
-  them unconnected on every board; the master only joins its two wing headers on them (SPARE1-7). Even pins 2-16 = GND.
+  them unconnected on every board; the master joins its two wing headers on them (SPARE1-7) and, since D13 (`delta_crosscheck.md`,
+  signed off 2026-10-28), grounds each spare (1 / 3 / 5 / 7, 19) through a bridged solder jumper JP3-JP7 beside CN2 on the
+  bottom, as the Delta's LH master J2-J9 do: open them for an 8-group build. Pin 28 stays open everywhere (a Venue stereo
+  input uses it as a PFL input when its inverting mute is fitted, D22: a borrowed Venue module won't PFL on our bus). Even pins 2-16 = GND.
   The 200 Delta Technical Manual (p. 134, `ref/`) lists 17 = Mix left / 18 = Mix right, the opposite of ED3344C;
   kept the ED3344C order (Ruslan, 2026-10-23; console_architecture.md 2). It confirms pin 28 = PFL Audio −VE.
 - Ground cancel: 10 Ω from strip AGND to pin 26; master summing amps reference that line.
