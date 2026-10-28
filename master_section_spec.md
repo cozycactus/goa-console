@@ -1,5 +1,9 @@
-# Master Section — Schematic Specification, v0.12 (draft)
+# Master Section — Schematic Specification, v0.13 (draft)
 ## Part 1: stereo mix path, mono, main outputs, power-on mute
+
+**v0.13 (2026-10-28, signed off):** `clicks_proposal.md` RV7 (2.2 µF films ahead of the aux 5 / 6 AFL 22Ks, §13; the
+group's aux AFL the same), RV8 (phones DC gain 1, §21), RV9 (the −V-loss comparator's +1.0 V reference, §8);
+`delta_crosscheck.md` D13 (the spare bus conductors grounded through JP3-JP7, §24). Master 1818 pins / 631 parts.
 ## Part 2: subgroups, aux masters
 ## Part 3: stereo returns · Part 4: monitoring · Part 5: power entry
 
@@ -318,6 +322,13 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
 
 ## 8. Power-on / power-off mute
 
+- −V-loss detector reference (v0.13, clicks_proposal.md RV9): U10B's + input sits on +1.0 V (R238 51K from VREF6,
+  R239 10K to GNDD, net SENSE_REF), not on GNDD, and the −V sense divider's lower leg is R53 64K9 (was 51K) so the
+  trip stays at −14.4 V. Reason: with −V lost and +V up, the console's quiescent current drives −VBUS to ~+0.45 V
+  (D2 / the PSU's D7), so −VL, the LM393B's own V−, ends at ~+0.5 V and a GNDD-referenced input would sit below
+  V− (past the −0.3 V absolute maximum: TI says the output may be wrong); if it misread, RAIL_OK would float high
+  and the relays close onto the phones' DC. SENSE_N reads +0.34 V normally, +4.7 V with −V gone, both in range.
+
 - Why a relay (review 2026-10-23): a DRV134 with its Sense loop is quiet when both rails rise
   together (≤ 5 mV), but with rail skew its amps run against the dead rail and step the output
   by 1.2–3.0 V common-mode and 0.2–0.75 V differential for 10–100 ms of skew. The two LRS-150-24s
@@ -512,6 +523,10 @@ these buses through 22K.
 
 ```
 AUXn bus ─ ferrite ─ summing amp (OPA1612 A), Rf 22K 1 % ∥ 100 pF, + input = GCANCEL
+AFL feed (v0.13, clicks_proposal.md RV7): level buffer out ─ 2.2 µF MKS2 film ─ 22K ─ AFL key (the group's aux
+AFL the same, C98). Reason: the buffer's output sits 6-25 mV off ground (100K bias, OPA1612 Ib), and the key
+moved that DC onto the PFL virtual earth as a tick of −42..−30 dBu at CRS; every other PFL / AFL source was
+AC-coupled already (strip K1, group sub AFL, returns).
          ─ re-inverter (OPA1612 B), 4 × 2K2 0.1 % + 2 × 22 pF, + leg from GCANCEL_BUF   → AUXn_SUM
 AUXn_SUM ─ 33µ NP ─ master level RD901F A10K (pin 1 = GNDA, pin 3 = signal)
          ─ wiper ─ 2.2µ film + 100K ─ output buffer (OPA1612, non-inverting:
@@ -774,6 +789,11 @@ PFL is mono and goes to both sides. The meters follow what is being monitored: m
   pin open (110 MHz mode; use that). TO-263, so give it copper for heat. Non-inverting gain 1 + 4K7/2K2 = +9.9 dB. Feedback taken from the
   jack side of a 2.2 Ω output resistor. The 100 pF goes from the OPA1612's output to its − input (v0.8, MG2), not
   across the 4K7 from PHO.
+- DC gain 1 (v0.13, clicks_proposal.md RV8): a 33 µF NP (C196 / C197, MUSE ES UES1E330MPM, D8) in series with each gain-set 2K2
+  (R132 / R136, nets PH_GL / PH_GR). Reason: the composite is DC-coupled to the jack and its + input is biased by
+  100K, so the 3.14x stage put 19 mV typical / 79 mV worst on the cans, and the mute relay closed onto it; with the
+  cap the DC is the input stage's own (6 / 25 mV) and the AC corner is 2.2 Hz (−0.2 dB at 10 Hz, −0.05 dB at 20 Hz;
+  a 100 µF D10 can found no spot on the full bottom side, the D8 did).
   - From PHO it put the composite's crossover at the OPA1612's unity-gain frequency, inside the LME49600's lag and
     80–90 MHz resonance. It was unstable at the pot ends.
   - From the op-amp's output, the op-amp is a local follower at HF and the LME49600 is out of the HF loop (hand-over
@@ -1087,5 +1107,5 @@ choosing.
 - An EXT LED (proposed in v0.6 §19) is not possible: both EXT switch poles carry audio; dropped.
 - PVA2 switching sense: settled from the C&K datasheet with a fitting rule (strip spec 16.1); applies here too.
 
-*Document version 0.12 — 28 October 2026 (RET1, CS4b / CS4c / CS11b, CS7, CS2b; 0.11: design review R1/R2/R4/R5; earlier: ground and hum G1–G3, G2b/G3b, wing
+*Document version 0.13 — 28 October 2026 (clicks_proposal.md RV7 / RV8 / RV9, delta_crosscheck.md D13; 0.12: RET1, CS4b / CS4c / CS11b, CS7, CS2b; 0.11: design review R1/R2/R4/R5; earlier: ground and hum G1–G3, G2b/G3b, wing
 power W1/W2, sweepable HPF, master/group review MG1–MG20, parts review S1–S8)*

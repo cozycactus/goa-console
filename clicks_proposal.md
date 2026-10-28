@@ -90,4 +90,26 @@ KiCad 10.0.7 (Linux), ngspice 42:
 
 ## Sign-off
 
-(open)
+Signed off by Ruslan on 2026-10-28 ("continue" on the recommended order) and applied the same day.
+
+## Applied (2026-10-28, strip v5.6, master v0.13, group)
+
+- The patch's DEFER trick was wrong: `master_lib.DEFER` drains in `spares()`, ahead of the CS7 / D13 (master) and CS2b
+  (group) blocks, so 17 master and 18 group refs shifted on the first regeneration. The new parts are now created at
+  the very end of each generator (`LATE_AFL` / `LATE_PH` / `LATE_RV9` in gen_master.py, `LATE_AFL` in gen_group.py):
+  no existing ref moved (checked ref by ref against HEAD; only R53's value changed).
+- Refs: strip R142 (1M) and C107 (33 µF NP); master C194 / C195 (aux 5 / 6 AFL films), C196 / C197 (phones 33 µF NP:
+  a D10 100 µF found no spot on the master's bottom, the D8 33 µF gives 2.2 Hz instead of 0.7, −0.2 dB at 10 Hz),
+  R238 51K / R239 10K (SENSE_REF), R53 51K → 64K9; group C98 (aux AFL film).
+- Placement by `moves_only` at spots probed clear of courtyards and leads (strip R142 under U1 on the bottom, C107
+  beside R73; group C98 19 mm from its 22K; master: the films 64 / 24 mm from their 22K — the bottom under the aux
+  masters is full of the top side's leads, the feed is a low-Z buffer output —, the D8 cans 13 / 21 mm from their
+  2K2, the divider 3.4 / 5.0 mm from U10's pins). The probe that found the spots mirrors the placer's guard (same-side
+  courtyards, every through-hole pad, and the part's own leads against both sides); the first probe modelled the
+  THT footprints as centred on their origin and was refused three times (KiCad's C_Rect / CP_Radial have pad 1 at the
+  origin).
+- Checked: strip 941 pins / 327 parts, master 1818 / 631, group 807 / 292, 0 mismatches, check_fp 0, ERC 0;
+  sim_netlist 45/45, sim_console 45/45, check_bus clean; every board DRC 0 / parity 0, every footprint linked,
+  route_check 0, net rules re-run; `placediff` against the committed boards: only the new parts changed (strip 2,
+  group 1, master 6). Nothing else moved.
+

@@ -82,7 +82,8 @@ frag(b, 12, 9, lambda d: frags.pot(d, ra, a + '_PT', a + '_W'))
 level_buffer(b, a + '_W', a + '_OUT', a)
 drv134(b, a + '_OUT', a + '_OP', a + '_ON')
 jack(b, 'JACK', 'Aux out TRS', {'T': a + '_OP', 'R': a + '_ON', 'S': 'CHASSIS'})   # G2b
-chain(b, a + '_OUT', [('s', R(b, '22K', a + '_OUT', a + '_AFLJ'))], a + '_AFLJ'); afl(b, a + '_AFLJ', 'Aux AFL')
+chain(b, a + '_AFLC', [('s', R(b, '22K', a + '_AFLC', a + '_AFLJ'))], a + '_AFLJ'); afl(b, a + '_AFLJ', 'Aux AFL')   # RV7, as the master's
+LATE_AFL = (b, a)                                 # the film is made last (after CS2b)
 
 def stereo_return(title, r, name):
     """A stereo return as on the master (spec 16): receivers (R normalled to L), level, buffers, MIX / 1-2 / 3-4 onto
@@ -138,6 +139,8 @@ drv_loop_rs()
 for bb, sd, u, ps in LAW:
     ps += [R(bb, '3K3', f'{s}_PW{sd}', f'{s}_PB{sd}'), R(bb, '2K2', f'{s}_PBN{sd}', f'{s}_PB{sd}'),
            R(bb, '10K', f'{s}_PBN{sd}', 'GNDA'), C(bb, '22p C0G', f'{s}_PBN{sd}', f'{s}_PB{sd}')]
+# clicks_proposal.md RV7 (signed off 2026-10-28): the aux AFL film, made last so every ref above stays
+C(LATE_AFL[0], '2.2u', LATE_AFL[1] + '_OUT', LATE_AFL[1] + '_AFLC')
 
 project_file(OUT); parts_sidecar(OUT)
 build(OUT, 'group', 'Group module - goa console (sub + return + aux master)',

@@ -5,6 +5,7 @@ Same builder as the strip (schgen.py). The parts, reference allocation and circu
 master_lib.py (shared with gen_jig.py); this file is the master's netlist."""
 import sys
 from master_lib import *
+LATE_AFL, LATE_PH = [], []        # clicks_proposal.md RV7 / RV8: parts made last (after D13)
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else 'master.kicad_sch'
 collect_jacks()                 # panel jacks and XLRs go on the master jack board (master_jack_board.kicad_sch)
@@ -85,10 +86,13 @@ for src, nm in (('POST_L', 'MAIN_L'), ('POST_R', 'MAIN_R'), ('MONO', 'MAIN_M')):
 b = block('POWER-ON MUTE: rails > ~14 V for ~2.7 s closes all six relays; either rail low opens them at once')
 dz = ref('D'); P(b, dz, 'DZ', 'BZT52C6V2', {2: 'GNDD', 1: 'VREF6'}, mpn='Diodes BZT52C6V2-7-F'); rz = R(b, '4K7', '+VBUS', 'VREF6')
 sp1, sp2 = R(b, '56K', '+VBUS', 'SENSE_P'), R(b, '47K', 'SENSE_P', 'GNDD')       # +V < 13.6 V -> fault
-rn = R(b, '22K', 'VREF6', 'SENSE_N'); sn2 = R(b, '51K', 'SENSE_N', '-VBUS')     # -V above -14.4 V -> fault
+rn = R(b, '22K', 'VREF6', 'SENSE_N'); sn2 = R(b, '64K9', 'SENSE_N', '-VBUS')    # -V above -14.4 V -> fault (crosses +1.0 V, RV9)
 chain(b, '+VBUS', [('s', rz), ('g', dz)], 'VREF6'); chain(b, '+VBUS', [('s', sp1), ('g', sp2)], 'SENSE_P')
 chain(b, 'VREF6', [('s', rn), ('g', sn2)], 'SENSE_N')
-uc = cmp(b, 'SENSE_P', 'VREF6', 'RAIL_OK'); ca = LAST[0]; cmp(b, 'GNDD', 'SENSE_N', 'RAIL_OK'); cb = LAST[0]
+uc = cmp(b, 'SENSE_P', 'VREF6', 'RAIL_OK'); ca = LAST[0]; cmp(b, 'SENSE_REF', 'SENSE_N', 'RAIL_OK'); cb = LAST[0]
+# RV9: the - V detector's + input on +1.0 V (VREF6 / 61K x 10K), not GNDD: with -V lost -VL sits at ~+0.5 V and GNDD would
+# be below the LM393B's own V-; SENSE_N reads +0.34 V normally, +4.7 V with -V gone, both inside the input range
+LATE_RV9 = b                                      # the divider is made last (clicks_proposal.md): no other ref moves
 frag(b, 20, 18, lambda d: frags.comparators(d, [(ca, False), (cb, False)], out='RAIL_OK'))     # window: wired-AND
 for x in (dz, rz, rn): near(x, uc)     # the 6.2 V reference beside both comparators that read it (it ran ~110 mm)
 chain(b, '+VL', [('s', R(b, '10K', '+VL', 'RAIL_OK', mpn='Panasonic ERJ-P06J103V'))], 'RAIL_OK')   # ~33 V in a one-rail brown-out (MG12)
@@ -122,7 +126,10 @@ for n in range(5, 7):
     level_buffer(b, a + '_W', a + '_OUT', a)
     drv134(b, a + '_OUT', a + '_OP', a + '_ON')
     jack(b, 'JACK', f'Aux {n} out TRS', {'T': a + '_OP', 'R': a + '_ON', 'S': 'CHASSIS'})   # G2b
-    chain(b, a + '_OUT', [('s', R(b, '22K', a + '_OUT', a + '_AFLJ'))], a + '_AFLJ'); afl(b, a + '_AFLJ', f'Aux {n} AFL')
+    # RV7: a 2.2u film ahead of the AFL 22K (as the strip's K1), else the buffer's ~6-25 mV DC ticks onto the PFL bus;
+    # the cap is created last (LATE_AFL, after D13) so no existing ref moves
+    chain(b, a + '_AFLC', [('s', R(b, '22K', a + '_AFLC', a + '_AFLJ'))], a + '_AFLJ'); afl(b, a + '_AFLJ', f'Aux {n} AFL')
+    LATE_AFL.append((b, a))
 
 # ================================================================ PART 4: monitoring  [17-22]
 b = block('EXT INPUT (2-track / DAW) and MIX / EXT monitor select  (SW latched = EXT)')
@@ -239,7 +246,8 @@ for sd in 'LR':
     for x in xs: near(x, u)
     # the 100p from the op-amp's output, not from PHO: the LME49600 stays out of the HF loop (hand-over at 339 kHz);
     # from PHO the composite was unstable (master_group_review.md MG2)
-    prf = R(b, '4K7', out, pn); pcf = C(b, '100p C0G', drv, pn); near(pcf, ua); prg = R(b, '2K2', pn, 'GNDA')
+    prf = R(b, '4K7', out, pn); pcf = C(b, '100p C0G', drv, pn); near(pcf, ua); prg = R(b, '2K2', pn, f'PH_G{sd}')
+    LATE_PH.append((b, sd))                       # RV8: the 33u NP is made last (DC gain 1, 2.2 Hz; ~19-79 mV off the cans)
     frag(b, 44, 21, lambda d, sd=sd, a=(pc_, pr_, p22, pu_, u, xs, prf, pcf, prg, out):
          frags.phones(d, f'PHW_{sd}', a[3], a[0], a[1], a[2], a[4], a[5][4], a[6], a[7], a[8], a[5][:4], a[9]))
 # the composite is DC-coupled: a one-rail fault would hold ~1 V DC on the phones, so they get a mute relay too;
@@ -326,10 +334,15 @@ for bb, sd, unit, ps in DIM:
 # J2-J9): a floating conductor between grounded ones picks up its neighbours. Open them for an 8-group build. Made last
 b = block('SPARE BUS GROUNDING  bridged solder jumpers from each spare conductor to GNDA (D13; open for SUB 5-8)')
 for n in (1, 3, 5, 7, 19): P(b, ref('JP'), 'SJ2', f'SPARE{n} to GNDA', {1: f'SPARE{n}', 2: 'GNDA'})
+# clicks_proposal.md RV7 / RV8 / RV9 (signed off 2026-10-28), made last so every ref above stays: the aux 5 / 6 AFL
+# films, the phones gain-set 100u NP, the -V-loss comparator's +1.0 V reference divider
+for bb, a in LATE_AFL: C(bb, '2.2u', a + '_OUT', a + '_AFLC')
+for bb, sd in LATE_PH: C(bb, '33u NP 25V', f'PH_G{sd}', 'GNDA')     # 33u (D8 can; a D10 finds no spot on the full bottom): 2.2 Hz
+chain(LATE_RV9, 'VREF6', [('s', R(LATE_RV9, '51K', 'VREF6', 'SENSE_REF')), ('g', R(LATE_RV9, '10K', 'SENSE_REF', 'GNDD'))], 'SENSE_REF')
 parts_sidecar(OUT)
 build(OUT, 'master', 'Master section - goa console',
-      {1: 'Generated by tools/gen_master.py from master_section_spec.md v0.12',
-       2: 'Drawn by the master_lib fragments (tools/frags.py); refs auto-assigned'}, paper='auto', perrow=30, revision='0.12',
+      {1: 'Generated by tools/gen_master.py from master_section_spec.md v0.13',
+       2: 'Drawn by the master_lib fragments (tools/frags.py); refs auto-assigned'}, paper='auto', perrow=30, revision='0.13',
       flowed=True, last=('POWER ENTRY', 'DISTRIBUTION', 'MOTHERLOOM', 'REMOTE METER', 'JACK BOARD LINK'),
       pages=dict(paper='A4', folder='master_sheets'))      # A4 sub-sheets under a root sheet (prints on A4)
 

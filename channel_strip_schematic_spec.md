@@ -1,4 +1,4 @@
-# Channel Strip — Component-Level Specification v5.5
+# Channel Strip — Component-Level Specification v5.6
 ## Soundcraft Delta Theatre input without the mic stage. One PCB per channel, ×24.
 
 Bus pinout, grounding and power: `console_architecture.md`. Stage-by-stage comparison with the
@@ -7,6 +7,14 @@ Reference designators are those of `tools/gen.py`; Delta drawing numbers are giv
 circuit comes from a Delta sheet (ED3344A/B/C = Theatre input RH board, ED3151 = LH board).
 
 ---
+
+## Changes in v5.6 (2026-10-28, signed off; `clicks_proposal.md` RV3 / RV4 from `project_review.md`)
+
+- **RV4:** R142 1M from GOUT to U1B's − input: the gain pot's wiper was the stage's only DC feedback path (§4).
+- **RV3:** C107 33 µF NP in the direct out's cold leg after R73, R73 the anti-surge ERJ-P06J750V like R71: both legs
+  75R + 33 µF, so the impedance balance holds at hum frequencies (§11).
+- Placement by `moves_only` (R142 under U1, C107 beside R73, bottom side); 941 pins, 327 parts. Netlist checks,
+  sim_netlist 45/45, sim_console 45/45 unchanged.
 
 ## Changes in v5.5 (2026-10-28, signed off; `eqmid_proposal.md` EQM1)
 
@@ -416,7 +424,9 @@ C7 33 pF across R7; C78 33 pF across R9 (v4.1: balances the bridge, CMRR 86 dB f
 ## 4. Gain (U1B, RV9)
 
 ```
-RECV ── R45 2K2 ── RV9 pin 3 (CW end)    RV9 wiper ── U1B (−);  U1B (+) ── AGND
+RECV ── R45 2K2 ── RV9 pin 3 (CW end)    RV9 wiper ── U1B (−);  U1B (+) ── AGND;  R142 1M from GOUT to U1B (−)
+  (v5.6, clicks_proposal.md RV4: the wiper was U1B's only DC feedback path; a lifted or bouncing wiper left 22 pF of
+  feedback and 60-250 nA of bias, a rail-ward ramp at 3-11 V/ms. 1M costs < 0.1 dB at +15 dB, nothing at the detent)
 GOUT ── R46 2K2 ── RV9 pin 1 (CCW end)   C37 22 pF from GOUT to U1B (−)
 GOUT ── C38 33 µF NP ── HIN ── R47 47K to AGND
 ```
@@ -641,7 +651,10 @@ RV2…RV7 10K A: pin 3 = SRCn, pin 1 = AGND, wiper ── R20…R24 22K ── A
 RV7 wiper ── SW13 pole A ── A6R (unlatched) ── R25 22K ── AUX 6
                          └─ DIRSRC (latched, DIR) ── R70 100K to AGND, C83 22 pF ── U8A follower ── DOUT
 SW13 pole B: A6R to AGND when latched (no floating resistor on the aux 6 bus)
-DOUT ── R71 75R ── C52 33 µF NP ── J5 tip ── R72 47K to AGND;   J5 ring ── R73 75R ── AGND
+DOUT ── R71 75R ── C52 33 µF NP ── J5 tip ── R72 47K to AGND;   J5 ring ── R73 75R ── C107 33 µF NP ── AGND
+  (v5.6, clicks_proposal.md RV3: the cold leg carries the same 75R + 33 µF as the hot one, so the two source
+  impedances match at LF too: without C107 the hot leg was 75 − j96 Ω at 50 Hz against 75 Ω, a CMRR limit of ~46 dB
+  at 50 Hz into a 20 kΩ-per-leg receiver; with it ~60 dB with the caps 20 % apart. R73 the same ERJ-P06J750V as R71)
 ```
 - Direct out: impedance-balanced TRS, level = aux 6 pot, source = the aux 5/6 PRE selection.
   0 dBu at the jack with the pot fully up. U8B is pan buffer L since v4.8 (§12).
@@ -1032,5 +1045,5 @@ drawings (2026-10-23). The panel parts checked against their drawings, with what
 style and pin side, PV cap clearance in the Ø8.0 hole, Alpha bushing thread and tab slots, 1/4" knobs on every pot):
 `panel_parts_drawings.md`.
 
-*Document version 5.5 — October 2026*
+*Document version 5.6 — October 2026*
 *Sources: Soundcraft Delta ED3344A/B/C, ED3151, ED2911A/B, ED2915A, ED2780*

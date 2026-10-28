@@ -324,7 +324,8 @@ def place(NET, OUT, L):
                     if r in active or r in attach or positional(r): continue
                     q = next((q for q in refs if q != r and q in attach and nets_of(r) & nets_of(q)), None)
                     if q: attach[r] = ('chain', q, None); grew = True
-    PRIORITY = {'decouple': 0, 'near': 1, 'input': 1, 'output': 2, 'chain': 3}
+    attach.update(L.get('attach_as', {}))              # a part's attachment stated by the layout (kind, target ref, pin):
+    PRIORITY = {'decouple': 0, 'near': 1, 'input': 1, 'output': 2, 'chain': 3}   # keeps its stage when a wire part goes in
     def ordered(refs):
         out, seen = [], set()
         def emit(r):

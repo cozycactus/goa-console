@@ -235,9 +235,16 @@ MOVES.update(CS7_U8); MOVES.update(CS7)
 D13 = {'JP3': (13.3, 321.5, 90, 'B'), 'JP4': (13.3, 325.5, 90, 'B'), 'JP5': (13.3, 329.5, 90, 'B'), 'JP6': (13.3, 333.5, 90, 'B'),
        'JP7': (13.3, 337.2, 90, 'B')}    # a column between CN2's courtyard (x <= 11.8) and the meter LEDs' leads (x 15.5)
 MOVES.update(D13)
-for z in ZONES: z[2][:] = [r for r in z[2] if r not in CS4C and r not in CS7]   # their drivers' blocks list them too
+# clicks_proposal.md RV7 / RV8 / RV9 (signed off 2026-10-28), placed by MOVES alone at probed free spots on the bottom
+# (the guard's rules: same-side courtyards, THT leads against both sides): the aux 5 / 6 AFL films (the bottom under the
+# aux masters is full of leads from the top: 64 / 24 mm from their 22K, a low-Z buffer output feed), the phones
+# gain-set 33u NP cans (D8; no D10 spot exists) 13 / 21 mm from their 2K2, the -V-loss reference divider beside U10
+CLICKS = {'C194': (70.71, 143.91, 0, 'B'), 'C195': (42.58, 165.29, 90, 'B'), 'C196': (10.32, 276.39, 0, 'B'),
+          'C197': (22.54, 311.35, 0, 'B'), 'R238': (48.74, 188.25, 0, 'B'), 'R239': (47.49, 186.08, 0, 'B')}
+MOVES.update(CLICKS)
+for z in ZONES: z[2][:] = [r for r in z[2] if r not in CS4C and r not in CS7 and r not in CLICKS]   # their drivers' blocks list them too
 place(os.path.join(PROJ, 'master.net'), os.path.join(PROJ, 'master.kicad_pcb'),
-      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS4B) + tuple(CS4C) + tuple(CS7) + tuple(D13), wire=tuple(CS4C), turns=TURNS, layers=4, rails=(0.5, 6.5), holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
+      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS4B) + tuple(CS4C) + tuple(CS7) + tuple(D13) + tuple(CLICKS), wire=tuple(CS4C) + ('C194', 'C195'), attach_as={'R69': ('output', 'U13', '1'), 'R80': ('output', 'U13', '7')}, turns=TURNS, layers=4, rails=(0.5, 6.5), holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
            grounds=('GNDA', 'GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'), silk_text_off=('K',), hole_value='M3 standoff 11.5 mm',
            attach=True, keepout=[(0, 186, EL, 299), (ER, 186, W, 299),
                                  (21.0, 202.2, 58.0, 220.0, 'B')]))     # J1's wire entries (its +y face): room for the wires

@@ -15,8 +15,8 @@ XLRs' G, are notes); route_check check 5 skips ground / rail nets and the op-amp
 route_check (the DRV135's pins are not inputs: 5 master nets leave HighZ, 8 TL072 input nets join it); the DIM phones
 check fails on a missing node; `write_intended` refuses a ref / unit placed twice; the placer's routed-board guard sees
 drawn copper), the §3 stale facts (every file but the ones below), the three title-block revisions, `render/*.json`
-and the escape plan regenerated. NOT APPLIED: RV3-RV9 (the circuit batch, written up as `clicks_proposal.md` for
-sign-off), RV11.2's PFL switcher from the PFLDET net (needs a DC analysis of the detect line; the bus check covers pin
+and the escape plan regenerated. RV3 / RV4 / RV7 / RV8 / RV9 (the circuit batch, `clicks_proposal.md`) signed off and
+applied 2026-10-28 (strip v5.6, master v0.13; RV5 / RV6 accepted as they are). NOT APPLIED: RV11.2's PFL switcher from the PFLDET net (needs a DC analysis of the detect line; the bus check covers pin
 29), RV11.8 (ol.py from the netlist), RV12-RV14 (cleanup: patches to `archive/`, the CLAUDE.md split, tracked outputs),
 the N1 A/B contradiction (`order_bom.py` EXTRA 16 OPA1656 vs the one-board swap of `test_jig_spec.md` §1.1).
 
