@@ -264,7 +264,10 @@ proposal / review / study `.md` files into `docs/{proposals,reviews,studies}/` w
 that is a scripted rewrite of ~280 references in ~60 files (tools comments included) and `escape_plan.md`'s relative
 links to `docs/escape/`, so only worth doing in one commit with a link check.
 
-**RV13 CLAUDE.md restructure.** 100.9 KB / 965 lines today (Files 46.6 KB, Decisions 26.4, Verified 19.8, Open 2.4, Next
+**RV13 CLAUDE.md restructure.** DONE 2026-10-28: CLAUDE.md 106 KB -> ~21 KB (rules, state table, how to work, one line
+per decision, open items); the Files section split verbatim into `docs/INDEX.md` (file map + proposals table) and
+`docs/tooling.md`, the decisions in full into `docs/decisions.md`, "Verified so far" into `docs/verification_log.md`;
+no separate history.md (the dated narratives live in INDEX.md's entries). As proposed: 100.9 KB / 965 lines today (Files 46.6 KB, Decisions 26.4, Verified 19.8, Open 2.4, Next
 3.5): ~25k tokens loaded into every session, most of it superseded history. Proposed ~16 KB:
 - Owner / scope / PCB rules (unchanged).
 - Current state: ONE table of board / rev / parts / pins / outline / layers, the spec versions, power (typical and

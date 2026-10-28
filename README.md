@@ -104,7 +104,7 @@ netlists and simulated in ngspice.
 | `sim/` | ngspice decks and Python sims: signal path, EQ, gain stage, mid tuning, routing switch, master mix, meters, mute, PSU |
 | `ref/` | Reference material: Soundcraft Delta DLX/Theatre schematics, 200 Delta Technical Manual and User Guide (scanned), panel-drawing crops |
 | `render/` | 3D exports (`*.json`); renders and the `.blend` are generated and git-ignored |
-| `CLAUDE.md` | Working notes: file map, decisions made, verification record, open items |
+| `CLAUDE.md` | Working notes: rules, current state, one-line decisions, open items; the detail in `docs/INDEX.md` (file map, proposals table), `docs/tooling.md`, `docs/decisions.md` (decisions in full), `docs/verification_log.md` |
 
 ## Toolchain
 
