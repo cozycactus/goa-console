@@ -818,7 +818,7 @@
     (property "Datasheet" "" (id 3) (at 57.15 40.64 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "MPN" "KEMET C1206C330J5GACTU" (id 4) (at 57.15 40.64 0)
+    (property "MPN" "KEMET C0805C330J5GACTU" (id 4) (at 57.15 40.64 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 7082d9ab-bedb-5803-ac06-8b8fdfaac260))

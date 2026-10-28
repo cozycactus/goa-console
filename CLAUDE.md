@@ -405,6 +405,10 @@ jack board) done.
   OPA1612, WIMA 2.2 µF), S1 signed off and applied (the discontinued 10 µF NP UES1E100MDM -> Panasonic ECE-A1EN100U). Plain 0805 resistors: Yageo RC0805FR-07xxxL.
   `python3 tools/order_bom.py` -> `order_bom.csv`: the console-wide order list (every board's BOM x boards built,
   one line per order code, spares, the jig A/B OPA1656s); re-run it after any BOM export.
+  `python3 tools/order_bom.py phase1` -> `order_phase1.csv` (2026-10-28): the staged hardware test (`test_jig_spec.md`
+  1.1): stage A one strip + jack board merged with `sample_order.md`, the N1 swap OPA1656s, bench-power lead, panel
+  blank; stage B jig stub + load board + ribbons + test fixtures; an optional second strip. The same check found six
+  strip C0G on 0805 pads with 1206 order codes (C7, C14, C37, C41, C94, C95); `gen.py` now picks the code by footprint.
 - `panels/` — front-panel fabrication drawings (2026-10-25) from `.venv/bin/python tools/panel_fab.py`: per panel a DXF
   (OUTLINE / CUT / LEGEND, text outlined), 1:1 SVG / PDF artwork, PNG preview, hole table; numbered strip / group PDFs;
   checks (web, edge, rails, print clear of cut-outs). The layout is `tools/panel_layout.py`, shared with console_3d.py

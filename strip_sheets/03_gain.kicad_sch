@@ -501,7 +501,7 @@
     (property "Datasheet" "" (id 3) (at 64.77 43.18 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "MPN" "KEMET C1206C220J5GACTU" (id 4) (at 64.77 43.18 0)
+    (property "MPN" "KEMET C0805C220J5GACTU" (id 4) (at 64.77 43.18 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 4a617dfc-5bb9-5d7a-967e-3919bfcd4774))

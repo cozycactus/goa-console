@@ -10,6 +10,7 @@ snapshots from aggregators; check the live page before ordering.
 | Part | Was | Now | Why |
 |---|---|---|---|
 | Wing / jig PTCs | Bourns MF-RX160/72, 185/72, 250/72 | the same with `-0` | `-0` is the straight-lead order code |
+| Strip C0G on 0805 pads: C7 / C41 33p, C14 / C94 / C95 100p, C37 22p (2026-10-28) | KEMET C1206C330 / C101 / C220J5GACTU | KEMET C0805C330 / C101 / C220J5GACTU | the strip's value-keyed map gave every C0G the 1206 code; these six are drawn on 0805 footprints (`gen.py` now picks by footprint) |
 | 1 µF 0805 X7R (strip) | Murata GRM21BR71H105KA12 | GRM21BR71H105KA12**L** | packaging suffix needed to order |
 | BAT54W | Nexperia BAT54W | BAT54W,115 | order code |
 | LM1084 (PSU) | TI LM1084IT-ADJ | LM1084IT-ADJ/NOPB | the orderable RoHS code |
@@ -56,6 +57,16 @@ equivalent 1 % thick-film 0805. Every part that needs more (anti-surge, 0.1 %, 2
   panel parts and connectors +3 % (at least 1).
 - **Resistors:** plain 0805 values get `Yageo RC0805FR-07<value>L`.
 - **Left out:** DNP parts and the M4 star point.
+- **Phase 1** (`python3 tools/order_bom.py phase1` → `order_phase1.csv`, 2026-10-28): the staged hardware test of
+  `test_jig_spec.md` 1.1, in three columns:
+  - **Stage A:** one strip and its jack board. `sample_order.md` is merged in: a part on both lists is bought once,
+    the larger number, since the samples are the build's parts and get checked before soldering. Also the 8 OPA1656 for
+    the N1 swap, the bench-power IDC lead, the jack link, the key caps, a cut-only panel blank and the hardware for it.
+  - **Stage B:** the jig stub, the load board, the jig ribbons, the ground bar and the test fixtures (tests 2, 13).
+  - **Stage B, 2nd strip (optional).**
+  - **Spares:** each stage gets the console rule's spares on its own count, so the second strip's spares may already
+    be in stage A's leftovers.
+  - **PCBs:** order all four phase-1 designs in stage A, 5 of each (the fab minimum).
 - **Not on any board, so not in the list** (they are in `offboard_bom.md`): knobs, fader caps, LED spacers, standoffs, ribbon and IDC sockets, the
   harness, the PSU modules and its case parts. See the specs (§16 of the strip spec, master spec §26, `psu_spec.md`).
 

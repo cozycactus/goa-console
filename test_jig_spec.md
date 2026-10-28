@@ -26,6 +26,20 @@ The four strips also settle the strip-level open items (strip spec 16.1, 17): PV
 (moulded "2" in the pad 1/4 column, by continuity), fader pad pattern, panel stack height,
 NJ6FD-V body height (sets the jack-board standoffs), knob fit, and the function checks in 4.1.
 
+### 1.1 Staged build (2026-10-28, to keep the first spend small)
+
+Everything above is the full jig. It is bought and built in stages; `python3 tools/order_bom.py phase1` writes the parts
+list per stage (`order_phase1.csv`).
+
+| Stage | Built | Tests |
+|---|---|---|
+| **A** | One strip and its jack board, on a ±17 V bench supply through an IDC lead on its bus header (about 0.1 A per rail; ±15 V will do). All four PCB designs ordered at once, 5 of each. | 4.1 (function), 9 (soft mute), 14 (CMR), 15 (fader breakthrough, pan isolation: decides CS9), every op-amp output on the scope, the sample checks on the real board with a cut-only panel blank. **N1 (4.2)**: measure, hot-air swap the 8 SOICs to OPA1656, measure again: one board, so the parts' spread stays out of the A/B. |
+| **B** | Master stub and load board on the 0.6 m ribbon, the ground bar; optionally a second strip. | 1-8, 10-13, 16, 17. The load board stands in for strips 3-24 (N up to 21 with one strip, 22 with two). Tests 2 and 17 are clearer with two strips' spades. |
+| **C** | Strips 3 and 4, only if stage B leaves a question. | The rest of section 4 as written. |
+
+Tests 1 and 16 (−100 to −107 dBu) need an analyser whose own floor sits well below them; the others work with a good
+audio interface and REW.
+
 ## 2. Master stub
 
 A cut-down master built from the same circuits (master spec sections 2, 3, 12, 13, 18):

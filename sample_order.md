@@ -7,6 +7,10 @@ Most checks need the prototype panel and a 1:1 print of the strip board's top si
 
 ## What to order
 
+Since 2026-10-28 this list is merged into stage A of the phase-1 order (`python3 tools/order_bom.py phase1` →
+`order_phase1.csv`, `test_jig_spec.md` 1.1): a part on both lists is bought once, the larger number.
+
+
 | Part | Order code | Qty | For check |
 |---|---|---|---|
 | Fader, strip / group | Bourns PTB0143-2010BPA103 | 2 | 1 |

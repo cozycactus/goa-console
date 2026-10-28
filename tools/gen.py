@@ -374,7 +374,11 @@ for sw,u,rl,rr,sl,sr,bl,br,nm,rpd,rled,dled,cs in [
 
 for _, ps in schgen.blocks:                     # ceramic MPNs by value (X7R 50 V; C0G parts keep their value text)
     for pt in ps:
-        if pt['key'] in ('C', 'CP') and not pt['mpn']: pt['mpn'] = CAP_MPN.get(pt['value'], '')
+        if pt['key'] in ('C', 'CP') and not pt['mpn']:
+            mpn = CAP_MPN.get(pt['value'], '')
+            if mpn.startswith('KEMET C1206C') and '1206' not in (pt['fp'] or ''):    # a C0G on the default 0805 footprint
+                mpn = mpn.replace('C1206C', 'C0805C', 1)                            # (C7, C14, C37, C41, C94, C95)
+            pt['mpn'] = mpn
 build(OUT, 'channel_strip', 'Channel strip - goa console',
       {1: 'Generated from channel_strip_schematic_spec.md v5.5', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
        3: 'A Delta Theatre input without the mic stage'},
