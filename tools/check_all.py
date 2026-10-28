@@ -97,7 +97,7 @@ def main():
     if full:
         code, out = run(['python3', os.path.join(ROOT, 'sim', 'review', 'gaps', 'ol.py')], timeout=900)
         m = re.search(r'1000 Hz: red\s+([\d.]+) dBu, green\s+([-\d.]+) dBu', out)
-        report('ol.py (overload / signal LED)', code == 0 and bool(m) and 17.5 < float(m.group(1)) < 19.5 and -21 < float(m.group(2)) < -18,
+        report('ol.py (overload / signal LED, values check)', code == 0 and bool(m) and 17.5 < float(m.group(1)) < 19.5 and -21 < float(m.group(2)) < -18,
                f'red {m.group(1)} dBu, green {m.group(2)} dBu at 1 kHz' if m else out.strip()[-120:])
         code, out = run(['python3', os.path.join(ROOT, 'sim', 'review', 'cs1', 'ol_multi.py'), '--quick'], timeout=900)
         m = re.search(r'pulse thresholds: \+([\d.]+) V / -([\d.]+) V', out)

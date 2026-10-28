@@ -2,7 +2,7 @@
 
 **Not signed off.** From `project_review.md` (2026-10-28), the circuit WARNs that cost parts: five small additions on
 the strip, the group and the master, every one a cap or resistor in an existing node, no topology change. The change is
-`clicks_proposal.patch` (tools only: `gen.py`, `strip_draw.py`, `gen_master.py`, `gen_group.py`), checked on a trial
+`archive/patches/clicks_proposal.patch` (tools only: `gen.py`, `strip_draw.py`, `gen_master.py`, `gen_group.py`), checked on a trial
 tree (§5). RV5 (MUTEOUT DC on the fader / pre-aux pot tops) and RV6 (U16 input headroom) are not in it: see §6.
 
 ## 1. What and why
@@ -61,7 +61,7 @@ U1B and C107 under R73; the master / group caps and the RV9 divider are drawn by
 
 Console: +48 strips' 33 µF, +48 1M, +4 group films, the master's six. BOM / order list regenerate.
 
-## 5. Checks on the trial tree (a copy of the tree with the RV1 / RV11 commit, `clicks_proposal.patch` applied)
+## 5. Checks on the trial tree (a copy of the tree with the RV1 / RV11 commit, `archive/patches/clicks_proposal.patch` applied)
 
 KiCad 10.0.7 (Linux), ngspice 42:
 - **Strip:** 941 pins / 327 parts (was 937 / 325), 0 mismatches, check_fp 0, ERC 0; jack board unchanged. `sim_netlist`

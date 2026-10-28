@@ -62,7 +62,7 @@
 "18","16","2","TI DRV135UA","DRV135","Package_SO:SOIC-8_3.9x4.9mm_P1.27mm","group 4x2, master 7, jig stub 1",""
 "80","76","4","TI LM393BIDR","LM393","Package_SO:SOIC-8_3.9x4.9mm_P1.27mm","strip 24x3, master 3, jig stub 1",""
 "335","319","16","TI OPA1612AIDR","OPA1612","Package_SO:SOIC-8_3.9x4.9mm_P1.27mm","strip 24x11, group 4x9, master 13, jig stub 6",""
-"65","61","4","TI OPA1656IDR","OPA1656 / OPA1656 (jig A/B variant)","Package_SO:SOIC-8_3.9x4.9mm_P1.27mm","strip 24x1, group 4x4, master 4, jig stub 1, jig A/B 16",""
+"56","53","3","TI OPA1656IDR","OPA1656 / OPA1656 (N1 A/B swap, one strip)","Package_SO:SOIC-8_3.9x4.9mm_P1.27mm","strip 24x1, group 4x4, master 4, jig stub 1, jig A/B 8",""
 "6","4","2","TI TL072HIDR","TL072","Package_SO:SOIC-8_3.9x4.9mm_P1.27mm","master 4",""
 "6","4","2","onsemi BCP53-16T1G","BCP53-16","Package_TO_SOT_SMD:SOT-223","master 4",""
 "210","200","10","Nexperia BAV199,215","BAV199","Package_TO_SOT_SMD:SOT-23","strip 24x5, group 4x14, master 24",""

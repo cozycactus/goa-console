@@ -1,7 +1,7 @@
 # CS10: a reverse Schottky across each audio rail of every strip and group board (proposal, 2026-10-27)
 
 **Signed off by Ruslan on 2026-10-27 (as proposed: D16 / D17 on every strip, D5 / D6 on every group board) and applied
-the same day (strip v5.1); see "Applied" at the end.** The change is `cs10_proposal.patch`. It touches tools only:
+the same day (strip v5.1); see "Applied" at the end.** The change is `archive/patches/cs10_proposal.patch`. It touches tools only:
 `gen.py`, `strip_draw.py`, `gen_group.py`, `master_lib.py`, `schgen.py`, `place_strip.py` and `place_group.py`. The simulation is `sim/review/cs10/rail_loss.py`; its
 output is in `rail_loss.out`.
 

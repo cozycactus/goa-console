@@ -1,0 +1,15 @@
+# Generated files (project_review.md RV14): GitHub collapses them in diffs; git diff itself is unchanged.
+*.kicad_sch linguist-generated=true
+*_sheets/*.kicad_sch linguist-generated=true
+*.kicad_pcb linguist-generated=true
+*.net linguist-generated=true
+*.pdf linguist-generated=true
+*_BOM.csv linguist-generated=true
+*_intended.json linguist-generated=true
+*_parts.json linguist-generated=true
+order_*.csv linguist-generated=true
+*.dxf linguist-generated=true
+*.step linguist-generated=true
+*.wrl linguist-generated=true
+render/*.json linguist-generated=true
+docs/escape/* linguist-generated=true

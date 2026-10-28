@@ -21,7 +21,7 @@ EQ_WLM,Default,B.Cu,1,0,1,16,4
 FPIN,Entry,F.Cu,4,0,1,9,7
 FPOST,Default,B.Cu,3,1,1,4,0
 GCANCEL,Bus,F.Cu,1,0,1,12,5
-GOUT,Default,B.Cu,2,2,2,19,8
+GOUT,Default,B.Cu,2,3,2,19,8
 HIN,Default,B.Cu,2,0,3,25,9
 HOUT,Default,F.Cu,5,0,1,52,24
 INS_SRC,Default,B.Cu,2,0,0,1,0
@@ -33,6 +33,7 @@ MUTEOUT,Default,F.Cu,5,0,1,30,10
 Net-(C10-Pad2),Default,F.Cu,2,0,1,29,13
 Net-(C105-Pad2),Default,B.Cu,1,3,1,5,0
 Net-(C106-Pad2),Default,B.Cu,1,3,1,11,4
+Net-(C107-Pad1),Default,F.Cu,1,0,1,1,0
 Net-(C13-Pad1),Default,B.Cu,0,0,2,3,0
 Net-(C41-Pad1),Default,B.Cu,4,1,2,51,21
 Net-(C42-Pad1),Default,B.Cu,1,0,1,13,3
@@ -53,7 +54,7 @@ Net-(C88-Pad1),Default,B.Cu,3,0,0,8,2
 Net-(C96-Pad2),Default,F.Cu,1,0,1,5,2
 Net-(D1-K-Pad3),Default,F.Cu,1,1,0,0,0
 Net-(D12-K-Pad3),Default,B.Cu,0,2,0,0,0
-Net-(D13-K-Pad3),Default,F.Cu,0,2,0,2,0
+Net-(D13-K-Pad3),Default,F.Cu,0,2,0,3,1
 Net-(D14-K-Pad3),Default,B.Cu,0,2,0,0,0
 Net-(D15-K-Pad3),Default,F.Cu,0,2,0,1,0
 Net-(D3-A),Switching,B.Cu,1,0,1,17,11
@@ -139,7 +140,7 @@ Net-(U17B-+),Default,B.Cu,3,1,0,3,1
 Net-(U18A-+),Default,F.Cu,0,3,0,2,0
 Net-(U1A-+),HighZ,F.Cu,2,2,0,4,2
 Net-(U1A--),HighZ,F.Cu,4,0,0,1,1
-Net-(U1B--),HighZ,F.Cu,1,1,1,4,0
+Net-(U1B--),HighZ,F.Cu,1,2,1,5,1
 Net-(U2A--),HighZ,F.Cu,4,0,0,6,4
 Net-(U2B--),Default,F.Cu,2,0,0,0,0
 Net-(U3A-+),HighZ,F.Cu,1,2,1,5,2
@@ -162,7 +163,7 @@ PANL,Default,F.Cu,2,0,2,23,11
 PANR,Default,B.Cu,2,0,2,27,13
 PFL,Bus,F.Cu,0,0,2,15,8
 PFLDET,Bus,F.Cu,1,0,1,7,2
-PK,Switching,B.Cu,3,5,0,37,18
+PK,Switching,B.Cu,3,5,0,38,18
 POST,Default,F.Cu,1,0,8,42,17
 PRE,Default,F.Cu,1,1,2,54,26
 PRESRC,Default,F.Cu,3,0,1,47,21

@@ -17,7 +17,7 @@ crosstalk, PSRR, distortion and switching clicks on real hardware.
 
 | Item | Qty | What it is |
 |------|-----|------------|
-| Channel strip | 4 | Real strip main boards (`channel_strip.kicad_sch`) with their jack boards (`jack_board.kicad_sch`) on the 10-way link, fully populated. The jig tests the boards that will be built, not stand-ins. Panels optional: the controls work without them. Two are built as the OPA1656 variant for the A/B in 4.2 (U1, U5, U6, U7, U12, U13, U14, U15 = TI OPA1656IDR; 8 parts per strip; U16 is OPA1656 on every strip). |
+| Channel strip | 4 | Real strip main boards (`channel_strip.kicad_sch`) with their jack boards (`jack_board.kicad_sch`) on the 10-way link, fully populated. The jig tests the boards that will be built, not stand-ins. Panels optional: the controls work without them. The OPA1656 A/B (4.2) is a swap on one strip (U1, U5, U6, U7, U12, U13, U14, U15 = TI OPA1656IDR, 8 parts, §1.1 stage A; U16 is OPA1656 on every strip); a second strip may be built as the B variant for a side-by-side in stage B. |
 | Master stub | 1 | Bus side of the master only (section 2). |
 | Load board | 1 | Dummy channels that raise the bus noise gain to the full 24-channel value (section 3). |
 | Ribbon | 2 | 34-way, 28 AWG flat cable with 6 crimped IDC sockets (4 strips, master stub, load board): one 0.6 m (a 12-strip wing, ~0.5 m, plus slack), one 3 m (worst case and the hum-pickup tests). |
@@ -163,8 +163,10 @@ EQM1) and `sim/review/gaps/ol.py`.
 
 ### 4.2 OPA1656 A/B (`strip_noise_proposal.md`, N1)
 
-Two strips as built (**A**, OPA1612 but for the U16 input followers) against two with TI OPA1656IDR in U1, U5, U6,
-U7, U12, U13, U14 and U15 (**B**; U2, U3 and U8 stay OPA1612; U16 is OPA1656 on both).
+One strip measured as built (**A**, OPA1612 but for the U16 input followers), then with TI OPA1656IDR hot-air swapped
+into U1, U5, U6, U7, U12, U13, U14 and U15 (**B**; U2, U3 and U8 stay OPA1612; U16 is OPA1656 in both), measured again:
+one board, so the parts' spread stays out of the A/B (§1.1, 2026-10-28; the earlier plan built two strips of each, and
+`order_bom.py` still carried 16 extra OPA1656 for it: now 8). A second strip built as B in stage B is optional.
 - **Why:** the simulation (strip v4.4, `strip_noise_proposal.md`) gives B 3.3 dB less PRE noise with EQ in
   (−92.8 → −96.1 dBu) and 2.7 dB less at main L with 24 strips. That comes from removing the OPA1612's current noise
   in the EQ networks.
@@ -216,6 +218,7 @@ OPA1612 and only the inverting and integrator stages move, which takes a package
   `jig_master_stub.kicad_sch` (144 parts since v0.3) and `jig_load_board.kicad_sch` (50 parts) from the master's
   own circuit functions, now in `tools/master_lib.py`. Both: netlist 0 mismatches, every pin on a
   pad, ERC 0.
+- The stub's XLR shell pad G is on CHASSIS (2026-10-28, with the master jack board's; symbol `XLR3_Shell`).
 - ~~PCB placement~~ done 2026-10-22: `tools/place_jig.py` → `jig_master_stub.kicad_pcb` (160 × 125 mm:
   six BNCs and the balanced XLR on the front edge, ribbon header on the left, bench terminal top right,
   labelled jumpers) and `jig_load_board.kicad_pcb` (120 × 85 mm: a labelled 5 × 4 grid of slide switches,

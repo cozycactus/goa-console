@@ -1,7 +1,7 @@
 # CS4c: a resistor inside each DRV135 loop (proposal, 2026-10-27)
 
 **Signed off by Ruslan on 2026-10-27 (as proposed: 22R in each DRV135 loop, group R119-R122, master R222-R235) and
-applied the same day; see "Applied" at the end.** The change is `cs4c_proposal.patch`. It touches tools only:
+applied the same day; see "Applied" at the end.** The change is `archive/patches/cs4c_proposal.patch`. It touches tools only:
 `master_lib.py`, `frags.py`, `gen_group.py`, `gen_master.py`, `gen_jig.py`, `placer.py`, `place_group.py` and
 `place_master.py`.
 

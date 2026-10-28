@@ -2,7 +2,7 @@
 
 **Signed off by Ruslan on 2026-10-27 and applied the same day; see "Applied" at the end.**
 - **What changes:** placement only, like E1–E5. No netlist, part or BOM change.
-- **The change:** `stab_caps_proposal.patch` (`tools/place_strip.py`); since 2026-10-27 the caps move by the placer's `moves` (below).
+- **The change:** `archive/patches/stab_caps_proposal.patch` (`tools/place_strip.py`); since 2026-10-27 the caps move by the placer's `moves` (below).
 
 ## Why
 
@@ -107,7 +107,7 @@ The same check on the other boards:
 - **Jig master stub:** already fine, worst 6.3 mm (C9 / C24 / C34 100p at U2 / U5 / U7, the level the strip ends at).
 - **Group and master:** 11 and 13 caps over 6.5 mm, up to 13 mm.
 
-The change is `stab_caps_e9b.patch` (`tools/place_group.py`, `tools/place_master.py`: a `MOVES` list each). It uses the
+The change is `archive/patches/stab_caps_e9b.patch` (`tools/place_group.py`, `tools/place_master.py`: a `MOVES` list each). It uses the
 same probe and greedy order as the strip, at the boards' own edges.
 
 **Group**

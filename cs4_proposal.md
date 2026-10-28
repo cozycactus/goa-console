@@ -1,7 +1,7 @@
 # CS4: clamp the strip's jack signals to the audio rails at the link (proposal, 2026-10-27)
 
 **Signed off by Ruslan on 2026-10-27 (as proposed: D18-D22 BAV199 at CN3 on every strip) and applied the same day as
-strip v5.2; see "Applied" at the end.** The change is `cs4_proposal.patch`. It touches tools only: `gen.py`,
+strip v5.2; see "Applied" at the end.** The change is `archive/patches/cs4_proposal.patch`. It touches tools only: `gen.py`,
 `strip_draw.py` and `place_strip.py`. The
 simulation is `sim/review/cs4/jack_protect.py`; its output is in `jack_protect.out`.
 

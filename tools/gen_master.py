@@ -81,7 +81,7 @@ b = block('MAIN OUTPUTS: DRV134 -> 10u NP in the Sense loop -> mute relay (NO; N
 for src, nm in (('POST_L', 'MAIN_L'), ('POST_R', 'MAIN_R'), ('MONO', 'MAIN_M')):
     u = drv134(b, src, nm + '_P', nm + '_N')
     relay(b, nm + '_P', nm + '_XP', nm + '_N', nm + '_XN', anchor=u)
-    jack(b, 'XLR3', nm.replace('_', ' ') + ' out', {1: 'CHASSIS', 2: nm + '_XP', 3: nm + '_XN'})
+    jack(b, 'XLR3', nm.replace('_', ' ') + ' out', {1: 'CHASSIS', 2: nm + '_XP', 3: nm + '_XN', 'G': 'CHASSIS'})   # shell pad G to the panel (2026-10-28)
 
 b = block('POWER-ON MUTE: rails > ~14 V for ~2.7 s closes all six relays; either rail low opens them at once')
 dz = ref('D'); P(b, dz, 'DZ', 'BZT52C6V2', {2: 'GNDD', 1: 'VREF6'}, mpn='Diodes BZT52C6V2-7-F'); rz = R(b, '4K7', '+VBUS', 'VREF6')

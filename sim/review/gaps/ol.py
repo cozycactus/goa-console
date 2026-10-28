@@ -7,7 +7,10 @@ U17A discharges SIG_HOLD (R121 / C99); U17B pulls Q4's base (R122 / R123) while 
 anode through R124. Q5 (base from U4B's output through R125) holds Q4's base at +VL while the red is lit.
 Since 2026-10-27: P1, U4A / U17A discharge their holds through R126 / R127 1K (the output current peak is measured);
 P2, C100 100n on VREF; E6, C101 / C102 10n base to emitter on Q3 / Q4 (the LED current's 10-90 % rise is measured).
-Part values are read from channel_strip.net, so the deck follows the schematic.
+Part values are read from channel_strip.net; the WIRING is this file's (one PRESRC tap through a 1N4148 as the
+detector was before CS1), so this is a values check of the hold / drive / green stages, not a check of the schematic's
+netlist. The five CS1 taps and the detector's wiring are checked from the netlist by sim/review/cs1/ol_multi.py
+(project_review.md RV11.8).
 usage: python3 sim/review/gaps/ol.py
 Models: 1N4148, BAT54 and a generic 2N3906 (standard), GaAsP red ~1.9 V and GaP green ~2.0 V at 3 mA, LM393
 halves as sink switches (60 ohm, ideal speed; the real 1.3 us is far below the 0.1 ms attack). The source is ideal:

@@ -1,7 +1,7 @@
 # CS11b: matched DRV135 couplers for output balance (proposal, 2026-10-27)
 
 **Signed off by Ruslan on 2026-10-27 (as proposed: pairs within 2 %, 10 sorting spares) and applied the same day; see
-"Applied" at the end.** The change is `cs11b_proposal.patch`. It touches tools only: `master_lib.py` and `order_bom.py`.
+"Applied" at the end.** The change is `archive/patches/cs11b_proposal.patch`. It touches tools only: `master_lib.py` and `order_bom.py`.
 
 **Simulation:** `sim/review/cs11/drv_couplers.py` on TI's DRV134 model (via `TI_MODELS`), with CS4c's 22R in each loop.
 Its output is in `drv_couplers.out`.

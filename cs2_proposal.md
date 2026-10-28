@@ -1,7 +1,7 @@
 # CS2: the Delta's −4.4 dB pan law (proposal, 2026-10-27)
 
 **Signed off by Ruslan on 2026-10-27 (Option A: the Delta's law; PAN off stays at POST) and applied the same day as strip
-v5.4; see "Applied" at the end.** The change is `cs2_proposal.patch`. It touches tools only: `gen.py`,
+v5.4; see "Applied" at the end.** The change is `archive/patches/cs2_proposal.patch`. It touches tools only: `gen.py`,
 `strip_draw.py`, `place_strip.py`, `sim_netlist.py` and `sim_console.py`.
 
 **Calculation and simulation:**

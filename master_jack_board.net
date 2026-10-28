@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/home/user/goa-console/master_jack_board.kicad_sch")
-		(date "2026-10-28T22:23:27")
+		(date "2026-10-28T22:54:46")
 		(tool "Eeschema 10.0.7-10.0.7~ubuntu24.04.1")
 		(sheet
 			(number "1")
@@ -545,9 +545,9 @@
 				)
 			)
 			(libsource
-				(lib "Connector_Audio")
-				(part "XLR3")
-				(description "XLR Connector, Male or Female, 3 Pins")
+				(lib "goa-console")
+				(part "XLR3_Shell")
+				(description "XLR connector, 3 pins plus the shell pad G (Neutrik NC3MAV / NC3MAH footprints)")
 			)
 			(property
 				(name "MPN")
@@ -563,7 +563,7 @@
 			)
 			(property
 				(name "ki_keywords")
-				(value "xlr connector")
+				(value "xlr connector shell")
 			)
 			(property
 				(name "ki_fp_filters")
@@ -580,6 +580,9 @@
 					(pins
 						(pin
 							(num "1")
+						)
+						(pin
+							(num "G")
 						)
 						(pin
 							(num "3")
@@ -608,9 +611,9 @@
 				)
 			)
 			(libsource
-				(lib "Connector_Audio")
-				(part "XLR3")
-				(description "XLR Connector, Male or Female, 3 Pins")
+				(lib "goa-console")
+				(part "XLR3_Shell")
+				(description "XLR connector, 3 pins plus the shell pad G (Neutrik NC3MAV / NC3MAH footprints)")
 			)
 			(property
 				(name "MPN")
@@ -626,7 +629,7 @@
 			)
 			(property
 				(name "ki_keywords")
-				(value "xlr connector")
+				(value "xlr connector shell")
 			)
 			(property
 				(name "ki_fp_filters")
@@ -643,6 +646,9 @@
 					(pins
 						(pin
 							(num "1")
+						)
+						(pin
+							(num "G")
 						)
 						(pin
 							(num "3")
@@ -671,9 +677,9 @@
 				)
 			)
 			(libsource
-				(lib "Connector_Audio")
-				(part "XLR3")
-				(description "XLR Connector, Male or Female, 3 Pins")
+				(lib "goa-console")
+				(part "XLR3_Shell")
+				(description "XLR connector, 3 pins plus the shell pad G (Neutrik NC3MAV / NC3MAH footprints)")
 			)
 			(property
 				(name "MPN")
@@ -689,7 +695,7 @@
 			)
 			(property
 				(name "ki_keywords")
-				(value "xlr connector")
+				(value "xlr connector shell")
 			)
 			(property
 				(name "ki_fp_filters")
@@ -706,6 +712,9 @@
 					(pins
 						(pin
 							(num "1")
+						)
+						(pin
+							(num "G")
 						)
 						(pin
 							(num "3")
@@ -1263,45 +1272,6 @@
 			)
 		)
 		(libpart
-			(lib "Connector_Audio")
-			(part "XLR3")
-			(description "XLR Connector, Male or Female, 3 Pins")
-			(footprints
-				(fp "Jack*XLR*")
-			)
-			(fields
-				(field
-					(name "Reference") "J")
-				(field
-					(name "Value") "XLR3")
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "XLR Connector, Male or Female, 3 Pins")
-			)
-			(pins
-				(pin
-					(num "1")
-					(name "")
-					(type "passive")
-				)
-				(pin
-					(num "2")
-					(name "")
-					(type "passive")
-				)
-				(pin
-					(num "3")
-					(name "")
-					(type "passive")
-				)
-			)
-		)
-		(libpart
 			(lib "Connector_Generic")
 			(part "Conn_02x20_Odd_Even")
 			(description "Generic connector, double row, 02x20, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)")
@@ -1554,6 +1524,50 @@
 				)
 			)
 		)
+		(libpart
+			(lib "goa-console")
+			(part "XLR3_Shell")
+			(description "XLR connector, 3 pins plus the shell pad G (Neutrik NC3MAV / NC3MAH footprints)")
+			(footprints
+				(fp "Jack*XLR*")
+			)
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "XLR3_Shell")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "XLR connector, 3 pins plus the shell pad G (Neutrik NC3MAV / NC3MAH footprints)")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "G")
+					(name "SHELL")
+					(type "passive")
+				)
+			)
+		)
 	)
 	(libraries
 		(library
@@ -1567,6 +1581,10 @@
 		(library
 			(logical "Mechanical")
 			(uri "${KICAD10_SYMBOL_DIR}/Mechanical.kicad_sym")
+		)
+		(library
+			(logical "goa-console")
+			(uri "${KIPRJMOD}/goa-console.kicad_sym")
 		)
 	)
 	(nets
@@ -1678,13 +1696,31 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "J3")
+				(pin "G")
+				(pinfunction "SHELL_G")
+				(pintype "passive")
+			)
+			(node
 				(ref "J4")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
+				(ref "J4")
+				(pin "G")
+				(pinfunction "SHELL_G")
+				(pintype "passive")
+			)
+			(node
 				(ref "J5")
 				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J5")
+				(pin "G")
+				(pinfunction "SHELL_G")
 				(pintype "passive")
 			)
 			(node

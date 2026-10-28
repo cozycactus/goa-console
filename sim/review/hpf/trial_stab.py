@@ -1,5 +1,5 @@
 """TI-model stability of U1B, U5A/B, U15A/B with the HPF in (hpf_proposal.md). Copy to sim/review/strip of a tree with
-hpf_proposal.patch applied and run there: python3 trial_stab.py <RV16 rotation 0..1> eq|byp  (needs OPA161X_LIB)."""
+archive/patches/hpf_proposal.patch applied and run there: python3 trial_stab.py <RV16 rotation 0..1> eq|byp  (needs OPA161X_LIB)."""
 import sys, json
 from stab import run_config
 th = float(sys.argv[1]); eq = sys.argv[2] == 'eq'

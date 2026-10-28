@@ -315,7 +315,9 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
     output node, a ground at the plug grounds both through the jack contact and a few cm of
     track.
 - Output connectors: XLR male, Neutrik NC3MAV (vertical, on the master jack board) or panel-mount with flying
-  leads, pin 2 hot. Shell to chassis.
+  leads, pin 2 hot. Shell to chassis: the footprint's shell pad G is on CHASSIS in the schematic since 2026-10-28
+  (project symbol `XLR3_Shell`, `project_review.md` §2 minor items; the pad had no pin before, so an anodised panel
+  would have left the shells floating). The jig stub's XLR the same.
 - **No phantom on any balanced output** (main, aux 5/6, C/Room, and the groups' sub and aux outs; v0.8, MG15; since CS4b
   the BAV199 at the link holds a leg at 17.7 V if it happens). P48
   through 6.81K per leg forces the DRV134's Sense pins above V+ (its input protection conducting, beyond the abs-max

@@ -115,7 +115,8 @@ unplugged, or fit MF-RX250/72 on the stub; specify >= 2 A per rail.
 
 **Minor, no change proposed:** group R4 / C4 feed a -VL net nothing uses (one M25SI + 47 uF 63 V per board, kept for
 symmetry with the strip; note it or drop them). Master jack board NC3MAV "G" pad (J3-J5) is unconnected; the panels
-are anodised, so tie G to CHASSIS (three pads; open since the 2026-10-25 review). Master AVG meter mode (JP1 / JP2
+are anodised, so tie G to CHASSIS (three pads; open since the 2026-10-25 review) — DONE 2026-10-28 (project symbol
+`XLR3_Shell` with pin G, master jack board and jig stub, nothing moved). Master AVG meter mode (JP1 / JP2
 2-3) leaves the peak stage U30A / U37A open-loop (slews rail to rail at 2f; the reading is unaffected). KiCad's
 `Diode:BAV99` symbol names its pins K/A/K; numbers and graphics are right, so D1 / D12-D22 and the group / master
 BAV199s are correct as drawn: don't "fix" them from the pin names.
@@ -252,10 +253,11 @@ decision, changelog and proposal; DRV134 / DRV135UA naming.
 
 ## 4. Cleanup proposal
 
-**RV12 Patches -> archive.** All 19 `*_proposal.patch` files are applied: cs7, cs11, cs11b, eqmid still reverse-apply
+**RV12 Patches -> archive.** DONE 2026-10-28 (`archive/patches/`, 20 files with the clicks patch, every reference
+updated). All 19 `*_proposal.patch` files are applied: cs7, cs11, cs11b, eqmid still reverse-apply
 cleanly; cs1, cs2, cs2b, cs4, cs4b, cs4c, cs6, cs10, decouplers, film_np, hpf, input_nets, pan_buffer, stab_caps_e9b are
 applied and superseded by later edits (84-100 % of their added lines present, no removed line left);
-`stab_caps_proposal.patch` was re-implemented as `MOVES` (`place_strip.py:56`). `git mv *.patch archive/patches/`
+`archive/patches/stab_caps_proposal.patch` was re-implemented as `MOVES` (`place_strip.py:56`). `git mv *.patch archive/patches/`
 (160 KB off the root); update the 19 CLAUDE.md pointers, each proposal's "The change" line and the docstrings of
 `sim/review/hpf/trial_stab.py:2` / `trial_noise.py:2`. Risk: none (history keeps them). Optional second step: the ~40
 proposal / review / study `.md` files into `docs/{proposals,reviews,studies}/` with the live specs left at the root;
@@ -278,7 +280,11 @@ netrules / route_check / fab_out), `docs/history.md` (~25 KB: the dated change n
 (~20 KB: "Verified so far" and the per-change counts). Keep the headings "Decisions made", "Not done / open" and "Next
 steps": `README.md:84,192` and `sample_order.md:5,79` link to them.
 
-**RV14 Tracked outputs and leftovers.**
+**RV14 Tracked outputs and leftovers.** DONE 2026-10-28 as follows: `.gitattributes` marks the generated files
+linguist-generated (not `-diff`: `git diff` on the boards is how placement changes are reviewed); the three unreferenced
+sim/review scripts deleted; `tools/fly_render.py` kept and listed in CLAUDE.md; the four old decks labelled HISTORICAL;
+`render/*.json` and the escape plan regenerated after the clicks batch; the PDFs stay tracked; `archive/channel_strip_v3.1.kicad_pcb`
+stays (referenced).
 - Keep tracked: `*.net`, `*_BOM.csv`, `*_intended.json`, `*_parts.json`, `*_sheets/` (tool inputs; the sims ran from
   them on a box without KiCad 10), `render/*.json` (`panel_layout.py:278` reads them), `goa-console.3dshapes/`, the
   deliverables `panels/`, `frame/`, `tub/`, `psu_case/`, `docs/escape/`, `order_*.csv`.

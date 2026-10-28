@@ -1,7 +1,7 @@
 # CS6: fusible supply resistors on every ribbon module (proposal, 2026-10-27)
 
 **Signed off by Ruslan on 2026-10-27 (as proposed: M25SI for R1-R4 on every strip and group, with the power-down rule)
-and applied the same day as strip v5.3; see "Applied" at the end.** The change is `cs6_proposal.patch`. It touches tools
+and applied the same day as strip v5.3; see "Applied" at the end.** The change is `archive/patches/cs6_proposal.patch`. It touches tools
 only: `gen.py`, `gen_group.py` and `place_strip.py`.
 
 **Calculation:** `sim/review/cs6/fusible.py` (duty, faults, surges in ngspice). Its output is in `fusible.out`.
