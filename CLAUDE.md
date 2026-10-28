@@ -45,7 +45,7 @@ jack board) done.
   `.claude/launch.json` ("schematic-live", http://localhost:8765).
 - `master.kicad_sch` / `.kicad_pro` — master MODULE (16 HP; 631 parts since D13 + RV7-RV9, 620 since CS7; + its jack board) since the M1 split (2026-10-22).
   HIERARCHICAL on A4 since 2026-10-25 (prints on A4): `master.kicad_sch` is the root sheet (one sheet symbol per page),
-  `master_sheets/NN_*.kicad_sch` the 29 pages, all GENERATED (`build(pages=dict(paper='A4', folder=...))` in schgen.py:
+  `master_sheets/NN_*.kicad_sch` the 30 pages (29 before v0.13), all GENERATED (`build(pages=dict(paper='A4', folder=...))` in schgen.py:
   the blocks' fragments packed in rows onto each page, a block running on to the next page with "(cont.)", a later
   smaller fragment pulled forward to fill a page; global labels between pages; the meter LED strings in two columns of
   five). The generator deletes and rewrites the folder. Netlist identical to the flat sheet (563 parts, 361 nets then;
@@ -507,7 +507,8 @@ jack board) done.
   them unconnected on every board; the master joins its two wing headers on them (SPARE1-7) and, since D13 (`delta_crosscheck.md`,
   signed off 2026-10-28), grounds each spare (1 / 3 / 5 / 7, 19) through a bridged solder jumper JP3-JP7 beside CN2 on the
   bottom, as the Delta's LH master J2-J9 do: open them for an 8-group build. Pin 28 stays open everywhere (a Venue stereo
-  input uses it as a PFL input when its inverting mute is fitted, D22: a borrowed Venue module won't PFL on our bus). Even pins 2-16 = GND.
+  input uses it as a PFL input when its inverting mute is fitted, D22: a borrowed Venue module won't PFL on our bus; a Venue
+  mono input would PFL 6 dB hot through its two 22Ks, D24). Even pins 2-16 = GND.
   The 200 Delta Technical Manual (p. 134, `ref/`) lists 17 = Mix left / 18 = Mix right, the opposite of ED3344C;
   kept the ED3344C order (Ruslan, 2026-10-23; console_architecture.md 2). It confirms pin 28 = PFL Audio −VE.
 - Ground cancel: 10 Ω from strip AGND to pin 26; master summing amps reference that line.

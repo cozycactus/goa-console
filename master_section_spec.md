@@ -247,6 +247,12 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
 
 - Neutrik NJ6FD-V, wired as the strip insert: send on tip through 75R, return on ring,
   ring normalled to send.
+  - **Tip = send on every insert of the console (D1, `delta_crosscheck.md`, decided 2026-10-28).** The Delta's are
+    ring = send (ED2780 sht 2 JSK1, ED3344A JSK2, manual p.124 / 128). Kept: electrically identical, and tip = send is
+    what the commercial insert lead and every later console use; only Delta-era looms want the other sense.
+  - 75R send build-out on every insert, the subs' included (D19: the Delta's group insert uses 220R, its mix insert
+    75R): 0.06 against 0.19 dB of loss into a ≥ 10K outboard input, no difference in drive, the short-circuit case
+    covered by the anti-surge ERJ-P06J750V; one value keeps the BOM and the jig's tests 13-14 fixtures the same.
 - Return: 33 µF NP + 47K bleed, then 1K + 100 pF C0G at the + input of an OPA1612 follower (U2A), then a 75R
   build-out, 100 µF NP + 47K to PRE_L (v0.8, `master_group_review.md` MG7).
   - The 1K bounds the input current from outboard gear driving an unpowered console: ≈ 9.5 mA at a +20 dBu peak.
@@ -319,6 +325,12 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
   - Every build-out resistor sits at its op-amp pin, keeping the pin-side net pad-length: 22 pF between the pin and
     the resistor costs 4–10°.
   - With the build-outs, no master output net needs a length limit. GCANCEL_BUF takes no series R (66° with 47 pF).
+- **No +4 dBu / −10 dBV operating-level switch (D14, `delta_crosscheck.md`).** The Delta's S1 (6 poles) pads its
+  post-amps 11.6 dB (1K2 / 430R) and raises the four monitor receivers 10.4 dB (6K8 / 20K / 2K2 T). Our destinations
+  are +4 dBu (DAW interfaces, the bus compressor), so the main outputs need no pad, and a −10 dBV source on EXT is
+  7.8 dB low on the C/Room only, which the C/ROOM pot covers; a 6-pole switch in the output and monitor paths is
+  contacts in the signal path for a case that is not planned. If it is ever wanted on EXT: the receivers' 10K legs
+  → 24K3 0.1 % (R85 / R90 and R87 / R92) for a gain of 2.45 (§17).
 
 ## 8. Power-on / power-off mute
 
@@ -654,6 +666,12 @@ RETn_L/R ─ 33µ NP + 47K ─ PREn_L/R ─┬─ level, dual A10K (RD902F), pin
   GCANCEL through its own 10 Ω like a strip, so they are one of the averaged grounds, not master ground.
 - No balance or mute. Add a balance pot later if wanted (dual B10K after the level pot, as
   the strip pan).
+- Seen on the Delta / Venue and left out (D18, `delta_crosscheck.md`): the Delta group's tape returns carry a 2-band
+  shelving EQ (IC2-B, VR1 / VR2 10K lin, 4K7 + 6n8, 7K5 + 5K1 + 100n) and an aux-1 send (VR3 / VR8 20K log + 22K); the
+  Venue stereo input A / B select, Ø, ±15 dB trim, width / mono, 3-band EQ, balance, mono sums, six aux sends and a
+  stereo peak LED. Ours are effects returns on 8 HP panels that are full (RET 1 / RET 2 knobs + PFL + routing keys per
+  group); anything that needs EQ, trim or an aux send is a line source and takes a strip. A peak LED per return would
+  be 8 × ~12 parts and a panel hole each for a condition PFL shows.
 
 Per return: 2 × OPA1612, 2 × OPA1656 (followers), 2 × NJ6FD-V, 1 × RD902F A10K, 4 × PVA2 (PFL, MIX, 1-2, 3-4), 1 LED.
 Totals for the eight on four groups (v0.12): 16 × OPA1612, 16 × OPA1656, 16 jacks, 8 dual pots, 32 PVA2, 8 LEDs.
@@ -685,6 +703,7 @@ PFL switcher (one DG413, break-before-make; CRS on the D side, 100K to GNDA):
 ```
 
 PFL is mono and goes to both sides. The meters follow what is being monitored: mix, EXT or PFL.
+The EXT receivers run at unity: a −10 dBV source arrives 7.8 dB low on the C/Room only (D14; the 24K3 option is in §7).
 
 ## 18. PFL summing amp and solo level
 
@@ -715,6 +734,10 @@ PFL is mono and goes to both sides. The meters follow what is being monitored: m
   - compares it with 0.50 V (330K / 10K from +VL), LM393B on ±VL.
   One press gives 0.92 V (1.86×; about −4 mV/°C), 24 presses 1.29 V, and released LEDs carry
   ≤ 20 nA (`sim/pfldet.py`).
+- 100K on every key (D20, `delta_crosscheck.md`): the Delta LH master grades its aux AFL resistors R201-R206
+  100K / 100K / 100K / 82K / 68K / 47K for aux 1-6 to overcome its TL072 detector's 150K bias against the number of
+  keys ahead on the line. Ours compares against a fixed 0.50 V with the clamp, one press through 42 presses simulated,
+  so there is nothing to compensate.
 - 1 µF from PFLDET to GNDD filters the PVA2's contact bounce (≤ 3 ms). 10M from the comparator
   output back to PFLDET gives about 20 mV of hysteresis. Simulated with 3 ms of bounce: one switch
   each way, 5.8 ms after a press and 8.2 ms after a release.
@@ -825,12 +848,17 @@ scale badly (below).
 - Source: CRS_L/R (so the meters show mix, EXT or PFL, whichever is monitored), through
   100R (Delta R41/R141) to a remote-meter header (for a meter bridge later) and to the
   rectifier.
+  - Remote meter header CN4 (1 × 5): 1 MTR_L, 2 MTR_R, 3 +VM, 4 GNDM, 5 −VM. Not the Delta's CN8 (1 METER L, 2 ground,
+    3 +17 V, 4 METER R, 5 −17 V on the logic rails; D16): ours feeds a bridge from the meter rails and the meter
+    ground, so a bridge's LED current stays off the audio ground. A Delta meter bridge is not pin-compatible.
 - Detector per side, four op-amps (2 × TL072; JFET inputs, as the Delta's TL071/072):
   - U1, U2: precision full-wave rectifier (inverting half-wave with two 1N4148, then a summer:
     v and 2 × half-wave). Gain trim in U2's feedback: 10K + 10K trimmer (gain 0.5–1.0).
   - Average (Delta R303/C302): |v| → 33K → 2.2 µF, about 73 ms.
   - Peak: U3 precision peak detector. 1N4148 inside the loop, 220R into 1 µF (0.22 ms first-order attack),
-    release 330K + 220K (0.55 s, Delta-like). U3's feedback comes from the U4 follower through
+    release 330K + 220K (0.55 s; not "Delta-like", D15: the Delta's R306 22K / C301 10 µF is ≈ 0.22 s. Ours falls
+    slower, which is easier to read on a 20-LED bar and within the usual peak-meter range, DIN 1.5 s to fast PPMs
+    ~0.5 s). U3's feedback comes from the U4 follower through
     10K, with a 1N4148 clamp from U3's output to its inverting input. The feedback must not
     come from the capacitor itself: then the clamp current discharges it (simulated: 50 Hz
     read 0.95 dB low and the hold collapsed).
@@ -1096,9 +1124,9 @@ choosing.
   MF-RX/72 tables (MF-RX160/72), Neutrik NC7MD-LX via distributors (5 A per contact); §24, 25, 27.
 - Meter detector simulated and redesigned (section 22).
 - Schematics (M1 modules), generated by `tools/gen_master.py` / `tools/gen_group.py` from this spec, as of
-  2026-10-28 (v0.12, with CS7 / CS2b): master 620 parts, 1796 pins / 0 mismatches, check_fp 0, ERC 0; master jack board
-  89 pins; group 291 parts, 805 pins; group jack board 60 pins; all 0 mismatches, ERC 0 (v0.11: master 579 / 1686, group
-  186 / 529; v0.7: master 532 / 1579, group 158 / 461). Mute control values are
+  2026-10-28 (v0.13, with RV7-RV9 and D13): master 631 parts, 1818 pins / 0 mismatches, check_fp 0, ERC 0; master jack
+  board 89 pins; group 292 parts, 807 pins; group jack board 60 pins; all 0 mismatches, ERC 0 (v0.12: master 620 / 1796,
+  group 291 / 805; v0.11: master 579 / 1686, group 186 / 529; v0.7: master 532 / 1579, group 158 / 461). Mute control values are
   simulated (section 8, `sim/mute.cir` v3), PFL detect in `sim/pfldet.py`, the rude-solo flasher in `sim/flasher.cir`.
 - Parts review (`master_parts_review.md`, signed off 2026-10-23) applied in v0.7. Its bench checks
   stay open: re-inverter stability on the scope (jig test 10), aux noise at N = 24, relay release time and

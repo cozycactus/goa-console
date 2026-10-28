@@ -50,7 +50,12 @@
 **T6 Insert.** **Read:** the master mix insert sits at −10 dBV (−7.8 dBu), unbalanced, 75R send, normalled (ED2780 sht 2).
 - vs ours: our master insert runs at the mix level, about 0 dBu. That suits a +4 dBu external bus compressor better. Justified.
 
-**T7 Mute.** Same J112 pair as ours. Ours adds muting of the pre sends.
+**T7 Mute.** **Read** (corrected 2026-10-28, `delta_crosscheck.md` D3; this line said "same J112 pair as ours"):
+series J112 (TR4) into IC6-A's virtual earth plus a shunt J112 (TR3) with its source on C30 47 µF (no DC across the
+FET), gates on complementary MUTE / MUTE-bar from a TR6 / TR7 inverter pair (220K / 100n, 1N4148, 680K bleeds); the
+Venue the same.
+- vs ours: two shunt J112s in a 4K7 ladder into a follower, one RC ramp from the key: not the same circuit. Ours adds
+  muting of the pre sends. Depth (86 dB simulated against the Delta's 100-110 dB) is CS8, measured at the jig.
 
 **T8 Fader / post-amp.**
 - **Strip:** same as ours. **Read:** the post-fader non-panned feed IC6-B is +1.4 dB (1K8 / 10K).
@@ -121,7 +126,7 @@
 - vs ours: DRV135 everywhere, relay mutes with a 2.8 s delay, mono post master. Ours is better on every point.
 
 **Monitoring (part of T17).** **Read:**
-- **C/R source:** taken from the **balanced mix outputs** through diff receivers (43K / 43K in, 20K / 22K, 33p). The 2TRK return goes through the same receivers, switched for −10 / +4. The control room therefore hears what leaves the XLRs.
+- **C/R source:** taken from the **balanced mix outputs** through diff receivers (43K / 43K in, 22K feedback, 33p; the − leg's lower arm is a switched T, 6K8 + 20K with 2K2 to ground through S1: −4.1 dB open, +6.3 dB closed, so the bridge is 26.8K against 22K, not ratio-matched; D17, 2026-10-28). The 2TRK return goes through the same receivers, switched for −10 / +4 by that T. The control room therefore hears what leaves the XLRs.
 - **C/R and phones amp:** TL072 + 2SC2240 / 2SA970 class-AB followers (10R emitters, 1N4148 bias), 220 µF out.
   - Phones through 47R; C/R through a 470R / 470R pad, 250 Ω output.
   - Ground-compensated: 22K / 47R sense.
@@ -130,7 +135,7 @@
 - vs ours:
   - We tap POST_L / R before the DRV135. That is fine, but it misses faults in the output stage.
   - LME49600 phones with a separate PHONESGND: same idea.
-  - **We have no dim** (master spec has none).
+  - Dim: ours since CS7 (2026-10-28, SW4, −20 dB on C/Room only); this line read "we have no dim" before.
 
 **T18 Meters.** **Read** (ED2780 sht 3; manual p.62, 65):
 - **Rectifier:** TL071 precision half-wave (1N4148s), 10K / 4K7, 22K cal preset.

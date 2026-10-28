@@ -84,7 +84,9 @@ KiCad 10.0.7 (Linux), ngspice 42:
   100 µF still 0.16 Hz; PRE's source sees 10K instead of 47K, which the post-EQ follower drives without trouble). A
   100 µF NP in MUTEOUT would AC-couple the fader and the pre taps instead, but adds a coupler into the fader's 10K and a
   can at the fader; the Delta drives its fader DC-coupled from the mute FET too. Ruslan's call: accept (new pots are
-  quiet) or R13 10K.
+  quiet) or R13 10K. Accepted as is 2026-10-28. The Delta's own answer (`delta_crosscheck.md` D3): its shunt J112's
+  source sits on a 47 µF, so no DC crosses the FET; that cap-isolated source is the cheapest fix if the bench shows a
+  scratchy track or a click.
 - **RV6** (OPA1656 common mode (V+) − 2.25 V: the tip leg clips at ~+21.9 dBu, not +23): a documentation correction to
   `gaps_proposal.md` and the spec's headroom line, or accept.
 

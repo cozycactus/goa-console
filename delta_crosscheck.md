@@ -189,9 +189,13 @@ on ED2779A; the group PFL LEDs' return path (ED2778A). None touches ours.
 
 ## 3. Status
 
-Not signed off. On sign-off: D1 / D13 as decided; D2-D24 as documentation edits (strip spec §7 / 16.1 / 16.4, master
-spec §4 / §7 / §16 / §17 / §22, `delta_clone_comparison.md` §2, `console_survey/delta.md` T7 / T17 / Monitoring, the
-bus decision in CLAUDE.md, `clicks_proposal.md` RV5) and, for D13, a master generator change (solder jumpers, made last).
+Signed off by Ruslan 2026-10-28 ("proceed with your recommendations") and applied:
+- D1 decided: tip = send stays; recorded in strip spec §7 / 16.4, master spec §4, `delta_clone_comparison.md` §2.
+- D13 applied (master JP3-JP7 beside CN2, made last, placed by moves_only; master 1806 pins / 625 parts then, DRC 0).
+- D2-D24 documentation: strip spec §4 (D23), §5 (D12), §6.1 (D8), §7 (D1 / D4 / D21), §8.1 (D9 / D10), §9 (D3 / D11),
+  §11 (D7), §12 (D2), §13 (D5 / D6); master spec §4 (D1 / D19), §7 (D14), §16 (D18), §17 (D14), §19 (D20), §22
+  (D15 / D16); `delta_clone_comparison.md` §2 (D1, D3, D9 / D10, D23); `console_survey/delta.md` T7 (D3), Monitoring
+  (D17, and its stale "no dim" line); `clicks_proposal.md` §6 RV5 (D3); CLAUDE.md bus decision (D22 / D24).
 
 
 ---
