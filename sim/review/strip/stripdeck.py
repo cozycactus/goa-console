@@ -16,6 +16,11 @@ OPA1656_UNITS = set(filter(None, os.environ.get('OPA1656_UNITS', '').split(','))
 # an operating point in this deck (strip_noise_proposal.md), so the OPA1656 comparison runs on the fitted pair, with
 # the as-built OPA1612M results checked against TI's OPA161x first
 OPA_MODEL = os.environ.get('OPA_MODEL', 'ti')
+# OPA1612_SIMPLE=1 (with OPA_MODEL ti): the OPA1612 units get the deck's single-pole OPA (40 MHz GBW) and only the
+# OPA1656 units TI's model. With OPA1656_UNITS=U16 that checks the receiver followers on TI's own OPA1656 model, which
+# reaches no operating point beside TI's OPA161x in this deck (2026-10-28, as on the group). Only the OPA1656 units'
+# results of such a run mean anything. Without OPA1656_UNITS, TI mode models U16 as an OPA161x.
+OPA1612_SIMPLE = os.environ.get('OPA1612_SIMPLE')
 FIT_LIB = os.environ.get('OPA_FIT_LIB', os.path.join(HERE, 'models_cd.inc'))
 OPS = ('OPA1612AxD', 'OPA1656ID')                 # U16 (strip v4.4) is fitted as OPA1656
 sys.path.insert(0, os.path.join(REPO, 'tools'))
@@ -104,7 +109,9 @@ def deck(pos, sw, extra_ctl='', model=None, extra=(), src='50', loads=()):
             for u, (p_, m_, o_) in ((1, (3, 2, 1)), (2, (5, 6, 7))):
                 if (ref, str(o_)) in pins:
                     nm = f'{ref}{"AB"[u-1]}'
-                    if model == 'ti':
+                    if model == 'ti' and OPA1612_SIMPLE and not (is56 and OPA1656_UNITS):
+                        L.append(f'X{nm} {nm}_pp {node(ref,m_)} {nm}_ox OPA')
+                    elif model == 'ti':
                         L.append(f'X{nm} {nm}_pp {node(ref,m_)} vcc17 vee17 {nm}_ox {"OPA1656" if is56 and OPA1656_UNITS else "OPA161x"}')
                     elif model == 'fit':
                         L.append(f'X{nm} {nm}_pp {node(ref,m_)} {nm}_ox {nm}_pp {node(ref,m_)} {"OPA1656M" if is56 else "OPA1612M"}')

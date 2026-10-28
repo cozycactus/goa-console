@@ -264,6 +264,8 @@ at the desk.
 - **G3.** U16 OPA1656 followers, 1M bias per leg (R10, R112), 220R in (R110, R111) and, added in the implementation,
   100R build-outs (R113, R114): the follower is the OPA1656's least stable configuration, 52° unloaded and 25° with
   220 pF on the fitted model; with 100R it keeps ≥ 48.5° for any load (`sim/review/ground/follower_stab.py`).
+  On TI's own OPA1656 model (2026-10-28; the OPA1612s single-pole so the deck converges, `OPA1612_SIMPLE=1
+  OPA1656_UNITS=U16`): 61.7° over all 21 strip-deck states, peaking ≤ 0.83 dB; the group's return followers 59.2-61.0°.
   J1's normals go to AGND rather than to the sleeve (now CHASSIS), so an empty input sits exactly at the receiver's
   reference. `tools/sim_netlist.py` checks the common-mode rejection: −60.1 dBu at PRE for 0 dBu through 1 kΩ on the
   tip leg (it would be −26 with the unbuffered receiver).

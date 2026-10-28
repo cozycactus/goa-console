@@ -398,6 +398,8 @@ C7 33 pF across R7; C78 33 pF across R9 (v4.1: balances the bridge, CMRR 86 dB f
 - Follower stability, on the fitted OPA1656 model (which reads 11–14° below the datasheet):
   - ≥ 48.5° for any load capacitance thanks to the 100R build-outs (`sim/review/ground/follower_stab.py`);
   - 54.1° over the strip deck's states.
+  - On TI's own OPA1656 model (2026-10-28; the OPA1612s single-pole so the deck converges, `OPA1612_SIMPLE=1
+  OPA1656_UNITS=U16`): 61.7° over all 21 strip-deck states, peaking ≤ 0.83 dB; the group's return followers 59.2-61.0°.
 - C94 / C95 matter. Without them the 220R and the OPA1656's 9.1 pF input capacitance cost about 13°: 41° and 3.3 dB
   closed-loop peaking, found with the group's returns (2026-10-25). `tools/sim_netlist.py` checks −60 dBu at
   PRE for 0 dBu common mode through 1 kΩ on the tip leg.
