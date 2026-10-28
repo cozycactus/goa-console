@@ -1,9 +1,9 @@
 (export
 	(version "E")
 	(design
-		(source "/Users/ruslanmigirov/projects/goa-console/group.kicad_sch")
-		(date "2026-10-28T00:26:47")
-		(tool "Eeschema 10.0.7")
+		(source "/home/user/goa-console/group.kicad_sch")
+		(date "2026-10-28T19:55:43")
+		(tool "Eeschema 10.0.7-10.0.7~ubuntu24.04.1")
 		(sheet
 			(number "1")
 			(name "/")
@@ -11,7 +11,7 @@
 			(title_block
 				(title "Group module - goa console (sub + return + aux master)")
 				(company)
-				(rev "0.2")
+				(rev "0.12")
 				(date "2026-10-19")
 				(source "group.kicad_sch")
 				(comment
@@ -59,7 +59,7 @@
 			(title_block
 				(title "BUS SELECT, GROUND CANCEL BUFFER, SUBGROUP")
 				(company "Group module - goa console (sub + return + aux master)")
-				(rev "0.2")
+				(rev "0.12")
 				(date "2026-10-19")
 				(source "02_bus_select.kicad_sch")
 				(comment
@@ -107,7 +107,7 @@
 			(title_block
 				(title "SUBGROUP")
 				(company "Group module - goa console (sub + return + aux master)")
-				(rev "0.2")
+				(rev "0.12")
 				(date "2026-10-19")
 				(source "03_subgroup.kicad_sch")
 				(comment
@@ -155,7 +155,7 @@
 			(title_block
 				(title "SUBGROUP, AUX MASTER")
 				(company "Group module - goa console (sub + return + aux master)")
-				(rev "0.2")
+				(rev "0.12")
 				(date "2026-10-19")
 				(source "04_subgroup.kicad_sch")
 				(comment
@@ -203,7 +203,7 @@
 			(title_block
 				(title "AUX MASTER")
 				(company "Group module - goa console (sub + return + aux master)")
-				(rev "0.2")
+				(rev "0.12")
 				(date "2026-10-19")
 				(source "05_aux_master.kicad_sch")
 				(comment
@@ -251,7 +251,7 @@
 			(title_block
 				(title "AUX MASTER, STEREO RETURN")
 				(company "Group module - goa console (sub + return + aux master)")
-				(rev "0.2")
+				(rev "0.12")
 				(date "2026-10-19")
 				(source "06_aux_master.kicad_sch")
 				(comment
@@ -299,7 +299,7 @@
 			(title_block
 				(title "STEREO RETURN")
 				(company "Group module - goa console (sub + return + aux master)")
-				(rev "0.2")
+				(rev "0.12")
 				(date "2026-10-19")
 				(source "07_stereo_return.kicad_sch")
 				(comment
@@ -347,7 +347,7 @@
 			(title_block
 				(title "STEREO RETURN, STEREO RETURN 2")
 				(company "Group module - goa console (sub + return + aux master)")
-				(rev "0.2")
+				(rev "0.12")
 				(date "2026-10-19")
 				(source "08_stereo_return.kicad_sch")
 				(comment
@@ -395,7 +395,7 @@
 			(title_block
 				(title "STEREO RETURN 2")
 				(company "Group module - goa console (sub + return + aux master)")
-				(rev "0.2")
+				(rev "0.12")
 				(date "2026-10-19")
 				(source "09_stereo_return_2.kicad_sch")
 				(comment
@@ -443,7 +443,7 @@
 			(title_block
 				(title "STEREO RETURN 2")
 				(company "Group module - goa console (sub + return + aux master)")
-				(rev "0.2")
+				(rev "0.12")
 				(date "2026-10-19")
 				(source "10_stereo_return_2.kicad_sch")
 				(comment
@@ -491,7 +491,7 @@
 			(title_block
 				(title "JACK BOARD LINK, JACK BOARD LINK 2")
 				(company "Group module - goa console (sub + return + aux master)")
-				(rev "0.2")
+				(rev "0.12")
 				(date "2026-10-19")
 				(source "11_jack_board_link.kicad_sch")
 				(comment
@@ -539,7 +539,7 @@
 			(title_block
 				(title "JACK LINK CLAMPS, POWER AND GROUNDS")
 				(company "Group module - goa console (sub + return + aux master)")
-				(rev "0.2")
+				(rev "0.12")
 				(date "2026-10-19")
 				(source "12_jack_link_clamps.kicad_sch")
 				(comment
@@ -587,7 +587,7 @@
 			(title_block
 				(title "POWER AND GROUNDS, RIBBON")
 				(company "Group module - goa console (sub + return + aux master)")
-				(rev "0.2")
+				(rev "0.12")
 				(date "2026-10-19")
 				(source "13_power_and_grounds.kicad_sch")
 				(comment
@@ -22051,7 +22051,7 @@
 		(net
 			(code "63")
 			(name "Net-(U3B--)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C96")
 				(pin "1")
@@ -22109,7 +22109,7 @@
 		(net
 			(code "66")
 			(name "Net-(U5A--)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C97")
 				(pin "1")

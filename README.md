@@ -16,7 +16,7 @@ netlists and simulated in ngspice.
     wing of 12 strips;
   - the 16 HP master module sits in the centre with both wing headers and the power entry; the four 8 HP group
     modules sit next to it, two on each wing.
-- **Channel strip** (spec v4.6):
+- **Channel strip** (spec v5.5):
   - buffered differential line receiver (OPA1656 followers) and an inverting line gain stage, −15…+15 dB with a
     centre detent;
   - Ø switch and a sweepable 21–403 Hz HPF (KHN);
@@ -29,9 +29,9 @@ netlists and simulated in ngspice.
     direct out's level.
 - **Master:**
   - mix summing referenced to a ground-cancel line, each sum followed by a re-inverter;
-  - DRV134 balanced outputs with mute relays and a power-on mute;
+  - DRV135UA (DRV134 family) balanced outputs with mute relays and a power-on mute;
   - mono, monitoring with PFL/AFL, 20-LED meters, aux 5–6 masters.
-- **Groups:** sub n with insert, return n and the aux n master.
+- **Groups:** sub n with insert and pan, two stereo returns and the aux n master.
 - **Power:** an external ±17 V, 4 A per rail supply. Two isolated Mean Well LRS-150-24 modules feed LC filters,
   LM1084 regulators and an SCR crowbar per rail. It reaches the console through a 7-pin XLR.
 
@@ -63,8 +63,11 @@ netlists and simulated in ngspice.
   routing is done by hand in KiCad (see `AGENTS.md`). Unrouted connections are expected.
 - **Every board checks clean:**
   - parity DRC with 0 schematic-parity issues on every board;
-  - 0 DRC violations on the strip, group and master main boards, the PSU and both jig boards;
-  - the jack boards show only items inside KiCad's NJ6FD-V footprint.
+  - 0 DRC violations on the strip, group and master main boards and both jig boards;
+  - the jack boards show only items inside KiCad's NJ6FD-V footprint, the PSU only its 20 known TO-220 silk-edge
+    items (the tabs overhang the board edge by design);
+  - `python3 tools/check_all.py` runs every check in one go (netlist vs intended, pins vs footprints, ERC, parity DRC,
+    footprint links, route_check, the sims, the rule tests) and exits non-zero on any failure.
 - **Still open:**
   - the bench checks from the master parts review (`master_parts_review.md`, signed off and applied 2026-10-23):
     re-inverter stability, aux noise, relay release and mains-off timing, PFL tick, meter current-source temperature;
@@ -79,7 +82,7 @@ netlists and simulated in ngspice.
   - route the boards;
   - build the test jig with four routed strips and run its bus tests (`test_jig_spec.md`); some bus decisions wait on
     them;
-  - build the 12U frame, and the PSU case and heatsink (`psu_spec.md` §8).
+  - build the 12U frame (`frame/`, FR1-FR3) and the PSU case (`psu_case/`, PC1-PC3: Hammond 1402KV, Fischer SK 47 75 SA).
 
   The details are in `CLAUDE.md`, "Not done / open" and "Next steps".
 
@@ -88,7 +91,7 @@ netlists and simulated in ngspice.
 | Path | What |
 |------|------|
 | `console_architecture.md` | Whole-console architecture (authoritative): bus pinout, grounding, power, op-amp choices |
-| `channel_strip_schematic_spec.md`, `strip_parts_review.md` | Strip component-level spec v4.1 (authoritative), incl. panel parts and stack (§16); the stability and ratings review behind v4.1 |
+| `channel_strip_schematic_spec.md`, `strip_parts_review.md` | Strip component-level spec v5.5 (authoritative), incl. panel parts and stack (§16); the stability and ratings review behind v4.1 |
 | `master_section_spec.md`, `master_panel_study.md`, `master_parts_review.md` | Master and group modules: functions, parts, panel study, review of the proposed parts |
 | `psu_spec.md`, `test_jig_spec.md` | External PSU, test jig |
 | `delta_clone_comparison.md`, `strip_panel_study.md` | Why the strip is a Delta clone, why 8 HP × 12U with two pot columns |
@@ -97,7 +100,7 @@ netlists and simulated in ngspice.
 | `channel_strip.kicad_pcb` | The strip's main board; `channel_strip.kicad_pro` opens it with the schematic. The old v3.1 board is `archive/channel_strip_v3.1.kicad_pcb` |
 | `*.net`, `*.pdf`, `*_BOM.csv` | Netlist, PDF and BOM exports; `*_intended.json` are the netlists the schematics are checked against |
 | `goa-console.pretty/`, `goa-console.3dshapes/`, `goa-console.kicad_sym` | Project footprints (faders, spade tab, PTC), part 3D models (VRML + STEP), symbols |
-| `tools/` | Generators, verification, placement engine, 3D export and Blender build (below) |
+| `tools/` | Generators, verification (`check_all.py` runs everything), placement engine, routing rules (`netrules.py`), fab outputs (`fab_out.py`), the order list (`order_bom.py`), 3D export and Blender build (below) |
 | `sim/` | ngspice decks and Python sims: signal path, EQ, gain stage, mid tuning, routing switch, master mix, meters, mute, PSU |
 | `ref/` | Reference material: Soundcraft Delta DLX/Theatre schematics, 200 Delta Technical Manual and User Guide (scanned), panel-drawing crops |
 | `render/` | 3D exports (`*.json`); renders and the `.blend` are generated and git-ignored |
@@ -138,7 +141,7 @@ python3 tools/sim_netlist.py channel_strip.net jack_board.net
 ```
 
 The whole console (24 strips, 4 groups and the master, each with its jack board, on the ribbon) is simulated from the
-generated netlists with `python3 tools/sim_console.py` (32 checks, about 10 s; `--list` names them). It covers
+generated netlists with `python3 tools/sim_console.py` (45 checks, about a minute; `--list` names them). It covers
 levels, routing, mutes, PFL, returns, EXT, crosstalk, ground currents and noise. Regenerate the netlists first.
 
 The other generators work the same way:
@@ -152,10 +155,12 @@ The other generators work the same way:
 
 Run the export / verify / check_fp / ERC steps for each schematic in the right-hand column.
 
-Simulations: each deck in `sim/` runs its own analyses, e.g. `ngspice -b sim/strip_v4.cir`. `python3 sim/mid_tuning.py 10e3`
-compares the mid-band tunings for a given pot value.
+Simulations: each deck in `sim/` runs its own analyses, e.g. `ngspice -b sim/strip_v4.cir` (the v4.0 strip model; the
+current strip is checked from its netlist by `sim_netlist.py`, 45 checks). `python3 sim/mid_tuning.py 10e3` compares the
+mid-band tunings for a given pot value (the 2026-10-22 tuning; the v5.5 ranges come from `sim/review/eqmid/measure.py`).
 
-Placement only. Each script refuses to overwrite a board that already has routing:
+Placement only. The strip, group and master main boards are 4-layer (two inner ground layers; `layer_study.md`), every
+other board 2-layer. Each script refuses to overwrite a board that already has routing:
 
 ```bash
 # strip main board + jack board
@@ -168,7 +173,11 @@ $KPY tools/place_psu.py
 ```
 
 Each run prints a placement report: decoupler-to-supply-pin distances and the reach of high-impedance input
-networks. Parity DRC needs the board next to a schematic of the same name; see `CLAUDE.md` for the strip's copy step.
+networks. Every board is its schematic's project board, so parity DRC runs in place
+(`$KC pcb drc --schematic-parity --severity-all X.kicad_pcb`). After any re-placement or netlist change, re-run
+`$KPY tools/netrules.py` (net classes and the `.kicad_dru` rules). `python3 tools/fab_out.py BOARD` writes Gerbers,
+drills, position file and BOM to `fab/BOARD/` once a board is routed; `python3 tools/order_bom.py` builds the
+console-wide order list from the BOMs.
 
 Part models and the 3D console:
 

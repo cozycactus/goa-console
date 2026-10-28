@@ -357,6 +357,12 @@ def t_sub():
     r, _ = run(console(s, g, m), AC1K + dbu(diff(XLR['L']), 'ml') + dbu(diff(XLR['R']), 'mr'))
     check('SUB 1 to MIX (sub pan centre, -2.7 dB since CS2b): main L', r.get('ml'), -7.7 + PANC + GPANC, -7.0 + PANC + GPANC)
     check('SUB 1 to MIX: main R', r.get('mr'), -7.7 + PANC + GPANC, -7.0 + PANC + GPANC)
+    # every SUB bus positively, through its own group (a swapped header pin or an open feed would pass the name-joined
+    # sims otherwise, project_review.md RV11.2): 1-2 feeds SUB 1 / SUB 2 (pan L / R), 3-4 feeds SUB 3 / SUB 4
+    s, g, m = default_console(one(0, sw={'SW5': False, 'SW6': True, 'SW7': True}))
+    r, _ = run(console(s, g, m), AC1K + [x for k in (2, 3, 4) for x in dbu(f'v(g{k}_JB_S_OP,g{k}_JB_S_ON)', f's{k}')])
+    for k in (2, 3, 4):
+        check(f'strip 1 to SUB {k} (pan centre): group {k} sub out', r.get(f's{k}'), -1.2 + PANC, -0.6 + PANC)
 
 def t_aux():
     s, g, m = default_console(one(0, pos={'RV2': 1.0, 'RV6': 1.0}, sw={'SW8': True, 'SW10': True}))
@@ -365,6 +371,13 @@ def t_aux():
     check('aux 1 send at the top (pre): group 1 aux out (TRS differential, master at the top)', r.get('a1'), 5.5, 6.5)
     check('aux 5 send at the top (pre): master aux 5 out', r.get('a5'), 5.5, 6.5)
     check('aux 2 (send at 0): group 2 aux out silent', r.get('a2'), -400, -75)
+    # every aux bus positively (RV11.2): sends 2 / 3 / 4 to groups 2 / 3 / 4, send 6 to the master's aux 6 out
+    s, g, m = default_console(one(0, pos={'RV3': 1.0, 'RV4': 1.0, 'RV5': 1.0, 'RV7': 1.0}, sw={'SW8': True, 'SW9': True, 'SW10': True}))
+    r, _ = run(console(s, g, m), AC1K + [x for k in (2, 3, 4) for x in dbu(f'v(g{k}_JB_A_OP,g{k}_JB_A_ON)', f'a{k}')]
+               + dbu('v(JB_A6_OP,JB_A6_ON)', 'a6'))
+    for k in (2, 3, 4):
+        check(f'aux {k} send at the top (pre): group {k} aux out', r.get(f'a{k}'), 5.5, 6.5)
+    check('aux 6 send at the top (pre): master aux 6 out', r.get('a6'), 5.5, 6.5)
 
 def t_pfl():
     """Strip 1 PFL latched: the master's switcher moves C/Room and phones from MIX to PFL; the mix is untouched."""
@@ -416,9 +429,10 @@ def t_dim():
         s, g, m = default_console(master_cfg=dict(sw={'SW3': True, 'SW4': dim}, plugs={'JB_J8': ('src', SRC, 50, True)}))
         out[dim], _ = run(console(s, g, m), AC1K + dbu('v(JB_CRL_XP,JB_CRL_XN)', 'cl') + dbu('v(JB_CRR_XP,JB_CRR_XN)', 'cr')
                           + dbu('v(JB_PHJ_L)', 'ph'))
-    check('DIM latched: C/Room L against released (C/ROOM at the top)', out[True].get('cl', 0) - out[False].get('cl', 0), -21.1, -20.4)
-    check('DIM latched: C/Room R against released', out[True].get('cr', 0) - out[False].get('cr', 0), -21.1, -20.4)
-    check('DIM latched: phones L against released', out[True].get('ph', 0) - out[False].get('ph', 0), -0.05, 0.2)
+    delta = lambda k: None if k not in out[True] or k not in out[False] else out[True][k] - out[False][k]   # a missing node fails
+    check('DIM latched: C/Room L against released (C/ROOM at the top)', delta('cl'), -21.1, -20.4)
+    check('DIM latched: C/Room R against released', delta('cr'), -21.1, -20.4)
+    check('DIM latched: phones L against released', delta('ph'), -0.05, 0.2)
 
 def t_crosstalk():
     """Strip 1 hard left at 0 dBu: what leaks into main R, SUB 1 and AUX 1 (ribbon capacitance, ground impedance)."""

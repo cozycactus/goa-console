@@ -818,20 +818,12 @@
         "pattern": "CHASSIS"
       },
       {
-        "netclass": "HighZ",
-        "pattern": "CRL_N"
-      },
-      {
         "netclass": "Entry",
         "pattern": "CRL_XN"
       },
       {
         "netclass": "Entry",
         "pattern": "CRL_XP"
-      },
-      {
-        "netclass": "HighZ",
-        "pattern": "CRR_N"
       },
       {
         "netclass": "Entry",
@@ -890,10 +882,6 @@
         "pattern": "GNDM"
       },
       {
-        "netclass": "HighZ",
-        "pattern": "MAIN_L_N"
-      },
-      {
         "netclass": "Entry",
         "pattern": "MAIN_L_XN"
       },
@@ -902,20 +890,12 @@
         "pattern": "MAIN_L_XP"
       },
       {
-        "netclass": "HighZ",
-        "pattern": "MAIN_M_N"
-      },
-      {
         "netclass": "Entry",
         "pattern": "MAIN_M_XN"
       },
       {
         "netclass": "Entry",
         "pattern": "MAIN_M_XP"
-      },
-      {
-        "netclass": "HighZ",
-        "pattern": "MAIN_R_N"
       },
       {
         "netclass": "Entry",
@@ -1034,6 +1014,14 @@
         "pattern": "Net-(D22-K)"
       },
       {
+        "netclass": "HighZ",
+        "pattern": "Net-(D24-K)"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "Net-(D26-A)"
+      },
+      {
         "netclass": "Switching",
         "pattern": "Net-(D29-A)"
       },
@@ -1118,6 +1106,14 @@
         "pattern": "Net-(D5-K)"
       },
       {
+        "netclass": "HighZ",
+        "pattern": "Net-(D52-K)"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "Net-(D54-A)"
+      },
+      {
         "netclass": "Switching",
         "pattern": "Net-(D57-A)"
       },
@@ -1192,6 +1188,14 @@
       {
         "netclass": "Switching",
         "pattern": "Net-(D77-K)"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "Net-(JP1-C)"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "Net-(JP2-C)"
       },
       {
         "netclass": "HighZ",
@@ -1295,6 +1299,10 @@
       },
       {
         "netclass": "HighZ",
+        "pattern": "Net-(U29B--)"
+      },
+      {
+        "netclass": "HighZ",
         "pattern": "Net-(U2A-+)"
       },
       {
@@ -1304,6 +1312,10 @@
       {
         "netclass": "HighZ",
         "pattern": "Net-(U2B-+)"
+      },
+      {
+        "netclass": "HighZ",
+        "pattern": "Net-(U36B--)"
       },
       {
         "netclass": "HighZ",

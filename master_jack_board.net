@@ -1,9 +1,9 @@
 (export
 	(version "E")
 	(design
-		(source "/Users/ruslanmigirov/projects/goa-console/master_jack_board.kicad_sch")
-		(date "2026-10-27T18:24:37")
-		(tool "Eeschema 10.0.7")
+		(source "/home/user/goa-console/master_jack_board.kicad_sch")
+		(date "2026-10-28T19:55:31")
+		(tool "Eeschema 10.0.7-10.0.7~ubuntu24.04.1")
 		(sheet
 			(number "1")
 			(name "/")
@@ -81,7 +81,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "master_jack_board")
+				(value "Root")
 			)
 			(property
 				(name "Sheetfile")
@@ -249,7 +249,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "master_jack_board")
+				(value "Root")
 			)
 			(property
 				(name "Sheetfile")
@@ -303,7 +303,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "master_jack_board")
+				(value "Root")
 			)
 			(property
 				(name "Sheetfile")
@@ -357,7 +357,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "master_jack_board")
+				(value "Root")
 			)
 			(property
 				(name "Sheetfile")
@@ -417,7 +417,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "master_jack_board")
+				(value "Root")
 			)
 			(property
 				(name "Sheetfile")
@@ -486,7 +486,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "master_jack_board")
+				(value "Root")
 			)
 			(property
 				(name "Sheetfile")
@@ -555,7 +555,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "master_jack_board")
+				(value "Root")
 			)
 			(property
 				(name "Sheetfile")
@@ -618,7 +618,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "master_jack_board")
+				(value "Root")
 			)
 			(property
 				(name "Sheetfile")
@@ -681,7 +681,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "master_jack_board")
+				(value "Root")
 			)
 			(property
 				(name "Sheetfile")
@@ -744,7 +744,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "master_jack_board")
+				(value "Root")
 			)
 			(property
 				(name "Sheetfile")
@@ -807,7 +807,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "master_jack_board")
+				(value "Root")
 			)
 			(property
 				(name "Sheetfile")
@@ -870,7 +870,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "master_jack_board")
+				(value "Root")
 			)
 			(property
 				(name "Sheetfile")
@@ -939,7 +939,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "master_jack_board")
+				(value "Root")
 			)
 			(property
 				(name "Sheetfile")
@@ -1008,7 +1008,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "master_jack_board")
+				(value "Root")
 			)
 			(property
 				(name "Sheetfile")
@@ -1071,7 +1071,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "master_jack_board")
+				(value "Root")
 			)
 			(property
 				(name "Sheetfile")
@@ -1134,7 +1134,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "master_jack_board")
+				(value "Root")
 			)
 			(property
 				(name "Sheetfile")

@@ -293,7 +293,7 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
 - Connection, per output (TI Figure 29):
   - VIN from the stage before (POST_L, AUXn_OUT, …). It is a 10K load; every driving point is
     an op-amp output or a coupling-cap node that tolerates it.
-  - Gnd (pin 3) to GNDA. 1 µF + 100 nF on each rail at the pins.
+  - Gnd (pin 3) to GNDA. 1 µF X7R on each rail at the pins.
   - Each output leg: VO → 10 µF non-polar electrolytic → output node; the Sense pin connects to
     the output node, after the capacitor. The loop then removes the cap's effect and blocks the
     up to ±250 mV common-mode output offset, so there is no DC on the relay contacts or the
@@ -582,7 +582,7 @@ which stay at 22K so the strip aux pot wipers aren't loaded (architecture sectio
 |------|-----|-------|
 | OPA1612 | 2 (mix L/R sum + re-invert) + 2 (mix insert/post-amp) + 1 (mono) + 1 (GCANCEL buffer) + 12 (subs) + 3 (aux output buffers) + 6 (aux sum + re-invert) = **27** | |
 | OPA1656 | **0** | (PFL only, §23) |
-| DRV134 | 3 (L, R, mono) + 4 (subs) + 6 (aux) = **13** | |
+| DRV135UA | 3 (L, R, mono) + 4 (subs) + 6 (aux) = **13** | |
 | 10 µF NP electrolytic | 2 per DRV134 = **26** | output DC blocking inside the Sense loop; since CS11b a pair sorted within 2 % per driver (their match sets the output balance; `build_records.md` §1) |
 | LM393B | 1½ | mute relay control (rail sense, timer Schmitt) |
 | Omron (Aratas) G6K-2F-Y DC12 | 3 | main output mute (C/Room and phones: §23) |
@@ -599,7 +599,8 @@ which stay at 22K so the strip aux pot wipers aren't loaded (architecture sectio
 
 As generated (M1 modules, 2026-10-23): master 13 × OPA1612 + 2 × OPA1656 (two halves tied off as spares, so
 no package straddles two placement areas), each group 7 × OPA1612; console 41 × OPA1612 + 2 × OPA1656. Since G3b
-(2026-10-25): master 4 × OPA1656 (U18, U21, U43, U44), each group 7 × OPA1612 + 2 × OPA1656; the DRV134s are DRV135UA.
+(2026-10-25): master 4 × OPA1656 (U18, U21, U43, U44), each group 7 × OPA1612 + 2 × OPA1656; since RET1 (v0.12,
+2026-10-26) each group 9 × OPA1612 + 4 × OPA1656 (console 49 + 20); the DRV134s are DRV135UA.
 
 ---
 
@@ -640,7 +641,7 @@ RETn_L/R ─ 33µ NP + 47K ─ PREn_L/R ─┬─ level, dual A10K (RD902F), pin
   the strip pan).
 
 Per return: 2 × OPA1612, 2 × OPA1656 (followers), 2 × NJ6FD-V, 1 × RD902F A10K, 4 × PVA2 (PFL, MIX, 1-2, 3-4), 1 LED.
-Totals for four: 8 × OPA1612, 8 jacks, 4 dual pots, 16 switches, 4 LEDs.
+Totals for the eight on four groups (v0.12): 16 × OPA1612, 16 × OPA1656, 16 jacks, 8 dual pots, 32 PVA2, 8 LEDs.
 
 ---
 
@@ -713,7 +714,7 @@ PFL is mono and goes to both sides. The meters follow what is being monitored: m
   `strip_parts_review.md` T7).
   - PFL pressed (logic 1): SW1 / SW4 connect PFL_SIG to CRS_L / CRS_R; otherwise SW2 / SW3
     connect MON_L / MON_R. Break-before-make, 25 ns.
-  - Sources are AC-coupled (47 µF + 1M) and CRS is on the D side (about 5 pC of charge
+  - Sources are AC-coupled (33 µF NP + 1M) and CRS is on the D side (about 5 pC of charge
     injection, against about 25 pC on S), with 100K to GNDA.
   - The CRS followers are OPA1656: an OPA1612's bias current across 100K ∥ 1M would step CRS by
     5.5 mV typical, 23 mV maximum, at every switch.
@@ -889,9 +890,9 @@ scale badly (below).
 |------|-----|-------|
 | OPA1612 | 1 (EXT receivers) + 1 (solo follower, spare half) + 1 (CR buffers) + 1 (phones) = **4** | |
 | TL072 | 4 | meter detectors (2 per side) |
-| OPA1656 | 2 | PFL sum + re-invert; CRS followers |
+| OPA1656 | 4 | PFL sum + re-invert; CRS followers; EXT receiver followers ×2 (G3b): U18, U21, U43, U44 |
 | LME49600 | 2 | phones |
-| DRV134 | 2 | CR outs (+ 4 × 10 µF NP) |
+| DRV135UA | 2 | CR outs (+ 4 × 10 µF NP) |
 | LM393B | 1½ | PFL detect and flasher hold (one package, beside the DG413), rude-solo flasher (half) |
 | LM2901B | 10 | meters |
 | BCP53-16 | 4 | meter LED current sources (SOT-223) |
@@ -914,8 +915,8 @@ scale badly (below).
 - Connector (2026-10-22): 7-pin XLR male, **Neutrik NC7MD-LX** on the rear panel (solder cups, 5 A
   per contact, < 50 V, wire up to 1.0 mm²). Wired with 18 AWG, one wire per pin, to J (Phoenix
   MKDS 1,5/7-5,08, 17.5 A) on the master PCB. Pin 1 = chassis/mains earth (mates first), 2–3 = +V,
-  4–5 = 0 V, 6–7 = −V: two contacts per rail, so 10 A per rail against ≈ 3.09 A typical and
-  ≈ 4.33 A in the accepted worst corner on +V (§27; was 2.65 / 3.8 A with strip v4.0). Neutrik makes no 7-pole horizontal-PCB receptacle (only 3–5 poles),
+  4–5 = 0 V, 6–7 = −V: two contacts per rail, so 10 A per rail against ≈ 3.31 A typical and
+  ≈ 4.54 A in the accepted worst corner on +V (§27; was 2.65 / 3.8 A with strip v4.0). Neutrik makes no 7-pole horizontal-PCB receptacle (only 3–5 poles),
   hence the panel part and wires. The 5-pin NC5MAH (3 A per contact) is too small with strip v4.0.
 - Reverse-polarity protection: a Schottky (SS54, SMC, 40 V 5 A) from each rail to 0 V, reverse-biased in
   normal use. A wrongly wired lead then puts the PSU into current limit instead of reversing
@@ -1042,11 +1043,11 @@ PSU's current limit and the LDOs' heatsink, sized for 4 A, are now exactly at it
 
 | Item | Was | Now |
 |------|-----|-----|
-| Wing PTC per rail | MF-R075, 0.75 A hold, 60 V | Bourns MF-RX160/72: 1.6 A hold, 3.2 A trip, 72 V (§25) |
+| Wing PTC per rail | MF-R075, 0.75 A hold, 60 V | Bourns MF-RX160/72: 1.6 A hold, 3.2 A trip, 72 V; since then MF-RX185/72 on −V (H4) and MF-RX250/72 on +V (W2), §25 |
 | Power inlet | 5-pin XLR NC5MAH on the PCB, one 3 A contact per rail | 7-pin XLR NC7MD-LX on the panel, two 5 A contacts per rail, wired to a 7-way terminal (§24) |
 | PSU regulators | ≥ 3 A | ≥ 4 A per rail (architecture 3.3) |
 | PSU transformer | 2.5 A DC per rail | 4 A DC per rail (architecture 3.3) |
-| Strip R1/R2 (10 Ω, 0805) | — | unchanged: 0.8 V drop, 55–80 mW (0805 is 125 mW); 1206 if margin is wanted |
+| Strip R1/R2 (10 Ω, 0805) | — | unchanged then: 0.8 V drop, 55–80 mW (0805 is 125 mW); since strip v5.3 (CS6) R1–R4 are 1206 Vishay M25SI fusibles, M251206BB1009JP500 |
 
 Reducing the strip current instead: OPA1678 (about 2 mA/ch) in the six KHN positions would save about
 10 mA per strip (0.25 A per rail). The EQ is resistor-noise dominated, but simulate the noise before
@@ -1061,10 +1062,11 @@ choosing.
 ## 29. Still open
 
 - Ground and hum (2026-10-25, `ground_study.md`): the PSU's worst corner with the strip's input followers (≈ 4.24 A on
-  +V) is accepted (§27, Ruslan 2026-10-25); G3b's return / EXT followers add ≈ 0.09 A to it (≈ 4.33 A). The returns,
+  +V) is accepted (§27, Ruslan 2026-10-25); G3b's return / EXT followers add ≈ 0.09 A to it (≈ 4.33 A; ≈ 4.54 A since
+  MET1 / RET1, accepted 2026-10-26). The returns,
   EXT and every balanced TRS output now follow G2 / G3 (G2b / G3b).
 - Balanced outputs: THAT1646 went end-of-life (THAT memo, 1 September 2026); replaced by
-  TI DRV134 on all 15 outputs (decided October 2026, section 7).
+  TI DRV135UA (DRV134 family) on all 15 outputs (decided October 2026, section 7; R1, 2026-10-25).
 - The same THAT memo also ends the THAT 2180/2181 VCAs (planned for the external SSL bus compressor,
   architecture 4.2) and the THAT 124x receivers (listed as an option in architecture
   section 5). The bus compressor needs another VCA.
@@ -1074,9 +1076,9 @@ choosing.
   MF-RX/72 tables (MF-RX160/72), Neutrik NC7MD-LX via distributors (5 A per contact); §24, 25, 27.
 - Meter detector simulated and redesigned (section 22).
 - Schematics (M1 modules), generated by `tools/gen_master.py` / `tools/gen_group.py` from this spec, as of
-  2026-10-25 (v0.11): master 579 parts, 1686 pins / 0 mismatches, check_fp 0, ERC 0; master jack board 89 pins;
-  group 186 parts, 529 pins; group jack board 40 pins; all 0 mismatches, ERC 0 (v0.7: master 532 / 1579, group
-  158 / 461). Mute control values are
+  2026-10-28 (v0.12, with CS7 / CS2b): master 620 parts, 1796 pins / 0 mismatches, check_fp 0, ERC 0; master jack board
+  89 pins; group 291 parts, 805 pins; group jack board 60 pins; all 0 mismatches, ERC 0 (v0.11: master 579 / 1686, group
+  186 / 529; v0.7: master 532 / 1579, group 158 / 461). Mute control values are
   simulated (section 8, `sim/mute.cir` v3), PFL detect in `sim/pfldet.py`, the rude-solo flasher in `sim/flasher.cir`.
 - Parts review (`master_parts_review.md`, signed off 2026-10-23) applied in v0.7. Its bench checks
   stay open: re-inverter stability on the scope (jig test 10), aux noise at N = 24, relay release time and
@@ -1085,5 +1087,5 @@ choosing.
 - An EXT LED (proposed in v0.6 §19) is not possible: both EXT switch poles carry audio; dropped.
 - PVA2 switching sense: settled from the C&K datasheet with a fitting rule (strip spec 16.1); applies here too.
 
-*Document version 0.11 — 25 October 2026 (design review R1/R2/R4/R5; earlier: ground and hum G1–G3, G2b/G3b, wing
+*Document version 0.12 — 28 October 2026 (RET1, CS4b / CS4c / CS11b, CS7, CS2b; 0.11: design review R1/R2/R4/R5; earlier: ground and hum G1–G3, G2b/G3b, wing
 power W1/W2, sweepable HPF, master/group review MG1–MG20, parts review S1–S8)*

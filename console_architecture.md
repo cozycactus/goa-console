@@ -49,7 +49,7 @@ loom pinouts, connector pinouts, jumper settings, spare-parts lists, dimensions.
   4-band EQ, direct out); see `delta_clone_comparison.md`.
 - Insert point on every channel for external processing (EQ, compressor, effects).
 - All sources are synths at line level.
-- Rails: ±16 V or ±17 V (decide with the PSU design; see section 3).
+- Rails: ±17 V (decided with the PSU design, option B, 2026-10-22; see section 3).
 - OPA1612 in noise-critical stages (summing amps, input receiver, fader post-amp).
 - SSL-style stereo bus compressor patched into the master insert.
 
@@ -115,8 +115,8 @@ built to the 200 Delta order would have its L and R swapped on this bus.
 - MIX L/R and AUX 1–6 sit on adjacent conductors (17–25) with no ground between them.
   Soundcraft relied on all buses being at virtual earth (very low impedance), which keeps
   capacitive crosstalk low.
-- The four spare group pins (1, 3, 5, 7) and pin 19 are free for future use
-  (e.g. a mute-group line, SIP, or more subgroups).
+- Pins 1, 3, 5, 7 are **reserved for SUB 5-8** (Ruslan, 2026-10-27; the Venue pinout, `eight_groups_study.md`)
+  and stay unconnected on every board; pin 19 is free for future use (e.g. a mute-group line, SIP).
 
 ### 2.2 Ground cancel (pin 26) — the Delta's anti-hum system
 - On every module, local audio ground connects to pin 26 through a **10 Ω resistor**
@@ -132,13 +132,13 @@ built to the 200 Delta order would have its L and R swapped on this bus.
 
 ### 2.3 Bus topology
 - Virtual-earth summing in the master; every bus wire sits at ~0 V.
-- Summing resistors: 10K for MIX and SUB, 22K for AUX and PFL (Delta values).
+- Summing resistors: 4K7 for MIX and SUB (~3 dB quieter than the Delta's 10K), 22K for AUX and PFL (Delta values).
 - **Unassigned routing resistors are grounded** to a clean ground by the off position of
   the routing switch (ED3151, ED3344C). The switch sits at the bus end of the resistor,
   so an unassigned resistor is taken off the bus and its free end tied to ground. Result:
   the pan buffers see a constant load, and no floating resistor picks up crosstalk. The
   bus noise gain still rises with every channel routed (1 + N for unity-gain summing).
-- Every feed into the bus is AC-coupled (220 µF + 47K bleed) so no DC reaches the
+- Every feed into the bus is AC-coupled (100 µF NP + 47K bleed) so no DC reaches the
   routing switches.
 - **Feed the bus from the middle**: put the master in the centre (12 strips each side), or
   bring both ribbon ends into the master. This halves worst-case cable length.
@@ -175,8 +175,8 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
 ### 3.1 Rails
 | Rail | Voltage | Notes |
 |------|---------|-------|
-| +V | +16 V or +17 V | Delta uses ±17 V; ±16 V matches the 500-series spec |
-| −V | −16 V or −17 V | |
+| +V | +17 V | As the Delta (±16 V would have matched the 500-series spec); decided 2026-10-22, `psu_spec.md` |
+| −V | −17 V | |
 | +48 V | none | Pin 34 carries +V instead (third +V conductor, W1) |
 
 ### 3.2 Distribution (Delta method)
@@ -188,8 +188,8 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
 - Local decoupling on every strip: 10 Ω series + 220 µF/25 V + 100 nF per rail.
 - Load (strip v4.4, 2026-10-25): about 100 mA (+V) and 87 mA (−V) per strip, typical: 11 × OPA1612 and the U16
   OPA1656 at 3.6 / 3.9 mA per channel, the DG413 logic supply, and the panel LEDs (ON, EQ, routing; 3.2 mA each).
-  A wing (12 strips + 2 groups) draws about 1.37 A on +V typical, 1.96 A in the accepted worst corner (every op-amp at
-  its maximum current, every LED lit): about 0.46 / 0.65 A per +V conductor over three (W1), within a 28 AWG
+  A wing (12 strips + 2 groups) draws about 1.37 A on +V typical, 2.07 A in the accepted worst corner (every op-amp
+  at its maximum current, every LED lit; RET1, 2026-10-26): about 0.46 / 0.69 A per +V conductor over three (W1), within a 28 AWG
   conductor's and an IDC socket contact's 1 A. The DC drop along a 0.5 m wing fed from the master end is a few tens of
   mV. The strips' 10 Ω series resistors drop about 1 V; the strip rails sit near 16 V. The 10 Ω and 220 µF take care
   of transients. Consequences for the master power entry: master spec §25, §27.
@@ -231,12 +231,12 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
 ### 4.1 Stereo mix
 - Summing amps L and R: low-noise, inverting. The channel path is non-inverting, so the
   master must re-invert once (as the Delta does) to keep absolute polarity.
-- Summing amps L and R: low-noise. Either OPA1612, or a discrete front end like the Delta
-  (2SB737 pair + NE5532, ED2780 sh.2).
+- Summing amps L and R: OPA1612 (a discrete front end like the Delta's 2SB737 pair + NE5532, ED2780 sh.2, was
+  the alternative; see the op-amp table in section 5).
 - Non-inverting input referenced to the **ground-cancel** line.
 - 47–100 pF across the feedback resistor (ribbon capacitance at the virtual-earth node).
 - Master insert (TRS, normalled) for the bus compressor.
-- Stereo master fader, balanced outputs L/R (DRV134), mono sum output.
+- Stereo master fader, balanced outputs L/R (DRV135UA), mono sum output.
 - **Power-on/off mute relay** on the main outputs (and the control-room and phones outputs, 2026-10-23): closes
   2–3 s after the rails are up, opens immediately when they drop; a released relay grounds the line.
 
@@ -266,11 +266,11 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
 ### 4.3 Subgroups (×4)
 - Summing amps referenced to ground cancel, feedback cap as above.
 - **Insert jack on each subgroup** (the Delta group output has one, ED2778A).
-- Sub faders, assign to main L/R, balanced outputs (DRV134).
+- Sub faders, assign to main L/R, balanced outputs (DRV135UA).
 
 ### 4.4 Aux masters (×6)
 - Summing amps referenced to ground cancel.
-- Master level, balanced outputs (DRV134).
+- Master level, balanced outputs (DRV135UA).
 - AFL on each aux master (switch + 22K to the PFL bus).
 
 ### 4.5 Aux returns (×8 stereo)
@@ -293,10 +293,10 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
 | MIX L/R summing amps | OPA1612 | Many channels routed: low voltage noise matters (section 2.4) |
 | SUB / AUX summing amps | OPA1612 | An aux bus always carries every strip's 22K (noise gain 25), where the OPA1612 is quietest: −94.3 dBu vs −92.5 (NE5534) and −92.3 (OPA1656); ±17 V is also above the NE5534's recommended ±15 V (master parts review, 2026-10-23) |
 | PFL summing amp | OPA1656 | Switched bus, 1–4 sources: no current noise, 1.6–3.6 dB quieter than the OPA1612 |
-| Channel input receiver | OPA1612 (THAT1246 is end-of-life, Sept 2026) | Ground-loop rejection, low noise |
+| Channel input receiver | OPA1612, its inputs buffered by OPA1656 followers (U16, G3 2026-10-25); THAT1246 is end-of-life, Sept 2026 | Ground-loop rejection, low noise; the followers give 1 MΩ legs |
 | Fader post-amp | OPA1612 | Critical path |
-| Pan buffers | OPA1612 or NE5532 | Drive the routing resistors |
-| Balanced outputs | DRV134 | Floating-style balanced driver, one part per output (replaces the Delta NE5532 EBOS; THAT1646 went end-of-life Sept 2026) |
+| Pan buffers | OPA1612 (U8B / U3A) | Drive the routing resistors |
+| Balanced outputs | DRV135UA (DRV134 family) | Floating-style balanced driver, one part per output (replaces the Delta NE5532 EBOS; THAT1646 went end-of-life Sept 2026) |
 | Headphone amp | OPA1612 + LME49600 (composite) | 250 mA output inside the op-amp's loop (master spec section 21) |
 | Monitor (CRS) followers | OPA1656 | FET input after the DG413 PFL switch: a bipolar part's bias current would step CRS at every switch |
 
@@ -331,7 +331,7 @@ the NE5532 versus about 80 dB for the OPA1612.
 | AFL on aux masters | SSL / Neve | Included |
 | Star grounding, 3 domains | SSL / Neve (and Delta) | Included |
 | Power-on/off mute relay | SSL / Neve | Included |
-| VCA module option on the strip | SSL | Unpopulated; SSI2162 plug-in module (strip spec 7.1) |
+| VCA module option on the strip | SSL | Unpopulated; SSI2162 plug-in module (strip spec §10) |
 | Impedance-balanced bus | SSL | **Replaced by Delta ground cancel** |
 
 ---
@@ -347,7 +347,7 @@ Line in (TRS) → differential receiver → insert send (75 Ω)
                        └─ soft mute (JFET) → fader → [VCA option] → fader post-amp
                             ─┬─ post-fade: Aux 3-6 (AC-coupled)
                              └─ pan → pan buffers L/R (AC-coupled)
-                                  → routing switches (off = grounded) → 10K → bus
+                                  → routing switches (off = grounded) → 4K7 → bus
 ```
 
 ---

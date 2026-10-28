@@ -183,4 +183,4 @@
 - the unbalanced ground-compensated group / aux outputs (our DRV135s are better);
 - J112 PFL switches (our sim already rejected them).
 
-Work files (crops and renders) are in /private/tmp/claude-501/-Users-ruslanmigirov-projects-goa-console/20d2ad3b-cdbe-4f15-9de0-d1ce86379e7b/scratchpad/survey/delta/. Key crops: c11a.png (mix summer), c08aux.png (aux summer on GCANCEL), c10bot.png (R220 tie), c17pan.png (pan law).
+Work files (crops and renders) are in a scratch folder outside the repo (not kept). Key crops: c11a.png (mix summer), c08aux.png (aux summer on GCANCEL), c10bot.png (R220 tie), c17pan.png (pan law).

@@ -46,7 +46,7 @@ The 3D model applies this in `tools/console_3d.py` (`panel_print`); see `render/
   - Key legends are printed on the key caps.
   - The channel numbers are on the frame, not the module.
 
-## Our adaptation (two pot columns 20.32 mm apart, rows 22 mm, Ø13 knobs)
+## Our adaptation (two pot columns 20.32 mm apart, rows 22 mm, Ø14.5 knobs)
 
 - **Names:** above the knob, centred, bold condensed (Arial Narrow Bold in the model). The Delta's upper-right
   column needs a single-column module about 40 mm wide.
@@ -66,9 +66,9 @@ The 3D model applies this in `tools/console_3d.py` (`panel_print`); see `render/
   - Levels: 0–10.
   - PAN: L5 … 0 … 5R.
   - GAIN: −15 … +15 at the true positions of our gain-stage law (G = (2K2 + 10K θ) / (2K2 + 10K (1 − θ))), with "dB".
-  - FREQ: the KHN centre frequencies at θ 0 / .25 / .5 / .75 / 1 from `sim/mid_tuning.py`:
-    - HI: 0.7 1.6 2.2 4.8 10KHz;
-    - LO: 0.15 0.34 0.48 1.0 2.3KHz.
+  - FREQ: the KHN centre frequencies at θ 0 / .25 / .5 / .75 / 1 from `sim/review/eqmid/measure.py` (strip v5.5, EQM1):
+    - HI: 0.6 1.5 2.1 4.6 10KHz;
+    - LO: 0.17 0.37 0.52 1.1 2.5KHz.
 
     The law is two-slope, not log, so the numerals are uneven.
   - HPF FREQ (strip v4.3, `hpf_proposal.md`): the −3 dB frequencies at θ 0 / .2 / .5 / .7 / 1 from

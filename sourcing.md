@@ -17,7 +17,7 @@ snapshots from aggregators; check the live page before ordering.
 | LME49600 (master) | TI LME49600TS | LME49600TS/NOPB | same |
 | SS54 clamps | "SS54" / onsemi SS54 | Diodes B540C-13-F | SMC 40 V 5 A from a named maker; value text kept "SS54" |
 | S1G (PSU) | "S1G" | Diodes S1G-13-F | named maker |
-| Strip C0G caps | KEMET C0805… | KEMET C1206C…J5GACTU | every strip C0G sits on the 1206 footprint |
+| Strip C0G caps | KEMET C0805… | KEMET C1206C…J5GACTU | the strip's C0G sit on 1206 footprints, except the six on 0805 pads (above) |
 | Strip C0G 2n2 / 4n7 / 10n / 22n / 100n | none | KEMET C1206C222 / 472 / 103 / 223 J5GACTU, Murata GRM31C5C1H104JA01L | were missing |
 | Strip C1 / C3 220 µF | Nichicon UPW1V221MPD (10 × 12.5) | Rubycon 35ZLH220MEFC8X11.5 | fits the strip's D8 / P3.5 footprint |
 | Strip C5 / C6 47 µF | Nichicon UPW1J470MPD (8 mm) | Panasonic EEU-FR1H470 | fits the strip's D6.3 / P2.5 footprint |
@@ -75,10 +75,10 @@ equivalent 1 % thick-film 0805. Every part that needs more (anti-surge, 0.1 %, 2
 | Part | Needed | Situation | Action |
 |---|---|---|---|
 | Bourns PTB0143-2010BPA103 | 28 (24 strips + 4 groups) | DigiKey showed exactly 28 | buy 28 + spares now, or check Mouser / Bourns lead time |
-| Neutrik NJ6FD-V | 101 (72 strip, 20 group, 9 master) | ~14-week lead time quoted | order first |
-| TI OPA1612AIDR | 311 (264 strip, 28 group, 13 master, 6 jig) | LCSC the only volume stock seen | buy at LCSC, or split across distributors |
+| Neutrik NJ6FD-V | 109 (72 strip, 28 group, 9 master; RET1) | ~14-week lead time quoted | order first |
+| TI OPA1612AIDR | 319 (264 strip, 36 group, 13 master, 6 jig; RET1) | LCSC the only volume stock seen | buy at LCSC, or split across distributors |
 | TI LM1084IT-ADJ/NOPB | 2 | little stock | buy with the first order |
-| WIMA MKS2C042201K00KSSD (2.2 µF film) | 100 (72 strip, 16 group, 12 master) | DigiKey out of stock; Farnell ~1080 | buy at Farnell now; no design change |
+| WIMA MKS2C042201K00KSSD (2.2 µF film) | 108 (72 strip, 24 group, 12 master; RET1) | DigiKey out of stock; Farnell ~1080 | buy at Farnell now; no design change |
 | WIMA MKS2D031501C00KSSD (150 nF film, C48) | 24 | the 63 V code (MKS2C031501A00KSSD) has no stock anywhere; RS ~1135 of this 100 V one | swapped (below) |
 
 If the 2.2 µF WIMA does disappear, TDK B32520C0225J000 is the nearest film part. It is on a 7.5 mm pitch

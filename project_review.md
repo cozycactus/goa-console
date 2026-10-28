@@ -2,7 +2,23 @@
 
 Independent review of the whole tree at a45a1be (strip v5.5, group with CS2b, master with CS7), five reviewers (strip,
 master, group / jig / PSU, tools, documentation), every finding re-traced in the netlists or the source before it was
-kept. Nothing applied: this is a proposal, not signed off. Proposals carry IDs RV1-RV14 for sign-off.
+kept. Proposals carry IDs RV1-RV14 for sign-off.
+
+**Status (2026-10-28, Ruslan: "continue" on the proposed split):** APPLIED: RV1 (PSU R2 / R11 ERJ-P06F1501V 1206 0.5 W,
+PSU regenerated and re-placed), RV2 option (a) and RV10 (`test_jig_spec.md` v0.10: tests 2-4 at N = K with the 1 − N/K
+law written in, δ measured during the injection, the wing-current test's PTC / supply), RV11.1-7 (`check_all.py`
+compares the committed `.net` with the fresh export and copies the intended JSONs beside the exports; new
+`tools/check_bus.py`; sim_console +7 positive bus checks (every SUB and aux bus, 45 checks); `fab_out.is_known` one
+footprint per item and the PSU rule `^(U1|U3|Q2|Q4)$`, route_check no-result refused, any layer numbering; `check_fp.py`
+both directions with KiCad 7 / 8+ pad syntax (a wrong package fails; named contacts without a pin, the jacks' SN and the
+XLRs' G, are notes); route_check check 5 skips ground / rail nets and the op-amp list is OPA / TL072 in netrules and
+route_check (the DRV135's pins are not inputs: 5 master nets leave HighZ, 8 TL072 input nets join it); the DIM phones
+check fails on a missing node; `write_intended` refuses a ref / unit placed twice; the placer's routed-board guard sees
+drawn copper), the §3 stale facts (every file but the ones below), the three title-block revisions, `render/*.json`
+and the escape plan regenerated. NOT APPLIED: RV3-RV9 (the circuit batch, written up as `clicks_proposal.md` for
+sign-off), RV11.2's PFL switcher from the PFLDET net (needs a DC analysis of the detect line; the bus check covers pin
+29), RV11.8 (ol.py from the netlist), RV12-RV14 (cleanup: patches to `archive/`, the CLAUDE.md split, tracked outputs),
+the N1 A/B contradiction (`order_bom.py` EXTRA 16 OPA1656 vs the one-board swap of `test_jig_spec.md` §1.1).
 
 Baseline re-run on this tree (Linux, ngspice 42, KiCad 7's `kicad-cli` for the exports, kiutils 1.4.8):
 `verify.py` 0 mismatches on all nine boards (strip 937, group 805, master 1796, jack boards 32 / 60 / 89, jig 364 / 153,

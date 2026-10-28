@@ -1,8 +1,10 @@
-# Test Jig — Specification, v0.9 (draft)
+# Test Jig — Specification, v0.10 (draft)
 ## Bus and grounding tests before ordering 24 strips
 
 Implements `console_architecture.md` section 9 with the designs as they now stand
-(strip spec v5.3 with its jack board, master spec v0.12; v0.9, 2026-10-27: tests 13-17 from `console_survey.md` CS11;
+(strip spec v5.5 with its jack board, master spec v0.12; v0.10, 2026-10-28: `project_review.md` RV2 (tests 2-4 at N = K: the
+load board's one ground-cancel tap), RV10 (the wing-current test's supply and PTC), the 4.1 mid-band targets at the EQM1
+ranges; v0.9, 2026-10-27: tests 13-17 from `console_survey.md` CS11;
 v0.8, 2026-10-27: the five-point, two-polarity overload LED (CS1) in 4.1; v0.6, 2026-10-25: the N1 A/B brought to strip v4.4, 4.2;
 v0.7, 2026-10-26: the strip's signal / overload LED (MET1) in 4.1 and the strip current at v4.7).
 The strips' bus header carries +V on pin 34 too (wing_power_proposal.md W1), as the stub's and load board's do. Goal: confirm the Delta-style unbalanced bus with ground
@@ -20,7 +22,7 @@ crosstalk, PSRR, distortion and switching clicks on real hardware.
 | Load board | 1 | Dummy channels that raise the bus noise gain to the full 24-channel value (section 3). |
 | Ribbon | 2 | 34-way, 28 AWG flat cable with 6 crimped IDC sockets (4 strips, master stub, load board): one 0.6 m (a 12-strip wing, ~0.5 m, plus slack), one 3 m (worst case and the hum-pickup tests). |
 | Ground bar | 1 | M4 copper bar with a lug per board, as the console's star point. |
-| Supply | 1 | ±17 V bench or the console PSU, ≥ 1 A per rail (4 strips draw about 0.42 A from +V, 0.35 A from −V; master stub and load board about 0.15 A). |
+| Supply | 1 | ±17 V bench or the console PSU, ≥ 1 A per rail (4 strips draw about 0.42 A from +V, 0.35 A from −V; master stub and load board about 0.15 A); ≥ 2 A per rail for the ribbon-current test (the load board's 17 Ω dummy load adds ~1 A per rail, RV10 below). |
 
 The four strips also settle the strip-level open items (strip spec 16.1, 17): PVA2 orientation
 (moulded "2" in the pad 1/4 column, by continuity), fader pad pattern, panel stack height,
@@ -61,7 +63,7 @@ A cut-down master built from the same circuits (master spec sections 2, 3, 12, 1
     the simulation says to avoid; measuring it confirms or refutes the simulation.
 - Outputs: each re-inverter output to a BNC through 100 Ω, plus one DRV134 on MIX L for the
   balanced-output checks. No faders, inserts or monitoring.
-- Power entry as the master (5-pin XLR or bench leads), PTC per rail, reverse Schottkys.
+- Power entry as the master (bench terminal or the console PSU's lead), PTC per rail (MF-RX160/72, hold 1.6 A at 23 °C, about 1.3 A at 40 °C), reverse Schottkys.
 - Test points: GCANCEL, GCANCEL_BUF, each SUM and re-inverter output, ±V.
 
 As generated: one config jumper (GC REF: 1-2 = D, 2-3 = A) sets every summing amp's + input and
@@ -78,6 +80,15 @@ Brings the bus noise gain up to what 24 routed channels give (1 + N), without 24
 
 - On the ribbon like a strip, with its own spade to the ground bar and a 10 Ω ground-cancel
   resistor to pin 26, so its resistors return to a strip-like ground.
+  **One tap for n channels (RV2, `project_review.md`):** GCANCEL is the mean of the K boards that carry a 10 Ω tap
+  (the strips plus the load board), while the bus weights each board's ground by its channel count, N = routed strips
+  + n load-board channels. A ground offset δ in one strip therefore reaches the stub's re-inverter output as
+  δ · (1 − N/K): exactly cancelled only when N = K (the load board switched to ONE channel), at n = 0 under-cancelled
+  (−14 dB with four strips), at n = 20 D reads 11.6 dB *worse* than A (stage B, one strip: +19.6 dB). The load
+  board's own ground is cancelled by only 2.4 dB at n = 20. So tests 2, 3 and 4 run at N = K (every strip routed, the
+  load board at n = 1; N = 0 and other n only to see the 1 − N/K law), and the noise tests (1, 7, 16), which need the
+  full N, don't read ground rejection. A load board whose tap follows its switches (10R / 3R3 / 2R5 / 0R82 per group on
+  a second pole) would lift the restriction; not built.
 - Per MIX / SUB 1 bus: 20 × 4K7 1 % from the bus pin to local ground, in switchable groups of
   1, 3, 4, 12 (DIP switch or jumpers): any N from 0 to 20 extra channels.
 - Per AUX 1 / PFL: 20 × 22K 1 % in the same groups.
@@ -103,9 +114,9 @@ Levels in dBu, 20 Hz–20 kHz unweighted unless stated. Record every result in c
 | # | Test | Method | Target |
 |---|------|--------|-----------|
 | 1 | Noise floor vs N | Strip inputs shorted, faders at the "0" mark, routed to MIX; load board N = 0, 8, 20. RMS and FFT at MIX L. | Within 2 dB of architecture 2.4 (−100.4 dBu at N = 24) plus strip noise. No discrete hum lines above −110 dBu. |
-| 2 | Ground-difference rejection | Put 0.1 Ω in one strip's spade lead; drive 50 Hz through it from the isolation transformer (1 A = 100 mV of ground offset). Measure at MIX L. Repeat at 1 kHz. | D at least 40 dB better than A at 50 Hz. Expect D at about −54 to −65 dB at 50 Hz, set by each re-inverter's 0.1 % match (the old −71 dB figure was the model's 1 nF bus capacitance); the spread between the BNC outputs shows the match. Also read TP GCREF_BUF minus TP GCANCEL during the injection: expect < −90 dB (the buffer is not the limit). If the worst output is above about −55 dB, fit 0.05 % / 0.01 % ratio-matched quads. |
-| 3 | 22 Ω master-end tie | As test 2 with JP_GC in the tie position. | Confirms the simulated loss (simulation, 1 V difference at 10 Hz: −7 dB with the tie; without it, the re-inverter match floor of test 2). The master's 100K keeper costs −79 dB, below that floor; if the tie result differs, revisit master spec section 3. |
-| 4 | Hum pickup | 3 m ribbon laid along a loaded mains cable; then a deliberate ground loop through a synth connected to two strips. | No 50/100/150 Hz lines above −100 dBu at MIX L in D. |
+| 2 | Ground-difference rejection | Put 0.1 Ω in one strip's spade lead; drive 50 Hz through it from the isolation transformer. **Every strip routed, load board at n = 1 (N = K, section 3).** Read the offset δ = that strip's GNDA minus the stub's AGND during the injection (the ribbon's eight ground conductors shunt the 0.1 Ω: 1 A gives a few mV, not 100 mV) and quote every result against δ. Measure at MIX L. Repeat at 1 kHz. | D at least 40 dB better than A at 50 Hz (A reads δ at unity; D reads δ (1 − N/K) + the re-inverter floor). Expect D at about −54 to −65 dB at 50 Hz, set by each re-inverter's 0.1 % match (the old −71 dB figure was the model's 1 nF bus capacitance); the spread between the BNC outputs shows the match. Also read TP GCREF_BUF minus TP GCANCEL during the injection: expect < −90 dB (the buffer is not the limit). If the worst output is above about −55 dB, fit 0.05 % / 0.01 % ratio-matched quads. |
+| 3 | 22 Ω master-end tie | As test 2 (N = K) with JP_GC in the tie position. | Confirms the simulated loss (simulation, 1 V difference at 10 Hz: −7 dB with the tie; without it, the re-inverter match floor of test 2). The master's 100K keeper costs −79 dB, below that floor; if the tie result differs, revisit master spec section 3. |
+| 4 | Hum pickup | 3 m ribbon laid along a loaded mains cable; then a deliberate ground loop through a synth connected to two strips. Load board at n = 1 (N = K). | No 50/100/150 Hz lines above −100 dBu at MIX L in D. |
 | 5 | Crosstalk | One strip, 0 dBu, routed only to AUX 1 (pin 24); measure on MIX L, MIX R, SUB 1, AUX 2 (the ungrounded neighbours 17–25). 1 kHz, 10 kHz, 20 kHz. | ≤ −80 dB at 10 kHz between adjacent buses. |
 | 6 | PSRR, power on the ribbon | 100 mV ripple at 100 Hz, 1 kHz, 10 kHz injected on +V, then −V (series transformer or a modulated supply). Measure at MIX L. | Ripple at output ≤ −100 dBu at 100 Hz. If not, try separate 18–20 AWG power wiring (architecture 3.2). |
 | 7 | THD+N, all channels | All four strips driven at 0 dBu, routed L-R, faders at "0", N = 20 on the load board. | ≤ 0.005 % at 1 kHz at MIX L; no rise with N. |
@@ -118,11 +129,12 @@ Levels in dBu, 20 Hz–20 kHz unweighted unless stated. Record every result in c
 | 14 | Line-input CMR (CS11), each strip | 0 dBu common mode at J1 (tip and ring together against the sleeve), read at PRE (gain at the detent, EQ out): (a) through a matched 100 Ω pair (0.01 %); (b) through 1 kΩ on the tip and the ring direct (a synth's output on a pseudo-balanced cable). 50 Hz, 1 kHz, 10 kHz, 20 kHz. | (a) ≥ 58.7 dB at 50 Hz and 1 kHz: the 0.1 % bridge R6-R9, worst 5 % (median 68; `ground_study.md` §5.2). (b) ≥ 54 dB at 50 Hz, about 56 / 38 / 32 dB at 1 / 10 / 20 kHz (C8 / C9 at the jack and C94 / C95 at the followers against the 1 kΩ; netlist sim). Less at 50 Hz: suspect the bridge resistors. |
 | 15 | Fader breakthrough and pan isolation (CS11), each strip | 0 dBu in, routed L-R. Fader at the bottom stop: MIX L against the fader at its "0" mark, 1 kHz and 10 kHz. Pan hard left, then hard right: the far side against the near one. Then, unpowered, each pot's end resistance r (wiper to its end terminal at the stop). | Fader ≤ −80 dB below "0" at 1 kHz, which takes r ≤ 0.3 Ω (1 Ω gives −70 dB): worse means CS9 (fader shut-off compensation, `sample_order.md` check 9). Pan ≥ 60 dB (r ≤ 10 Ω; an ideal pot gives −116 dB in `sim_console.py`). Both within 3 dB of 20 log(r / 3.1 kΩ) and 20 log(r / 10 kΩ) from the measured r; a bigger gap is another path (layout, ground). |
 | 16 | MIX noise, faders down (CS11) | Strip inputs terminated in 50 Ω, every fader at the bottom, all four strips routed L-R; load board N = 0, 4, 8, 12, 16, 20 (N = 4…24). MIX L at its BNC, 20 Hz–20 kHz unweighted; record the analyser's own floor first. | Within 2 dB of the summer plus the stub's re-inverter: N 4 −106.7, 8 −104.7, 12 −103.2, 16 −102.0, 20 −101.0, 24 −100.1 dBu. The published figures (`console_survey.md` §2: Delta −80 dBu at 16, Sapphyre −90, PM-5000 −92) include their master stages; this is the bus alone. |
-| 17 | GCANCEL current (CS11) | The voltage across each strip's R5 (10 Ω, AGND to pin 26): idle (DC and 50 Hz), then during test 2. | A record, not a pass / fail: the line's current is harmless, since the summers' + inputs draw none. Idle about 0.1 mV or less; tens of mV idle means a ground fault. During test 2, about 80 mV (8 mA) across the injected strip's R5 and 20 mV across each of the other four modules'. Mackie's 510 Ω per channel would pass about 50 times less. |
+| 17 | GCANCEL current (CS11) | The voltage across each strip's R5 (10 Ω, AGND to pin 26): idle (DC and 50 Hz), then during test 2. | A record, not a pass / fail: the line's current is harmless, since the summers' + inputs draw none. Idle about 0.1 mV or less; tens of mV idle means a ground fault. During test 2 the injected strip's R5 carries δ (1 − 1/K) and each of the other K − 1 taps δ / K (K = 5 with four strips and the load board: 0.8 δ and 0.2 δ; the "80 mV / 20 mV" of v0.9 assumed δ = 100 mV, see test 2). Mackie's 510 Ω per channel would pass about 50 times less. |
 
 ### 4.1 Strip function checks (each of the four strips)
 
-Targets from `tools/sim_netlist.py` (the exported netlists, 39 checks), `sim/mid_tuning.py` and `sim/review/gaps/ol.py`.
+Targets from `tools/sim_netlist.py` (the exported netlists, 45 checks), `sim/review/eqmid/measure.py` (the mid ranges since
+EQM1) and `sim/review/gaps/ol.py`.
 1 kHz, 0 dBu at the line input unless stated.
 
 | Check | Target |
@@ -132,8 +144,8 @@ Targets from `tools/sim_netlist.py` (the exported netlists, 39 checks), `sim/mid
 | Ø: phase at PRE | 180° |
 | HPF in: −3 dB | 86 Hz |
 | HF at 12 kHz, CW / CCW | +11.4 / −11.7 dB |
-| HI-MID boost at 670 Hz (freq CCW), 2.2 kHz (mid), 10.5 kHz (CW) | ≈ +14.5 dB each; peak frequency within ±15 % of 684 / 2213 / 10471 Hz |
-| LO-MID boost at 148 Hz, 480 Hz, 2.31 kHz | ≈ +14.5 dB each; peak within ±15 % of 148 / 479 / 2291 Hz |
+| HI-MID boost at 600 Hz (freq CCW), 2.1 kHz (mid), 9.9 kHz (CW) | ≈ +14.5 dB each; peak frequency within ±15 % of 598 / 2086 / 9930 Hz (strip v5.5, EQM1) |
+| LO-MID boost at 165 Hz, 520 Hz, 2.54 kHz | ≈ +14.5 dB each; peak within ±15 % of 165 / 521 / 2537 Hz |
 | LF at 54 Hz, CW / CCW | +14.3 / −14.4 dB |
 | EQ IN off, all bands at full boost | flat within 0.5 dB |
 | Insert: nothing plugged (normal), send/return through a cable | 0 dB change |
@@ -188,7 +200,10 @@ OPA1612 and only the inverting and integrator stages move, which takes a package
 - **OPA1656 in the strip's EQ, KHN and receiver (N1).** Section 4.2: adopt if B is quieter and holds THD+N, IMD and
   stability.
 - **Ribbon power at the v4.7 strip current** (about 104 mA per strip on +V): test 6 at N = 20, plus the
-  measured drop along the 0.6 m ribbon with the load board drawing a 12-strip wing's current.
+  measured drop along the 0.6 m ribbon with the load board drawing a 12-strip wing's current. **RV10:** that dummy
+  load (~1 A per rail) plus four strips (0.42 A) is 1.42 A through the stub's MF-RX160/72 (hold 1.6 A at 23 °C, ~1.3 A
+  warm), and a real v5.x wing is ~1.25 A (1.67 A with the strips): run it with the strips unplugged, or fit
+  MF-RX250/72 (+V) / MF-RX185/72 (−V) on the stub as the master has, and use a supply of ≥ 2 A per rail.
 
 ## 6. Not in the jig
 
@@ -211,5 +226,6 @@ OPA1612 and only the inverting and integrator stages move, which takes a package
 - For the ribbon-current test, the load board could also carry a switchable dummy load
   (about 1 A per rail) to emulate a 12-strip wing.
 
-*Document version 0.3 — 23 October 2026 (master parts review: OPA1612 on AUX, re-inverter 22 pF, PFLDET clamp; test 2,
+*Document version 0.10 — 28 October 2026 (RV2 / RV10 from `project_review.md`, EQM1 targets; 0.9 of 27 October 2026 added
+tests 13-17; 0.3 of 23 October 2026: master parts review: OPA1612 on AUX, re-inverter 22 pF, PFLDET clamp; test 2,
 3 and 10 targets)*

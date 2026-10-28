@@ -218,4 +218,4 @@
 - The discrete 2SB737 bus front end is a 1990s answer to TL072 / 5532 noise; OPA1612 makes it unnecessary.
 - The VCA bypass, MIDI mute scenes, LCR pan and the transformer options matter only for theatre or live work.
 
-Renders and crops are in `/private/tmp/claude-501/-Users-ruslanmigirov-projects-goa-console/20d2ad3b-cdbe-4f15-9de0-d1ce86379e7b/scratchpad/survey/series5/hi/`.
+Renders and crops are in a scratch folder outside the repo (not kept).

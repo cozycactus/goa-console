@@ -84,8 +84,10 @@ def place(NET, OUT, L):
     if os.path.exists(OUT):
         old = sexp(open(OUT).read())
         rule_area = lambda z: any(isinstance(x, list) and x and x[0] == 'keepout' for x in z[1:])   # RAILS: not copper
+        on_cu = lambda it: any(isinstance(x, list) and x and x[0] == 'layer' and len(x) > 1 and str(x[1]).endswith('.Cu') for x in it[1:])
         copper = [item[0] for item in old[1:] if isinstance(item, list) and
-                  item and (item[0] in ('segment', 'arc', 'via') or (item[0] == 'zone' and not rule_area(item)))]
+                  item and (item[0] in ('segment', 'arc', 'via') or (item[0] == 'zone' and not rule_area(item))
+                            or (item[0].startswith('gr_') and on_cu(item)))]         # drawn copper counts too
         if copper:
             raise SystemExit(f'{OUT}: contains routing or zones; choose a separate placement output')
     BOARD, FIX, HOLES, ZONES = L['board'], L['fix'], L.get('holes', []), L['zones']

@@ -308,7 +308,7 @@ J1 line in ─ SW15 Ø ─ U1A receiver (unity, inverting) ─ U1B gain (−15�
  ─ JP6 ─ EQIN ─ U5B HF ─ U6A HI-MID ─ U6B LO-MID ─ U7A LF ─┐
                          └──────────── SW12 EQ IN: EQ out or EQIN ┘─ C51 ─ EQOUT
  ─ JP5 ─ R11 75R ─ J2 insert send / return (normalled) ─ U7B buffer ─ BUF1
- ─ JP7 ─ PRESRC ─ C11 ─ PRE ─┬─ OL detector (U4A, from PRESRC)
+ ─ JP7 ─ PRESRC ─ C11 ─ PRE ─┬─ OL / signal detector (U4, U17, U18; OL taps RECV / GOUT / EQOUT / PRESRC / FPOST, v5.0)
                              ├─ PFL (SW3, 22K) ── bus 27, PFL DET bus 29
                              └─ soft mute (Q1/Q2, SW4 ON) ─ U3B ─ MUTEOUT ─┬─ aux pre-fader tap (JP2–JP4; v4.6)
                                                                            └─ fader RV1 ─ [VCA option] ─ U2A +10 dB
@@ -348,8 +348,8 @@ Delta's +48 V, is a third +V conductor since 2026-10-25, `wing_power_proposal.md
 ```
 +V ── R3 10 Ω ── +VL ── C5 47 µF ── LGND        −V ── R4 10 Ω ── −VL ── C6 47 µF ── LGND
 ```
-Feeds the LEDs (including the routing LEDs, §13), the mute gate drive, PFL DET and the OL comparator
-(U4, C26). The DG413s' 5 V logic supply (+5VL) is taken from +VA instead, so VL never exceeds V+ at power-up;
+Feeds the LEDs (including the routing LEDs, §13), the mute gate drive, PFL DET and the OL / signal comparators
+(U4, C26; U17, C98; U18, C104). The DG413s' 5 V logic supply (+5VL) is taken from +VA instead, so VL never exceeds V+ at power-up;
 D10 BAT54W keeps it within 0.3 V of V+ at power-down (§13).
 
 ### 2.3 Grounds
@@ -518,13 +518,15 @@ BP (U12B out) ── U6A (+)                        LO-MID: R90–R98 (R95 / R96
   noisier than the Delta network; at 10K the difference is 1.3 and 0.6 dB. Alpha RD902F-40-15R1-A10K,
   same footprint as before.
 - Cost: three more OPA1612 (U12–U14), 18 resistors, C63–C68 decoupling. The Wien parts' references
-  C44–C47 and R56/R57/R60/R61 are reused for the integrator capacitors and 4K7 inputs.
+  C44–C47 and R56/R57/R60/R61 are reused for the integrator capacitors and the integrator inputs (4K7; 4K99 / 4K22 since v5.5).
 
 Stability (v4.1): C74 / C76 10 pF across R83 / R92 and C75 / C77 22 pF from the summers' + inputs (EQ_MSP /
 EQ_LSP) to AGND. Without them the summers had 2–3° of phase margin; a feedback cap alone tops out near 55°
 because the 1.8 kΩ + node lags through the input capacitance.
 
-`sim/mid_tuning.py` (both versions in the same U6A stage, Alpha 15 % tapers, OPA1612 with noise):
+`sim/mid_tuning.py` (both versions in the same U6A stage, Alpha 15 % tapers, OPA1612 with noise; the 2026-10-22 tuning,
+430R / 13K / 4K7 in both bands. Since v5.5 (EQM1) the ranges are HI-MID 598 Hz–9.93 kHz and LO-MID 165 Hz–2.54 kHz,
+`sim/review/eqmid/measure.py`; the comparison below is kept as the design record):
 
 | | Delta Wien, C100K | KHN, A10K | Ideal log |
 |---|---|---|---|
@@ -753,8 +755,8 @@ directly; no debounce RC, because the DG413 inputs have no hysteresis.
 
 ## 15. Bill of materials
 
-`channel_strip_BOM.csv` (main board, exported from the schematic, with a DNP column): 309 parts per channel (v5.2), of
-which three are the DNP VCA-option parts (J3, J4, R44), so 306 fitted (the netlist's 317 also counts the solder
+`channel_strip_BOM.csv` (main board, exported from the schematic, with a DNP column): 317 parts per channel (v5.5), of
+which three are the DNP VCA-option parts (J3, J4, R44), so 314 fitted (the netlist's 325 also counts the solder
 jumpers JP1–JP7 and the net tie NT1, which aren't bought); `jack_board_BOM.csv`: 6. Panel parts per channel:
 16 pots (fader, 6 aux, pan, gain, 4 EQ gain, 2 dual EQ frequency, dual HPF frequency), 13 switches, 7 LEDs (OL / signal bicolour, PFL,
 ON, EQ, 3 routing), 3 jacks, 1 bus header.
@@ -767,7 +769,7 @@ BOM rules (v4.1):
 - OPA1612AIDR, OPA1656IDR (U16), LM393BIDR (the same comparator as the master), onsemi MMBFJ112;
 - Kingbright WP710A10ID red, WP710A10GD green, WP710A10YD yellow; D2 WP3VEGW red / green (v4.7, own footprint
   `goa-console:LED_D3.0mm-3_P2.00mm`, leads at 2.0 mm); Q3–Q5 onsemi MMBT3906LT1G;
-- Panasonic ERJ-P06J100V (R1/R2, 10R at up to 0.126 W) and ERJ-P06J750V (R11/R71, ~0.25 W into a shorted lead);
+- Vishay M251206BB1009JP500 (R1–R4, 10R fusible 1206, v5.3; were ERJ-P06J100V on R1/R2) and Panasonic ERJ-P06J750V (R11/R71, ~0.25 W into a shorted lead);
 - Würth 61203421621 bus header.
 
 Still open: the pots' full order codes (shaft and bushing). RV8 (pan) is the ALPS RK09L1240015 (decided 2026-10-25).
@@ -778,10 +780,10 @@ Still open: the pots' full order codes (shaft and bushing). RV8 (pan) is the ALP
 
 AI scope: component placement only. Ruslan routes copper and pours grounds in KiCad.
 
-- 2-layer board, AGND pour on the bottom, separate LGND pour; join at NT1 beside the spade.
+- 4-layer board since 2026-10-27 (§16.3, `layer_study.md`): In1.Cu a solid AGND plane, In2.Cu AGND fill with the rails and the LGND spine in the left-edge corridor; join at NT1 beside the spade.
 - Keep the bus resistors (R20–R31) next to CN1: their bus ends are virtual-earth nodes.
-- Keep the receiver resistors symmetrical and close to U1; keep the EQ's 22K/33K and Wien
-  networks compact around U5/U6/U7 (high impedance: up to ≈ 107K in the mid networks).
+- Keep the receiver resistors symmetrical and close to U1; keep the EQ's 22K/33K networks and the
+  KHN mid bands compact around U5/U6/U7 and U12–U14 (high impedance: up to ≈ 107K in the mid networks).
 - LED and logic traces on LGND, away from the audio path.
 
 ### 16.1 Panel parts
@@ -795,7 +797,8 @@ AI scope: component placement only. Ruslan routes copper and pours grounds in Ki
 | RV8 | ALPS RK09L1240015 (10K 1B dual, centre detent) | `Potentiometer_THT:Potentiometer_Alps_RK09L_Double_Vertical` | The vertical dual centre-detent 10K B that is stocked (Mouser, Verical; no Alpha one exists). ALPS catalogue RV01 Drawing No.7: **M9 × 0.75** bushing 5 long, **Ø6 shaft with a flat** (4.5 across, 7 long) 15 from the face, face 10 above the board like the Alpha, snap-in legs. Panel hole **Ø9.5**; the knob is the **6 mm D** version of the strip's knob; M9 nut (not dimensioned: assumed 12 AF × 2.0) and a 9.5 / 11 × 1.5 spacer washer. The footprint's pin rows sit 7.5 / 10 mm from the shaft like the Alpha's, gangs swapped (pins 4-6 nearer the shaft); shaft at (10, 2.5) from pin 1. Check on a sample: nut thickness, pin 1 at the CCW end, the detent at the electrical centre. |
 | RV12, RV14 | Alpha RD902F-40-15R1-A10K dual (log) | same | Stocked (Tayda). Replaces the Delta's 100K C-law dual, which isn't stocked; works with the KHN mid-band tuning (§6.2). |
 | SW3–SW15 | C&K PVA2 EE H1 1.7N V2 | `Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2` | DPDT push-push, 32 V / 100 mA; PV caps. Datasheet (rev. 02/2025, p. 3): common 0 is the middle pin; released 0–1, pressed/latched 0–2; terminals moulded "2 0 1" on the body. **Fit each switch with its moulded "2" pins in the square-pad column (pads 1 and 4)**, so latched = 2–1 / 5–4 as drawn. Since v4.6 a silk "2" beside pads 1/4 marks that column on every board. The footprint is symmetric under 180°, so a switch fitted the other way round works inverted. Check one sample with a meter. |
-| D2–D8 | 3 mm LEDs | `LED_THT:LED_D3.0mm` | 7.6 mm spacers. D6–D8 (routing, yellow) at y 283, centred under SW5–SW7. |
+| D2 | Kingbright WP3VEGW bicolour | `goa-console:LED_D3.0mm-3_P2.00mm` | Three leads at 2.0 mm (v4.7); 3-lead spacer. |
+| D3–D8 | 3 mm LEDs | `LED_THT:LED_D3.0mm` | 7.6 mm spacers. D6–D8 (routing, yellow) at y 283, centred under SW5–SW7. |
 | CN4 | Keystone 1287-ST | `goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm` | |
 
 **Check on samples before ordering boards:** PVA2 orientation by continuity (moulded "2" in the
@@ -815,8 +818,8 @@ Study: `strip_panel_study.md`. Chosen: **8 HP × 12U** Eurorack-style panel (40.
 custom frame with rails only at the two ends, **two pot columns** (x = 8.84 / 29.16, 2026-10-23: an even
 20.32 mm pitch within a module and across the module boundary; it was x = 10 / 28, 18 mm apart, which left 3 mm
 between Ø15 knobs), jacks on the panel in the same columns. Every pot turns its pins towards the module's centre
-line (left column 180°, right column 0°), so no pad comes within 1.3 mm of the board edge. Knobs about Ø13 (the
-Delta used 14 mm, 12.5 mm on the MID frequency pot): 7.3 mm between knobs across, 9 mm down the 22 mm rows.
+line (left column 180°, right column 0°), so no pad comes within 1.3 mm of the board edge. Knobs Ø14.5 (Elma, KN1 2026-10-25; the
+Delta used 14 mm, 12.5 mm on the MID frequency pot): 5.8 mm between knobs across, 7.5 mm down the 22 mm rows.
 One column would need ≈ 545 mm (15U).
 
 Two boards per channel, placed by `tools/place_strip.py` in one coordinate frame (y = 0 is 11 mm below
@@ -824,13 +827,13 @@ the panel's top edge), placement only:
 
 | Board | File | Size | Depth under the panel | Parts |
 |-------|------|------|-----------------------|-------|
-| Main | `channel_strip.kicad_pcb` | 38 × 400 mm, y 44–444 | 11.5 mm | 273 + 6 M3 holes (11.5 mm standoffs) |
+| Main | `channel_strip.kicad_pcb` | 38 × 400 mm, y 44–444 | 11.5 mm | 325 + 6 M3 holes (11.5 mm standoffs) |
 | Jack | `jack_board.kicad_pcb` | 38 × 43 mm, y 0–43 | 24.0 mm (the NJ6FD-V body) | 6 + 2 M3 holes |
 
 DRC with `--schematic-parity`, both boards: 0 parity issues. The main board has no violations at all;
 the jack board has only 6 hole-clearance + 6 solder-mask items inside KiCad's NJ6FD-V footprint (the
 SN pad sits close to the footprint's own locating peg). Plus unrouted connections. Silkscreen
-references are 0.8 mm text, each placed by the script at the nearest spot clear of pads, silk, other
+references are 1.0 mm text (0.8 until the fab limits of 2026-10-27), each placed by the script at the nearest spot clear of pads, silk, other
 references, other parts' courtyards and the edge. The bus header CN1 is turned 180° (pin 1 at
 y 345.6, same pin field x 31.46/34, y 305–345.6), so its pin-1 arrow stays on the board. The Ø switch moved from the jack row to the main board, right
 of the gain pot. v4.3: the right column's top reads Ø key (y 50), HPF IN key SW11 (y 61, the PRE keys' 11 mm pitch),
@@ -1029,5 +1032,5 @@ drawings (2026-10-23). The panel parts checked against their drawings, with what
 style and pin side, PV cap clearance in the Ø8.0 hole, Alpha bushing thread and tab slots, 1/4" knobs on every pot):
 `panel_parts_drawings.md`.
 
-*Document version 4.6 — October 2026*
+*Document version 5.5 — October 2026*
 *Sources: Soundcraft Delta ED3344A/B/C, ED3151, ED2911A/B, ED2915A, ED2780*

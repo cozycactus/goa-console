@@ -86,7 +86,7 @@ Strips match within about ±0.5 dB at unity. The EQ is within normal console tol
   below it, about 150 ms after the last overload. VREF is shared.
 - **Common-mode range:** HOLD rests at +VL, above the LM393's input range (V+ − 1.5 V), but U4B's other input (VREF)
   stays inside it, which the datasheet allows for a correct output.
-- **Simulated** (`ol_fix.py`):
+- **Simulated** (`sim/review/gaps/ol.py`):
   - same steady threshold (+18.2 to +18.5 dBu);
   - lights for 155–190 ms on 2 cycles at +19 dBu, and on a single cycle at +20 dBu or more.
 - **Cost:** two parts (1M, 220n), a value change on C12, and U4B rewired; no new IC. The master's and group's own

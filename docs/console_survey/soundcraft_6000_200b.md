@@ -260,4 +260,4 @@
 - Electrolytic couplers.
 - Ground-compensated outputs: our DRV135 and impedance-balanced outputs already cover that job.
 
-Working files (renders and crops) are in `/private/tmp/claude-501/-Users-ruslanmigirov-projects-goa-console/20d2ad3b-cdbe-4f15-9de0-d1ce86379e7b/scratchpad/survey/sc6000/`.
+Working files (renders and crops) are in a scratch folder outside the repo (not kept).

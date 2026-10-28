@@ -62,12 +62,12 @@ in the countersunk Ø3.4 / 90° to Ø6.5 holes on the DXFs' CSK_NO_STUDS layer a
 | Item | Qty | Status | Part or rule |
 |---|---|---|---|
 | Mean Well LRS-150-24 | 2 | code | Set to 21.6 V (PSU decision, option B) |
-| Console power inlet | 1 | code | Neutrik NC7MD-LX on the master panel, wired to J1 |
+| Console power inlet | 1 | code | Neutrik NC7MD-LX in the plenum's rear wall (TB3, `tub_proposal.md`), wired to J1 |
 | PSU output socket | 1 | code | Neutrik NC7FD-LX on the PSU panel, wired from the 7-way terminal |
 | Link cable connectors | 1 + 1 | code | Neutrik NC7FX (to the console's NC7MD-LX) and NC7MX (to the PSU's NC7FD-LX) |
 | Link cable | ≤ 2 m | rule | 7 × 1.0 mm² (≈ 70 mV drop at 4 A) |
-| IEC inlet | 1 | rule | Fused (T2.5 A at 230 V, T5 A at 115 V) with a 2-pole switch, or a fused inlet plus a separate 2-pole front-panel switch (`psu_spec.md` §8); spare fuses |
-| Heatsink | 1 | rule | ≤ 1.2 °C/W for the four TO-220s in a row at the PCB's top edge (only the LDOs dissipate, 19 W each at 4 A) |
+| IEC inlet | 1 | code | Schurter DD11 (IEC C14 inlet, 2-pole switch, fuse drawer; T2.5 A at 230 V, T5 A at 115 V; PC1-PC3, `psu_spec.md` §8); spare fuses |
+| Heatsink | 1 | code | Fischer SK 47 75 SA (~0.85 °C/W, PC2) on the case's front end panel; the four TO-220s in a row at the PCB's top edge pass through a window onto it (only the LDOs dissipate, 19 W each at 4 A); ≤ 1.2 °C/W needed |
 | TO-220 insulators | 4 + 4 | rule | Silicone pad and shoulder washer per tab (the tabs sit at +17 V and 0 V); M3 screws |
 | PSU case | 1 | code | Hammond 1402KV; Fischer SK 47 75 SA on the front; Schurter DD11 (+ 2 × T2.5 A 5 × 20 fuses), NC7FD-LX, M4 earth stud on the rear; 4 TO-220 silicone pads + shoulder washers; 2 mm aluminium shelf on 4 × M3 × 45 posts; 4 × M3 × 8 board standoffs; panel-clip LED. Drilling in `psu_case/` (`psu_case_proposal.md`). 0 V stays isolated from earth in the PSU. |
 | PSU PCB standoffs | 4 | rule | M3, to the case floor |
@@ -80,4 +80,4 @@ in the countersunk Ø3.4 / 90° to Ø6.5 holes on the DXFs' CSK_NO_STUDS layer a
 2. ~~PV cap colours~~ and 3. ~~fader caps~~: decided (`knob_proposal.md` KC1 / KC2, 2026-10-25).
 4. **Panel maker.** The fabrication drawings are in `panels/`. Measure the fader law before printing
    (`panels/README.md`).
-5. **Frame and PSU case.**
+5. ~~Frame and PSU case~~: decided (`frame_proposal.md` FR1-FR3 and `psu_case_proposal.md` PC1-PC3, 2026-10-25 / 26); drawings in `frame/` and `psu_case/`.
