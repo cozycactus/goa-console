@@ -143,8 +143,8 @@ def gain_theta(db):
 def both(*pairs):
     """Labels in priority order: each (theta, text) and its mirror (1 - theta, text)."""
     return [q for t, a in pairs for q in ((t, a), (1 - t, a))][:None]
-KHN = {'RV12': [(0.0, '0.7'), (1.0, '10KHz'), (0.5, '2.2'), (0.25, '1.6'), (0.75, '4.8')],   # sim/mid_tuning.py 10e3:
-       'RV14': [(0.0, '0.15'), (1.0, '2.3KHz'), (0.5, '0.48'), (0.25, '0.34'), (0.75, '1.0')],  # KHN f0 at theta 0..1
+KHN = {'RV12': [(0.0, '0.6'), (1.0, '10KHz'), (0.5, '2.1'), (0.25, '1.5'), (0.75, '4.6')],   # sim/review/eqmid/measure.py
+       'RV14': [(0.0, '0.17'), (1.0, '2.5KHz'), (0.5, '0.52'), (0.25, '0.37'), (0.75, '1.1')],  # (EQM1): KHN f0 at theta 0..1
        'RV16': [(0.0, '20'), (1.0, '400Hz'), (0.5, '85'), (0.2, '50'), (0.7, '170')]}   # HPF -3 dB, khn_hpf.py law
 SCALES = {   # (dots, labels in priority order, unit at 6 o'clock); as the real Delta panels (ref/delta200_panels, photos)
     'gain': ([k / 20 for k in range(21)], [(gain_theta(d), f'{d:+d}' if d else '0') for d in (-15, 15, 0, -10, 10, -5, 5)], 'dB'),

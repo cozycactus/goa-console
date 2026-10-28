@@ -7,9 +7,9 @@
   (title_block
     (title "ON-SOFT MUTE")
     (date "2026-10-19")
-    (rev "5.4")
+    (rev "5.5")
     (company "Channel strip - goa console")
-    (comment 1 "Generated from channel_strip_schematic_spec.md v5.4")
+    (comment 1 "Generated from channel_strip_schematic_spec.md v5.5")
     (comment 2 "Drawn by tools/strip_draw.py; labels join the blocks")
     (comment 3 "A Delta Theatre input without the mic stage")
   )

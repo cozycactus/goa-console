@@ -161,22 +161,29 @@ for th, lo, hi, label in ((0.5, 80, 95, 'mid rotation'), (0.0, 19, 24, 'CCW'), (
     check(f'HPF in, freq {label}: -3 dB frequency at PRE', r.get('f3'), lo, hi, 'Hz')
     check(f'HPF in, freq {label}: no peaking', r.get('gmax'), -0.5, 0.3)
 for ref, pos_, at, lo, hi, label in (('RV10', 1, 12e3, 10.5, 12.5, 'HF CW at 12 kHz'), ('RV10', 0, 12e3, -12.5, -10.5, 'HF CCW at 12 kHz'),
-                                     ('RV11', 1, 670, 13.5, 15.5, 'HI-MID CW, freq CCW, at 670 Hz'),
-                                     ('RV13', 1, 148, 13.5, 15.5, 'LO-MID CW, freq CCW, at 148 Hz'),
+                                     ('RV11', 1, 600, 13.5, 15.5, 'HI-MID CW, freq CCW, at 600 Hz'),
+                                     ('RV13', 1, 165, 13.5, 15.5, 'LO-MID CW, freq CCW, at 165 Hz'),
                                      ('RV15', 1, 54, 13.3, 15.3, 'LF CW at 54 Hz'), ('RV15', 0, 54, -15.3, -13.3, 'LF CCW at 54 Hz')):
     r = run({**TOP, ref: pos_, 'RV12': 0.0, 'RV14': 0.0}, ON, f'ac lin 1 {at} {at}', [dbu('PRE'), 'print x_PRE'])
     check(label, r.get('x_pre'), lo, hi)
-for ref, at, lo, hi, label in (('RV12', 10.5e3, 13.5, 15.5, 'HI-MID CW, freq CW, at 10.5 kHz'),
-                               ('RV14', 2.31e3, 13.5, 15.5, 'LO-MID CW, freq CW, at 2.31 kHz')):
+for ref, at, lo, hi, label in (('RV12', 9.93e3, 13.5, 15.5, 'HI-MID CW, freq CW, at 9.93 kHz'),     # EQM1: the Delta's
+                               ('RV14', 2.54e3, 13.5, 15.5, 'LO-MID CW, freq CW, at 2.54 kHz')):    # measured ranges
     gain = 'RV11' if ref == 'RV12' else 'RV13'                  # boost only the band under test
     r = run({**TOP, gain: 1, ref: 1.0, ('RV14' if ref == 'RV12' else 'RV12'): 0.5}, ON,
             f'ac lin 1 {at} {at}', [dbu('PRE'), 'print x_PRE'])
     check(label, r.get('x_pre'), lo, hi)
-for ref, gain, at, label in (('RV12', 'RV11', 2.2e3, 'HI-MID CW, freq at mid rotation (law), at 2.2 kHz'),
-                              ('RV14', 'RV13', 480, 'LO-MID CW, freq at mid rotation (law), at 480 Hz')):
+for ref, gain, at, label in (('RV12', 'RV11', 2.09e3, 'HI-MID CW, freq at mid rotation (law), at 2.09 kHz'),
+                              ('RV14', 'RV13', 521, 'LO-MID CW, freq at mid rotation (law), at 521 Hz')):
     r = run({**TOP, gain: 1, ref: 0.5, ('RV14' if ref == 'RV12' else 'RV12'): 0.5}, ON,
             f'ac lin 1 {at} {at}', [dbu('PRE'), 'print x_PRE'])
     check(label, r.get('x_pre'), 13.5, 15.5)
+# EQM1 (eqmid_proposal.md): the mid ranges themselves, as the Delta measures them (Audio Precision plots, 200 Delta Tech
+# Manual p.17): the boosted band's peak frequency at each end of its frequency pot
+for gain, ref, th, lo, hi, label in (('RV11', 'RV12', 0.0, 570, 630, 'HI-MID freq CCW'), ('RV11', 'RV12', 1.0, 9.4e3, 10.5e3, 'HI-MID freq CW'),
+                                     ('RV13', 'RV14', 0.0, 157, 173, 'LO-MID freq CCW'), ('RV13', 'RV14', 1.0, 2.41e3, 2.67e3, 'LO-MID freq CW')):
+    r = run({**TOP, gain: 1, ref: th, ('RV13' if gain == 'RV11' else 'RV11'): 0.5}, ON, 'ac dec 400 20 30k',
+            ['let g = db(v(PRE)/0.7746)', 'meas ac fpk max_at g'])
+    check(f'{label}: peak frequency', r.get('fpk'), lo, hi, 'Hz')
 r = run({**TOP, 'RV10': 1, 'RV11': 1, 'RV13': 1, 'RV15': 1}, {**ON, 'SW12': False}, 'ac dec 20 20 20k',
         ['let g = db(v(PRE)/0.7746)', 'meas ac gmax max g', 'meas ac gmin min g'])
 check('EQ out (all bands at full boost): max deviation', max(abs(r.get('gmax', 99)), abs(r.get('gmin', 99))), 0, 0.5)

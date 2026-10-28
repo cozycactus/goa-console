@@ -57,3 +57,12 @@ consoles solved the same problem.
 - SSL's "A LOG" marking: the panel calibration implies anti-log, but the manual doesn't say.
 - SSL LMF ÷3 capacitors read 47n (a 4.1:1 ratio, not 3:1). Check against another source if it matters.
 - Ranges marked "calculated" are from the component values, not printed on the panel.
+
+## Our ranges against the Delta's measurement (2026-10-28, EQM1)
+
+An overlay of `sim/eq_curves.py` on the Delta's Audio Precision EQ plots (200 Delta Tech Manual p.17, Deluxe Input; the
+DLX user guide p.15 shows the same plot) found our mids at 686 Hz-10.5 kHz and 148 Hz-2.29 kHz against ~600 Hz-10 kHz and
+~166 Hz-2.55 kHz measured. The KHN tuning had been fitted to a model of the "100KC" pot (ED2911A: "DUAL 100K REVLOG").
+Retuned in strip v5.5 (`eqmid_proposal.md`): 598 Hz-9.93 kHz and 165 Hz-2.54 kHz, by six resistor values. LF (ours 54 Hz /
+14.2 dB, theirs ~45 Hz / 15.0) and the mid peak heights (14.5 against 15.0 dB) are within the Delta's part tolerances
+(electrolytic 2u2, ±20 % gain pots, Wien cap pairs), so they stay.

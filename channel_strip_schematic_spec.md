@@ -1,4 +1,4 @@
-# Channel Strip — Component-Level Specification v5.4
+# Channel Strip — Component-Level Specification v5.5
 ## Soundcraft Delta Theatre input without the mic stage. One PCB per channel, ×24.
 
 Bus pinout, grounding and power: `console_architecture.md`. Stage-by-stage comparison with the
@@ -7,6 +7,17 @@ Reference designators are those of `tools/gen.py`; Delta drawing numbers are giv
 circuit comes from a Delta sheet (ED3344A/B/C = Theatre input RH board, ED3151 = LH board).
 
 ---
+
+## Changes in v5.5 (2026-10-28, signed off; `eqmid_proposal.md` EQM1)
+
+**The mid ranges match the Delta's measured ones.** An overlay of our EQ on the Delta's Audio Precision plots (200 Delta
+Tech Manual p.17; `sim/eq_curves.py`) put our mids at 686 Hz-10.5 kHz and 148 Hz-2.29 kHz, against ~600 Hz-10 kHz and
+~166 Hz-2.55 kHz measured (ED2911A labels 600-10k and 150-2.4k). The KHN tuning had been fitted to a model of the
+"100KC" pot; ED2911A reads "DUAL 100K REVLOG".
+- **Changed:** six resistor values. HI-MID R86 / R87 430R → 392R and R56 / R57 4K7 → 4K99; LO-MID R60 / R61 4K7 → 4K22.
+- **Result** (`sim/review/eqmid/measure.py`): HI-MID 598 Hz-9.93 kHz, LO-MID 165 Hz-2.54 kHz. Boost / cut / Q, noise
+  and stability are unchanged. The law is within 0.33 / 0.31 octave of a log sweep (was 0.28).
+- **Also changed:** the FREQ scale numerals (§6.2) and four peak-frequency checks in `sim_netlist.py` (45 checks).
 
 ## Changes in v5.4 (2026-10-27, signed off; `cs2_proposal.md` CS2 Option A, from `console_survey.md` §5)
 
@@ -463,8 +474,8 @@ stage's input and output; **clockwise boosts** on every band (as the ED3151 CW a
   rather than connect, and run from the rheostat to ground. Simulation confirms the reading.
 - Simulated with the Delta's Wien mid bands (`sim/delta_eq.cir`); the KHN mid bands give the same
   response (§6.2), and the whole schematic is checked by `tools/sim_netlist.py`:
-  HF ±11.5 dB at 12 kHz; HI-MID ±14.6 dB, 670 Hz–10.5 kHz, Q 1.44; LO-MID ±14.7 dB,
-  148 Hz–2.3 kHz, Q 1.44; LF ±14.3 dB at 54 Hz, Q 0.88; flat within 0.16 dB and in phase with
+  HF ±11.5 dB at 12 kHz; HI-MID ±14.6 dB, 600 Hz–9.9 kHz (v5.5), Q 1.44; LO-MID ±14.7 dB,
+  165 Hz–2.5 kHz (v5.5), Q 1.44; LF ±14.3 dB at 54 Hz, Q 0.88; flat within 0.16 dB and in phase with
   all pots centred.
 - Capacitors: C0G 1206 up to 100 nF; C48 150 nF and C49 2.2 µF polyester film (MKS2).
 - Op-amps OPA1612. EQ noise is resistor thermal noise (op-amp choice changes it by 0.2 dB);
@@ -488,16 +499,18 @@ function: peak gain 0.407, Q 0.275, in phase. So U6A/U6B and the gain pots work 
 gain-pot wiper ── R81 10K ──┐
 LP ── R82 10K ──────────────┼── U12A (−)   U12A (+) ── R84 2K2 ── BP ;  (+) ── R85 10K ── AGND
 HP (U12A out) ── R83 10K ───┘                       summer: HP = −in − LP + 2.46·BP
-HP ── RV12A pin 3 ; pin 1 ── R86 430R ── AGND ; R88 13K pin 3 → wiper ; wiper ── R56 4K7 ── U12B (−), C44 2n2 to BP
-BP ── RV12B pin 6 ; pin 4 ── R87 430R ── AGND ; R89 13K pin 6 → wiper ; wiper ── R57 4K7 ── U13A (−), C45 4n7 to LP
-BP (U12B out) ── U6A (+)                                                  LO-MID: R90–R98, C46 10n / C47 22n, U13B/U14A/U14B
+HP ── RV12A pin 3 ; pin 1 ── R86 392R ── AGND ; R88 13K pin 3 → wiper ; wiper ── R56 4K99 ── U12B (−), C44 2n2 to BP
+BP ── RV12B pin 6 ; pin 4 ── R87 392R ── AGND ; R89 13K pin 6 → wiper ; wiper ── R57 4K99 ── U13A (−), C45 4n7 to LP
+BP (U12B out) ── U6A (+)                        LO-MID: R90–R98 (R95 / R96 430R), R60 / R61 4K22, C46 10n / C47 22n, U13B/U14A/U14B
 ```
 - Summer gains 1 (input), 1 (LP) and 0.82 × 3 = 2.46 (BP). Q of the band-pass comes from the
   integrator capacitor ratio (C1/C2 ≈ 0.46). No internal node exceeds the input; at full boost every
   KHN node stays at least 7.8 dB below the stage output, which clips first.
-- Divider: 430R / 13K / 4K7 around a 10K pot, fitted to Alpha's catalogue A taper (two slopes, 15 % at
-  mid-rotation). The sweep stays within 0.28 octave of a straight log line; the Delta's C-law network
-  is 0.31. The top of the range is exact whatever the pot's tolerance, because the wiper sits on the
+- Divider: R0 / 13K / RB around a 10K pot, fitted to Alpha's catalogue A taper (two slopes, 15 % at mid-rotation).
+  Since v5.5 (EQM1) per band, to the Delta's measured ranges: HI-MID 392R / 13K / 4K99 (598 Hz-9.93 kHz), LO-MID
+  430R / 13K / 4K22 (165 Hz-2.54 kHz). f0 = k / (2π (Rth + RB) √(C1 C2)) with k and Rth the divider's ratio and
+  Thevenin resistance (`sim/review/eqmid/retune.py`). The sweep stays within 0.33 / 0.31 octave of a straight log line
+  (v5.4: 0.28 on 686 Hz-10.5 kHz / 148 Hz-2.29 kHz); the Delta's C-law network is 0.31. The top of the range is exact whatever the pot's tolerance, because the wiper sits on the
   driven end; ±20 % on the pot moves the bottom by about ±12 % (the Delta's rheostat: ±18 %).
 - A10K rather than A100K: the same divider at 100K impedance was 8.6 dB (HI-MID) and 5.7 dB (LO-MID)
   noisier than the Delta network; at 10K the difference is 1.3 and 0.6 dB. Alpha RD902F-40-15R1-A10K,
@@ -881,7 +894,14 @@ each standoff's panel end and wherever a panel meets the frame rails. CN3/CN5: W
 
 ---
 
-## 17. Status (v5.4, 2026-10-27)
+## 17. Status (v5.5, 2026-10-28)
+
+v5.5 (EQM1):
+- **Netlist:** 937 pin entries / 0 mismatches, ERC 0; six resistor values changed.
+- **Simulation:** `tools/sim_netlist.py` 45/45 (HI-MID 598 Hz / 9.93 kHz, LO-MID 165 Hz / 2.54 kHz at the pot ends);
+  `tools/sim_console.py` 38/38, noise unchanged; TI stability (c01, c04-c08, c15) within 0.3°.
+- **Placement:** values only, nothing moved; 0 DRC, 0 parity, 325 / 325 linked.
+
 
 v5.4 (CS2):
 - **Netlist:** 937 pin entries / 0 mismatches, check_fp 325 / 0, ERC 0.

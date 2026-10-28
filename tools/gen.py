@@ -182,14 +182,16 @@ P(b,'C50','C','100n C0G',{1:'EQ_FP',2:'GNDA'},fp=C0G); P(b,'R65','R','5K1',{1:'E
 # band-pass with the same response (peak 0.407, Q 0.275, in phase) into U6A/U6B's + input, tuned by a stocked
 # A10K dual: each gang a divider from the driving op-amp (pin 3) to 430R (pin 1), 13K wiper-to-top, wiper -> 4K7
 # -> integrator. CW = higher frequency, within 0.3 octave of a log sweep. sim/mid_tuning.py, strip spec 6.2.
+# EQM1 (eqmid_proposal.md): R0 / RB per band so the ranges match the Delta's measured ones (Audio Precision plots, 200
+# Delta Tech Manual p.17): HI-MID 430R / 4K7 -> 392R / 4K99 (600 Hz - 9.9 kHz), LO-MID 4K7 -> 4K22 (165 Hz - 2.54 kHz)
 b = block('EQ MID TUNING  KHN band-pass per mid band: summer (10K x3, BP via 2K2/10K), two integrators, A10K dual')
-for (nm, wip, bp, sm, sp, hp, lp, d1, d2, r1, r2, i1, i2, pot, ci1, ci2, c1v, c2v, rb1, rb2, rs, us, ui1, ui2, cs) in (
+for (nm, wip, bp, sm, sp, hp, lp, d1, d2, r1, r2, i1, i2, pot, ci1, ci2, c1v, c2v, rb1, rb2, rs, us, ui1, ui2, cs, r0v, rbv) in (
         ('HI-MID', 'EQ_WHM', 'EQ_MP', 'EQ_MSM', 'EQ_MSP', 'EQ_MHP', 'EQ_MLP', 'EQ_MD1', 'EQ_MD2', 'EQ_MR1', 'EQ_MR2',
          'EQ_MI1', 'EQ_MI2', 'RV12', 'C44', 'C45', '2n2 C0G', '4n7 C0G', 'R56', 'R57',
-         ('R81', 'R82', 'R83', 'R84', 'R85', 'R86', 'R87', 'R88', 'R89'), ('U12', 1), ('U12', 2), ('U13', 1), ('C74', 'C75')),
+         ('R81', 'R82', 'R83', 'R84', 'R85', 'R86', 'R87', 'R88', 'R89'), ('U12', 1), ('U12', 2), ('U13', 1), ('C74', 'C75'), '392R 1%', '4K99 1%'),
         ('LO-MID', 'EQ_WLM', 'EQ_LP', 'EQ_LSM', 'EQ_LSP', 'EQ_LHP', 'EQ_LLP', 'EQ_LD1', 'EQ_LD2', 'EQ_LR1', 'EQ_LR2',
          'EQ_LI1', 'EQ_LI2', 'RV14', 'C46', 'C47', '10n C0G', '22n C0G', 'R60', 'R61',
-         ('R90', 'R91', 'R92', 'R93', 'R94', 'R95', 'R96', 'R97', 'R98'), ('U13', 2), ('U14', 1), ('U14', 2), ('C76', 'C77'))):
+         ('R90', 'R91', 'R92', 'R93', 'R94', 'R95', 'R96', 'R97', 'R98'), ('U13', 2), ('U14', 1), ('U14', 2), ('C76', 'C77'), '430R 1%', '4K22 1%')):
     rin, rlp, rfb, r4, r5, r0a, r0b, rta, rtb = rs
     P(b,rin,'R','10K 1%',{1:wip,2:sm}); P(b,rlp,'R','10K 1%',{1:lp,2:sm}); P(b,rfb,'R','10K 1%',{1:hp,2:sm})
     P(b,r4,'R','2K2 1%',{1:bp,2:sp}); P(b,r5,'R','10K 1%',{1:sp,2:'GNDA'})
@@ -199,9 +201,9 @@ for (nm, wip, bp, sm, sp, hp, lp, d1, d2, r1, r2, i1, i2, pot, ci1, ci2, c1v, c2
     P(b,us[0],'OPA','OPA1612',dict(zip(pp[us[1]], (sp, sm, hp))),unit=us[1])            # summer: HP out
     # integrator 1 (HP -> BP) through gang A, integrator 2 (BP -> LP) through gang B
     P(b,pot,'POT2',f'{nm} freq 10K A dual',{3:hp,2:d1,1:r1,6:bp,5:d2,4:r2},mpn=POT2A)
-    P(b,r0a,'R','430R 1%',{1:r1,2:'GNDA'}); P(b,r0b,'R','430R 1%',{1:r2,2:'GNDA'})
+    P(b,r0a,'R',r0v,{1:r1,2:'GNDA'}); P(b,r0b,'R',r0v,{1:r2,2:'GNDA'})
     P(b,rta,'R','13K 1%',{1:hp,2:d1}); P(b,rtb,'R','13K 1%',{1:bp,2:d2})
-    P(b,rb1,'R','4K7 1%',{1:d1,2:i1}); P(b,rb2,'R','4K7 1%',{1:d2,2:i2})
+    P(b,rb1,'R',rbv,{1:d1,2:i1}); P(b,rb2,'R',rbv,{1:d2,2:i2})
     P(b,ci1,'C',c1v,{1:bp,2:i1},fp=C0G); P(b,ci2,'C',c2v,{1:lp,2:i2},fp=C0G)
     P(b,ui1[0],'OPA','OPA1612',dict(zip(pp[ui1[1]], ('GNDA', i1, bp))),unit=ui1[1])
     P(b,ui2[0],'OPA','OPA1612',dict(zip(pp[ui2[1]], ('GNDA', i2, lp))),unit=ui2[1])
@@ -374,12 +376,12 @@ for _, ps in schgen.blocks:                     # ceramic MPNs by value (X7R 50 
     for pt in ps:
         if pt['key'] in ('C', 'CP') and not pt['mpn']: pt['mpn'] = CAP_MPN.get(pt['value'], '')
 build(OUT, 'channel_strip', 'Channel strip - goa console',
-      {1: 'Generated from channel_strip_schematic_spec.md v5.4', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
+      {1: 'Generated from channel_strip_schematic_spec.md v5.5', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
        3: 'A Delta Theatre input without the mic stage'},
-      paper='auto', revision='5.4', pages=dict(paper='A4', folder='strip_sheets'), **strip_draw.SHEET)   # A4 sub-sheets
+      paper='auto', revision='5.5', pages=dict(paper='A4', folder='strip_sheets'), **strip_draw.SHEET)   # A4 sub-sheets
 if os.environ.get('PILOT'):                     # only the drawn blocks, on a sheet of their own (layout review)
     build(os.environ['PILOT'], 'pilot', 'Channel strip - drawn blocks (pilot)', {1: 'tools/strip_draw.py', 2: ''},
-          paper='auto', revision='5.4', only=lambda t: strip_draw.for_title(t) is not None, **strip_draw.SHEET)
+          paper='auto', revision='5.5', only=lambda t: strip_draw.for_title(t) is not None, **strip_draw.SHEET)
 
 # ---------------------------------------------------------------- jack board (its own PCB; same net names)
 schgen.blocks.clear()

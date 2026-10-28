@@ -1,6 +1,6 @@
 # EQM1: the mid EQ ranges retuned to the Delta's measured ones (proposal, 2026-10-28)
 
-**Not signed off.** The change is `eqmid_proposal.patch`. It touches tools only: `gen.py` (six resistor values),
+**Signed off by Ruslan on 2026-10-28 (as proposed) and applied the same day as strip v5.5; see "Applied" at the end.** The change is `eqmid_proposal.patch`. It touches tools only: `gen.py` (six resistor values),
 `sim_netlist.py` (the mid checks) and `panel_layout.py` (the FREQ scale numerals).
 
 **Asked for by Ruslan on 2026-10-28**, from the EQ overlay of a side session (`sim/eq_curves.py`). Divider resistor values
@@ -98,6 +98,16 @@ The ¾ numeral is dropped where it would collide, as before. `panel_fab`'s check
 
 ## Sign-off
 
-- [ ] **EQM1** as proposed: HI-MID R86 / R87 392R and R56 / R57 4K99, LO-MID R60 / R61 4K22.
+- [x] **EQM1** as proposed (Ruslan, 2026-10-28): HI-MID R86 / R87 392R and R56 / R57 4K99, LO-MID R60 / R61 4K22.
 - [ ] With RTOP per band as well (closer log law; four more value changes).
 - [ ] Neither: keep the ranges, and record the difference in `eq_survey.md`.
+
+## Applied (2026-10-28, strip v5.5)
+
+- **Applied:** the patch, plus revision 5.5 in `gen.py`.
+- **Regenerated and re-exported:** the strip schematic (937 pins, 0 mismatches, ERC 0), its netlist, BOM, PDF and
+  `order_bom.csv` (4K7 −96, 430R −48, 392R +48, 4K99 +48, 4K22 +48).
+- **Re-placed:** the six values; nothing moved.
+- **Panel:** `panels/strip.*` regenerated with the new FREQ numerals (0 problems).
+- **Documents:** strip spec v5.5 (changes, §6, §6.2, §17), `delta_clone_comparison.md`, `eq_survey.md`, CLAUDE.md.
+- **`check_all --full`:** 61 / 61 (strip 325 / 325 linked, 0 DRC / parity; `sim_netlist` 45 / 45, `sim_console` 38 / 38).
