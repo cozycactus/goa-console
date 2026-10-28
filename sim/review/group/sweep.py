@@ -1,6 +1,6 @@
 """usage: python3 sweep.py <set> <fixset> [board pF/mm] [tran]  -> res_<set>_<fixset>_<board>.json + table
 sets: pots, bus, ins, ret, sw, loads"""
-import sys, json, time, itertools
+import os, sys, json, time, itertools
 from concurrent.futures import ProcessPoolExecutor
 from stabg import run
 from groupdeck import ROLE, UNITS
@@ -44,6 +44,7 @@ elif SET == 'loads':           # extra output C on the long output nets (on top 
                 'RT2_L', 'RT2_R', 'RT2_BL', 'RT2_BR')})
 STAGES = {'bus': ['U1A', 'U1B', 'U6A', 'U2A', 'U6B'], 'ins': ['U2A', 'U2B', 'U3A'], 'ret': ['U8A', 'U8B', 'U9A', 'U9B', 'U10A', 'U10B', 'U11A', 'U11B',
                                                                                     'U12A', 'U12B', 'U13A', 'U13B', 'U14A', 'U14B', 'U15A', 'U15B']}.get(SET)
+if os.environ.get('STAGES'): STAGES = os.environ['STAGES'].split(',')       # e.g. only the OPA1656 followers
 for k in C:
     if BOARD: C[k]['board'] = BOARD
     apply(C[k], FX)

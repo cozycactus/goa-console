@@ -18,6 +18,11 @@ OPS = {'OPA1612AxD': 'OPA161x', 'OPA1656ID': 'OPA1656'}
 # OPA1656_FIT=<models_cd.inc>: the OPA1656 parts use the datasheet-fitted macro OPA1656M instead (TI's OPA1656 model
 # crawls in this deck, as in the strip's); the OPA1612s keep TI's model
 OPA1656_FIT = os.environ.get('OPA1656_FIT')
+# OPA1612_SIMPLE=1: the OPA1612 units get the deck's single-pole OPA (40 MHz GBW; no input capacitance or output
+# resistance) in place of TI's OPA161x. With TI's own OPA1656 model on the followers the full deck has no operating point
+# on ngspice 46; with the OPA1612s simple it converges (2026-10-28), so the followers are checked on TI's model. Only the
+# OPA1656 units' results of such a run mean anything.
+OPA1612_SIMPLE = os.environ.get('OPA1612_SIMPLE')
 sys.path.insert(0, os.path.join(REPO, 'tools'))
 from verify import sexp, field
 
@@ -115,7 +120,9 @@ def deck(cfg, ctl=''):
             for u, (p_, m_, o_) in ((1, (3, 2, 1)), (2, (5, 6, 7))):
                 if (ref, str(o_)) in pins:
                     nm = f'{ref}{"AB"[u-1]}'
-                    if lib == 'OPA1656ID' and OPA1656_FIT:
+                    if lib == 'OPA1612AxD' and OPA1612_SIMPLE:
+                        L.append(f'X{nm} {nm}_pp {node(ref,m_)} {nm}_ox OPA')
+                    elif lib == 'OPA1656ID' and OPA1656_FIT:
                         L.append(f'X{nm} {nm}_pp {node(ref,m_)} {nm}_ox {nm}_pp {node(ref,m_)} OPA1656M')
                     else:
                         L.append(f'X{nm} {nm}_pp {node(ref,m_)} PVA MVA {nm}_ox {OPS[lib]}')

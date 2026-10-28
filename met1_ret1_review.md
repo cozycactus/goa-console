@@ -189,7 +189,30 @@ stress load sits elsewhere. That is still far from any limit.
    - The 2026-10-25 runs used `none`. `master_group_review.md`'s example still said `mg`; it's corrected.
    - `fixes.apply()` now refuses a set that refers to nets the netlist doesn't have.
 2. **TI's OPA1656 model doesn't converge in this deck on ngspice 46** (as on the strip, `strip_noise_proposal.md`). The
-   followers need `OPA1656_FIT=<models_cd.inc>`.
+   followers need `OPA1656_FIT=<models_cd.inc>`, or TI's model with the OPA1612s simplified (below).
+
+**The followers on TI's own OPA1656 model (2026-10-28).**
+- **The method:** with TI's OPA1656 model, the full deck still has no operating point. With the OPA1612 units on the
+  deck's single-pole model (40 MHz GBW; `OPA1612_SIMPLE=1`), it converges.
+  - The followers' loops depend on their own op-amp, input network, build-out and load, not on the receiver op-amp's
+    internals. Checked: with the stand-in OPA1656 (below), TI's OPA161x and the single-pole model on the OPA1612s give
+    identical follower margins (84.9 / 84.1 / 85.2 / 85.4 / 84.0 / 82.9 / 84.9 / 85.1°).
+  - Only the followers are probed (`STAGES=U10A,...,U15B`); the OPA1612 numbers of such a run mean nothing.
+- **Command:** `TI_MODELS=<folder> OPA1612_SIMPLE=1 STAGES=U10A,U10B,U11A,U11B,U14A,U14B,U15A,U15B python3 sweep.py
+  ret|pots|loads none 0.08`.
+
+| Sweep | States | Followers, PM min | Peaking max |
+|---|---|---|---|
+| `ret` (sources 10R / 600R / 2K2, 100p / 2n2 cable, level 0 / 0.706 / 1) | 21 | 59.2° (return 2 L ring, 10R source) to 60.4° | 0.96 dB |
+| `pots` | 18 | 59.8° to 61.0° | 0.88 dB |
+| `loads` (+22 / +47 pF on the long output nets; the followers' outputs aren't among them) | 12 | 59.8° to 61.0° | 0.88 dB |
+
+So every return follower has 59.2-61.0° on TI's model, against 52.1-52.9° on the fitted macro, which reads low (as on the
+strip, 3-24°). The strip's U16, the same circuit, has 52-54° on the fitted macro.
+
+**A stand-in, found 2026-10-28.** A model folder used for the CS2b run held an `OPA1656.LIB` that was TI's OPA161x macro
+under the OPA1656 name (its header says so). The 83-85° that run gave the followers are an OPA1612's. TI's real OPA1656
+model (464 lines; `.SUBCKT OPA1656 IN+ IN- VCC VEE OUT`) gives the 59-61° above.
 
 **Not the cause:** the ngspice version or the OPA161x file. A single OPA161x converges at once, and the 2026-10-24 /
 25 runs used the same binary and the same model file (same MD5).

@@ -117,7 +117,8 @@ S_POST ── RV2 (10K B dual) ── wiper ──┬── U3B + (×1.22: R124 
   `OPA1656.LIB` in its model folder was a stand-in, TI's OPA161x macro under the OPA1656 name (its header says so; found
   during CS7). So the 83-85° are an OPA1612's margins and say nothing about the OPA1656. The 2026-10-26 baseline used
   the fitted OPA1656 macro (about 53°). The stand-in reads the same on the committed and the trial netlist (84.9 / 84.1
-  / 82.9°, U10A / U10B / U14B): CS2b doesn't touch the followers, which is all this comparison showed.
+  / 82.9°, U10A / U10B / U14B): CS2b doesn't touch the followers, which is all this comparison showed. On TI's real OPA1656 model (OPA1612s single-pole,
+  `met1_ret1_review.md`) the followers read 59.2-61.0°.
 
 **`sim_console`:** 35/35.
 

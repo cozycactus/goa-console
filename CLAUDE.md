@@ -189,7 +189,9 @@ jack board) done.
   P4 decided (studs or spacers, countersunk screws at the jack boards; Decisions, strip v4.9). Group stability with return 2 (TI OPA161x +
   fitted OPA1656, `sweep.py ret none 0.08`): receivers >= 66.4 deg, level buffers >= 70.9, followers >= 52.1. Group review
   decks: fix set `none` since rev 0.2 (`mg` re-pins U2B onto a floating node; `fixes.apply()` now refuses it) and
-  `OPA1656_FIT` for the followers (TI's OPA1656 model doesn't converge in the deck on ngspice 46).
+  `OPA1656_FIT` for the followers (TI's OPA1656 model doesn't converge in the deck on ngspice 46). On TI's own OPA1656
+  model with the OPA1612s single-pole (`OPA1612_SIMPLE=1`, `STAGES=`; 2026-10-28) the return followers read 59.2-61.0 deg
+  over ret / pots / loads (fitted: 52.1-52.9).
 - `console_survey.md` (2026-10-27) — the whole design against the ten analogue consoles in Ruslan's service-manual library
   (Delta / DLX, Venue II / Theatre, Series Two, 6000, 200B, Sapphyre, Ghost, Series Five, SSL 4000G, PM-4000 / 5000,
   Sony MXP-3000); per-console reports with page refs in `docs/console_survey/`. Ours leads on the line receiver, output
@@ -224,7 +226,7 @@ jack board) done.
   Master spec §12 says the sub pan copies the strip; the parent's ED2778A MONITOR PAN is passive (3K9 / 8K2), -4.6 dB.
   Sub to MIX +3.3 dB at centre (sim_console GPANC). TI models: U3B / U5A 74.5 / 75.3 deg, 55.3 / 55.9 with 47 pF, no unit
   worse. `sim/review/cs2/group_pan.py`. (Corrected 2026-10-28: the follower figures of that run came from a stand-in
-  `OPA1656.LIB`, TI's OPA161x under the OPA1656 name; the group deck's followers still need `OPA1656_FIT`.)
+  `OPA1656.LIB`, TI's OPA161x under the OPA1656 name; TI's real model gives the followers 59.2-61.0 deg, met1_ret1_review.md.)
 - `eqmid_proposal.md` (+ `eqmid_proposal.patch`, tools only) — EQM1, signed off by Ruslan and applied 2026-10-28 (strip v5.5): the KHN mid ranges
   retuned to the Delta's measured ones (Audio Precision plots, 200 Delta Tech Manual p.17; overlay from `sim/eq_curves.py`):
   HI-MID R86 / R87 430R -> 392R and R56 / R57 4K7 -> 4K99 (686 Hz-10.5 kHz -> 598 Hz-9.93 kHz), LO-MID R60 / R61 4K7 -> 4K22
