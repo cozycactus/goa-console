@@ -451,6 +451,11 @@ jack board) done.
   (jig spec v0.10), RV11.1-7 (tool fixes, `check_bus.py`, +7 sim_console bus checks, check_all 71 checks), the §3 stale
   facts, the title-block revisions, `render/*.json` and the escape plan regenerated. Open: the circuit batch RV3-RV9
   (`clicks_proposal.md`, not signed off), RV12-RV14 (cleanup).
+- `delta_crosscheck.md` (2026-10-28, not signed off) — every ED sheet of the Delta DLX service manual (17 pages at 300 dpi)
+  against our schematics stage by stage: ~200 table rows (Delta as read / ours / SAME, RECORDED, UNRECORDED, N/A, UNREAD)
+  in Parts A-D (strip, group + aux master, master, Venue / stereo / dual line); no fault in ours; 24 unrecorded items
+  D1-D24 for sign-off, two needing a decision: D1 insert jack sense (ours tip = send, the Delta ring = send) and D13
+  grounding the spare bus conductors at the master as the Delta's J2-J9 do; the rest documentation.
 - `channel_strip_schematic_spec.md` — strip component-level spec, v5.5. Authoritative.
 - `channel_strip_BOM.csv`, `channel_strip.net`, `channel_strip.pdf` — exports.
 
