@@ -23,7 +23,7 @@ CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '10n': 'Samsung CL21B103
            # rail reservoirs in the strip's own footprints (D8 P3.5, D6.3 P2.5; the master's UPW parts are larger)
            '220u 25V': 'Rubycon 35ZLH220MEFC8X11.5 (35V)', '47u 25V': 'Panasonic EEU-FR1H470 (50V)',
            '150n film': 'WIMA MKS2D031501C00KSSD (PET 100V; 3.5 x 8.5 x 7.2, the 63 V KSSD code has no stock)',
-           '2.2u film': 'WIMA MKS2C042201K00KSSD (PET 63V)',
+           '2.2u film': 'KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)',
            # audio bipolars, Nichicon MUSE ES 25 V, in the existing footprints (film_np_proposal.md)
            '33u NP 25V': 'Nichicon UES1E330MPM (MUSE ES)', '100u NP 25V': 'Nichicon UES1E101MPM (MUSE ES)'}
 RX_MPN = 'Panasonic ERA-6AEB103V'          # 10K 0.1 % 0805, as the master's receivers

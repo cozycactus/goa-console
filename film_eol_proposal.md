@@ -1,6 +1,6 @@
 # FE1 / FE2: the obsolete 2.2 µF film coupler (proposal, 2026-10-29)
 
-**Not signed off.** FE1's change is `film_eol_proposal.patch`. It touches tools only: the order code in `gen.py`,
+**FE1 signed off by Ruslan on 2026-10-29 and applied the same day; see "Applied" at the end.** FE1's change is `film_eol_proposal.patch`. It touches tools only: the order code in `gen.py`,
 `gen_master.py` and `master_lib.py`.
 
 ## 1. Why
@@ -72,6 +72,17 @@ quantity now.**
 
 ## Sign-off
 
-- [ ] **FE1** as proposed: KEMET MMK5225K63J06L4BULK in the same footprint; buy the console's quantity now.
+- [x] **FE1** as proposed (Ruslan, 2026-10-29): KEMET MMK5225K63J06L4BULK in the same footprint; buy the console's quantity now.
 - [ ] **FE2** instead: widen the footprint to 8.5 mm for the active WIMA M-box (work up the local moves first).
 - [ ] Both: FE1's order code now, and FE2's footprint at the next board revision.
+
+## Applied (2026-10-29)
+
+- **Applied:** the patch.
+- **Regenerated and re-exported:** strip, group and master (netlists unchanged but for the MPN field, 0 mismatches),
+  their BOMs and PDFs; `order_bom.csv` (114 KEMET MMK5225K63J06L4BULK), `order_phase1.csv` and `order_phase1_prices.csv` (stage A about $420 in
+  parts + $70.50 PCBs, stage B $311, a second strip $290).
+- **Re-placed:** for the MPN field; no footprint moved on any board.
+- **Documents:** strip spec (§9 note, parts list), master spec, `film_np_proposal.md` F1, `sourcing.md`, CLAUDE.md.
+- **To do when ordering:** buy the console's quantity (about 120) in one Mouser order; FE2 stays the way out if a board
+  is re-spun after the stock is gone.

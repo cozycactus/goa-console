@@ -39,7 +39,7 @@
 "0","4","0","Nichicon UPW1J470MPD","47u 25V","Capacitor_THT:CP_Radial_D8.0mm_P3.50mm","jig stub 2","63V"
 "4","0","4","Rubycon 35ZLH220MEFC8X11.5","220u 25V","Capacitor_THT:CP_Radial_D8.0mm_P3.50mm","strip 2, strip 2 2","35V"
 "3","0","3","WIMA MKS2D031501C00KSSD","150n film","Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2","strip 1, strip 2 1","PET 100V; 3.5 x 8.5 x 7.2, the 63 V KSSD code has no stock"
-"5","0","5","WIMA MKS2C042201K00KSSD","2.2u film","Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2","strip 3, strip 2 3","PET 63V"
+"5","0","5","KEMET MMK5225K63J06L4BULK","2.2u film","Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2","strip 3, strip 2 3","PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD"
 "4","0","4","Neutrik NJ6FD-V","Line in TRS / Insert TRS switched / Direct out TRS / Jack","Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical","strip jack 3, strip 2 jack 3, samples (check 6) 2",""
 "0","2","0","Neutrik NC3MAH","MIX L balanced out","Connector_Audio:Jack_XLR_Neutrik_NC3MAH_Horizontal","jig stub 1",""
 "0","7","0","Amphenol B6252HB-NPP3G-50","MIX L out / MIX R out / SUB 1 out / AUX 1 out / AUX 2 out / PFL MIX out","Connector_Coaxial:BNC_Amphenol_B6252HB-NPP3G-50_Horizontal","jig stub 6",""

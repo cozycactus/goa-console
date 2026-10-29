@@ -70,7 +70,8 @@ equivalent 1 % thick-film 0805. Every part that needs more (anti-surge, 0.1 %, 2
   - **Priced 2026-10-28** (`order_phase1_prices.csv`, Mouser first): stage A about $423 in parts + $70.50 of PCBs, stage B
     $311, a second strip $294; without shipping, VAT or duty. Backordered at Mouser then: OPA1612AIDR (AID tube in
     stock), PVA2 (3/2027), DG413DY-E3, BAV199,215 / BZX84-C5V1 / PMEG4010CEH (Nexperia, to 2027); WIMA
-    MKS2C042201K00KSSD obsolete (the in-stock M-box 2.2 uF is larger than the footprint); Alpha pots only at Tayda.
+    MKS2C042201K00KSSD obsolete, replaced by KEMET MMK5225K63J06L4BULK in the same box (FE1, 2026-10-29: buy the console's 114 at once,
+    it is a last-time buy too); Alpha pots only at Tayda. Stage A after FE1: about $420 + PCBs.
 - **Not on any board, so not in the list** (they are in `offboard_bom.md`): knobs, fader caps, LED spacers, standoffs, ribbon and IDC sockets, the
   harness, the PSU modules and its case parts. See the specs (§16 of the strip spec, master spec §26, `psu_spec.md`).
 
@@ -82,7 +83,7 @@ equivalent 1 % thick-film 0805. Every part that needs more (anti-surge, 0.1 %, 2
 | Neutrik NJ6FD-V | 101 (72 strip, 20 group, 9 master) | ~14-week lead time quoted | order first |
 | TI OPA1612AIDR | 311 (264 strip, 28 group, 13 master, 6 jig) | LCSC the only volume stock seen | buy at LCSC, or split across distributors |
 | TI LM1084IT-ADJ/NOPB | 2 | little stock | buy with the first order |
-| WIMA MKS2C042201K00KSSD (2.2 µF film) | 100 (72 strip, 16 group, 12 master) | DigiKey out of stock; Farnell ~1080 | buy at Farnell now; no design change |
+| WIMA MKS2C042201K00KSSD (2.2 µF film); since FE1 KEMET MMK5225K63J06L4BULK | 108 (72 strip, 24 group, 12 master) | DigiKey out of stock; Farnell ~1080 | buy at Farnell now; no design change |
 | WIMA MKS2D031501C00KSSD (150 nF film, C48) | 24 | the 63 V code (MKS2C031501A00KSSD) has no stock anywhere; RS ~1135 of this 100 V one | swapped (below) |
 
 If the 2.2 µF WIMA does disappear, TDK B32520C0225J000 is the nearest film part. It is on a 7.5 mm pitch

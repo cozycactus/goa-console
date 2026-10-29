@@ -6,7 +6,7 @@
 "4","22p C0G 5%","Capacitor_SMD:C_0805_2012Metric","KEMET C0805C220J5GACTU","","C8 C9 C34 C35"
 "6","33u NP 25V","Capacitor_THT:CP_Radial_D8.0mm_P3.50mm","Nichicon UES1E330MPM (MUSE ES)","","C12 C36 C54 C55 C80 C81"
 "8","100u NP 25V","Capacitor_THT:CP_Radial_D10.0mm_P5.00mm","Nichicon UES1E101MPM (MUSE ES)","","C14 C20 C29 C30 C61 C65 C87 C91"
-"6","2.2u film","Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2","WIMA MKS2C042201K00KSSD (PET 63V)","","C15 C37 C56 C62 C82 C88"
+"6","2.2u film","Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2","KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)","","C15 C37 C56 C62 C82 C88"
 "8","10p C0G","Capacitor_SMD:C_0805_2012Metric","KEMET C0805C100J5GACTU","","C18 C25 C26 C39 C60 C64 C86 C90"
 "4","10u NP 25V","Capacitor_THT:CP_Radial_D5.0mm_P2.00mm","Panasonic ECE-A1EN100U (matched pair: the two at one DRV135 within 2 %, sorted at 100 Hz)","","C21 C22 C40 C41"
 "4","1u","Capacitor_SMD:C_1206_3216Metric","Samsung CL31B105KBHNNNE (X7R 50V)","","C23 C24 C42 C43"

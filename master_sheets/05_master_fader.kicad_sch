@@ -538,7 +538,7 @@
     (property "Datasheet" "" (id 3) (at 34.29 38.1 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "MPN" "WIMA MKS2C042201K00KSSD (PET 63V)" (id 4) (at 34.29 38.1 0)
+    (property "MPN" "KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)" (id 4) (at 34.29 38.1 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 0f0f29a9-17c0-5771-8b64-3eb210ce33ac))

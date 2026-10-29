@@ -244,7 +244,7 @@ fixed where v4.8 had them. No other part moved.
 
 ## Changes in v4.2 (2026-10-24, signed off; `film_np_proposal.md` F1–F4)
 
-- **Film coupler:** C13 (fader wiper → FPIN) is a WIMA MKS2C042201K00KSSD 2.2 µF PET film (63 V), THT on the bottom
+- **Film coupler:** C13 (fader wiper → FPIN) is a KEMET MMK5225K63J06L4BULK 2.2 µF PET film (63 V; was the WIMA MKS2C042201K00KSSD, obsolete, FE1 2026-10-29), THT on the bottom
   side; it was an X7R 1206. C49 (2.2 µF film, LF band) gets the same part and moves to the bottom side: the MKS2 is
   13 mm tall, and on the top side it sat under the 11.5 mm panel gap.
 - **Bipolar electrolytics:** Nichicon MUSE ES 25 V in the existing footprints:
@@ -762,7 +762,7 @@ ON, EQ, 3 routing), 3 jacks, 1 bus header.
 BOM rules (v4.1):
 - every ceramic ≥ 25 V, 50 V preferred: 100n Samsung CL21B104KBCNNNC (X7R 50 V 0805), C62 1 µF Murata
   GRM21BR71H105KA12, C0G parts 50 V; no X7R in the signal path (v4.2);
-- film: C13 and C49 WIMA MKS2C042201K00KSSD (2.2 µF PET 63 V, 7.2 × 13 × 7.2, bottom side), C48 150 nF MKS2;
+- film: C13, C49 and C96 KEMET MMK5225K63J06L4BULK (2.2 µF PET 63 V, 7.2 × 13 × 7.2, bottom side; FE1, the WIMA is obsolete), C48 150 nF MKS2;
 - bipolar electrolytics: Nichicon MUSE ES 25 V, UES1E330MPM (33 µF; C38 + C91 in parallel) and UES1E101MPM (100 µF);
 - OPA1612AIDR, OPA1656IDR (U16), LM393BIDR (the same comparator as the master), onsemi MMBFJ112;
 - Kingbright WP710A10ID red, WP710A10GD green, WP710A10YD yellow; D2 WP3VEGW red / green (v4.7, own footprint

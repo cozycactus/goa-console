@@ -67,7 +67,7 @@ CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Samsung CL31B105K
            '10u NP 25V': 'Panasonic ECE-A1EN100U', '47u NP 25V': 'Panasonic ECE-A1VN470U (35V)',
            '220u NP 25V': 'Panasonic ECE-A1EN221U',
            # film couplers and audio bipolars (film_np_proposal.md): MUSE ES 25 V in the existing footprints
-           '2.2u film': 'WIMA MKS2C042201K00KSSD (PET 63V)',
+           '2.2u film': 'KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)',
            '33u NP 25V': 'Nichicon UES1E330MPM (MUSE ES)', '100u NP 25V': 'Nichicon UES1E101MPM (MUSE ES)'}
 FILM_2U2 = 'Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2'          # MKS2 2.2u 63V: 7.2 x 13 x 7.2
 NP_VALUE = {'47u NP 25V': '33u NP 25V', '220u NP 25V': '100u NP 25V'}             # MUSE ES 8x11.5 / 10x16 cans

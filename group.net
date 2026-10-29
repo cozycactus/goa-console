@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/group.kicad_sch")
-		(date "2026-10-28T00:26:47")
+		(date "2026-10-29T11:54:38")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -3538,7 +3538,7 @@
 			(footprint "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
-					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
+					(name "MPN") "KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)")
 				(field
 					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
@@ -3555,7 +3555,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "WIMA MKS2C042201K00KSSD (PET 63V)")
+				(value "KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)")
 			)
 			(property
 				(name "Sheetname")
@@ -5689,7 +5689,7 @@
 			(footprint "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
-					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
+					(name "MPN") "KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)")
 				(field
 					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
@@ -5706,7 +5706,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "WIMA MKS2C042201K00KSSD (PET 63V)")
+				(value "KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)")
 			)
 			(property
 				(name "Sheetname")
@@ -8900,7 +8900,7 @@
 			(footprint "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
-					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
+					(name "MPN") "KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)")
 				(field
 					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
@@ -8917,7 +8917,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "WIMA MKS2C042201K00KSSD (PET 63V)")
+				(value "KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)")
 			)
 			(property
 				(name "Sheetname")
@@ -9080,7 +9080,7 @@
 			(footprint "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
-					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
+					(name "MPN") "KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)")
 				(field
 					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
@@ -9097,7 +9097,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "WIMA MKS2C042201K00KSSD (PET 63V)")
+				(value "KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)")
 			)
 			(property
 				(name "Sheetname")
@@ -14418,7 +14418,7 @@
 			(footprint "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
-					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
+					(name "MPN") "KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)")
 				(field
 					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
@@ -14435,7 +14435,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "WIMA MKS2C042201K00KSSD (PET 63V)")
+				(value "KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)")
 			)
 			(property
 				(name "Sheetname")
@@ -14718,7 +14718,7 @@
 			(footprint "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 			(fields
 				(field
-					(name "MPN") "WIMA MKS2C042201K00KSSD (PET 63V)")
+					(name "MPN") "KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)")
 				(field
 					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
 				(field
@@ -14735,7 +14735,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "WIMA MKS2C042201K00KSSD (PET 63V)")
+				(value "KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)")
 			)
 			(property
 				(name "Sheetname")
@@ -22051,7 +22051,7 @@
 		(net
 			(code "63")
 			(name "Net-(U3B--)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C96")
 				(pin "1")
@@ -22109,7 +22109,7 @@
 		(net
 			(code "66")
 			(name "Net-(U5A--)")
-			(class "Default")
+			(class "HighZ")
 			(node
 				(ref "C97")
 				(pin "1")

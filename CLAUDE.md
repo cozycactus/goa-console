@@ -240,7 +240,7 @@ jack board) done.
   spots first (U8 and C48 trade spots); strip / group / jig re-place identically. `sim/review/cs7/dim.py`; sim_console dim
   test; TI models (the real OPA1656 is in the master review's model folder, `ti/OPA1656.LIB` is a stand-in): U23 84.8 deg
   dimmed, U21 49.7. Switching step -59 dBu at the TRS (0.50 mV CRS offset). Reverses console_architecture's "monitor dim".
-- `film_eol_proposal.md` (+ `film_eol_proposal.patch`, tools only) — FE1 / FE2, proposed 2026-10-29, NOT signed off: the 2.2 uF
+- `film_eol_proposal.md` (+ `film_eol_proposal.patch`, tools only) — FE1 signed off by Ruslan and applied 2026-10-29 (FE2 not taken): the 2.2 uF
   film coupler WIMA MKS2C042201K00KSSD is obsolete (Yageo PCN PTN-093025-VK, thin PET). FE1: same footprint, KEMET
   MMK5225K63J06L4BULK (7.2 x 13 x 7.2, also obsolete; Mouser 1,841), buy the console's 114 now; trial 61/61, nothing moved.
   FE2: W8.5 footprint for the active WIMA M-box (8.5 x 14 x 7.2); the trial hits one collision per board (strip R5 / C13,
@@ -551,7 +551,8 @@ jack board) done.
   ~136 mm). Wing PTCs MF-RX185/72 (H4), fixed in place.
 - Film couplers and audio bipolars (signed off by Ruslan 2026-10-24, `film_np_proposal.md` F1-F4; strip v4.2, master
   spec v0.8 note): no X7R in the signal path. Every 2.2 µF wiper coupler and the meter averaging caps are WIMA
-  MKS2C042201K00KSSD PET film, THT on the bottom side (13 mm: too tall for the 11.5 mm top gap). Bipolars are Nichicon
+  MKS2C042201K00KSSD PET film (order code KEMET MMK5225K63J06L4BULK since FE1, 2026-10-29: the WIMA is obsolete, the KEMET a last-time
+  buy in the same box), THT on the bottom side (13 mm: too tall for the 11.5 mm top gap). Bipolars are Nichicon
   MUSE ES 25 V in the existing footprints: 47 → 33 µF (UES1E330MPM), 220 → 100 µF (UES1E101MPM), 10 µF UES1E100MDM (discontinued: Panasonic ECE-A1EN100U since
   2026-10-25, `sourcing.md` S1, Ruslan; DRV135 sense legs and LME49600 ±VP bypasses, inside the loop / off the path).
   End-to-end LF −3 dB 2.3 Hz. Not DC coupling (rejected: faders, switches, synth DC); no polypropylene (too large at

@@ -118,7 +118,7 @@ Schematic checks in the trial:
 
 ## What to sign
 
-- [x] **F1** X7R 2.2 µF couplers → WIMA MKS2C042201K00KSSD film, THT on the bottom side. That's strip C13; group C15,
+- [x] **F1** (order code since 2026-10-29: KEMET MMK5225K63J06L4BULK, FE1 in `film_eol_proposal.md`; the WIMA is obsolete) X7R 2.2 µF couplers → WIMA MKS2C042201K00KSSD film, THT on the bottom side. That's strip C13; group C15,
   C37, C56, C62; master C29, C35, C66, C81, C106, C124, C128, C138, C147, and the meter averaging caps C157, C175.
   Strip C49 gets the MPN.
 - [x] **F2** Bipolar electrolytics → Nichicon MUSE ES 25 V in the current footprints: 47 µF → 33 µF (UES1E330MPM),
