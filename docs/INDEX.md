@@ -48,6 +48,11 @@ The live rules, the current state and the one-line decisions are in `CLAUDE.md`;
 
 ## Files
 
+- `docs/clipping/` (2026-10-29) — clipping waveforms of the Delta's op-amps (TL072 classic with its input-stage phase
+  reversal, TI's 1989 macro, the TL07xH die) against ours (OPA1612, OPA1656): follower and inverter on ±17 V at
+  14 / 16 / 18 V peak, `sim/review/clipping/clip.py` + `tl072_classic.lib`; TI models via `$TI_MODELS`, not in the repo.
+  Result: same hard clip within 1 dB at every stage output; the classic TL072 reverses to the positive rail in
+  followers 1.5 V before its output would clip; the OPA1656 follower (U16) flat-tops at +14.75 V, its input range.
 - `channel_strip.kicad_sch` / `.kicad_pro` — channel strip schematic v5.6 (KiCad 7 file format, opens in KiCad 10).
   HIERARCHICAL on A4 since 2026-10-25, like the master: a root sheet plus 17 pages in `strip_sheets/` (the group: 12
   pages in `group_sheets/`); strip_draw blocks too big for a page are lists of pieces (KHN per band, routing per
