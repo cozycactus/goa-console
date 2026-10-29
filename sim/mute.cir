@@ -1,4 +1,7 @@
-* Power-on / power-off mute control (master spec section 8), v3 = values in tools/gen_master.py.
+* Power-on / power-off mute control (master spec section 8), v4 = values in tools/gen_master.py (master v0.13).
+* v4 (2026-10-29, review of clicks_proposal.md RV9): comparator B's + input on SENSE_REF = +1.0 V (51K / 10K from
+* VREF6) and its lower leg 64.9K (trip -14.3 V); case 4 takes -V to 0 V as before (the +0.45 V clamp case and the
+* relay driver's base is sim/review/clicks/mute_rbe.cir).
 * v3 (2026-10-23, master_parts_review.md item 3): reset and fast-release resistors 2.2K -> 4.7K (one LM393 output
 * sank ~23 mA at a one-rail loss); six coils (K6 phones).
 * v1 (first generator draft: 220K / 22u timer, 1M hysteresis, unlimited diode paths) never closed within 4 s:
@@ -32,9 +35,11 @@ DZ1 0 vref DZ62
 R56 vbp sp 56k
 R47 sp 0 47k
 R22 vref sn 22k
-R51 sn vbn 51k
+R51 sn vbn 64.9k
+R238 vref sref 51k
+R239 sref 0 10k
 XA sp vref rok vlp vln CMP
-XB 0 sn rok vlp vln CMP
+XB sref sn rok vlp vln CMP
 RPU vlp rok 10k
 * ---------------- timer (2.2M / 2.2u film, clamped at -0.7 V, reset through 4.7K), Schmitt (22M), driver
 RT rok mt 2.2meg

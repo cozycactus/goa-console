@@ -223,7 +223,7 @@ this is the record with the reasons, the rejected alternatives and the dates. Do
   50 Hz ~46 → ~60 dB); master C194 / C195 2.2 µF films ahead of the aux 5 / 6 AFL 22Ks and group C98 the same (the
   level buffers' 6-25 mV DC no longer ticks onto PFL), master C196 / C197 33 µF NP in the phones gain-set legs (DC gain
   1: 19 / 79 mV → 6 / 25 mV on the cans under the relay; 2.2 Hz, a D10 100 µF found no spot), the −V-loss comparator U10B's + input on +1.0 V (R238 51K /
-  R239 10K from VREF6) with R53 51K → 64K9 (trip −14.4 V as before; with −V lost the inputs stay inside the LM393B's
+  R239 10K from VREF6) with R53 51K → 64K9 (trip −14.3 V, was −14.4; with −V lost the inputs stay inside the LM393B's
   range: SENSE_N +0.34 V normal, +4.7 V fault). Made last (the proposal's DEFER would have shifted 17 / 18 refs: the
   parts are created at the end of gen_master.py / gen_group.py instead), placed by moves_only at probed spots,
   nothing else moved. Strip 941 pins / 327 parts, master 1818 / 631, group 807 / 292.

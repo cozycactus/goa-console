@@ -383,7 +383,7 @@ for _, ps in schgen.blocks:                     # ceramic MPNs by value (X7R 50 
                 mpn = mpn.replace('C1206C', 'C0805C', 1)                            # (C7, C14, C37, C41, C94, C95)
             pt['mpn'] = mpn
 build(OUT, 'channel_strip', 'Channel strip - goa console',
-      {1: 'Generated from channel_strip_schematic_spec.md v5.5', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
+      {1: 'Generated from channel_strip_schematic_spec.md v5.6', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
        3: 'A Delta Theatre input without the mic stage'},
       paper='auto', revision='5.6', pages=dict(paper='A4', folder='strip_sheets'), **strip_draw.SHEET)   # A4 sub-sheets
 if os.environ.get('PILOT'):                     # only the drawn blocks, on a sheet of their own (layout review)

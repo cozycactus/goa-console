@@ -119,8 +119,9 @@ MOVES.update(CS2)
 # C2 / C4 stay fixed where they were, and the old 0805 spots are kept out of packing, so every other part packs as before
 CS6 = {'R1': (32.75, 297.0, 90, 'F'), 'R2': (28.75, 298.5, 0, 'F'), 'R3': (31.75, 297.75, 0, 'B'), 'R4': (25.0, 305.0, 0, 'B')}
 MOVES.update(CS6)
-# clicks_proposal.md RV3 / RV4 (signed off 2026-10-28): the gain stage's 1M keeper under U1 and the direct out's cold-leg
-# 33u NP beside R73, bottom side, placed by MOVES alone (spots probed clear of courtyards and leads)
+# clicks_proposal.md RV3 / RV4 (signed off 2026-10-28): the gain stage's 1M keeper on the bottom under U1 (pads 8.6 / 9.9 mm
+# from U1 pins 6 / 7: the nearest free spot) and the direct out's cold-leg 33u NP beside R73 (6.8 mm), placed by MOVES alone
+# (spots probed clear of courtyards and leads)
 CLICKS = {'R142': (7.21, 54.56, 0, 'B'), 'C107': (30.03, 199.0, 0, 'B')}
 MOVES.update(CLICKS)
 FIX.update({'C2': (31.745, 302.025, 0, 'F'), 'C4': (19.745, 302.525, 0, 'F')})

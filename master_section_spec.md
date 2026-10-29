@@ -338,7 +338,8 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
 
 - −V-loss detector reference (v0.13, clicks_proposal.md RV9): U10B's + input sits on +1.0 V (R238 51K from VREF6,
   R239 10K to GNDD, net SENSE_REF), not on GNDD, and the −V sense divider's lower leg is R53 64K9 (was 51K) so the
-  trip stays at −14.4 V. Reason: with −V lost and +V up, the console's quiescent current drives −VBUS to ~+0.45 V
+  trip stays where it was: −14.3 V (SENSE_REF = 6.2 × 10 / 61 = 1.016 V; was −14.4 V with 51K to GNDD; 65.3K would
+  hold it exactly, E96 has 64K9 and 66K5; the zener's ±3 % moves it ±0.3 V anyway; review 2026-10-29). Reason: with −V lost and +V up, the console's quiescent current drives −VBUS to ~+0.45 V
   (D2 / the PSU's D7), so −VL, the LM393B's own V−, ends at ~+0.5 V and a GNDD-referenced input would sit below
   V− (past the −0.3 V absolute maximum: TI says the output may be wrong); if it misread, RAIL_OK would float high
   and the relays close onto the phones' DC. SENSE_N reads +0.34 V normally, +4.7 V with −V gone, both in range.
@@ -365,7 +366,8 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
   (34 V across the package, over the non-B part's 30 V recommended maximum):
   - Reference: BZT52C6V2 (SOD-123) fed from +V through 4K7 (VREF6 = 6.2 V).
   - Comparator A: +V through 56K / 47K against VREF6, trips below +13.6 V.
-    Comparator B: divider 22K (to VREF6) / 51K (to −V) against GNDD, trips when −V rises above −14.4 V.
+    Comparator B (v0.13, RV9): divider 22K (to VREF6) / 64K9 (to −VBUS) against SENSE_REF = +1.0 V (51K / 10K from
+    VREF6), trips when −V rises above −14.3 V (was 51K against GNDD, −14.4 V).
     Open-collector outputs wired-AND on RAIL_OK, 10K pull-up to +VL.
   - Timer: 2.2M from RAIL_OK into a 2.2 µF film capacitor (WIMA MKS2; an electrolytic's leakage
     would be comparable to the charging current near the threshold). A 1N4148 clamps it at
@@ -379,13 +381,13 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
     non-B part's 20 mA absolute maximum. With 4.7K it is 12–13 mA, and the timing is unchanged
     (below).
   - The relay transistor sinks all six coils (6 × 9.1 mA).
-- Simulated (`sim/mute.cir` v3, 2026-10-23: 4.7K resets, six coils; LM393 as an open-collector
+- Simulated (`sim/mute.cir` v4, 2026-10-29: the RV9 values; v3 2026-10-23: 4.7K resets, six coils; LM393 as an open-collector
   model that only works above 2 V of supply; coil inductance assumed 1 H):
 
   | Case | Result |
   |------|--------|
   | Power-up, rails in 50 ms | relays close at 2.80 s; worst coil current before that 7 µA (no glitch) |
-  | Both rails collapse (17 → 0 V in 200 ms) | coils released 2 ms after −V passes −14.4 V; rails still ±14.2 V |
+  | Both rails collapse (17 → 0 V in 200 ms) | coils released 2 ms after −V passes −14.3 V; rails still ±14.2 V |
   | +V lost only | released at +13.4 V (−V still −17 V) |
   | −V lost only | released at −14.2 V (+V still 17 V) |
   | 20 ms dip to ±12 V | released in 1.4 ms; full re-arm, closes again 2.76 s after the dip |

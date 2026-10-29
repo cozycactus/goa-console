@@ -427,7 +427,7 @@ C7 33 pF across R7; C78 33 pF across R9 (v4.1: balances the bridge, CMRR 86 dB f
 ```
 RECV ── R45 2K2 ── RV9 pin 3 (CW end)    RV9 wiper ── U1B (−);  U1B (+) ── AGND;  R142 1M from GOUT to U1B (−)
   (v5.6, clicks_proposal.md RV4: the wiper was U1B's only DC feedback path; a lifted or bouncing wiper left 22 pF of
-  feedback and 60-250 nA of bias, a rail-ward ramp at 3-11 V/ms. 1M costs < 0.1 dB at +15 dB, nothing at the detent)
+  feedback and 60-250 nA of bias, a rail-ward ramp at 3-11 V/ms. 1M costs 0.1 dB at +15 dB and 0.06 dB at the detent, 0.02 dB at −15: it parallels the feedback half only; review 2026-10-29)
 GOUT ── R46 2K2 ── RV9 pin 1 (CCW end)   C37 22 pF from GOUT to U1B (−)
 GOUT ── C38 33 µF NP ── HIN ── R47 47K to AGND
 ```
@@ -966,7 +966,7 @@ each standoff's panel end and wherever a panel meets the frame rails. CN3/CN5: W
 v5.6 (clicks_proposal.md RV3 / RV4):
 - **Netlist:** 941 pin entries / 327 parts / 0 mismatches, check_fp 0, ERC 0; R142 and C107 added, R73 ERJ-P06J750V.
 - **Simulation:** `tools/sim_netlist.py` 45/45, `tools/sim_console.py` 45/45 (targets unchanged).
-- **Placement:** R142 (under U1) and C107 (beside R73) on the bottom by moves_only, nothing else moved; 0 DRC, 0 parity,
+- **Placement:** R142 (on the bottom under U1, pads 8.6 / 9.9 mm from pins 6 / 7) and C107 (beside R73, 6.8 mm) by moves_only, nothing else moved; 0 DRC, 0 parity,
   327 / 327 linked.
 
 v5.5 (EQM1):

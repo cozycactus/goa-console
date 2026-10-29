@@ -86,7 +86,7 @@ for src, nm in (('POST_L', 'MAIN_L'), ('POST_R', 'MAIN_R'), ('MONO', 'MAIN_M')):
 b = block('POWER-ON MUTE: rails > ~14 V for ~2.7 s closes all six relays; either rail low opens them at once')
 dz = ref('D'); P(b, dz, 'DZ', 'BZT52C6V2', {2: 'GNDD', 1: 'VREF6'}, mpn='Diodes BZT52C6V2-7-F'); rz = R(b, '4K7', '+VBUS', 'VREF6')
 sp1, sp2 = R(b, '56K', '+VBUS', 'SENSE_P'), R(b, '47K', 'SENSE_P', 'GNDD')       # +V < 13.6 V -> fault
-rn = R(b, '22K', 'VREF6', 'SENSE_N'); sn2 = R(b, '64K9', 'SENSE_N', '-VBUS')    # -V above -14.4 V -> fault (crosses +1.0 V, RV9)
+rn = R(b, '22K', 'VREF6', 'SENSE_N'); sn2 = R(b, '64K9', 'SENSE_N', '-VBUS')    # -V above -14.3 V -> fault (crosses +1.0 V, RV9; was -14.4 with 51K to GNDD)
 chain(b, '+VBUS', [('s', rz), ('g', dz)], 'VREF6'); chain(b, '+VBUS', [('s', sp1), ('g', sp2)], 'SENSE_P')
 chain(b, 'VREF6', [('s', rn), ('g', sn2)], 'SENSE_N')
 uc = cmp(b, 'SENSE_P', 'VREF6', 'RAIL_OK'); ca = LAST[0]; cmp(b, 'SENSE_REF', 'SENSE_N', 'RAIL_OK'); cb = LAST[0]
