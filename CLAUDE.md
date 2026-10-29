@@ -296,7 +296,8 @@ jack board) done.
 - Stability re-run 2026-10-26 on today's netlists and placement (`met1_ret1_review.md`): group (all sweeps, both
   returns) and master (31 configurations + phones, `sim/review/master/run_each.py`) match 2026-10-24; worst master
   unit U21A/B 47.7 deg at the pot top as then. `configs.py` now finds build-out far sides and spare units from the
-  netlist (the drawn master's unnamed nets had moved the +47 pF stress to the pin side).
+  netlist (the drawn master's unnamed nets had moved the +47 pF stress to the pin side). Master re-run 2026-10-29 with the
+  trace table re-measured after CS4b-CS7 (34 configurations): worst still U21A 47.7 deg, no unit lower (`met1_ret1_review.md`).
 - `emc_placement_study.md` — placement-level EMC check (2026-10-26) against Self / Whitlock / Muncy / AES48 / Ott /
   TI / ADI rules, measured with `tools/emc_check.py` (KiCad Python: entry runs, aggressor-victim pad distances, long
   switching nets, supply entry). Strip: MET1's LED lines span ~260 mm and end 4.3 mm from U16's inputs; U16's

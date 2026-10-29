@@ -170,6 +170,13 @@ DRV134 / TL072 models, fix set `none`).
 | Phones composite U26A/B | 76.0° | 76.0° |
 | Every other unit | within 1.5° of October, or better | |
 
+**Re-run 2026-10-29** after CS4b / CS4c / E9b-E11 / CS7: `master_len.json` re-measured from the placed master (372 -> 390
+nets; CRSB_R +27 mm, the new CRP_L / R 82 / 90 mm, U5A- 38 -> 13 mm, U9's loop nets 24-37 -> 1 mm), all 34
+configurations (the 31 + CS7's `p100_dim`, `p075_dim`, `p100_dim_out47`), 214 min, log `log_v13_none.txt` (local).
+- **Worst unit unchanged:** U21A/B (CRS followers) 47.7° at every pot fully up; 48.6° with +47 pF dimmed.
+- **No unit lower** than on 2026-10-26 in any of the 31 common configurations. Gains: U2B / U4A 74.0 -> 75.5°,
+  solo U19A 65.3 -> 73.5° (its output net is shorter on today's placement).
+
 Two faults in the stress configurations' load map came from the master having been drawn on 2026-10-24, and both are
 fixed in `configs.py`:
 - **The +47 pF landed on the pin side of the build-outs.** The map put it beyond them by net names that are now
