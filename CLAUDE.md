@@ -143,6 +143,7 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
   needs its 47K bleed and BAV199 like the hot leg (RV3's C107 removed both; phantom would put ~48 V on a 25 V cap); RV9b,
   a 4K7 base-emitter resistor on the master's relay driver so a closed relay releases with −V lost at the LM393B's V_OL
   corner. Bench item: open the −V wire with the relays closed.
+- `thin_film_proposal.md` TF1 (2026-10-29, NOT signed off): plain 0805 resistors up to 1M as Yageo RT0805FRE07 thin film instead of RC0805FR thick film, one rule in `order_bom.py` (62 lines / 4411 parts, ~€80-150); anti-surge ERJ-P06, > 1M and the 2512 stay thick film.
 - `project_review.md`: everything applied but RV11.2's PFL switcher from the PFLDET net (needs a DC analysis of the detect line; `check_bus.py` covers pin 29) and RV12's optional second step (the ~40 proposal / study `.md` files into `docs/`, a scripted rewrite of ~280 references).
 
 ## Next steps
