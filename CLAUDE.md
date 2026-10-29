@@ -240,6 +240,11 @@ jack board) done.
   spots first (U8 and C48 trade spots); strip / group / jig re-place identically. `sim/review/cs7/dim.py`; sim_console dim
   test; TI models (the real OPA1656 is in the master review's model folder, `ti/OPA1656.LIB` is a stand-in): U23 84.8 deg
   dimmed, U21 49.7. Switching step -59 dBu at the TRS (0.50 mV CRS offset). Reverses console_architecture's "monitor dim".
+- `film_eol_proposal.md` (+ `film_eol_proposal.patch`, tools only) — FE1 / FE2, proposed 2026-10-29, NOT signed off: the 2.2 uF
+  film coupler WIMA MKS2C042201K00KSSD is obsolete (Yageo PCN PTN-093025-VK, thin PET). FE1: same footprint, KEMET
+  MMK5225K63J06L4BULK (7.2 x 13 x 7.2, also obsolete; Mouser 1,841), buy the console's 114 now; trial 61/61, nothing moved.
+  FE2: W8.5 footprint for the active WIMA M-box (8.5 x 14 x 7.2); the trial hits one collision per board (strip R5 / C13,
+  group C76 / C21, master C82 / C66).
 - `cs11b_proposal.md` (+ `cs11b_proposal.patch`, tools only) — CS11b, signed off by Ruslan and applied 2026-10-27: each DRV135's
   two 10 uF couplers as a pair sorted within 2 % (MPN note; LME49600 bypasses and the jig stub as bought; 10 sorting
   spares in `order_bom.py`). `sim/review/cs11/drv_couplers.py` (TI model): output balance worst 5 % at 1 kHz / 100 Hz

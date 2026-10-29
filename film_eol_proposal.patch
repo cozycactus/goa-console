@@ -1,0 +1,39 @@
+diff --git a/tools/gen.py b/tools/gen.py
+index e0f06a6..9890bc7 100644
+--- a/tools/gen.py
++++ b/tools/gen.py
+@@ -23,7 +23,7 @@ CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '10n': 'Samsung CL21B103
+            # rail reservoirs in the strip's own footprints (D8 P3.5, D6.3 P2.5; the master's UPW parts are larger)
+            '220u 25V': 'Rubycon 35ZLH220MEFC8X11.5 (35V)', '47u 25V': 'Panasonic EEU-FR1H470 (50V)',
+            '150n film': 'WIMA MKS2D031501C00KSSD (PET 100V; 3.5 x 8.5 x 7.2, the 63 V KSSD code has no stock)',
+-           '2.2u film': 'WIMA MKS2C042201K00KSSD (PET 63V)',
++           '2.2u film': 'KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)',
+            # audio bipolars, Nichicon MUSE ES 25 V, in the existing footprints (film_np_proposal.md)
+            '33u NP 25V': 'Nichicon UES1E330MPM (MUSE ES)', '100u NP 25V': 'Nichicon UES1E101MPM (MUSE ES)'}
+ RX_MPN = 'Panasonic ERA-6AEB103V'          # 10K 0.1 % 0805, as the master's receivers
+diff --git a/tools/gen_master.py b/tools/gen_master.py
+index 01fe45c..304b9f5 100644
+--- a/tools/gen_master.py
++++ b/tools/gen_master.py
+@@ -96,7 +96,7 @@ chain(b, '+VL', [('s', R(b, '10K', '+VL', 'RAIL_OK', mpn='Panasonic ERJ-P06J103V
+ # <= ~8.5 ms after either rail drops; any fault longer than ~8 ms re-arms the full delay). The reset and fast-release
+ # resistors are 4K7, not 2K2: at a one-rail loss one LM393 output sinks ~12 mA instead of ~23 mA
+ rt = R(b, '2M2', 'RAIL_OK', 'MUTE_T')
+-ct = ref('C'); P(b, ct, 'C', '2.2u film 63V', {1: 'MUTE_T', 2: 'GNDD'}, fp=FILM_2U2, mpn='WIMA MKS2C042201K00KSSD (PET 63V)')
++ct = ref('C'); P(b, ct, 'C', '2.2u film 63V', {1: 'MUTE_T', 2: 'GNDD'}, fp=FILM_2U2, mpn='KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)')
+ dr, rr_, dc = D(b, 'MUTE_T', 'MUTE_TX'), R(b, '4K7', 'MUTE_TX', 'RAIL_OK'), D(b, 'GNDD', 'MUTE_T')   # reset path, clamp at -0.7 V
+ chain(b, 'RAIL_OK', [('s', rt), ('g', ct), ('g', dc)], 'MUTE_T'); chain(b, 'MUTE_T', [('s', dr), ('s', rr_)], 'RAIL_OK')
+ near(cmp(b, 'MUTE_T', 'VREF6', 'MUTE_GO'), uc); cs_ = LAST[0]; frag(b, 20, 10, lambda d: frags.comparators(d, [(cs_, False)]))
+diff --git a/tools/master_lib.py b/tools/master_lib.py
+index 2ab6d0c..f6a8485 100644
+--- a/tools/master_lib.py
++++ b/tools/master_lib.py
+@@ -67,7 +67,7 @@ CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Samsung CL31B105K
+            '10u NP 25V': 'Panasonic ECE-A1EN100U', '47u NP 25V': 'Panasonic ECE-A1VN470U (35V)',
+            '220u NP 25V': 'Panasonic ECE-A1EN221U',
+            # film couplers and audio bipolars (film_np_proposal.md): MUSE ES 25 V in the existing footprints
+-           '2.2u film': 'WIMA MKS2C042201K00KSSD (PET 63V)',
++           '2.2u film': 'KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)',
+            '33u NP 25V': 'Nichicon UES1E330MPM (MUSE ES)', '100u NP 25V': 'Nichicon UES1E101MPM (MUSE ES)'}
+ FILM_2U2 = 'Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2'          # MKS2 2.2u 63V: 7.2 x 13 x 7.2
+ NP_VALUE = {'47u NP 25V': '33u NP 25V', '220u NP 25V': '100u NP 25V'}             # MUSE ES 8x11.5 / 10x16 cans
