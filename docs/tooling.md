@@ -109,3 +109,9 @@ The live rules, the current state and the one-line decisions are in `CLAUDE.md`;
   HighZ / Entry / Bus on F.Cu, Switching on B.Cu (both planes between them), the rest greedily to clear crossings, once
   per board. `docs/escape/<board>_layers.csv` per net; the three densest 30 mm windows per board as SVGs. Strip worst:
   y 121-151, the column between U12 / U13 (RV13, RV15, SW12, CN3).
+- `tools/freespot.py` (KiCad Python, 2026-10-29) — free spots for a part made last, by the placer's guard rules
+  (same-side courtyards, THT pads on both sides, the part's own leads against everything), the footprint loaded and
+  set up as placer.py does it; finds KiCad's library on Linux and macOS. `tools/placediff.py` — footprints added,
+  removed, moved, turned or flipped between two versions of a board (default: against git HEAD); exit 1 on any
+  difference. Together they are the "made last, placed by moves_only, check that only the new parts changed" rule.
+
