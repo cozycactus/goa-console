@@ -67,6 +67,10 @@ equivalent 1 % thick-film 0805. Every part that needs more (anti-surge, 0.1 %, 2
   - **Spares:** each stage gets the console rule's spares on its own count, so the second strip's spares may already
     be in stage A's leftovers.
   - **PCBs:** order all four phase-1 designs in stage A, 5 of each (the fab minimum).
+  - **Priced 2026-10-28** (`order_phase1_prices.csv`, Mouser first): stage A about $423 in parts + $70.50 of PCBs, stage B
+    $311, a second strip $294; without shipping, VAT or duty. Backordered at Mouser then: OPA1612AIDR (AID tube in
+    stock), PVA2 (3/2027), DG413DY-E3, BAV199,215 / BZX84-C5V1 / PMEG4010CEH (Nexperia, to 2027); WIMA
+    MKS2C042201K00KSSD obsolete (the in-stock M-box 2.2 uF is larger than the footprint); Alpha pots only at Tayda.
 - **Not on any board, so not in the list** (they are in `offboard_bom.md`): knobs, fader caps, LED spacers, standoffs, ribbon and IDC sockets, the
   harness, the PSU modules and its case parts. See the specs (§16 of the strip spec, master spec §26, `psu_spec.md`).
 
