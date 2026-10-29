@@ -379,7 +379,8 @@ The live rules, the current state and the one-line decisions are in `CLAUDE.md`;
   (jig spec v0.10), RV11.1-7 (tool fixes, `check_bus.py`, +7 sim_console bus checks, check_all 71 checks), the §3 stale
   facts, the title-block revisions, `render/*.json` and the escape plan regenerated. RV3 / RV4 / RV7 / RV8 / RV9
   (`clicks_proposal.md` + `.patch`, tools only) signed off and applied 2026-10-28 (strip v5.6, master v0.13; see
-  Decisions). Open: RV5 / RV6 (accepted as is), RV12-RV14 (cleanup), RV11.8, the N1 order_bom EXTRA.
+  Decisions). Open: RV5 / RV6 (accepted as is), RV12-RV14 (cleanup), RV11.8, the N1 order_bom EXTRA — all closed
+  2026-10-28 but RV11.2's PFL-switcher check and RV12's optional second step (CLAUDE.md "Not done / open").
 - `delta_crosscheck.md` (2026-10-28) — every ED sheet of the Delta DLX service manual (17 pages at 300 dpi) against our
   schematics stage by stage: ~200 table rows (Delta as read / ours / SAME, RECORDED, UNRECORDED, N/A, UNREAD) in Parts
   A-D (strip, group + aux master, master, Venue / stereo / dual line); no fault in ours; 24 unrecorded items D1-D24, each

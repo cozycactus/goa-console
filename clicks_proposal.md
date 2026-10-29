@@ -1,6 +1,7 @@
 # Clicks, DC and the −V detector: RV3, RV4, RV7, RV8, RV9 (proposal, 2026-10-28)
 
-**Not signed off.** From `project_review.md` (2026-10-28), the circuit WARNs that cost parts: five small additions on
+**Signed off by Ruslan on 2026-10-28 and applied the same day (strip v5.6, master v0.13); see "Applied" at the end.**
+From `project_review.md` (2026-10-28), the circuit WARNs that cost parts: five small additions on
 the strip, the group and the master, every one a cap or resistor in an existing node, no topology change. The change is
 `archive/patches/clicks_proposal.patch` (tools only: `gen.py`, `strip_draw.py`, `gen_master.py`, `gen_group.py`), checked on a trial
 tree (§5). RV5 (MUTEOUT DC on the fader / pre-aux pot tops) and RV6 (U16 input headroom) are not in it: see §6.

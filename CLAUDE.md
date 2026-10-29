@@ -37,7 +37,7 @@ Where the detail lives (all moved out of this file on 2026-10-28, text unchanged
 | `master_jack_board` | " | 16 | 92 | 78.6 × 111.5 | 2 | done |
 | `jig_master_stub` | jig v0.10 | 144 + 4 | 365 | 160 × 125 | 2 | done |
 | `jig_load_board` | " | 50 + 4 | 153 | 120 × 85 | 2 | done |
-| `psu` | PSU v0.2 + RV1 | 52 | 119 | 120 × 60 | 2 | done |
+| `psu` | PSU v0.2 + RV1 | 52 + 4 | 119 | 120 × 60 | 2 | done |
 
 Every board is its schematic's project board, so parity DRC runs in place; all nine: 0 DRC violations (jack boards
 only the NJ6FD-V footprint's own items), 0 parity issues, every footprint linked to its symbol (1531 / 1531).
@@ -115,7 +115,7 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
 
 **Power**
 - PSU option B (2026-10-22, `psu_spec.md` v0.2): two LRS-150-24 at 21.6 V → 10 µH / 2200 µF → LM1084-ADJ 17.0 V floating rails, TL431 + PNP + 2N6505G crowbar at 19.1 V, 4 A per rail; ADJ divider R2 / R11 ERJ-P06F1501V 1206 0.5 W (RV1, 2026-10-28). Case PC1-PC3: Hammond 1402KV, Fischer SK 47 75 SA on the front panel, Schurter DD11, NC7FD-LX (2026-10-26).
-- Budget: ~3.31 / 2.79 A typical, worst corner ~4.54 A on +V accepted (the chain 4.0 → 4.24 → 4.33 → 4.54 A, master spec §27); inlet NC7MD-LX, two 5 A contacts per rail; wing PTCs +V MF-RX250/72 (W2) on three conductors, −V MF-RX185/72 (jig stub still MF-RX160/72).
+- Budget: ~3.31 / 2.79 A typical, worst corner ~4.54 A on +V accepted (the chain 4.0 → 4.24 → 4.33 → 4.38 → 4.54 A, master spec §27); inlet NC7MD-LX, two 5 A contacts per rail; wing PTCs +V MF-RX250/72 (W2) on three conductors, −V MF-RX185/72 (jig stub still MF-RX160/72).
 
 **Mechanics and panels**
 - Strip panel 8 HP × 12U, two pot columns at x 8.84 / 29.16 (20.32 pitch, 2026-10-23), jacks on the panel (NJ6FD-V) on a 38 × 43 mm jack board 24.0 mm under it, 2×5 IDC link; knobs Ø14.5; custom frame with rails only at the panel ends (2026-10-22).
@@ -135,7 +135,7 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
 
 ## Not done / open
 - Sample checks before ordering boards (`sample_order.md`, spec 16.1): PVA2 orientation by continuity, fader pad pattern on a 1:1 print, the Sifam cap on the BP blade, knob fit on the 6.35 mm centre-notch pots, RV8's M9 nut / pin 1 / detent, panel stack height, the fader's law (before the panels are printed: the "0" marks and the printed scale depend on it) and its bottom-stop residual (CS9).
-- Front panels: Ruslan is getting quotes and a prototype strip panel (`panel_makers.md`); if the maker's minimum printed line is above ~0.11 mm, switch the small text to Arial Narrow Bold in `panel_layout.py` and regenerate `panels/`.
+- Front panels: Ruslan is getting quotes and a prototype strip panel (`panel_makers.md`); if the maker's minimum printed line is above ~0.11 mm, switch the small text to Arial Narrow Bold in `panel_layout.py` and regenerate `panels/`. At that regeneration add the "INSERT tip = send" legend (D1) to the strip, group and master panels (`panel_layout.py`, `panel_print.md`).
 - Bench, with the jig (`test_jig_spec.md`): mute depth (CS8), N1 OPA1656 A/B (one-strip swap), re-inverter stability (test 10), aux noise at N = 24, relay release and mains-off fall rate with the real PSU, PFL tick with programme, meter current-source temperature and LED brightness, hum with a real synth on TS / TRS, an earthed processor on the insert (D21), panel-to-frame bonding, output balance / CMR / fader breakthrough / GCANCEL current (CS11, tests 13-17), E7 ferrites.
 - Accepted as they are: RV5 (MUTEOUT's DC on the fader top; the Delta's cap-isolated shunt source is the fallback), RV6 (U16 clips at +21.9 dBu input), the 4.54 A worst corner, the earthed-TS-synth hum (pseudo-balanced cables, one mains distribution point).
 - PSU: routing (Ruslan) and the case build. Routing of every board is Ruslan's; `routing_guide.md`, `netrules.py` rules, `route_check.py` afterwards, then `fab_out.py`.

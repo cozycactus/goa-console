@@ -332,7 +332,7 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
   are +4 dBu (DAW interfaces, the bus compressor), so the main outputs need no pad, and a −10 dBV source on EXT is
   7.8 dB low on the C/Room only, which the C/ROOM pot covers; a 6-pole switch in the output and monitor paths is
   contacts in the signal path for a case that is not planned. If it is ever wanted on EXT: the receivers' 10K legs
-  → 24K3 0.1 % (R85 / R90 and R87 / R92) for a gain of 2.45 (§17).
+  → 24K3 0.1 % (R85 / R90 and R87 / R92) for a gain of 2.43, +7.7 dB (the exact −10 dBV → +4 dBu ratio is 2.45; §17).
 
 ## 8. Power-on / power-off mute
 
@@ -971,7 +971,14 @@ scale badly (below).
 - Reverse-polarity protection: a Schottky (SS54, SMC, 40 V 5 A) from each rail to 0 V, reverse-biased in
   normal use. A wrongly wired lead then puts the PSU into current limit instead of reversing
   every op-amp.
-
+- **Spare bus conductors (D13, `delta_crosscheck.md`, signed off 2026-10-28).** Motherloom pins 1 / 3 / 5 / 7
+  (reserved for SUB 5-8, the Venue pinout) and 19 are unconnected on every module and joined wing to wing at the
+  master (SPARE1-7). Each is grounded to GNDA through a bridged solder jumper beside CN2 on the bottom: JP3 = pin 1,
+  JP4 = 3, JP5 = 5, JP6 = 7, JP7 = 19, as the Delta LH master's links J2-J9 ground every group bus no module sums.
+  Why: a floating conductor between grounded ones couples capacitively to its neighbours and re-radiates them (19
+  lies between MIX L on 18 and AUX6 on 20) and is an ESD / hot-plug antenna; grounded, 19 shields MIX L from AUX6,
+  and the modules see no change (NC there). **Open the jumper of each bus an 8-group build sums** (the silk marks
+  them). Pin 28 stays open everywhere (D22).
 ## 25. Distribution
 
 - Two 34-pin headers on the master, one per wing (12 strips each), carrying the buses and

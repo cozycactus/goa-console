@@ -1,7 +1,10 @@
 # Generated files (project_review.md RV14): GitHub collapses them in diffs; git diff itself is unchanged.
 *.kicad_sch linguist-generated=true
-*_sheets/*.kicad_sch linguist-generated=true
 *.kicad_pcb linguist-generated=true
+*.kicad_pro linguist-generated=true
+*.kicad_dru linguist-generated=true
+goa-console.pretty/*.kicad_mod linguist-generated=true
+goa-console.3dshapes/* linguist-generated=true
 *.net linguist-generated=true
 *.pdf linguist-generated=true
 *_BOM.csv linguist-generated=true
@@ -11,5 +14,10 @@ order_*.csv linguist-generated=true
 *.dxf linguist-generated=true
 *.step linguist-generated=true
 *.wrl linguist-generated=true
+*.svg linguist-generated=true
+panels/* linguist-generated=true
+frame/* linguist-generated=true
+tub/* linguist-generated=true
+psu_case/* linguist-generated=true
 render/*.json linguist-generated=true
 docs/escape/* linguist-generated=true

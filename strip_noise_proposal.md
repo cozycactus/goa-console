@@ -3,8 +3,9 @@
 Proposal, 2026-10-24. Nothing in the design has changed. The figures hold for strip v4.2: the film / MUSE ES change
 doesn't move them. **Re-evaluated on strip v4.4 on 2026-10-25 (next section): noise, stability and power are now
 settled in simulation. Distortion is the one open question, and only a bench A/B can answer it.**
-**Decision (Ruslan, 2026-10-25): N1 stays gated on the jig A/B (`test_jig_spec.md` 4.2); the jig strips are built as
-planned, two as built and two with the N1 set.**
+**Decision (Ruslan, 2026-10-25): N1 stays gated on the jig A/B (`test_jig_spec.md` 4.2). Since 2026-10-28 (§1.1 of the
+jig spec) the A/B is one strip measured as built, then with the N1 set hot-air swapped in (8 packages: U1, U5-U7,
+U12-U15; U15 is the HPF's since v4.3), measured again; the earlier plan built two strips of each.**
 
 ## Re-evaluation on strip v4.4 (2026-10-25)
 
@@ -226,8 +227,9 @@ these levels (the parts' datasheet THD+N is in the −130s dB), so this can't be
 
 ## What to sign
 
-- [ ] **N1** (recommended, but only after a bench A/B) Build two jig strips:
-  - one as built, one with OPA1656 in U1, U5, U6, U7, U12, U13 and U14;
+- [ ] **N1** (recommended, but only after a bench A/B) One jig strip, measured as built and again after the swap
+  (`test_jig_spec.md` §1.1 / 4.2, 2026-10-28; was "two strips, one of each"):
+  - OPA1656 in U1, U5, U6, U7, U12, U13, U14 and U15 (U15 = the HPF integrators since v4.3);
   - measure noise, THD+N and SMPTE / CCIF IMD at +4 and +20 dBu with the HPF in;
   - scope every op-amp output for oscillation.
 

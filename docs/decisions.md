@@ -273,3 +273,24 @@ this is the record with the reasons, the rejected alternatives and the dates. Do
 - VCA (decided 2026-10-19): Sound Semiconductor SSI2162 for the bus compressor (sidechain
   rescaled 6.1 → 33 mV/dB; THAT2181 backorder route rejected) and as a plug-in module for the
   strip VCA option.
+
+## Added 2026-10-28 (after the move; the one-liners are in CLAUDE.md)
+- Insert jacks tip = send, ring = return, console-wide (D1, `delta_crosscheck.md`, decided by Ruslan 2026-10-28; strip
+  spec §7 / 16.4, master spec §4, `delta_clone_comparison.md` §2). The Delta is wired the other way round everywhere
+  (ring = send: ED3344A JSK2, ED2780 sht 2 JSK1, manual p.124 / 128); no document had recorded ours and it was never
+  decided (gen.py's `{'T': 'SEND', 'R': 'RET_RAW'}` followed the common convention). Kept because electrically the
+  two are identical (75R build-out, 47K bleed, the normalling works both ways), so only which cables fit is at stake:
+  tip = send is what the commercial insert lead (TS marked SEND on the tip), Mackie, A&H, Yamaha, Behringer and the
+  later Soundcraft (Spirit, Ghost) use; ring = send serves Delta-era looms only. Switch (a T / R swap in four
+  generators) only if Delta-wired looms or a ring = send patchbay are to be reused. Panel legend "INSERT tip = send" at
+  the next panel regeneration.
+- Soft mute topology (D3 / D11, 2026-10-28, documentation only): ours is two shunt J112s in a 4K7 ladder into a
+  follower with one 220K / 100n ramp from the key, not the Delta's series J112 into a virtual earth plus a shunt J112
+  with a cap-isolated source and a MUTE / MUTE-bar inverter pair. Kept: no series FET and no remote-mute input to
+  drive; depth (86 dB simulated vs 100-110 dB) is measured at the jig (CS8); the Delta's cap-isolated shunt source is
+  the fallback for RV5's DC on the fader top. `delta_clone_comparison.md` §2 and `console_survey/delta.md` T7 had
+  called it "the same circuit"; corrected.
+- XLR shells on CHASSIS (2026-10-28, `project_review.md` §2 minor items): the NC3MAV / NC3MAH footprints' shell pad G
+  had no symbol pin, so the master jack board's J3-J5 and the jig stub's XLR shells were unconnected although master
+  spec §7 said "shell to chassis"; with anodised panels they would have floated. Project symbol `XLR3_Shell` (KiCad's
+  XLR3 plus pin G) with G on CHASSIS in `master_lib` / gen_master.py / gen_jig.py; nothing moved on either board.

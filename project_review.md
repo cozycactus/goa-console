@@ -296,7 +296,7 @@ stays (referenced).
   *.dxf -diff linguist-generated` (cheaper, keeps the files).
 - Regenerate: `render/strip.json` / `render/group.json` (`export_3d.py`), the escape plan, the three title-block
   revisions then the PDFs; `sim/mid_tuning.py` to the EQM1 values or marked historical.
-- Delete or list: `sim/review/group/table.py`, `sim/review/master/modeltest.py`, `sim/review/hpf/trial_lf.py` (the
+- Delete or list (done: the three deleted, fly_render listed, the archive board kept): `sim/review/group/table.py`, `sim/review/master/modeltest.py`, `sim/review/hpf/trial_lf.py` (the
   only unreferenced files under sim/review); `tools/fly_render.py` (undocumented); `archive/channel_strip_v3.1.kicad_pcb`
   (0.7 MB, in history; referenced from README.md:97, strip spec :843, `build_strip_pcb.sh:5`, CLAUDE.md:112). Old decks
   `sim/strip.cir`, `strip_v4.cir`, `delta_eq.cir`, `gain_stage.cir`: keep, label historical (cited by sim_netlist's

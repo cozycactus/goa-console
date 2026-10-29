@@ -295,7 +295,8 @@ Decided 2026-10-22 (reverses the earlier "no EQ, no trim"):
   LED (SW12, D5).
 - **Insert post-EQ** (Delta position), with three solder jumpers for pre-EQ (JP5–JP7). Insert
   return buffer moves from U1B to U7B.
-- **ON** switch with green LED replaces MUTE/amber (SW4, D4); same J112 soft mute.
+- **ON** switch with green LED replaces MUTE/amber (SW4, D4); the J112 soft mute stays ours (two shunts; not the Delta's
+  series + shunt circuit, D3, §9).
 - **PRE switch per aux pair** on the panel (SW8–SW10); the solder jumpers JP2–JP4 now choose
   the pre source: pre-fader (default) or pre-EQ.
 - **Direct out** (J5 on the jack board, U8A); the **DIR** switch (SW13) turns the aux 6 pot into its level.

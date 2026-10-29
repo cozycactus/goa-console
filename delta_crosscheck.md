@@ -134,7 +134,7 @@ what the Delta does, what ours does, the recommendation and **why** — the reas
 - **D14 No +4 dBu / −10 dBV operating-level switch.** Delta S1 (6 poles) pads the post-amps 11.6 dB (1K2 / 430R) and
   raises the four monitor receivers 10.4 dB (6K8 / 20K / 2K2 T); ours fixed gains, EXT unity. Recommendation: keep,
   document in master spec §17 / §7 with the option (EXT receivers' 10K legs → 24K3 0.1 %, R85 / R90 and R87 / R92, for
-  a gain of 2.45). Why: the console's destinations are +4 dBu (DAW interfaces, the bus compressor), so the main
+  a gain of 2.43, +7.7 dB; the exact −10 dBV → +4 dBu ratio is 2.45). Why: the console's destinations are +4 dBu (DAW interfaces, the bus compressor), so the main
   outputs need no −10 pad, and a −10 dBV source on EXT is 7.8 dB low on the C/Room only, which the C/ROOM pot covers;
   a 6-pole switch in the output and monitor paths is contacts in the signal path for a case that is not planned.
 - **D15 Peak-meter release.** Spec §22 calls our 0.55 s (C160 / C178 1 µF, R146 + R147 550K) "Delta-like"; the
