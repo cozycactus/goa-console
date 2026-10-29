@@ -36,6 +36,25 @@ a hole).
 **Resistors.** Plain 0805 values carry no MPN. Rule: buy them as Yageo RC0805FR-07xxxL (1 %, 0.125 W) or any
 equivalent 1 % thick-film 0805. Every part that needs more (anti-surge, 0.1 %, 2512) already has its own MPN.
 
+## Resistor film (note, 2026-10-29; no change)
+
+The Delta DLX uses "MF 0.25W RES 2%" metal film for every resistor and a 5 % 1/2 W mini metal film for the routing
+10Ks (Tech Manual spare parts p.151-162). Ours are Yageo RC0805FR **thick film** 1 % for the general values, Panasonic
+ERA-6AEB thin film 0.1 % where matching matters (receiver 10Ks, re-inverter 2K2s), ERJ-P06 anti-surge thick film for the
+build-outs and feeds, Vishay M25SI thin-film fusibles. What thick film costs against metal / thin film:
+- **Excess (1/f) noise:** thick film's noise index is some 10-20 dB worse than metal film's, but it scales with the DC
+  voltage across the part. The audio resistors sit at 0 V DC (every stage is AC-coupled; bias drops are tens of mV),
+  so the term is nil in the signal path. It matters only in DC dividers, none of which is audio.
+- **Voltage coefficient (distortion):** thick film is measurably non-linear, metal / thin film is not. Published
+  measurements (Self, Small Signal Audio Design) put a thick-film 0805 feedback resistor with ~10 Vrms across it at
+  roughly −95 to −105 dB THD, scaling with the square of the voltage: at the console's 0 dBu (0.775 Vrms) that is
+  some 20 dB lower, far below the op-amps' and the bus's floor; it becomes visible only in the last few dB before
+  clipping, in the resistors that carry the full swing (gain stage 2K2 / 10K, EQ 22K and the KHN networks, post-amp
+  4K7 / 2K2, pan 2K2 / 10K / 3K3, the 4K7 and 22K summers).
+- **Option, not proposed:** a thin-film 1 % family (Yageo RT0805FRE07, ~3-5× the price, same footprint and codes
+  changed in `gen.py` / `master_lib.py` only) for those ~20 values; about €100-150 over the console. Decide on the
+  jig's THD at +18 dBu (stage A); below −100 dB there is nothing to buy.
+
 ## Checked and kept
 
 - **Alpha pots.** The agent called RD902F-40-15R1-A10K "not stocked anywhere". Wrong: Tayda stocks it (SKU A-6980,

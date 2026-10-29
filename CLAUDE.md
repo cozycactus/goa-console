@@ -157,7 +157,7 @@ In `ref/`: Delta DLX/Theatre schematics (`Sndcft_DeltaDLX_Schems.pdf`, the ED dr
 Technical Manual ZZ2593 (`Soundcraft_200Delta_TechManual_ZZ2593_Part1-3.pdf`) and User Guide
 (`Soundcraft_200Delta_UserGuide.pdf`, front-panel drawings of every module, cropped at 300 dpi into `ref/delta200_panels/`:
 the legend style for our panels), both scanned, no text layer. Manual: specs,
-circuit descriptions, jumper settings, connector and loom pinouts p. 129-135, spare-parts lists p. 151-162 (the Delta's
+circuit descriptions, jumper settings, connector and loom pinouts p. 129-135, spare-parts lists p. 151-162 (Part3 PDF pages 10-21; every resistor "MF 0.25W RES 2%", routing "MINI-RES MF 1/2W 5%"; the Delta's
 fader is an ALPS 10K 100 mm mono with a "SIF low profile" knob; 14 mm push-on knobs, M7 nuts, 16 mm pots),
 dimensions p. 114), Mackie 1604-VLZ block diagram, API 500 spec. Ask Ruslan for other PDFs if needed.
 `delta_crosscheck.md` (2026-10-28) is the sheet-by-sheet comparison of every ED drawing with our schematics; the

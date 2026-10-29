@@ -97,8 +97,10 @@ what the Delta does, what ours does, the recommendation and **why** — the reas
   already signed off for stability (T8 / C84), and the LF corner of our return (C10 33 µF / 47K: 0.1 Hz) is better.
 - **D5 Routing resistors.** Delta 10K 0.5 W (R126 / R127, ED3151 R1-R4); ours 4K7 1 % 0805 (0.125 W). Recommendation:
   keep, document. Why: the dissipation case is a bus shorted to a 17 V rail: 17² / 4K7 = 61 mW, half the 0805's rating;
-  normal signal is < 15 mW. The Delta's 0.5 W is its era's metal-film choice (1 % metal film came in 0.5 W), not a
-  dissipation need, and 4K7 against 10K is a recorded decision (3 dB quieter bus).
+  normal signal is < 15 mW. The Delta's part is "MINI-RES MF 1/2W 5% 10K" (spare-parts list p.154 / 158: a 5 %
+  miniature 0.5 W metal film, where every other resistor on its boards is "MF 0.25W RES 2%"), a margin choice for the
+  one resistor a shorted bus can load, not a precision part (corrected 2026-10-29; the text had guessed 1 % metal
+  film), and 4K7 against 10K is a recorded decision (3 dB quieter bus).
 - **D6 LED colours and drive.** Delta: one ≈ 6 mA series chain from a 2SA970 current source, routing LEDs amber, EQ
   green, PFL / PEAK / PAN red, ON green; ours 4K7 per LED from +VL (≈ 3 mA), routing yellow WP710A10YD. Recommendation:
   keep, document (amber = Kingbright WP710A10SEC/J if the colour is wanted). Why: a series chain needs every LED in

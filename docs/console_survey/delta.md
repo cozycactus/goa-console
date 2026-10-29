@@ -154,6 +154,17 @@ Venue the same.
 
 **T20 Op-amps.** TL072 / TL071 / NE5532 and discrete 2SB737 front ends. Ours are OPA1612 / OPA1656, a known departure.
 
+**T20b Resistors (read 2026-10-29, spare-parts list p.151-162 = Tech Manual Part 3 PDF pages 10-21).** Every resistor on
+the Standard, Deluxe and Stereo input PCBs is "MF 0.25W RES 2%" (metal film, 1/4 W, 2 %; Soundcraft code AD04xx /
+AD05xx), except the routing resistors R58-R63 (Deluxe) / R23-R25, R123-R125 (Stereo): "MINI-RES MF 1/2W 5% 10K"
+(AS1673). No carbon film, no 1 % parts, no precision pairs: the balanced output stages are trimmed with a preset
+(PR1) instead. The 0.5 W on the sheets marks that 5 % part, not a precision one.
+- vs ours: Yageo RC0805FR thick film 1 % for the general values, Panasonic ERA-6AEB thin film 0.1 % / 25 ppm for the
+  receivers' 10K and the re-inverters' 2K2 (no trims), Panasonic ERJ-P06 anti-surge thick film for the build-outs /
+  feeds, Vishay M25SI thin-film fusibles for R1-R4. Thick film carries a voltage coefficient and excess noise that
+  metal film does not; with no DC across the audio resistors the noise term is nil, and the distortion term only shows
+  near full swing (see `sourcing.md` note of 2026-10-29). Tolerance: ours is tighter everywhere.
+
 **T21 Levels.** Internal −2 dBu; mix bus −7.8 dBu, +12 dB of make-up at the outputs (p.64: chosen for headroom). Ours is 0 dBu internal; MIX_L sits around −7 dBu per channel at the fader "0", so headroom is comparable.
 
 **T22 Construction.** One PCB pair per channel on a ribbon motherloom with a spade ground; group / master outputs on a separate 20-way loom (p.28, p.62). Same as ours.

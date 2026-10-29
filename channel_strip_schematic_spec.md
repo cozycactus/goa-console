@@ -777,8 +777,10 @@ Leakage: 24 × 0.25 nA (25 °C max) × 4K7 = 28 µV DC at the summing amp; 0.6 m
 PVA2's contact bounce now toggles the DG413 for a few ms, just as it used to chatter the audio
 directly; no debounce RC, because the DG413 inputs have no hysteresis.
 - Routing resistors (D5, `delta_crosscheck.md`): 4K7 1 % 0805 (0.125 W) against the Delta's 10K 0.5 W. A bus shorted
-  to a 17 V rail dissipates 17² / 4K7 = 61 mW, half the 0805's rating; normal signal is < 15 mW. The Delta's 0.5 W is
-  its era's 1 % metal-film size, not a dissipation need, and 4K7 is the recorded bus decision (3 dB quieter).
+  to a 17 V rail dissipates 17² / 4K7 = 61 mW, half the 0805's rating; normal signal is < 15 mW. The Delta's part is a
+  "MINI-RES MF 1/2W 5% 10K" (spare-parts list p.154 / 158), a 5 % miniature 0.5 W metal film where everything else on
+  its boards is "MF 0.25W RES 2%": a margin choice for the one resistor a shorted bus can load, not a precision one;
+  4K7 is the recorded bus decision (3 dB quieter). (Corrected 2026-10-29: the earlier text guessed "1 % metal film".)
 - LED drive (D6): one 4K7 per LED from +VL (≈ 3 mA), routing yellow WP710A10YD; the Delta runs one ≈ 6 mA series chain
   from a 2SA970 current source (routing amber, EQ green, PFL / PEAK / PAN red, ON green) and spends a key pole per LED
   on shorting it out of the chain. Per-LED resistors let a lit LED draw only its own 3 mA from the logic rail and leave
