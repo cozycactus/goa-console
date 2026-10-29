@@ -302,7 +302,12 @@ this is the record with the reasons, the rejected alternatives and the dates. Do
   every feedback / EQ / summing resistor of 24 channels, its drift and tempco are 2-4× worse, and the Delta's own
   resistors are metal film 2 %; the noise argument does not apply (no DC across the audio resistors). ~€80-150 over
   the console. Rejected: thin film only in the ~20 full-swing values (a list to maintain for ~€30), deciding on the
-  jig's THD (the fear is about the part class, not a number).
+  jig's THD (the fear is about the part class, not a number); MELF (Ruslan, 2026-10-29, "so no MELFs"): the same
+  metal-film physics as the thin-film chips, better only in pulse energy, power and voltage, none of which this design
+  needs (the pulse positions are the 188 anti-surge parts, where the film type cannot show: < 1 % of the signal across
+  a build-out, the 22R inside the DRV135 loop, the rest DC); it would cost a footprint change on every plain resistor
+  (MicroMELF +12 % courtyard, MiniMELF +77 %), so a full re-placement of every board, round bodies in assembly and
+  3-10× the price (~€400-600).
 - Strip v5.7 / master v0.14 (signed off by Ruslan 2026-10-29, `clicks_followup_proposal.md` RV3b / RV9b, from the
   independent review of the clicks batch): strip R143 47K from DO_R to AGND and D23 BAV199 on DO_R at CN3, so the
   direct out's ring has the DC bleed and the clamp the tip has (RV3's C107 had left it with neither: phantom would have

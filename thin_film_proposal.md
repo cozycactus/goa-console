@@ -66,6 +66,7 @@ footprint and is the recorded fallback for that value only.
 
 ## Sign-off
 Signed off 2026-10-29 and applied: `order_bom.py` rule, order lists regenerated (62 RT lines / 4411 parts, 4 RC lines /
-91 parts), `sourcing.md`, `docs/decisions.md`, CLAUDE.md. Alternatives considered: (b) thin film only in the ~20 full-swing signal values (saves ~€30, needs a per-value list to
+91 parts), `sourcing.md`, `docs/decisions.md`, CLAUDE.md. Alternatives considered (and MELF, declined by Ruslan 2026-10-29: same film class, only pulse / power / voltage
+better, none needed here; a footprint change on every plain resistor and a full re-placement, 3-10× the price): (b) thin film only in the ~20 full-swing signal values (saves ~€30, needs a per-value list to
 maintain; not recommended); (c) keep thick film and decide on the jig's THD at +18 dBu (the earlier note in
 `sourcing.md`).
