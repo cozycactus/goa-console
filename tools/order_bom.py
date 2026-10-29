@@ -1,6 +1,6 @@
 """Console-wide order list from the nine board BOMs (sourcing.md): each board's BOM times the number of boards built,
 grouped by MPN, with spares. Plain 0805 resistors (no MPN in the schematic) get the sourcing rule's Yageo
-RC0805FR-07<value>L. DNP parts and mounting holes are left out; the jig's four strips are four of the 24, and the
+RT0805FRE07<value>L thin film up to 1M (TF1), RC0805FR-07<value>L thick film above. DNP parts and mounting holes are left out; the jig's four strips are four of the 24, and the
 OPA1656 A/B swap (test_jig_spec.md 1.1 / 4.2: the 8 SOICs of one strip, swapped by hot air) is added as extra parts.
 usage: python3 tools/order_bom.py   ->  order_bom.csv
        python3 tools/order_bom.py phase1   ->  order_phase1.csv: the staged hardware test (test_jig_spec.md 1.1). Stage A:
@@ -27,9 +27,19 @@ def spares(fp, need):
     if f == 'Capacitor_THT': return max(2, math.ceil(need * 0.05))
     return max(1, math.ceil(need * 0.03))
 
+def ohms(tok):
+    m = re.fullmatch(r'(\d+)([RKM])(\d*)', tok)
+    return float(m.group(1) + ('.' + m.group(3) if m.group(3) else '')) * {'R': 1, 'K': 1e3, 'M': 1e6}[m.group(2)] if m else None
+
 def resistor_mpn(value):
+    """Plain 0805 resistors (no MPN in the schematic): Yageo RT0805FRE07 thin film 1 % 50 ppm up to 1M (TF1,
+    thin_film_proposal.md: no voltage coefficient, no excess noise, tighter drift than thick film); above 1M (2M2,
+    4M99, 10M: DC positions only, no thin-film part) the thick-film RC0805FR. Anti-surge ERJ-P06 positions carry
+    their MPN in the schematic and stay thick film: a surge is what thin film survives worst."""
     tok = value.split()[0]
-    return f'Yageo RC0805FR-07{tok}L' if re.fullmatch(r'\d+[RKM]\d*', tok) else ''
+    v = ohms(tok)
+    if v is None: return ''
+    return f'Yageo RT0805FRE07{tok}L' if v <= 1e6 else f'Yageo RC0805FR-07{tok}L'
 
 def rows():
     for name, label, n in BOARDS:

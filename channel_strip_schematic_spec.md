@@ -826,6 +826,8 @@ jumpers JP1–JP7 and the net tie NT1, which aren't bought); `jack_board_BOM.csv
 ON, EQ, 3 routing), 3 jacks, 1 bus header.
 
 BOM rules (v4.1):
+- plain 0805 resistors (no MPN in the schematic): Yageo RT0805FRE07 thin film 1 % 50 ppm up to 1M, the sourcing rule in
+  `tools/order_bom.py` (TF1, 2026-10-29; RC0805FR thick film above 1M; the anti-surge ERJ-P06 positions carry their MPN);
 - every ceramic ≥ 25 V, 50 V preferred: 100n Samsung CL21B104KBCNNNC (X7R 50 V 0805), C62 1 µF Murata
   GRM21BR71H105KA12, C0G parts 50 V; no X7R in the signal path (v4.2);
 - film: C13 and C49 WIMA MKS2C042201K00KSSD (2.2 µF PET 63 V, 7.2 × 13 × 7.2, bottom side), C48 150 nF MKS2;

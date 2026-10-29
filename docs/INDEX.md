@@ -45,7 +45,7 @@ The live rules, the current state and the one-line decisions are in `CLAUDE.md`;
 | D1-D24 | `delta_crosscheck.md` | 2026-10-28 | master (D13 JP3-JP7), documentation | — |
 | CS3 / CS5 / CS8 / CS9 | `console_survey.md` | CS3 / CS5 checked, CS8 / CS9 open (jig) | — | — |
 | N1 | `strip_noise_proposal.md` | open (the jig A/B decides) | — | — |
-| TF1 | `thin_film_proposal.md` | open (2026-10-29) | — | thin_film_proposal.patch (tools/order_bom.py) |
+| TF1 | `thin_film_proposal.md` | 2026-10-29 | order lists (sourcing rule) | thin_film_proposal.patch |
 
 ## Files
 

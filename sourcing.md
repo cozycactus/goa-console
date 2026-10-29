@@ -10,6 +10,7 @@ snapshots from aggregators; check the live page before ordering.
 | Part | Was | Now | Why |
 |---|---|---|---|
 | Wing / jig PTCs | Bourns MF-RX160/72, 185/72, 250/72 | the same with `-0` | `-0` is the straight-lead order code |
+| Plain 0805 resistors ≤ 1M (TF1, 2026-10-29) | Yageo RC0805FR-07xxxL thick film | Yageo RT0805FRE07xxxL thin film | voltage coefficient (distortion near full swing), drift, tempco; parity with the Delta's metal film |
 | Strip C0G on 0805 pads: C7 / C41 33p, C14 / C94 / C95 100p, C37 22p (2026-10-28) | KEMET C1206C330 / C101 / C220J5GACTU | KEMET C0805C330 / C101 / C220J5GACTU | the strip's value-keyed map gave every C0G the 1206 code; these six are drawn on 0805 footprints (`gen.py` now picks by footprint) |
 | 1 µF 0805 X7R (strip) | Murata GRM21BR71H105KA12 | GRM21BR71H105KA12**L** | packaging suffix needed to order |
 | BAT54W | Nexperia BAT54W | BAT54W,115 | order code |
@@ -36,7 +37,7 @@ a hole).
 **Resistors.** Plain 0805 values carry no MPN. Rule: buy them as Yageo RC0805FR-07xxxL (1 %, 0.125 W) or any
 equivalent 1 % thick-film 0805. Every part that needs more (anti-surge, 0.1 %, 2512) already has its own MPN.
 
-## Resistor film (note, 2026-10-29; no change)
+## Resistor film (TF1, signed off by Ruslan 2026-10-29 and applied: `thin_film_proposal.md`)
 
 The Delta DLX uses "MF 0.25W RES 2%" metal film for every resistor and a 5 % 1/2 W mini metal film for the routing
 10Ks (Tech Manual spare parts p.151-162). Ours are Yageo RC0805FR **thick film** 1 % for the general values, Panasonic
@@ -51,9 +52,11 @@ build-outs and feeds, Vishay M25SI thin-film fusibles. What thick film costs aga
   some 20 dB lower, far below the op-amps' and the bus's floor; it becomes visible only in the last few dB before
   clipping, in the resistors that carry the full swing (gain stage 2K2 / 10K, EQ 22K and the KHN networks, post-amp
   4K7 / 2K2, pan 2K2 / 10K / 3K3, the 4K7 and 22K summers).
-- **Option, not proposed:** a thin-film 1 % family (Yageo RT0805FRE07, ~3-5× the price, same footprint and codes
-  changed in `gen.py` / `master_lib.py` only) for those ~20 values; about €100-150 over the console. Decide on the
-  jig's THD at +18 dBu (stage A); below −100 dB there is nothing to buy.
+- **Decided (TF1):** every plain 0805 resistor up to 1M is Yageo **RT0805FRE07<value>L** thin film (1 %, 50 ppm,
+  0.125 W, 150 V), the rule in `order_bom.py` (62 lines / 4411 parts, ~€80-150 over the console); above 1M (2M2, 4M99,
+  10M, 22M: DC positions, no thin-film part) RC0805FR stays, as do the anti-surge ERJ-P06 positions (a surge is what
+  thin film survives worst), the 2512 2R2 and the fusibles. Fallback for a value out of stock on the day: the RC0805FR
+  code for that value only.
 
 ## Checked and kept
 

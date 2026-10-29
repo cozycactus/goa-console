@@ -1,6 +1,6 @@
 # TF1 — thin-film resistors for the plain 0805 positions
 
-**Not signed off.** Raised by Ruslan 2026-10-29 ("I'm afraid to use thick film"). The change is one rule in
+**Signed off by Ruslan 2026-10-29 ("continue") and applied the same day; see Sign-off.** Raised by Ruslan 2026-10-29 ("I'm afraid to use thick film"). The change is one rule in
 `tools/order_bom.py` (`archive/patches/thin_film_proposal.patch`): no netlist, footprint, placement or value changes;
 the schematics carry no MPN for these parts, so nothing is regenerated.
 
@@ -65,6 +65,7 @@ footprint and is the recorded fallback for that value only.
 `channel_strip_schematic_spec.md` §15.
 
 ## Sign-off
-Open. Alternatives: (b) thin film only in the ~20 full-swing signal values (saves ~€30, needs a per-value list to
+Signed off 2026-10-29 and applied: `order_bom.py` rule, order lists regenerated (62 RT lines / 4411 parts, 4 RC lines /
+91 parts), `sourcing.md`, `docs/decisions.md`, CLAUDE.md. Alternatives considered: (b) thin film only in the ~20 full-swing signal values (saves ~€30, needs a per-value list to
 maintain; not recommended); (c) keep thick film and decide on the jig's THD at +18 dBu (the earlier note in
 `sourcing.md`).

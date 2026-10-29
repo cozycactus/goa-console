@@ -131,7 +131,7 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
 **Placement (placement only; Ruslan routes)**
 - E1-E5 / E8 (2026-10-26) and E6: LED switches beside D2, the J112 mute and U16's network under their op-amps, supply filters at the bus header, jack-board C8 / C9 between J1's pins, master flasher diode and PFL detect by their ICs; E9 / E9b stability caps ≤ 6.4 mm from their pins; E10 input nets shortened; E11 decouplers ≤ 5.5 mm (THT 10 µF excepted); untangle turns (crossings −4..−7 %); upper strip op-amps fixed in `place_strip.py`.
 - Routing rules by `tools/netrules.py` into every project (net classes, HighZ / Entry / Bus clearances, 4-layer rules, WingFeed, PSU HighCurrent); `routing_guide.md`; `route_check.py` after routing.
-- Sourcing (2026-10-25): plain 0805 Yageo RC0805FR-07xxxL; stock risks PTB0143, NJ6FD-V, OPA1612, WIMA 2.2 µF; C0G order codes by footprint; DRV135 coupler pairs sorted (10 spares).
+- Sourcing (2026-10-25): plain 0805 resistors Yageo RT0805FRE07xxxL thin film up to 1M (TF1, 2026-10-29; RC0805FR thick film above 1M and as the out-of-stock fallback; anti-surge ERJ-P06 positions stay); stock risks PTB0143, NJ6FD-V, OPA1612, WIMA 2.2 µF; C0G order codes by footprint; DRV135 coupler pairs sorted (10 spares).
 
 ## Not done / open
 - Sample checks before ordering boards (`sample_order.md`, spec 16.1): PVA2 orientation by continuity, fader pad pattern on a 1:1 print, the Sifam cap on the BP blade, knob fit on the 6.35 mm centre-notch pots, RV8's M9 nut / pin 1 / detent, panel stack height, the fader's law (before the panels are printed: the "0" marks and the printed scale depend on it) and its bottom-stop residual (CS9).
@@ -143,7 +143,6 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
   needs its 47K bleed and BAV199 like the hot leg (RV3's C107 removed both; phantom would put ~48 V on a 25 V cap); RV9b,
   a 4K7 base-emitter resistor on the master's relay driver so a closed relay releases with −V lost at the LM393B's V_OL
   corner. Bench item: open the −V wire with the relays closed.
-- `thin_film_proposal.md` TF1 (2026-10-29, NOT signed off): plain 0805 resistors up to 1M as Yageo RT0805FRE07 thin film instead of RC0805FR thick film, one rule in `order_bom.py` (62 lines / 4411 parts, ~€80-150); anti-surge ERJ-P06, > 1M and the 2512 stay thick film.
 - `project_review.md`: everything applied but RV11.2's PFL switcher from the PFLDET net (needs a DC analysis of the detect line; `check_bus.py` covers pin 29) and RV12's optional second step (the ~40 proposal / study `.md` files into `docs/`, a scripted rewrite of ~280 references).
 
 ## Next steps

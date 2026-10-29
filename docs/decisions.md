@@ -294,3 +294,12 @@ this is the record with the reasons, the rejected alternatives and the dates. Do
   had no symbol pin, so the master jack board's J3-J5 and the jig stub's XLR shells were unconnected although master
   spec §7 said "shell to chassis"; with anodised panels they would have floated. Project symbol `XLR3_Shell` (KiCad's
   XLR3 plus pin G) with G on CHASSIS in `master_lib` / gen_master.py / gen_jig.py; nothing moved on either board.
+- Resistor film TF1 (signed off by Ruslan 2026-10-29, `thin_film_proposal.md`): every plain 0805 resistor up to 1M is
+  Yageo RT0805FRE07 thin film (1 %, 50 ppm/°C, 0.125 W, 150 V) by the sourcing rule in `order_bom.py`; RC0805FR thick
+  film stays above 1M (DC positions, no thin-film part) and as the fallback for a value out of stock; the anti-surge
+  ERJ-P06 positions (build-outs, DRV loop 22R, feeds, rude-solo 3K3, PSU ADJ), the 2512 2R2 and the fusibles keep
+  their parts. Why: thick film's voltage coefficient is a measurable third-harmonic distortion near full swing in
+  every feedback / EQ / summing resistor of 24 channels, its drift and tempco are 2-4× worse, and the Delta's own
+  resistors are metal film 2 %; the noise argument does not apply (no DC across the audio resistors). ~€80-150 over
+  the console. Rejected: thin film only in the ~20 full-swing values (a list to maintain for ~€30), deciding on the
+  jig's THD (the fear is about the part class, not a number).
