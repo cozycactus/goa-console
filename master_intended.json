@@ -503,6 +503,8 @@
 "R238.2": "SENSE_REF",
 "R239.1": "SENSE_REF",
 "R239.2": "GNDD",
+"R240.1": "RLY_B",
+"R240.2": "GNDD",
 "FB3.1": "AUX5",
 "FB3.2": "AUX5_VE",
 "U12.8": "+VA",

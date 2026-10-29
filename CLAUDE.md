@@ -22,25 +22,25 @@ Where the detail lives (all moved out of this file on 2026-10-28, text unchanged
 - `docs/tooling.md` — the verify loop, placer, footprints / 3D models, routing rules, route_check, check_all, fab_out.
 - `docs/decisions.md` — every decision in full, with reasons, rejected alternatives and dates.
 - `docs/verification_log.md` — every check run after every change.
-- `console_architecture.md` (v3.2), `channel_strip_schematic_spec.md` (v5.6), `master_section_spec.md` (v0.13),
+- `console_architecture.md` (v3.2), `channel_strip_schematic_spec.md` (v5.7), `master_section_spec.md` (v0.14),
   `test_jig_spec.md` (v0.10), `psu_spec.md` (v0.2) — authoritative specs. `routing_guide.md` for Ruslan's routing.
 
-## Current state (2026-10-28)
+## Current state (2026-10-29)
 
 | Board | Rev | Parts | Pins | Outline (mm) | Layers | Placement |
 |---|---|---|---|---|---|---|
-| `channel_strip` (×24) | strip v5.6 | 327 + 6 holes | 941 | 38 × 400 (y 44–444) | 4 | done |
+| `channel_strip` (×24) | strip v5.7 | 329 + 6 holes | 946 | 38 × 400 (y 44–444) | 4 | done |
 | `jack_board` (×24) | " | 8 | 32 | 38 × 43 (y 0–43) | 2 | done |
 | `group` (×4) | rev 0.12 + CS2b / CS4b / CS4c / CS6 / CS10 / RV7 | 292 + 6 | 807 | 38 × 349.5 (y 94.5–444) | 4 | done |
 | `group_jack_board` (×4) | " | 11 | 60 | 38 × 93.5 | 2 | done |
-| `master` | master v0.13 | 631 + 7 | 1818 | 78.6 × 331.5 (y 112.5–444) | 4 | done |
+| `master` | master v0.14 | 632 + 7 | 1820 | 78.6 × 331.5 (y 112.5–444) | 4 | done |
 | `master_jack_board` | " | 16 | 92 | 78.6 × 111.5 | 2 | done |
 | `jig_master_stub` | jig v0.10 | 144 + 4 | 365 | 160 × 125 | 2 | done |
 | `jig_load_board` | " | 50 + 4 | 153 | 120 × 85 | 2 | done |
 | `psu` | PSU v0.2 + RV1 | 52 + 4 | 119 | 120 × 60 | 2 | done |
 
 Every board is its schematic's project board, so parity DRC runs in place; all nine: 0 DRC violations (jack boards
-only the NJ6FD-V footprint's own items), 0 parity issues, every footprint linked to its symbol (1531 / 1531).
+only the NJ6FD-V footprint's own items), 0 parity issues, every footprint linked to its symbol (1534 / 1534).
 Last `check_all.py --full`: 70 / 71 on Linux 2026-10-28 (71 checks since RV11.2; the one failure is panel_fab, which
 needs the macOS Arial Narrow; the last macOS run, before RV11.2, was 61 / 61). sim_netlist 45/45, sim_console 45/45, check_bus clean.
 
@@ -101,7 +101,7 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
 - Film couplers and bipolars F1-F4 (2026-10-24): WIMA MKS2 2.2 µF (wipers, meter averaging; THT, bottom side), MUSE ES 33 / 100 µF, 10 µF Panasonic ECE-A1EN100U (S1); no X7R in the signal path, no DC coupling, no polypropylene.
 - Op-amps: OPA1612 in noise-critical stages and on the MIX / SUB / aux sums; OPA1656 on the PFL sum, the CRS followers and the input followers (G3, U16); N1 (OPA1656 in U1, U5-U7, U12-U15) open, decided by the jig A/B.
 - Pan law CS2 Option A (2026-10-27): the Delta's −4.4 dB (U8B / U3A 1.22× with 3K3 back to the wipers, C105 / C106 22p); PAN off stays POST; the group's sub pan the same (CS2b, 2026-10-28). The old −6 dB was a transfer error.
-- v4.1 T1-T11 stability caps and ratings (2026-10-23); v4.5 K1 / K3 (PFL DC block C96, ~150 ms OL hold); v4.7 MET1 red / green bicolour signal / OL LED D2 WP3VEGW; v4.8 PAN1 pan buffer L in U8B; v4.9 P1 / P2 / E6; v5.0 CS1 five-tap OL detector, both polarities, thresholds ratios of +VL (+18.4 dBu); v5.1 CS10 PMEG4010CEH across each audio rail (strip D16 / D17, group D5 / D6); v5.2 CS4 BAV199 on every jack-link signal at CN3 (TVS rejected); v5.3 CS6 fusible R1-R4 Vishay M25SI (strip and group); v5.4 CS2; v5.5 EQM1; v5.6 RV3 / RV4 (R142 1M gain-stage keeper, C107 33 µF in the direct out's cold leg).
+- v4.1 T1-T11 stability caps and ratings (2026-10-23); v4.5 K1 / K3 (PFL DC block C96, ~150 ms OL hold); v4.7 MET1 red / green bicolour signal / OL LED D2 WP3VEGW; v4.8 PAN1 pan buffer L in U8B; v4.9 P1 / P2 / E6; v5.0 CS1 five-tap OL detector, both polarities, thresholds ratios of +VL (+18.4 dBu); v5.1 CS10 PMEG4010CEH across each audio rail (strip D16 / D17, group D5 / D6); v5.2 CS4 BAV199 on every jack-link signal at CN3 (TVS rejected); v5.3 CS6 fusible R1-R4 Vishay M25SI (strip and group); v5.4 CS2; v5.5 EQM1; v5.6 RV3 / RV4 (R142 1M gain-stage keeper, C107 33 µF in the direct out's cold leg); v5.7 RV3b (2026-10-29: R143 47K bleed and D23 BAV199 on the direct out's ring, as the tip's R72 / D22).
 - Design review (2026-10-25): ON also mutes the pre-fade sends and the direct out, PFL stays at PRE (Q1); group sub pan RV2 = RK09L; jig R45 ERJ-P06J332V; silk "2" at every PVA2's pads 1 / 4.
 - Ground and hum G1-G3, G2b / G3b (2026-10-25): one 14 AWG wire per module to the master's copper bar under the M4 star (G1); balanced-input and DRV135 TRS sleeves on CHASSIS through plated standoffs, inserts / phones on GNDA (G2); receivers buffered by OPA1656 followers, 1M / 220R / 100 pF / 100R (G3); XLR shells on CHASSIS (2026-10-28).
 
@@ -109,7 +109,7 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
 - Balanced outputs TI DRV135UA (DRV134 family, SO-8; THAT1646 EOL 2026-09-01), 10 µF NP per leg inside the Sense loop, 22R in-loop (CS4c), coupler pairs sorted within 2 % (CS11b), mute relay after; no phantom on any balanced output.
 - Master parts S1-S8 (2026-10-23): six G6K-2F-Y mute relays (COM = connector, NO = driver, NC = ground), LM393B, one DG413 PFL switcher, OPA1656 CRS followers, PFLDET clamp (2 × 1N4148, 330K reference, 1 µF debounce), LM2901B meters with BCP53-16 / 120R current sources and Kingbright GaP / GaAsP LEDs, sub AFL kept, GCANCEL buffer kept.
 - MG1-MG20 (2026-10-24): EXT_BL / BR + 100R; build-outs at the op-amp pins (solo 100R, post-amps 47R, CRS 100R, insert return 75R, meter DET 470R); C0G at the + inputs; insert returns 1K + 100p; TL072HIDR meter detector reading the diode cathode; 50 V X7R / C0G, anti-surge where rated; one SUB and one AUX bus jumper per group board.
-- Master v0.13 RV7-RV9 (2026-10-28): 2.2 µF films ahead of the AFL 22Ks (master C194 / C195, group C98), phones gain-set 33 µF NP C196 / C197 (DC gain 1), U10B's + input on +1.0 V (R238 / R239) with R53 64K9.
+- Master v0.13 RV7-RV9 (2026-10-28): 2.2 µF films ahead of the AFL 22Ks (master C194 / C195, group C98), phones gain-set 33 µF NP C196 / C197 (DC gain 1), U10B's + input on +1.0 V (R238 / R239) with R53 64K9 (trip −14.3 V); v0.14 RV9b (2026-10-29): R240 4K7 base-emitter on the relay driver Q1, so a closed relay releases with −V lost at the LM393B's V_OL corner.
 - Jack-link clamps CS4b (group 14, master 24 BAV199) and loop resistors CS4c (group R119-R122, master R222-R235), made last (2026-10-27).
 - Pan pot RV8 and group RV2: ALPS RK09L1240015 (M9 bushing, 6 mm D shaft, Ø9.5 hole, centre detent), 2026-10-25.
 
@@ -136,13 +136,9 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
 ## Not done / open
 - Sample checks before ordering boards (`sample_order.md`, spec 16.1): PVA2 orientation by continuity, fader pad pattern on a 1:1 print, the Sifam cap on the BP blade, knob fit on the 6.35 mm centre-notch pots, RV8's M9 nut / pin 1 / detent, panel stack height, the fader's law (before the panels are printed: the "0" marks and the printed scale depend on it) and its bottom-stop residual (CS9).
 - Front panels: Ruslan is getting quotes and a prototype strip panel (`panel_makers.md`); if the maker's minimum printed line is above ~0.11 mm, switch the small text to Arial Narrow Bold in `panel_layout.py` and regenerate `panels/`. At that regeneration add the "INSERT tip = send" legend (D1) to the strip, group and master panels (`panel_layout.py`, `panel_print.md`).
-- Bench, with the jig (`test_jig_spec.md`): mute depth (CS8), N1 OPA1656 A/B (one-strip swap), re-inverter stability (test 10), aux noise at N = 24, relay release and mains-off fall rate with the real PSU, PFL tick with programme, meter current-source temperature and LED brightness, hum with a real synth on TS / TRS, an earthed processor on the insert (D21), panel-to-frame bonding, output balance / CMR / fader breakthrough / GCANCEL current (CS11, tests 13-17), E7 ferrites.
+- Bench, with the jig (`test_jig_spec.md`): every relay releases when the −V wire is opened with the relays closed (RV9b), mute depth (CS8), N1 OPA1656 A/B (one-strip swap), re-inverter stability (test 10), aux noise at N = 24, relay release and mains-off fall rate with the real PSU, PFL tick with programme, meter current-source temperature and LED brightness, hum with a real synth on TS / TRS, an earthed processor on the insert (D21), panel-to-frame bonding, output balance / CMR / fader breakthrough / GCANCEL current (CS11, tests 13-17), E7 ferrites.
 - Accepted as they are: RV5 (MUTEOUT's DC on the fader top; the Delta's cap-isolated shunt source is the fallback), RV6 (U16 clips at +21.9 dBu input), the 4.54 A worst corner, the earthed-TS-synth hum (pseudo-balanced cables, one mains distribution point).
 - PSU: routing (Ruslan) and the case build. Routing of every board is Ruslan's; `routing_guide.md`, `netrules.py` rules, `route_check.py` afterwards, then `fab_out.py`.
-- `clicks_followup_proposal.md` (review of the clicks batch, 2026-10-29, NOT signed off): RV3b, the direct out's cold leg
-  needs its 47K bleed and BAV199 like the hot leg (RV3's C107 removed both; phantom would put ~48 V on a 25 V cap); RV9b,
-  a 4K7 base-emitter resistor on the master's relay driver so a closed relay releases with −V lost at the LM393B's V_OL
-  corner. Bench item: open the −V wire with the relays closed.
 - `project_review.md`: everything applied but RV11.2's PFL switcher from the PFLDET net (needs a DC analysis of the detect line; `check_bus.py` covers pin 29) and RV12's optional second step (the ~40 proposal / study `.md` files into `docs/`, a scripted rewrite of ~280 references).
 
 ## Next steps

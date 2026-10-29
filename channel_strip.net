@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/home/user/goa-console/channel_strip.kicad_sch")
-		(date "2026-10-29T00:19:51")
+		(date "2026-10-29T01:41:56")
 		(tool "Eeschema 10.0.7-10.0.7~ubuntu24.04.1")
 		(sheet
 			(number "1")
@@ -11,12 +11,12 @@
 			(title_block
 				(title "Channel strip - goa console")
 				(company)
-				(rev "5.6")
+				(rev "5.7")
 				(date "2026-10-19")
 				(source "channel_strip.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.6")
+					(value "Generated from channel_strip_schematic_spec.md v5.7")
 				)
 				(comment
 					(number "2")
@@ -59,12 +59,12 @@
 			(title_block
 				(title "JACK LINK CLAMPS, LINE INPUT")
 				(company "Channel strip - goa console")
-				(rev "5.6")
+				(rev "5.7")
 				(date "2026-10-19")
 				(source "02_jack_link_clamps.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.6")
+					(value "Generated from channel_strip_schematic_spec.md v5.7")
 				)
 				(comment
 					(number "2")
@@ -107,12 +107,12 @@
 			(title_block
 				(title "GAIN")
 				(company "Channel strip - goa console")
-				(rev "5.6")
+				(rev "5.7")
 				(date "2026-10-19")
 				(source "03_gain.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.6")
+					(value "Generated from channel_strip_schematic_spec.md v5.7")
 				)
 				(comment
 					(number "2")
@@ -155,12 +155,12 @@
 			(title_block
 				(title "HPF, INSERT POSITION JUMPERS")
 				(company "Channel strip - goa console")
-				(rev "5.6")
+				(rev "5.7")
 				(date "2026-10-19")
 				(source "04_hpf.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.6")
+					(value "Generated from channel_strip_schematic_spec.md v5.7")
 				)
 				(comment
 					(number "2")
@@ -203,12 +203,12 @@
 			(title_block
 				(title "EQ")
 				(company "Channel strip - goa console")
-				(rev "5.6")
+				(rev "5.7")
 				(date "2026-10-19")
 				(source "05_eq.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.6")
+					(value "Generated from channel_strip_schematic_spec.md v5.7")
 				)
 				(comment
 					(number "2")
@@ -251,12 +251,12 @@
 			(title_block
 				(title "EQ MID TUNING")
 				(company "Channel strip - goa console")
-				(rev "5.6")
+				(rev "5.7")
 				(date "2026-10-19")
 				(source "06_eq_mid_tuning.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.6")
+					(value "Generated from channel_strip_schematic_spec.md v5.7")
 				)
 				(comment
 					(number "2")
@@ -299,12 +299,12 @@
 			(title_block
 				(title "EQ MID TUNING, EQ IN")
 				(company "Channel strip - goa console")
-				(rev "5.6")
+				(rev "5.7")
 				(date "2026-10-19")
 				(source "07_eq_mid_tuning.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.6")
+					(value "Generated from channel_strip_schematic_spec.md v5.7")
 				)
 				(comment
 					(number "2")
@@ -347,12 +347,12 @@
 			(title_block
 				(title "INSERT")
 				(company "Channel strip - goa console")
-				(rev "5.6")
+				(rev "5.7")
 				(date "2026-10-19")
 				(source "08_insert.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.6")
+					(value "Generated from channel_strip_schematic_spec.md v5.7")
 				)
 				(comment
 					(number "2")
@@ -395,12 +395,12 @@
 			(title_block
 				(title "OVERLOAD DETECTOR")
 				(company "Channel strip - goa console")
-				(rev "5.6")
+				(rev "5.7")
 				(date "2026-10-19")
 				(source "09_overload_detector.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.6")
+					(value "Generated from channel_strip_schematic_spec.md v5.7")
 				)
 				(comment
 					(number "2")
@@ -443,12 +443,12 @@
 			(title_block
 				(title "OVERLOAD DETECTOR, PFL")
 				(company "Channel strip - goa console")
-				(rev "5.6")
+				(rev "5.7")
 				(date "2026-10-19")
 				(source "10_overload_detector.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.6")
+					(value "Generated from channel_strip_schematic_spec.md v5.7")
 				)
 				(comment
 					(number "2")
@@ -491,12 +491,12 @@
 			(title_block
 				(title "ON-SOFT MUTE")
 				(company "Channel strip - goa console")
-				(rev "5.6")
+				(rev "5.7")
 				(date "2026-10-19")
 				(source "11_on_soft_mute.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.6")
+					(value "Generated from channel_strip_schematic_spec.md v5.7")
 				)
 				(comment
 					(number "2")
@@ -539,12 +539,12 @@
 			(title_block
 				(title "FADER + POST-AMP")
 				(company "Channel strip - goa console")
-				(rev "5.6")
+				(rev "5.7")
 				(date "2026-10-19")
 				(source "12_fader_post_amp.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.6")
+					(value "Generated from channel_strip_schematic_spec.md v5.7")
 				)
 				(comment
 					(number "2")
@@ -587,12 +587,12 @@
 			(title_block
 				(title "AUX SENDS, DIRECT OUT")
 				(company "Channel strip - goa console")
-				(rev "5.6")
+				(rev "5.7")
 				(date "2026-10-19")
 				(source "13_aux_sends.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.6")
+					(value "Generated from channel_strip_schematic_spec.md v5.7")
 				)
 				(comment
 					(number "2")
@@ -635,12 +635,12 @@
 			(title_block
 				(title "PAN + PAN BUFFERS, PAN SWITCH")
 				(company "Channel strip - goa console")
-				(rev "5.6")
+				(rev "5.7")
 				(date "2026-10-19")
 				(source "14_pan_pan_buffers.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.6")
+					(value "Generated from channel_strip_schematic_spec.md v5.7")
 				)
 				(comment
 					(number "2")
@@ -683,12 +683,12 @@
 			(title_block
 				(title "ROUTING MATRIX")
 				(company "Channel strip - goa console")
-				(rev "5.6")
+				(rev "5.7")
 				(date "2026-10-19")
 				(source "15_routing_matrix.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.6")
+					(value "Generated from channel_strip_schematic_spec.md v5.7")
 				)
 				(comment
 					(number "2")
@@ -731,12 +731,12 @@
 			(title_block
 				(title "ROUTING MATRIX")
 				(company "Channel strip - goa console")
-				(rev "5.6")
+				(rev "5.7")
 				(date "2026-10-19")
 				(source "16_routing_matrix.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.6")
+					(value "Generated from channel_strip_schematic_spec.md v5.7")
 				)
 				(comment
 					(number "2")
@@ -779,12 +779,12 @@
 			(title_block
 				(title "POWER ENTRY")
 				(company "Channel strip - goa console")
-				(rev "5.6")
+				(rev "5.7")
 				(date "2026-10-19")
 				(source "17_power_entry.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.6")
+					(value "Generated from channel_strip_schematic_spec.md v5.7")
 				)
 				(comment
 					(number "2")
@@ -827,12 +827,12 @@
 			(title_block
 				(title "POWER ENTRY, MOTHERLOOM")
 				(company "Channel strip - goa console")
-				(rev "5.6")
+				(rev "5.7")
 				(date "2026-10-19")
 				(source "18_power_entry.kicad_sch")
 				(comment
 					(number "1")
-					(value "Generated from channel_strip_schematic_spec.md v5.6")
+					(value "Generated from channel_strip_schematic_spec.md v5.7")
 				)
 				(comment
 					(number "2")
@@ -1492,6 +1492,69 @@
 				(tstamps "/93357f3c-7fe4-5cb3-97b8-3af00afb3cdc/")
 			)
 			(tstamps "1406ada6-44a4-5340-aabc-0d11c899e494")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D23")
+			(value "BAV199")
+			(footprint "Package_TO_SOT_SMD:SOT-23")
+			(fields
+				(field
+					(name "MPN") "Nexperia BAV199,215")
+				(field
+					(name "Footprint") "Package_TO_SOT_SMD:SOT-23")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Diode")
+				(part "BAV99")
+				(description "BAV99 High-speed switching diodes, SOT-23")
+			)
+			(property
+				(name "MPN")
+				(value "Nexperia BAV199,215")
+			)
+			(property
+				(name "Sheetname")
+				(value "02 JACK LINK CLAMPS, LINE INPUT")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/02_jack_link_clamps.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "diode")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "SOT?23*")
+			)
+			(sheetpath
+				(names "/02 JACK LINK CLAMPS, LINE INPUT/")
+				(tstamps "/93357f3c-7fe4-5cb3-97b8-3af00afb3cdc/")
+			)
+			(tstamps "a5adcf5c-20ad-5a41-9e4c-b3f331490744")
 			(units
 				(unit
 					(name "A")
@@ -14221,6 +14284,60 @@
 			)
 		)
 		(comp
+			(ref "R143")
+			(value "47K")
+			(footprint "Resistor_SMD:R_0805_2012Metric")
+			(fields
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "Sheetname")
+				(value "13 AUX SENDS, DIRECT OUT")
+			)
+			(property
+				(name "Sheetfile")
+				(value "strip_sheets/13_aux_sends.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/13 AUX SENDS, DIRECT OUT/")
+				(tstamps "/2bdeeee8-e1b3-5169-831a-ad1e4ea294f8/")
+			)
+			(tstamps "54d4641b-4791-5790-add9-986853708e17")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "RV2")
 			(value "Aux1 10K log")
 			(footprint "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical")
@@ -22446,6 +22563,12 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "D23")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
 				(ref "J3")
 				(pin "4")
 				(pinfunction "Pin_4_4")
@@ -22853,6 +22976,12 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "D23")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
 				(ref "J3")
 				(pin "6")
 				(pinfunction "Pin_6_6")
@@ -23183,6 +23312,17 @@
 				(ref "CN3")
 				(pin "9")
 				(pinfunction "Pin_9_9")
+				(pintype "passive")
+			)
+			(node
+				(ref "D23")
+				(pin "3")
+				(pinfunction "K_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "R143")
+				(pin "1")
 				(pintype "passive")
 			)
 			(node
@@ -23957,6 +24097,11 @@
 			(node
 				(ref "R141")
 				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R143")
+				(pin "2")
 				(pintype "passive")
 			)
 			(node

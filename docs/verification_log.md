@@ -151,6 +151,12 @@ first. The current counts are in `CLAUDE.md`'s state table.
   PSU board's 8 silk-edge items are the TO-220s at its edge (since 8b38deb). Strip report unchanged; group 3.0 / 6.2 / 2,
   8.5 / 20.2 / 31. Group and master panels pixel-identical but for the group's new rows; strip panel one numeral (HF "9"
   in place of HPF "50") since `panel_layout.layout()` takes parts in reference order.
+- TF1, RV3b, RV9b applied (2026-10-29, signed off "continue"): order lists regenerated with the thin-film rule (62 RT
+  lines / 4411 parts, 4 RC lines / 91). Strip v5.7: 946 pins / 329 parts, 0 mismatches, check_fp 0, ERC 0, sim_netlist
+  45/45; only D23 (13.0, 120.75) and R143 (34.03, 199.0, 90) added on the bottom, DRC 0 / parity 0, 329 / 329 linked,
+  route_check 0, rules re-run. Master v0.14: 1820 / 632, 0 mismatches, ERC 0; only R240 (9.47, 237.25, 90, B) added,
+  2.1 mm from Q1's base / emitter pads, DRC 0 / parity 0, 632 / 632 linked, route_check 0, rules re-run; `sim/mute.cir`
+  v5 cases 1-6 as before (closes 2.80 s, −V-lost release at −14.14 V). `check_all.py --full` 70 / 71 (panel_fab).
 - Cleanup RV12 / RV14 and the XLR shells (2026-10-28, `project_review.md`): the 20 proposal patches moved to
   `archive/patches/` (every reference updated); `.gitattributes` (linguist-generated); three unreferenced sim/review
   scripts deleted, the four old decks labelled HISTORICAL; `render/*.json` and `docs/escape/` regenerated on the v5.6 /

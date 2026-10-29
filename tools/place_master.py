@@ -242,9 +242,13 @@ MOVES.update(D13)
 CLICKS = {'C194': (70.71, 143.91, 0, 'B'), 'C195': (42.58, 165.29, 90, 'B'), 'C196': (10.32, 276.39, 0, 'B'),
           'C197': (22.54, 311.35, 0, 'B'), 'R238': (48.74, 188.25, 0, 'B'), 'R239': (47.49, 186.08, 0, 'B')}
 MOVES.update(CLICKS)
-for z in ZONES: z[2][:] = [r for r in z[2] if r not in CS4C and r not in CS7 and r not in CLICKS]   # their drivers' blocks list them too
+# clicks_followup_proposal.md RV9b (signed off 2026-10-29): the relay driver's base-emitter 4K7 on the bottom under Q1
+# (pads 2.1 mm from Q1's base / emitter pads through the board), placed by MOVES alone
+RV9B = {'R240': (9.47, 237.25, 90, 'B')}
+MOVES.update(RV9B)
+for z in ZONES: z[2][:] = [r for r in z[2] if r not in CS4C and r not in CS7 and r not in CLICKS and r not in RV9B]   # their drivers' blocks list them too
 place(os.path.join(PROJ, 'master.net'), os.path.join(PROJ, 'master.kicad_pcb'),
-      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS4B) + tuple(CS4C) + tuple(CS7) + tuple(D13) + tuple(CLICKS), wire=tuple(CS4C) + ('C194', 'C195'), attach_as={'R69': ('output', 'U13', '1'), 'R80': ('output', 'U13', '7')}, turns=TURNS, layers=4, rails=(0.5, 6.5), holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
+      dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS4B) + tuple(CS4C) + tuple(CS7) + tuple(D13) + tuple(CLICKS) + tuple(RV9B), wire=tuple(CS4C) + ('C194', 'C195'), attach_as={'R69': ('output', 'U13', '1'), 'R80': ('output', 'U13', '7')}, turns=TURNS, layers=4, rails=(0.5, 6.5), holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
            grounds=('GNDA', 'GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'), silk_text_off=('K',), hole_value='M3 standoff 11.5 mm',
            attach=True, keepout=[(0, 186, EL, 299), (ER, 186, W, 299),
                                  (21.0, 202.2, 58.0, 220.0, 'B')]))     # J1's wire entries (its +y face): room for the wires

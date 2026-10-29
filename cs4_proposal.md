@@ -24,7 +24,8 @@ One Nexperia BAV199 per signal, at the main-board end of the link, ahead of ever
 - **Parts:** D18 IN_T, D19 IN_R, D20 RET_RAW, D21 SEND, D22 DO_T.
 - **DO_R needs none:** it only goes to ground through R73 75R. **No longer true since strip v5.6 (RV3, 2026-10-28):** DO_R
   goes through R73 to C107 33 µF 25 V to GNDA, so the ring has neither a clamp nor a DC bleed; phantom on the direct out
-  would charge C107 to ~48 V. Fix proposed in `clicks_followup_proposal.md` RV3b (review 2026-10-29).
+  would charge C107 to ~48 V. Fixed by `clicks_followup_proposal.md` RV3b (signed off and applied 2026-10-29, strip v5.7): R143 47K bleed and D23
+  BAV199 on DO_R, as the tip's R72 / D22.
 
 **Why the BAV199:**
 - **Leakage:** 3 pA typical (5 nA max at 75 V). On the input legs' 1 MΩ that is 3 µV typical, 5 mV at the

@@ -1,4 +1,4 @@
-# Channel Strip — Component-Level Specification v5.6
+# Channel Strip — Component-Level Specification v5.7
 ## Soundcraft Delta Theatre input without the mic stage. One PCB per channel, ×24.
 
 Bus pinout, grounding and power: `console_architecture.md`. Stage-by-stage comparison with the
@@ -7,6 +7,15 @@ Reference designators are those of `tools/gen.py`; Delta drawing numbers are giv
 circuit comes from a Delta sheet (ED3344A/B/C = Theatre input RH board, ED3151 = LH board).
 
 ---
+
+## Changes in v5.7 (2026-10-29, signed off; `clicks_followup_proposal.md` RV3b, from the review of v5.6)
+
+- **RV3b:** the direct out's ring gets what the tip has: **R143 47K** from DO_R to AGND (DC bleed) and **D23 BAV199**
+  at CN3 on DO_R (clamp to ±VA), §11 / §13 clamps. RV3's C107 had left the ring with no DC path and no clamp: phantom
+  on the direct out would have charged the 25 V cap to ~48 V (cs4_proposal.md had exempted DO_R because it "only went
+  to ground through 75R"). Now both legs: 75R + 33 µF + 47K, both clamped; phantom leaves C107 at 17.7 V like C52.
+- Placement by `moves_only` (D23 beside D22 at CN3, R143 beside C107, bottom side); 946 pins, 329 parts; nothing
+  else moved. sim_netlist 45/45 unchanged.
 
 ## Changes in v5.6 (2026-10-28, signed off; `clicks_proposal.md` RV3 / RV4 from `project_review.md`)
 
@@ -74,7 +83,7 @@ change the same way.
 
 **D18-D22 BAV199** (Nexperia, low-leakage double diode, SOT-23) at CN3, the main-board end of the jack link, ahead of
 every series part. Pin 3 goes to the signal, pin 2 to +VA, pin 1 to −VA: D18 IN_T, D19 IN_R, D20 RET_RAW, D21 SEND,
-D22 DO_T. 921 pin entries, 317 parts.
+D22 DO_T. 921 pin entries, 317 parts (D23 on DO_R since v5.7).
 
 - **ESD** (IEC 61000-4-2 contact on a tip, `sim/review/cs4/jack_protect.py`):
   - **8 kV:** the receiver's op-amp takes 0.09 A (9.6 A before), an output's op-amp 0.38 A (18.9 A), the insert
@@ -686,8 +695,9 @@ RV2…RV7 10K A: pin 3 = SRCn, pin 1 = AGND, wiper ── R20…R24 22K ── A
 RV7 wiper ── SW13 pole A ── A6R (unlatched) ── R25 22K ── AUX 6
                          └─ DIRSRC (latched, DIR) ── R70 100K to AGND, C83 22 pF ── U8A follower ── DOUT
 SW13 pole B: A6R to AGND when latched (no floating resistor on the aux 6 bus)
-DOUT ── R71 75R ── C52 33 µF NP ── J5 tip ── R72 47K to AGND;   J5 ring ── R73 75R ── C107 33 µF NP ── AGND
-  (v5.6, clicks_proposal.md RV3: the cold leg carries the same 75R + 33 µF as the hot one, so the two source
+DOUT ── R71 75R ── C52 33 µF NP ── J5 tip ── R72 47K to AGND;   J5 ring ── R73 75R ── C107 33 µF NP ── AGND, R143 47K to AGND
+  (v5.7, RV3b: R143 is the ring's DC bleed and D23 its BAV199 clamp at CN3, both as the tip's R72 / D22;
+  v5.6, clicks_proposal.md RV3: the cold leg carries the same 75R + 33 µF as the hot one, so the two source
   impedances match at LF too: without C107 the hot leg was 75 − j96 Ω at 50 Hz against 75 Ω, a CMRR limit of ~46 dB
   at 50 Hz into a 20 kΩ-per-leg receiver; with it ~60 dB with the caps 20 % apart. R73 the same ERJ-P06J750V as R71)
 ```
@@ -813,7 +823,7 @@ directly; no debounce RC, because the DG413 inputs have no hysteresis.
 | Q3–Q5 | MMBT3906 | red / green LED switches, green gate (v4.7) | |
 | D1, D12–D15 | BAV99 | OL taps: PRESRC, RECV, GOUT, EQOUT, FPOST (v5.0) | |
 | D16, D17 | PMEG4010CEH | reverse clamps on +VA / −VA (v5.1) | |
-| D18–D22 | BAV199 | jack-link clamps at CN3: IN_T, IN_R, RET_RAW, SEND, DO_T (v5.2) | |
+| D18–D23 | BAV199 | jack-link clamps at CN3: IN_T, IN_R, RET_RAW, SEND, DO_T (v5.2), DO_R (v5.7) | |
 
 ---
 
@@ -965,7 +975,13 @@ each standoff's panel end and wherever a panel meets the frame rails. CN3/CN5: W
 
 ---
 
-## 17. Status (v5.6, 2026-10-28)
+## 17. Status (v5.7, 2026-10-29)
+
+v5.7 (clicks_followup_proposal.md RV3b):
+- **Netlist:** 946 pin entries / 329 parts / 0 mismatches, check_fp 0, ERC 0; R143 and D23 added.
+- **Simulation:** `tools/sim_netlist.py` 45/45 unchanged.
+- **Placement:** D23 (13.0, 120.75) and R143 (34.03, 199.0) on the bottom by moves_only, nothing else moved; 0 DRC,
+  0 parity, 329 / 329 linked.
 
 v5.6 (clicks_proposal.md RV3 / RV4):
 - **Netlist:** 941 pin entries / 327 parts / 0 mismatches, check_fp 0, ERC 0; R142 and C107 added, R73 ERJ-P06J750V.
@@ -1104,5 +1120,5 @@ drawings (2026-10-23). The panel parts checked against their drawings, with what
 style and pin side, PV cap clearance in the Ø8.0 hole, Alpha bushing thread and tab slots, 1/4" knobs on every pot):
 `panel_parts_drawings.md`.
 
-*Document version 5.6 — October 2026*
+*Document version 5.7 — October 2026*
 *Sources: Soundcraft Delta ED3344A/B/C, ED3151, ED2911A/B, ED2915A, ED2780*

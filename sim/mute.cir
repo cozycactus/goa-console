@@ -1,4 +1,6 @@
-* Power-on / power-off mute control (master spec section 8), v4 = values in tools/gen_master.py (master v0.13).
+* Power-on / power-off mute control (master spec section 8), v5 = values in tools/gen_master.py (master v0.14).
+* v5 (2026-10-29, RV9b): 4.7K base-emitter on the driver (RBE); the -V-lost case with the +0.45 V clamp and the
+* comparators' V_OL corner is sim/review/clicks/mute_rbe.cir.
 * v4 (2026-10-29, review of clicks_proposal.md RV9): comparator B's + input on SENSE_REF = +1.0 V (51K / 10K from
 * VREF6) and its lower leg 64.9K (trip -14.3 V); case 4 takes -V to 0 V as before (the +0.45 V clamp case and the
 * relay driver's base is sim/review/clicks/mute_rbe.cir).
@@ -55,6 +57,7 @@ DF b dfx D1N4148
 RDF dfx rok 4.7k
 DCL 0 b D1N4148
 Q1 drv b 0 Q3904
+RBE b 0 4.7k
 * ---------------- six relay coils
 .subckt COIL top drv
 RS top c 560

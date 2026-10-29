@@ -46,6 +46,7 @@ The live rules, the current state and the one-line decisions are in `CLAUDE.md`;
 | CS3 / CS5 / CS8 / CS9 | `console_survey.md` | CS3 / CS5 checked, CS8 / CS9 open (jig) | — | — |
 | N1 | `strip_noise_proposal.md` | open (the jig A/B decides) | — | — |
 | TF1 | `thin_film_proposal.md` | 2026-10-29 | order lists (sourcing rule) | thin_film_proposal.patch |
+| RV3b / RV9b | `clicks_followup_proposal.md` | 2026-10-29 | strip v5.7, master v0.14 | — |
 
 ## Files
 

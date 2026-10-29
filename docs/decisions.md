@@ -303,3 +303,12 @@ this is the record with the reasons, the rejected alternatives and the dates. Do
   resistors are metal film 2 %; the noise argument does not apply (no DC across the audio resistors). ~€80-150 over
   the console. Rejected: thin film only in the ~20 full-swing values (a list to maintain for ~€30), deciding on the
   jig's THD (the fear is about the part class, not a number).
+- Strip v5.7 / master v0.14 (signed off by Ruslan 2026-10-29, `clicks_followup_proposal.md` RV3b / RV9b, from the
+  independent review of the clicks batch): strip R143 47K from DO_R to AGND and D23 BAV199 on DO_R at CN3, so the
+  direct out's ring has the DC bleed and the clamp the tip has (RV3's C107 had left it with neither: phantom would have
+  charged the 25 V cap to ~48 V; with the clamp 17.7 V as C52); master R240 4K7 from the relay driver Q1's base to
+  GNDD: with −V lost, −VL sits at ~+0.5 V and the comparators' low output is referenced to it, so the base saw
+  0.65-1.0 V and a closed relay could stay held at 11-21 % of its coil current at the LM393B's V_OL corner; divided 2:1
+  the coil current is 0.2 µA, the 2.80 s close unchanged (`sim/review/clicks/mute_rbe.cir`, `sim/mute.cir` v5). Both
+  made last and placed by moves_only (D23 beside D22, R143 beside C107, R240 under Q1), nothing else moved. Strip 946
+  pins / 329 parts, master 1820 / 632. Bench item: open the −V wire with the relays closed.

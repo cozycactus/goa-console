@@ -30,7 +30,7 @@ def receiver(d):
 def link_clamps(d):
     """CS4: a BAV199 per jack signal at CN3 (pin 3 to the signal, pin 2 to +VA, pin 1 to -VA)."""
     d.shift(0, 4)
-    for k, (dd, net) in enumerate((('D18', 'IN_T'), ('D19', 'IN_R'), ('D20', 'RET_RAW'), ('D21', 'SEND'), ('D22', 'DO_T'))):
+    for k, (dd, net) in enumerate((('D18', 'IN_T'), ('D19', 'IN_R'), ('D20', 'RET_RAW'), ('D21', 'SEND'), ('D22', 'DO_T'), ('D23', 'DO_R'))):
         x = 2 + 14 * k
         d.at(dd, x + 3, 2)
         d.w((dd, 1), (x, 0)); d.port('-VA', (x, 0), 'U')
@@ -387,7 +387,8 @@ def direct_out(d):
     d.at('R71', 14.5, 5, rot=90); d.w((12, 5), ('R71', 1))
     d.at('C52', 18.5, 5, rot=90, text='U'); d.w(('R71', 2), ('C52', 1))
     d.w(('C52', 2), (25, 5)); d.port('DO_T', (25, 5), 'R'); d.at('R72', 22, 6.5)
-    d.at('R73', 22, 11.5); d.w(('R73', 1), (25, 10)); d.port('DO_R', (25, 10), 'R')
+    d.at('R73', 22, 11.5); d.w(('R73', 1), (27, 10)); d.port('DO_R', (27, 10), 'R')
+    d.at('R143', 25, 11.5)                                                # RV3b: 47K bleed on the ring, as R72
     d.at('C107', 22, 14.5, text='L'); d.w(('R73', 2), ('C107', 1))     # RV3
 
 

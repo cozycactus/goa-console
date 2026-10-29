@@ -1,6 +1,7 @@
 # Clicks batch follow-up: RV3b (direct-out cold leg) and RV9b (relay driver with −V lost)
 
-**Not signed off.** Two findings of the independent review of the applied clicks batch (2026-10-29, `clicks_proposal.md`
+**Signed off by Ruslan 2026-10-29 ("continue") and applied the same day (strip v5.7, master v0.14); see Sign-off.**
+Two findings of the independent review of the applied clicks batch (2026-10-29, `clicks_proposal.md`
 "Review"). Both are small netlist changes on circuits the batch touched; neither moves an existing part. Placement by
 `moves_only` as the batch's own parts.
 
@@ -97,4 +98,7 @@ relays closed, open the −V wire at the master's J1 and confirm every relay rel
 - gen.py's title-block comment said v5.5; regenerated (title blocks only, netlist identical).
 
 ## Sign-off
-Open. Decide RV3b (two parts per strip, 48 + 48 console-wide) and RV9b (one resistor on the master, 4K7 or 2K2).
+Signed off 2026-10-29 and applied: RV3b as proposed (R143 47K, D23 BAV199 at CN3; strip 946 pins / 329 parts, D23 beside
+D22 and R143 beside C107 on the bottom, nothing else moved); RV9b with 4K7 (R240, made last, on the bottom under Q1,
+pads 2.1 mm from Q1's base / emitter through the board; master 1820 pins / 632 parts). `sim/mute.cir` v5 carries the
+resistor (cases 1-6 unchanged); the bench item is in master spec §8.
