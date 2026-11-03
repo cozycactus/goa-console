@@ -37,7 +37,7 @@ MPN.update({'DRV134': 'TI DRV135UA',   # SO-8: the DRV134 is DIP-8 / SOL-16 only
             'LME49600': 'TI LME49600TS/NOPB', 'OPA1656': 'TI OPA1656IDR', 'JACK': 'Neutrik NRJ6HF',
             # B grades: the comparators run from +-17 V (34 V), over the non-B parts' 30 V recommended maximum
             'CMP': 'TI LM393BIDR', 'LM2901': 'TI LM2901BIDR',
-            'DG': 'Vishay DG413DY-E3', 'ZEN': 'Nexperia BZX84-C5V1,215', 'PNP': 'onsemi BCP53-16T1G', 'SCH': 'Nexperia BAT54W,115',
+            'DG': 'Vishay DG413DY-E3', 'ZEN': 'Diodes BZX84C5V1-7-F', 'PNP': 'onsemi BCP53-16T1G', 'SCH': 'Nexperia BAT54W,115',
             # master_group_review.md MG9 / MG16. TL072H: the H suffix fixes the die (SLOS080W Table 9-1) and is rated 42 V
             'OPA': 'TI OPA1612AIDR', 'TL072': 'TI TL072HIDR', 'NPN': 'onsemi MMBT3904LT1G', 'D': 'Vishay 1N4148-TAP',
             'POT': 'Alpha RD901F-40-15R1-A10K', 'HDR': 'Wurth 61203421621 (2x17 box header)',
@@ -45,7 +45,7 @@ MPN.update({'DRV134': 'TI DRV135UA',   # SO-8: the DRV134 is DIP-8 / SOL-16 only
             'FB': 'Murata BLM21PG221SN1D'})
 MPN['DS'] = 'Diodes B540C-13-F (SS54 class, SMC 40 V 5 A)'
 # CS10: a reverse Schottky across each audio rail of a ribbon board (group), as the strip's D16 / D17
-SYM['DSK'] = ('Device', 'D_Schottky'); FP['DSK'] = 'Diode_SMD:D_SOD-123F'; MPN['DSK'] = 'Nexperia PMEG4010CEH,115'
+SYM['DSK'] = ('Device', 'D_Schottky'); FP['DSK'] = 'Diode_SMD:D_SOD-123F'; MPN['DSK'] = 'onsemi MBR140SFT1G'
 # CS4b: a BAV199 per jack-link signal at the link header, as the strip's D18-D22 (pin 3 the signal, 2 +VA, 1 -VA)
 SYM['DD'] = ('Diode', 'BAV99'); FP['DD'] = 'Package_TO_SOT_SMD:SOT-23'; MPN['DD'] = 'Nexperia BAV199,215'
 # wing PTCs MF-RX185/72 (hpf_proposal.md H4, 2026-10-24): same pads as the MF-RX160/72 (kept on the jig stub), a

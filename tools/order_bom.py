@@ -17,6 +17,17 @@ EXTRA = [('TI OPA1656IDR', 'OPA1656 (N1 A/B swap, one strip)', 'Package_SO:SOIC-
          # CS11b: 40 bought for the 30 DRV135 couplers sorted into 15 pairs within 2 % (sim/review/cs11/drv_couplers.py)
          ('Panasonic ECE-A1EN100U', '10u NP 25V', 'Capacitor_THT:CP_Radial_D5.0mm_P2.00mm', 'pair-sorting stock', 10)]
 
+# Same silicon, other packing, while the first code is out of stock (second_source_proposal.md SS1; read at Mouser 2026-11-03).
+# Order lists only; go back to the first code when it returns (OPA1612AIDR is about $1.70 less at 10).
+ORDER_AS = {'TI OPA1612AIDR': 'TI OPA1612AID', 'Nexperia BAV199,215': 'Nexperia BAV199,235', 'Vishay DG413DY-E3': 'Vishay DG413DY-T1-E3'}
+# The bench strips of phase 1 only (SS3): PVA2 EE H1 is due at Mouser 2027-03-01, H3 (same pads and latching, plunger 3 mm longer)
+# is in stock. The console stays H1, and so do check 3's samples: the cap clearance and panel stack are the console's key's.
+BENCH_KEY = {'C&K PVA2 EE H1 1.7N V2': 'C&K PVA2 EE H3 1.7N V2 (SS3: bench strips only, the console is H1)'}
+
+def order_code(mpn, table=ORDER_AS):
+    code = mpn.split(' (')[0]
+    return table[code] + mpn[len(code):] if code in table else mpn
+
 def spares(fp, need):
     """Spares by kind: cheap SMD passives +10 % (at least 10), semis +5 % (at least 2), panel / THT parts +3 %
     (at least 1), electrolytics and film +5 % (at least 2)."""
@@ -47,6 +58,7 @@ def rows():
             for r in csv.DictReader(f):
                 if r['DNP'] or r['Footprint'].startswith('MountingHole'): continue
                 mpn = r['MPN'] or (resistor_mpn(r['Value']) if r['Footprint'] == 'Resistor_SMD:R_0805_2012Metric' else '')
+                mpn = order_code(mpn)
                 yield mpn, r['Value'], r['Footprint'], label, int(r['Qty']) * n, int(r['Qty'])
     for mpn, value, fp, label, q in EXTRA: yield mpn, value, fp, label, q, q
 
@@ -75,7 +87,7 @@ def main():
 SAMPLES = [('Bourns PTB0143-2010BPA103', 'Fader, strip / group', 2, '1, 9'), ('Bourns PTB0144-2010BPA103', 'Fader, master', 1, '1'),
            ('Sifam LK111 01', 'Fader cap, black, white line', 3, '2'), ('Sifam LK110 tang 01 (RS 281-7197)', 'Fader cap, plain', 2, '2'),
            ('(rule) 8 x 1.2 mm slot fader cap, white / red / yellow', 'Fader cap, coloured trial', 6, '2'),
-           ('C&K PVA2 EE H1 1.7N V2', 'Key switch', 4, '3'),
+           ('C&K PVA2 EE H1 1.7N V2', 'Key switch, the console height (due 2027-03-01)', 4, '3'),
            ('Alpha RD901F-40-15R1-A10K', 'Pot, single A10K', 2, '4, 7'), ('Alpha RD901F-40-15R1-B10K-0CD', 'Pot, B10K detent', 1, '4, 7'),
            ('Alpha RD902F-40-15R1-A10K', 'Pot, dual A10K', 1, '4, 7'), ('ALPS RK09L1240015', 'Pan pot', 2, '5, 7'),
            ('Elma 021-3525', 'Knob, 1/4"', 3, '7'), ('Elma 021-3425', 'Knob, 6 mm', 1, '7'),
@@ -124,6 +136,7 @@ def board_lines(name, label):
         for r in csv.DictReader(f):
             if r['DNP'] or r['Footprint'].startswith('MountingHole'): continue
             mpn = r['MPN'] or (resistor_mpn(r['Value']) if r['Footprint'] == 'Resistor_SMD:R_0805_2012Metric' else '')
+            mpn = order_code(mpn, {**ORDER_AS, **BENCH_KEY})
             yield (mpn.split(' (')[0] or f'(no MPN) {r["Value"]}', r['Footprint']), mpn, r['Value'], label, int(r['Qty'])
 
 def phase1():

@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/group.kicad_sch")
-		(date "2026-11-03T16:51:30")
+		(date "2026-11-04T00:30:35")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -18175,11 +18175,11 @@
 		)
 		(comp
 			(ref "D5")
-			(value "PMEG4010CEH")
+			(value "MBR140SFT1G")
 			(footprint "Diode_SMD:D_SOD-123F")
 			(fields
 				(field
-					(name "MPN") "Nexperia PMEG4010CEH,115")
+					(name "MPN") "onsemi MBR140SFT1G")
 				(field
 					(name "Footprint") "Diode_SMD:D_SOD-123F")
 				(field
@@ -18196,7 +18196,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Nexperia PMEG4010CEH,115")
+				(value "onsemi MBR140SFT1G")
 			)
 			(property
 				(name "Sheetname")
@@ -18235,11 +18235,11 @@
 		)
 		(comp
 			(ref "D6")
-			(value "PMEG4010CEH")
+			(value "MBR140SFT1G")
 			(footprint "Diode_SMD:D_SOD-123F")
 			(fields
 				(field
-					(name "MPN") "Nexperia PMEG4010CEH,115")
+					(name "MPN") "onsemi MBR140SFT1G")
 				(field
 					(name "Footprint") "Diode_SMD:D_SOD-123F")
 				(field
@@ -18256,7 +18256,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Nexperia PMEG4010CEH,115")
+				(value "onsemi MBR140SFT1G")
 			)
 			(property
 				(name "Sheetname")

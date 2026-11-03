@@ -105,7 +105,7 @@ _ret2 = take('STEREO RETURN 2', *RET2_ROUTE)
 for u in (r for r in _ret2 if r.startswith('U')): RETURN2 += [u] + [r for r in beside(u) if r in _ret2]
 RETURN2 += [r for r in _ret2 if r not in RETURN2]
 SUPPLY_R = [r for r in take('POWER AND GROUNDS') if VAL[r].startswith('10R') and {'+VBUS', '-VBUS'} & NETS_OF[r]]
-POWER = [r for r in take('POWER AND GROUNDS') if r not in SUPPLY_R and VAL[r] != 'PMEG4010CEH']   # CS10's by MOVES
+POWER = [r for r in take('POWER AND GROUNDS') if r not in SUPPLY_R and VAL[r] != 'MBR140SFT1G']   # CS10's by MOVES
 ZONES = [
  # bottom side first: links and electrolytics. The return rows' pins fill the bottom at the top of the board (RET1), so
  # the links go below them, where the bottom is empty (ribbons ~150 mm; the strip's is ~136 mm)

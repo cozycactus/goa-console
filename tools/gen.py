@@ -9,8 +9,8 @@ SYM.update({'CONN6': ('Connector_Generic', 'Conn_01x06'), 'CONN2': ('Connector_G
             'LINK': ('Connector_Generic', 'Conn_02x05_Odd_Even'),
             'DG': ('Analog_Switch', 'DG413xY'), 'ZEN': ('Diode', 'BZX84Cxx'), 'SCH': ('Diode', 'BAT54W'),
             'LED2': ('Device', 'LED_Dual_AKA'), 'PNP': ('Transistor_BJT', 'MMBT3906'), 'DD': ('Diode', 'BAV99'), 'DSK': ('Device', 'D_Schottky')})
-schgen.MPN.update({'LED2': 'Kingbright WP3VEGW', 'PNP': 'onsemi MMBT3906LT1G', 'DD': 'Nexperia BAV99,215', 'DSK': 'Nexperia PMEG4010CEH,115',
-                   'DG': 'Vishay DG413DY-E3', 'ZEN': 'Nexperia BZX84-C5V1,215', 'SCH': 'Nexperia BAT54W,115',
+schgen.MPN.update({'LED2': 'Kingbright WP3VEGW', 'PNP': 'onsemi MMBT3906LT1G', 'DD': 'Diodes BAV99-7-F', 'DSK': 'onsemi MBR140SFT1G',
+                   'DG': 'Vishay DG413DY-E3', 'ZEN': 'Diodes BZX84C5V1-7-F', 'SCH': 'Nexperia BAT54W,115',
                    'OPA': 'TI OPA1612AIDR', 'CMP': 'TI LM393BIDR', 'JFET': 'onsemi MMBFJ112', 'D': 'Vishay 1N4148-TAP'})
 # strip_parts_review.md T9/T10: ceramics >= 25 V (50 V X7R here), anti-surge resistors where the power is marginal
 CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '10n': 'Samsung CL21B103KBANNNC (X7R 50V)',   # 10n: E6
@@ -22,7 +22,7 @@ CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '10n': 'Samsung CL21B103
            '100p C0G': 'KEMET C1206C101J5GACTU', '2n2 C0G': 'KEMET C1206C222J5GACTU', '4n7 C0G': 'KEMET C1206C472J5GACTU',
            '10n C0G': 'KEMET C1206C103J5GACTU', '22n C0G': 'KEMET C1206C223J5GACTU', '100n C0G': 'Murata GRM31C5C1H104JA01L',
            # rail reservoirs in the strip's own footprints (D8 P3.5, D6.3 P2.5; the master's UPW parts are larger)
-           '220u 25V': 'Rubycon 35ZLH220MEFC8X11.5 (35V)', '47u 25V': 'Panasonic EEU-FR1H470 (50V)',
+           '220u 25V': 'Panasonic EEU-FR1E221', '47u 25V': 'Rubycon 63ZLH47MEFC6.3X11 (63V)',
            '150n film': 'WIMA MKS2D031501C00KSSD (PET 100V; 3.5 x 8.5 x 7.2, the 63 V KSSD code has no stock)',
            '2.2u film': 'KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)',
            # audio bipolars, Nichicon MUSE ES 25 V, in the existing footprints (film_np_proposal.md)
@@ -62,8 +62,8 @@ P(b,'C4','C','100n',{1:'GNDA',2:'-VA'})
 # CS10 (console_survey.md §7): a reverse Schottky across each audio rail. If one supply rail is lost (a wing PTC trips,
 # a ribbon conductor opens), the op-amps' ~87 mA keeps flowing into the dead rail and drives it past ground: C1 / C3
 # would sit reversed by up to ~13 V and the ICs' pin-protection diodes carry the current (sim/review/cs10/rail_loss.py).
-# PMEG4010CEH (40 V, 1 A; 0.34 V at 100 mA) holds the dead rail within 0.36 V of ground
-P(b,'D16','DSK','PMEG4010CEH',{1:'+VA',2:'GNDA'}); P(b,'D17','DSK','PMEG4010CEH',{1:'GNDA',2:'-VA'})
+# MBR140SFT1G (40 V, 1 A; 0.36 V max at 100 mA) holds the dead rail within 0.36 V of ground
+P(b,'D16','DSK','MBR140SFT1G',{1:'+VA',2:'GNDA'}); P(b,'D17','DSK','MBR140SFT1G',{1:'GNDA',2:'-VA'})
 P(b,'R3','R','10R',{1:'+VBUS',2:'+VL'},**FUSIBLE); P(b,'C5','CP','47u 25V',{1:'+VL',2:'GNDD'},fp='Capacitor_THT:CP_Radial_D6.3mm_P2.50mm')
 P(b,'R4','R','10R',{1:'-VBUS',2:'-VL'},**FUSIBLE); P(b,'C6','CP','47u 25V',{1:'GNDD',2:'-VL'},fp='Capacitor_THT:CP_Radial_D6.3mm_P2.50mm')
 P(b,'NT1','NT','AGND-LGND star',{1:'GNDA',2:'GNDD'})

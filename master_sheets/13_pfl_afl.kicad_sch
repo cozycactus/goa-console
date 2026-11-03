@@ -1502,7 +1502,7 @@
     (property "Datasheet" "" (id 3) (at 40.64 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "MPN" "Nexperia BZX84-C5V1,215" (id 4) (at 40.64 120.65 0)
+    (property "MPN" "Diodes BZX84C5V1-7-F" (id 4) (at 40.64 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid a8ce33ca-a88b-5203-a584-ed6df773744c))

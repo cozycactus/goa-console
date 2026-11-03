@@ -62,7 +62,8 @@ build-outs and feeds, Vishay M25SI thin-film fusibles. What thick film costs aga
 
 - **Alpha pots.** The agent called RD902F-40-15R1-A10K "not stocked anywhere". Wrong: Tayda stocks it (SKU A-6980,
   700). It also stocks RD901F-40-15R1-A10K (A-1856, 1775), -B10K-0CD (A-8401, 741) and -A10K-0CD (A-7815, 220).
-- **DG413DY-E3** is the tube code, stocked (Mouser ~4700, RS). It is not a mistake for -T1-E3, the reel.
+- **DG413DY-E3** is the tube code, stocked (Mouser ~4700, RS). It is not a mistake for -T1-E3, the reel. (2026-11-03: the tube is
+  out of stock and the order lists buy the -T1-E3, `second_source_proposal.md` SS1.)
 
 **Follow-up (2026-10-25).**
 - **C48 (strip, 150 nF film):** now WIMA MKS2D031501C00KSSD, the 100 V version of the same part. It is
@@ -89,12 +90,13 @@ build-outs and feeds, Vishay M25SI thin-film fusibles. What thick film costs aga
   - **Spares:** each stage gets the console rule's spares on its own count, so the second strip's spares may already
     be in stage A's leftovers.
   - **PCBs:** order all four phase-1 designs in stage A, 5 of each (the fab minimum).
-  - **Priced 2026-10-28, re-priced 2026-11-03 for the merged list** (`order_phase1_prices.csv`, Mouser first): stage A
-    about $452 in parts + $70.50 of PCBs, stage B $325, a second strip $322; without shipping, VAT or duty, and without
+  - **Priced 2026-10-28, re-priced 2026-11-03 for the merged list and 2026-11-04 for SS1-SS3** (`order_phase1_prices.csv`,
+    Mouser first): stage A about $464 in parts (of which $11 is check 3's 4 H1 samples, due in March) + $70.50 of PCBs, stage B
+    $325, a second strip $323; without shipping, VAT or duty, and without
     the $80 optional matched pair. The 34 thin-film resistor lines (TF1) are at $0.10 each, the top of the cut-tape range
     in `thin_film_proposal.md`, because Mouser's page couldn't be read (RS UK lists about $0.03); the other prices are the
     2026-10-28 / 29 readings. Backordered at Mouser then: OPA1612AIDR (AID tube in stock), PVA2 (3/2027), DG413DY-E3,
-    BAV199,215 / BZX84-C5V1 / PMEG4010CEH (Nexperia, to 2027); WIMA MKS2C042201K00KSSD obsolete, replaced by KEMET
+    BAV199,215 / BZX84-C5V1 / PMEG4010CEH (Nexperia, to 2027), all replaced by SS1-SS3 (below); WIMA MKS2C042201K00KSSD obsolete, replaced by KEMET
     MMK5225K63J06L4BULK in the same box (FE1, 2026-10-29: buy the console's 120 in one order, it is a last-time buy too);
     Alpha pots only at Tayda.
 - **Not on any board, so not in the list** (they are in `offboard_bom.md`): knobs, fader caps, LED spacers, standoffs, ribbon and IDC sockets, the
@@ -103,13 +105,23 @@ build-outs and feeds, Vishay M25SI thin-film fusibles. What thick film costs aga
 ## Stock risks: act before ordering
 
 **Re-read 2026-11-03:** Nexperia's BAV99, BAV199,215, BZX84-C5V1 and PMEG4010CEH, the OPA1612AIDR reel, DG413DY-E3, EEU-FR1H470 and
-PVA2 EE H1 are out of stock at Mouser. `second_source_proposal.md` (not signed off) has the replacements.
+PVA2 EE H1 are out of stock at Mouser. `second_source_proposal.md` SS1-SS3 (signed off 2026-11-03) replaces them:
+- **Same part, other packing (order lists only, `ORDER_AS` in `order_bom.py`; the schematics keep the first code):** OPA1612AID,
+  BAV199,235, DG413DY-T1-E3.
+- **Other maker, same footprint (in the schematics):** Diodes BZX84C5V1-7-F, Diodes BAV99-7-F, onsemi MBR140SFT1G, Rubycon
+  63ZLH47MEFC6.3X11, Panasonic EEU-FR1E221.
+- **Keys:** PVA2 EE H3 on phase 1's bench strips (`BENCH_KEY`), H1 on the console and for check 3's samples.
+
+Its §6 lists the codes Mouser's block left unread: re-read those at order time.
 
 | Part | Needed | Situation | Action |
 |---|---|---|---|
 | Bourns PTB0143-2010BPA103 | 28 (24 strips + 4 groups) | DigiKey showed exactly 28 | buy 28 + spares now, or check Mouser / Bourns lead time |
 | Neutrik NJ6FD-V | 109 (72 strip, 28 group, 9 master; RET1) | ~14-week lead time quoted | order first |
-| TI OPA1612AIDR | 319 (264 strip, 36 group, 13 master, 6 jig; RET1) | LCSC the only volume stock seen | buy at LCSC, or split across distributors |
+| TI OPA1612AID (tube, SS1; the AIDR reel is 0, 26 wk) | 319 (264 strip, 36 group, 13 master, 6 jig; RET1) | Mouser 516 on 2026-11-03; LCSC the only other volume stock seen | buy for stage A now; before the console order re-check the reel, about $1.70 less each at 10 |
+| C&K PVA2 EE H1 1.7N V2 | 360 + spares | Mouser 0, 1,441 due 2027-03-01 | order for the console; stage A and a second strip use H3 (SS3) |
+| Vishay DG413DY-T1-E3 (SS1) | 73 | Mouser 57, 5,000 due 2026-12-25 | stage A's 5 are in stock; the console waits for the delivery |
+| Nexperia BAT54W,115 | 52 with spares | Mouser 184 | buy early |
 | TI LM1084IT-ADJ/NOPB | 2 | little stock | buy with the first order |
 | KEMET MMK5225K63J06L4BULK (2.2 µF film; FE1, replaces the obsolete WIMA MKS2C042201K00KSSD) | 114 (72 strip, 28 group, 14 master; RET1, RV7) | obsolete too; Mouser had 1,841 on 2026-10-29 | buy the console's 120 in one order; no design change |
 | WIMA MKS2D031501C00KSSD (150 nF film, C48) | 24 | the 63 V code (MKS2C031501A00KSSD) has no stock anywhere; RS ~1135 of this 100 V one | swapped (below) |

@@ -256,7 +256,7 @@ this is the record with the reasons, the rejected alternatives and the dates. Do
   part: ESD into the op-amps 50-100x lower, phantom on SEND / DO_T clamped (C51 / C52 17.7 V, not 41.9; the no-phantom
   rule stays). TVS at the jacks rejected for its distortion. 921 pins, 317 parts; a "JACK LINK CLAMPS" block, 18 pages.
 - Strip v5.1 / group (signed off by Ruslan 2026-10-27, `cs10_proposal.md` CS10, from `console_survey.md` §7): a reverse
-  Schottky across each audio rail of every ribbon board, Nexperia PMEG4010CEH (40 V 1 A, SOD-123F): strip D16 (K +VA,
+  Schottky across each audio rail of every ribbon board, Nexperia PMEG4010CEH (40 V 1 A, SOD-123F; onsemi MBR140SFT1G since SS2, below): strip D16 (K +VA,
   A GNDA) / D17 (K GNDA, A -VA) beside C1 / C3; group D5 / D6 beside its C1 / C2, created last so no group ref moved.
   A lost supply rail (wing PTC, open ribbon conductor) no longer reverses the polar 220 uF reservoirs (simulated
   2.5-12.7 V without, 0.36 V with). Logic rails (+-VL) need none. 906 strip pins, 312 parts; group 739 pins, 265 parts.
@@ -318,3 +318,17 @@ this is the record with the reasons, the rejected alternatives and the dates. Do
   the coil current is 0.2 µA, the 2.80 s close unchanged (`sim/review/clicks/mute_rbe.cir`, `sim/mute.cir` v5). Both
   made last and placed by moves_only (D23 beside D22, R143 beside C107, R240 under Q1), nothing else moved. Strip 946
   pins / 329 parts, master 1820 / 632. Bench item: open the −V wire with the relays closed.
+
+## Added 2026-11-04
+- Second sources for what held up stage A (signed off by Ruslan 2026-11-03, `second_source_proposal.md` SS1-SS3; read at Mouser
+  2026-11-03). Nexperia's small-signal diodes went to zero stock with 53-week lead times, BAV99,215 among them since 28 Oct.
+  - **SS1, same part in other packing, order lists only (`ORDER_AS` in `order_bom.py`; the schematics keep the first code, so a line
+    goes when stock returns):** OPA1612AID tube for the AIDR reel (not OPA1612AIDRGR, which is SON-8), BAV199,235 for ,215,
+    DG413DY-T1-E3 for -E3.
+  - **SS2, other maker on the same footprint:** Diodes BZX84C5V1-7-F, Diodes BAV99-7-F, onsemi MBR140SFT1G for PMEG4010CEH (strip D16 /
+    D17, group D5 / D6; the feet land on the D_SOD-123F pads; `rail_loss.py mbr` holds a dead rail to ±0.36 V, 0 mA, at its maximum
+    Vf; more reverse leakage, about 10 mA across the console's 56 diodes in the tub by estimate), Rubycon 63ZLH47MEFC6.3X11, Panasonic
+    EEU-FR1E221 (25 V against 17 V rails; the 35 V Rubycon 35ZLQ passed over because its pitch couldn't be confirmed).
+  - **SS3, the keys:** PVA2 EE H1 is due 2027-03-01 and nobody else makes this footprint. H3 is in stock at the same price, with the
+    same pads and latching read from low-resolution drawings (check on a sample) and PV caps fit only H1 and H3. Phase 1's bench strips
+    take H3 (`BENCH_KEY`), the console stays H1, and check 3's samples stay H1 because H3 can't settle the cap clearance or panel stack.

@@ -22,8 +22,8 @@ MPN.update({'LDO': 'TI LM1084IT-ADJ/NOPB', 'SCR': 'onsemi 2N6505G', 'TL431': 'TI
             'TERM2': 'Phoenix 1715721 MKDS 1,5/2-5,08', 'TERM7': 'Phoenix 1755897 MKDS 1,5/7-5,08 (to a Neutrik NC7FD-LX)'})
 CPFP = {'2200u': 'Capacitor_THT:CP_Radial_D16.0mm_P7.50mm', '220u': 'Capacitor_THT:CP_Radial_D8.0mm_P3.50mm',
         '47u': 'Capacitor_THT:CP_Radial_D6.3mm_P2.50mm'}
-CAP_MPN = {'2200u 35V low-ESR': 'Rubycon 35ZLH2200MEFC16X25', '220u 25V': 'Rubycon 35ZLH220MEFC8X11.5 (35V)',
-           '47u 25V': 'Panasonic EEU-FR1H470 (50V)', '100n': 'Samsung CL21B104KBCNNNC (X7R 50V)',
+CAP_MPN = {'2200u 35V low-ESR': 'Rubycon 35ZLH2200MEFC16X25', '220u 25V': 'Panasonic EEU-FR1E221',
+           '47u 25V': 'Rubycon 63ZLH47MEFC6.3X11 (63V)', '100n': 'Samsung CL21B104KBCNNNC (X7R 50V)',
            '2n2': 'KEMET C0805C222J5GACTU (C0G)'}
 
 cnt = collections.Counter()

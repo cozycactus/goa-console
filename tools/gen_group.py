@@ -123,7 +123,7 @@ link_header(b, NL2, LINK2, f'Jack board link 2 2x{NL2}')
 # (a wing PTC trips) would otherwise be driven past ground by the op-amps' quiescent current (sim/review/cs10/rail_loss.py).
 # Created last so every other ref stays; drawn in the power block
 dsp, dsn = ref('D'), ref('D')
-P(bpw, dsp, 'DSK', 'PMEG4010CEH', {1: '+VA', 2: 'GNDA'}); P(bpw, dsn, 'DSK', 'PMEG4010CEH', {1: 'GNDA', 2: '-VA'})
+P(bpw, dsp, 'DSK', 'MBR140SFT1G', {1: '+VA', 2: 'GNDA'}); P(bpw, dsn, 'DSK', 'MBR140SFT1G', {1: 'GNDA', 2: '-VA'})
 def _rail_diodes(d):                            # as the strip's D16 / D17 (strip_draw.power_rails): K on +VA, A on -VA
     d.port('+VA', (0, 0)); d.w((0, 0), (4, 0)); d.v(dsp, 4, 1.5, top='+VA', text='R')
     d.port('-VA', (14, 0)); d.w((14, 0), (18, 0)); d.at(dsn, 18, 1.5, rot=270, mirror='x', text='R')

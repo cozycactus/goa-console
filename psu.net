@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/psu.kicad_sch")
-		(date "2026-11-03T17:24:27")
+		(date "2026-11-04T00:30:48")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -180,7 +180,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic EEU-FR1H470 (50V)")
+					(name "MPN") "Rubycon 63ZLH47MEFC6.3X11 (63V)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
 				(field
@@ -197,7 +197,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic EEU-FR1H470 (50V)")
+				(value "Rubycon 63ZLH47MEFC6.3X11 (63V)")
 			)
 			(property
 				(name "Sheetname")
@@ -240,7 +240,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "MPN") "Rubycon 35ZLH220MEFC8X11.5 (35V)")
+					(name "MPN") "Panasonic EEU-FR1E221")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
@@ -257,7 +257,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Rubycon 35ZLH220MEFC8X11.5 (35V)")
+				(value "Panasonic EEU-FR1E221")
 			)
 			(property
 				(name "Sheetname")
@@ -540,7 +540,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
 			(fields
 				(field
-					(name "MPN") "Panasonic EEU-FR1H470 (50V)")
+					(name "MPN") "Rubycon 63ZLH47MEFC6.3X11 (63V)")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
 				(field
@@ -557,7 +557,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Panasonic EEU-FR1H470 (50V)")
+				(value "Rubycon 63ZLH47MEFC6.3X11 (63V)")
 			)
 			(property
 				(name "Sheetname")
@@ -600,7 +600,7 @@
 			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "MPN") "Rubycon 35ZLH220MEFC8X11.5 (35V)")
+					(name "MPN") "Panasonic EEU-FR1E221")
 				(field
 					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
@@ -617,7 +617,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Rubycon 35ZLH220MEFC8X11.5 (35V)")
+				(value "Panasonic EEU-FR1E221")
 			)
 			(property
 				(name "Sheetname")

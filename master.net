@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/master.kicad_sch")
-		(date "2026-11-03T16:51:35")
+		(date "2026-11-04T00:30:40")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -17945,7 +17945,7 @@
 			(footprint "Package_TO_SOT_SMD:SOT-23")
 			(fields
 				(field
-					(name "MPN") "Nexperia BZX84-C5V1,215")
+					(name "MPN") "Diodes BZX84C5V1-7-F")
 				(field
 					(name "Footprint") "Package_TO_SOT_SMD:SOT-23")
 				(field
@@ -17962,7 +17962,7 @@
 			)
 			(property
 				(name "MPN")
-				(value "Nexperia BZX84-C5V1,215")
+				(value "Diodes BZX84C5V1-7-F")
 			)
 			(property
 				(name "Sheetname")

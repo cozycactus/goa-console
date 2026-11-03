@@ -104,7 +104,7 @@ D22 DO_T. 921 pin entries, 317 parts (D23 on DO_R since v5.7).
 
 ## Changes in v5.1 (2026-10-27, signed off; `cs10_proposal.md` CS10, from `console_survey.md` §7)
 
-**D16 / D17 PMEG4010CEH** (Nexperia, 40 V 1 A Schottky, SOD-123F) across the audio rails (§2.1): cathode +VA / anode
+**D16 / D17 PMEG4010CEH** (Nexperia, 40 V 1 A Schottky, SOD-123F; onsemi MBR140SFT1G in the same footprint since SS2, 2026-11-03, the PMEG out of stock) across the audio rails (§2.1): cathode +VA / anode
 GNDA beside C1, cathode GNDA / anode −VA beside C3. 906 pin entries, 312 parts.
 
 - **Why:** if one supply rail is lost (a wing PTC trips, a ribbon conductor opens, a PSU rail fails), the op-amps'
@@ -354,7 +354,7 @@ unlatched = 2–3 (5–6). The latched throw still needs confirming on a real PV
 ```
 +V (pins 32–34) ── R1 10 Ω ── +VA ── C1 220 µF/25 V ── C2 100 nF ── AGND      (R1–R4 fusible M25SI 1206, v5.3, CS6)
 −V (pins 30, 31) ── R2 10 Ω ── −VA ── C3 220 µF/25 V ── C4 100 nF ── AGND
-+VA ── D16 PMEG4010CEH (K) ── (A) AGND          AGND ── D17 PMEG4010CEH (K) ── (A) −VA        (v5.1, CS10)
++VA ── D16 MBR140SFT1G (K) ── (A) AGND          AGND ── D17 MBR140SFT1G (K) ── (A) −VA        (v5.1, CS10; SS2)
 ```
 D16 / D17 hold a dead rail within 0.36 V of ground if the other one stays up (a wing PTC trips, a ribbon conductor
 opens); without them the op-amps' quiescent current drives it past ground and reverses C1 / C3.
@@ -822,7 +822,7 @@ directly; no debounce RC, because the DG413 inputs have no hysteresis.
 | Q1, Q2 | MMBFJ112 (J112 in SOT-23) | soft mute | |
 | Q3–Q5 | MMBT3906 | red / green LED switches, green gate (v4.7) | |
 | D1, D12–D15 | BAV99 | OL taps: PRESRC, RECV, GOUT, EQOUT, FPOST (v5.0) | |
-| D16, D17 | PMEG4010CEH | reverse clamps on +VA / −VA (v5.1) | |
+| D16, D17 | MBR140SFT1G (was PMEG4010CEH, SS2) | reverse clamps on +VA / −VA (v5.1) | |
 | D18–D23 | BAV199 | jack-link clamps at CN3: IN_T, IN_R, RET_RAW, SEND, DO_T (v5.2), DO_R (v5.7) | |
 
 ---
@@ -872,7 +872,7 @@ AI scope: component placement only. Ruslan routes copper and pours grounds in Ki
 | RV9–RV11, RV13, RV15 | Alpha RD901F-40-15R1-B10K-0CD | same | 10K linear, centre detent (Alpha spec SP26020021). In stock 2026-10-22 as Alpha 9 mm vertical linear "centre notch" 10K (Cedist / Amplified Parts R-VAV-B10K-CN), but with a 1/4" (6.35 mm) shaft: knobs must match. |
 | RV8 | ALPS RK09L1240015 (10K 1B dual, centre detent) | `Potentiometer_THT:Potentiometer_Alps_RK09L_Double_Vertical` | The vertical dual centre-detent 10K B that is stocked (Mouser, Verical; no Alpha one exists). ALPS catalogue RV01 Drawing No.7: **M9 × 0.75** bushing 5 long, **Ø6 shaft with a flat** (4.5 across, 7 long) 15 from the face, face 10 above the board like the Alpha, snap-in legs. Panel hole **Ø9.5**; the knob is the **6 mm D** version of the strip's knob; M9 nut (not dimensioned: assumed 12 AF × 2.0) and a 9.5 / 11 × 1.5 spacer washer. The footprint's pin rows sit 7.5 / 10 mm from the shaft like the Alpha's, gangs swapped (pins 4-6 nearer the shaft); shaft at (10, 2.5) from pin 1. Check on a sample: nut thickness, pin 1 at the CCW end, the detent at the electrical centre. |
 | RV12, RV14 | Alpha RD902F-40-15R1-A10K dual (log) | same | Stocked (Tayda). Replaces the Delta's 100K C-law dual, which isn't stocked; works with the KHN mid-band tuning (§6.2). |
-| SW3–SW15 | C&K PVA2 EE H1 1.7N V2 | `Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2` | DPDT push-push, 32 V / 100 mA; PV caps. Datasheet (rev. 02/2025, p. 3): common 0 is the middle pin; released 0–1, pressed/latched 0–2; terminals moulded "2 0 1" on the body. **Fit each switch with its moulded "2" pins in the square-pad column (pads 1 and 4)**, so latched = 2–1 / 5–4 as drawn. Since v4.6 a silk "2" beside pads 1/4 marks that column on every board. The footprint is symmetric under 180°, so a switch fitted the other way round works inverted. Check one sample with a meter. |
+| SW3–SW15 | C&K PVA2 EE H1 1.7N V2 (phase 1's bench strips: H3, in stock, 3 mm taller; SS3) | `Button_Switch_THT:SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2` | DPDT push-push, 32 V / 100 mA; PV caps. Datasheet (rev. 02/2025, p. 3): common 0 is the middle pin; released 0–1, pressed/latched 0–2; terminals moulded "2 0 1" on the body. **Fit each switch with its moulded "2" pins in the square-pad column (pads 1 and 4)**, so latched = 2–1 / 5–4 as drawn. Since v4.6 a silk "2" beside pads 1/4 marks that column on every board. The footprint is symmetric under 180°, so a switch fitted the other way round works inverted. Check one sample with a meter. |
 | D2 | Kingbright WP3VEGW bicolour | `goa-console:LED_D3.0mm-3_P2.00mm` | Three leads at 2.0 mm (v4.7); 3-lead spacer. |
 | D3–D8 | 3 mm LEDs | `LED_THT:LED_D3.0mm` | 7.6 mm spacers. D6–D8 (routing, yellow) at y 283, centred under SW5–SW7. |
 | CN4 | Keystone 1287-ST | `goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm` | |

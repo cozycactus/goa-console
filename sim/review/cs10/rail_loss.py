@@ -14,10 +14,11 @@ Model (one strip or group board; values from the strip netlist where they exist)
 Measured: the dead rail's voltage (its polar 220 uF reverse-biased when it crosses ground) and the current through the
 ICs' protection paths, 100 ms after the loss.
 usage: python3 sim/review/cs10/rail_loss.py"""
-import os, re, subprocess, tempfile
+import os, re, subprocess, sys, tempfile
 
 VB = 17.0
 PMEG = '.model DPMEG D(IS=1.75e-7 N=1.05 RS=0.045 CJO=70p BV=40 IBV=50u)'     # fit: 340 mV at 0.1 A, 490 mV at 1 A
+if 'mbr' in sys.argv: PMEG = '.model DPMEG D(IS=2.87e-7 N=1.05 RS=0.142 CJO=40p BV=40 IBV=500u)'   # MBR140SF datasheet maximum: 360 mV at 0.1 A, 550 mV at 1 A
 PIN = '.model DPIN D(IS=1e-14 N=1.0 RS=0)'
 
 def deck(case, schottky, r_pin, tstop=0.15):

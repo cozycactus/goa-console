@@ -31,7 +31,8 @@ NJ6FD-V body height (sets the jack-board standoffs), knob fit, and the function 
 ### 1.1 Staged build (2026-10-28, to keep the first spend small)
 
 Everything above is the full jig. It is bought and built in stages; `python3 tools/order_bom.py phase1` writes the parts
-list per stage (`order_phase1.csv`).
+list per stage (`order_phase1.csv`). Its strips carry PVA2 EE H3 keys (H1 is due 2027-03-01; same pads and latching, the cap 3 mm
+higher; `second_source_proposal.md` SS3), so the key cap clearance and panel stack checks wait for the H1 samples.
 
 | Stage | Built | Tests |
 |---|---|---|

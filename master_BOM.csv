@@ -27,7 +27,7 @@
 "1","BZT52C6V2","Diode_SMD:D_SOD-123","Diodes BZT52C6V2-7-F","","D7"
 "1","Aux 5 AFL red","LED_THT:LED_D3.0mm","Kingbright WP710A10ID","","D12"
 "1","Aux 6 AFL red","LED_THT:LED_D3.0mm","Kingbright WP710A10ID","","D13"
-"1","BZX84C5V1","Package_TO_SOT_SMD:SOT-23","Nexperia BZX84-C5V1,215","","D14"
+"1","BZX84C5V1","Package_TO_SOT_SMD:SOT-23","Diodes BZX84C5V1-7-F","","D14"
 "1","BAT54W","Package_TO_SOT_SMD:SOT-323_SC-70","Nexperia BAT54W,115","","D15"
 "1","PFL ACTIVE red 5mm","LED_THT:LED_D5.0mm","Kingbright WP7113ID","","D19"
 "2","green -20 dB","LED_THT:LED_D3.0mm","Kingbright WP710A10GD","","D29 D57"

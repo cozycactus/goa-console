@@ -3,6 +3,10 @@
 Moved out of `CLAUDE.md` on 2026-10-28 (`project_review.md` RV13), text unchanged: every check run after a change, newest
 first. The current counts are in `CLAUDE.md`'s state table.
 
+- SS1-SS3 applied (2026-11-04, `second_source_proposal.md`): every board regenerated and re-placed, `placediff.py` 0 changed on all
+  nine. Fields only: strip 12 parts, group 2, master 1, PSU 4; values only on strip D16 / D17 and group D5 / D6 (MBR140SFT1G); the jack
+  boards and jig differ only by dates and UUIDs (restored). `order_bom.csv` and `order_phase1.csv` carry no old code; phase 1 has
+  14 + 14 PVA2 EE H3 and 4 H1 samples, the console 371 H1. `rail_loss.py mbr` ±0.36 V, 0 mA. `check_all.py --full` 72 / 72.
 - Master TI stability, whole deck on v0.14 (2026-11-03 / 04, ngspice 46, TI's OPA161x / OPA1656 / DRV134 / TL072 models, 34
   configurations): the first pass read old raw files on 17 configurations when ngspice timed out, found because all 34 result files
   came out byte-identical to the previous run's. `mstab.py` fixed (e112981; test: a planted old result now gives no result, `p075`

@@ -18,7 +18,7 @@ Since 2026-10-28 this list is merged into stage A of the phase-1 order (`python3
 | Fader cap | Sifam LK111 01 (black, white line) | 3 | 2 |
 | Fader cap, plain | Sifam LK110 tang 01 (RS 281-7197) | 2 | 2 |
 | Fader cap, coloured trial | any 8 × 1.2 mm slot cap, white / red / yellow | 2 each | 2 |
-| Key switch | C&K PVA2 EE H1 1.7N V2 | 4 | 3 |
+| Key switch | C&K PVA2 EE H1 1.7N V2 (due at Mouser 2027-03-01; stage A's strip itself uses H3, `second_source_proposal.md` SS3) | 4 | 3 |
 | Key cap | C&K PV, PVGY / PVWH / PVRD / PVBK | 2 each | 3 |
 | Pot, single A10K | Alpha RD901F-40-15R1-A10K | 2 | 4, 7 |
 | Pot, single B10K centre detent | Alpha RD901F-40-15R1-B10K-0CD | 1 | 4, 7 |

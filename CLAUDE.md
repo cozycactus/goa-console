@@ -25,7 +25,7 @@ Where the detail lives (all moved out of this file on 2026-10-28, text unchanged
 - `console_architecture.md` (v3.2), `channel_strip_schematic_spec.md` (v5.7), `master_section_spec.md` (v0.14),
   `test_jig_spec.md` (v0.10), `psu_spec.md` (v0.2) — authoritative specs. `routing_guide.md` for Ruslan's routing.
 
-## Current state (2026-11-03)
+## Current state (2026-11-04)
 
 | Board | Rev | Parts | Pins | Outline (mm) | Layers | Placement |
 |---|---|---|---|---|---|---|
@@ -41,7 +41,7 @@ Where the detail lives (all moved out of this file on 2026-10-28, text unchanged
 
 Every board is its schematic's project board, so parity DRC runs in place; all nine: 0 DRC violations (jack boards
 only the NJ6FD-V footprint's own items), 0 parity issues, every footprint linked to its symbol (1534 / 1534).
-Last `check_all.py --full`: 72 / 72 on macOS 2026-11-03 (KiCad 10.0.7, ngspice 46; Linux runs stop one short, panel_fab
+Last `check_all.py --full`: 72 / 72 on macOS 2026-11-04 (KiCad 10.0.7, ngspice 46; Linux runs stop one short, panel_fab
 needs the macOS Arial Narrow). sim_netlist 45/45, sim_console 45/45, check_bus clean.
 
 Power: console ~3.31 / 2.79 A typical, worst corner ~4.54 A on +V against the PSU's 4 A per rail, wing PTC ~2.07 A
@@ -103,7 +103,7 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
 - Film couplers and bipolars F1-F4 (2026-10-24): 2.2 µF PET film (wipers, meter averaging; THT, bottom side; order code KEMET MMK5225K63J06L4BULK since FE1, 2026-10-29: the WIMA MKS2 is obsolete, the KEMET a last-time buy in the same box), MUSE ES 33 / 100 µF, 10 µF Panasonic ECE-A1EN100U (S1); no X7R in the signal path, no DC coupling, no polypropylene.
 - Op-amps: OPA1612 in noise-critical stages and on the MIX / SUB / aux sums; OPA1656 on the PFL sum, the CRS followers and the input followers (G3, U16); N1 (OPA1656 in U1, U5-U7, U12-U15) open, decided by the jig A/B.
 - Pan law CS2 Option A (2026-10-27): the Delta's −4.4 dB (U8B / U3A 1.22× with 3K3 back to the wipers, C105 / C106 22p); PAN off stays POST; the group's sub pan the same (CS2b, 2026-10-28). The old −6 dB was a transfer error.
-- v4.1 T1-T11 stability caps and ratings (2026-10-23); v4.5 K1 / K3 (PFL DC block C96, ~150 ms OL hold); v4.7 MET1 red / green bicolour signal / OL LED D2 WP3VEGW; v4.8 PAN1 pan buffer L in U8B; v4.9 P1 / P2 / E6; v5.0 CS1 five-tap OL detector, both polarities, thresholds ratios of +VL (+18.4 dBu); v5.1 CS10 PMEG4010CEH across each audio rail (strip D16 / D17, group D5 / D6); v5.2 CS4 BAV199 on every jack-link signal at CN3 (TVS rejected); v5.3 CS6 fusible R1-R4 Vishay M25SI (strip and group); v5.4 CS2; v5.5 EQM1; v5.6 RV3 / RV4 (R142 1M gain-stage keeper, C107 33 µF in the direct out's cold leg); v5.7 RV3b (2026-10-29: R143 47K bleed and D23 BAV199 on the direct out's ring, as the tip's R72 / D22).
+- v4.1 T1-T11 stability caps and ratings (2026-10-23); v4.5 K1 / K3 (PFL DC block C96, ~150 ms OL hold); v4.7 MET1 red / green bicolour signal / OL LED D2 WP3VEGW; v4.8 PAN1 pan buffer L in U8B; v4.9 P1 / P2 / E6; v5.0 CS1 five-tap OL detector, both polarities, thresholds ratios of +VL (+18.4 dBu); v5.1 CS10 a reverse Schottky across each audio rail (strip D16 / D17, group D5 / D6; MBR140SFT1G since SS2, the PMEG4010CEH out of stock); v5.2 CS4 BAV199 on every jack-link signal at CN3 (TVS rejected); v5.3 CS6 fusible R1-R4 Vishay M25SI (strip and group); v5.4 CS2; v5.5 EQM1; v5.6 RV3 / RV4 (R142 1M gain-stage keeper, C107 33 µF in the direct out's cold leg); v5.7 RV3b (2026-10-29: R143 47K bleed and D23 BAV199 on the direct out's ring, as the tip's R72 / D22).
 - Design review (2026-10-25): ON also mutes the pre-fade sends and the direct out, PFL stays at PRE (Q1); group sub pan RV2 = RK09L; jig R45 ERJ-P06J332V; silk "2" at every PVA2's pads 1 / 4.
 - Ground and hum G1-G3, G2b / G3b (2026-10-25): one 14 AWG wire per module to the master's copper bar under the M4 star (G1); balanced-input and DRV135 TRS sleeves on CHASSIS through plated standoffs, inserts / phones on GNDA (G2); receivers buffered by OPA1656 followers, 1M / 220R / 100 pF / 100R (G3); XLR shells on CHASSIS (2026-10-28).
 
@@ -123,7 +123,7 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
 - Strip panel 8 HP × 12U, two pot columns at x 8.84 / 29.16 (20.32 pitch, 2026-10-23), jacks on the panel (NJ6FD-V) on a 38 × 43 mm jack board 24.0 mm under it, 2×5 IDC link; knobs Ø14.5; custom frame with rails only at the panel ends (2026-10-22).
 - Faders Bourns PTB0143 (strips, groups) / PTB0144 (master) A10K, BP blade; caps Sifam LK111 01 black with a line (KC2); the AP / ALPS / TT / P+G alternatives rejected (2026-10-23 / 25).
 - Knobs KN1-KN3 (2026-10-25): Elma 021-3525 (1/4") / 021-3425 (6 mm) matt black with a line, Elma 040-30x5 caps colour-coded per function; key caps C&K PV (KC1).
-- Panel parts: Alpha RD901F / RD902F pots (centre-detent 10K B have 1/4" shafts), C&K PVA2 EE H1 keys fitted with the moulded "2" in the pad 1 / 4 column, Keystone 1287-ST spade, 3 mm LEDs on 7.6 mm spacers.
+- Panel parts: Alpha RD901F / RD902F pots (centre-detent 10K B have 1/4" shafts), C&K PVA2 EE H1 keys fitted with the moulded "2" in the pad 1 / 4 column (H3 on phase 1's bench strips, SS3), Keystone 1287-ST spade, 3 mm LEDs on 7.6 mm spacers.
 - Frame rails FR1-FR3 (2026-10-25): two 6060-T6 / 6082 bars 50 × 10 × 1227.2 mm, 30 M3 tapped holes each, bonded by bare holes + star washers, one 2.5 mm² bond per rail to the M4 star (`frame/`).
 - Tub TB1-TB4 (2026-10-26): walnut cheeks carrying the 9° tilt, 12 mm birch-ply floor with 30 inlet slots + mesh, walnut arm-rest, back plenum with the NC7MD-LX, open underside, console raised 25 mm (`tub/`); supply cable through back-rail vent slot 14.
 - Thermal TH1-TH3 (2026-10-26): 98 W; vented tub ~16 K rise, back rail's 30 vent slots 30 × 25, no fan unless the built console exceeds 20 K; MUSE ES kept.
@@ -133,7 +133,7 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
 **Placement (placement only; Ruslan routes)**
 - E1-E5 / E8 (2026-10-26) and E6: LED switches beside D2, the J112 mute and U16's network under their op-amps, supply filters at the bus header, jack-board C8 / C9 between J1's pins, master flasher diode and PFL detect by their ICs; E9 / E9b stability caps ≤ 6.4 mm from their pins; E10 input nets shortened; E11 decouplers ≤ 5.5 mm (THT 10 µF excepted); untangle turns (crossings −4..−7 %); upper strip op-amps fixed in `place_strip.py`.
 - Routing rules by `tools/netrules.py` into every project (net classes, HighZ / Entry / Bus clearances, 4-layer rules, WingFeed, PSU HighCurrent); `routing_guide.md`; `route_check.py` after routing.
-- Sourcing (2026-10-25): plain 0805 resistors Yageo RT0805FRE07xxxL thin film up to 1M (TF1, 2026-10-29; RC0805FR thick film above 1M and as the out-of-stock fallback; anti-surge ERJ-P06 positions stay); stock risks PTB0143, NJ6FD-V, OPA1612, the 2.2 µF film (FE1: buy the console's 120 in one order; FE2's wider footprint is the way out); C0G order codes by footprint; DRV135 coupler pairs sorted (10 spares).
+- Sourcing (2026-10-25): plain 0805 resistors Yageo RT0805FRE07xxxL thin film up to 1M (TF1, 2026-10-29; RC0805FR thick film above 1M and as the out-of-stock fallback; anti-surge ERJ-P06 positions stay); stock risks PTB0143, NJ6FD-V, OPA1612, the 2.2 µF film (FE1: buy the console's 120 in one order; FE2's wider footprint is the way out); C0G order codes by footprint; DRV135 coupler pairs sorted (10 spares); second sources SS1-SS3 (2026-11-03, `second_source_proposal.md`): OPA1612AID, BAV199,235, DG413DY-T1-E3 on the order lists only, Diodes BZX84C5V1-7-F / BAV99-7-F, onsemi MBR140SFT1G, Rubycon 63ZLH47MEFC6.3X11, Panasonic EEU-FR1E221 in the schematics, PVA2 EE H3 on phase 1's bench strips.
 
 ## Not done / open
 - Sample checks before ordering boards (`sample_order.md`, spec 16.1): PVA2 orientation by continuity, fader pad pattern on a 1:1 print, the Sifam cap on the BP blade, knob fit on the 6.35 mm centre-notch pots, RV8's M9 nut / pin 1 / detent, panel stack height, the fader's law (before the panels are printed: the "0" marks and the printed scale depend on it) and its bottom-stop residual (CS9).
@@ -148,7 +148,7 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
   with A5_OUT at 98 mm, still >= 69.1). The phones loop, run separately: U26 75.9-83.0 deg, within 0.1 deg of before. The deck used
   to read old raw files when ngspice timed out (fixed 2026-11-03), so the 2026-10-29 master re-run was only part-simulated
   (`met1_ret1_review.md`). The group isn't re-run since RV7 (C98 in series with an AFL 22K).
-- `second_source_proposal.md` SS1-SS3 (signed off 2026-11-03, applied after the master run in progress): stage A's backordered parts (Nexperia diodes, OPA1612 reel, DG413 tube, two electrolytics, PVA2 EE H1 until March 2027).
+- Re-read at order time (`second_source_proposal.md` §6): the codes Mouser's block left unread on 2026-11-03, the thin-film resistors among them (still at a $0.10 placeholder).
 - `project_review.md`: everything applied but RV11.2's PFL switcher from the PFLDET net (needs a DC analysis of the detect line; `check_bus.py` covers pin 29) and RV12's optional second step (the ~40 proposal / study `.md` files into `docs/`, a scripted rewrite of ~280 references).
 
 ## Next steps

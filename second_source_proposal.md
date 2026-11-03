@@ -1,7 +1,7 @@
 # SS1-SS3: second sources for the parts holding up stage A (proposal, 2026-11-03)
 
-**Signed off by Ruslan 2026-11-03 (SS1, SS2, SS3 with H3 for stage A). Not applied yet:** it waits for the master stability
-run in progress, which reads `master.net`. The change for SS1 and SS2 is `archive/patches/second_source_proposal.patch`. It touches tools only:
+**Signed off by Ruslan 2026-11-03 (SS1, SS2, SS3 with H3 for stage A) and applied 2026-11-04**, after the master stability run
+that read `master.net`. The change for SS1 and SS2 is `archive/patches/second_source_proposal.patch`. It touches tools only:
 `gen.py`, `gen_group.py`, `gen_psu.py`, `master_lib.py`, `place_group.py`, `order_bom.py` and `sim/review/cs10/rail_loss.py`.
 It changes order codes and one value label; no netlist connection, footprint or part position changes.
 
@@ -106,6 +106,13 @@ alternative is to order H1 and start stage A in March.
 - **`rail_loss.py mbr`:** ±0.36 V and 0 mA in every lost-rail case, as the PMEG.
 
 **Not touched:** the master stability run in progress reads the repo, so nothing here is applied yet.
+
+**On applying (2026-11-04), two additions to what was tried:**
+- **The phase-1 list:** the trial's `ORDER_AS` reached `order_bom.csv` only, so `order_phase1.csv`, the list ordered first, would
+  have kept the out-of-stock codes. `board_lines()` now uses it too, and the patch here is the final change.
+- **SS3:** `BENCH_KEY` puts H3 on stage A and the second strip (14 each: 13 keys + 1 spare). Check 3's 4 samples stay H1 on stage A,
+  because the cap clearance is the console key's question; they arrive in March, and may be better on an order of their own.
+- **Price:** stage A $452.04 -> $463.65: $11.16 for those samples, $0.45 for the rest. A second strip $322.25 -> $322.70.
 
 ## 6. Not re-read on 2026-11-03
 
