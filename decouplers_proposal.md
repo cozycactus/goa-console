@@ -2,7 +2,7 @@
 
 **Signed off by Ruslan on 2026-10-27 and applied the same day; see "Applied" at the end.**
 - **What changes:** placement only, after E9 / E9b / E10. No netlist, part or BOM change.
-- **The change:** `decouplers_proposal.patch`, a `MOVES.update` in `place_strip.py`, `place_group.py` and
+- **The change:** `archive/patches/decouplers_proposal.patch`, a `MOVES.update` in `place_strip.py`, `place_group.py` and
   `place_master.py`.
 
 ## Why

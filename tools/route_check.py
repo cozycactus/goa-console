@@ -175,8 +175,9 @@ def check(path, out=print):
         elif 'C0G' in f.GetValue():
             for p in ps:
                 n = p.GetNetname().lstrip('/')
+                if cls.get(n, 'Default') in ('Ground', 'Power', 'LogicSupply'): continue   # the cap's quiet side: a grounded + input is no stability node
                 pins = [(rr, num) for (rr, num), q in pads.items() if rr.startswith('U') and num in ('2', '3', '5', '6')
-                        and q.GetNetname().lstrip('/') == n and fps[rr].GetValue().startswith(('OPA', 'DRV13'))]
+                        and q.GetNetname().lstrip('/') == n and fps[rr].GetValue().startswith(('OPA', 'TL072'))]
                 if not pins: continue
                 pin = min(pins, key=lambda k: math.dist(xy(pads[k].GetPosition()), xy(p.GetPosition())))
                 pt = C.path(n, ('pad', *pin), ('pad', r, p.GetNumber()))

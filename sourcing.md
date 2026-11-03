@@ -10,6 +10,7 @@ snapshots from aggregators; check the live page before ordering.
 | Part | Was | Now | Why |
 |---|---|---|---|
 | Wing / jig PTCs | Bourns MF-RX160/72, 185/72, 250/72 | the same with `-0` | `-0` is the straight-lead order code |
+| Plain 0805 resistors ≤ 1M (TF1, 2026-10-29) | Yageo RC0805FR-07xxxL thick film | Yageo RT0805FRE07xxxL thin film | voltage coefficient (distortion near full swing), drift, tempco; parity with the Delta's metal film |
 | Strip C0G on 0805 pads: C7 / C41 33p, C14 / C94 / C95 100p, C37 22p (2026-10-28) | KEMET C1206C330 / C101 / C220J5GACTU | KEMET C0805C330 / C101 / C220J5GACTU | the strip's value-keyed map gave every C0G the 1206 code; these six are drawn on 0805 footprints (`gen.py` now picks by footprint) |
 | 1 µF 0805 X7R (strip) | Murata GRM21BR71H105KA12 | GRM21BR71H105KA12**L** | packaging suffix needed to order |
 | BAT54W | Nexperia BAT54W | BAT54W,115 | order code |
@@ -17,7 +18,7 @@ snapshots from aggregators; check the live page before ordering.
 | LME49600 (master) | TI LME49600TS | LME49600TS/NOPB | same |
 | SS54 clamps | "SS54" / onsemi SS54 | Diodes B540C-13-F | SMC 40 V 5 A from a named maker; value text kept "SS54" |
 | S1G (PSU) | "S1G" | Diodes S1G-13-F | named maker |
-| Strip C0G caps | KEMET C0805… | KEMET C1206C…J5GACTU | every strip C0G sits on the 1206 footprint |
+| Strip C0G caps | KEMET C0805… | KEMET C1206C…J5GACTU | the strip's C0G sit on 1206 footprints, except the six on 0805 pads (above) |
 | Strip C0G 2n2 / 4n7 / 10n / 22n / 100n | none | KEMET C1206C222 / 472 / 103 / 223 J5GACTU, Murata GRM31C5C1H104JA01L | were missing |
 | Strip C1 / C3 220 µF | Nichicon UPW1V221MPD (10 × 12.5) | Rubycon 35ZLH220MEFC8X11.5 | fits the strip's D8 / P3.5 footprint |
 | Strip C5 / C6 47 µF | Nichicon UPW1J470MPD (8 mm) | Panasonic EEU-FR1H470 | fits the strip's D6.3 / P2.5 footprint |
@@ -35,6 +36,27 @@ a hole).
 
 **Resistors.** Plain 0805 values carry no MPN. Rule: buy them as Yageo RC0805FR-07xxxL (1 %, 0.125 W) or any
 equivalent 1 % thick-film 0805. Every part that needs more (anti-surge, 0.1 %, 2512) already has its own MPN.
+
+## Resistor film (TF1, signed off by Ruslan 2026-10-29 and applied: `thin_film_proposal.md`)
+
+The Delta DLX uses "MF 0.25W RES 2%" metal film for every resistor and a 5 % 1/2 W mini metal film for the routing
+10Ks (Tech Manual spare parts p.151-162). Ours are Yageo RC0805FR **thick film** 1 % for the general values, Panasonic
+ERA-6AEB thin film 0.1 % where matching matters (receiver 10Ks, re-inverter 2K2s), ERJ-P06 anti-surge thick film for the
+build-outs and feeds, Vishay M25SI thin-film fusibles. What thick film costs against metal / thin film:
+- **Excess (1/f) noise:** thick film's noise index is some 10-20 dB worse than metal film's, but it scales with the DC
+  voltage across the part. The audio resistors sit at 0 V DC (every stage is AC-coupled; bias drops are tens of mV),
+  so the term is nil in the signal path. It matters only in DC dividers, none of which is audio.
+- **Voltage coefficient (distortion):** thick film is measurably non-linear, metal / thin film is not. Published
+  measurements (Self, Small Signal Audio Design) put a thick-film 0805 feedback resistor with ~10 Vrms across it at
+  roughly −95 to −105 dB THD, scaling with the square of the voltage: at the console's 0 dBu (0.775 Vrms) that is
+  some 20 dB lower, far below the op-amps' and the bus's floor; it becomes visible only in the last few dB before
+  clipping, in the resistors that carry the full swing (gain stage 2K2 / 10K, EQ 22K and the KHN networks, post-amp
+  4K7 / 2K2, pan 2K2 / 10K / 3K3, the 4K7 and 22K summers).
+- **Decided (TF1):** every plain 0805 resistor up to 1M is Yageo **RT0805FRE07<value>L** thin film (1 %, 50 ppm,
+  0.125 W, 150 V), the rule in `order_bom.py` (62 lines / 4411 parts, ~€80-150 over the console); above 1M (2M2, 4M99,
+  10M, 22M: DC positions, no thin-film part) RC0805FR stays, as do the anti-surge ERJ-P06 positions (a surge is what
+  thin film survives worst), the 2512 2R2 and the fusibles. Fallback for a value out of stock on the day: the RC0805FR
+  code for that value only.
 
 ## Checked and kept
 
@@ -67,11 +89,14 @@ equivalent 1 % thick-film 0805. Every part that needs more (anti-surge, 0.1 %, 2
   - **Spares:** each stage gets the console rule's spares on its own count, so the second strip's spares may already
     be in stage A's leftovers.
   - **PCBs:** order all four phase-1 designs in stage A, 5 of each (the fab minimum).
-  - **Priced 2026-10-28** (`order_phase1_prices.csv`, Mouser first): stage A about $423 in parts + $70.50 of PCBs, stage B
-    $311, a second strip $294; without shipping, VAT or duty. Backordered at Mouser then: OPA1612AIDR (AID tube in
-    stock), PVA2 (3/2027), DG413DY-E3, BAV199,215 / BZX84-C5V1 / PMEG4010CEH (Nexperia, to 2027); WIMA
-    MKS2C042201K00KSSD obsolete, replaced by KEMET MMK5225K63J06L4BULK in the same box (FE1, 2026-10-29: buy the console's 114 at once,
-    it is a last-time buy too); Alpha pots only at Tayda. Stage A after FE1: about $420 + PCBs.
+  - **Priced 2026-10-28, re-priced 2026-11-03 for the merged list** (`order_phase1_prices.csv`, Mouser first): stage A
+    about $452 in parts + $70.50 of PCBs, stage B $325, a second strip $322; without shipping, VAT or duty, and without
+    the $80 optional matched pair. The 34 thin-film resistor lines (TF1) are at $0.10 each, the top of the cut-tape range
+    in `thin_film_proposal.md`, because Mouser's page couldn't be read (RS UK lists about $0.03); the other prices are the
+    2026-10-28 / 29 readings. Backordered at Mouser then: OPA1612AIDR (AID tube in stock), PVA2 (3/2027), DG413DY-E3,
+    BAV199,215 / BZX84-C5V1 / PMEG4010CEH (Nexperia, to 2027); WIMA MKS2C042201K00KSSD obsolete, replaced by KEMET
+    MMK5225K63J06L4BULK in the same box (FE1, 2026-10-29: buy the console's 120 in one order, it is a last-time buy too);
+    Alpha pots only at Tayda.
 - **Not on any board, so not in the list** (they are in `offboard_bom.md`): knobs, fader caps, LED spacers, standoffs, ribbon and IDC sockets, the
   harness, the PSU modules and its case parts. See the specs (§16 of the strip spec, master spec §26, `psu_spec.md`).
 
@@ -80,15 +105,14 @@ equivalent 1 % thick-film 0805. Every part that needs more (anti-surge, 0.1 %, 2
 | Part | Needed | Situation | Action |
 |---|---|---|---|
 | Bourns PTB0143-2010BPA103 | 28 (24 strips + 4 groups) | DigiKey showed exactly 28 | buy 28 + spares now, or check Mouser / Bourns lead time |
-| Neutrik NJ6FD-V | 101 (72 strip, 20 group, 9 master) | ~14-week lead time quoted | order first |
-| TI OPA1612AIDR | 311 (264 strip, 28 group, 13 master, 6 jig) | LCSC the only volume stock seen | buy at LCSC, or split across distributors |
+| Neutrik NJ6FD-V | 109 (72 strip, 28 group, 9 master; RET1) | ~14-week lead time quoted | order first |
+| TI OPA1612AIDR | 319 (264 strip, 36 group, 13 master, 6 jig; RET1) | LCSC the only volume stock seen | buy at LCSC, or split across distributors |
 | TI LM1084IT-ADJ/NOPB | 2 | little stock | buy with the first order |
-| WIMA MKS2C042201K00KSSD (2.2 µF film); since FE1 KEMET MMK5225K63J06L4BULK | 108 (72 strip, 24 group, 12 master) | DigiKey out of stock; Farnell ~1080 | buy at Farnell now; no design change |
+| KEMET MMK5225K63J06L4BULK (2.2 µF film; FE1, replaces the obsolete WIMA MKS2C042201K00KSSD) | 114 (72 strip, 28 group, 14 master; RET1, RV7) | obsolete too; Mouser had 1,841 on 2026-10-29 | buy the console's 120 in one order; no design change |
 | WIMA MKS2D031501C00KSSD (150 nF film, C48) | 24 | the 63 V code (MKS2C031501A00KSSD) has no stock anywhere; RS ~1135 of this 100 V one | swapped (below) |
 
-If the 2.2 µF WIMA does disappear, TDK B32520C0225J000 is the nearest film part. It is on a 7.5 mm pitch
-(10.3 × 6 × 12 mm), so it needs a new footprint and re-placement. That would be a proposal of its own; it isn't needed
-now.
+If the KEMET runs out before the console is built, FE2 in `film_eol_proposal.md` is the way out: a wider footprint for
+the active WIMA M-box (8.5 mm), with a few local moves on each board.
 
 ## For sign-off
 

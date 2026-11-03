@@ -1,3 +1,5 @@
+* HISTORICAL deck (project_review.md RV14, 2026-10-28): kept for the record of the design study it belongs to; the built
+* circuit is checked from the netlists by tools/sim_netlist.py and tools/sim_console.py (values differ from this file).
 * Delta Theatre input HPF + 4-band EQ, transcribed from ED3344A (RH board) and ED3151 (LH board, gain pots).
 * Flexi CN8 (RH) = CN3 (LH): 1 LF wiper, 2 IC5A out, 3 IC4B out, 4 LMF wiper, 5 IC4A out, 6 HMF wiper,
 *   7 IC3B out, 8 HF wiper, 9 ground, 10 EQ in, 13/14 HPF switch (shorts C12+C13 when the HPF is off).

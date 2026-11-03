@@ -1,7 +1,7 @@
 # Pan buffer L beside the pan pot (proposal PAN1, 2026-10-26)
 
 **Signed off by Ruslan on 2026-10-26 and applied the same day (strip spec v4.8); see "Applied" at the end.** The change
-is `pan_buffer_proposal.patch` (tools only: `gen.py`, `strip_draw.py`, `place_strip.py`). It changes the strip's unit
+is `archive/patches/pan_buffer_proposal.patch` (tools only: `gen.py`, `strip_draw.py`, `place_strip.py`). It changes the strip's unit
 assignment (which op-amp half does what), not its parts.
 
 ## Why

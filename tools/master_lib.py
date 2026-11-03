@@ -12,7 +12,8 @@ SYM.update({
  'OPA1656': ('Amplifier_Operational', 'OPA1656ID'), 'TL072': ('Amplifier_Operational', 'TL072'),
  'LM2901': ('Comparator', 'LM2901'), 'LME49600': ('Amplifier_Audio', 'LME49600'),
  'DRV134': ('goa-console', 'DRV134'), 'RELAY': ('Relay', 'G6K-2'),
- 'XLR3': ('Connector_Audio', 'XLR3'), 'PWRIN': ('Connector', 'Screw_Terminal_01x07'),
+ 'XLR3': ('goa-console', 'XLR3_Shell'),   # pin G = the NC3MAV / NC3MAH shell pad, on CHASSIS (2026-10-28)
+ 'PWRIN': ('Connector', 'Screw_Terminal_01x07'),
  'FB': ('Device', 'FerriteBead'), 'PTC': ('Device', 'Polyfuse'), 'DS': ('Device', 'D_Schottky'),
  'DZ': ('Device', 'D_Zener'), 'NPN': ('Transistor_BJT', 'MMBT3904'), 'PNP': ('Transistor_BJT', 'BCP53'),
  'TRIM': ('Device', 'R_Potentiometer_Trim'), 'HDR5': ('Connector_Generic', 'Conn_01x05'),

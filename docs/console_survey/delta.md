@@ -50,7 +50,12 @@
 **T6 Insert.** **Read:** the master mix insert sits at −10 dBV (−7.8 dBu), unbalanced, 75R send, normalled (ED2780 sht 2).
 - vs ours: our master insert runs at the mix level, about 0 dBu. That suits a +4 dBu external bus compressor better. Justified.
 
-**T7 Mute.** Same J112 pair as ours. Ours adds muting of the pre sends.
+**T7 Mute.** **Read** (corrected 2026-10-28, `delta_crosscheck.md` D3; this line said "same J112 pair as ours"):
+series J112 (TR4) into IC6-A's virtual earth plus a shunt J112 (TR3) with its source on C30 47 µF (no DC across the
+FET), gates on complementary MUTE / MUTE-bar from a TR6 / TR7 inverter pair (220K / 100n, 1N4148, 680K bleeds); the
+Venue the same.
+- vs ours: two shunt J112s in a 4K7 ladder into a follower, one RC ramp from the key: not the same circuit. Ours adds
+  muting of the pre sends. Depth (86 dB simulated against the Delta's 100-110 dB) is CS8, measured at the jig.
 
 **T8 Fader / post-amp.**
 - **Strip:** same as ours. **Read:** the post-fader non-panned feed IC6-B is +1.4 dB (1K8 / 10K).
@@ -121,7 +126,7 @@
 - vs ours: DRV135 everywhere, relay mutes with a 2.8 s delay, mono post master. Ours is better on every point.
 
 **Monitoring (part of T17).** **Read:**
-- **C/R source:** taken from the **balanced mix outputs** through diff receivers (43K / 43K in, 20K / 22K, 33p). The 2TRK return goes through the same receivers, switched for −10 / +4. The control room therefore hears what leaves the XLRs.
+- **C/R source:** taken from the **balanced mix outputs** through diff receivers (43K / 43K in, 22K feedback, 33p; the − leg's lower arm is a switched T, 6K8 + 20K with 2K2 to ground through S1: −4.1 dB open, +6.3 dB closed, so the bridge is 26.8K against 22K, not ratio-matched; D17, 2026-10-28). The 2TRK return goes through the same receivers, switched for −10 / +4 by that T. The control room therefore hears what leaves the XLRs.
 - **C/R and phones amp:** TL072 + 2SC2240 / 2SA970 class-AB followers (10R emitters, 1N4148 bias), 220 µF out.
   - Phones through 47R; C/R through a 470R / 470R pad, 250 Ω output.
   - Ground-compensated: 22K / 47R sense.
@@ -130,7 +135,7 @@
 - vs ours:
   - We tap POST_L / R before the DRV135. That is fine, but it misses faults in the output stage.
   - LME49600 phones with a separate PHONESGND: same idea.
-  - **We have no dim** (master spec has none).
+  - Dim: ours since CS7 (2026-10-28, SW4, −20 dB on C/Room only); this line read "we have no dim" before.
 
 **T18 Meters.** **Read** (ED2780 sht 3; manual p.62, 65):
 - **Rectifier:** TL071 precision half-wave (1N4148s), 10K / 4K7, 22K cal preset.
@@ -148,6 +153,17 @@
 - vs ours: same rails and per-module filtering. Our power enters at the master and adds the LDO, crowbar and wing PTCs; the PSU itself can't be compared (no schematic).
 
 **T20 Op-amps.** TL072 / TL071 / NE5532 and discrete 2SB737 front ends. Ours are OPA1612 / OPA1656, a known departure.
+
+**T20b Resistors (read 2026-10-29, spare-parts list p.151-162 = Tech Manual Part 3 PDF pages 10-21).** Every resistor on
+the Standard, Deluxe and Stereo input PCBs is "MF 0.25W RES 2%" (metal film, 1/4 W, 2 %; Soundcraft code AD04xx /
+AD05xx), except the routing resistors R58-R63 (Deluxe) / R23-R25, R123-R125 (Stereo): "MINI-RES MF 1/2W 5% 10K"
+(AS1673). No carbon film, no 1 % parts, no precision pairs: the balanced output stages are trimmed with a preset
+(PR1) instead. The 0.5 W on the sheets marks that 5 % part, not a precision one.
+- vs ours: Yageo RC0805FR thick film 1 % for the general values, Panasonic ERA-6AEB thin film 0.1 % / 25 ppm for the
+  receivers' 10K and the re-inverters' 2K2 (no trims), Panasonic ERJ-P06 anti-surge thick film for the build-outs /
+  feeds, Vishay M25SI thin-film fusibles for R1-R4. Thick film carries a voltage coefficient and excess noise that
+  metal film does not; with no DC across the audio resistors the noise term is nil, and the distortion term only shows
+  near full swing (see `sourcing.md` note of 2026-10-29). Tolerance: ours is tighter everywhere.
 
 **T21 Levels.** Internal −2 dBu; mix bus −7.8 dBu, +12 dB of make-up at the outputs (p.64: chosen for headroom). Ours is 0 dBu internal; MIX_L sits around −7 dBu per channel at the fader "0", so headroom is comparable.
 
@@ -183,4 +199,4 @@
 - the unbalanced ground-compensated group / aux outputs (our DRV135s are better);
 - J112 PFL switches (our sim already rejected them).
 
-Work files (crops and renders) are in /private/tmp/claude-501/-Users-ruslanmigirov-projects-goa-console/20d2ad3b-cdbe-4f15-9de0-d1ce86379e7b/scratchpad/survey/delta/. Key crops: c11a.png (mix summer), c08aux.png (aux summer on GCANCEL), c10bot.png (R220 tie), c17pan.png (pan law).
+Work files (crops and renders) are in a scratch folder outside the repo (not kept). Key crops: c11a.png (mix summer), c08aux.png (aux summer on GCANCEL), c10bot.png (R220 tie), c17pan.png (pan law).

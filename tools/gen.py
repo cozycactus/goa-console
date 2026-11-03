@@ -16,7 +16,8 @@ schgen.MPN.update({'LED2': 'Kingbright WP3VEGW', 'PNP': 'onsemi MMBT3906LT1G', '
 CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '10n': 'Samsung CL21B103KBANNNC (X7R 50V)',   # 10n: E6
            '1u': 'Murata GRM21BR71H105KA12L (X7R 50V)',
            '220n': 'Samsung CL21B224KBFNNNE (X7R 50V)',
-           # every strip C0G sits on the 1206 footprint (C0G below); a value's voltage is its minimum rating
+           # C0G codes are 1206 (C0G below); the six on 0805 pads (C7, C14, C37, C41, C94, C95) get the 0805 code
+           # by footprint (the rewrite under CAP_MPN); a value's voltage is its minimum rating
            '10p C0G': 'KEMET C1206C100J5GACTU', '22p C0G': 'KEMET C1206C220J5GACTU', '33p C0G': 'KEMET C1206C330J5GACTU',
            '100p C0G': 'KEMET C1206C101J5GACTU', '2n2 C0G': 'KEMET C1206C222J5GACTU', '4n7 C0G': 'KEMET C1206C472J5GACTU',
            '10n C0G': 'KEMET C1206C103J5GACTU', '22n C0G': 'KEMET C1206C223J5GACTU', '100n C0G': 'Murata GRM31C5C1H104JA01L',
@@ -94,7 +95,8 @@ b = block('JACK LINK CLAMPS: a BAV199 to the audio rails on every jack signal at
 # discharge leaves the input op-amp 0.09 A (9.6 A as built) and an output's 0.38 A (18.9 A); 48 V phantom on the insert
 # send or the direct out leaves C51 / C52 at 17.7 V, not 41.9 V (sim/review/cs4/jack_protect.py). 3 pA typ leakage
 # into the input legs' 1M; ~2 pF, reverse-biased by the rails: -106 dB at +20 dBu, 20 kHz from a 1 kohm source
-for d_, n_ in (('D18', 'IN_T'), ('D19', 'IN_R'), ('D20', 'RET_RAW'), ('D21', 'SEND'), ('D22', 'DO_T')):
+# D23 on DO_R since v5.7 (RV3b, clicks_followup_proposal.md): RV3's C107 took the ring's direct path to ground away
+for d_, n_ in (('D18', 'IN_T'), ('D19', 'IN_R'), ('D20', 'RET_RAW'), ('D21', 'SEND'), ('D22', 'DO_T'), ('D23', 'DO_R')):
     P(b, d_, 'DD', 'BAV199', {1: '-VA', 3: n_, 2: '+VA'}, mpn='Nexperia BAV199,215')
 
 b = block('LINE INPUT - buffered ground-compensated receiver (inverting), Ø switch  SW15: latched = phase reversed')
@@ -123,6 +125,7 @@ b = block('GAIN  -15..+15 dB, 0 dB at the detent (inverting; pot pin 3 = CW = in
 P(b,'R45','R','2K2 1%',{1:'RECV',2:'GA'})
 P(b,'RV9','POT','Gain 10K lin CD',{3:'GA',2:'GV',1:'GC'},mpn=POTB)
 P(b,'R46','R','2K2 1%',{1:'GC',2:'GOUT'}); P(b,'C37','C','22p C0G',{1:'GOUT',2:'GV'})
+P(b,'R142','R','1M',{1:'GV',2:'GOUT'})   # RV4: DC feedback if RV9's wiper lifts (the wiper was U1B's only path)
 P(b,'U1','OPA','OPA1612',{5:'GNDA',6:'GV',7:'GOUT'},unit=2)
 P(b,'C38','C','33u NP 25V',{1:'GOUT',2:'HIN'},fp=CAP_FP['47u'])
 # C91 doubles C38: with the HPF out SW11 feeds HIN straight to the EQ (~2.5 kohm), 66 uF keeps PRE's LF corner ~1 Hz
@@ -325,7 +328,9 @@ P(b,'R70','R','100K',{1:'DIRSRC',2:'GNDA'})
 P(b,'U8','OPA','OPA1612',{3:'DIRSRC',2:'DOUT',1:'DOUT'},unit=1)
 P(b,'C83','C','22p C0G',{1:'DIRSRC',2:'GNDA'},fp=C0G)   # 22p (short direct-out leads); more would load U7B
 P(b,'R71','R','75R',{1:'DOUT',2:'DO1'},mpn='Panasonic ERJ-P06J750V'); P(b,'C52','C','33u NP 25V',{1:'DO1',2:'DO_T'},fp=CAP_FP['47u'])
-P(b,'R72','R','47K',{1:'DO_T',2:'GNDA'}); P(b,'R73','R','75R',{1:'DO_R',2:'GNDA'})
+P(b,'R72','R','47K',{1:'DO_T',2:'GNDA'}); P(b,'R73','R','75R',{1:'DO_R',2:'DO2'},mpn='Panasonic ERJ-P06J750V')
+P(b,'R143','R','47K',{1:'DO_R',2:'GNDA'})   # RV3b: the ring's DC bleed, as R72 on the tip (C107 had left it floating)
+P(b,'C107','C','33u NP 25V',{1:'DO2',2:'GNDA'},fp=CAP_FP['47u'])   # RV3: the cold leg's source impedance equals the hot leg's at LF too
 
 b = block('PAN + PAN BUFFERS (AC-coupled outputs)')
 # ALPS RK09L1240015: the stocked vertical dual 10K B with a centre detent (no Alpha one exists); M9 bushing, 6 mm D shaft
@@ -380,12 +385,12 @@ for _, ps in schgen.blocks:                     # ceramic MPNs by value (X7R 50 
                 mpn = mpn.replace('C1206C', 'C0805C', 1)                            # (C7, C14, C37, C41, C94, C95)
             pt['mpn'] = mpn
 build(OUT, 'channel_strip', 'Channel strip - goa console',
-      {1: 'Generated from channel_strip_schematic_spec.md v5.5', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
+      {1: 'Generated from channel_strip_schematic_spec.md v5.7', 2: 'Drawn by tools/strip_draw.py; labels join the blocks',
        3: 'A Delta Theatre input without the mic stage'},
-      paper='auto', revision='5.5', pages=dict(paper='A4', folder='strip_sheets'), **strip_draw.SHEET)   # A4 sub-sheets
+      paper='auto', revision='5.7', pages=dict(paper='A4', folder='strip_sheets'), **strip_draw.SHEET)   # A4 sub-sheets
 if os.environ.get('PILOT'):                     # only the drawn blocks, on a sheet of their own (layout review)
     build(os.environ['PILOT'], 'pilot', 'Channel strip - drawn blocks (pilot)', {1: 'tools/strip_draw.py', 2: ''},
-          paper='auto', revision='5.5', only=lambda t: strip_draw.for_title(t) is not None, **strip_draw.SHEET)
+          paper='auto', revision='5.7', only=lambda t: strip_draw.for_title(t) is not None, **strip_draw.SHEET)
 
 # ---------------------------------------------------------------- jack board (its own PCB; same net names)
 schgen.blocks.clear()
@@ -402,4 +407,4 @@ P(b,'CN5','LINK','Main board link 2x5',LINK,mpn=LINK_MPN)
 P(b,'#FLG01','FLAG','PWR_FLAG',{1:'GNDA'})
 build(JB_OUT, 'jack_board', 'Jack board - goa console channel strip (line in, insert, direct out)',
       {1: 'Generated by tools/gen.py together with channel_strip.kicad_sch (link pinout: LINK)',
-       2: 'Spec: channel_strip_schematic_spec.md 16.4'}, paper='A4', revision='4.0')
+       2: 'Spec: channel_strip_schematic_spec.md 16.4'}, paper='A4', revision='5.7')     # follows the strip's

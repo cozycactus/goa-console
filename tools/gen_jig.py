@@ -77,7 +77,7 @@ b = block('OUTPUTS  each re-inverter -> 100R -> BNC;  MIX L also -> DRV134 -> XL
 for s, o in OUTS:
     R(b, '100R', o, o + '_BNC'); P(b, ref('J'), 'BNC', o.replace('_', ' ') + ' out', {1: o + '_BNC', 2: 'GNDA'})
 drv134(b, 'MIX_L', 'BAL_P', 'BAL_N', rx=False)
-P(b, ref('J'), 'XLR3', 'MIX L balanced out', {1: 'CHASSIS', 2: 'BAL_P', 3: 'BAL_N'})
+P(b, ref('J'), 'XLR3', 'MIX L balanced out', {1: 'CHASSIS', 2: 'BAL_P', 3: 'BAL_N', 'G': 'CHASSIS'})
 
 b = block('PFL DETECT  comparator vs ~0.50 V (one press gives 0.92 V on PFLDET; 2 x 1N4148 clamp, as the master), red LED')
 R(b, '10K', 'PFLDET', 'GNDD'); R(b, '330K', '+VL', 'PFL_REF'); R(b, '10K', 'PFL_REF', 'GNDD')

@@ -1,3 +1,5 @@
+* HISTORICAL deck (project_review.md RV14, 2026-10-28): kept for the record of the design study it belongs to; the built
+* circuit is checked from the netlists by tools/sim_netlist.py and tools/sim_console.py (values differ from this file).
 * Channel line input + gain, -15 to +15 dB, 0 dB at the centre detent.  (strip spec v4.0 draft)
 * Chosen: (1) the existing ground-compensated receiver, unity, 4 x 10K 0.1 %, inputs swapped so it inverts
 *         (2) inverting gain stage: 10K linear centre-detent pot, ends via 2K2 to the stage input and output,

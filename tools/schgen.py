@@ -494,10 +494,12 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
 
 
 def write_intended(out, only=None):
-    intended = {}
+    intended = {}; seen = set()
     for b_, parts in blocks:
         if only and not only(b_): continue
         for pt in parts:
+            if (pt['ref'], pt['unit']) in seen: raise SystemExit(f"{pt['ref']} unit {pt['unit']} placed twice")   # a ref used twice would survive verify
+            seen.add((pt['ref'], pt['unit']))
             for pn, net in pt['pins'].items():
                 k = f"{pt['ref']}.{pn}"
                 if k in intended and intended[k] != net: raise SystemExit(f'{k} assigned to {intended[k]} and {net}')

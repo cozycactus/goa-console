@@ -234,4 +234,4 @@
 
 **Nothing on the line-level path of ours looks weaker than this console's practice.** The series 220 µH + NP cap at each summing node could be noted as RF / bus-capacitance isolation. Our ribbon bus is already simulated stable to 2.2 nF, so it is optional.
 
-Working files (crops and renders) are in `/private/tmp/claude-501/-Users-ruslanmigirov-projects-goa-console/20d2ad3b-cdbe-4f15-9de0-d1ce86379e7b/scratchpad/survey/sony/`.
+Working files (crops and renders) are in a scratch folder outside the repo (not kept).

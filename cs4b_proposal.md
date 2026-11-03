@@ -1,7 +1,7 @@
 # CS4b: the jack-link clamps on the group and master boards (proposal, 2026-10-27)
 
 **Signed off by Ruslan on 2026-10-27 (as proposed: D7-D20 on every group, D79-D102 on the master) and applied the same
-day; see "Applied" at the end.** The change is `cs4b_proposal.patch`. It touches tools only: `master_lib.py`,
+day; see "Applied" at the end.** The change is `archive/patches/cs4b_proposal.patch`. It touches tools only: `master_lib.py`,
 `gen_group.py`, `gen_master.py`, `place_group.py` and `place_master.py`.
 
 **Simulations:**

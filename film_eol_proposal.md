@@ -1,6 +1,6 @@
 # FE1 / FE2: the obsolete 2.2 µF film coupler (proposal, 2026-10-29)
 
-**FE1 signed off by Ruslan on 2026-10-29 and applied the same day; see "Applied" at the end.** FE1's change is `film_eol_proposal.patch`. It touches tools only: the order code in `gen.py`,
+**FE1 signed off by Ruslan on 2026-10-29 and applied the same day; see "Applied" at the end.** FE1's change is `archive/patches/film_eol_proposal.patch`. It touches tools only: the order code in `gen.py`,
 `gen_master.py` and `master_lib.py`.
 
 ## 1. Why
@@ -86,3 +86,5 @@ quantity now.**
 - **Documents:** strip spec (§9 note, parts list), master spec, `film_np_proposal.md` F1, `sourcing.md`, CLAUDE.md.
 - **To do when ordering:** buy the console's quantity (about 120) in one Mouser order; FE2 stays the way out if a board
   is re-spun after the stock is gone.
+- **Since the merge with RV7 (2026-11-03):** six more of these caps, the AFL DC blocks C98 on each group and C194 / C195 on
+  the master: the console needs 114 and `order_bom.csv` buys 120.

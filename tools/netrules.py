@@ -45,7 +45,7 @@ FAB = {'min_clearance': 0.15,                 # pad to pad, different nets (JLCP
 GROUND = {'GNDA', 'GNDD', 'GNDM', 'PHONESGND'}
 POWER = re.compile(r'^[+-](VBUS(_[LR])?|VA|VP|VM)$')
 LOGIC = {'+VL', '-VL', '+5VL'}
-OPAMP = ('OPA', 'DRV13')
+OPAMP = ('OPA', 'TL072')      # SOIC-8 duals: inputs on pins 2 / 3 / 5 / 6, outputs 1 / 7 (the DRV135's pins are not: 2 / 3 / 5 / 6 are Sense- / GND / V- / V+)
 # name: (track width, clearance, via diameter, via drill), mm
 CLASSES = {'Default': (0.25, 0.2, 0.6, 0.3), 'Ground': (0.6, 0.2, 0.6, 0.3), 'Chassis': (1.5, 0.5, 0.8, 0.4),
            'Power': (0.8, 0.2, 0.8, 0.4), 'LogicSupply': (0.4, 0.2, 0.6, 0.3), 'Bus': (0.3, 0.2, 0.6, 0.3),

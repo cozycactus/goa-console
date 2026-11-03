@@ -1,7 +1,7 @@
 # CS4: clamp the strip's jack signals to the audio rails at the link (proposal, 2026-10-27)
 
 **Signed off by Ruslan on 2026-10-27 (as proposed: D18-D22 BAV199 at CN3 on every strip) and applied the same day as
-strip v5.2; see "Applied" at the end.** The change is `cs4_proposal.patch`. It touches tools only: `gen.py`,
+strip v5.2; see "Applied" at the end.** The change is `archive/patches/cs4_proposal.patch`. It touches tools only: `gen.py`,
 `strip_draw.py` and `place_strip.py`. The
 simulation is `sim/review/cs4/jack_protect.py`; its output is in `jack_protect.out`.
 
@@ -22,7 +22,10 @@ nothing. A synth console is patched live, and three things reach the main board 
 One Nexperia BAV199 per signal, at the main-board end of the link, ahead of every series part:
 - **Connections:** pin 3 (the common node) to the signal, pin 2 to +VA, pin 1 to −VA.
 - **Parts:** D18 IN_T, D19 IN_R, D20 RET_RAW, D21 SEND, D22 DO_T.
-- **DO_R needs none:** it only goes to ground through R73 75R.
+- **DO_R needs none:** it only goes to ground through R73 75R. **No longer true since strip v5.6 (RV3, 2026-10-28):** DO_R
+  goes through R73 to C107 33 µF 25 V to GNDA, so the ring has neither a clamp nor a DC bleed; phantom on the direct out
+  would charge C107 to ~48 V. Fixed by `clicks_followup_proposal.md` RV3b (signed off and applied 2026-10-29, strip v5.7): R143 47K bleed and D23
+  BAV199 on DO_R, as the tip's R72 / D22.
 
 **Why the BAV199:**
 - **Leakage:** 3 pA typical (5 nA max at 75 V). On the input legs' 1 MΩ that is 3 µV typical, 5 mV at the

@@ -239,4 +239,4 @@
 
 None of their circuits suggests our bus summing, routing or ground scheme is weaker. The PM-5000 confirms bus-end switching to ground and a summing reference tied to the channels' ground return.
 
-Working files (renders and crops) are in /private/tmp/claude-501/-Users-ruslanmigirov-projects-goa-console/20d2ad3b-cdbe-4f15-9de0-d1ce86379e7b/scratchpad/survey/yamaha/.
+Working files (renders and crops) are in a scratch folder outside the repo (not kept).

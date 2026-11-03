@@ -1,0 +1,90 @@
+--- a/tools/gen.py	2026-10-28 19:53:55.731385511 +0000
++++ b/tools/gen.py	2026-10-28 20:04:09.694692351 +0000
+@@ -124,6 +124,7 @@
+ P(b,'R45','R','2K2 1%',{1:'RECV',2:'GA'})
+ P(b,'RV9','POT','Gain 10K lin CD',{3:'GA',2:'GV',1:'GC'},mpn=POTB)
+ P(b,'R46','R','2K2 1%',{1:'GC',2:'GOUT'}); P(b,'C37','C','22p C0G',{1:'GOUT',2:'GV'})
++P(b,'R142','R','1M',{1:'GV',2:'GOUT'})   # RV4: DC feedback if RV9's wiper lifts (the wiper was U1B's only path)
+ P(b,'U1','OPA','OPA1612',{5:'GNDA',6:'GV',7:'GOUT'},unit=2)
+ P(b,'C38','C','33u NP 25V',{1:'GOUT',2:'HIN'},fp=CAP_FP['47u'])
+ # C91 doubles C38: with the HPF out SW11 feeds HIN straight to the EQ (~2.5 kohm), 66 uF keeps PRE's LF corner ~1 Hz
+@@ -326,7 +327,8 @@
+ P(b,'U8','OPA','OPA1612',{3:'DIRSRC',2:'DOUT',1:'DOUT'},unit=1)
+ P(b,'C83','C','22p C0G',{1:'DIRSRC',2:'GNDA'},fp=C0G)   # 22p (short direct-out leads); more would load U7B
+ P(b,'R71','R','75R',{1:'DOUT',2:'DO1'},mpn='Panasonic ERJ-P06J750V'); P(b,'C52','C','33u NP 25V',{1:'DO1',2:'DO_T'},fp=CAP_FP['47u'])
+-P(b,'R72','R','47K',{1:'DO_T',2:'GNDA'}); P(b,'R73','R','75R',{1:'DO_R',2:'GNDA'})
++P(b,'R72','R','47K',{1:'DO_T',2:'GNDA'}); P(b,'R73','R','75R',{1:'DO_R',2:'DO2'},mpn='Panasonic ERJ-P06J750V')
++P(b,'C107','C','33u NP 25V',{1:'DO2',2:'GNDA'},fp=CAP_FP['47u'])   # RV3: the cold leg's source impedance equals the hot leg's at LF too
+ 
+ b = block('PAN + PAN BUFFERS (AC-coupled outputs)')
+ # ALPS RK09L1240015: the stocked vertical dual 10K B with a centre detent (no Alpha one exists); M9 bushing, 6 mm D shaft
+--- a/tools/strip_draw.py	2026-10-28 16:35:26.632084498 +0000
++++ b/tools/strip_draw.py	2026-10-28 20:04:09.693848195 +0000
+@@ -48,6 +48,7 @@
+     d.w(('R46', 2), (20, 4), (20, 10)); d.w(('U1', 7), (23, 10))
+     d.w(('RV9', 2), (9.5, 9), ('U1', 6))
+     d.at('C37', 16.5, 7, rot=270, text='U'); d.w((9.5, 7), ('C37', 2)); d.w(('C37', 1), (20, 7))
++    d.at('R142', 15.5, 15, rot=90, text='D'); d.w((11.5, 9), (11.5, 15), ('R142', 1)); d.w(('R142', 2), (20, 15), (20, 10))   # RV4
+     d.w(('U1', 5), (13, 11), (13, 12)); d.gnd((13, 12))
+     d.at('C38', 24.5, 10, rot=90, text='U'); d.at('C91', 24.5, 13, rot=90, text='D')
+     d.w((23, 10), ('C91', 1)); d.w(('C91', 2), (26, 10))
+@@ -387,6 +388,7 @@
+     d.at('C52', 18.5, 5, rot=90, text='U'); d.w(('R71', 2), ('C52', 1))
+     d.w(('C52', 2), (25, 5)); d.port('DO_T', (25, 5), 'R'); d.at('R72', 22, 6.5)
+     d.at('R73', 22, 11.5); d.w(('R73', 1), (25, 10)); d.port('DO_R', (25, 10), 'R')
++    d.at('C107', 22, 14.5, text='L'); d.w(('R73', 2), ('C107', 1))     # RV3
+ 
+ 
+ 
+--- a/tools/gen_master.py	2026-10-28 19:53:49.291385724 +0000
++++ b/tools/gen_master.py	2026-10-28 20:01:09.331786770 +0000
+@@ -85,10 +85,13 @@
+ b = block('POWER-ON MUTE: rails > ~14 V for ~2.7 s closes all six relays; either rail low opens them at once')
+ dz = ref('D'); P(b, dz, 'DZ', 'BZT52C6V2', {2: 'GNDD', 1: 'VREF6'}, mpn='Diodes BZT52C6V2-7-F'); rz = R(b, '4K7', '+VBUS', 'VREF6')
+ sp1, sp2 = R(b, '56K', '+VBUS', 'SENSE_P'), R(b, '47K', 'SENSE_P', 'GNDD')       # +V < 13.6 V -> fault
+-rn = R(b, '22K', 'VREF6', 'SENSE_N'); sn2 = R(b, '51K', 'SENSE_N', '-VBUS')     # -V above -14.4 V -> fault
++rn = R(b, '22K', 'VREF6', 'SENSE_N'); sn2 = R(b, '64.9K', 'SENSE_N', '-VBUS')   # -V above -14.4 V -> fault (crosses +1.0 V, RV9)
+ chain(b, '+VBUS', [('s', rz), ('g', dz)], 'VREF6'); chain(b, '+VBUS', [('s', sp1), ('g', sp2)], 'SENSE_P')
+ chain(b, 'VREF6', [('s', rn), ('g', sn2)], 'SENSE_N')
+-uc = cmp(b, 'SENSE_P', 'VREF6', 'RAIL_OK'); ca = LAST[0]; cmp(b, 'GNDD', 'SENSE_N', 'RAIL_OK'); cb = LAST[0]
++uc = cmp(b, 'SENSE_P', 'VREF6', 'RAIL_OK'); ca = LAST[0]; cmp(b, 'SENSE_REF', 'SENSE_N', 'RAIL_OK'); cb = LAST[0]
++# RV9: the - V detector's + input on +1.0 V (VREF6 / 61K x 10K), not GNDD: with -V lost -VL sits at ~+0.5 V and GNDD would
++# be below the LM393B's own V-; SENSE_N reads +0.34 V normally, +4.7 V with -V gone, both inside the input range
++DEFER.append(lambda b=b: chain(b, 'VREF6', [('s', R(b, '51K', 'VREF6', 'SENSE_REF')), ('g', R(b, '10K', 'SENSE_REF', 'GNDD'))], 'SENSE_REF'))
+ frag(b, 20, 18, lambda d: frags.comparators(d, [(ca, False), (cb, False)], out='RAIL_OK'))     # window: wired-AND
+ for x in (dz, rz, rn): near(x, uc)     # the 6.2 V reference beside both comparators that read it (it ran ~110 mm)
+ chain(b, '+VL', [('s', R(b, '10K', '+VL', 'RAIL_OK', mpn='Panasonic ERJ-P06J103V'))], 'RAIL_OK')   # ~33 V in a one-rail brown-out (MG12)
+@@ -122,7 +125,10 @@
+     level_buffer(b, a + '_W', a + '_OUT', a)
+     drv134(b, a + '_OUT', a + '_OP', a + '_ON')
+     jack(b, 'JACK', f'Aux {n} out TRS', {'T': a + '_OP', 'R': a + '_ON', 'S': 'CHASSIS'})   # G2b
+-    chain(b, a + '_OUT', [('s', R(b, '22K', a + '_OUT', a + '_AFLJ'))], a + '_AFLJ'); afl(b, a + '_AFLJ', f'Aux {n} AFL')
++    # RV7: a 2.2u film ahead of the AFL 22K (as the strip's K1), else the buffer's ~6-25 mV DC ticks onto the PFL bus;
++    # the cap is created last (DEFER) so no existing ref moves
++    chain(b, a + '_AFLC', [('s', R(b, '22K', a + '_AFLC', a + '_AFLJ'))], a + '_AFLJ'); afl(b, a + '_AFLJ', f'Aux {n} AFL')
++    DEFER.append(lambda b=b, a=a: C(b, '2.2u', a + '_OUT', a + '_AFLC'))
+ 
+ # ================================================================ PART 4: monitoring  [17-22]
+ b = block('EXT INPUT (2-track / DAW) and MIX / EXT monitor select  (SW latched = EXT)')
+@@ -239,7 +245,8 @@
+     for x in xs: near(x, u)
+     # the 100p from the op-amp's output, not from PHO: the LME49600 stays out of the HF loop (hand-over at 339 kHz);
+     # from PHO the composite was unstable (master_group_review.md MG2)
+-    prf = R(b, '4K7', out, pn); pcf = C(b, '100p C0G', drv, pn); near(pcf, ua); prg = R(b, '2K2', pn, 'GNDA')
++    prf = R(b, '4K7', out, pn); pcf = C(b, '100p C0G', drv, pn); near(pcf, ua); prg = R(b, '2K2', pn, f'PH_G{sd}')
++    DEFER.append(lambda b=b, sd=sd: C(b, '100u NP 25V', f'PH_G{sd}', 'GNDA'))   # RV8: DC gain 1 (0.7 Hz), ~19-79 mV off the cans
+     frag(b, 44, 21, lambda d, sd=sd, a=(pc_, pr_, p22, pu_, u, xs, prf, pcf, prg, out):
+          frags.phones(d, f'PHW_{sd}', a[3], a[0], a[1], a[2], a[4], a[5][4], a[6], a[7], a[8], a[5][:4], a[9]))
+ # the composite is DC-coupled: a one-rail fault would hold ~1 V DC on the phones, so they get a mute relay too;
+--- a/tools/gen_group.py	2026-10-28 19:53:51.455385653 +0000
++++ b/tools/gen_group.py	2026-10-28 20:01:09.332347843 +0000
+@@ -82,7 +82,8 @@
+ level_buffer(b, a + '_W', a + '_OUT', a)
+ drv134(b, a + '_OUT', a + '_OP', a + '_ON')
+ jack(b, 'JACK', 'Aux out TRS', {'T': a + '_OP', 'R': a + '_ON', 'S': 'CHASSIS'})   # G2b
+-chain(b, a + '_OUT', [('s', R(b, '22K', a + '_OUT', a + '_AFLJ'))], a + '_AFLJ'); afl(b, a + '_AFLJ', 'Aux AFL')
++chain(b, a + '_AFLC', [('s', R(b, '22K', a + '_AFLC', a + '_AFLJ'))], a + '_AFLJ'); afl(b, a + '_AFLJ', 'Aux AFL')   # RV7, as the master's
++DEFER.append(lambda b=b, a=a: C(b, '2.2u', a + '_OUT', a + '_AFLC'))
+ 
+ def stereo_return(title, r, name):
+     """A stereo return as on the master (spec 16): receivers (R normalled to L), level, buffers, MIX / 1-2 / 3-4 onto

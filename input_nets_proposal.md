@@ -2,7 +2,7 @@
 
 **Signed off by Ruslan on 2026-10-27 and applied the same day; see "Applied" at the end.**
 - **What changes:** placement only, after E9 / E9b. No netlist, part or BOM change.
-- **The change:** `input_nets_proposal.patch`, a `MOVES.update` in `place_strip.py`, `place_group.py` and
+- **The change:** `archive/patches/input_nets_proposal.patch`, a `MOVES.update` in `place_strip.py`, `place_group.py` and
   `place_master.py`.
 
 ## Why

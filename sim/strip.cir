@@ -1,3 +1,5 @@
+* HISTORICAL deck (project_review.md RV14, 2026-10-28): kept for the record of the design study it belongs to; the built
+* circuit is checked from the netlists by tools/sim_netlist.py and tools/sim_console.py (values differ from this file).
 * Channel strip signal path, v3.0 values, 0 dBu in (0.775 V rms on tip)
 .param f=1 vg=-16
 VIN int 0 AC 0.775

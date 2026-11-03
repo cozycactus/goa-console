@@ -199,4 +199,4 @@ Paths are relative to `Service Manuals/`. Page numbers are PDF pages.
 
 **Not covered by the documents read:** the Series Two direct-out and insert jack circuits (rear board ED4024 not read), the DCP200 / Venue PSU internals, Venue's line CMRR circuit detail beyond the values above, and anything on an older Venue I.
 
-Working files (renders and crops): `/private/tmp/claude-501/-Users-ruslanmigirov-projects-goa-console/20d2ad3b-cdbe-4f15-9de0-d1ce86379e7b/scratchpad/survey/s2_venue/`
+Working files (renders and crops): a scratch folder outside the repo (not kept)

@@ -3,7 +3,9 @@
 Ruslan routes the copper. Placement still decides most of the EMC result before any copper exists: where RF from a
 cable is shunted, how far unfiltered lines run, which noisy and sensitive nodes routing has to pass next to each other,
 and how large the supply and LED current loops are. This study checks the placed boards against the established rules
-for audio boards and proposes changes. Nothing has been moved; the proposals are for sign-off.
+for audio boards and proposes changes. Nothing has been moved; the proposals are for sign-off. Since then: E1-E6 and
+E8-E11 signed off and applied (2026-10-26 / 27; E9-E11 in `stab_caps_proposal.md`, `input_nets_proposal.md`,
+`decouplers_proposal.md`), E7 (ferrites) open until the jig.
 
 ## Method
 

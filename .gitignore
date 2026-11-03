@@ -20,3 +20,4 @@ render/fly/
 
 # fab outputs (tools/fab_out.py)
 fab/
+sim/review/clipping/models/

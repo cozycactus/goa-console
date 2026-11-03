@@ -16,7 +16,7 @@
 "2","MMBT3906","Package_TO_SOT_SMD:SOT-23","onsemi MMBT3906LT1G","","Q1 Q3"
 "2","2N6505G","Package_TO_SOT_THT:TO-220-3_Vertical","onsemi 2N6505G","","Q2 Q4"
 "2","120R 1%","Resistor_SMD:R_0805_2012Metric","","","R1 R10"
-"2","1K5 1%","Resistor_SMD:R_0805_2012Metric","","","R2 R11"
+"2","1K5 1%","Resistor_SMD:R_1206_3216Metric","Panasonic ERJ-P06F1501V","","R2 R11"
 "4","4K7","Resistor_SMD:R_0805_2012Metric","","","R3 R6 R12 R15"
 "2","66K5 1%","Resistor_SMD:R_0805_2012Metric","","","R4 R13"
 "2","10K 1%","Resistor_SMD:R_0805_2012Metric","","","R5 R14"

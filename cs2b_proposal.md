@@ -1,7 +1,7 @@
 # CS2b: the Delta's pan law on the group's sub pan (proposal, 2026-10-28)
 
 **Signed off by Ruslan on 2026-10-28 (as proposed) and applied the same day; see "Applied" at the end.** The change is
-`cs2b_proposal.patch`. It touches tools only: `frags.py`, `gen_group.py`, `place_group.py` and `sim_console.py`.
+`archive/patches/cs2b_proposal.patch`. It touches tools only: `frags.py`, `gen_group.py`, `place_group.py` and `sim_console.py`.
 
 **Calculation and simulation:**
 - `sim/review/cs2/group_pan.py`, with its output in `group_pan.out` (it reuses `pan_law.py`'s network);

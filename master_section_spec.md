@@ -1,5 +1,9 @@
-# Master Section — Schematic Specification, v0.12 (draft)
+# Master Section — Schematic Specification, v0.13 (draft)
 ## Part 1: stereo mix path, mono, main outputs, power-on mute
+
+**v0.13 (2026-10-28, signed off):** `clicks_proposal.md` RV7 (2.2 µF films ahead of the aux 5 / 6 AFL 22Ks, §13; the
+group's aux AFL the same), RV8 (phones DC gain 1, §21), RV9 (the −V-loss comparator's +1.0 V reference, §8); v0.14 (2026-10-29, `clicks_followup_proposal.md`): RV9b, a 4K7 base-emitter resistor on the relay driver (§8);
+`delta_crosscheck.md` D13 (the spare bus conductors grounded through JP3-JP7, §24). Master 1818 pins / 631 parts.
 ## Part 2: subgroups, aux masters
 ## Part 3: stereo returns · Part 4: monitoring · Part 5: power entry
 
@@ -244,6 +248,12 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
 
 - Neutrik NJ6FD-V, wired as the strip insert: send on tip through 75R, return on ring,
   ring normalled to send.
+  - **Tip = send on every insert of the console (D1, `delta_crosscheck.md`, decided 2026-10-28).** The Delta's are
+    ring = send (ED2780 sht 2 JSK1, ED3344A JSK2, manual p.124 / 128). Kept: electrically identical, and tip = send is
+    what the commercial insert lead and every later console use; only Delta-era looms want the other sense.
+  - 75R send build-out on every insert, the subs' included (D19: the Delta's group insert uses 220R, its mix insert
+    75R): 0.06 against 0.19 dB of loss into a ≥ 10K outboard input, no difference in drive, the short-circuit case
+    covered by the anti-surge ERJ-P06J750V; one value keeps the BOM and the jig's tests 13-14 fixtures the same.
 - Return: 33 µF NP + 47K bleed, then 1K + 100 pF C0G at the + input of an OPA1612 follower (U2A), then a 75R
   build-out, 100 µF NP + 47K to PRE_L (v0.8, `master_group_review.md` MG7).
   - The 1K bounds the input current from outboard gear driving an unpowered console: ≈ 9.5 mA at a +20 dBu peak.
@@ -294,7 +304,7 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
 - Connection, per output (TI Figure 29):
   - VIN from the stage before (POST_L, AUXn_OUT, …). It is a 10K load; every driving point is
     an op-amp output or a coupling-cap node that tolerates it.
-  - Gnd (pin 3) to GNDA. 1 µF + 100 nF on each rail at the pins.
+  - Gnd (pin 3) to GNDA. 1 µF X7R on each rail at the pins.
   - Each output leg: VO → 10 µF non-polar electrolytic → output node; the Sense pin connects to
     the output node, after the capacitor. The loop then removes the cap's effect and blocks the
     up to ±250 mV common-mode output offset, so there is no DC on the relay contacts or the
@@ -306,7 +316,9 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
     output node, a ground at the plug grounds both through the jack contact and a few cm of
     track.
 - Output connectors: XLR male, Neutrik NC3MAV (vertical, on the master jack board) or panel-mount with flying
-  leads, pin 2 hot. Shell to chassis.
+  leads, pin 2 hot. Shell to chassis: the footprint's shell pad G is on CHASSIS in the schematic since 2026-10-28
+  (project symbol `XLR3_Shell`, `project_review.md` §2 minor items; the pad had no pin before, so an anodised panel
+  would have left the shells floating). The jig stub's XLR the same.
 - **No phantom on any balanced output** (main, aux 5/6, C/Room, and the groups' sub and aux outs; v0.8, MG15; since CS4b
   the BAV199 at the link holds a leg at 17.7 V if it happens). P48
   through 6.81K per leg forces the DRV134's Sense pins above V+ (its input protection conducting, beyond the abs-max
@@ -316,8 +328,22 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
   - Every build-out resistor sits at its op-amp pin, keeping the pin-side net pad-length: 22 pF between the pin and
     the resistor costs 4–10°.
   - With the build-outs, no master output net needs a length limit. GCANCEL_BUF takes no series R (66° with 47 pF).
+- **No +4 dBu / −10 dBV operating-level switch (D14, `delta_crosscheck.md`).** The Delta's S1 (6 poles) pads its
+  post-amps 11.6 dB (1K2 / 430R) and raises the four monitor receivers 10.4 dB (6K8 / 20K / 2K2 T). Our destinations
+  are +4 dBu (DAW interfaces, the bus compressor), so the main outputs need no pad, and a −10 dBV source on EXT is
+  7.8 dB low on the C/Room only, which the C/ROOM pot covers; a 6-pole switch in the output and monitor paths is
+  contacts in the signal path for a case that is not planned. If it is ever wanted on EXT: the receivers' 10K legs
+  → 24K3 0.1 % (R85 / R90 and R87 / R92) for a gain of 2.43, +7.7 dB (the exact −10 dBV → +4 dBu ratio is 2.45; §17).
 
 ## 8. Power-on / power-off mute
+
+- −V-loss detector reference (v0.13, clicks_proposal.md RV9): U10B's + input sits on +1.0 V (R238 51K from VREF6,
+  R239 10K to GNDD, net SENSE_REF), not on GNDD, and the −V sense divider's lower leg is R53 64K9 (was 51K) so the
+  trip stays where it was: −14.3 V (SENSE_REF = 6.2 × 10 / 61 = 1.016 V; was −14.4 V with 51K to GNDD; 65.3K would
+  hold it exactly, E96 has 64K9 and 66K5; the zener's ±3 % moves it ±0.3 V anyway; review 2026-10-29). Reason: with −V lost and +V up, the console's quiescent current drives −VBUS to ~+0.45 V
+  (D2 / the PSU's D7), so −VL, the LM393B's own V−, ends at ~+0.5 V and a GNDD-referenced input would sit below
+  V− (past the −0.3 V absolute maximum: TI says the output may be wrong); if it misread, RAIL_OK would float high
+  and the relays close onto the phones' DC. SENSE_N reads +0.34 V normally, +4.7 V with −V gone, both in range.
 
 - Why a relay (review 2026-10-23): a DRV134 with its Sense loop is quiet when both rails rise
   together (≤ 5 mV), but with rail skew its amps run against the dead rail and step the output
@@ -341,7 +367,8 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
   (34 V across the package, over the non-B part's 30 V recommended maximum):
   - Reference: BZT52C6V2 (SOD-123) fed from +V through 4K7 (VREF6 = 6.2 V).
   - Comparator A: +V through 56K / 47K against VREF6, trips below +13.6 V.
-    Comparator B: divider 22K (to VREF6) / 51K (to −V) against GNDD, trips when −V rises above −14.4 V.
+    Comparator B (v0.13, RV9): divider 22K (to VREF6) / 64K9 (to −VBUS) against SENSE_REF = +1.0 V (51K / 10K from
+    VREF6), trips when −V rises above −14.3 V (was 51K against GNDD, −14.4 V).
     Open-collector outputs wired-AND on RAIL_OK, 10K pull-up to +VL.
   - Timer: 2.2M from RAIL_OK into a 2.2 µF film capacitor (WIMA MKS2; an electrolytic's leakage
     would be comparable to the charging current near the threshold). A 1N4148 clamps it at
@@ -349,19 +376,24 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
     from about 0 V.
   - Schmitt: third comparator, timer against VREF6, 22M hysteresis, 4K7 pull-up; then 4K7 to the
     MMBT3904 base. Fast release: 1N4148 + 4.7K from the base to RAIL_OK, with a 1N4148 clamp
-    holding the base above −0.7 V.
+    holding the base above −0.7 V. **v0.14 (RV9b, 2026-10-29):** 4K7 from the base to GNDD. With −V lost, −VL sits
+    at ~+0.5 V and every comparator "low" is referenced to it, so the base saw 0.65-1.0 V through the 4K7 alone and a
+    closed relay could stay held at 11-21 % of its coil current at the LM393B's V_OL corner (0.4 V max; typical parts
+    release); divided 2:1 the base sees 0.18-0.5 V and the coil 0.2 µA (`sim/review/clicks/mute_rbe.cir`). Drive
+    margin: 3.3 mA base current against the six coils' 55 mA / h_FE 100 = 0.55 mA. Close time unchanged, 2.80 s.
+    Bench item: open the −V wire with the relays closed; every relay must release.
   - The reset and fast-release resistors were 2.2K until 2026-10-23. Then, at a one-rail loss,
     one LM393 output had to sink 21.8–23.7 mA (pull-up + timer reset + fast release), over the
     non-B part's 20 mA absolute maximum. With 4.7K it is 12–13 mA, and the timing is unchanged
     (below).
   - The relay transistor sinks all six coils (6 × 9.1 mA).
-- Simulated (`sim/mute.cir` v3, 2026-10-23: 4.7K resets, six coils; LM393 as an open-collector
+- Simulated (`sim/mute.cir` v4, 2026-10-29: the RV9 values; v3 2026-10-23: 4.7K resets, six coils; LM393 as an open-collector
   model that only works above 2 V of supply; coil inductance assumed 1 H):
 
   | Case | Result |
   |------|--------|
   | Power-up, rails in 50 ms | relays close at 2.80 s; worst coil current before that 7 µA (no glitch) |
-  | Both rails collapse (17 → 0 V in 200 ms) | coils released 2 ms after −V passes −14.4 V; rails still ±14.2 V |
+  | Both rails collapse (17 → 0 V in 200 ms) | coils released 2 ms after −V passes −14.3 V; rails still ±14.2 V |
   | +V lost only | released at +13.4 V (−V still −17 V) |
   | −V lost only | released at −14.2 V (+V still 17 V) |
   | 20 ms dip to ±12 V | released in 1.4 ms; full re-arm, closes again 2.76 s after the dip |
@@ -513,6 +545,10 @@ these buses through 22K.
 
 ```
 AUXn bus ─ ferrite ─ summing amp (OPA1612 A), Rf 22K 1 % ∥ 100 pF, + input = GCANCEL
+AFL feed (v0.13, clicks_proposal.md RV7): level buffer out ─ 2.2 µF MKS2 film ─ 22K ─ AFL key (the group's aux
+AFL the same, C98). Reason: the buffer's output sits 6-25 mV off ground (100K bias, OPA1612 Ib), and the key
+moved that DC onto the PFL virtual earth as a tick of −42..−30 dBu at CRS; every other PFL / AFL source was
+AC-coupled already (strip K1, group sub AFL, returns).
          ─ re-inverter (OPA1612 B), 4 × 2K2 0.1 % + 2 × 22 pF, + leg from GCANCEL_BUF   → AUXn_SUM
 AUXn_SUM ─ 33µ NP ─ master level RD901F A10K (pin 1 = GNDA, pin 3 = signal)
          ─ wiper ─ 2.2µ film + 100K ─ output buffer (OPA1612, non-inverting:
@@ -583,7 +619,7 @@ which stay at 22K so the strip aux pot wipers aren't loaded (architecture sectio
 |------|-----|-------|
 | OPA1612 | 2 (mix L/R sum + re-invert) + 2 (mix insert/post-amp) + 1 (mono) + 1 (GCANCEL buffer) + 12 (subs) + 3 (aux output buffers) + 6 (aux sum + re-invert) = **27** | |
 | OPA1656 | **0** | (PFL only, §23) |
-| DRV134 | 3 (L, R, mono) + 4 (subs) + 6 (aux) = **13** | |
+| DRV135UA | 3 (L, R, mono) + 4 (subs) + 6 (aux) = **13** | |
 | 10 µF NP electrolytic | 2 per DRV134 = **26** | output DC blocking inside the Sense loop; since CS11b a pair sorted within 2 % per driver (their match sets the output balance; `build_records.md` §1) |
 | LM393B | 1½ | mute relay control (rail sense, timer Schmitt) |
 | Omron (Aratas) G6K-2F-Y DC12 | 3 | main output mute (C/Room and phones: §23) |
@@ -600,7 +636,8 @@ which stay at 22K so the strip aux pot wipers aren't loaded (architecture sectio
 
 As generated (M1 modules, 2026-10-23): master 13 × OPA1612 + 2 × OPA1656 (two halves tied off as spares, so
 no package straddles two placement areas), each group 7 × OPA1612; console 41 × OPA1612 + 2 × OPA1656. Since G3b
-(2026-10-25): master 4 × OPA1656 (U18, U21, U43, U44), each group 7 × OPA1612 + 2 × OPA1656; the DRV134s are DRV135UA.
+(2026-10-25): master 4 × OPA1656 (U18, U21, U43, U44), each group 7 × OPA1612 + 2 × OPA1656; since RET1 (v0.12,
+2026-10-26) each group 9 × OPA1612 + 4 × OPA1656 (console 49 + 20); the DRV134s are DRV135UA.
 
 ---
 
@@ -639,9 +676,15 @@ RETn_L/R ─ 33µ NP + 47K ─ PREn_L/R ─┬─ level, dual A10K (RD902F), pin
   GCANCEL through its own 10 Ω like a strip, so they are one of the averaged grounds, not master ground.
 - No balance or mute. Add a balance pot later if wanted (dual B10K after the level pot, as
   the strip pan).
+- Seen on the Delta / Venue and left out (D18, `delta_crosscheck.md`): the Delta group's tape returns carry a 2-band
+  shelving EQ (IC2-B, VR1 / VR2 10K lin, 4K7 + 6n8, 7K5 + 5K1 + 100n) and an aux-1 send (VR3 / VR8 20K log + 22K); the
+  Venue stereo input A / B select, Ø, ±15 dB trim, width / mono, 3-band EQ, balance, mono sums, six aux sends and a
+  stereo peak LED. Ours are effects returns on 8 HP panels that are full (RET 1 / RET 2 knobs + PFL + routing keys per
+  group); anything that needs EQ, trim or an aux send is a line source and takes a strip. A peak LED per return would
+  be 8 × ~12 parts and a panel hole each for a condition PFL shows.
 
 Per return: 2 × OPA1612, 2 × OPA1656 (followers), 2 × NJ6FD-V, 1 × RD902F A10K, 4 × PVA2 (PFL, MIX, 1-2, 3-4), 1 LED.
-Totals for four: 8 × OPA1612, 8 jacks, 4 dual pots, 16 switches, 4 LEDs.
+Totals for the eight on four groups (v0.12): 16 × OPA1612, 16 × OPA1656, 16 jacks, 8 dual pots, 32 PVA2, 8 LEDs.
 
 ---
 
@@ -670,6 +713,7 @@ PFL switcher (one DG413, break-before-make; CRS on the D side, 100K to GNDA):
 ```
 
 PFL is mono and goes to both sides. The meters follow what is being monitored: mix, EXT or PFL.
+The EXT receivers run at unity: a −10 dBV source arrives 7.8 dB low on the C/Room only (D14; the 24K3 option is in §7).
 
 ## 18. PFL summing amp and solo level
 
@@ -700,6 +744,10 @@ PFL is mono and goes to both sides. The meters follow what is being monitored: m
   - compares it with 0.50 V (330K / 10K from +VL), LM393B on ±VL.
   One press gives 0.92 V (1.86×; about −4 mV/°C), 24 presses 1.29 V, and released LEDs carry
   ≤ 20 nA (`sim/pfldet.py`).
+- 100K on every key (D20, `delta_crosscheck.md`): the Delta LH master grades its aux AFL resistors R201-R206
+  100K / 100K / 100K / 82K / 68K / 47K for aux 1-6 to overcome its TL072 detector's 150K bias against the number of
+  keys ahead on the line. Ours compares against a fixed 0.50 V with the clamp, one press through 42 presses simulated,
+  so there is nothing to compensate.
 - 1 µF from PFLDET to GNDD filters the PVA2's contact bounce (≤ 3 ms). 10M from the comparator
   output back to PFLDET gives about 20 mV of hysteresis. Simulated with 3 ms of bounce: one switch
   each way, 5.8 ms after a press and 8.2 ms after a release.
@@ -714,7 +762,7 @@ PFL is mono and goes to both sides. The meters follow what is being monitored: m
   `strip_parts_review.md` T7).
   - PFL pressed (logic 1): SW1 / SW4 connect PFL_SIG to CRS_L / CRS_R; otherwise SW2 / SW3
     connect MON_L / MON_R. Break-before-make, 25 ns.
-  - Sources are AC-coupled (47 µF + 1M) and CRS is on the D side (about 5 pC of charge
+  - Sources are AC-coupled (33 µF NP + 1M) and CRS is on the D side (about 5 pC of charge
     injection, against about 25 pC on S), with 100K to GNDA.
   - The CRS followers are OPA1656: an OPA1612's bias current across 100K ∥ 1M would step CRS by
     5.5 mV typical, 23 mV maximum, at every switch.
@@ -774,6 +822,11 @@ PFL is mono and goes to both sides. The meters follow what is being monitored: m
   pin open (110 MHz mode; use that). TO-263, so give it copper for heat. Non-inverting gain 1 + 4K7/2K2 = +9.9 dB. Feedback taken from the
   jack side of a 2.2 Ω output resistor. The 100 pF goes from the OPA1612's output to its − input (v0.8, MG2), not
   across the 4K7 from PHO.
+- DC gain 1 (v0.13, clicks_proposal.md RV8): a 33 µF NP (C196 / C197, MUSE ES UES1E330MPM, D8) in series with each gain-set 2K2
+  (R132 / R136, nets PH_GL / PH_GR). Reason: the composite is DC-coupled to the jack and its + input is biased by
+  100K, so the 3.14x stage put 19 mV typical / 79 mV worst on the cans, and the mute relay closed onto it; with the
+  cap the DC is the input stage's own (6 / 25 mV) and the AC corner is 2.2 Hz (−0.2 dB at 10 Hz, −0.05 dB at 20 Hz;
+  a 100 µF D10 can found no spot on the full bottom side, the D8 did).
   - From PHO it put the composite's crossover at the OPA1612's unity-gain frequency, inside the LME49600's lag and
     80–90 MHz resonance. It was unstable at the pot ends.
   - From the op-amp's output, the op-amp is a local follower at HF and the LME49600 is out of the HF loop (hand-over
@@ -805,12 +858,17 @@ scale badly (below).
 - Source: CRS_L/R (so the meters show mix, EXT or PFL, whichever is monitored), through
   100R (Delta R41/R141) to a remote-meter header (for a meter bridge later) and to the
   rectifier.
+  - Remote meter header CN4 (1 × 5): 1 MTR_L, 2 MTR_R, 3 +VM, 4 GNDM, 5 −VM. Not the Delta's CN8 (1 METER L, 2 ground,
+    3 +17 V, 4 METER R, 5 −17 V on the logic rails; D16): ours feeds a bridge from the meter rails and the meter
+    ground, so a bridge's LED current stays off the audio ground. A Delta meter bridge is not pin-compatible.
 - Detector per side, four op-amps (2 × TL072; JFET inputs, as the Delta's TL071/072):
   - U1, U2: precision full-wave rectifier (inverting half-wave with two 1N4148, then a summer:
     v and 2 × half-wave). Gain trim in U2's feedback: 10K + 10K trimmer (gain 0.5–1.0).
   - Average (Delta R303/C302): |v| → 33K → 2.2 µF, about 73 ms.
   - Peak: U3 precision peak detector. 1N4148 inside the loop, 220R into 1 µF (0.22 ms first-order attack),
-    release 330K + 220K (0.55 s, Delta-like). U3's feedback comes from the U4 follower through
+    release 330K + 220K (0.55 s; not "Delta-like", D15: the Delta's R306 22K / C301 10 µF is ≈ 0.22 s. Ours falls
+    slower, which is easier to read on a 20-LED bar and within the usual peak-meter range, DIN 1.5 s to fast PPMs
+    ~0.5 s). U3's feedback comes from the U4 follower through
     10K, with a 1N4148 clamp from U3's output to its inverting input. The feedback must not
     come from the capacitor itself: then the clamp current discharges it (simulated: 50 Hz
     read 0.95 dB low and the hold collapsed).
@@ -890,9 +948,9 @@ scale badly (below).
 |------|-----|-------|
 | OPA1612 | 1 (EXT receivers) + 1 (solo follower, spare half) + 1 (CR buffers) + 1 (phones) = **4** | |
 | TL072 | 4 | meter detectors (2 per side) |
-| OPA1656 | 2 | PFL sum + re-invert; CRS followers |
+| OPA1656 | 4 | PFL sum + re-invert; CRS followers; EXT receiver followers ×2 (G3b): U18, U21, U43, U44 |
 | LME49600 | 2 | phones |
-| DRV134 | 2 | CR outs (+ 4 × 10 µF NP) |
+| DRV135UA | 2 | CR outs (+ 4 × 10 µF NP) |
 | LM393B | 1½ | PFL detect and flasher hold (one package, beside the DG413), rude-solo flasher (half) |
 | LM2901B | 10 | meters |
 | BCP53-16 | 4 | meter LED current sources (SOT-223) |
@@ -915,13 +973,20 @@ scale badly (below).
 - Connector (2026-10-22): 7-pin XLR male, **Neutrik NC7MD-LX** on the rear panel (solder cups, 5 A
   per contact, < 50 V, wire up to 1.0 mm²). Wired with 18 AWG, one wire per pin, to J (Phoenix
   MKDS 1,5/7-5,08, 17.5 A) on the master PCB. Pin 1 = chassis/mains earth (mates first), 2–3 = +V,
-  4–5 = 0 V, 6–7 = −V: two contacts per rail, so 10 A per rail against ≈ 3.09 A typical and
-  ≈ 4.33 A in the accepted worst corner on +V (§27; was 2.65 / 3.8 A with strip v4.0). Neutrik makes no 7-pole horizontal-PCB receptacle (only 3–5 poles),
+  4–5 = 0 V, 6–7 = −V: two contacts per rail, so 10 A per rail against ≈ 3.31 A typical and
+  ≈ 4.54 A in the accepted worst corner on +V (§27; was 2.65 / 3.8 A with strip v4.0). Neutrik makes no 7-pole horizontal-PCB receptacle (only 3–5 poles),
   hence the panel part and wires. The 5-pin NC5MAH (3 A per contact) is too small with strip v4.0.
 - Reverse-polarity protection: a Schottky (SS54, SMC, 40 V 5 A) from each rail to 0 V, reverse-biased in
   normal use. A wrongly wired lead then puts the PSU into current limit instead of reversing
   every op-amp.
-
+- **Spare bus conductors (D13, `delta_crosscheck.md`, signed off 2026-10-28).** Motherloom pins 1 / 3 / 5 / 7
+  (reserved for SUB 5-8, the Venue pinout) and 19 are unconnected on every module and joined wing to wing at the
+  master (SPARE1-7). Each is grounded to GNDA through a bridged solder jumper beside CN2 on the bottom: JP3 = pin 1,
+  JP4 = 3, JP5 = 5, JP6 = 7, JP7 = 19, as the Delta LH master's links J2-J9 ground every group bus no module sums.
+  Why: a floating conductor between grounded ones couples capacitively to its neighbours and re-radiates them (19
+  lies between MIX L on 18 and AUX6 on 20) and is an ESD / hot-plug antenna; grounded, 19 shields MIX L from AUX6,
+  and the modules see no change (NC there). **Open the jumper of each bus an 8-group build sums** (the silk marks
+  them). Pin 28 stays open everywhere (D22).
 ## 25. Distribution
 
 - Two 34-pin headers on the master, one per wing (12 strips each), carrying the buses and
@@ -1043,11 +1108,11 @@ PSU's current limit and the LDOs' heatsink, sized for 4 A, are now exactly at it
 
 | Item | Was | Now |
 |------|-----|-----|
-| Wing PTC per rail | MF-R075, 0.75 A hold, 60 V | Bourns MF-RX160/72: 1.6 A hold, 3.2 A trip, 72 V (§25) |
+| Wing PTC per rail | MF-R075, 0.75 A hold, 60 V | Bourns MF-RX160/72: 1.6 A hold, 3.2 A trip, 72 V; since then MF-RX185/72 on −V (H4) and MF-RX250/72 on +V (W2), §25 |
 | Power inlet | 5-pin XLR NC5MAH on the PCB, one 3 A contact per rail | 7-pin XLR NC7MD-LX on the panel, two 5 A contacts per rail, wired to a 7-way terminal (§24) |
 | PSU regulators | ≥ 3 A | ≥ 4 A per rail (architecture 3.3) |
 | PSU transformer | 2.5 A DC per rail | 4 A DC per rail (architecture 3.3) |
-| Strip R1/R2 (10 Ω, 0805) | — | unchanged: 0.8 V drop, 55–80 mW (0805 is 125 mW); 1206 if margin is wanted |
+| Strip R1/R2 (10 Ω, 0805) | — | unchanged then: 0.8 V drop, 55–80 mW (0805 is 125 mW); since strip v5.3 (CS6) R1–R4 are 1206 Vishay M25SI fusibles, M251206BB1009JP500 |
 
 Reducing the strip current instead: OPA1678 (about 2 mA/ch) in the six KHN positions would save about
 10 mA per strip (0.25 A per rail). The EQ is resistor-noise dominated, but simulate the noise before
@@ -1062,10 +1127,11 @@ choosing.
 ## 29. Still open
 
 - Ground and hum (2026-10-25, `ground_study.md`): the PSU's worst corner with the strip's input followers (≈ 4.24 A on
-  +V) is accepted (§27, Ruslan 2026-10-25); G3b's return / EXT followers add ≈ 0.09 A to it (≈ 4.33 A). The returns,
+  +V) is accepted (§27, Ruslan 2026-10-25); G3b's return / EXT followers add ≈ 0.09 A to it (≈ 4.33 A; ≈ 4.54 A since
+  MET1 / RET1, accepted 2026-10-26). The returns,
   EXT and every balanced TRS output now follow G2 / G3 (G2b / G3b).
 - Balanced outputs: THAT1646 went end-of-life (THAT memo, 1 September 2026); replaced by
-  TI DRV134 on all 15 outputs (decided October 2026, section 7).
+  TI DRV135UA (DRV134 family) on all 15 outputs (decided October 2026, section 7; R1, 2026-10-25).
 - The same THAT memo also ends the THAT 2180/2181 VCAs (planned for the external SSL bus compressor,
   architecture 4.2) and the THAT 124x receivers (listed as an option in architecture
   section 5). The bus compressor needs another VCA.
@@ -1075,9 +1141,9 @@ choosing.
   MF-RX/72 tables (MF-RX160/72), Neutrik NC7MD-LX via distributors (5 A per contact); §24, 25, 27.
 - Meter detector simulated and redesigned (section 22).
 - Schematics (M1 modules), generated by `tools/gen_master.py` / `tools/gen_group.py` from this spec, as of
-  2026-10-25 (v0.11): master 579 parts, 1686 pins / 0 mismatches, check_fp 0, ERC 0; master jack board 89 pins;
-  group 186 parts, 529 pins; group jack board 40 pins; all 0 mismatches, ERC 0 (v0.7: master 532 / 1579, group
-  158 / 461). Mute control values are
+  2026-10-29 (v0.14, with RV9b; v0.13: RV7-RV9 and D13, 631 / 1818): master 632 parts, 1820 pins / 0 mismatches, check_fp 0, ERC 0; master jack
+  board 89 pins; group 292 parts, 807 pins; group jack board 60 pins; all 0 mismatches, ERC 0 (v0.12: master 620 / 1796,
+  group 291 / 805; v0.11: master 579 / 1686, group 186 / 529; v0.7: master 532 / 1579, group 158 / 461). Mute control values are
   simulated (section 8, `sim/mute.cir` v3), PFL detect in `sim/pfldet.py`, the rude-solo flasher in `sim/flasher.cir`.
 - Parts review (`master_parts_review.md`, signed off 2026-10-23) applied in v0.7. Its bench checks
   stay open: re-inverter stability on the scope (jig test 10), aux noise at N = 24, relay release time and
@@ -1086,5 +1152,5 @@ choosing.
 - An EXT LED (proposed in v0.6 §19) is not possible: both EXT switch poles carry audio; dropped.
 - PVA2 switching sense: settled from the C&K datasheet with a fitting rule (strip spec 16.1); applies here too.
 
-*Document version 0.11 — 25 October 2026 (design review R1/R2/R4/R5; earlier: ground and hum G1–G3, G2b/G3b, wing
+*Document version 0.14 — 29 October 2026 (clicks_followup_proposal.md RV9b; 0.13: clicks_proposal.md RV7 / RV8 / RV9, delta_crosscheck.md D13; 0.12: RET1, CS4b / CS4c / CS11b, CS7, CS2b; 0.11: design review R1/R2/R4/R5; earlier: ground and hum G1–G3, G2b/G3b, wing
 power W1/W2, sweepable HPF, master/group review MG1–MG20, parts review S1–S8)*

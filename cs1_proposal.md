@@ -1,7 +1,7 @@
 # CS1: the overload LED from five points, both polarities (proposal, 2026-10-27)
 
 **Signed off by Ruslan on 2026-10-27 (as proposed: five taps, both polarities) and applied the same day as strip v5.0;
-see "Applied" at the end.** The change is `cs1_proposal.patch`. It touches tools only: `gen.py`, `strip_draw.py`,
+see "Applied" at the end.** The change is `archive/patches/cs1_proposal.patch`. It touches tools only: `gen.py`, `strip_draw.py`,
 `place_strip.py` and `netrules.py`. The simulation is `sim/review/cs1/ol_multi.py`; its output is in `sim/review/cs1/ol_multi.out`.
 
 ## 1. Why
@@ -156,7 +156,7 @@ pinout (1 anode, 2 cathode, 3 common); only the names are wrong.
 
 ## 8. On sign-off (apply steps)
 
-1. Apply `cs1_proposal.patch`, regenerate (`gen.py`) and re-export the strip netlist, BOM and PDF. Re-place the strip
+1. Apply `archive/patches/cs1_proposal.patch`, regenerate (`gen.py`) and re-export the strip netlist, BOM and PDF. Re-place the strip
    and re-run netrules.
 2. Make `ol_multi.py` the strip's OL deck, with part values read from the netlist as `ol.py` does. `ol.py` keeps the
    green / LED-drive tests.

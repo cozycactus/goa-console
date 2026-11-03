@@ -1,4 +1,4 @@
-# Escape and layer plan for the dense spots (2026-10-27)
+# Escape and layer plan for the dense spots (2026-10-27; re-run 2026-10-28 on strip v5.5 / group CS2b / master CS7)
 
 Routing help for the three 4-layer main boards, from `tools/escape_plan.py`: where the board is densest, and which
 outer layer each signal net should take there. It is a starting point for your routing, not a rule set. Nothing in the
@@ -37,14 +37,14 @@ through lines are not counted, since a router runs those in parallel.
 
 | Board | Window | What's there | Crossings → left | Picture |
 |---|---|---|---|---|
-| Strip | y 91–121 | U15 (HPF integrators), RV11 / RV12 / RV14 | 173 → 70 | [channel_strip_1.svg](docs/escape/channel_strip_1.svg) |
-| Strip | y 121–151 | U12, U13 (the mid KHNs), RV13 / RV15, SW12, CN3 (jack-board link) | 269 → 92 | [channel_strip_2.svg](docs/escape/channel_strip_2.svg) |
-| Strip | y 155–185 | U14, JP5 / JP6 (insert jumpers), RV2 / RV3 | 170 → 69 | [channel_strip_3.svg](docs/escape/channel_strip_3.svg) |
-| Group | y 136–166 | U8, U9, U11 (returns), SW8–SW10 | 325 → 146 | [group_1.svg](docs/escape/group_1.svg) |
-| Group | y 180–210 | U4, U12, U13, U15, CN3 / CN4 (jack-board links) | 497 → 215 | [group_2.svg](docs/escape/group_2.svg) |
-| Group | y 236–266 | U3, U5, RV2, SW1 | 226 → 98 | [group_3.svg](docs/escape/group_3.svg) |
-| Master | y 166–196 | U7, U8, U10, U11, U19, U28, SW3 | 362 → 144 | [master_1.svg](docs/escape/master_1.svg) |
-| Master | y 248–278 | U3, U4, U6, U12, U15, U17, U18 | 344 → 148 | [master_2.svg](docs/escape/master_2.svg) |
+| Strip | y 91–121 | U15 (HPF integrators), RV11 / RV12 / RV14 | 176 → 72 | [channel_strip_1.svg](docs/escape/channel_strip_1.svg) |
+| Strip | y 121–151 | U12, U13 (the mid KHNs), RV13 / RV15, SW12, CN3 (jack-board link) | 307 → 116 | [channel_strip_2.svg](docs/escape/channel_strip_2.svg) |
+| Strip | y 151–181 | U14, JP5 / JP6 (insert jumpers), RV2 / RV3 | 176 → 70 | [channel_strip_3.svg](docs/escape/channel_strip_3.svg) |
+| Group | y 136–166 | U8, U9, U11 (returns), SW8–SW10 | 322 → 146 | [group_1.svg](docs/escape/group_1.svg) |
+| Group | y 182–212 | U4, U12, U13, U15, CN3 / CN4 (jack-board links) | 584 → 274 | [group_2.svg](docs/escape/group_2.svg) |
+| Group | y 236–266 | U3, U5, RV2, SW1 | 257 → 106 | [group_3.svg](docs/escape/group_3.svg) |
+| Master | y 166–196 | U7, U8, U10, U11, U19, U28, SW3 | 464 → 169 | [master_1.svg](docs/escape/master_1.svg) |
+| Master | y 248–278 | U3, U4, U6, U12, U15, U17, U18 | 362 → 155 | [master_2.svg](docs/escape/master_2.svg) |
 | Master | y 320–350 | CN2 / CN3 (wing headers), U35, U41, U42 (meters) | 337 → 110 | [master_3.svg](docs/escape/master_3.svg) |
 
 **What the pictures show:**

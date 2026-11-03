@@ -119,6 +119,15 @@ MOVES.update(CS2)
 # C2 / C4 stay fixed where they were, and the old 0805 spots are kept out of packing, so every other part packs as before
 CS6 = {'R1': (32.75, 297.0, 90, 'F'), 'R2': (28.75, 298.5, 0, 'F'), 'R3': (31.75, 297.75, 0, 'B'), 'R4': (25.0, 305.0, 0, 'B')}
 MOVES.update(CS6)
+# clicks_proposal.md RV3 / RV4 (signed off 2026-10-28): the gain stage's 1M keeper on the bottom under U1 (pads 8.6 / 9.9 mm
+# from U1 pins 6 / 7: the nearest free spot) and the direct out's cold-leg 33u NP beside R73 (6.8 mm), placed by MOVES alone
+# (spots probed clear of courtyards and leads)
+CLICKS = {'R142': (7.21, 54.56, 0, 'B'), 'C107': (30.03, 199.0, 0, 'B')}
+MOVES.update(CLICKS)
+# clicks_followup_proposal.md RV3b (signed off 2026-10-29): the ring's BAV199 D23 beside D22 at CN3 and its 47K bleed R143
+# beside C107, bottom side, placed by MOVES alone (probed spots)
+RV3B = {'D23': (13.0, 120.75, 0, 'B'), 'R143': (34.03, 199.0, 90, 'B')}
+MOVES.update(RV3B)
 FIX.update({'C2': (31.745, 302.025, 0, 'F'), 'C4': (19.745, 302.525, 0, 'F')})
 CS6_KEEP = [(31.0, 296.0, 34.45, 297.99, 'F'), (26.0, 297.5, 29.45, 299.49, 'F'), (30.0, 298.5, 33.45, 300.49, 'F'),
             (26.0, 300.0, 29.45, 301.99, 'F')]
@@ -223,5 +232,5 @@ if '(ref "CN5")' in open(NET).read():                           # jack board net
                   hole_value='M3 standoff = jack body height (~24 mm)')
 else:
     layout = dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, holes=HOLES, zones=ZONES, notes=NOTES, near=NEAR,
-                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, moves_only=tuple(NEW49) + tuple(CS1) + tuple(CS10) + tuple(CS4) + tuple(CS6) + tuple(CS2), keepout=CS6_KEEP, turns=TURNS, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
+                  hole_value='M3 standoff 11.5 mm', attach=True, silk_text_off=('K',), moves=MOVES, moves_only=tuple(NEW49) + tuple(CS1) + tuple(CS10) + tuple(CS4) + tuple(CS6) + tuple(CS2) + tuple(CLICKS) + tuple(RV3B), keepout=CS6_KEEP, turns=TURNS, layers=4, rails=(0.5, 5.5))  # layer_study.md: 4 layers for the main board
 place(NET, OUT, layout)

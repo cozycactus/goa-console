@@ -28,7 +28,7 @@ CAP_MPN = {'2200u 35V low-ESR': 'Rubycon 35ZLH2200MEFC16X25', '220u 25V': 'Rubyc
 
 cnt = collections.Counter()
 def ref(p): cnt[p] += 1; return f'{p}{cnt[p]}'
-def R(b, v, a, c): P(b, ref('R'), 'R', v, {1: a, 2: c})
+def R(b, v, a, c, **kw): P(b, ref('R'), 'R', v, {1: a, 2: c}, **kw)
 def C(b, v, a, c): P(b, ref('C'), 'C', v, {1: a, 2: c}, mpn=CAP_MPN[v])
 def CP(b, v, plus, minus): P(b, ref('C'), 'CP', v, {1: plus, 2: minus}, fp=CPFP[v.split()[0]], mpn=CAP_MPN[v])
 
@@ -40,7 +40,9 @@ def rail(name, out, rtn, smps):
     P(b, ref('L'), 'L', '10u 11A', {1: x + '_IN', 2: x + '_LC'})
     CP(b, '2200u 35V low-ESR', x + '_LC', rtn); C(b, '100n', x + '_LC', rtn)
     P(b, ref('U'), 'LDO', 'LM1084-ADJ', {3: x + '_LC', 2: out, 1: x + '_ADJ'})
-    R(b, '120R 1%', out, x + '_ADJ'); R(b, '1K5 1%', x + '_ADJ', rtn)
+    R(b, '120R 1%', out, x + '_ADJ')
+    # 15.7 V across the 1K5 = 164 mW: 1206 0.5 W, not the 0805's 125 mW (project_review.md RV1)
+    R(b, '1K5 1%', x + '_ADJ', rtn, fp='Resistor_SMD:R_1206_3216Metric', mpn='Panasonic ERJ-P06F1501V')
     CP(b, '47u 25V', x + '_ADJ', rtn)                                   # soft start (tau ~ 70 ms) + ripple rejection
     P(b, ref('D'), 'DG', 'S1G', {2: x + '_ADJ', 1: out})               # C_ADJ discharge into OUT, not into ADJ
     P(b, ref('D'), 'DG', 'S1G', {2: out, 1: x + '_LC'})                # output caps discharge into VI

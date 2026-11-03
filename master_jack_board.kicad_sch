@@ -179,29 +179,29 @@
       )
     )
 
-    (symbol "Connector_Audio:XLR3" (pin_names) (in_bom yes) (on_board yes)
-      (property "Reference" "J" (at 0 8.89 0) (show_name)
+    (symbol "goa-console:XLR3_Shell" (pin_names) (in_bom yes) (on_board yes)
+      (property "Reference" "J" (at 0 8.89 0)
         (effects (font (size 1.27 1.27)))
       )
-      (property "Value" "XLR3" (at 0 6.35 0) (show_name)
+      (property "Value" "XLR3_Shell" (at 0 -8.89 0)
         (effects (font (size 1.27 1.27)))
       )
-      (property "Footprint" "" (at 0 0 0) (show_name)
-        (effects (font (size 1.27 1.27)))
+      (property "Footprint" "" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
       )
-      (property "Datasheet" "" (at 0 0 0) (show_name)
-        (effects (font (size 1.27 1.27)))
+      (property "Datasheet" "" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
       )
-      (property "Description" "XLR Connector, Male or Female, 3 Pins" (at 0 0 0) (show_name)
-        (effects (font (size 1.27 1.27)))
+      (property "Description" "XLR connector, 3 pins plus the shell pad G (Neutrik NC3MAV / NC3MAH footprints)" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
       )
-      (property "ki_keywords" "xlr connector" (at 0 0 0) (show_name)
-        (effects (font (size 1.27 1.27)))
+      (property "ki_keywords" "xlr connector shell" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
       )
-      (property "ki_fp_filters" "Jack*XLR*" (at 0 0 0) (show_name)
-        (effects (font (size 1.27 1.27)))
+      (property "ki_fp_filters" "Jack*XLR*" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
       )
-      (symbol "XLR3_0_1"
+      (symbol "XLR3_Shell_0_1"
         (polyline
           (pts
             (xy -5.08 0)
@@ -242,6 +242,14 @@
           (stroke (width 0) (type default))
           (fill (type none))
         )
+        (polyline
+          (pts
+            (xy 0 5.08)
+            (xy 0 4.572)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
         (text "1" (at -3.556 1.778 0)
           (effects (font (size 1.016 1.016)))
         )
@@ -251,6 +259,11 @@
         (text "2" (at 3.556 1.778 0)
           (effects (font (size 1.016 1.016)))
         )
+        (text "G" (at 0 3.302 0)
+          (effects (font (size 1.016 1.016)))
+        )
+      )
+      (symbol "XLR3_Shell_1_1"
         (pin passive line (at -7.62 0 0) (length 2.54)
           (name "" (effects (font (size 1.27 1.27))))
           (number "1" (effects (font (size 1.27 1.27))))
@@ -262,6 +275,10 @@
         (pin passive line (at 0 -7.62 90) (length 2.54)
           (name "" (effects (font (size 1.27 1.27))))
           (number "3" (effects (font (size 1.27 1.27))))
+        )
+        (pin passive line (at 0 7.62 270) (length 2.54)
+          (name "SHELL" (effects (font (size 1.27 1.27))))
+          (number "G" (effects (font (size 1.27 1.27))))
         )
       )
     )
@@ -860,6 +877,10 @@
     (effects (font (size 1.0 1.0)) (justify right bottom))
     (uuid 7315c6b3-98a3-5762-8772-a97ff1eb69ab)
   )
+  (label "CHASSIS" (at 101.6 43.18 90)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid 263378ed-ec4a-573f-93db-df846278a96a)
+  )
   (label "CHASSIS" (at 127.0 50.8 180)
     (effects (font (size 1.0 1.0)) (justify right bottom))
     (uuid 437c467e-f8ca-50c4-be89-de15258d926b)
@@ -872,6 +893,10 @@
     (effects (font (size 1.0 1.0)) (justify right bottom))
     (uuid 93fe4f3c-bb4b-5c81-8dbf-8bafe4ed7e43)
   )
+  (label "CHASSIS" (at 134.62 43.18 90)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid e5ba420b-add0-5d3d-9845-d990b18e0f43)
+  )
   (label "CHASSIS" (at 160.02 50.8 180)
     (effects (font (size 1.0 1.0)) (justify right bottom))
     (uuid 8ae1b85f-f9e4-5e12-848d-0c5101852431)
@@ -883,6 +908,10 @@
   (label "MAIN_M_XN" (at 167.64 58.42 270)
     (effects (font (size 1.0 1.0)) (justify right bottom))
     (uuid 632e5733-6449-5c3a-86f4-d7e6d6306b1f)
+  )
+  (label "CHASSIS" (at 167.64 43.18 90)
+    (effects (font (size 1.0 1.0)) (justify left bottom))
+    (uuid 7a454207-a6b1-5d51-998b-c8c60a6674ab)
   )
   (label "A5_OP" (at 205.74 53.34 0)
     (effects (font (size 1.0 1.0)) (justify left bottom))
@@ -1199,7 +1228,7 @@
     )
   )
 
-  (symbol (lib_id "Connector_Audio:XLR3") (at 101.6 50.8 0) (unit 1)
+  (symbol (lib_id "goa-console:XLR3_Shell") (at 101.6 50.8 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 80adaf7b-7698-5af4-b3d1-b3e049cfc496)
     (property "Reference" "J3" (id 0) (at 104.14 41.91 0)
@@ -1220,6 +1249,7 @@
     (pin "1" (uuid 8d92d0e7-87c7-5ca7-b823-e1ca26163f02))
     (pin "2" (uuid 54301a09-d30c-5bb2-a790-8bb146e33a2e))
     (pin "3" (uuid f67096c1-9c94-5a8f-a78d-b869544ff220))
+    (pin "G" (uuid f3da85a4-e5c6-5ca0-8f79-e54e6b6c24eb))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1229,7 +1259,7 @@
     )
   )
 
-  (symbol (lib_id "Connector_Audio:XLR3") (at 134.62 50.8 0) (unit 1)
+  (symbol (lib_id "goa-console:XLR3_Shell") (at 134.62 50.8 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 0795c5c5-0d45-542d-8bf0-31da424074cb)
     (property "Reference" "J4" (id 0) (at 137.16 41.91 0)
@@ -1250,6 +1280,7 @@
     (pin "1" (uuid a5a1636c-31db-5afd-88ad-5bb449b38650))
     (pin "2" (uuid ffab885f-fab1-598f-ba8e-c5b9913a8a90))
     (pin "3" (uuid 2cc838f5-e185-51be-874c-a6a6eb7292ae))
+    (pin "G" (uuid 0a734ce4-a8e0-5f36-bdc0-5d8ce7e59da4))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"
@@ -1259,7 +1290,7 @@
     )
   )
 
-  (symbol (lib_id "Connector_Audio:XLR3") (at 167.64000000000001 50.8 0) (unit 1)
+  (symbol (lib_id "goa-console:XLR3_Shell") (at 167.64000000000001 50.8 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid a2836c16-1bcb-5ab9-849b-192e3e7423e0)
     (property "Reference" "J5" (id 0) (at 170.18 41.91 0)
@@ -1280,6 +1311,7 @@
     (pin "1" (uuid e82a6ffc-9ba2-58ad-8acd-57d38c9a7796))
     (pin "2" (uuid 8009f0fc-4799-517c-bf5d-9c2db25ab143))
     (pin "3" (uuid 975da35a-d6e5-518d-8e76-42349d2b3dcd))
+    (pin "G" (uuid 913fe67e-6bce-50e6-983b-6a155cf462a9))
     (instances
       (project "master_jack_board"
         (path "/cf0756cc-14e3-5f22-b6d2-a68e5313f1e9"

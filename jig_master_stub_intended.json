@@ -312,6 +312,7 @@
 "J8.1": "CHASSIS",
 "J8.2": "BAL_P",
 "J8.3": "BAL_N",
+"J8.G": "CHASSIS",
 "R42.1": "PFLDET",
 "R42.2": "GNDD",
 "R43.1": "+VL",

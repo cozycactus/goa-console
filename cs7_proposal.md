@@ -1,6 +1,6 @@
 # CS7: DIM on C/Room (proposal, 2026-10-28)
 
-**Signed off by Ruslan on 2026-10-28 (as proposed) and applied the same day; see "Applied" at the end.** The change is `cs7_proposal.patch`. It touches tools only: `gen_master.py`, `frags.py`,
+**Signed off by Ruslan on 2026-10-28 (as proposed) and applied the same day; see "Applied" at the end.** The change is `archive/patches/cs7_proposal.patch`. It touches tools only: `gen_master.py`, `frags.py`,
 `place_master.py`, `placer.py`, `panel_layout.py`, `sim_console.py` and `sim/review/master/configs.py`.
 
 **Asked for by Ruslan on 2026-10-28:** a DIM key at (29.16, 178) beside POWER, 91K per side bypassed by the key,

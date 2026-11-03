@@ -7,7 +7,7 @@ DRC (0 violations, footprint-internal KNOWN items of fab_out.py aside, 0 parity 
 netrules_test (every DRC rule fires), route_check_test (the post-route checker finds its planted faults),
 route_check on every board (0 ERR), panel_fab's checks; --full: sim/review/gaps/ol.py and
 sim/review/cs1/ol_multi.py --quick (the red from a negative and a positive pulse). Prints one line per check and a summary; exit 1 on any FAIL."""
-import json, os, re, subprocess, sys, tempfile, time
+import collections, json, os, re, shutil, subprocess, sys, tempfile, time
 
 TOOLS = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(TOOLS)
 KC = os.environ.get('KC', '/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli')
@@ -17,6 +17,16 @@ BOARDS = ['channel_strip', 'jack_board', 'group', 'group_jack_board', 'master', 
           'jig_master_stub', 'jig_load_board', 'psu']
 sys.path.insert(0, TOOLS)
 from fab_out import is_known
+from verify import sexp, field
+
+def partition(path):
+    """The netlist as (every pin, the pin sets of its multi-pin nets): what the circuit is, whatever the nets are
+    called (single-pin nets are named differently by different KiCad versions, so they count as pins only)."""
+    tree = sexp(open(path).read()); by = collections.defaultdict(set)
+    for n in next(x for x in tree[1:] if isinstance(x, list) and x[0] == 'nets')[1:]:
+        for nd in n[1:]:
+            if isinstance(nd, list) and nd[0] == 'node': by[field(n, 'name')].add((field(nd, 'ref'), field(nd, 'pin')))
+    return frozenset(p for s in by.values() for p in s), frozenset(frozenset(s) for s in by.values() if len(s) > 1)
 
 results = []
 def run(cmd, timeout=1800):
@@ -33,14 +43,22 @@ def main():
         net = os.path.join(tmp, b + '.net')
         run([KC, 'sch', 'export', 'netlist', '-o', net, sch])
         intended = os.path.join(ROOT, b + '_intended.json')
+        if os.path.exists(intended): shutil.copy(intended, tmp)        # netnames.renames() looks for it beside the .net
+        # the committed .net is what sim_console, check_links and the ol sims read: it must be this schematic's
+        committed = os.path.join(ROOT, b + '.net')
+        if os.path.exists(committed):
+            same = partition(committed) == partition(net)
+            report(f'{b}: committed .net is the schematic', same, 'same pins and nets' if same else 'STALE: re-export it')
+        else: report(f'{b}: committed .net is the schematic', False, 'no committed .net')
         if os.path.exists(intended):
             code, out = run([VPY, os.path.join(TOOLS, 'verify.py'), net, intended])
             m = re.search(r'pins checked: (\d+)\s+mismatches: (\d+)\s+unexpected pins: (\d+)', out)
             report(f'{b}: netlist vs intended', code == 0 and m and m.group(2) == '0' and m.group(3) == '0',
                    m.group(0) if m else out.strip()[-120:])
+        else: report(f'{b}: netlist vs intended', False, 'no intended JSON')
         code, out = run(['python3', os.path.join(TOOLS, 'check_fp.py'), net, ROOT])
         m = re.search(r'components checked: (\d+)\s+problems: (\d+)', out)
-        report(f'{b}: pins vs footprints', bool(m) and m.group(2) == '0', m.group(0) if m else out.strip()[-120:])
+        report(f'{b}: pins vs footprints', code == 0 and bool(m) and m.group(2) == '0', m.group(0) if m else out.strip()[-120:])
         erc = os.path.join(tmp, b + '_erc.json')
         run([KC, 'sch', 'erc', '--format', 'json', '--severity-all', '-o', erc, sch])
         e = json.load(open(erc)); nerc = sum(len(s.get('violations', [])) for s in e.get('sheets', []))
@@ -59,6 +77,9 @@ def main():
         code, out = run([KPY, os.path.join(TOOLS, 'route_check.py'), pcb])
         m = re.findall(r'(\d+) ERR, (\d+) WARN', out)
         report(f'{b}: route_check', bool(m) and m[-1][0] == '0', f'{m[-1][0]} ERR, {m[-1][1]} WARN' if m else out.strip()[-120:])
+    code, out = run(['python3', os.path.join(TOOLS, 'check_bus.py')] + [os.path.join(tmp, b + '.net') for b in ('channel_strip', 'group', 'master', 'jig_master_stub')])
+    report('bus headers (strip / group / master / jig)', code == 0 and 'all pins as the Delta map' in out,
+           out.strip().splitlines()[-1][:100] if out.strip() else 'no output')
     sn = os.path.join(tmp, 'channel_strip.net'), os.path.join(tmp, 'jack_board.net')
     code, out = run(['python3', os.path.join(TOOLS, 'sim_netlist.py'), *sn])
     m = re.search(r'(\d+)/(\d+) checks passed', out); report('sim_netlist (strip + jack board)', bool(m) and m.group(1) == m.group(2), m.group(0) if m else out.strip()[-120:])
@@ -76,7 +97,7 @@ def main():
     if full:
         code, out = run(['python3', os.path.join(ROOT, 'sim', 'review', 'gaps', 'ol.py')], timeout=900)
         m = re.search(r'1000 Hz: red\s+([\d.]+) dBu, green\s+([-\d.]+) dBu', out)
-        report('ol.py (overload / signal LED)', code == 0 and bool(m) and 17.5 < float(m.group(1)) < 19.5 and -21 < float(m.group(2)) < -18,
+        report('ol.py (overload / signal LED, values check)', code == 0 and bool(m) and 17.5 < float(m.group(1)) < 19.5 and -21 < float(m.group(2)) < -18,
                f'red {m.group(1)} dBu, green {m.group(2)} dBu at 1 kHz' if m else out.strip()[-120:])
         code, out = run(['python3', os.path.join(ROOT, 'sim', 'review', 'cs1', 'ol_multi.py'), '--quick'], timeout=900)
         m = re.search(r'pulse thresholds: \+([\d.]+) V / -([\d.]+) V', out)

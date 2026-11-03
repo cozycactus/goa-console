@@ -75,15 +75,18 @@ crowbar: 66K5 / 10K (1 %) ∥ 2n2 → TL431 ref; TL431 cathode ── 1K ── 
 - **LDO.** TI LM1084IT-ADJ (TO-220, 5 A, 1.3 V dropout typ.). 19 W at 4 A, 12 W typical. Tab = VO,
   so both tabs go on the heatsink through insulating pads (the two tabs sit at +17 V and 0 V).
   Heatsink ≤ 3.6 °C/W each at 40 °C ambient.
-- **Crowbar threshold.** 2.495 V × (1 + 66K5/10K) = 19.1 V (±1.5 %): 2.1 V above the output, 0.9 V
-  below the OPA1612's 20 V absolute maximum. A TL431 rather than a zener, because a 25 A SCR's gate
+- **Crowbar threshold.** 2.495 V × (1 + 66K5/10K) = 19.1 V nominal (≈ 19.2 V typical with the TL431's
+  reference current; 18.6–19.9 V worst case, still safe): 2.1 V above the output, 0.9 V below the OPA1612's 20 V
+  absolute maximum. A TL431 rather than a zener, because a 25 A SCR's gate
   current (up to 30 mA) would move a zener's trip point by more than a volt. The PNP gives the gate a
   hard pulse.
 - **After a crowbar.** The SCR holds the rail near 1 V. The LRS-150 goes into hiccup current limiting;
   on each restart a shorted pass element puts 21.6 V back and the crowbar fires again, so the rail LED
   flashes. Switch off and repair.
-- **Parts.** Bourns 2100LL-100-H-RC (10 µH, 11.4 A, 5 mΩ); 2200 µF 35 V low-ESR (Panasonic FR, 16 mm);
+- **Parts.** Bourns 2100LL-100-H-RC (10 µH, 11.4 A, 5 mΩ); 2200 µF 35 V low-ESR (Rubycon 35ZLH2200MEFC16X25, 16 × 25);
   onsemi 2N6505G SCR (25 A, ITSM 250 A, TO-220); TL431 (SOT-23); MMBT3906; SS54; S1G.
+  R2 / R11 (1K5): Panasonic ERJ-P06F1501V, 1206 0.5 W — the 0805 part would run at 164 mW (15.7 V across it), above its
+  125 mW rating (project_review.md RV1, 2026-10-28).
 - **Mains side (chassis wiring, not on the PCB).** IEC inlet with fuse (T2.5A at 230 V, T5A at 115 V)
   and a 2-pole switch → both LRS-150 AC inputs (set their 115/230 V switch). FG terminals, the case
   and the NC7 pin 1 all go to the earth stud. 0 V stays isolated from earth in the PSU; it meets earth

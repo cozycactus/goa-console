@@ -84,8 +84,10 @@ def place(NET, OUT, L):
     if os.path.exists(OUT):
         old = sexp(open(OUT).read())
         rule_area = lambda z: any(isinstance(x, list) and x and x[0] == 'keepout' for x in z[1:])   # RAILS: not copper
+        on_cu = lambda it: any(isinstance(x, list) and x and x[0] == 'layer' and len(x) > 1 and str(x[1]).endswith('.Cu') for x in it[1:])
         copper = [item[0] for item in old[1:] if isinstance(item, list) and
-                  item and (item[0] in ('segment', 'arc', 'via') or (item[0] == 'zone' and not rule_area(item)))]
+                  item and (item[0] in ('segment', 'arc', 'via') or (item[0] == 'zone' and not rule_area(item))
+                            or (item[0].startswith('gr_') and on_cu(item)))]         # drawn copper counts too
         if copper:
             raise SystemExit(f'{OUT}: contains routing or zones; choose a separate placement output')
     BOARD, FIX, HOLES, ZONES = L['board'], L['fix'], L.get('holes', []), L['zones']
@@ -322,7 +324,8 @@ def place(NET, OUT, L):
                     if r in active or r in attach or positional(r): continue
                     q = next((q for q in refs if q != r and q in attach and nets_of(r) & nets_of(q)), None)
                     if q: attach[r] = ('chain', q, None); grew = True
-    PRIORITY = {'decouple': 0, 'near': 1, 'input': 1, 'output': 2, 'chain': 3}
+    attach.update(L.get('attach_as', {}))              # a part's attachment stated by the layout (kind, target ref, pin):
+    PRIORITY = {'decouple': 0, 'near': 1, 'input': 1, 'output': 2, 'chain': 3}   # keeps its stage when a wire part goes in
     def ordered(refs):
         out, seen = [], set()
         def emit(r):

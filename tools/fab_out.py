@@ -22,7 +22,7 @@ KNOWN = {
     'jack_board': [('hole_clearance', r'^J\d+$'), ('solder_mask_bridge', r'^J\d+$')],       # KiCad's NJ6FD-V footprint
     'group_jack_board': [('hole_clearance', r'^J\d+$'), ('solder_mask_bridge', r'^J\d+$')],
     'master_jack_board': [('hole_clearance', r'^J\d+$'), ('solder_mask_bridge', r'^J\d+$')],
-    'psu': [('silk_edge_clearance', r'^(U|Q|D)\d+$')],     # the TO-220s overhang the edge onto the heatsink (PC1)
+    'psu': [('silk_edge_clearance', r'^(U1|U3|Q2|Q4)$')],  # the TO-220s overhang the edge onto the heatsink (PC1)
 }
 
 def run(cmd, **kw):
@@ -35,14 +35,15 @@ def refs_of(item):
     return re.findall(r'\bof ([A-Z]+\d+)\b', item.get('description', ''))
 
 def is_known(name, v):
-    """Every item names a footprint the board's KNOWN rule covers (the board outline may be the other item of an edge
-    clearance); a track, via or zone in it makes it the layout's."""
+    """Every item names ONE footprint the board's KNOWN rule covers (an item between two footprints is the layout's,
+    whatever they are; the board outline may be the other item of an edge clearance); a track, via or zone in it makes
+    it the layout's."""
     rx = [r for t, r in KNOWN.get(name, []) if t == v.get('type')]
     items = v.get('items', [])
-    fp = [it for it in items if refs_of(it)]
-    if not rx or not fp: return False
+    refs = {r for it in items for r in refs_of(it)}
+    if not rx or len(refs) != 1: return False
     if any(not refs_of(it) and not it.get('description', '').endswith('on Edge.Cuts') for it in items): return False
-    return all(any(re.match(x, r) for x in rx) for it in fp for r in refs_of(it))
+    return all(any(re.match(x, r) for x in rx) for r in refs)
 
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith('--')]
@@ -71,12 +72,13 @@ def main():
     rc = run([KPY, os.path.join(TOOLS, 'route_check.py'), pcb])
     tail = [l for l in rc.stdout.splitlines() if re.match(r'\s+\d+ ERR, \d+ WARN', l)]
     print('  route_check:', tail[-1].strip() if tail else 'no result')
-    if tail and not tail[-1].strip().startswith('0 ERR'): problems.append('route_check ERR')
+    if not tail: problems.append('route_check gave no result')
+    elif not tail[-1].strip().startswith('0 ERR'): problems.append('route_check ERR')
     if problems and not force:
         sys.exit(f'{name}: not written ({"; ".join(problems)}); fix them, or --force')
     # 3. Gerbers, drill, zip
     import_layers = ['F.Cu', 'B.Cu', 'F.Paste', 'B.Paste', 'F.Silkscreen', 'B.Silkscreen', 'F.Mask', 'B.Mask', 'Edge.Cuts']
-    if '(4 "In1.Cu"' in open(pcb).read(): import_layers[1:1] = ['In1.Cu', 'In2.Cu']
+    if re.search(r'\(\d+ "In1\.Cu"', open(pcb).read()): import_layers[1:1] = ['In1.Cu', 'In2.Cu']   # any layer numbering
     run([KC, 'pcb', 'export', 'gerbers', '--check-zones', '-l', ','.join(import_layers), '-o', os.path.join(out, 'gerber') + '/', pcb])
     run([KC, 'pcb', 'export', 'drill', '--format', 'excellon', '--excellon-units', 'mm', '--excellon-separate-th',
          '--generate-map', '--map-format', 'pdf', '-o', os.path.join(out, 'drill') + '/', pcb])

@@ -1,6 +1,6 @@
 # EQM1: the mid EQ ranges retuned to the Delta's measured ones (proposal, 2026-10-28)
 
-**Signed off by Ruslan on 2026-10-28 (as proposed) and applied the same day as strip v5.5; see "Applied" at the end.** The change is `eqmid_proposal.patch`. It touches tools only: `gen.py` (six resistor values),
+**Signed off by Ruslan on 2026-10-28 (as proposed) and applied the same day as strip v5.5; see "Applied" at the end.** The change is `archive/patches/eqmid_proposal.patch`. It touches tools only: `gen.py` (six resistor values),
 `sim_netlist.py` (the mid checks) and `panel_layout.py` (the FREQ scale numerals).
 
 **Asked for by Ruslan on 2026-10-28**, from the EQ overlay of a side session (`sim/eq_curves.py`). Divider resistor values

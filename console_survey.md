@@ -3,6 +3,8 @@
 This compares the whole design, strip, bus and master, stage by stage with the analogue consoles in Ruslan's iCloud
 `Service Manuals/` folder. `eq_survey.md` already did the swept mid EQ, so that is left out here. Nothing in the
 design has changed; the proposals in §5 wait for sign-off. One documentation error was found and fixed (§6).
+Since then (2026-10-27 / 28): CS1, CS2, CS2b, CS4, CS4b, CS4c, CS6, CS7, CS10, CS11 and CS11b signed off and applied
+(their `*_proposal.md`), CS3 and CS5 checked with no change (`sim/review/cs3`, `sim/review/cs5`), CS8 and CS9 open.
 
 ## 1. Sources
 

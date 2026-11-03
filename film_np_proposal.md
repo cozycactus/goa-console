@@ -4,7 +4,7 @@ Proposal for sign-off, 2026-10-24. **Signed off by Ruslan the same day (F1–F4 
 master spec v0.8 note, every board regenerated (0 mismatches, check_fp 0, ERC 0), `sim_netlist.py` 30/30,
 `sim_console.py` 32/32, strip / group / master / jig re-placed with 0 DRC violations and 0 parity issues. (When written,
 nothing in the design had changed.) The generator and layout edits are in
-`film_np_proposal.patch`. They were trial-applied in a throwaway worktree: regenerated, verified, simulated and
+`archive/patches/film_np_proposal.patch`. They were trial-applied in a throwaway worktree: regenerated, verified, simulated and
 re-placed (results below).
 
 Scope, as decided in the discussion:

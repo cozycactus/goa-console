@@ -1,0 +1,13 @@
+* "Classic" TL072 for clipping waveforms: TI's 1989 TL072 macromodel (TL072_1989.LIB = SLOJ067's TL072.301, kept out of
+* the repo with the other TI models) plus the one thing no vendor model carries: the JFET input stage's phase reversal.
+* Below about 3 V above V- (the TL07x datasheet's typical VICR: -12 V on +-15 V) the input pair's gate-drain junction
+* conducts and the stage's differential sense inverts: the output goes to the POSITIVE rail while the input is below the
+* limit and recovers when it comes back. Modelled phenomenologically: an input that falls under the limit is replaced by
+* V+ (a hard flip, blended over 0.2 V for convergence). Inverting stages keep their inputs at 0 V and never see it.
+* Pins: in+ in- v+ v- out
+.subckt TL072R inp inn vp vn out
+.param vlim=3 w=0.2
+Bp pe 0 V = V(inp) + (V(vp) - V(inp)) * 0.5 * (1 - tanh((V(inp) - V(vn) - vlim) / w))
+Bn ne 0 V = V(inn) + (V(vp) - V(inn)) * 0.5 * (1 - tanh((V(inn) - V(vn) - vlim) / w))
+X1 pe ne vp vn out TL072
+.ends
