@@ -51,6 +51,13 @@ def overshoot(tag, s, tstop=2.2e-6):
     return dict(os=round(float((vv.max() - 1) * 100), 1), step_mv=round(float(step) * 1e3, 2),
                 late_pp=round(float(late.max() - late.min()) * 100, 1))
 
+def clear_raw(tag, stages, kinds):
+    """Never analyse a previous run's files (as strip/stab.py): ngspice may time out or fail before writing them."""
+    for s in stages:
+        for k in kinds:
+            f = f'{HERE}/raw/{tag}_{s}_{k}.txt'
+            if os.path.exists(f): os.unlink(f)
+
 def run_config(tag, cfg, stages=None, tran=False):
     import masterdeck
     masterdeck.pins = dict(masterdeck.pins_raw if cfg.get('ext_bug') else masterdeck.pins_fix)
@@ -58,16 +65,23 @@ def run_config(tag, cfg, stages=None, tran=False):
     stages = stages or list(UNITS)
     OPTS = [cfg.get('opts', '.options itl1=500 noopiter'), '.options itl1=500', '.options itl1=1000 gminsteps=100 srcsteps=100',
             '.options itl1=500 noopiter gmin=1e-11']
-    for o in OPTS:
-        out = ngspice(deck(dict(cfg, opts=o), ctl_ac(stages, tag)), tag)
-        res = {}
-        for s in stages:
-            try: res[s] = analyse(tag, s)
-            except Exception as e: res[s] = {'err': str(e)}
+    res = {s: {'err': 'not run'} for s in stages}
+    for o in OPTS:                                             # a timeout keeps the units written so far; the rest go on with the next options
+        todo = [s for s in stages if 'err' in res[s]]
+        # one unit first: with no operating point every `ac` retries it for ~25 s, 120 of them over 40 units
+        for part in (todo[:1], todo[1:]):
+            if not part: continue
+            clear_raw(tag, part, 'vin')
+            out = ngspice(deck(dict(cfg, opts=o), ctl_ac(part, tag)), tag)
+            for s in part:
+                try: res[s] = analyse(tag, s)
+                except Exception as e: res[s] = {'err': str(e)}
+            if 'err' in res[part[0]]: break
         if not any('err' in v for v in res.values()): break
     else: print('OP FAILED', tag, out[-1500:])
     cfg = dict(cfg, opts=o)
     if tran:
+        clear_raw(tag, stages, 't')
         out = ngspice(deck(cfg, ctl_tran(stages, tag)), tag + 't')
         for s in stages:
             try: res[s].update(overshoot(tag, s) or {})

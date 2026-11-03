@@ -74,6 +74,9 @@ def overshoot(tag, s):
 
 def run(tag, cfg, stages=None, tran=False):
     stages = stages or list(UNITS)
+    for s in stages:                                           # never analyse a previous run's files (as strip/stab.py)
+        for k in 'vint':
+            if os.path.exists(f'{RAW}/{tag}_{s}_{k}.txt'): os.unlink(f'{RAW}/{tag}_{s}_{k}.txt')
     out = ngspice(deck(cfg, ctl_ac(stages, tag)), tag)
     res = {}
     for s in stages:

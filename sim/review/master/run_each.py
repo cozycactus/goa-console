@@ -1,5 +1,5 @@
 """Run the master stability configurations one at a time, so progress shows and nothing is left running.
-usage: TI_MODELS=<folder> python3 run_each.py FIXSET [cfg1,cfg2,... | all] [timeout_s per config, default 1200]
+usage: TI_MODELS=<folder> python3 run_each.py FIXSET [cfg1,cfg2,... | all] [timeout_s per config, default 2400]
 Each configuration is `run_all.py FIXSET cfg` in its own process group (killed whole on timeout); results go to
 res/<fixset>_<cfg>.json as with run_all.py. Prints a line per configuration: time, worst unit, its phase margin."""
 import os, re, signal, subprocess, sys, time
@@ -7,7 +7,7 @@ from configs import CONFIGS
 
 fix = sys.argv[1]
 cfgs = sys.argv[2].split(',') if len(sys.argv) > 2 and sys.argv[2] != 'all' else list(CONFIGS)
-limit = float(sys.argv[3]) if len(sys.argv) > 3 else 1200
+limit = float(sys.argv[3]) if len(sys.argv) > 3 else 2400
 t_all = time.time()
 for i, c in enumerate(cfgs, 1):
     print(f'[{i}/{len(cfgs)}] {c} ...', end=' ', flush=True)
