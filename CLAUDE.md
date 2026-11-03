@@ -141,12 +141,13 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
 - Bench, with the jig (`test_jig_spec.md`): every relay releases when the −V wire is opened with the relays closed (RV9b), mute depth (CS8), N1 OPA1656 A/B (one-strip swap), re-inverter stability (test 10), aux noise at N = 24, relay release and mains-off fall rate with the real PSU, PFL tick with programme, meter current-source temperature and LED brightness, hum with a real synth on TS / TRS, an earthed processor on the insert (D21), panel-to-frame bonding, output balance / CMR / fader breakthrough / GCANCEL current (CS11, tests 13-17), E7 ferrites.
 - Accepted as they are: RV5 (MUTEOUT's DC on the fader top; the Delta's cap-isolated shunt source is the fallback), RV6 (U16 clips at +21.9 dBu input), the 4.54 A worst corner, the earthed-TS-synth hum (pseudo-balanced cables, one mains distribution point).
 - PSU: routing (Ruslan) and the case build. Routing of every board is Ruslan's; `routing_guide.md`, `netrules.py` rules, `route_check.py` afterwards, then `fab_out.py`.
-- TI-model stability (TI's models are not in the repo, `$TI_MODELS` / `$OPA161X_LIB`), re-run 2026-11-03. Strip v5.7, 21 states:
-  worst U3B 59.8 deg, <= 1.61 dB peaking, U1B >= 84.6 deg, all as v5.5 (R142 1M doesn't show). Master v0.14: the phones loop
-  only, U26 75.9-83.0 deg, within 0.1 deg of before (C196 / C197 in the deck; a stub for the DRV135s and no meter TL072s, neither
-  in that loop). Still to run: the master's full `sim/review/master/run_each.py` (34 configurations, ~3.5 h; needs TI's DRV134
-  and TL07xH models, no longer on this machine; RV9's and RV9b's parts are DC only). The group isn't re-run since RV7 (C98 in
-  series with an AFL 22K).
+- TI-model stability (TI's models are not in the repo: `sim/review/master/models/`, gitignored, or `$TI_MODELS` / `$OPA161X_LIB`),
+  re-run 2026-11-03 / 04. Strip v5.7, 21 states: worst U3B 59.8 deg, <= 1.61 dB peaking, U1B >= 84.6 deg, all as v5.5 (R142 1M
+  doesn't show). Master v0.14, all 34 configurations of `sim/review/master/run_each.py`: worst U21A/B 47.7 deg at the pot top, every
+  unit's minimum as before, <= 2.89 dB peaking; the `_placed` runs saw the re-measured trace table for the first time (U13A -5 deg
+  with A5_OUT at 98 mm, still >= 69.1). The phones loop, run separately: U26 75.9-83.0 deg, within 0.1 deg of before. The deck used
+  to read old raw files when ngspice timed out (fixed 2026-11-03), so the 2026-10-29 master re-run was only part-simulated
+  (`met1_ret1_review.md`). The group isn't re-run since RV7 (C98 in series with an AFL 22K).
 - `second_source_proposal.md` SS1-SS3 (signed off 2026-11-03, applied after the master run in progress): stage A's backordered parts (Nexperia diodes, OPA1612 reel, DG413 tube, two electrolytics, PVA2 EE H1 until March 2027).
 - `project_review.md`: everything applied but RV11.2's PFL switcher from the PFLDET net (needs a DC analysis of the detect line; `check_bus.py` covers pin 29) and RV12's optional second step (the ~40 proposal / study `.md` files into `docs/`, a scripted rewrite of ~280 references).
 

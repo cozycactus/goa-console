@@ -3,6 +3,13 @@
 Moved out of `CLAUDE.md` on 2026-10-28 (`project_review.md` RV13), text unchanged: every check run after a change, newest
 first. The current counts are in `CLAUDE.md`'s state table.
 
+- Master TI stability, whole deck on v0.14 (2026-11-03 / 04, ngspice 46, TI's OPA161x / OPA1656 / DRV134 / TL072 models, 34
+  configurations): the first pass read old raw files on 17 configurations when ngspice timed out, found because all 34 result files
+  came out byte-identical to the previous run's. `mstab.py` fixed (e112981; test: a planted old result now gives no result, `p075`
+  reaches the fallback options), those 17 re-run. All 1360 unit results come from raw files written during the run, none without
+  data. Worst U21A/B 47.7 deg, every unit's minimum unchanged, <= 2.89 dB peaking; 29 configurations identical to the earlier
+  figures, the five `_placed` move up to -5.1 deg (U13A, A5_OUT 98 mm, >= 69.1). The 2026-10-29 re-run had 14 of 34 configurations
+  timed out (`met1_ret1_review.md`).
 - SW4's silk mark and the project files' top-level sheets (2026-11-03): every board regenerated and re-placed. Only the master
   board changed: a silk "2" at (25.06, 178), the fourth on that board; the other eight identical but for UUIDs and file order.
   Seven project files changed only in `top_level_sheets`; fresh netlists on the flat boards now read their own sheet name, not

@@ -287,7 +287,9 @@ The live rules, the current state and the one-line decisions are in `CLAUDE.md`;
   unit U21A/B 47.7 deg at the pot top as then. `configs.py` now finds build-out far sides and spare units from the
   netlist (the drawn master's unnamed nets had moved the +47 pF stress to the pin side). Master re-run 2026-10-29 (master
   v0.12) with the trace table re-measured after CS4b-CS7 (34 configurations): worst still U21A 47.7 deg, no unit lower
-  (`met1_ret1_review.md`).
+  (`met1_ret1_review.md`). Corrected 2026-11-04: 14 of those 34 timed out and read older raw files, the `_placed` runs among them
+  (fixed in `mstab.py`). Full re-run on master v0.14, 2026-11-03 / 04: 34 configurations, 1360 unit results all simulated; worst
+  U21A/B 47.7 deg, every unit's minimum unchanged; `_placed` U13A -5 deg with A5_OUT at 98 mm, still >= 69.1.
 - `emc_placement_study.md` — placement-level EMC check (2026-10-26) against Self / Whitlock / Muncy / AES48 / Ott /
   TI / ADI rules, measured with `tools/emc_check.py` (KiCad Python: entry runs, aggressor-victim pad distances, long
   switching nets, supply entry). Strip: MET1's LED lines span ~260 mm and end 4.3 mm from U16's inputs; U16's

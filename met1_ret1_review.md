@@ -177,6 +177,35 @@ configurations (the 31 + CS7's `p100_dim`, `p075_dim`, `p100_dim_out47`), 214 mi
 - **No unit lower** than on 2026-10-26 in any of the 31 common configurations. Gains: U2B / U4A 74.0 -> 75.5°,
   solo U19A 65.3 -> 73.5° (its output net is shorter on today's placement).
 
+**Correction, 2026-11-04: that re-run was only partly simulated.** `mstab.run_config()` read the files in `raw/` whether or
+not ngspice had written them. When `.options itl1=500 noopiter` found no operating point, every `ac` retried it until the
+600 s `NG_TIMEOUT`, nothing was written, the old files parsed without error and the fallback options never ran (fixed in
+e112981).
+- **Not simulated on 2026-10-29:** 14 of the 34 configurations timed out (`log_v13_none.txt`): `p000`, `p050`, `p075`,
+  `p100`, `p075_pfl_afl`, `p100_pfl_afl`, `bus_min`, `bus_pfl1_small`, `gc_none` and all five `_placed`. Their numbers were
+  older ones, so the re-measured trace table never reached the `_placed` runs.
+- **The U19A gain above isn't a placement effect:** the `_out22` / `_out47` configurations carry no trace lengths. The 65.3°
+  most likely came from the same fault (`log_v12_none.txt` has `p075_out22 ... 600 s`), reading results from before the
+  load-map fix below.
+
+**Re-run 2026-11-03 / 04 on master v0.14**, the first full one since 2026-10-26: all 34 configurations, TI's OPA161x / OPA1656 /
+DRV134 / TL072 models, `master_len.json` re-measured (395 nets). The first pass hit the fault on 17 configurations
+(`log_v14_none.txt`), and those 17 were re-run after the fix (`log_v14b_none.txt`, both local). Checked: all 1360 unit results
+come from raw files written during the run, none without data.
+- **Worst unit unchanged:** U21A/B 47.7° at every pot fully up. No result is below that unit's earlier minimum; every unit's
+  minimum over the 34 is unchanged (post-amps U5A/B 51.6° with +47 pF, EXT followers U43 / U44 52.8°). Peaking <= 2.89 dB.
+- **The 29 configurations without trace lengths:** identical to the earlier figures to the last digit, so v0.13 / v0.14's parts
+  (RV7-RV9b) don't show in these loops.
+- **The five `_placed` configurations, the first real run since 2026-10-26:** 30 of 200 results move by more than 0.5°.
+
+| Unit | Move | Now | Why |
+|---|---|---|---|
+| U21A/B (worst `_placed` unit) | -1.1 to +0.3° | 48.9-53.3° | CRSB_R 235 -> 262 mm, new CRP_L / R |
+| U13A (aux 5 summer) | -5.1 to -4.9° | 69.1-74.6° | A5_OUT 32 -> 98 mm |
+| U13B (aux 6 summer) | -2.5 to -2.4° | 69.7-75.3° | A6_OUT 87 -> 121 mm |
+| U43A/B (EXT follower) | -1.9 / -1.6° | 58.4° | |
+| U5A / U5B (post-amps) | +1.5 to +1.8 / +1.0 to +1.2° | 54.0-63.9° | U5A- 38 -> 13 mm |
+
 Two faults in the stress configurations' load map came from the master having been drawn on 2026-10-24, and both are
 fixed in `configs.py`:
 - **The +47 pF landed on the pin side of the build-outs.** The map put it beyond them by net names that are now
