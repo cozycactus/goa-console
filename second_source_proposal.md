@@ -1,6 +1,7 @@
 # SS1-SS3: second sources for the parts holding up stage A (proposal, 2026-11-03)
 
-**Not signed off.** The change for SS1 and SS2 is `archive/patches/second_source_proposal.patch`. It touches tools only:
+**Signed off by Ruslan 2026-11-03 (SS1, SS2, SS3 with H3 for stage A). Not applied yet:** it waits for the master stability
+run in progress, which reads `master.net`. The change for SS1 and SS2 is `archive/patches/second_source_proposal.patch`. It touches tools only:
 `gen.py`, `gen_group.py`, `gen_psu.py`, `master_lib.py`, `place_group.py`, `order_bom.py` and `sim/review/cs10/rail_loss.py`.
 It changes order codes and one value label; no netlist connection, footprint or part position changes.
 
@@ -127,7 +128,7 @@ the thin-film RT0805 resistors, the C0G and X7R ceramics, and everything only on
 
 ## Sign-off
 
-- [ ] **SS1** as proposed: OPA1612AID, BAV199,235 and DG413DY-T1-E3 on the order lists.
-- [ ] **SS2** as proposed: BZX84C5V1-7-F, BAV99-7-F, MBR140SFT1G, 63ZLH47MEFC6.3X11 and EEU-FR1E221.
-- [ ] **SS3** PVA2 EE H3 for stage A and any second strip, H1 for the console.
+- [x] **SS1** as proposed: OPA1612AID, BAV199,235 and DG413DY-T1-E3 on the order lists. Signed off 2026-11-03.
+- [x] **SS2** as proposed: BZX84C5V1-7-F, BAV99-7-F, MBR140SFT1G, 63ZLH47MEFC6.3X11 and EEU-FR1E221. Signed off 2026-11-03.
+- [x] **SS3** PVA2 EE H3 for stage A and any second strip, H1 for the console. Signed off 2026-11-03.
 - [ ] SS3 instead: H1 only; stage A's keys arrive in March 2027.

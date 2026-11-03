@@ -147,7 +147,7 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
   in that loop). Still to run: the master's full `sim/review/master/run_each.py` (34 configurations, ~3.5 h; needs TI's DRV134
   and TL07xH models, no longer on this machine; RV9's and RV9b's parts are DC only). The group isn't re-run since RV7 (C98 in
   series with an AFL 22K).
-- `second_source_proposal.md` SS1-SS3 (2026-11-03, not signed off): stage A's backordered parts (Nexperia diodes, OPA1612 reel, DG413 tube, two electrolytics, PVA2 EE H1 until March 2027).
+- `second_source_proposal.md` SS1-SS3 (signed off 2026-11-03, applied after the master run in progress): stage A's backordered parts (Nexperia diodes, OPA1612 reel, DG413 tube, two electrolytics, PVA2 EE H1 until March 2027).
 - `project_review.md`: everything applied but RV11.2's PFL switcher from the PFLDET net (needs a DC analysis of the detect line; `check_bus.py` covers pin 29) and RV12's optional second step (the ~40 proposal / study `.md` files into `docs/`, a scripted rewrite of ~280 references).
 
 ## Next steps
