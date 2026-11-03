@@ -5,7 +5,7 @@ first. The current counts are in `CLAUDE.md`'s state table.
 
 - SW4's silk mark and the project files' top-level sheets (2026-11-03): every board regenerated and re-placed. Only the master
   board changed: a silk "2" at (25.06, 178), the fourth on that board; the other eight identical but for UUIDs and file order.
-  Six project files changed only in `top_level_sheets`; fresh netlists on the flat boards now read their own sheet name, not
+  Seven project files changed only in `top_level_sheets`; fresh netlists on the flat boards now read their own sheet name, not
   "Root". `check_all.py --full` 72 / 72 with the new project-file check.
 - Merge of the review branch (strip v5.7, master v0.14, TF1) with main's FE1 (2026-11-03, macOS, KiCad 10.0.7, ngspice 46):
   every board regenerated and re-placed; against the branch's boards no footprint moved and only the film caps' order code
