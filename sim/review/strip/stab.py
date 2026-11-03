@@ -95,20 +95,29 @@ def overshoot(tag, s):
     late = (v[(t > 500e-9)] - v0) / step
     return dict(os=round(float(os_), 1), step_mv=round(float(step) * 1e3, 2), late_pp=round(float(late.max() - late.min()) * 100, 1))
 
+# itl1=500 first: with srcsteps / gminsteps set, TI's OPA1656 beside OPA161x has no operating point in this deck on ngspice 46
+OPTS = ['.options itl1=500', '.options itl1=500 noopiter gmin=1e-11', '.options itl1=500 noopiter', '.options srcsteps=50 gminsteps=50']
+
 def run_config(tag, pos, sw, extra=(), src='50', loads=(), stages=None, tran=False):
     stages = stages or [u[0] for u in U]
     os.makedirs(f'{HERE}/raw', exist_ok=True)
     for f in glob.glob(f'{HERE}/raw/{tag}_*'): os.unlink(f)     # never analyse a previous run's files
-    out = ngspice(deck(pos, sw, ctl_ac(stages, tag), extra=extra, src=src, loads=loads), tag)
-    if 'could not be simulated' in out:
-        print(f'{tag}: operating point failed', flush=True)
-        return {s: {'err': 'operating point failed'} for s in stages}
-    res = {}
-    for s in stages:
-        try: res[s] = analyse(tag, s)
-        except Exception as e: res[s] = {'err': str(e)}; print(out[-2000:])
+    res = {s: {'err': 'not run'} for s in stages}
+    for o in OPTS:                                             # as master/mstab.py: keep the units written, the rest go on with the next options
+        todo = [s for s in stages if 'err' in res[s]]
+        for part in (todo[:1], todo[1:]):
+            if not part: continue
+            for s in part:
+                for f in glob.glob(f'{HERE}/raw/{tag}_{s}_*'): os.unlink(f)
+            out = ngspice(deck(pos, sw, ctl_ac(part, tag), extra=extra, src=src, loads=loads, opts=o), tag)
+            for s in part:
+                try: res[s] = analyse(tag, s)
+                except Exception as e: res[s] = {'err': str(e)}
+            if 'err' in res[part[0]]: break
+        if not any('err' in v for v in res.values()): break
+    else: print(f'{tag}: no operating point', out[-1500:], flush=True)
     if tran:
-        out = ngspice(deck(pos, sw, ctl_tran(stages, tag), extra=extra, src=src, loads=loads), tag + 't')
+        out = ngspice(deck(pos, sw, ctl_tran(stages, tag), extra=extra, src=src, loads=loads, opts=o), tag + 't')
         for s in stages:
             try: res[s].update(overshoot(tag, s) or {})
             except Exception as e: res[s]['terr'] = str(e); print(out[-2000:])

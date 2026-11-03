@@ -12,14 +12,13 @@ TI_LIB = os.environ.get('OPA161X_LIB', os.path.join(HERE, 'OPA161x.LIB'))
 OPA1656_LIB = os.environ.get('OPA1656_LIB', os.path.join(HERE, 'OPA1656.LIB'))
 OPA1656_UNITS = set(filter(None, os.environ.get('OPA1656_UNITS', '').split(',')))
 # OPA_MODEL=fit: the datasheet-fitted linear macros OPA1612M / OPA1656M (open-loop gain and phase, input capacitances,
-# output resistance; pins inp inn out cp cn) from OPA_FIT_LIB instead of TI's models. TI's OPA1656 model will not reach
-# an operating point in this deck (strip_noise_proposal.md), so the OPA1656 comparison runs on the fitted pair, with
+# output resistance; pins inp inn out cp cn) from OPA_FIT_LIB instead of TI's models. TI's OPA1656 model didn't reach
+# an operating point in this deck until 2026-11-04 (.options itl1=500, stab.py OPTS), so the OPA1656 comparison ran on the fitted pair, with
 # the as-built OPA1612M results checked against TI's OPA161x first
 OPA_MODEL = os.environ.get('OPA_MODEL', 'ti')
 # OPA1612_SIMPLE=1 (with OPA_MODEL ti): the OPA1612 units get the deck's single-pole OPA (40 MHz GBW) and only the
-# OPA1656 units TI's model. With OPA1656_UNITS=U16 that checks the receiver followers on TI's own OPA1656 model, which
-# reaches no operating point beside TI's OPA161x in this deck (2026-10-28, as on the group). Only the OPA1656 units'
-# results of such a run mean anything. Without OPA1656_UNITS, TI mode models U16 as an OPA161x.
+# OPA1656 units TI's model: the check of the receiver followers on 2026-10-28, before itl1=500 was found. Only the OPA1656
+# units' results of such a run mean anything. Without OPA1656_UNITS, TI mode models U16 as an OPA161x.
 OPA1612_SIMPLE = os.environ.get('OPA1612_SIMPLE')
 FIT_LIB = os.environ.get('OPA_FIT_LIB', os.path.join(HERE, 'models_cd.inc'))
 OPS = ('OPA1612AxD', 'OPA1656ID')                 # U16 (strip v4.4) is fitted as OPA1656
@@ -69,7 +68,7 @@ def units():
                 if (ref, str(o_)) in pins: out.append((f'{ref}{"AB"[u-1]}', ref, p_, m_, o_))
     return sorted(out, key=lambda t: (int(t[1][1:]), t[0]))
 
-def deck(pos, sw, extra_ctl='', model=None, extra=(), src='50', loads=()):
+def deck(pos, sw, extra_ctl='', model=None, extra=(), src='50', loads=(), opts='.options srcsteps=50 gminsteps=50'):
     model = model or OPA_MODEL
     L = ['* generated from ' + NET, '.subckt OPA inp inn out', 'G1 0 n1 inp inn 1', 'R1 n1 0 1e6', 'C1 n1 0 3.98n',
          'E1 out 0 n1 0 1', '.ends', '.model JMOD NJF(VTO=-2.5 BETA=6m LAMBDA=0.01)',
@@ -147,12 +146,15 @@ def deck(pos, sw, extra_ctl='', model=None, extra=(), src='50', loads=()):
             nodes.update(t[1:4] if t[0][0] == 'J' else t[1:-1] if t[0][0] == 'X' else t[1:3])
     nodes = {n for n in nodes if not n.replace('.', '').replace('e', '').replace('-', '').isdigit()}
     L += [f'RLEAK{i} {n} 0 1e9' for i, n in enumerate(sorted(nodes - {'0', 'inp', 'inn', 'out', 'n1', 'OPA', 'JMOD', 'OPA161x', 'OPA1656', 'OPA1612M', 'OPA1656M'}))]
-    L += ['.options srcsteps=50 gminsteps=50', extra_ctl, '.end']
+    L += [opts, extra_ctl, '.end']
     return '\n'.join(L)
 
 def ngspice(deck_text, tag='x', keep=False):
     with tempfile.NamedTemporaryFile('w', suffix='.cir', delete=False, dir=HERE, prefix=tag + '_') as f:
         f.write(deck_text); fn = f.name
-    p = subprocess.run(['ngspice', '-b', fn], capture_output=True, text=True, cwd=HERE)
+    try:
+        p = subprocess.run(['ngspice', '-b', fn], capture_output=True, text=True, cwd=HERE, timeout=float(os.environ.get('NG_TIMEOUT', 600)))
+        txt = p.stdout + p.stderr
+    except subprocess.TimeoutExpired: txt = 'TIMEOUT'
     if not keep: os.unlink(fn)
-    return p.stdout + p.stderr
+    return txt
