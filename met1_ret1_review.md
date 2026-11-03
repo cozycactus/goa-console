@@ -224,7 +224,8 @@ stress load sits elsewhere. That is still far from any limit.
    node with nothing else on it, so the deck had no operating point.
    - The 2026-10-25 runs used `none`. `master_group_review.md`'s example still said `mg`; it's corrected.
    - `fixes.apply()` now refuses a set that refers to nets the netlist doesn't have.
-2. **TI's OPA1656 model doesn't converge in this deck on ngspice 46** (as on the strip, `strip_noise_proposal.md`). The
+2. **TI's OPA1656 model doesn't converge in this deck on ngspice 46** (as on the strip, `strip_noise_proposal.md`; the cause,
+   found 2026-11-04, was the deck's options: see the last section below). The
    followers need `OPA1656_FIT=<models_cd.inc>`, or TI's model with the OPA1612s simplified (below).
 
 **The followers on TI's own OPA1656 model (2026-10-28).**
@@ -252,6 +253,30 @@ model (464 lines; `.SUBCKT OPA1656 IN+ IN- VCC VEE OUT`) gives the 59-61° above
 
 **Not the cause:** the ngspice version or the OPA161x file. A single OPA161x converges at once, and the 2026-10-24 /
 25 runs used the same binary and the same model file (same MD5).
+
+**The whole group on TI's own models, 2026-11-04** (`sim/review/group/`, five sweeps, 222 states, fix set `none`, 0.08 pF/mm,
+1835 unit results, none without data). Two things changed in the deck (7e065ef):
+- **The real cause of "no operating point":** `.options srcsteps=50 gminsteps=50`. With `.options itl1=500`, TI's OPA1656 and
+  OPA161x converge together at about 5 s per unit, so neither `OPA1656_FIT` nor `OPA1612_SIMPLE` is needed.
+- **The trace table:** `mst_all.json` dated from before the group was drawn. 74 of its 152 entries named nets that no longer exist,
+  and none of the 80 unnamed nets was in it, so only 22 of today's 78 op-amp input and output nets got the board estimate. It's
+  re-measured from `group.kicad_pcb` (179 nets). The figures above for 0.08 pF/mm had that gap.
+
+| Sweep | States | Worst now | Earlier |
+|---|---|---|---|
+| `pots` | 18 | 59.7° (U14B, return 2 L ring follower) | 52.8° (the same unit, fitted macro) |
+| `ret` | 21 | 59.1° (U14B) | 52.1° |
+| `loads` (+22 / +47 pF) | 12 | 46.1° (U6B, aux re-inverter, +47 pF) | 46.8° |
+| `ins` | 68 | 65.3° (U2A, sub re-inverter) | 66.4° |
+| `bus` | 103 | 56.8° (U1B, sub summer, 100 pF bus with the ferrite shorted) | 57.1° |
+
+- **Without the +22 / +47 pF stress:** U1B 56.8° and U6A 58.7° (both with the ferrite shorted), the followers 59.1-60.9°, then U6B
+  62.0°; peaking <= 1.52 dB (<= 2.76 dB with the stress).
+- **Followers:** 59.1-60.9° with TI's OPA161x on the receivers, which agrees with the 59.2-61.0° of the single-pole check above.
+- **Each unit's minimum over the sweeps:** the largest drops are U2A -2.1° (52.3°, +47 pF), U3A -1.7° (63.6°), U5B -1.2° (51.9°), U12B
+  -1.1° (47.9°). In a single state the largest is U3A -4.4° (73.6° there). The earlier figures also predate the new table and RV7, so
+  these moves mix the causes; the input nets carrying their trace capacitance for the first time is the likely one.
+- **RV7's C98:** U6A -0.5 to +0.2°, U6B -0.9 to -0.2°, so it can't be doing more than that in these loops.
 
 ## Sign-off
 

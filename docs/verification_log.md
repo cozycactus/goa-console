@@ -3,6 +3,10 @@
 Moved out of `CLAUDE.md` on 2026-10-28 (`project_review.md` RV13), text unchanged: every check run after a change, newest
 first. The current counts are in `CLAUDE.md`'s state table.
 
+- Group TI stability, whole deck (2026-11-04, ngspice 46): `pots` / `ret` / `loads` / `ins` / `bus`, 222 states, 1835 unit results, none
+  without data, TI's OPA161x + OPA1656 together for the first time (`.options itl1=500`), `mst_all.json` re-measured from the placed
+  board, 0.08 pF/mm. Worst 59.7 / 59.1 / 46.1 / 65.3 / 56.8 deg; followers 59.1-60.9; peaking <= 2.76 dB (`met1_ret1_review.md`). Deck test: planted
+  old raw files give no result; no dangling node but the unused rails and the DRV135 outputs.
 - SS1-SS3 applied (2026-11-04, `second_source_proposal.md`): every board regenerated and re-placed, `placediff.py` 0 changed on all
   nine. Fields only: strip 12 parts, group 2, master 1, PSU 4; values only on strip D16 / D17 and group D5 / D6 (MBR140SFT1G); the jack
   boards and jig differ only by dates and UUIDs (restored). `order_bom.csv` and `order_phase1.csv` carry no old code; phase 1 has

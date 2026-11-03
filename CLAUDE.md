@@ -147,7 +147,8 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
   unit's minimum as before, <= 2.89 dB peaking; the `_placed` runs saw the re-measured trace table for the first time (U13A -5 deg
   with A5_OUT at 98 mm, still >= 69.1). The phones loop, run separately: U26 75.9-83.0 deg, within 0.1 deg of before. The deck used
   to read old raw files when ngspice timed out (fixed 2026-11-03), so the 2026-10-29 master re-run was only part-simulated
-  (`met1_ret1_review.md`). The group isn't re-run since RV7 (C98 in series with an AFL 22K).
+  (`met1_ret1_review.md`). Group, 222 states on TI's real OPA161x + OPA1656 together for the first time (`.options itl1=500`), trace table
+  re-measured: followers 59.1-60.9 deg, unstressed worst U1B 56.8 deg (ferrite shorted), 46.1 deg with +47 pF (U6B); RV7's C98 moves U6A / B under 1 deg.
 - Re-read at order time (`second_source_proposal.md` §6): the codes Mouser's block left unread on 2026-11-03, the thin-film resistors among them (still at a $0.10 placeholder).
 - `project_review.md`: everything applied but RV11.2's PFL switcher from the PFLDET net (needs a DC analysis of the detect line; `check_bus.py` covers pin 29) and RV12's optional second step (the ~40 proposal / study `.md` files into `docs/`, a scripted rewrite of ~280 references).
 

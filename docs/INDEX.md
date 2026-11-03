@@ -177,7 +177,7 @@ The live rules, the current state and the one-line decisions are in `CLAUDE.md`;
   P4 decided (studs or spacers, countersunk screws at the jack boards; Decisions, strip v4.9). Group stability with return 2 (TI OPA161x +
   fitted OPA1656, `sweep.py ret none 0.08`): receivers >= 66.4 deg, level buffers >= 70.9, followers >= 52.1. Group review
   decks: fix set `none` since rev 0.2 (`mg` re-pins U2B onto a floating node; `fixes.apply()` now refuses it) and
-  `OPA1656_FIT` for the followers (TI's OPA1656 model doesn't converge in the deck on ngspice 46). On TI's own OPA1656
+  `OPA1656_FIT` for the followers (TI's OPA1656 model doesn't converge in the deck on ngspice 46; it does with `.options itl1=500`, found 2026-11-04). On TI's own OPA1656
   model with the OPA1612s single-pole (`OPA1612_SIMPLE=1`, `STAGES=`; 2026-10-28) the return followers read 59.2-61.0 deg
   over ret / pots / loads (fitted: 52.1-52.9).
 - `console_survey.md` (2026-10-27) — the whole design against the ten analogue consoles in Ruslan's service-manual library
@@ -289,7 +289,9 @@ The live rules, the current state and the one-line decisions are in `CLAUDE.md`;
   v0.12) with the trace table re-measured after CS4b-CS7 (34 configurations): worst still U21A 47.7 deg, no unit lower
   (`met1_ret1_review.md`). Corrected 2026-11-04: 14 of those 34 timed out and read older raw files, the `_placed` runs among them
   (fixed in `mstab.py`). Full re-run on master v0.14, 2026-11-03 / 04: 34 configurations, 1360 unit results all simulated; worst
-  U21A/B 47.7 deg, every unit's minimum unchanged; `_placed` U13A -5 deg with A5_OUT at 98 mm, still >= 69.1.
+  U21A/B 47.7 deg, every unit's minimum unchanged; `_placed` U13A -5 deg with A5_OUT at 98 mm, still >= 69.1. Group 2026-11-04: 222 states on
+  TI's real OPA161x + OPA1656 together, `mst_all.json` re-measured (it had reached only 22 of 78 op-amp nets): followers 59.1-60.9 deg, unstressed
+  worst U1B 56.8, 46.1 with +47 pF (U6B).
 - `emc_placement_study.md` — placement-level EMC check (2026-10-26) against Self / Whitlock / Muncy / AES48 / Ott /
   TI / ADI rules, measured with `tools/emc_check.py` (KiCad Python: entry runs, aggressor-victim pad distances, long
   switching nets, supply entry). Strip: MET1's LED lines span ~260 mm and end 4.3 mm from U16's inputs; U16's
