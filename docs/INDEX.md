@@ -48,6 +48,7 @@ The live rules, the current state and the one-line decisions are in `CLAUDE.md`;
 | TF1 | `thin_film_proposal.md` | 2026-10-29 | order lists (sourcing rule) | thin_film_proposal.patch |
 | RV3b / RV9b | `clicks_followup_proposal.md` | 2026-10-29 | strip v5.7, master v0.14 | — |
 | FE1 | `film_eol_proposal.md` | 2026-10-29 | order code only (same footprint); FE2 not taken | film_eol_proposal.patch |
+| SS1-SS3 | `second_source_proposal.md` | open (2026-11-03) | order codes for stage A's backordered parts | second_source_proposal.patch |
 
 ## Files
 

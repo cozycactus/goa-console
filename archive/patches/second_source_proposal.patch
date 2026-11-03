@@ -1,0 +1,139 @@
+diff --git a/sim/review/cs10/rail_loss.py b/sim/review/cs10/rail_loss.py
+index 4f23f40..b89d4e9 100644
+--- a/sim/review/cs10/rail_loss.py
++++ b/sim/review/cs10/rail_loss.py
+@@ -14,10 +14,11 @@ Model (one strip or group board; values from the strip netlist where they exist)
+ Measured: the dead rail's voltage (its polar 220 uF reverse-biased when it crosses ground) and the current through the
+ ICs' protection paths, 100 ms after the loss.
+ usage: python3 sim/review/cs10/rail_loss.py"""
+-import os, re, subprocess, tempfile
++import os, re, subprocess, sys, tempfile
+ 
+ VB = 17.0
+ PMEG = '.model DPMEG D(IS=1.75e-7 N=1.05 RS=0.045 CJO=70p BV=40 IBV=50u)'     # fit: 340 mV at 0.1 A, 490 mV at 1 A
++if 'mbr' in sys.argv: PMEG = '.model DPMEG D(IS=2.87e-7 N=1.05 RS=0.142 CJO=40p BV=40 IBV=500u)'   # MBR140SF datasheet maximum: 360 mV at 0.1 A, 550 mV at 1 A
+ PIN = '.model DPIN D(IS=1e-14 N=1.0 RS=0)'
+ 
+ def deck(case, schottky, r_pin, tstop=0.15):
+diff --git a/tools/gen.py b/tools/gen.py
+index 9933fdd..6bc6fbd 100644
+--- a/tools/gen.py
++++ b/tools/gen.py
+@@ -9,8 +9,8 @@ SYM.update({'CONN6': ('Connector_Generic', 'Conn_01x06'), 'CONN2': ('Connector_G
+             'LINK': ('Connector_Generic', 'Conn_02x05_Odd_Even'),
+             'DG': ('Analog_Switch', 'DG413xY'), 'ZEN': ('Diode', 'BZX84Cxx'), 'SCH': ('Diode', 'BAT54W'),
+             'LED2': ('Device', 'LED_Dual_AKA'), 'PNP': ('Transistor_BJT', 'MMBT3906'), 'DD': ('Diode', 'BAV99'), 'DSK': ('Device', 'D_Schottky')})
+-schgen.MPN.update({'LED2': 'Kingbright WP3VEGW', 'PNP': 'onsemi MMBT3906LT1G', 'DD': 'Nexperia BAV99,215', 'DSK': 'Nexperia PMEG4010CEH,115',
+-                   'DG': 'Vishay DG413DY-E3', 'ZEN': 'Nexperia BZX84-C5V1,215', 'SCH': 'Nexperia BAT54W,115',
++schgen.MPN.update({'LED2': 'Kingbright WP3VEGW', 'PNP': 'onsemi MMBT3906LT1G', 'DD': 'Diodes BAV99-7-F', 'DSK': 'onsemi MBR140SFT1G',
++                   'DG': 'Vishay DG413DY-E3', 'ZEN': 'Diodes BZX84C5V1-7-F', 'SCH': 'Nexperia BAT54W,115',
+                    'OPA': 'TI OPA1612AIDR', 'CMP': 'TI LM393BIDR', 'JFET': 'onsemi MMBFJ112', 'D': 'Vishay 1N4148-TAP'})
+ # strip_parts_review.md T9/T10: ceramics >= 25 V (50 V X7R here), anti-surge resistors where the power is marginal
+ CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '10n': 'Samsung CL21B103KBANNNC (X7R 50V)',   # 10n: E6
+@@ -22,7 +22,7 @@ CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '10n': 'Samsung CL21B103
+            '100p C0G': 'KEMET C1206C101J5GACTU', '2n2 C0G': 'KEMET C1206C222J5GACTU', '4n7 C0G': 'KEMET C1206C472J5GACTU',
+            '10n C0G': 'KEMET C1206C103J5GACTU', '22n C0G': 'KEMET C1206C223J5GACTU', '100n C0G': 'Murata GRM31C5C1H104JA01L',
+            # rail reservoirs in the strip's own footprints (D8 P3.5, D6.3 P2.5; the master's UPW parts are larger)
+-           '220u 25V': 'Rubycon 35ZLH220MEFC8X11.5 (35V)', '47u 25V': 'Panasonic EEU-FR1H470 (50V)',
++           '220u 25V': 'Panasonic EEU-FR1E221', '47u 25V': 'Rubycon 63ZLH47MEFC6.3X11 (63V)',
+            '150n film': 'WIMA MKS2D031501C00KSSD (PET 100V; 3.5 x 8.5 x 7.2, the 63 V KSSD code has no stock)',
+            '2.2u film': 'KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)',
+            # audio bipolars, Nichicon MUSE ES 25 V, in the existing footprints (film_np_proposal.md)
+@@ -62,8 +62,8 @@ P(b,'C4','C','100n',{1:'GNDA',2:'-VA'})
+ # CS10 (console_survey.md §7): a reverse Schottky across each audio rail. If one supply rail is lost (a wing PTC trips,
+ # a ribbon conductor opens), the op-amps' ~87 mA keeps flowing into the dead rail and drives it past ground: C1 / C3
+ # would sit reversed by up to ~13 V and the ICs' pin-protection diodes carry the current (sim/review/cs10/rail_loss.py).
+-# PMEG4010CEH (40 V, 1 A; 0.34 V at 100 mA) holds the dead rail within 0.36 V of ground
+-P(b,'D16','DSK','PMEG4010CEH',{1:'+VA',2:'GNDA'}); P(b,'D17','DSK','PMEG4010CEH',{1:'GNDA',2:'-VA'})
++# MBR140SFT1G (40 V, 1 A; 0.36 V max at 100 mA) holds the dead rail within 0.36 V of ground
++P(b,'D16','DSK','MBR140SFT1G',{1:'+VA',2:'GNDA'}); P(b,'D17','DSK','MBR140SFT1G',{1:'GNDA',2:'-VA'})
+ P(b,'R3','R','10R',{1:'+VBUS',2:'+VL'},**FUSIBLE); P(b,'C5','CP','47u 25V',{1:'+VL',2:'GNDD'},fp='Capacitor_THT:CP_Radial_D6.3mm_P2.50mm')
+ P(b,'R4','R','10R',{1:'-VBUS',2:'-VL'},**FUSIBLE); P(b,'C6','CP','47u 25V',{1:'GNDD',2:'-VL'},fp='Capacitor_THT:CP_Radial_D6.3mm_P2.50mm')
+ P(b,'NT1','NT','AGND-LGND star',{1:'GNDA',2:'GNDD'})
+diff --git a/tools/gen_group.py b/tools/gen_group.py
+index dac6166..63c5728 100644
+--- a/tools/gen_group.py
++++ b/tools/gen_group.py
+@@ -123,7 +123,7 @@ link_header(b, NL2, LINK2, f'Jack board link 2 2x{NL2}')
+ # (a wing PTC trips) would otherwise be driven past ground by the op-amps' quiescent current (sim/review/cs10/rail_loss.py).
+ # Created last so every other ref stays; drawn in the power block
+ dsp, dsn = ref('D'), ref('D')
+-P(bpw, dsp, 'DSK', 'PMEG4010CEH', {1: '+VA', 2: 'GNDA'}); P(bpw, dsn, 'DSK', 'PMEG4010CEH', {1: 'GNDA', 2: '-VA'})
++P(bpw, dsp, 'DSK', 'MBR140SFT1G', {1: '+VA', 2: 'GNDA'}); P(bpw, dsn, 'DSK', 'MBR140SFT1G', {1: 'GNDA', 2: '-VA'})
+ def _rail_diodes(d):                            # as the strip's D16 / D17 (strip_draw.power_rails): K on +VA, A on -VA
+     d.port('+VA', (0, 0)); d.w((0, 0), (4, 0)); d.v(dsp, 4, 1.5, top='+VA', text='R')
+     d.port('-VA', (14, 0)); d.w((14, 0), (18, 0)); d.at(dsn, 18, 1.5, rot=270, mirror='x', text='R')
+diff --git a/tools/gen_psu.py b/tools/gen_psu.py
+index a93dcd3..9a339ef 100644
+--- a/tools/gen_psu.py
++++ b/tools/gen_psu.py
+@@ -22,8 +22,8 @@ MPN.update({'LDO': 'TI LM1084IT-ADJ/NOPB', 'SCR': 'onsemi 2N6505G', 'TL431': 'TI
+             'TERM2': 'Phoenix 1715721 MKDS 1,5/2-5,08', 'TERM7': 'Phoenix 1755897 MKDS 1,5/7-5,08 (to a Neutrik NC7FD-LX)'})
+ CPFP = {'2200u': 'Capacitor_THT:CP_Radial_D16.0mm_P7.50mm', '220u': 'Capacitor_THT:CP_Radial_D8.0mm_P3.50mm',
+         '47u': 'Capacitor_THT:CP_Radial_D6.3mm_P2.50mm'}
+-CAP_MPN = {'2200u 35V low-ESR': 'Rubycon 35ZLH2200MEFC16X25', '220u 25V': 'Rubycon 35ZLH220MEFC8X11.5 (35V)',
+-           '47u 25V': 'Panasonic EEU-FR1H470 (50V)', '100n': 'Samsung CL21B104KBCNNNC (X7R 50V)',
++CAP_MPN = {'2200u 35V low-ESR': 'Rubycon 35ZLH2200MEFC16X25', '220u 25V': 'Panasonic EEU-FR1E221',
++           '47u 25V': 'Rubycon 63ZLH47MEFC6.3X11 (63V)', '100n': 'Samsung CL21B104KBCNNNC (X7R 50V)',
+            '2n2': 'KEMET C0805C222J5GACTU (C0G)'}
+ 
+ cnt = collections.Counter()
+diff --git a/tools/master_lib.py b/tools/master_lib.py
+index 801fa10..4f3dc53 100644
+--- a/tools/master_lib.py
++++ b/tools/master_lib.py
+@@ -37,7 +37,7 @@ MPN.update({'DRV134': 'TI DRV135UA',   # SO-8: the DRV134 is DIP-8 / SOL-16 only
+             'LME49600': 'TI LME49600TS/NOPB', 'OPA1656': 'TI OPA1656IDR', 'JACK': 'Neutrik NRJ6HF',
+             # B grades: the comparators run from +-17 V (34 V), over the non-B parts' 30 V recommended maximum
+             'CMP': 'TI LM393BIDR', 'LM2901': 'TI LM2901BIDR',
+-            'DG': 'Vishay DG413DY-E3', 'ZEN': 'Nexperia BZX84-C5V1,215', 'PNP': 'onsemi BCP53-16T1G', 'SCH': 'Nexperia BAT54W,115',
++            'DG': 'Vishay DG413DY-E3', 'ZEN': 'Diodes BZX84C5V1-7-F', 'PNP': 'onsemi BCP53-16T1G', 'SCH': 'Nexperia BAT54W,115',
+             # master_group_review.md MG9 / MG16. TL072H: the H suffix fixes the die (SLOS080W Table 9-1) and is rated 42 V
+             'OPA': 'TI OPA1612AIDR', 'TL072': 'TI TL072HIDR', 'NPN': 'onsemi MMBT3904LT1G', 'D': 'Vishay 1N4148-TAP',
+             'POT': 'Alpha RD901F-40-15R1-A10K', 'HDR': 'Wurth 61203421621 (2x17 box header)',
+@@ -45,7 +45,7 @@ MPN.update({'DRV134': 'TI DRV135UA',   # SO-8: the DRV134 is DIP-8 / SOL-16 only
+             'FB': 'Murata BLM21PG221SN1D'})
+ MPN['DS'] = 'Diodes B540C-13-F (SS54 class, SMC 40 V 5 A)'
+ # CS10: a reverse Schottky across each audio rail of a ribbon board (group), as the strip's D16 / D17
+-SYM['DSK'] = ('Device', 'D_Schottky'); FP['DSK'] = 'Diode_SMD:D_SOD-123F'; MPN['DSK'] = 'Nexperia PMEG4010CEH,115'
++SYM['DSK'] = ('Device', 'D_Schottky'); FP['DSK'] = 'Diode_SMD:D_SOD-123F'; MPN['DSK'] = 'onsemi MBR140SFT1G'
+ # CS4b: a BAV199 per jack-link signal at the link header, as the strip's D18-D22 (pin 3 the signal, 2 +VA, 1 -VA)
+ SYM['DD'] = ('Diode', 'BAV99'); FP['DD'] = 'Package_TO_SOT_SMD:SOT-23'; MPN['DD'] = 'Nexperia BAV199,215'
+ # wing PTCs MF-RX185/72 (hpf_proposal.md H4, 2026-10-24): same pads as the MF-RX160/72 (kept on the jig stub), a
+diff --git a/tools/order_bom.py b/tools/order_bom.py
+index a3ac922..b012551 100644
+--- a/tools/order_bom.py
++++ b/tools/order_bom.py
+@@ -17,6 +17,10 @@ EXTRA = [('TI OPA1656IDR', 'OPA1656 (N1 A/B swap, one strip)', 'Package_SO:SOIC-
+          # CS11b: 40 bought for the 30 DRV135 couplers sorted into 15 pairs within 2 % (sim/review/cs11/drv_couplers.py)
+          ('Panasonic ECE-A1EN100U', '10u NP 25V', 'Capacitor_THT:CP_Radial_D5.0mm_P2.00mm', 'pair-sorting stock', 10)]
+ 
++# Same silicon, other packing, while the first code is out of stock (second_source_proposal.md SS1; read at Mouser 2026-11-03).
++# Order lists only; go back to the first code when it returns (OPA1612AIDR is about $1.70 less at 10).
++ORDER_AS = {'TI OPA1612AIDR': 'TI OPA1612AID', 'Nexperia BAV199,215': 'Nexperia BAV199,235', 'Vishay DG413DY-E3': 'Vishay DG413DY-T1-E3'}
++
+ def spares(fp, need):
+     """Spares by kind: cheap SMD passives +10 % (at least 10), semis +5 % (at least 2), panel / THT parts +3 %
+     (at least 1), electrolytics and film +5 % (at least 2)."""
+@@ -47,6 +51,8 @@ def rows():
+             for r in csv.DictReader(f):
+                 if r['DNP'] or r['Footprint'].startswith('MountingHole'): continue
+                 mpn = r['MPN'] or (resistor_mpn(r['Value']) if r['Footprint'] == 'Resistor_SMD:R_0805_2012Metric' else '')
++                code = mpn.split(' (')[0]
++                if code in ORDER_AS: mpn = ORDER_AS[code] + mpn[len(code):]
+                 yield mpn, r['Value'], r['Footprint'], label, int(r['Qty']) * n, int(r['Qty'])
+     for mpn, value, fp, label, q in EXTRA: yield mpn, value, fp, label, q, q
+ 
+diff --git a/tools/place_group.py b/tools/place_group.py
+index abf9c36..61fd2d0 100644
+--- a/tools/place_group.py
++++ b/tools/place_group.py
+@@ -105,7 +105,7 @@ _ret2 = take('STEREO RETURN 2', *RET2_ROUTE)
+ for u in (r for r in _ret2 if r.startswith('U')): RETURN2 += [u] + [r for r in beside(u) if r in _ret2]
+ RETURN2 += [r for r in _ret2 if r not in RETURN2]
+ SUPPLY_R = [r for r in take('POWER AND GROUNDS') if VAL[r].startswith('10R') and {'+VBUS', '-VBUS'} & NETS_OF[r]]
+-POWER = [r for r in take('POWER AND GROUNDS') if r not in SUPPLY_R and VAL[r] != 'PMEG4010CEH']   # CS10's by MOVES
++POWER = [r for r in take('POWER AND GROUNDS') if r not in SUPPLY_R and VAL[r] != 'MBR140SFT1G']   # CS10's by MOVES
+ ZONES = [
+  # bottom side first: links and electrolytics. The return rows' pins fill the bottom at the top of the board (RET1), so
+  # the links go below them, where the bottom is empty (ribbons ~150 mm; the strip's is ~136 mm)

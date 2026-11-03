@@ -102,6 +102,9 @@ build-outs and feeds, Vishay M25SI thin-film fusibles. What thick film costs aga
 
 ## Stock risks: act before ordering
 
+**Re-read 2026-11-03:** Nexperia's BAV99, BAV199,215, BZX84-C5V1 and PMEG4010CEH, the OPA1612AIDR reel, DG413DY-E3, EEU-FR1H470 and
+PVA2 EE H1 are out of stock at Mouser. `second_source_proposal.md` (not signed off) has the replacements.
+
 | Part | Needed | Situation | Action |
 |---|---|---|---|
 | Bourns PTB0143-2010BPA103 | 28 (24 strips + 4 groups) | DigiKey showed exactly 28 | buy 28 + spares now, or check Mouser / Bourns lead time |
