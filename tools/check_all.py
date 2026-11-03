@@ -3,7 +3,7 @@ folder). Plain Python 3:
   python3 tools/check_all.py [--full]          (--full adds the overload / signal sims, ~3 min)
 Per board: KiCad netlist vs its intended JSON (verify.py), pins vs footprint pads (check_fp.py), ERC (0 errors), parity
 DRC (0 violations, footprint-internal KNOWN items of fab_out.py aside, 0 parity issues), footprint-symbol links
-(check_links.py). Then: sim_netlist (strip + jack board through the ribbon), sim_console (the whole console),
+(check_links.py). Then: each project file names its own schematic as the top-level sheet, sim_netlist (strip + jack board through the ribbon), sim_console (the whole console),
 netrules_test (every DRC rule fires), route_check_test (the post-route checker finds its planted faults),
 route_check on every board (0 ERR), panel_fab's checks; --full: sim/review/gaps/ol.py and
 sim/review/cs1/ol_multi.py --quick (the red from a negative and a positive pulse). Prints one line per check and a summary; exit 1 on any FAIL."""
@@ -77,6 +77,8 @@ def main():
         code, out = run([KPY, os.path.join(TOOLS, 'route_check.py'), pcb])
         m = re.findall(r'(\d+) ERR, (\d+) WARN', out)
         report(f'{b}: route_check', bool(m) and m[-1][0] == '0', f'{m[-1][0]} ERR, {m[-1][1]} WARN' if m else out.strip()[-120:])
+    wrong = [b for b in BOARDS if [s.get('filename') for s in json.load(open(os.path.join(ROOT, b + '.kicad_pro'))).get('schematic', {}).get('top_level_sheets', [])] != [b + '.kicad_sch']]
+    report('project files name their own sheet', not wrong, ', '.join(wrong) or f'{len(BOARDS)} projects')
     code, out = run(['python3', os.path.join(TOOLS, 'check_bus.py')] + [os.path.join(tmp, b + '.net') for b in ('channel_strip', 'group', 'master', 'jig_master_stub')])
     report('bus headers (strip / group / master / jig)', code == 0 and 'all pins as the Delta map' in out,
            out.strip().splitlines()[-1][:100] if out.strip() else 'no output')

@@ -539,8 +539,8 @@
     "legacy_lib_list": [],
     "top_level_sheets": [
       {
-        "filename": "channel_strip.kicad_sch",
-        "name": "channel_strip",
+        "filename": "jack_board.kicad_sch",
+        "name": "jack_board",
         "uuid": "00000000-0000-0000-0000-000000000000"
       }
     ]

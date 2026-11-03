@@ -324,7 +324,7 @@ def project_file(out):
     root, name = os.path.dirname(os.path.abspath(out)), os.path.splitext(os.path.basename(out))[0]
     d = json.load(open(os.path.join(root, 'master.kicad_pro')))
     d['meta']['filename'] = name + '.kicad_pro'; d['sheets'] = []
-    from schgen import keep_net_settings; keep_net_settings(d, os.path.join(root, name + '.kicad_pro'))
+    from schgen import keep_net_settings, own_sheet; keep_net_settings(d, os.path.join(root, name + '.kicad_pro')); own_sheet(d, name)
     with open(os.path.join(root, name + '.kicad_pro'), 'w') as f: json.dump(d, f, indent=2); f.write('\n')
 
 def jack(b, key, value, pins, split=False):

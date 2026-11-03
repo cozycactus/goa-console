@@ -242,20 +242,22 @@ def place(NET, OUT, L):
         t = pcbnew.PCB_TEXT(board); t.SetText(txt); t.SetPosition(pcbnew.VECTOR2I_MM(x, y)); t.SetLayer(pcbnew.F_SilkS)
         t.SetTextSize(pcbnew.VECTOR2I_MM(size, size)); t.SetTextThickness(pcbnew.FromMM(max(0.12, size * 0.15)))
         board.Add(t); label_items.append(t); occupy('F', bbox(t.GetBoundingBox()))
+    marked = set()
+    def pva2_mark(fp, side):                            # orientation mark (design_review.md R4): the moulded "2" goes
+        pads = {p.GetNumber(): p.GetPosition() for p in fp.Pads()}       # in the pad 1/4 column (spec 16.1)
+        p1, p3, p4 = pads['1'], pads['3'], pads['4']
+        ux, uy = p1.x - p3.x, p1.y - p3.y; n = math.hypot(ux, uy)
+        mx, my = (p1.x + p4.x) / 2 + ux / n * pcbnew.FromMM(1.6), (p1.y + p4.y) / 2 + uy / n * pcbnew.FromMM(1.6)   # inside the switch outline: no new area
+        t = pcbnew.PCB_TEXT(board); t.SetText('2'); t.SetPosition(pcbnew.VECTOR2I(int(mx), int(my)))
+        t.SetLayer(pcbnew.F_SilkS if side == 'F' else pcbnew.B_SilkS); t.SetMirrored(side == 'B')
+        t.SetTextSize(pcbnew.VECTOR2I_MM(1.0, 1.0)); t.SetTextThickness(pcbnew.FromMM(0.15))
+        board.Add(t); label_items.append(t); occupy(side, bbox(t.GetBoundingBox())); marked.add(fp.GetReference())
     for ref, (x, y, rot, side) in FIX.items():
         fp = load(ref)
         fp.SetOrientationDegrees(rot); fp.SetPosition(pcbnew.VECTOR2I_MM(x, y))
         if side == 'B': flip(fp)
         register(fp, side)
-        if 'PVA2' in fp.GetFPIDAsString():              # orientation mark (design_review.md R4): the moulded "2" goes
-            pads = {p.GetNumber(): p.GetPosition() for p in fp.Pads()}       # in the pad 1/4 column (spec 16.1)
-            p1, p3, p4 = pads['1'], pads['3'], pads['4']
-            ux, uy = p1.x - p3.x, p1.y - p3.y; n = math.hypot(ux, uy)
-            mx, my = (p1.x + p4.x) / 2 + ux / n * pcbnew.FromMM(1.6), (p1.y + p4.y) / 2 + uy / n * pcbnew.FromMM(1.6)   # inside the switch outline: no new area
-            t = pcbnew.PCB_TEXT(board); t.SetText('2'); t.SetPosition(pcbnew.VECTOR2I(int(mx), int(my)))
-            t.SetLayer(pcbnew.F_SilkS if side == 'F' else pcbnew.B_SilkS); t.SetMirrored(side == 'B')
-            t.SetTextSize(pcbnew.VECTOR2I_MM(1.0, 1.0)); t.SetTextThickness(pcbnew.FromMM(0.15))
-            board.Add(t); label_items.append(t); occupy(side, bbox(t.GetBoundingBox()))
+        if 'PVA2' in fp.GetFPIDAsString(): pva2_mark(fp, side)
     for k in L.get('keepout', ()):                      # areas no part may use (supply channels, wire entries)
         for sd in (k[4:] or ('F', 'B')): occupy(sd, k[:4])
         edge_rect(*k[:4], pcbnew.Cmts_User, 0.05)
@@ -500,6 +502,8 @@ def place(NET, OUT, L):
         fp = board.FindFootprintByReference(ref)
         fp.SetOrientationDegrees(fp.GetOrientationDegrees() + da)
         check_spot(fp, f'turns ({da})')
+    for fp in board.GetFootprints():                    # keys placed after the FIX loop (CS7's DIM key, by moves_only)
+        if 'PVA2' in fp.GetFPIDAsString() and fp.GetReference() not in marked: pva2_mark(fp, 'B' if fp.IsFlipped() else 'F')
 
     # ---------------------------------------------------------------- placement report
     LIM_DEC, LIM_IN = L.get('limits', (5.0, 6.0))

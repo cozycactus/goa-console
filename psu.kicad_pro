@@ -883,8 +883,8 @@
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "master.kicad_sch",
-        "name": "master",
+        "filename": "psu.kicad_sch",
+        "name": "psu",
         "uuid": "00000000-0000-0000-0000-000000000000"
       }
     ],

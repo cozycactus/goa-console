@@ -1,9 +1,9 @@
 (export
 	(version "E")
 	(design
-		(source "/home/user/goa-console/group_jack_board.kicad_sch")
-		(date "2026-10-28T22:05:50")
-		(tool "Eeschema 10.0.7-10.0.7~ubuntu24.04.1")
+		(source "/Users/ruslanmigirov/projects/goa-console/group_jack_board.kicad_sch")
+		(date "2026-11-03T17:24:17")
+		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
 			(name "/")
@@ -81,7 +81,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "Root")
+				(value "group_jack_board")
 			)
 			(property
 				(name "Sheetfile")
@@ -183,7 +183,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "Root")
+				(value "group_jack_board")
 			)
 			(property
 				(name "Sheetfile")
@@ -261,7 +261,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "Root")
+				(value "group_jack_board")
 			)
 			(property
 				(name "Sheetfile")
@@ -315,7 +315,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "Root")
+				(value "group_jack_board")
 			)
 			(property
 				(name "Sheetfile")
@@ -375,7 +375,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "Root")
+				(value "group_jack_board")
 			)
 			(property
 				(name "Sheetfile")
@@ -444,7 +444,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "Root")
+				(value "group_jack_board")
 			)
 			(property
 				(name "Sheetfile")
@@ -507,7 +507,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "Root")
+				(value "group_jack_board")
 			)
 			(property
 				(name "Sheetfile")
@@ -570,7 +570,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "Root")
+				(value "group_jack_board")
 			)
 			(property
 				(name "Sheetfile")
@@ -639,7 +639,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "Root")
+				(value "group_jack_board")
 			)
 			(property
 				(name "Sheetfile")
@@ -708,7 +708,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "Root")
+				(value "group_jack_board")
 			)
 			(property
 				(name "Sheetfile")
@@ -777,7 +777,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "Root")
+				(value "group_jack_board")
 			)
 			(property
 				(name "Sheetfile")

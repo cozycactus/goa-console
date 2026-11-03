@@ -959,8 +959,8 @@
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "master.kicad_sch",
-        "name": "master",
+        "filename": "master_jack_board.kicad_sch",
+        "name": "master_jack_board",
         "uuid": "00000000-0000-0000-0000-000000000000"
       }
     ],

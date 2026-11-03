@@ -41,7 +41,7 @@ Where the detail lives (all moved out of this file on 2026-10-28, text unchanged
 
 Every board is its schematic's project board, so parity DRC runs in place; all nine: 0 DRC violations (jack boards
 only the NJ6FD-V footprint's own items), 0 parity issues, every footprint linked to its symbol (1534 / 1534).
-Last `check_all.py --full`: 71 / 71 on macOS 2026-11-03 (KiCad 10.0.7, ngspice 46; Linux runs stop at 70 / 71, panel_fab
+Last `check_all.py --full`: 72 / 72 on macOS 2026-11-03 (KiCad 10.0.7, ngspice 46; Linux runs stop one short, panel_fab
 needs the macOS Arial Narrow). sim_netlist 45/45, sim_console 45/45, check_bus clean.
 
 Power: console ~3.31 / 2.79 A typical, worst corner ~4.54 A on +V against the PSU's 4 A per rail, wing PTC ~2.07 A

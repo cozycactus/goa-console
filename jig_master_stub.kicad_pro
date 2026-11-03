@@ -1039,8 +1039,8 @@
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "master.kicad_sch",
-        "name": "master",
+        "filename": "jig_master_stub.kicad_sch",
+        "name": "jig_master_stub",
         "uuid": "00000000-0000-0000-0000-000000000000"
       }
     ],

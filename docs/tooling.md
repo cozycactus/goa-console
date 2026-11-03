@@ -83,7 +83,7 @@ The live rules, the current state and the one-line decisions are in `CLAUDE.md`;
   reports, panel outputs in a temp folder): per board the committed `.net` against the fresh export (same pins and
   nets: sim_console, check_links and the ol sims read the committed one; RV11.1), netlist vs intended, pins vs footprints
   (both directions since RV11.4), ERC, parity DRC (KNOWN items of fab_out.py aside, one footprint per item since RV11.3),
-  footprint links, route_check; then `check_bus.py` (the motherloom pin by pin on strip / group / master / jig, RV11.2),
+  footprint links, route_check; then each project file's top-level sheet (its own schematic, `schgen.own_sheet`), `check_bus.py` (the motherloom pin by pin on strip / group / master / jig, RV11.2),
   sim_netlist, sim_console, netrules_test, route_check_test, panel_fab's checks; `--full` adds `sim/review/gaps/ol.py`
   (a values check: its wiring is the pre-CS1 one-tap detector, RV11.8) and `sim/review/cs1/ol_multi.py --quick` (the five
   taps from the netlist). 71 checks (2026-10-28). Exit 1 on any FAIL. Run it after any generator,

@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/jig_load_board.kicad_sch")
-		(date "2026-10-25T23:01:38")
+		(date "2026-11-03T17:24:26")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -3431,7 +3431,7 @@
 		(net
 			(code "1")
 			(name "/+VBUS")
-			(class "Default")
+			(class "Power")
 			(node
 				(ref "CN1")
 				(pin "32")
@@ -3460,7 +3460,7 @@
 		(net
 			(code "2")
 			(name "/-VBUS")
-			(class "Default")
+			(class "Power")
 			(node
 				(ref "CN1")
 				(pin "30")
@@ -3483,7 +3483,7 @@
 		(net
 			(code "3")
 			(name "/AUX1")
-			(class "Default")
+			(class "Bus")
 			(node
 				(ref "CN1")
 				(pin "24")
@@ -3582,7 +3582,7 @@
 		(net
 			(code "8")
 			(name "/GCANCEL")
-			(class "Default")
+			(class "Bus")
 			(node
 				(ref "CN1")
 				(pin "26")
@@ -3598,7 +3598,7 @@
 		(net
 			(code "9")
 			(name "/MIXL")
-			(class "Default")
+			(class "Bus")
 			(node
 				(ref "CN1")
 				(pin "18")
@@ -3719,7 +3719,7 @@
 		(net
 			(code "15")
 			(name "/MIXR")
-			(class "Default")
+			(class "Bus")
 			(node
 				(ref "CN1")
 				(pin "17")
@@ -3840,7 +3840,7 @@
 		(net
 			(code "21")
 			(name "/PFL")
-			(class "Default")
+			(class "Bus")
 			(node
 				(ref "CN1")
 				(pin "27")
@@ -3939,7 +3939,7 @@
 		(net
 			(code "26")
 			(name "/SUB1")
-			(class "Default")
+			(class "Bus")
 			(node
 				(ref "CN1")
 				(pin "15")
@@ -4060,7 +4060,7 @@
 		(net
 			(code "32")
 			(name "GNDA")
-			(class "Default")
+			(class "Ground")
 			(node
 				(ref "C1")
 				(pin "2")

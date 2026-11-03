@@ -1163,8 +1163,8 @@
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "master.kicad_sch",
-        "name": "master",
+        "filename": "group.kicad_sch",
+        "name": "group",
         "uuid": "00000000-0000-0000-0000-000000000000"
       }
     ],

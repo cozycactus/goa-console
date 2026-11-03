@@ -518,3 +518,10 @@ def keep_net_settings(d, path):
     ns['classes'] = [c for c in ns.get('classes', []) if c['name'] == 'Default']
     ns['netclass_patterns'] = []; ns['netclass_assignments'] = {}
     return d
+
+
+def own_sheet(d, name):
+    """A .kicad_pro copied from master.kicad_pro names its own schematic as the top-level sheet (KiCad 10 keeps that list in
+    the project file, and master's would stay in every copy)."""
+    d.setdefault('schematic', {})['top_level_sheets'] = [dict(filename=name + '.kicad_sch', name=name, uuid='00000000-0000-0000-0000-000000000000')]
+    return d
