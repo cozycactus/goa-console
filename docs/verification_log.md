@@ -8,6 +8,9 @@ first. The current counts are in `CLAUDE.md`'s state table.
   changed. `check_all.py --full` 71 / 71: strip 946 pins, group 807, master 1820, jack boards 32 / 60 / 92, jig 365 / 153,
   PSU 119, 0 mismatches; 1534 / 1534 footprints linked; sim_netlist 45/45, sim_console 45/45, ol.py red 18.4 / green -19.5
   dBu, ol_multi.py pulses +9.01 / -9.30 V. Phase-1 list re-priced.
+  TI's models on the merged netlists: strip 21 states, worst U3B 59.8 deg, <= 1.61 dB, U1B >= 84.6 deg, every unit's minimum
+  within 1 deg of v5.5. Master phones loop (U26A / B, OPA161x + OPA1656; DRV135s stubbed, meter TL072s left out, neither in the
+  loop): 32R 1 nF pot top 76.6 deg, 32R 220 pF pot 0.75 83.0 deg, open pot top 75.9 deg, against 76.7 / 83.0 / 76.0 before.
 - Full check of main before that merge (2026-11-03, strip v5.5, master v0.12): `check_all.py --full` 61 / 61; a clean copy of
   HEAD regenerated identically (schematics, BOMs, order lists, DRC rules, panel DXF / SVG byte for byte; boards but for UUIDs
   and file order); TI OPA161x, strip, 21 states: worst U3B 59.8 deg, peaking <= 1.61 dB.

@@ -141,10 +141,12 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
 - Bench, with the jig (`test_jig_spec.md`): every relay releases when the −V wire is opened with the relays closed (RV9b), mute depth (CS8), N1 OPA1656 A/B (one-strip swap), re-inverter stability (test 10), aux noise at N = 24, relay release and mains-off fall rate with the real PSU, PFL tick with programme, meter current-source temperature and LED brightness, hum with a real synth on TS / TRS, an earthed processor on the insert (D21), panel-to-frame bonding, output balance / CMR / fader breakthrough / GCANCEL current (CS11, tests 13-17), E7 ferrites.
 - Accepted as they are: RV5 (MUTEOUT's DC on the fader top; the Delta's cap-isolated shunt source is the fallback), RV6 (U16 clips at +21.9 dBu input), the 4.54 A worst corner, the earthed-TS-synth hum (pseudo-balanced cables, one mains distribution point).
 - PSU: routing (Ruslan) and the case build. Routing of every board is Ruslan's; `routing_guide.md`, `netrules.py` rules, `route_check.py` afterwards, then `fab_out.py`.
-- On the Mac (TI models are not in the repo, `$TI_MODELS` / `$OPA161X_LIB`): the TI-model stability decks have not been re-run
-  since strip v5.5 / master v0.12. Run `sim/review/strip/run_all.py none` (R142 1M now parallels U1B's feedback) and the
-  master's `sim/review/master/run_each.py` (C196 / C197 in the phones gain-set legs; RV9's and RV9b's parts are DC only);
-  then `check_all.py --full` for the panel_fab check (Linux runs stop at 70 / 71 for the font).
+- TI-model stability (TI's models are not in the repo, `$TI_MODELS` / `$OPA161X_LIB`), re-run 2026-11-03. Strip v5.7, 21 states:
+  worst U3B 59.8 deg, <= 1.61 dB peaking, U1B >= 84.6 deg, all as v5.5 (R142 1M doesn't show). Master v0.14: the phones loop
+  only, U26 75.9-83.0 deg, within 0.1 deg of before (C196 / C197 in the deck; a stub for the DRV135s and no meter TL072s, neither
+  in that loop). Still to run: the master's full `sim/review/master/run_each.py` (34 configurations, ~3.5 h; needs TI's DRV134
+  and TL07xH models, no longer on this machine; RV9's and RV9b's parts are DC only). The group isn't re-run since RV7 (C98 in
+  series with an AFL 22K).
 - `project_review.md`: everything applied but RV11.2's PFL switcher from the PFLDET net (needs a DC analysis of the detect line; `check_bus.py` covers pin 29) and RV12's optional second step (the ~40 proposal / study `.md` files into `docs/`, a scripted rewrite of ~280 references).
 
 ## Next steps
