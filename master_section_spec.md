@@ -1,4 +1,4 @@
-# Master Section — Schematic Specification, v0.13 (draft)
+# Master Section — Schematic Specification, v0.14 (draft)
 ## Part 1: stereo mix path, mono, main outputs, power-on mute
 
 **v0.13 (2026-10-28, signed off):** `clicks_proposal.md` RV7 (2.2 µF films ahead of the aux 5 / 6 AFL 22Ks, §13; the

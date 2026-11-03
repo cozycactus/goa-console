@@ -24,7 +24,7 @@ loom pinouts, connector pinouts, jumper settings, spare-parts lists, dimensions.
 - Unassigned routing resistors are grounded, not left floating (constant pan-buffer load, no
   floating resistor picking up crosstalk). Note: this does **not** keep the bus noise gain
   constant; noise rises with each channel routed (section 2.4).
-- All bus feeds AC-coupled (220 µF + 47K bleed), so routing switches never click.
+- All bus feeds AC-coupled (100 µF NP + 47K bleed), so routing switches never click.
 - Pan buffers after the pan pot.
 - Click-free JFET mute (J112 pair with RC ramp).
 - Separate logic supply and logic ground on every strip.

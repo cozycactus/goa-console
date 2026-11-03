@@ -239,8 +239,8 @@ this is the record with the reasons, the rejected alternatives and the dates. Do
   937 pins, 325 parts.
 - C/Room DIM (signed off by Ruslan 2026-10-28, `cs7_proposal.md` CS7; reverses console_architecture's "monitor dim"
   exclusion): SW4 (PVA2, latching, grey cap) beside POWER at (29.16, 178); R236 / R237 91K between CRSB and each C/ROOM pot
-  top (CRP_L / R), shorted by the released key: -20.0..-20.75 dB on C/Room only. Main R's DRV135 U8 and C47-C50 / R224 /
-  R225 on the bottom beside the key. Master 1796 pins / 620 parts.
+  top (CRP_L / R), shorted by the released key: -20.0..-20.75 dB on C/Room only. Main R's DRV135 U8 and C47 / C48 / C50 on
+  the bottom beside the key, C49 / R224 / R225 on top above it. Master 1796 pins / 620 parts.
 - Group sub pan law (signed off by Ruslan 2026-10-28, `cs2b_proposal.md` CS2b): the strip's (CS2) on every group, so the
   sub pan copies the strip again (master spec §12). U3B / U5A at 1.22x (R124 / R127 2K2 with C96 / C97 22p C0G across
   them, R125 / R128 10K), R123 / R126 3K3 from each output back to its wiper: -2.7 dB centre, +1.7 dB hard (ED2778A, the
