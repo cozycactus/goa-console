@@ -72,18 +72,33 @@ def overshoot(tag, s):
     return dict(os=round(float((vv.max() - 1) * 100), 1), step_mv=round(float(step) * 1e3, 2),
                 late_pp=round(float(late.max() - late.min()) * 100, 1))
 
+def clear_raw(tag, stages, kinds):
+    """Never analyse a previous run's files (as strip/stab.py): ngspice may time out or fail before writing them."""
+    for s in stages:
+        for k in kinds:
+            if os.path.exists(f'{RAW}/{tag}_{s}_{k}.txt'): os.unlink(f'{RAW}/{tag}_{s}_{k}.txt')
+
+# itl1=500 first: with srcsteps / gminsteps set, TI's OPA1656 + OPA161x have no operating point in this deck on ngspice 46
+OPTS = ['.options itl1=500', '.options itl1=500 noopiter gmin=1e-11', '.options itl1=500 noopiter', '.options srcsteps=50 gminsteps=50']
+
 def run(tag, cfg, stages=None, tran=False):
     stages = stages or list(UNITS)
-    for s in stages:                                           # never analyse a previous run's files (as strip/stab.py)
-        for k in 'vint':
-            if os.path.exists(f'{RAW}/{tag}_{s}_{k}.txt'): os.unlink(f'{RAW}/{tag}_{s}_{k}.txt')
-    out = ngspice(deck(cfg, ctl_ac(stages, tag)), tag)
-    res = {}
-    for s in stages:
-        try: res[s] = analyse(tag, s)
-        except Exception as e: res[s] = {'err': str(e)}; print(out[-3000:])
+    res = {s: {'err': 'not run'} for s in stages}
+    for o in OPTS:                                             # as master/mstab.py: keep the units written, the rest go on with the next options
+        todo = [s for s in stages if 'err' in res[s]]
+        for part in (todo[:1], todo[1:]):
+            if not part: continue
+            clear_raw(tag, part, 'vin')
+            out = ngspice(deck(dict(cfg, opts=o), ctl_ac(part, tag)), tag)
+            for s in part:
+                try: res[s] = analyse(tag, s)
+                except Exception as e: res[s] = {'err': str(e)}
+            if 'err' in res[part[0]]: break
+        if not any('err' in v for v in res.values()): break
+    else: print('OP FAILED', tag, out[-1500:])
     if tran:
-        out = ngspice(deck(cfg, ctl_tran(stages, tag)), tag + 't')
+        clear_raw(tag, stages, 't')
+        out = ngspice(deck(dict(cfg, opts=o), ctl_tran(stages, tag)), tag + 't')
         for s in stages:
             try: res[s].update(overshoot(tag, s) or {})
             except Exception as e: res[s]['terr'] = str(e); print(out[-3000:])

@@ -15,13 +15,12 @@ REPO = os.path.abspath(os.path.join(HERE, '..', '..', '..'))
 TI_LIB = os.path.join(os.environ.get('TI_MODELS', HERE), 'OPA161x.LIB')   # TI's model stays out of the repo (licence)
 TI56_LIB = os.path.join(os.environ.get('TI_MODELS', HERE), 'OPA1656.LIB')   # the return receivers' followers (G3b)
 OPS = {'OPA1612AxD': 'OPA161x', 'OPA1656ID': 'OPA1656'}
-# OPA1656_FIT=<models_cd.inc>: the OPA1656 parts use the datasheet-fitted macro OPA1656M instead (TI's OPA1656 model
-# crawls in this deck, as in the strip's); the OPA1612s keep TI's model
+# OPA1656_FIT=<models_cd.inc>: the OPA1656 parts use the datasheet-fitted macro OPA1656M instead; the OPA1612s keep TI's model.
+# Not needed since 2026-11-04: TI's OPA1656 + OPA161x converge with .options itl1=500 (stabg.py OPTS)
 OPA1656_FIT = os.environ.get('OPA1656_FIT')
 # OPA1612_SIMPLE=1: the OPA1612 units get the deck's single-pole OPA (40 MHz GBW; no input capacitance or output
-# resistance) in place of TI's OPA161x. With TI's own OPA1656 model on the followers the full deck has no operating point
-# on ngspice 46; with the OPA1612s simple it converges (2026-10-28), so the followers are checked on TI's model. Only the
-# OPA1656 units' results of such a run mean anything.
+# resistance) in place of TI's OPA161x. Only the OPA1656 units' results of such a run mean anything (the 2026-10-28 check of the
+# followers on TI's model, before itl1=500 was found).
 OPA1612_SIMPLE = os.environ.get('OPA1612_SIMPLE')
 sys.path.insert(0, os.path.join(REPO, 'tools'))
 from verify import sexp, field
@@ -202,12 +201,15 @@ def deck(cfg, ctl=''):
     nodes = {n for n in nodes if not re.fullmatch(r'[-\d.e]+', n)}
     L += [f'RLEAK{i} {n} 0 1e9' for i, n in enumerate(sorted(nodes - {'0', 'inp', 'inn', 'out', 'n1', 'PVA', 'MVA',
                                                                        'PVL', 'MVL', 'PVBUS', 'MVBUS'}))]
-    L += ['.options srcsteps=50 gminsteps=50', ctl, '.end']
+    L += [cfg.get('opts', '.options srcsteps=50 gminsteps=50'), ctl, '.end']
     return '\n'.join(L)
 
 def ngspice(text, tag='x', keep=False):
     with tempfile.NamedTemporaryFile('w', suffix='.cir', delete=False, dir=HERE, prefix=tag + '_') as f:
         f.write(text); fn = f.name
-    p = subprocess.run(['ngspice', '-b', fn], capture_output=True, text=True, cwd=HERE)
+    try:
+        p = subprocess.run(['ngspice', '-b', fn], capture_output=True, text=True, cwd=HERE, timeout=float(os.environ.get('NG_TIMEOUT', 600)))
+        txt = p.stdout + p.stderr
+    except subprocess.TimeoutExpired: txt = 'TIMEOUT'
     if not keep: os.unlink(fn)
-    return p.stdout + p.stderr
+    return txt
