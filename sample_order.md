@@ -29,7 +29,7 @@ Since 2026-10-28 this list is merged into stage A of the phase-1 order (`python3
 | Knob caps | Elma 040-3035 red, -3015 grey, -3045 blue, -3055 yellow, -3065 green, -3025 black | 1 each | 7 |
 | Jack | Neutrik NJ6FD-V | 2 | 6 |
 | Signal / OL LED | Kingbright WP3VEGW | 5 | 8 |
-| Panel LEDs | Kingbright WP710A10ID / -GD / -YD | 3 each | 8 |
+| Panel LEDs | Kingbright WP710A10ID / -GD / -YD (-GD 0 at Mouser, due 2026-12-07) | 3 each | 8 |
 | LED spacer | 3 mm LED, 7.6 mm long; a 3-lead one (2.0 mm pitch) for the WP3VEGW if one exists | 5; 3 | 8 |
 | Standoffs | M3 F-F 24.0 mm metal; M3 11.5 mm | 2 each | 6 |
 | Spacer washers | M7, 1.5 thick, ID 7.2, OD < 11.2; M9, 9.5 / 11 × 1.5; M3 3.5 mm fader spacers | 4; 2; 2 | 1, 4, 5 |

@@ -332,3 +332,5 @@ this is the record with the reasons, the rejected alternatives and the dates. Do
   - **SS3, the keys:** PVA2 EE H1 is due 2027-03-01 and nobody else makes this footprint. H3 is in stock at the same price, with the
     same pads and latching read from low-resolution drawings (check on a sample) and PV caps fit only H1 and H3. Phase 1's bench strips
     take H3 (`BENCH_KEY`), the console stays H1, and check 3's samples stay H1 because H3 can't settle the cap clearance or panel stack.
+  - **R64 on the bench strips (2026-11-04, TF1's stated fallback, no sign-off needed):** Yageo RT0805FRE071K5L is at zero stock, 9,942 due 2027-01-26, so phase 1 orders
+    RC0805FR-071K5L. R64 is in the LF bell's signal path, so a measured distortion figure there is on thick film; the N1 A/B compares the same strip with itself and isn't affected.

@@ -63,7 +63,7 @@ $KPY tools/place_strip.py channel_strip.net channel_strip.kicad_pcb  # place_gro
                                                                      # place_jig.py, place_psu.py; refuses a routed board
 $KPY tools/netrules.py channel_strip                                 # after any re-placement or netlist change
 python3 tools/check_all.py --full                                    # every check, tracked files untouched; exit 1 on FAIL
-python3 tools/order_bom.py && python3 tools/order_bom.py phase1      # after any BOM export
+python3 tools/order_bom.py && python3 tools/order_bom.py phase1 && python3 tools/order_bom.py stagea   # after any BOM export
 $KPY tools/freespot.py master.kicad_pcb Resistor_SMD:R_0805_2012Metric B 90 X Y  # free spot for a part made last
 python3 tools/placediff.py master.kicad_pcb                          # vs HEAD: must list only the new parts
 ```
@@ -133,7 +133,7 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
 **Placement (placement only; Ruslan routes)**
 - E1-E5 / E8 (2026-10-26) and E6: LED switches beside D2, the J112 mute and U16's network under their op-amps, supply filters at the bus header, jack-board C8 / C9 between J1's pins, master flasher diode and PFL detect by their ICs; E9 / E9b stability caps ≤ 6.4 mm from their pins; E10 input nets shortened; E11 decouplers ≤ 5.5 mm (THT 10 µF excepted); untangle turns (crossings −4..−7 %); upper strip op-amps fixed in `place_strip.py`.
 - Routing rules by `tools/netrules.py` into every project (net classes, HighZ / Entry / Bus clearances, 4-layer rules, WingFeed, PSU HighCurrent); `routing_guide.md`; `route_check.py` after routing.
-- Sourcing (2026-10-25): plain 0805 resistors Yageo RT0805FRE07xxxL thin film up to 1M (TF1, 2026-10-29; RC0805FR thick film above 1M and as the out-of-stock fallback; anti-surge ERJ-P06 positions stay); stock risks PTB0143, NJ6FD-V, OPA1612, the 2.2 µF film (FE1: buy the console's 120 in one order; FE2's wider footprint is the way out); C0G order codes by footprint; DRV135 coupler pairs sorted (10 spares); second sources SS1-SS3 (2026-11-03, `second_source_proposal.md`): OPA1612AID, BAV199,235, DG413DY-T1-E3 on the order lists only, Diodes BZX84C5V1-7-F / BAV99-7-F, onsemi MBR140SFT1G, Rubycon 63ZLH47MEFC6.3X11, Panasonic EEU-FR1E221 in the schematics, PVA2 EE H3 on phase 1's bench strips.
+- Sourcing (2026-10-25): plain 0805 resistors Yageo RT0805FRE07xxxL thin film up to 1M (TF1, 2026-10-29; RC0805FR thick film above 1M and as the out-of-stock fallback; anti-surge ERJ-P06 positions stay); stock risks PTB0143, NJ6FD-V, OPA1612, the 2.2 µF film (FE1: buy the console's 120 in one order; FE2's wider footprint is the way out); C0G order codes by footprint; DRV135 coupler pairs sorted (10 spares); second sources SS1-SS3 (2026-11-03, `second_source_proposal.md`): OPA1612AID, BAV199,235, DG413DY-T1-E3 on the order lists only, Diodes BZX84C5V1-7-F / BAV99-7-F, onsemi MBR140SFT1G, Rubycon 63ZLH47MEFC6.3X11, Panasonic EEU-FR1E221 in the schematics, PVA2 EE H3 and thick-film R64 (the 1K5 thin film is out of stock) on phase 1's bench strips.
 
 ## Not done / open
 - Sample checks before ordering boards (`sample_order.md`, spec 16.1): PVA2 orientation by continuity, fader pad pattern on a 1:1 print, the Sifam cap on the BP blade, knob fit on the 6.35 mm centre-notch pots, RV8's M9 nut / pin 1 / detent, panel stack height, the fader's law (before the panels are printed: the "0" marks and the printed scale depend on it) and its bottom-stop residual (CS9).
@@ -149,7 +149,7 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
   to read old raw files when ngspice timed out (fixed 2026-11-03), so the 2026-10-29 master re-run was only part-simulated
   (`met1_ret1_review.md`). Group, 222 states on TI's real OPA161x + OPA1656 together for the first time (`.options itl1=500`), trace table
   re-measured: followers 59.1-60.9 deg, unstressed worst U1B 56.8 deg (ferrite shorted), 46.1 deg with +47 pF (U6B); RV7's C98 moves U6A / B under 1 deg.
-- Re-read at order time (`second_source_proposal.md` §6): the codes Mouser's block left unread on 2026-11-03, the thin-film resistors among them (still at a $0.10 placeholder).
+- Ordering stage A: `order_stage_a.csv` (every line, by vendor) and `order_stage_a_mouser.csv` (Mouser's BOM upload), from `python3 tools/order_bom.py stagea` and the readings in `mouser_readings.csv` (2026-11-04); about $435 + $70.50 PCBs. Unread lines (7 thin-film values, the ceramics, 3 RC0805s) show live in the upload. Later list: 4 PVA2 H1 samples (2027-03-01), 4 WP710A10GD (2026-12-07).
 - `project_review.md`: everything applied but RV11.2's PFL switcher from the PFLDET net (needs a DC analysis of the detect line; `check_bus.py` covers pin 29) and RV12's optional second step (the ~40 proposal / study `.md` files into `docs/`, a scripted rewrite of ~280 references).
 
 ## Next steps

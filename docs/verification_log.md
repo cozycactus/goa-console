@@ -3,6 +3,7 @@
 Moved out of `CLAUDE.md` on 2026-10-28 (`project_review.md` RV13), text unchanged: every check run after a change, newest
 first. The current counts are in `CLAUDE.md`'s state table.
 
+- Stage A order sheets (2026-11-04): 46 codes read at Mouser's site until it denied access at about 47 lookups (`mouser_readings.csv`), the browser helper removed. `order_bom.py stagea`: 112 lines, $435.18 + $80 optional; 82 lines in the upload, 26 of them not read. Two runs give identical files. Nothing ordered.
 - Strip TI stability on the real OPA1656 (2026-11-04, ngspice 46, strip v5.7, 21 states, `n1_stab.py`): as built 504 / 504 results, worst U3B 59.8 deg, U16 61.7, <= 1.61 dB;
   c01 with U16 as OPA161x matches `results_none.json` to the digit on the units sampled. N1: 17 states full, 4 (`c07`, `c09`, `c10`, `c14`) with U2 / U3 / U8 single-pole, checked on c01:
   18 OPA1656 units identical to the full run. Every N1 unit >= 58.2 deg, <= 1.84 dB. U2 / U3 / U8 aren't measured under N1 in those four states (`strip_noise_proposal.md`).

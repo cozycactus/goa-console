@@ -116,6 +116,8 @@ alternative is to order H1 and start stage A in March.
 
 ## 6. Not re-read on 2026-11-03
 
+**Most of these were read on 2026-11-04 (`mouser_readings.csv`); what's left is 7 thin-film values, the ceramics and 3 RC0805s, all shown live by the BOM upload `order_stage_a_mouser.csv`.** Two more out-of-stock lines turned up: thin-film 1K5 (R64, TF1's RC0805 fallback on the bench strips) and WP710A10GD as below.
+
 Mouser blocked lookups before these. They showed no problem on 2026-10-28, except where noted, and should be re-read at order
 time: MMBFJ112, MMBT3906LT1G, UES1E330MPM, UES1E101MPM, MKS2D031501C00KSSD, MMK5225K63J06L4BULK (1,841 on 2026-10-29),
 NJ6FD-V, WP710A10ID / YD, WP3VEGW, RK09L1240015, M251206BB1009JP500, PTB0143 / 0144, Würth headers and sockets, ERJ-P06 and ERA-6A resistors,

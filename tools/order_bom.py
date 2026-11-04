@@ -6,7 +6,10 @@ usage: python3 tools/order_bom.py   ->  order_bom.csv
        python3 tools/order_bom.py phase1   ->  order_phase1.csv: the staged hardware test (test_jig_spec.md 1.1). Stage A:
        one strip + its jack board, merged with sample_order.md (a part on both lists is bought once, the larger number),
        the N1 op-amp swap, the bench-power lead; stage B: the jig stub, load board, jig ribbons and test fixtures; an
-       optional second strip. Spares per stage, as the console list's rule."""
+       optional second strip. Spares per stage, as the console list's rule.
+       python3 tools/order_bom.py stagea   ->  order_phase1_prices.csv re-priced from mouser_readings.csv (the readings, by hand from Mouser's site),
+       order_stage_a.csv (every stage A line: vendor, price at the order quantity, stock read) and order_stage_a_mouser.csv (the lines to order
+       from Mouser now, for its BOM upload, which also shows live stock and price)."""
 import csv, math, os, re, collections
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
@@ -22,7 +25,9 @@ EXTRA = [('TI OPA1656IDR', 'OPA1656 (N1 A/B swap, one strip)', 'Package_SO:SOIC-
 ORDER_AS = {'TI OPA1612AIDR': 'TI OPA1612AID', 'Nexperia BAV199,215': 'Nexperia BAV199,235', 'Vishay DG413DY-E3': 'Vishay DG413DY-T1-E3'}
 # The bench strips of phase 1 only (SS3): PVA2 EE H1 is due at Mouser 2027-03-01, H3 (same pads and latching, plunger 3 mm longer)
 # is in stock. The console stays H1, and so do check 3's samples: the cap clearance and panel stack are the console's key's.
-BENCH_KEY = {'C&K PVA2 EE H1 1.7N V2': 'C&K PVA2 EE H3 1.7N V2 (SS3: bench strips only, the console is H1)'}
+BENCH_KEY = {'C&K PVA2 EE H1 1.7N V2': 'C&K PVA2 EE H3 1.7N V2 (SS3: bench strips only, the console is H1)',
+             # TF1's out-of-stock fallback for the bench strips (R64, LF bell): Mouser 0 on 2026-11-04, 9,942 due 2027-01-26
+             'Yageo RT0805FRE071K5L': 'Yageo RC0805FR-071K5L (TF1 fallback: the thin film is out of stock, due 2027-01-26)'}
 
 def order_code(mpn, table=ORDER_AS):
     code = mpn.split(' (')[0]
@@ -181,6 +186,69 @@ def phase1():
     print(f'{out}: {len(rows_)} lines; board parts to order: stage A {tot(0)}, stage B {tot(1)}, 2nd strip {tot(2)}')
     print('PCBs (order all in stage A, 5 of each, the fab minimum): ' + ', '.join(f'{lab} ({n})' for n, lab in PHASE1_PCBS))
 
+# ---------------------------------------------------------------- stage A order (order_stage_a*.csv)
+TF_10 = 0.051       # thin film at 10+ where it wasn't read: the top of the values read at Mouser on 2026-11-04 ($0.017-0.051)
+
+def unit_at(breaks, qty):
+    """The price at an order quantity from '1:0.10 10:0.018 ...'; None if no break is known."""
+    b = [(int(q), float(u)) for q, u in (x.split(':') for x in breaks.split())]
+    u = [p for q, p in b if q <= max(qty, 1)]
+    return u[-1] if u else None
+
+def vendor(code, note, read):
+    if code.startswith('(rule)'): return 'Any, see note'
+    if code.startswith('Alpha '): return 'Tayda'
+    for v in ('Don-Audio', 'RS'):
+        if v in note and code.startswith(('Elma', 'Sifam')): return v
+    if code.startswith(('Elma', 'Sifam')): return 'Any, see note'
+    if read and read['Stock'] == '0': return 'Mouser, later'
+    return 'Mouser'
+
+def stagea():
+    old = {r['MPN / code']: r for r in csv.DictReader(open(os.path.join(ROOT, 'order_phase1_prices.csv')))}
+    reads = {r['Code']: r for r in csv.DictReader(open(os.path.join(ROOT, 'mouser_readings.csv')))}
+    new = list(csv.DictReader(open(os.path.join(ROOT, 'order_phase1.csv'))))
+    fields = ['Stage A', 'Stage B', 'Stage B: 2nd strip', 'MPN / code', 'Values / what', 'Unit USD', 'Source / note', 'A USD', 'B USD', '2nd strip USD']
+    rows_, sheet = [], []
+    for r in new:
+        code = r['MPN / code']; q = [int(r[k] or 0) for k in ('Stage A', 'Stage B', 'Stage B: 2nd strip (optional)')]
+        o, rd = old.get(code), reads.get(code)
+        qty = q[0] or q[2] or q[1]
+        u = unit_at(rd['Price breaks (qty:USD)'], qty) if rd and rd['Price breaks (qty:USD)'] else None
+        thin = 'RT0805FRE07' in code
+        if thin and qty >= 10 and (not rd or ' ' not in rd['Price breaks (qty:USD)'].strip()):
+            u = TF_10; status = (f"stock read {rd['Read']}" if rd else 'not read') + f'; ${TF_10} = the top of the 10+ prices read'
+        elif rd and u is not None: status = f"read {rd['Read']}"
+        elif rd: status = f"stock read {rd['Read']}"
+        else: status = 'not read since 2026-10-28, or not a Mouser part'
+        if u is None: u = float(o['Unit USD']) if o and o['Unit USD'] else (0.021 if 'RC0805FR' in code else 0.0)
+        note = status if rd or thin else (o['Source / note'] if o else 'Mouser cut tape @10 (category price)')
+        if not rd and o and 'OPTIONAL' in o['Source / note']: note = o['Source / note']
+        rows_.append({'Stage A': q[0], 'Stage B': q[1], 'Stage B: 2nd strip': q[2], 'MPN / code': code, 'Values / what': r['Values / what'], 'Unit USD': f'{u:.3f}', 'Source / note': note,
+                      'A USD': f'{q[0] * u:.2f}', 'B USD': f'{q[1] * u:.2f}', '2nd strip USD': f'{q[2] * u:.2f}'})
+        if q[0]:
+            v = vendor(code, o['Source / note'] if o else '', rd)
+            sheet.append(dict(vendor=v, qty=q[0], code=code, what=r['Values / what'], unit=u, ext=q[0] * u, stock=rd['Stock'] if rd else '', on=rd['On order'] if rd else '', status=note if not rd else status, notes=r['Notes'], opt='OPTIONAL' in note))
+    with open(os.path.join(ROOT, 'order_phase1_prices.csv'), 'w', newline='') as f:
+        w = csv.DictWriter(f, fieldnames=fields, quoting=csv.QUOTE_ALL); w.writeheader(); w.writerows(rows_)
+    order = ['Mouser', 'Mouser, later', 'Tayda', 'RS', 'Don-Audio', 'Any, see note']
+    sheet.sort(key=lambda x: (order.index(x['vendor']), x['code']))
+    with open(os.path.join(ROOT, 'order_stage_a.csv'), 'w', newline='') as f:
+        w = csv.writer(f, quoting=csv.QUOTE_ALL)
+        w.writerow(['Vendor', 'Qty', 'Code', 'Values / what', 'Unit USD', 'Ext USD', 'Mouser stock', 'On order', 'Price / stock read', 'Notes'])
+        for x in sheet: w.writerow([x['vendor'] + (' (optional)' if x['opt'] else ''), x['qty'], x['code'], x['what'], f"{x['unit']:.3f}", f"{x['ext']:.2f}", x['stock'], x['on'], x['status'], x['notes']])
+    with open(os.path.join(ROOT, 'order_stage_a_mouser.csv'), 'w', newline='') as f:
+        w = csv.writer(f, quoting=csv.QUOTE_ALL)
+        w.writerow(['Manufacturer Part Number', 'Manufacturer', 'Quantity', 'Customer Reference'])
+        for x in sheet:
+            if x['vendor'] == 'Mouser': w.writerow([x['code'].split(' ', 1)[1], x['code'].split(' ', 1)[0], x['qty'], x['what'][:40]])
+    for v in order:
+        l = [x for x in sheet if x['vendor'] == v and not x['opt']]
+        print(f'{v:14s} {len(l):3d} lines  ${sum(x["ext"] for x in l):8.2f}')
+    print(f'stage A ${sum(x["ext"] for x in sheet if not x["opt"]):.2f} (+ ${sum(x["ext"] for x in sheet if x["opt"]):.2f} optional), stage B ${sum(float(r["B USD"]) for r in rows_):.2f}, 2nd strip ${sum(float(r["2nd strip USD"]) for r in rows_):.2f}')
+    print('stock under the stage A quantity:', [(x['code'], x['stock'], x['qty']) for x in sheet if x['stock'] and int(x['stock']) < x['qty']])
+    print('not read:', sum(1 for x in sheet if x['vendor'] == 'Mouser' and not x['stock']), 'Mouser lines')
+
 if __name__ == '__main__':
     import sys
-    phase1() if sys.argv[1:] == ['phase1'] else main()
+    {'phase1': phase1, 'stagea': stagea}.get(sys.argv[1] if len(sys.argv) > 1 else '', main)()
