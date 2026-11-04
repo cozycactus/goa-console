@@ -142,8 +142,8 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
 - Accepted as they are: RV5 (MUTEOUT's DC on the fader top; the Delta's cap-isolated shunt source is the fallback), RV6 (U16 clips at +21.9 dBu input), the 4.54 A worst corner, the earthed-TS-synth hum (pseudo-balanced cables, one mains distribution point).
 - PSU: routing (Ruslan) and the case build. Routing of every board is Ruslan's; `routing_guide.md`, `netrules.py` rules, `route_check.py` afterwards, then `fab_out.py`.
 - TI-model stability (TI's models are not in the repo: `sim/review/master/models/`, gitignored, or `$TI_MODELS` / `$OPA161X_LIB`),
-  re-run 2026-11-03 / 04. Strip v5.7, 21 states: worst U3B 59.8 deg, <= 1.61 dB peaking, U1B >= 84.6 deg, all as v5.5 (R142 1M
-  doesn't show). Master v0.14, all 34 configurations of `sim/review/master/run_each.py`: worst U21A/B 47.7 deg at the pot top, every
+  re-run 2026-11-03 / 04. Strip v5.7, 21 states, U16 on TI's real OPA1656 since 2026-11-04 (`.options itl1=500`): worst U3B 59.8 deg, U16 61.7, <= 1.61 dB peaking, U1B >= 84.6 deg, all as v5.5
+  (R142 1M doesn't show); N1 on TI's real model: every N1 unit >= 58.2 deg, <= 1.84 dB (the fitted macro read 50.1), so only distortion is left for the A/B (`strip_noise_proposal.md`). Master v0.14, all 34 configurations of `sim/review/master/run_each.py`: worst U21A/B 47.7 deg at the pot top, every
   unit's minimum as before, <= 2.89 dB peaking; the `_placed` runs saw the re-measured trace table for the first time (U13A -5 deg
   with A5_OUT at 98 mm, still >= 69.1). The phones loop, run separately: U26 75.9-83.0 deg, within 0.1 deg of before. The deck used
   to read old raw files when ngspice timed out (fixed 2026-11-03), so the 2026-10-29 master re-run was only part-simulated

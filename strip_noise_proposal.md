@@ -182,7 +182,47 @@ At the console (`tools/sim_console.py`, main L, faders at "0"):
 Even at +15 dB gain, U1's swap helps. The receiver's current noise in its 5–10 kΩ bridge outweighs the OPA1656's
 higher voltage noise in the gain stage.
 
+## Stability on TI's own models (2026-11-04)
+
+**What changed:** with `.options itl1=500` in place of the deck's `srcsteps=50 gminsteps=50`, TI's OPA1656 runs beside TI's OPA161x in the full strip
+deck (ngspice 46; `sim/review/strip/n1_stab.py ti u16` and `ti n1`, 21 states of strip v5.7). So the fitted macros aren't needed for this, and the
+"doesn't solve" in the next section was the options.
+
+**As built, U16 on TI's OPA1656 (504 of 504 results):** worst U3B 59.8°, U16A/B 61.7°, next U2A 72.5°; peaking <= 1.61 dB. No other unit moves more than
+0.2° from the run with U16 as an OPA161x.
+
+**N1 (U1, U5-U7, U12-U15 on TI's OPA1656):**
+
+| Unit | Stage | As built | N1 |
+|---|---|---|---|
+| U14A, U12B | KHN first integrators | 82.7 / 82.5° | **58.2 / 58.3°** |
+| U7A | LF (cable load) | 77.7° | **58.2°** |
+| U13A, U14B, U15A/B | KHN / HPF integrators | 87.1-87.6° | 60.7-60.8° |
+| U7B | insert return buffer | 86.4° | 62.0° |
+| U1B | gain stage | 84.6° | 63.8° |
+| U5B | HF | 82.2° | 63.8° |
+| U6A / U6B | EQ | 75.4 / 79.0° | 63.9 / 64.7° |
+| U1A | receiver | 84.8° | 67.4° |
+| U12A, U13B | KHN summers | 82.3° | 68.6° |
+| U5A | HPF summer | 84.3° | 72.1° |
+| U16A/B | followers, OPA1656 either way | 61.7° | 61.7° |
+
+Peaking <= 1.84 dB (U7A).
+
+- **How to read it:** N1's lowest unit (58.2°) is about level with the as-built strip's lowest (U3B 59.8°), so on TI's models stability is no obstacle to N1.
+  It costs more than the fitted pair said (11-27° against 0-10°), because TI's OPA161x starts higher, but it ends higher too: the fit's 50.1° was up to
+  12° low (median 6°) on these units. Distortion stays the open question, and the bench A/B and the scope check still decide.
+- **Four states needed a stand-in:** `c07`, `c09`, `c10`, `c14` have no operating point with TI's models on all 24 units, on the four option sets of `stab.py`;
+  of eight more tried, only relaxed tolerances got `c14` through. They ran with U2, U3, U8 on the deck's single-pole op-amp (`OPA1612_SIMPLE=1`, `results_n1_ti_n1_simple.json`).
+  Checked on `c01`: all 18 OPA1656 units match the full run to the last digit in margin and peaking.
+- **Not measured:** U2, U3, U8 under N1 in those four states. As built they read 72.5° or more there; in the other 17 states N1 moves them at most
+  -1.5° (U3B) / +0.7° (U2A), and only those two.
+
+`python3 n1_compare.py` prints this table.
+
 ## Stability with TI's OPA1656 model (2026-10-24; settled with fitted models on 2026-10-25, above)
+
+**Corrected 2026-11-04: it does solve, with `.options itl1=500` (section above). The "not gmin or source stepping" below tried changing those settings, not dropping them.**
 
 - **The model doesn't solve.** TI's OPA1656 model (SBOMAW6C) will not reach an operating point inside the full strip
   deck in ngspice 46. Any single OPA1656 instance makes it fail, even a KHN integrator with its + input grounded.

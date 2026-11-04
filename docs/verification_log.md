@@ -3,6 +3,9 @@
 Moved out of `CLAUDE.md` on 2026-10-28 (`project_review.md` RV13), text unchanged: every check run after a change, newest
 first. The current counts are in `CLAUDE.md`'s state table.
 
+- Strip TI stability on the real OPA1656 (2026-11-04, ngspice 46, strip v5.7, 21 states, `n1_stab.py`): as built 504 / 504 results, worst U3B 59.8 deg, U16 61.7, <= 1.61 dB;
+  c01 with U16 as OPA161x matches `results_none.json` to the digit on the units sampled. N1: 17 states full, 4 (`c07`, `c09`, `c10`, `c14`) with U2 / U3 / U8 single-pole, checked on c01:
+  18 OPA1656 units identical to the full run. Every N1 unit >= 58.2 deg, <= 1.84 dB. U2 / U3 / U8 aren't measured under N1 in those four states (`strip_noise_proposal.md`).
 - Group TI stability, whole deck (2026-11-04, ngspice 46): `pots` / `ret` / `loads` / `ins` / `bus`, 222 states, 1835 unit results, none
   without data, TI's OPA161x + OPA1656 together for the first time (`.options itl1=500`), `mst_all.json` re-measured from the placed
   board, 0.08 pF/mm. Worst 59.7 / 59.1 / 46.1 / 65.3 / 56.8 deg; followers 59.1-60.9; peaking <= 2.76 dB (`met1_ret1_review.md`). Deck test: planted

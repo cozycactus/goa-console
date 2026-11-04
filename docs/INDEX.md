@@ -385,7 +385,7 @@ The live rules, the current state and the one-line decisions are in `CLAUDE.md`;
 - `strip_noise_proposal.md` — the strip's EQ current noise and N1 (OPA1656 in U1, U5-U7, U12-U15), not signed off.
   Re-evaluated on strip v4.4 (2026-10-25): PRE EQ in −92.8 -> −96.1 dBu, 24 strips at main L −79.2 -> −81.9 dBu;
   stability with datasheet-fitted macros (`sim/review/strip/stripdeck.py` OPA_MODEL=fit, `n1_stab.py`, `n1_compare.py`;
-  the fit reads 3-24° below TI on the as-built strip): every N1 unit ≥ 50.1° over 21 states; +115 mA typ console-wide.
+  the fit reads 3-24° below TI on the as-built strip): every N1 unit ≥ 50.1° over 21 states (on TI's real OPA1656 since 2026-11-04: ≥ 58.2°, as built U3B 59.8°, U16 61.7°); +115 mA typ console-wide.
   Open: distortion (CMOS input capacitance), only the jig A/B can settle it. `sim/review/strip_noise/noise.py n1`.
 - `test_jig_spec.md` — test jig v0.9 (CS11: tests 13-17, output balance, line CMR, fader / pan residuals, faders-down noise,
   GCANCEL current; v0.8 strip v5.0: the CS1 overload checks, negative pulse / post-amp / gain stage / power-off; v0.7 strip v4.7: signal / OL LED checks; v0.6 strip v4.4; 4.2: the OPA1656 A/B for `strip_noise_proposal.md` N1): 4 real strips with jack boards + master stub (A/D/22R-tie

@@ -30,3 +30,19 @@ w = min((worst(R['fit_n1'], u)[0], u) for u in n1u)
 print(f'N1 units, worst fitted margin: {w[0]:.1f} deg ({w[1]}); change from fitted as built per unit:')
 for u in n1u:
     print(f'  {u}: {worst(R["fit_built"], u)[0]:.1f} -> {worst(R["fit_n1"], u)[0]:.1f}')
+
+# TI's own models (2026-11-04, n1_stab.py ti u16 / ti n1): as built with U16 on TI's OPA1656, against N1. The states with no operating point
+# with TI's models on all units come from the run with U2, U3, U8 single-pole (only its OPA1656 units count)
+names = [os.path.join(HERE, f'results_n1_ti_{k}.json') for k in ('u16', 'n1', 'n1_simple')]
+if all(os.path.exists(f) for f in names):
+    B, M, S = (json.load(open(f)) for f in names)
+    filled = 0
+    for st, r in S.items():
+        for u, v in r.items():
+            if 'pm' in v and 'pm' not in M[st].get(u, {}): M[st][u] = v; filled += 1
+    miss = [(st, u) for st, r in M.items() for u, v in r.items() if 'pm' not in v]
+    print(f"\nTI's models, 21 states: {filled} unit results from the single-pole run, {len(miss)} not measured: {sorted({u for _, u in miss})} in {sorted({s[:3] for s, _ in miss})}")
+    print(f'{"unit":5s} {"as built":>16s} {"N1":>16s}  peaking dB')
+    for u in units:
+        a, b = worst(B, u), worst(M, u)
+        print(f'{u:5s} {a[0]:5.1f} {a[1][:9]:9s}  {b[0]:5.1f} {b[1][:9]:9s}  {worst(B, u, "clpk", low=False)[0]} / {worst(M, u, "clpk", low=False)[0]}' + (' *' if u[:-1] in N1 else ''))

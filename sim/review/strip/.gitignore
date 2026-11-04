@@ -2,3 +2,4 @@ raw/
 *.cir
 OPA161x*.LIB
 *.json
+log_*.txt
