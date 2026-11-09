@@ -145,18 +145,18 @@ def classes_of(path):
     return out
 
 def fab(name):
-    pro = os.path.join(ROOT, name + '.kicad_pro'); d = json.load(open(pro))
+    pro = os.path.join(ROOT, 'boards', name, name + '.kicad_pro'); d = json.load(open(pro))
     if 'design_settings' not in d.get('board', {}):     # a minimal project (the PSU's): start from the strip's settings
-        d.setdefault('board', {})['design_settings'] = json.load(open(os.path.join(ROOT, 'channel_strip.kicad_pro')))['board']['design_settings']
+        d.setdefault('board', {})['design_settings'] = json.load(open(os.path.join(ROOT, 'boards', 'channel_strip', 'channel_strip.kicad_pro')))['board']['design_settings']
     d['board']['design_settings'].setdefault('rules', {}).update(FAB)
     with open(pro, 'w') as f: json.dump(d, f, indent=2); f.write('\n')
 
 def write(name):
-    pcb, pro = os.path.join(ROOT, name + '.kicad_pcb'), os.path.join(ROOT, name + '.kicad_pro')
+    pcb, pro = os.path.join(ROOT, 'boards', name, name + '.kicad_pcb'), os.path.join(ROOT, 'boards', name, name + '.kicad_pro')
     cls = classes_of(pcb)
     d = json.load(open(pro))
     if 'net_settings' not in d:                       # a project KiCad never saved with net settings: start from the strip's
-        d['net_settings'] = json.load(open(os.path.join(ROOT, 'channel_strip.kicad_pro')))['net_settings']
+        d['net_settings'] = json.load(open(os.path.join(ROOT, 'boards', 'channel_strip', 'channel_strip.kicad_pro')))['net_settings']
     ns = d['net_settings']
     base = next(c for c in ns['classes'] if c['name'] == 'Default')
     new = []
@@ -169,7 +169,7 @@ def write(name):
     ns['netclass_assignments'] = {}
     with open(pro, 'w') as f: json.dump(d, f, indent=2); f.write('\n')
     four = pcbnew.LoadBoard(pcb).GetCopperLayerCount() == 4
-    with open(os.path.join(ROOT, name + '.kicad_dru'), 'w') as f: f.write(DRU + (DRU4 if four else ''))
+    with open(os.path.join(ROOT, 'boards', name, name + '.kicad_dru'), 'w') as f: f.write(DRU + (DRU4 if four else ''))
     count = {}
     for c in cls.values(): count[c] = count.get(c, 0) + 1
     print(f'{name}: ' + ', '.join(f'{k} {count.get(k, 0)}' for k in CLASSES))

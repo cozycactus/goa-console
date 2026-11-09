@@ -1341,7 +1341,7 @@
 			(uuid "9d353dc0-a2d0-4f36-927c-4e4e5ef4f8c4")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -1829,7 +1829,7 @@
 			(uuid "96994909-12d2-4784-aa32-3be83e5b1ac5")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -4519,7 +4519,7 @@
 			(uuid "1a99a1e1-4f6d-40c4-bbbe-b69802ca9b1f")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Bourns_PTB0143_Slide_100mm.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Bourns_PTB0143_Slide_100mm.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -8615,7 +8615,7 @@
 			(uuid "1ced85d4-37ca-47f3-9d97-b04f89313b9d")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -9388,7 +9388,7 @@
 			(uuid "368a9686-6608-449e-ab15-40e249411303")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -10379,7 +10379,7 @@
 			(uuid "88f17fc9-8613-49d2-ac33-ba291eb38115")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -10867,7 +10867,7 @@
 			(uuid "45ed6f09-fcbd-440b-9cc7-12c59caa16ec")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -12093,7 +12093,7 @@
 			(uuid "588bf869-9741-4bc2-9cbc-e2d2e1480480")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -18166,7 +18166,7 @@
 			(uuid "c3409669-324d-4520-8e3d-ca9d53d849f4")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -21391,7 +21391,7 @@
 			(uuid "54462be4-4c93-4e3e-ae89-f285e516a68d")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -22026,7 +22026,7 @@
 			(uuid "870c34be-97fe-4d3b-983f-9457a1f33092")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -22758,7 +22758,7 @@
 			(uuid "a63680d4-addb-4267-9f6d-1da267ad5135")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -25906,7 +25906,7 @@
 			(uuid "3e25f55b-4f69-4e98-91d2-65e34d94d119")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -26225,7 +26225,7 @@
 			(uuid "6c5f5210-56c6-4ed3-92a4-ed9caf3d3592")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -27537,7 +27537,7 @@
 			)
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alps_RK09L_Double_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alps_RK09L_Double_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -29053,7 +29053,7 @@
 			(uuid "440a4682-8045-452b-8c8a-7c0d4e1383ae")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -30409,7 +30409,7 @@
 			(uuid "36c4abf3-9d0e-4a03-ab9f-69745c2310d0")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -30886,7 +30886,7 @@
 			(uuid "abd30791-fe73-4f06-8058-92faec68960e")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -31646,7 +31646,7 @@
 			(uuid "c2831ab8-2658-4c37-8bc6-766c9b85770f")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -32600,7 +32600,7 @@
 			(uuid "a10a727b-42f2-4359-8599-df5fedfc1ec3")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -33226,7 +33226,7 @@
 			(uuid "d7b363a5-8b67-441e-8451-28367e1b943c")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -37431,7 +37431,7 @@
 			(uuid "1a082b03-2451-4f3a-9bbd-4131046b48fc")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -37888,7 +37888,7 @@
 			(uuid "c17a3fb1-6480-4165-b1ec-19d698cac51f")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -38759,7 +38759,7 @@
 			(uuid "dc37c9da-329a-4893-8143-ccd6fd0d51f6")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -39105,7 +39105,7 @@
 			(uuid "c04609fd-4217-451f-9789-a665d2250fa4")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -41016,7 +41016,7 @@
 			(uuid "ef384bf2-371f-454d-ac66-b5dff6d25a48")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -42853,7 +42853,7 @@
 			(uuid "a143b7e7-d139-42cc-88db-cf1af3e1c702")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -43744,7 +43744,7 @@
 			(uuid "1ae5eba4-bceb-45fc-93d8-bdd7a1e48fc7")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -44327,7 +44327,7 @@
 			(uuid "952b4e38-e552-47a2-9cb1-b2b09dea6d2a")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -52290,7 +52290,7 @@
 			(uuid "db37e7e1-2b6d-45aa-951e-80833e2b4910")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Keystone_1287-ST_FastOn_Tab_6.35mm.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Keystone_1287-ST_FastOn_Tab_6.35mm.wrl"
 			(offset
 				(xyz 0 0 0)
 			)

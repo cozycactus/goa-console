@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import route_check
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 tmp = tempfile.mkdtemp()
-for ext in ('kicad_pcb', 'kicad_pro'): shutil.copy(os.path.join(ROOT, 'channel_strip.' + ext), tmp)
+for ext in ('kicad_pcb', 'kicad_pro'): shutil.copy(os.path.join(ROOT, 'boards', 'channel_strip', 'channel_strip.' + ext), tmp)
 path = os.path.join(tmp, 'channel_strip.kicad_pcb')
 b = pcbnew.LoadBoard(path); M, mm = pcbnew.FromMM, pcbnew.ToMM
 def P(v): return (mm(v.x), mm(v.y))

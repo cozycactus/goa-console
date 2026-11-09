@@ -3,6 +3,7 @@
 Moved out of `CLAUDE.md` on 2026-10-28 (`docs/reviews/project_review.md` RV13), text unchanged: every file of the project, what generates it, what it decided and when, in the order the "Files" section of CLAUDE.md grew.
 The live rules, the current state and the one-line decisions are in `CLAUDE.md`; this file is the detail behind them.
 Since 2026-11-09 the proposals, reviews, studies and build notes are in `docs/{proposals,reviews,studies,build}/`, the BOM exports and order lists in `bom/`, the schematic PDFs in `pdf/`; the narrative below is otherwise as it was written.
+The same day each KiCad project moved into `boards/<name>/`: where this file names `channel_strip.kicad_pcb`, `master.net`, `group_intended.json` and the like, read `boards/<name>/` in front.
 
 ## Proposals and reviews (ID, document, sign-off, where it landed)
 

@@ -462,7 +462,7 @@
 			(uuid "65284cb7-e6f9-4270-a4a5-b3f75a2478c4")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Fuse_Bourns_MF-RX160-72_Radial_P5.08mm.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Fuse_Bourns_MF-RX160-72_Radial_P5.08mm.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -20378,7 +20378,7 @@
 			(uuid "1f028dd4-d738-4ab3-b72c-92fb48f01927")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Fuse_Bourns_MF-RX160-72_Radial_P5.08mm.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Fuse_Bourns_MF-RX160-72_Radial_P5.08mm.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -27271,7 +27271,7 @@
 			(uuid "4fe8c220-dc35-435f-b6bf-41671384c541")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Keystone_1287-ST_FastOn_Tab_6.35mm.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Keystone_1287-ST_FastOn_Tab_6.35mm.wrl"
 			(offset
 				(xyz 0 0 0)
 			)

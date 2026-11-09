@@ -10,7 +10,7 @@ from placer import place, PROJ
 from verify import sexp, field
 
 def blocks(name):
-    d = json.load(open(os.path.join(PROJ, name + '_parts.json')))
+    d = json.load(open(os.path.join(PROJ, 'boards', name, name + '_parts.json')))
     seen, out = set(), []
     for title, refs in d['blocks']:              # a package shared by two blocks stays in the first
         out.append((title.split('  ')[0], [r for r in refs if not (r in seen or seen.add(r))]))
@@ -18,7 +18,7 @@ def blocks(name):
 
 def netlist(name):
     """{ref: {pin: net, 'value': value}}, {net: {refs}} from <name>.net, so layouts follow parts by function."""
-    t = sexp(open(os.path.join(PROJ, name + '.net')).read())
+    t = sexp(open(os.path.join(PROJ, 'boards', name, name + '.net')).read())
     parts = {field(c, 'ref'): {'value': field(c, 'value')}
              for c in next(c for c in t[1:] if isinstance(c, list) and c[0] == 'components')[1:]}
     on = {}
@@ -59,7 +59,7 @@ zones = [('power in', (90, 1, 159, 40), take('POWER IN'), 'F'),
 labels = [(x, 87.2, n, 1.5) for x, n in zip(BNC_X, ('MIX L', 'MIX R', 'SUB 1', 'AUX 1', 'AUX 2', 'PFL'))]
 labels += [(127 + 3.8, 101.0, 'MIX L BAL', 1.5), (62.0, 12.5, 'GC REF', 1.2), (62.0, 14.3, '1-2 D  2-3 A', 1.0),
            (80.0, 10.0, 'TIE 22R', 1.2), (138.0 + 5.08, 14.2, '+V   0V   -V', 1.2), (6.5, 62.5, 'RIBBON', 1.2)]
-place(os.path.join(PROJ, 'jig_master_stub.net'), os.path.join(PROJ, 'jig_master_stub.kicad_pcb'),
+place(os.path.join(PROJ, 'boards', 'jig_master_stub', 'jig_master_stub.net'), os.path.join(PROJ, 'boards', 'jig_master_stub', 'jig_master_stub.kicad_pcb'),
       dict(board=(0, 0, W, H), fix=fix, holes=corners(W, H), hole_value='M3 standoff', zones=zones, near=near,
            labels=labels, attach=True, notes=((20, 'TEST JIG MASTER STUB'), (30, 'BNC + XLR on the front edge'))))
 
@@ -82,6 +82,6 @@ zones = [('ribbon + ground', (12, 1, 60, 20), take('RIBBON'), 'F'),
          ('dummy load', (80, 1, 119, 20), take('DUMMY WING LOAD'), 'F')]
 labels = [(19.0, y, n, 1.3) for y, n in zip(ROW_Y, BUSES)] + [(x + 2.0, 17.0, g, 1.3) for x, g in zip(COL_X, GROUPS)]
 labels += [(98 + 5.08, 14.2, '+V   0V   -V  LOAD', 1.1), (109.0, 18.0, '+1 nF', 1.2), (6.5, 62.5, 'RIBBON', 1.2)]
-place(os.path.join(PROJ, 'jig_load_board.net'), os.path.join(PROJ, 'jig_load_board.kicad_pcb'),
+place(os.path.join(PROJ, 'boards', 'jig_load_board', 'jig_load_board.net'), os.path.join(PROJ, 'boards', 'jig_load_board', 'jig_load_board.kicad_pcb'),
       dict(board=(0, 0, W, H), fix=fix, holes=corners(W, H), hole_value='M3 standoff', zones=zones, near=near,
            labels=labels, attach=True, notes=((20, 'TEST JIG LOAD BOARD'), (30, 'switch up = channels on the bus'))))

@@ -507,6 +507,14 @@ def write_intended(out, only=None):
     json.dump(intended, open(out.replace('.kicad_sch', '_intended.json'), 'w'), indent=0)
 
 
+def sibling_sch(out, name):
+    """Schematic path of the sibling board `name` (a jack board) for a main board written to `out`: boards/<main>/ and
+    boards/<name>/ side by side in the repository, or next to `out` when it was written somewhere else (a scratch run)."""
+    here = os.path.dirname(os.path.abspath(out)); main = os.path.splitext(os.path.basename(out))[0]
+    if os.path.basename(here) == main:
+        return os.path.join(os.path.dirname(here), name, name + '.kicad_sch')
+    return os.path.join(here, name + '.kicad_sch')
+
 def keep_net_settings(d, path):
     """Net classes and patterns are each project's own (tools/netrules.py writes them): a generator that writes a
     .kicad_pro from master.kicad_pro keeps the existing project's net settings, and a project without any starts with

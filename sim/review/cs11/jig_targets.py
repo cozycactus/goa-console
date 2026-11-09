@@ -58,7 +58,7 @@ def netlist_ns():
     cut = src.index("r = run(TOP, ON, AC1K")
     sys.path.insert(0, os.path.join(ROOT, 'tools'))
     ns = {'__name__': 'cs11', '__file__': os.path.join(ROOT, 'tools', 'sim_netlist.py')}
-    argv = sys.argv; sys.argv = ['sim_netlist.py', os.path.join(ROOT, 'channel_strip.net'), os.path.join(ROOT, 'jack_board.net')]
+    argv = sys.argv; sys.argv = ['sim_netlist.py', os.path.join(ROOT, 'boards', 'channel_strip', 'channel_strip.net'), os.path.join(ROOT, 'boards', 'jack_board', 'jack_board.net')]
     exec(compile(src[:cut], 'sim_netlist.py', 'exec'), ns); sys.argv = argv
     return ns
 

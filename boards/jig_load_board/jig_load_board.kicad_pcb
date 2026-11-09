@@ -5353,7 +5353,7 @@
 			(uuid "2dbcf5e3-a8fb-4d8e-8c1c-fe9d3a700235")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Keystone_1287-ST_FastOn_Tab_6.35mm.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Keystone_1287-ST_FastOn_Tab_6.35mm.wrl"
 			(offset
 				(xyz 0 0 0)
 			)

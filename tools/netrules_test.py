@@ -6,7 +6,7 @@ import pcbnew
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 KC = os.environ.get('KC', '/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli')
 tmp = tempfile.mkdtemp()
-for ext in ('kicad_pcb', 'kicad_pro', 'kicad_dru'): shutil.copy(os.path.join(ROOT, 'channel_strip.' + ext), tmp)
+for ext in ('kicad_pcb', 'kicad_pro', 'kicad_dru'): shutil.copy(os.path.join(ROOT, 'boards', 'channel_strip', 'channel_strip.' + ext), tmp)
 path = os.path.join(tmp, 'channel_strip.kicad_pcb')
 b = pcbnew.LoadBoard(path); M = pcbnew.FromMM
 pads = [p.GetBoundingBox() for f in b.GetFootprints() for p in f.Pads()]
@@ -49,7 +49,7 @@ for px, py in ((x + .5, y + .5), (x + 7.5, y + .5), (x + 7.5, y + 2.5), (x + .5,
 b.Add(z)
 pcbnew.SaveBoard(path, b)
 # CHASSIS lives on the jack board: a CHASSIS track there, 0.3 mm from a GNDA track
-for ext in ('kicad_pcb', 'kicad_pro', 'kicad_dru'): shutil.copy(os.path.join(ROOT, 'jack_board.' + ext), tmp)
+for ext in ('kicad_pcb', 'kicad_pro', 'kicad_dru'): shutil.copy(os.path.join(ROOT, 'boards', 'jack_board', 'jack_board.' + ext), tmp)
 jpath = os.path.join(tmp, 'jack_board.kicad_pcb'); jb = pcbnew.LoadBoard(jpath)
 def jtrack(net, a, z, w):
     t = pcbnew.PCB_TRACK(jb); t.SetStart(pcbnew.VECTOR2I(M(a[0]), M(a[1]))); t.SetEnd(pcbnew.VECTOR2I(M(z[0]), M(z[1])))
@@ -57,16 +57,16 @@ def jtrack(net, a, z, w):
 jtrack('/CHASSIS', (14, 2), (22, 2), 1.5); jtrack('GNDA', (14, 3.35), (22, 3.35), 0.6)
 pcbnew.SaveBoard(jpath, jb)
 # the wing feeds exist on the master only: a 1.0 mm +VBUS_L track there
-for ext in ('kicad_pcb', 'kicad_pro', 'kicad_dru'): shutil.copy(os.path.join(ROOT, 'master.' + ext), tmp)
+for ext in ('kicad_pcb', 'kicad_pro', 'kicad_dru'): shutil.copy(os.path.join(ROOT, 'boards', 'master', 'master.' + ext), tmp)
 mpath = os.path.join(tmp, 'master.kicad_pcb'); mb = pcbnew.LoadBoard(mpath)
 t_ = pcbnew.PCB_TRACK(mb); t_.SetStart(pcbnew.VECTOR2I(M(70), M(300))); t_.SetEnd(pcbnew.VECTOR2I(M(70), M(305))); t_.SetWidth(M(1.0))
 t_.SetLayer(pcbnew.B_Cu); t_.SetNet(mb.FindNet('+VBUS_L')); mb.Add(t_); pcbnew.SaveBoard(mpath, mb)
 # the 4 A paths exist on the PSU only: a 2.0 mm +V track there
-for ext in ('kicad_pcb', 'kicad_pro', 'kicad_dru'): shutil.copy(os.path.join(ROOT, 'psu.' + ext), tmp)
+for ext in ('kicad_pcb', 'kicad_pro', 'kicad_dru'): shutil.copy(os.path.join(ROOT, 'boards', 'psu', 'psu.' + ext), tmp)
 ppath = os.path.join(tmp, 'psu.kicad_pcb'); pb = pcbnew.LoadBoard(ppath)
 t_ = pcbnew.PCB_TRACK(pb); t_.SetStart(pcbnew.VECTOR2I(M(60), M(30))); t_.SetEnd(pcbnew.VECTOR2I(M(66), M(30))); t_.SetWidth(M(2.0))
 t_.SetLayer(pcbnew.B_Cu); t_.SetNet(pb.FindNet('/+V')); pb.Add(t_); pcbnew.SaveBoard(ppath, pb)
-rules = [l.split('"')[1] for l in open(os.path.join(ROOT, 'channel_strip.kicad_dru')) if l.startswith('(rule')]   # the strip has the 4-layer rules too
+rules = [l.split('"')[1] for l in open(os.path.join(ROOT, 'boards', 'channel_strip', 'channel_strip.kicad_dru')) if l.startswith('(rule')]   # the strip has the 4-layer rules too
 hits = {}
 for name in ('channel_strip', 'jack_board', 'master', 'psu'):
     subprocess.run([KC, 'pcb', 'drc', '--severity-all', '-o', os.path.join(tmp, name + '.rpt'), os.path.join(tmp, name + '.kicad_pcb')],

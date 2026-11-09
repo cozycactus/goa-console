@@ -3,11 +3,12 @@ power entry and both wing headers, MIX L/R, master fader, mono, main outputs, po
 5-6, monitoring, PFL and meters. Subgroups, aux masters 1-4 and returns are on the group modules (gen_group.py).
 Same builder as the strip (schgen.py). The parts, reference allocation and circuit blocks are in
 master_lib.py (shared with gen_jig.py); this file is the master's netlist."""
-import sys
+import os, sys
 from master_lib import *
+from schgen import sibling_sch
 LATE_AFL, LATE_PH = [], []        # docs/proposals/clicks_proposal.md RV7 / RV8: parts made last (after D13)
 
-OUT = sys.argv[1] if len(sys.argv) > 1 else 'master.kicad_sch'
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'boards', 'master', 'master.kicad_sch')
 collect_jacks()                 # panel jacks and XLRs go on the master jack board (master_jack_board.kicad_sch)
 
 # ================================================================ PART 5: power entry, grounding  [24-26]
@@ -350,5 +351,5 @@ build(OUT, 'master', 'Master section - goa console',
       flowed=True, last=('POWER ENTRY', 'DISTRIBUTION', 'MOTHERLOOM', 'REMOTE METER', 'JACK BOARD LINK'),
       pages=dict(paper='A4', folder='master_sheets'))      # A4 sub-sheets under a root sheet (prints on A4)
 
-jack_board(os.path.join(os.path.dirname(os.path.abspath(OUT)), 'master_jack_board.kicad_sch'), 'master_jack_board',
+jack_board(sibling_sch(OUT, 'master_jack_board'), 'master_jack_board',
            'Master module jack board - goa console (main XLRs, inserts, EXT, C/Room, phones, aux 5-6)', JACKS, NL, LINK, holes=3)

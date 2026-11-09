@@ -25,7 +25,7 @@ OPA1612_SIMPLE = os.environ.get('OPA1612_SIMPLE')
 sys.path.insert(0, os.path.join(REPO, 'tools'))
 from verify import sexp, field
 
-NET = os.path.join(REPO, 'group.net')
+NET = os.path.join(REPO, 'boards', 'group', 'group.net')
 comps, pins = {}, {}
 tree = sexp(open(NET).read())
 for c in next(x for x in tree[1:] if isinstance(x, list) and x[0] == 'components')[1:]:

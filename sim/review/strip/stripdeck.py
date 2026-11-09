@@ -26,7 +26,7 @@ sys.path.insert(0, os.path.join(REPO, 'tools'))
 from verify import sexp, field
 import netnames
 
-NET, JNET = os.path.join(REPO, 'channel_strip.net'), os.path.join(REPO, 'jack_board.net')
+NET, JNET = os.path.join(REPO, 'boards', 'channel_strip', 'channel_strip.net'), os.path.join(REPO, 'boards', 'jack_board', 'jack_board.net')
 comps, pins = {}, {}
 for path, prefix in ((NET, ''), (JNET, 'JB_')):
     tree = sexp(open(path).read()); rn = netnames.renames(path)     # unlabelled nets of a drawn schematic

@@ -1,8 +1,8 @@
 (export
 	(version "E")
 	(design
-		(source "/Users/ruslanmigirov/projects/goa-console/jig_master_stub.kicad_sch")
-		(date "2026-11-03T17:24:25")
+		(source "/Users/ruslanmigirov/projects/goa-console/boards/jig_master_stub/jig_master_stub.kicad_sch")
+		(date "2026-11-09T20:04:00")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -9953,7 +9953,7 @@
 		)
 		(library
 			(logical "goa-console")
-			(uri "${KIPRJMOD}/goa-console.kicad_sym")
+			(uri "${KIPRJMOD}/../../goa-console.kicad_sym")
 		)
 	)
 	(nets

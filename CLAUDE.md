@@ -24,6 +24,7 @@ Where the detail lives (all moved out of this file on 2026-10-28, text unchanged
 - `docs/verification_log.md` — every check run after every change.
 - `console_architecture.md` (v3.2), `channel_strip_schematic_spec.md` (v5.7), `master_section_spec.md` (v0.14),
   `test_jig_spec.md` (v0.10), `psu_spec.md` (v0.2) — authoritative specs. `routing_guide.md` for Ruslan's routing.
+- `boards/<name>/` — each of the nine KiCad projects in its own folder (schematic, board, `.kicad_pro`, `.kicad_dru`, `.net`, `_intended.json`, `_parts.json`, its `*_sheets/` and the two lib tables); the project libraries (`goa-console.pretty`, `.3dshapes`, `.kicad_sym`) stay in the root, reached as `${KIPRJMOD}/../../`. Tools are run from the repository root.
 - `docs/proposals/`, `docs/reviews/`, `docs/studies/`, `docs/build/` — the design record (out of the root since 2026-11-09; the live specs above stay there with the KiCad projects). `bom/` — BOM exports and order lists. `pdf/` — schematic PDFs.
 
 ## Current state (2026-11-04)
@@ -53,20 +54,20 @@ Power: console ~3.31 / 2.79 A typical, worst corner ~4.54 A on +V against the PS
 Regenerate + verify loop (KiCad 10.0.7; `KC=kicad-cli KPY=python3` on Linux, the app paths on macOS; `.venv` = kiutils
 1.4.8; details and every other tool in `docs/tooling.md`):
 ```
-.venv/bin/python tools/gen.py channel_strip.kicad_sch        # strip + jack board; gen_master.py master.kicad_sch,
-                                                             # gen_group.py group.kicad_sch, gen_psu.py, gen_jig.py
-$KC sch export netlist -o channel_strip.net channel_strip.kicad_sch
-.venv/bin/python tools/verify.py channel_strip.net channel_strip_intended.json
-python3 tools/check_fp.py channel_strip.net
-$KC sch erc --severity-all channel_strip.kicad_sch
-$KC sch export pdf -o pdf/channel_strip.pdf channel_strip.kicad_sch      # + the BOM export line in docs/tooling.md
-$KPY tools/place_strip.py channel_strip.net channel_strip.kicad_pcb  # place_group.py, place_master.py (~3 min),
+.venv/bin/python tools/gen.py boards/channel_strip/channel_strip.kicad_sch        # strip + jack board; gen_master.py boards/master/master.kicad_sch,
+                                                             # gen_group.py boards/group/group.kicad_sch, gen_psu.py, gen_jig.py
+$KC sch export netlist -o boards/channel_strip/channel_strip.net boards/channel_strip/channel_strip.kicad_sch
+.venv/bin/python tools/verify.py boards/channel_strip/channel_strip.net boards/channel_strip/channel_strip_intended.json
+python3 tools/check_fp.py boards/channel_strip/channel_strip.net
+$KC sch erc --severity-all boards/channel_strip/channel_strip.kicad_sch
+$KC sch export pdf -o pdf/channel_strip.pdf boards/channel_strip/channel_strip.kicad_sch      # + the BOM export line in docs/tooling.md
+$KPY tools/place_strip.py boards/channel_strip/channel_strip.net boards/channel_strip/channel_strip.kicad_pcb  # place_group.py, place_master.py (~3 min),
                                                                      # place_jig.py, place_psu.py; refuses a routed board
 $KPY tools/netrules.py channel_strip                                 # after any re-placement or netlist change
 python3 tools/check_all.py --full                                    # every check, tracked files untouched; exit 1 on FAIL
 python3 tools/order_bom.py && python3 tools/order_bom.py phase1 && python3 tools/order_bom.py stagea   # after any BOM export
-$KPY tools/freespot.py master.kicad_pcb Resistor_SMD:R_0805_2012Metric B 90 X Y  # free spot for a part made last
-python3 tools/placediff.py master.kicad_pcb                          # vs HEAD: must list only the new parts
+$KPY tools/freespot.py boards/master/master.kicad_pcb Resistor_SMD:R_0805_2012Metric B 90 X Y  # free spot for a part made last
+python3 tools/placediff.py boards/master/master.kicad_pcb                          # vs HEAD: must list only the new parts
 ```
 Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC / route_check). Drawings: `tools/panel_fab.py`
 (`panels/`, macOS fonts), `frame_fab.py`, `tub_fab.py`, `psu_case_fab.py`. 3D: `tools/export_3d.py` → `render/*.json`,

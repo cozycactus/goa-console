@@ -1,8 +1,8 @@
 (export
 	(version "E")
 	(design
-		(source "/Users/ruslanmigirov/projects/goa-console/jack_board.kicad_sch")
-		(date "2026-11-03T17:24:13")
+		(source "/Users/ruslanmigirov/projects/goa-console/boards/jack_board/jack_board.kicad_sch")
+		(date "2026-11-09T20:03:56")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")

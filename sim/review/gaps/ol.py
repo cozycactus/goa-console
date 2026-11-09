@@ -22,7 +22,7 @@ REPO = os.path.join(HERE, '..', '..', '..')
 sys.path.insert(0, os.path.join(REPO, 'tools'))
 from verify import sexp, field
 
-net = sexp(open(os.path.join(REPO, 'channel_strip.net')).read())
+net = sexp(open(os.path.join(REPO, 'boards', 'channel_strip', 'channel_strip.net')).read())
 VAL = {field(c, 'ref'): field(c, 'value') for c in next(x for x in net[1:] if isinstance(x, list) and x[0] == 'components')[1:]}
 def v(ref):
     t = VAL[ref].split()[0]; m = re.fullmatch(r'(\d+)([RKkMpnuµ])(\d*)', t)

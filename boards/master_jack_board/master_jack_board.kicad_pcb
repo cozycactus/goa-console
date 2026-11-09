@@ -520,7 +520,7 @@
 			(uuid "83522010-dd31-4e18-932b-e6afd95f8b83")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -967,7 +967,7 @@
 			(uuid "c6c90c72-d426-44b6-9890-a84d1056721a")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -1412,7 +1412,7 @@
 			(uuid "3f42ca83-890c-4eeb-bae8-88501cf5444d")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -1857,7 +1857,7 @@
 			(uuid "38797d77-500f-4872-80e8-020804eea4d1")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -2302,7 +2302,7 @@
 			(uuid "aa2cc43a-d5be-4993-a225-bb07f17b5ce9")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -3181,7 +3181,7 @@
 			(uuid "69c2aff2-8da4-485f-bae5-b76f5f166487")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Jack_XLR_Neutrik_NC3MAV_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Jack_XLR_Neutrik_NC3MAV_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -3628,7 +3628,7 @@
 			(uuid "ae2f9734-4b83-484e-bf5d-d0c0d6cae38b")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -4608,7 +4608,7 @@
 			(uuid "3725fde0-b946-462c-979a-d0cbcfebb6be")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Jack_XLR_Neutrik_NC3MAV_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Jack_XLR_Neutrik_NC3MAV_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -5487,7 +5487,7 @@
 			(uuid "4d5ba980-0253-459e-9729-26435099dbe7")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Jack_XLR_Neutrik_NC3MAV_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Jack_XLR_Neutrik_NC3MAV_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -6033,7 +6033,7 @@
 			(uuid "6d78ac96-f14a-40a8-b0d6-0f04ba9bb7d7")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -6480,7 +6480,7 @@
 			(uuid "3530f3bb-f6df-4aa2-bd45-06b2c1f9f3da")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -7028,7 +7028,7 @@
 			(uuid "0667b4b8-14df-40e4-9c3d-b5bca74fa1ed")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)

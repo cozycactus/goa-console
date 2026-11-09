@@ -38,21 +38,21 @@ The live rules, the current state and the one-line decisions are in `CLAUDE.md`;
   `goa-console.3dshapes/<footprint>.wrl` (KiCad's 3D viewer) + `.step` (KiCad's GLB/STEP export). The placer points
   a footprint at that model when it exists; tools/footprints.py writes the model line. Per-part review renders:
   `Blender -b --factory-startup --python tools/models3d/preview.py -- render/parts [module]`.
-- `tools/verify.py` — checks KiCad's exported netlist against `channel_strip_intended.json`.
+- `tools/verify.py` — checks KiCad's exported netlist against `boards/channel_strip/channel_strip_intended.json`.
   Regenerate + verify loop:
   ```
   KC=/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli   # macOS, KiCad 10.0.7
-  .venv/bin/python tools/gen.py channel_strip.kicad_sch
-  $KC sch export netlist -o channel_strip.net channel_strip.kicad_sch
-  .venv/bin/python tools/verify.py channel_strip.net channel_strip_intended.json
-  python3 tools/check_fp.py channel_strip.net                # pins vs footprint pads
-  $KC sch erc --severity-all channel_strip.kicad_sch
-  $KC sch export pdf -o pdf/channel_strip.pdf channel_strip.kicad_sch
+  .venv/bin/python tools/gen.py boards/channel_strip/channel_strip.kicad_sch
+  $KC sch export netlist -o boards/channel_strip/channel_strip.net boards/channel_strip/channel_strip.kicad_sch
+  .venv/bin/python tools/verify.py boards/channel_strip/channel_strip.net boards/channel_strip/channel_strip_intended.json
+  python3 tools/check_fp.py boards/channel_strip/channel_strip.net                # pins vs footprint pads
+  $KC sch erc --severity-all boards/channel_strip/channel_strip.kicad_sch
+  $KC sch export pdf -o pdf/channel_strip.pdf boards/channel_strip/channel_strip.kicad_sch
   ```
-  python3 tools/sim_netlist.py channel_strip.net jack_board.net   # both netlists joined by the ribbon: 45 checks
+  python3 tools/sim_netlist.py boards/channel_strip/channel_strip.net boards/jack_board/jack_board.net   # both netlists joined by the ribbon: 45 checks
   python3 tools/sim_console.py     # the whole console from the netlists: 24 strips + 4 groups + master + ribbon, 45 checks
-  python3 tools/check_bus.py channel_strip.net group.net master.net jig_master_stub.net   # the motherloom pin by pin
-  BOM (every board; quoted fields, because some MPNs contain commas; DNP column): `$KC sch export bom -o bom/channel_strip_BOM.csv --fields '${QUANTITY},Value,Footprint,MPN,${DNP},Reference' --labels 'Qty,Value,Footprint,MPN,DNP,References' --group-by 'Value,Footprint,MPN,${DNP}' --ref-delimiter ' ' --ref-range-delimiter '' channel_strip.kicad_sch`
+  python3 tools/check_bus.py boards/channel_strip/channel_strip.net boards/group/group.net boards/master/master.net boards/jig_master_stub/jig_master_stub.net   # the motherloom pin by pin
+  BOM (every board; quoted fields, because some MPNs contain commas; DNP column): `$KC sch export bom -o bom/channel_strip_BOM.csv --fields '${QUANTITY},Value,Footprint,MPN,${DNP},Reference' --labels 'Qty,Value,Footprint,MPN,DNP,References' --group-by 'Value,Footprint,MPN,${DNP}' --ref-delimiter ' ' --ref-range-delimiter '' boards/channel_strip/channel_strip.kicad_sch`
   `.venv/` (gitignored) holds kiutils 1.4.8. gen.py finds the symbol libs at the Linux or macOS
   default path, or `$KICAD_SYMBOL_DIR`. verify.py parses both KiCad 7 and KiCad 8+ netlists
   and exits non-zero on any mismatch.
@@ -69,7 +69,7 @@ The live rules, the current state and the one-line decisions are in `CLAUDE.md`;
   stub's feeds): tracks >= 1.5 mm, 2.0 preferred. PSU (2026-10-27): HighCurrent class (POS_IN / NEG_IN / POS_LC / NEG_LC /
   +V / -V / 0V, the 4 A paths) >= 3 mm, 4 preferred (psu_spec.md §7), EARTH as Chassis; 15 rules in the test, all fire;
   routing notes in routing_guide.md (Kelvin ADJ dividers, crowbar sense at J3, 0V star). Re-run netrules.py after any
-  re-placement or netlist change. Generators that copy master.kicad_pro keep each project's net settings (`schgen.keep_net_settings`).
+  re-placement or netlist change. Generators that copy boards/master/master.kicad_pro keep each project's net settings (`schgen.keep_net_settings`).
 - `tools/route_check.py` (2026-10-27, KiCad Python) — post-route checker for what DRC can't see:
   - return vias: a GNDA via within 1 mm of each signal via, 2 mm at most on HighZ / Entry / Bus;
   - reference: filled GNDA under every sensitive track on its reference layer (In1 under F.Cu, In2 under B.Cu; on 2

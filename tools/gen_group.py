@@ -5,9 +5,10 @@ The circuits are the master's own (master_lib.py, master_section_spec.md section
 usage: .venv/bin/python tools/gen_group.py group.kicad_sch   (also writes group_jack_board.kicad_sch)"""
 import json, os, sys
 from master_lib import *
+from schgen import sibling_sch
 
-OUT = sys.argv[1] if len(sys.argv) > 1 else 'group.kicad_sch'
-ROOT = os.path.dirname(os.path.abspath(OUT))
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, 'boards', 'group', 'group.kicad_sch')
 SYM.update({'SJO': ('Jumper', 'SolderJumper_2_Open')})
 FP.update({'SJO': 'Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm'})
 
@@ -149,6 +150,6 @@ build(OUT, 'group', 'Group module - goa console (sub + return + aux master)',
       paper='auto', perrow=22, revision='0.12', flowed=True, last=('POWER AND GROUNDS', 'RIBBON'),   # group v0.12 (RET1) + CS2b / CS4b / CS4c / CS6 / CS10
       pages=dict(paper='A4', folder='group_sheets'))       # A4 sub-sheets under a root sheet (prints on A4)
 
-jack_board(os.path.join(ROOT, 'group_jack_board.kicad_sch'), 'group_jack_board',
+jack_board(sibling_sch(OUT, 'group_jack_board'), 'group_jack_board',
            'Group module jack board - goa console (sub out, insert, aux out, return 1 and 2 L/R)', JACKS, NL, LINK, holes=2,
            more=[(NL2, LINK2, f'Main board link 2 2x{NL2}')])

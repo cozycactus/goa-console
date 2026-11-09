@@ -49,7 +49,7 @@ def main():
     args = [a for a in sys.argv[1:] if not a.startswith('--')]
     allow_unrouted, force = '--allow-unrouted' in sys.argv, '--force' in sys.argv
     if len(args) != 1: sys.exit(__doc__)
-    name = args[0]; pcb, sch = os.path.join(ROOT, name + '.kicad_pcb'), os.path.join(ROOT, name + '.kicad_sch')
+    name = args[0]; pcb, sch = os.path.join(ROOT, 'boards', name, name + '.kicad_pcb'), os.path.join(ROOT, 'boards', name, name + '.kicad_sch')
     out = os.path.join(ROOT, 'fab', name)
     if os.path.exists(out): shutil.rmtree(out)
     os.makedirs(os.path.join(out, 'gerber')); os.makedirs(os.path.join(out, 'drill'))

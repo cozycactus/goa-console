@@ -522,7 +522,7 @@
 			(uuid "dd4b23da-2812-491d-8eaa-d61a747261c9")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -1070,7 +1070,7 @@
 			(uuid "e3ca37a8-8fb6-481a-93c2-72da2d33c9df")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -1618,7 +1618,7 @@
 			(uuid "ffb18c07-504c-403a-bfdf-de72d73ae6ec")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Jack_6.35mm_Neutrik_NJ6FD-V_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)

@@ -6615,7 +6615,7 @@
 			(uuid "4d9e76f7-1296-4a9a-9e49-67d94cdae597")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -33440,7 +33440,7 @@
 			(uuid "82932283-0adf-448e-9b1e-7bddf15f467e")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Bourns_PTB0144_Slide_100mm_Dual.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Bourns_PTB0144_Slide_100mm_Dual.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -33928,7 +33928,7 @@
 			(uuid "35a3635a-189b-4f77-9c63-c42f7db2ebf7")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -49699,7 +49699,7 @@
 			(uuid "78c39929-e1ae-4787-964b-48e5e9e1d56d")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -50516,7 +50516,7 @@
 			(uuid "ca936bc9-1236-4dad-87ec-90c04f30b772")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -51260,7 +51260,7 @@
 			(uuid "aed40bce-d2c5-4afd-a887-2262cbada565")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alpha_RD901F-40-00D_Single_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -66870,7 +66870,7 @@
 			(uuid "e8976a1f-a370-44d4-b7a1-708097abd3f9")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -75760,7 +75760,7 @@
 			(uuid "a22b9f2c-86d0-428c-a703-a5cd9a4f1e0b")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -81222,7 +81222,7 @@
 			(uuid "72f57cdb-5bb4-4597-bbb9-94709b136258")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -82113,7 +82113,7 @@
 			(uuid "668aa387-6dd9-42e8-9332-2cdf66ae133f")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/SW_Push_2P2T_Toggle_CK_PVA2xxH1xxxxxxV2.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -101669,7 +101669,7 @@
 			(uuid "b355ada0-9b78-42aa-998e-951ea9e849f1")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Fuse_Bourns_MF-RX250-72_Radial_P10.16mm.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Fuse_Bourns_MF-RX250-72_Radial_P10.16mm.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -135494,7 +135494,7 @@
 			(uuid "755e8974-d24b-486d-a757-ab2cc1cef5d6")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Fuse_Bourns_MF-RX250-72_Radial_P10.16mm.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Fuse_Bourns_MF-RX250-72_Radial_P10.16mm.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -162298,7 +162298,7 @@
 			(uuid "f527b1e2-aa70-4923-97c0-b46a561bb91b")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Fuse_Bourns_MF-RX185-72_Radial_P5.08mm.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Fuse_Bourns_MF-RX185-72_Radial_P5.08mm.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -183301,7 +183301,7 @@
 			(uuid "40d5462b-2604-43aa-8125-4b28eff886f6")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/goa-console.3dshapes/Fuse_Bourns_MF-RX185-72_Radial_P5.08mm.wrl"
+		(model "${KIPRJMOD}/../../goa-console.3dshapes/Fuse_Bourns_MF-RX185-72_Radial_P5.08mm.wrl"
 			(offset
 				(xyz 0 0 0)
 			)

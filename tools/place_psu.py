@@ -31,7 +31,7 @@ zones = [('+V rail', (1, 9, 59, 44), pos, 'F'), ('+V crowbar', (1, 9, 59, 44), p
 labels = [(25, 45.3, '+V RAIL (OUT +V, RTN 0V)', 1.2), (95, 45.3, '-V RAIL (OUT 0V, RTN -V)', 1.2),
           (14.5, 47.6, 'SMPS1 -  +', 1.0), (32.5, 47.6, 'EARTH', 1.0), (100.5, 47.6, 'SMPS2 -  +', 1.0),
           (60.0, 47.6, '-V  -V  0V  0V  +V  +V  E', 1.0), (60, 11, 'HEATSINK EDGE: INSULATE TABS', 1.0)]
-place(os.path.join(PROJ, 'psu.net'), os.path.join(PROJ, 'psu.kicad_pcb'),
+place(os.path.join(PROJ, 'boards', 'psu', 'psu.net'), os.path.join(PROJ, 'boards', 'psu', 'psu.kicad_pcb'),
       dict(board=(0, 0, W, H), fix=fix, holes=[(4, 4), (W - 4, 4), (4, H - 4), (W - 4, H - 4)],
            hole_value='M3 standoff', zones=zones, near=near, grounds=(), labels=labels,
            notes=((10, 'PSU REGULATOR BOARD'), (20, 'top edge: heatsink bar'), (30, 'bottom edge: wiring'))))

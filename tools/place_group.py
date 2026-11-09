@@ -28,25 +28,25 @@ JACK_FIX.update({'H1': (XL, 89.8, 0, 'F'), 'H2': (XR, 89.8, 0, 'F')})   # plated
                                                              # the last row since the links fill the free slot
 JACK_NOTES = ((12, 'SUB OUT | SUB INSERT'), (34, 'AUX OUT | links CN2, CN1 (bottom)'), (56, 'RETURN 1 L | R'),
               (78, 'RETURN 2 L | R'))
-place(os.path.join(PROJ, 'group_jack_board.net'), os.path.join(PROJ, 'group_jack_board.kicad_pcb'),
+place(os.path.join(PROJ, 'boards', 'group_jack_board', 'group_jack_board.net'), os.path.join(PROJ, 'boards', 'group_jack_board', 'group_jack_board.kicad_pcb'),
       dict(board=(0, 0, W, JACK_Y1), fix=JACK_FIX, holes=JACK_HOLES, zones=[], notes=JACK_NOTES,
            hole_value='M3 standoff = jack body height (~24 mm)'))
 
 # ================================================================ main board
-d = json.load(open(os.path.join(PROJ, 'group_parts.json')))
+d = json.load(open(os.path.join(PROJ, 'boards', 'group', 'group_parts.json')))
 seen, B = set(), {}
 for title, refs in d['blocks']:                 # a package shared by two blocks stays in the first
     B[title.split('  ')[0].split(':')[0]] = [r for r in refs if not (r in seen or seen.add(r))]
 # Beside-parts (decouplers, summing-junction parts, DRV134 caps) come from the generator (group_parts.json 'near');
 # groups below are derived from the netlist, so a regeneration that renumbers parts needs no edits here
 NEAR = dict(d['near'])
-net = sexp(open(os.path.join(PROJ, 'group.net')).read())
+net = sexp(open(os.path.join(PROJ, 'boards', 'group', 'group.net')).read())
 comps = next(c for c in net[1:] if isinstance(c, list) and c[0] == 'components')
 FPN = {field(c, 'ref'): field(c, 'footprint') for c in comps[1:]}
 VAL = {field(c, 'ref'): field(c, 'value') for c in comps[1:]}
 ON = {field(n, 'name').lstrip('/'): {field(x, 'ref') for x in n[1:] if isinstance(x, list) and x[0] == 'node'}
       for n in next(c for c in net[1:] if isinstance(c, list) and c[0] == 'nets')[1:]}
-_rn = netnames.renames(os.path.join(PROJ, 'group.net'))    # a drawn schematic leaves nets inside a drawing unlabelled
+_rn = netnames.renames(os.path.join(PROJ, 'boards', 'group', 'group.net'))    # a drawn schematic leaves nets inside a drawing unlabelled
 ON = {_rn.get(k, k): v for k, v in ON.items()}
 num = lambda r: int(re.sub(r'\D', '', r))
 byval = lambda v: next(r for r, x in VAL.items() if x == v)
@@ -173,7 +173,7 @@ TURNS = {'JP7': 90, 'R5': 90, 'R11': 180, 'R20': 180, 'R22': 180, 'R25': 180, 'R
          'R37': 180, 'R51': 180, 'R54': 90, 'R56': 180, 'R59': 180, 'R61': 180, 'R62': 180, 'R72': 180, 'R73': 180,
          'R74': 180, 'R77': 180, 'R78': 180, 'R80': 180, 'R86': 180, 'R89': 180, 'R90': 180, 'R96': 180, 'R107': 180,
          'R109': 180, 'R110': 180, 'R112': 180, 'R115': 270, 'R117': 270}
-place(os.path.join(PROJ, 'group.net'), os.path.join(PROJ, 'group.kicad_pcb'),
+place(os.path.join(PROJ, 'boards', 'group', 'group.net'), os.path.join(PROJ, 'boards', 'group', 'group.kicad_pcb'),
       dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS10) + tuple(CS4B) + tuple(CS4C) + tuple(CS2B) + tuple(CLICKS), wire=tuple(CS4C) + tuple(CLICKS), attach_as={'R36': ('output', 'U5', '7')}, turns=TURNS, layers=4, rails=(0.5, 5.5), holes=HOLES, zones=ZONES, near=NEAR, labels=LABELS, notes=NOTES,
            keepout=[(22.0, 185.0, 23.5, 215.0, 'B')],          # silk room beside the links' boxes
            hole_value='M3 standoff 11.5 mm', attach=True))

@@ -20,7 +20,7 @@
 	(fp_line (start -127.870 -9.520) (end 0.370 -9.520) (stroke (width 0.12) (type solid)) (layer "F.SilkS") (uuid "8be5677b-0a0e-54d2-b072-fc3f78b3f2c8"))
 	(fp_line (start -127.870 5.720) (end 0.370 5.720) (stroke (width 0.12) (type solid)) (layer "F.SilkS") (uuid "f38636bb-8800-567f-a207-8c0de0357df4"))
 	(fp_rect (start -129.250 -9.900) (end 1.750 6.100) (stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd") (uuid "7fd4257c-5f09-5f9f-b1ca-3215ad195584"))
-	(model "${KIPRJMOD}/goa-console.3dshapes/Potentiometer_Bourns_PTB0143_Slide_100mm.wrl"
+	(model "${KIPRJMOD}/../../goa-console.3dshapes/Potentiometer_Bourns_PTB0143_Slide_100mm.wrl"
 		(offset (xyz 0 0 0))
 		(scale (xyz 1 1 1))
 		(rotate (xyz 0 0 0))

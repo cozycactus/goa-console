@@ -179,7 +179,7 @@ def place(NET, OUT, L):
         fp.SetFPID(pcbnew.LIB_ID(lib, name))
         if os.path.exists(os.path.join(PROJ, 'goa-console.3dshapes', name + '.wrl')):     # our model (tools/models3d)
             fp.Models().clear(); m = pcbnew.FP_3DMODEL()                                     # for a part KiCad has none for
-            m.m_Filename = '${KIPRJMOD}/goa-console.3dshapes/' + name + '.wrl'; fp.Models().push_back(m)
+            m.m_Filename = '${KIPRJMOD}/../../goa-console.3dshapes/' + name + '.wrl'; fp.Models().push_back(m)
         fp.SetReference(ref); fp.SetValue(p['value'])
         if p['path']: fp.SetPath(pcbnew.KIID_PATH(p['path']))
         if p['sheetfile']: fp.SetSheetname(p['sheetname']); fp.SetSheetfile(p['sheetfile'])

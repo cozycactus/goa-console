@@ -39,13 +39,13 @@ def main():
     full = '--full' in sys.argv
     tmp = tempfile.mkdtemp(prefix='check_all_'); t0 = time.time()
     for b in BOARDS:
-        sch, pcb = os.path.join(ROOT, b + '.kicad_sch'), os.path.join(ROOT, b + '.kicad_pcb')
+        sch, pcb = os.path.join(ROOT, 'boards', b, b + '.kicad_sch'), os.path.join(ROOT, 'boards', b, b + '.kicad_pcb')
         net = os.path.join(tmp, b + '.net')
         run([KC, 'sch', 'export', 'netlist', '-o', net, sch])
-        intended = os.path.join(ROOT, b + '_intended.json')
+        intended = os.path.join(ROOT, 'boards', b, b + '_intended.json')
         if os.path.exists(intended): shutil.copy(intended, tmp)        # netnames.renames() looks for it beside the .net
         # the committed .net is what sim_console, check_links and the ol sims read: it must be this schematic's
-        committed = os.path.join(ROOT, b + '.net')
+        committed = os.path.join(ROOT, 'boards', b, b + '.net')
         if os.path.exists(committed):
             same = partition(committed) == partition(net)
             report(f'{b}: committed .net is the schematic', same, 'same pins and nets' if same else 'STALE: re-export it')
@@ -77,7 +77,7 @@ def main():
         code, out = run([KPY, os.path.join(TOOLS, 'route_check.py'), pcb])
         m = re.findall(r'(\d+) ERR, (\d+) WARN', out)
         report(f'{b}: route_check', bool(m) and m[-1][0] == '0', f'{m[-1][0]} ERR, {m[-1][1]} WARN' if m else out.strip()[-120:])
-    wrong = [b for b in BOARDS if [s.get('filename') for s in json.load(open(os.path.join(ROOT, b + '.kicad_pro'))).get('schematic', {}).get('top_level_sheets', [])] != [b + '.kicad_sch']]
+    wrong = [b for b in BOARDS if [s.get('filename') for s in json.load(open(os.path.join(ROOT, 'boards', b, b + '.kicad_pro'))).get('schematic', {}).get('top_level_sheets', [])] != [b + '.kicad_sch']]
     report('project files name their own sheet', not wrong, ', '.join(wrong) or f'{len(BOARDS)} projects')
     code, out = run(['python3', os.path.join(TOOLS, 'check_bus.py')] + [os.path.join(tmp, b + '.net') for b in ('channel_strip', 'group', 'master', 'jig_master_stub')])
     report('bus headers (strip / group / master / jig)', code == 0 and 'all pins as the Delta map' in out,

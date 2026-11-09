@@ -8,8 +8,8 @@ L=render/live; mkdir -p $L
 B=${1:-strip}; NOTE=${2:-}
 case $B in
   strip)  SCH=$L/pilot.kicad_sch; CMD=(env PILOT=$SCH .venv/bin/python tools/gen.py /tmp/strip_rows.kicad_sch) ;;
-  group)  SCH=group.kicad_sch;    CMD=(.venv/bin/python tools/gen_group.py group.kicad_sch) ;;
-  master) SCH=master.kicad_sch;   CMD=(.venv/bin/python tools/gen_master.py master.kicad_sch) ;;
+  group)  SCH=boards/group/group.kicad_sch;    CMD=(.venv/bin/python tools/gen_group.py boards/group/group.kicad_sch) ;;
+  master) SCH=boards/master/master.kicad_sch;   CMD=(.venv/bin/python tools/gen_master.py boards/master/master.kicad_sch) ;;
   *) echo "usage: $0 [strip|group|master] [note]"; exit 2 ;;
 esac
 NAME=$(basename $SCH .kicad_sch); DIR=$(dirname $SCH)

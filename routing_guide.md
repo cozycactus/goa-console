@@ -321,7 +321,7 @@ right up to the pads; that is part of the 4 A path.
 change, because nets are assigned by exact name:
 - **Where:** net classes go in `X.kicad_pro`, custom rules in `X.kicad_dru`, for the strip, group, master, both jig
   boards and the three jack boards.
-- **Regeneration:** the generators that copy `master.kicad_pro` (jack boards, jig, PSU) keep each project's own net
+- **Regeneration:** the generators that copy `boards/master/master.kicad_pro` (jack boards, jig, PSU) keep each project's own net
   settings.
 - **Tests:** `tools/netrules_test.py` draws one offending track group per rule on a scratch copy of the strip and its
   jack board, and checks that DRC reports every rule. KiCad drops a rule whose condition it can't evaluate without

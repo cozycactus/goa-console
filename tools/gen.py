@@ -47,8 +47,8 @@ JACK_V = 'Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical'; JACK_V_MPN = 'N
 LINK = {1: 'IN_T', 2: 'IN_R', 3: 'GNDA', 4: 'SEND', 5: 'GNDA', 6: 'RET_RAW', 7: 'GNDA', 8: 'DO_T', 9: 'DO_R', 10: 'GNDA'}
 POT2A = 'Alpha RD902F-40-15R1-A10K (dual, log)'
 
-OUT = sys.argv[1] if len(sys.argv) > 1 else 'channel_strip.kicad_sch'
-JB_OUT = os.path.join(os.path.dirname(OUT), 'jack_board.kicad_sch')
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'boards', 'channel_strip', 'channel_strip.kicad_sch')
+JB_OUT = schgen.sibling_sch(OUT, 'jack_board')
 
 # ---------------------------------------------------------------- netlist
 b = block('POWER ENTRY, LOGIC SUPPLY, GROUNDS, DECOUPLING')

@@ -66,9 +66,9 @@ class Board:
         self.link = [(m, j) for m in link if not m.startswith('JB_') for j in link
                      if j.startswith('JB_') and side(j) == side(m)]             # (main header, jack-board header) pairs
 
-STRIP = Board('channel_strip.net', 'jack_board.net')
-GROUP = Board('group.net', 'group_jack_board.net')
-MASTER = Board('master.net', 'master_jack_board.net')
+STRIP = Board('boards/channel_strip/channel_strip.net', 'boards/jack_board/jack_board.net')
+GROUP = Board('boards/group/group.net', 'boards/group_jack_board/group_jack_board.net')
+MASTER = Board('boards/master/master.net', 'boards/master_jack_board/master_jack_board.net')
 HEADER = {'strip': 'CN1', 'group': 'CN2'}
 SPADE = {'strip': 'CN4', 'group': 'CN1'}
 

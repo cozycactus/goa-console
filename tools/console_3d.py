@@ -226,7 +226,7 @@ def panel_print(c, P):
 
 # ---------------------------------------------------------------- KiCad boards (GLB)
 def glb(board):
-    pcb = os.path.join(PROJ, board + '.kicad_pcb'); out = os.path.join(OUTDIR, 'glb', board + '.glb')
+    pcb = os.path.join(PROJ, 'boards', board, board + '.kicad_pcb'); out = os.path.join(OUTDIR, 'glb', board + '.glb')
     if not os.path.exists(out) or os.path.getmtime(out) < os.path.getmtime(pcb):
         os.makedirs(os.path.dirname(out), exist_ok=True)
         subprocess.run([KC, 'pcb', 'export', 'glb', '--force', '--subst-models', '--include-pads', '--include-silkscreen',

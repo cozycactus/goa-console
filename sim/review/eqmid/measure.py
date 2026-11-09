@@ -5,7 +5,7 @@ import os, re, sys, subprocess, tempfile
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(HERE, '..', '..', '..')
 SRC = open(os.path.join(ROOT, 'tools', 'sim_netlist.py')).read()
 G = {'__file__': os.path.join(ROOT, 'tools', 'sim_netlist.py'), '__name__': 'eqlib'}
-sys.argv = [sys.argv[0], os.path.join(ROOT, 'channel_strip.net'), os.path.join(ROOT, 'jack_board.net')]
+sys.argv = [sys.argv[0], os.path.join(ROOT, 'boards', 'channel_strip', 'channel_strip.net'), os.path.join(ROOT, 'boards', 'jack_board', 'jack_board.net')]
 exec(compile(SRC[:SRC.index('\nON = {')], 'sim_netlist', 'exec'), G)
 deck = G['deck']
 ON = {'SW4': True, 'SW12': True, 'SW14': True, 'SW5': True}

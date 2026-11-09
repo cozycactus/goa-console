@@ -32,7 +32,7 @@ def footprint(name, descr, tags, body, ref_xy, val_xy, model=True):
     s += text('Footprint', '', 0, 0, 'F.Fab', hide=True) + text('Datasheet', '', 0, 0, 'F.Fab', hide=True)
     s += '\t(attr through_hole)\n' + body
     if model:                         # tools/models3d/check.py --wrl writes it
-        s += (f'\t(model "${{KIPRJMOD}}/goa-console.3dshapes/{name}.wrl"\n\t\t(offset (xyz 0 0 0))\n\t\t(scale (xyz 1 1 1))\n'
+        s += (f'\t(model "${{KIPRJMOD}}/../../goa-console.3dshapes/{name}.wrl"\n\t\t(offset (xyz 0 0 0))\n\t\t(scale (xyz 1 1 1))\n'
               '\t\t(rotate (xyz 0 0 0))\n\t)\n')
     s += ')\n'
     open(os.path.join(OUT, name + '.kicad_mod'), 'w').write(s)

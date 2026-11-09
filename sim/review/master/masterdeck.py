@@ -28,7 +28,7 @@ M = os.environ.get('TI_MODELS', os.path.join(HERE, 'models'))   # TI's models st
 sys.path.insert(0, HERE)
 from netlib import load, REPO
 
-comps, pins_raw, nets = load(REPO + '/master.net')
+comps, pins_raw, nets = load(REPO + '/boards/master/master.net')
 # EXT R receiver: gen_master.py names its output EXT_RR, the same net as the R jack's ring (stereo_in('EXT', ..., 'EXT_RR')).
 # The fixed deck (default) splits the receiver-side pins onto EXT_RRO, as the intended circuit.
 # Master v0.8 (MG1) names the outputs EXT_BL/BR; the split only applies to a v0.7 netlist.
@@ -36,7 +36,7 @@ EXTFIX = {('U17', '7'): 'EXT_RRO', ('R84', '2'): 'EXT_RRO', ('C90', '2'): 'EXT_R
 if not all(pins_raw.get(k) == 'EXT_RR' for k in EXTFIX): EXTFIX = {}
 pins_fix = dict(pins_raw); pins_fix.update(EXTFIX)
 pins = pins_fix
-jcomps, jpins, jnets = load(REPO + '/master_jack_board.net')
+jcomps, jpins, jnets = load(REPO + '/boards/master_jack_board/master_jack_board.net')
 
 GROUND = {'GNDA', 'GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'}
 RAILS = {'+VA': 16.9, '-VA': -16.9, '+VP': 16.8, '-VP': -16.8, '+VM': 16.45, '-VM': -16.45, '+VL': 16.75, '-VL': -16.75,

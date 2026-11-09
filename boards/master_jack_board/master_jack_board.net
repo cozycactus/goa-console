@@ -1,8 +1,8 @@
 (export
 	(version "E")
 	(design
-		(source "/Users/ruslanmigirov/projects/goa-console/master_jack_board.kicad_sch")
-		(date "2026-11-03T17:24:23")
+		(source "/Users/ruslanmigirov/projects/goa-console/boards/master_jack_board/master_jack_board.kicad_sch")
+		(date "2026-11-09T20:03:59")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -1584,7 +1584,7 @@
 		)
 		(library
 			(logical "goa-console")
-			(uri "${KIPRJMOD}/goa-console.kicad_sym")
+			(uri "${KIPRJMOD}/../../goa-console.kicad_sym")
 		)
 	)
 	(nets

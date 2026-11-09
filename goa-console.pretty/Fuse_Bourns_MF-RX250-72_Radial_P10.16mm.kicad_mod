@@ -14,7 +14,7 @@
 	(fp_rect (start -3.840 -1.550) (end 14.000 1.550) (stroke (width 0.1) (type solid)) (fill none) (layer "F.Fab") (uuid "02444b85-f303-5dfa-87c2-3c6caabd021d"))
 	(fp_rect (start -3.960 -1.670) (end 14.120 1.670) (stroke (width 0.12) (type solid)) (fill none) (layer "F.SilkS") (uuid "06f5c38e-3199-52bd-9864-7a40763c69e9"))
 	(fp_rect (start -4.090 -1.900) (end 14.250 1.900) (stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd") (uuid "47801586-0f10-54e0-ad58-56baa23001eb"))
-	(model "${KIPRJMOD}/goa-console.3dshapes/Fuse_Bourns_MF-RX250-72_Radial_P10.16mm.wrl"
+	(model "${KIPRJMOD}/../../goa-console.3dshapes/Fuse_Bourns_MF-RX250-72_Radial_P10.16mm.wrl"
 		(offset (xyz 0 0 0))
 		(scale (xyz 1 1 1))
 		(rotate (xyz 0 0 0))

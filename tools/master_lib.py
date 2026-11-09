@@ -321,11 +321,12 @@ def collected(): return list(jackboard or [])
 def project_file(out):
     """A .kicad_pro next to a generated schematic (settings from master.kicad_pro), so ERC uses them."""
     import json, os
-    root, name = os.path.dirname(os.path.abspath(out)), os.path.splitext(os.path.basename(out))[0]
-    d = json.load(open(os.path.join(root, 'master.kicad_pro')))
+    here, name = os.path.dirname(os.path.abspath(out)), os.path.splitext(os.path.basename(out))[0]
+    root = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
+    d = json.load(open(os.path.join(root, 'boards', 'master', 'master.kicad_pro')))
     d['meta']['filename'] = name + '.kicad_pro'; d['sheets'] = []
-    from schgen import keep_net_settings, own_sheet; keep_net_settings(d, os.path.join(root, name + '.kicad_pro')); own_sheet(d, name)
-    with open(os.path.join(root, name + '.kicad_pro'), 'w') as f: json.dump(d, f, indent=2); f.write('\n')
+    from schgen import keep_net_settings, own_sheet; keep_net_settings(d, os.path.join(here, name + '.kicad_pro')); own_sheet(d, name)
+    with open(os.path.join(here, name + '.kicad_pro'), 'w') as f: json.dump(d, f, indent=2); f.write('\n')
 
 def jack(b, key, value, pins, split=False):
     """A panel jack or XLR: placed on this board, or recorded for the module's jack board. split = give every

@@ -34,25 +34,25 @@ JACK_FIX.update({'H1': (73.3, 15, 0, 'F'), 'H2': (73.3, 90, 0, 'F'), 'H3': (8, 9
 JACK_NOTES = ((15, 'MAIN L (XLR) | MIX L INS | MIX R INS'), (32, 'C/ROOM L | R'), (47, 'MAIN R (XLR)'),
               (52, 'EXT L | R'), (72, 'AUX 5 | AUX 6 OUT'), (79, 'MONO (XLR)'), (92, 'PHONES'),
               (105, 'link CN1 (bottom), pin 1 left'))
-place(os.path.join(PROJ, 'master_jack_board.net'), os.path.join(PROJ, 'master_jack_board.kicad_pcb'),
+place(os.path.join(PROJ, 'boards', 'master_jack_board', 'master_jack_board.net'), os.path.join(PROJ, 'boards', 'master_jack_board', 'master_jack_board.kicad_pcb'),
       dict(board=(0, 0, W, JACK_Y1), fix=JACK_FIX, holes=JACK_HOLES, zones=[], notes=JACK_NOTES,
            hole_value='M3 standoff = jack body height (~24 mm)'))
 
 # ================================================================ main board
-d = json.load(open(os.path.join(PROJ, 'master_parts.json')))
+d = json.load(open(os.path.join(PROJ, 'boards', 'master', 'master_parts.json')))
 seen, B = set(), {}
 for title, refs in d['blocks']:                 # a package shared by two blocks stays in the first
     B[re.split(r'\s*[(:]|  ', title)[0].strip()] = [r for r in refs if not (r in seen or seen.add(r))]
 # Beside-parts come from the generator (master_parts.json 'near': decouplers, summing-junction parts, DRV134 caps,
 # relay coil parts, LM2901s at the first LED they drive, ...), so a regeneration that renumbers parts needs no edits here
 NEAR = dict(d['near'])
-net = sexp(open(os.path.join(PROJ, 'master.net')).read())
+net = sexp(open(os.path.join(PROJ, 'boards', 'master', 'master.net')).read())
 comps = next(c for c in net[1:] if isinstance(c, list) and c[0] == 'components')
 FPN = {field(c, 'ref'): field(c, 'footprint') for c in comps[1:]}
 VAL = {field(c, 'ref'): field(c, 'value') for c in comps[1:]}
 ON = {field(n, 'name').lstrip('/'): {field(x, 'ref') for x in n[1:] if isinstance(x, list) and x[0] == 'node'}
       for n in next(c for c in net[1:] if isinstance(c, list) and c[0] == 'nets')[1:]}
-_rn = netnames.renames(os.path.join(PROJ, 'master.net'))    # a drawn schematic leaves nets inside a drawing unlabelled
+_rn = netnames.renames(os.path.join(PROJ, 'boards', 'master', 'master.net'))    # a drawn schematic leaves nets inside a drawing unlabelled
 ON = {_rn.get(k, k): v for k, v in ON.items()}
 num = lambda r: int(re.sub(r'\D', '', r))
 byval = lambda v: next(r for r, x in VAL.items() if x == v)
@@ -247,7 +247,7 @@ MOVES.update(CLICKS)
 RV9B = {'R240': (9.47, 237.25, 90, 'B')}
 MOVES.update(RV9B)
 for z in ZONES: z[2][:] = [r for r in z[2] if r not in CS4C and r not in CS7 and r not in CLICKS and r not in RV9B]   # their drivers' blocks list them too
-place(os.path.join(PROJ, 'master.net'), os.path.join(PROJ, 'master.kicad_pcb'),
+place(os.path.join(PROJ, 'boards', 'master', 'master.net'), os.path.join(PROJ, 'boards', 'master', 'master.kicad_pcb'),
       dict(board=(0, MAIN_Y0, W, MAIN_Y1), fix=FIX, moves=MOVES, moves_only=tuple(CS4B) + tuple(CS4C) + tuple(CS7) + tuple(D13) + tuple(CLICKS) + tuple(RV9B), wire=tuple(CS4C) + ('C194', 'C195'), attach_as={'R69': ('output', 'U13', '1'), 'R80': ('output', 'U13', '7')}, turns=TURNS, layers=4, rails=(0.5, 6.5), holes=HOLES, zones=ZONES, near=NEAR, notes=NOTES,
            grounds=('GNDA', 'GNDD', 'GNDM', 'PHONESGND', 'CHASSIS'), silk_text_off=('K',), hole_value='M3 standoff 11.5 mm',
            attach=True, keepout=[(0, 186, EL, 299), (ER, 186, W, 299),
