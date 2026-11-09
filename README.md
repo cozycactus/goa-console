@@ -4,6 +4,10 @@ A DIY 24+ channel line-level mixing console in the style of the Soundcraft Delta
 synths (goa trance) and designed in KiCad, with the schematics generated from Python, checked against intended
 netlists and simulated in ngspice.
 
+> **Design only, not built.** No board here has been routed, fabricated or powered, so nothing is proven on the bench.
+> The external PSU connects to mains, so build it only if you are qualified to work with mains voltages. See
+> [Licence](#licence): there is no warranty of any kind.
+
 ![The console as placed today: 24 strips, 4 groups and the master in a 9° tub](docs/img/console.jpg)
 
 *3D model built from the placed KiCad boards (`tools/console_3d.py`). Knob caps and panel finish are placeholders.*
@@ -38,11 +42,9 @@ netlists and simulated in ngspice.
 <table>
 <tr>
 <td><img src="docs/img/strip_panel.jpg" width="280" alt="Strip panel with Delta-style print"></td>
-<td><img src="docs/img/delta_d201_top.png" width="300" alt="Soundcraft 200 Delta D201 input drawing"></td>
 </tr>
 <tr>
 <td><em>Strip panel print in the Delta's style</em></td>
-<td><em>200 Delta D201 input (User Guide), the reference</em></td>
 </tr>
 </table>
 
@@ -102,7 +104,7 @@ netlists and simulated in ngspice.
 | `goa-console.pretty/`, `goa-console.3dshapes/`, `goa-console.kicad_sym` | Project footprints (faders, spade tab, PTC), part 3D models (VRML + STEP), symbols |
 | `tools/` | Generators, verification (`check_all.py` runs everything), placement engine, routing rules (`netrules.py`), fab outputs (`fab_out.py`), the order list (`order_bom.py`), 3D export and Blender build (below) |
 | `sim/` | ngspice decks and Python sims: signal path, EQ, gain stage, mid tuning, routing switch, master mix, meters, mute, PSU |
-| `ref/` | Reference material: Soundcraft Delta DLX/Theatre schematics, 200 Delta Technical Manual and User Guide (scanned), panel-drawing crops |
+| `ref/` | **Not in this repository**, because these are third-party documents: Soundcraft Delta DLX/Theatre schematics, 200 Delta Technical Manual and User Guide with panel-drawing crops, the Mackie 1604-VLZ service manual, an API 500 spec. The docs still cite them by their `ref/...` paths. The folder is git-ignored, so a local copy stays out of commits |
 | `render/` | 3D exports (`*.json`); renders and the `.blend` are generated and git-ignored |
 | `CLAUDE.md` | Working notes: rules, current state, one-line decisions, open items; the detail in `docs/INDEX.md` (file map, proposals table), `docs/tooling.md`, `docs/decisions.md` (decisions in full), `docs/verification_log.md` |
 
@@ -205,5 +207,15 @@ $BLENDER -b --factory-startup --python tools/console_3d.py -- render
 
 ## Licence
 
-There is no licence yet; the repository is private. The Soundcraft material in `ref/` and
-`docs/img/delta_d201_top.png` is Soundcraft's copyright and is kept here for reference only.
+Copyright 2026 Ruslan Migirov. Licensed under the [CERN Open Hardware Licence Version 2, Strongly Reciprocal](LICENSE)
+(`SPDX-License-Identifier: CERN-OHL-S-2.0`). It covers the whole repository including `tools/`, because the generators
+there hold the design itself: the netlists, the schematic drawings and the placement. The design is provided as is, with
+no warranty of any kind.
+
+Not covered by that licence:
+
+- SPICE model parameters under `sim/` that come from component manufacturers remain theirs.
+- Standard KiCad library footprints and 3D models used by the boards stay under the KiCad libraries' own licence.
+
+Soundcraft, Delta, Mackie and API are trademarks of their respective owners. This project is not affiliated with or
+endorsed by any of them.

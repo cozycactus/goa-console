@@ -21,3 +21,6 @@ render/fly/
 # fab outputs (tools/fab_out.py)
 fab/
 sim/review/clipping/models/
+
+# Third-party documents, not ours to redistribute (the docs cite them as ref/...)
+ref/
