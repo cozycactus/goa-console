@@ -1,10 +1,10 @@
-"""CS11 (console_survey.md §7): targets for the five jig tests it adds to test_jig_spec.md.
+"""CS11 (docs/studies/console_survey.md §7): targets for the five jig tests it adds to test_jig_spec.md.
 1. Output balance of a DRV135 output (TI's DRV134 model, SBOM004A): each leg into 1 kohm 0.1 % to ground, the common-
    mode part (V+ + V-) / 2 against the differential V+ - V-; the jig stub as built (10 uF NP per leg, no loop resistor)
    and the console's (22R inside the loop, CS4c), with the two 10 uF at nominal and 20 % apart.
 2. Line-input CMR of a strip from the exported netlists (the strip + jack board, ideal resistors: what the layout's
    capacitors leave, C8 / C9 at the jack and C94 / C95 at the followers), against a 1 kohm source on the tip leg and a
-   matched pair of 100 ohm; the resistor tolerance is ground_study.md §5.2's Monte Carlo (worst 5 % at 50 Hz).
+   matched pair of 100 ohm; the resistor tolerance is docs/studies/ground_study.md §5.2's Monte Carlo (worst 5 % at 50 Hz).
 3. Fader breakthrough and pan isolation against the pots' end resistance (the wiper at its end stop).
 4. MIX L noise with N channels routed and every fader down (the summer, 4K7 per source and feedback, OPA1612; the
    stub's re-inverter; 20 Hz-20 kHz), N = 4...24 on the load board.

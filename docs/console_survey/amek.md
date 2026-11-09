@@ -222,7 +222,7 @@ IC is the SSM2110 in VD.
    Cost: none, it's documentation. Fit: good. Our jig spec lacks an output-balance test for the DRV135 outputs and a
    line-input CMR figure measured this way. Our 54 dB figure is from simulation with a 1 kΩ source imbalance.
 2. **A removable 10 Ω (+ 100 nF) between the console star and chassis, instead of a hard bond.**
-   - Why: an earthed synth on a TS cable plus our hard 0 V-to-chassis bond is the loop `ground_study.md` can't fix.
+   - Why: an earthed synth on a TS cable plus our hard 0 V-to-chassis bond is the loop `docs/studies/ground_study.md` can't fix.
      A 10 Ω / 100 nF "limited earth" keeps RF bonding and a safe DC reference, and cuts the LF loop current by the
      ratio of 10 Ω to the loop impedance.
    - Cost: a 2 W resistor, a cap and a link on the star bar.
@@ -233,7 +233,7 @@ IC is the SSM2110 in VD.
 4. **A balanced 470R / 330R / 470R pad for sensitive monitor amps (1-5).** It is a manual note, not hardware: it puts
    the C/Room pot back in its useful range with hot active monitors. Cost: none. Fit: good, since synth studios
    often have small active monitors.
-5. **Q switch on the LMF (0.7 / 1.5) and switched shelf frequencies.** `eq_survey.md` already notes that Q controls are
+5. **Q switch on the LMF (0.7 / 1.5) and switched shelf frequencies.** `docs/studies/eq_survey.md` already notes that Q controls are
    the one feature we lack.
    - Cost: a PVA2 key and resistor switching in the KHN damping, plus panel space we don't have on 8 HP.
    - Fit: marginal for line-level synth mixing. Only if the panel has room.

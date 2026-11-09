@@ -2,12 +2,12 @@
 ## Bus and grounding tests before ordering 24 strips
 
 Implements `console_architecture.md` section 9 with the designs as they now stand
-(strip spec v5.5 with its jack board, master spec v0.12; v0.10, 2026-10-28: `project_review.md` RV2 (tests 2-4 at N = K: the
+(strip spec v5.5 with its jack board, master spec v0.12; v0.10, 2026-10-28: `docs/reviews/project_review.md` RV2 (tests 2-4 at N = K: the
 load board's one ground-cancel tap), RV10 (the wing-current test's supply and PTC), the 4.1 mid-band targets at the EQM1
-ranges; v0.9, 2026-10-27: tests 13-17 from `console_survey.md` CS11;
+ranges; v0.9, 2026-10-27: tests 13-17 from `docs/studies/console_survey.md` CS11;
 v0.8, 2026-10-27: the five-point, two-polarity overload LED (CS1) in 4.1; v0.6, 2026-10-25: the N1 A/B brought to strip v4.4, 4.2;
 v0.7, 2026-10-26: the strip's signal / overload LED (MET1) in 4.1 and the strip current at v4.7).
-The strips' bus header carries +V on pin 34 too (wing_power_proposal.md W1), as the stub's and load board's do. Goal: confirm the Delta-style unbalanced bus with ground
+The strips' bus header carries +V on pin 34 too (docs/proposals/wing_power_proposal.md W1), as the stub's and load board's do. Goal: confirm the Delta-style unbalanced bus with ground
 cancel (config **D**) against the same bus without it (config **A**), and measure noise, hum,
 crosstalk, PSRR, distortion and switching clicks on real hardware.
 
@@ -31,8 +31,8 @@ NJ6FD-V body height (sets the jack-board standoffs), knob fit, and the function 
 ### 1.1 Staged build (2026-10-28, to keep the first spend small)
 
 Everything above is the full jig. It is bought and built in stages; `python3 tools/order_bom.py phase1` writes the parts
-list per stage (`order_phase1.csv`). Its strips carry PVA2 EE H3 keys (H1 is due 2027-03-01; same pads and latching, the cap 3 mm
-higher; `second_source_proposal.md` SS3), so the key cap clearance and panel stack checks wait for the H1 samples.
+list per stage (`bom/order_phase1.csv`). Its strips carry PVA2 EE H3 keys (H1 is due 2027-03-01; same pads and latching, the cap 3 mm
+higher; `docs/proposals/second_source_proposal.md` SS3), so the key cap clearance and panel stack checks wait for the H1 samples.
 
 | Stage | Built | Tests |
 |---|---|---|
@@ -81,7 +81,7 @@ Brings the bus noise gain up to what 24 routed channels give (1 + N), without 24
 
 - On the ribbon like a strip, with its own spade to the ground bar and a 10 Ω ground-cancel
   resistor to pin 26, so its resistors return to a strip-like ground.
-  **One tap for n channels (RV2, `project_review.md`):** GCANCEL is the mean of the K boards that carry a 10 Ω tap
+  **One tap for n channels (RV2, `docs/reviews/project_review.md`):** GCANCEL is the mean of the K boards that carry a 10 Ω tap
   (the strips plus the load board), while the bus weights each board's ground by its channel count, N = routed strips
   + n load-board channels. A ground offset δ in one strip therefore reaches the stub's re-inverter output as
   δ · (1 − N/K): exactly cancelled only when N = K (the load board switched to ONE channel), at n = 0 under-cancelled
@@ -125,11 +125,11 @@ Levels in dBu, 20 Hz–20 kHz unweighted unless stated. Record every result in c
 | 9 | Soft mute | ON switch off with 1 kHz at +10 dBu. | Depth ≥ 70 dB (netlist sim 76 dB at POST), no click. |
 | 10 | Stability | Square wave 1 kHz and 10 kHz at MIX L with the 3 m ribbon, N = 20. Then, with a 100 MHz scope and a short ground spring, every re-inverter output (MIX L/R, SUB 1, AUX 1/2, PFL), idle and with a 10 kHz square through a strip, and with a 10 kHz square coupled onto GCANCEL through the test-2 transformer; scope GCANCEL_BUF too. | No ringing or oscillation; overshoot < 10 % (GCANCEL_BUF ≤ 20 %). The re-inverters carry 22 pF on both legs (master spec section 3); without them TI's model rings at about 15 MHz. |
 | 11 | Balanced output | DRV134 on MIX L: level, both legs, then one leg grounded. | +6 dB differential and single-ended; no change in THD. |
-| 12 | Group bus select | When group boards join the ribbon: power up with the groups fitted, then measure DC at each group's summer output (S_SUM, A_SUM) and at its insert send tip. Repeat after any jumper change. | Each < 50 mV. Two groups jumpered to one SUB or AUX bus drive both summers to opposite rails (±16.5 V, ~16 V DC on the send): each board closes one SUB and one AUX jumper, unique across the four, with its group number in the silk's GRP box (master spec §12, `master_group_review.md` MG19). |
+| 12 | Group bus select | When group boards join the ribbon: power up with the groups fitted, then measure DC at each group's summer output (S_SUM, A_SUM) and at its insert send tip. Repeat after any jumper change. | Each < 50 mV. Two groups jumpered to one SUB or AUX bus drive both summers to opposite rails (±16.5 V, ~16 V DC on the send): each board closes one SUB and one AUX jumper, unique across the four, with its group number in the silk's GRP box (master spec §12, `docs/reviews/master_group_review.md` MG19). |
 | 13 | Output balance (CS11) | DRV134 on MIX L at +4 dBu differential, 100 Hz, 1 kHz, 20 kHz; each leg into 1 kΩ 0.1 % to the stub's AGND. Read the common-mode part (V+ + V−) / 2 against V+ − V− (both legs to the analyser's two inputs, or a 10 kΩ 0.01 % pair to a test point for the sum). First measure the two 10 µF NP couplers' capacitance. | From TI's model (`sim/review/cs11/jig_targets.py`): −90 dB below 1 kHz with the two 10 µF equal; with them 20 % apart (their ±20 % tolerance) −25 dB at 100 Hz, −35 dB at 1 kHz; −62 dB at 20 kHz either way. The DRV's cross-coupled loop floats the output, so a coupler mismatch shows up as common mode; a balanced receiver rejects it. Pass: within 3 dB of the value the measured capacitances predict. |
-| 14 | Line-input CMR (CS11), each strip | 0 dBu common mode at J1 (tip and ring together against the sleeve), read at PRE (gain at the detent, EQ out): (a) through a matched 100 Ω pair (0.01 %); (b) through 1 kΩ on the tip and the ring direct (a synth's output on a pseudo-balanced cable). 50 Hz, 1 kHz, 10 kHz, 20 kHz. | (a) ≥ 58.7 dB at 50 Hz and 1 kHz: the 0.1 % bridge R6-R9, worst 5 % (median 68; `ground_study.md` §5.2). (b) ≥ 54 dB at 50 Hz, about 56 / 38 / 32 dB at 1 / 10 / 20 kHz (C8 / C9 at the jack and C94 / C95 at the followers against the 1 kΩ; netlist sim). Less at 50 Hz: suspect the bridge resistors. |
-| 15 | Fader breakthrough and pan isolation (CS11), each strip | 0 dBu in, routed L-R. Fader at the bottom stop: MIX L against the fader at its "0" mark, 1 kHz and 10 kHz. Pan hard left, then hard right: the far side against the near one. Then, unpowered, each pot's end resistance r (wiper to its end terminal at the stop). | Fader ≤ −80 dB below "0" at 1 kHz, which takes r ≤ 0.3 Ω (1 Ω gives −70 dB): worse means CS9 (fader shut-off compensation, `sample_order.md` check 9). Pan ≥ 60 dB (r ≤ 10 Ω; an ideal pot gives −116 dB in `sim_console.py`). Both within 3 dB of 20 log(r / 3.1 kΩ) and 20 log(r / 10 kΩ) from the measured r; a bigger gap is another path (layout, ground). |
-| 16 | MIX noise, faders down (CS11) | Strip inputs terminated in 50 Ω, every fader at the bottom, all four strips routed L-R; load board N = 0, 4, 8, 12, 16, 20 (N = 4…24). MIX L at its BNC, 20 Hz–20 kHz unweighted; record the analyser's own floor first. | Within 2 dB of the summer plus the stub's re-inverter: N 4 −106.7, 8 −104.7, 12 −103.2, 16 −102.0, 20 −101.0, 24 −100.1 dBu. The published figures (`console_survey.md` §2: Delta −80 dBu at 16, Sapphyre −90, PM-5000 −92) include their master stages; this is the bus alone. |
+| 14 | Line-input CMR (CS11), each strip | 0 dBu common mode at J1 (tip and ring together against the sleeve), read at PRE (gain at the detent, EQ out): (a) through a matched 100 Ω pair (0.01 %); (b) through 1 kΩ on the tip and the ring direct (a synth's output on a pseudo-balanced cable). 50 Hz, 1 kHz, 10 kHz, 20 kHz. | (a) ≥ 58.7 dB at 50 Hz and 1 kHz: the 0.1 % bridge R6-R9, worst 5 % (median 68; `docs/studies/ground_study.md` §5.2). (b) ≥ 54 dB at 50 Hz, about 56 / 38 / 32 dB at 1 / 10 / 20 kHz (C8 / C9 at the jack and C94 / C95 at the followers against the 1 kΩ; netlist sim). Less at 50 Hz: suspect the bridge resistors. |
+| 15 | Fader breakthrough and pan isolation (CS11), each strip | 0 dBu in, routed L-R. Fader at the bottom stop: MIX L against the fader at its "0" mark, 1 kHz and 10 kHz. Pan hard left, then hard right: the far side against the near one. Then, unpowered, each pot's end resistance r (wiper to its end terminal at the stop). | Fader ≤ −80 dB below "0" at 1 kHz, which takes r ≤ 0.3 Ω (1 Ω gives −70 dB): worse means CS9 (fader shut-off compensation, `docs/build/sample_order.md` check 9). Pan ≥ 60 dB (r ≤ 10 Ω; an ideal pot gives −116 dB in `sim_console.py`). Both within 3 dB of 20 log(r / 3.1 kΩ) and 20 log(r / 10 kΩ) from the measured r; a bigger gap is another path (layout, ground). |
+| 16 | MIX noise, faders down (CS11) | Strip inputs terminated in 50 Ω, every fader at the bottom, all four strips routed L-R; load board N = 0, 4, 8, 12, 16, 20 (N = 4…24). MIX L at its BNC, 20 Hz–20 kHz unweighted; record the analyser's own floor first. | Within 2 dB of the summer plus the stub's re-inverter: N 4 −106.7, 8 −104.7, 12 −103.2, 16 −102.0, 20 −101.0, 24 −100.1 dBu. The published figures (`docs/studies/console_survey.md` §2: Delta −80 dBu at 16, Sapphyre −90, PM-5000 −92) include their master stages; this is the bus alone. |
 | 17 | GCANCEL current (CS11) | The voltage across each strip's R5 (10 Ω, AGND to pin 26): idle (DC and 50 Hz), then during test 2. | A record, not a pass / fail: the line's current is harmless, since the summers' + inputs draw none. Idle about 0.1 mV or less; tens of mV idle means a ground fault. During test 2 the injected strip's R5 carries δ (1 − 1/K) and each of the other K − 1 taps δ / K (K = 5 with four strips and the load board: 0.8 δ and 0.2 δ; the "80 mV / 20 mV" of v0.9 assumed δ = 100 mV, see test 2). Mackie's 510 Ω per channel would pass about 50 times less. |
 
 ### 4.1 Strip function checks (each of the four strips)
@@ -162,13 +162,13 @@ EQM1) and `sim/review/gaps/ol.py`.
 | D2 brightness behind the panel | both colours readable at about 3.2 mA (R15 / R124 4K7); change those two resistors if not |
 | Supply current per strip (typical) | about 100 mA +V (104 with the green lit), 87 mA −V; more than 125 / 105 mA means a fault |
 
-### 4.2 OPA1656 A/B (`strip_noise_proposal.md`, N1)
+### 4.2 OPA1656 A/B (`docs/proposals/strip_noise_proposal.md`, N1)
 
 One strip measured as built (**A**, OPA1612 but for the U16 input followers), then with TI OPA1656IDR hot-air swapped
 into U1, U5, U6, U7, U12, U13, U14 and U15 (**B**; U2, U3 and U8 stay OPA1612; U16 is OPA1656 in both), measured again:
 one board, so the parts' spread stays out of the A/B (§1.1, 2026-10-28; the earlier plan built two strips of each, and
 `order_bom.py` still carried 16 extra OPA1656 for it: now 8). A second strip built as B in stage B is optional.
-- **Why:** the simulation (strip v4.4, `strip_noise_proposal.md`) gives B 3.3 dB less PRE noise with EQ in
+- **Why:** the simulation (strip v4.4, `docs/proposals/strip_noise_proposal.md`) gives B 3.3 dB less PRE noise with EQ in
   (−92.8 → −96.1 dBu) and 2.7 dB less at main L with 24 strips. That comes from removing the OPA1612's current noise
   in the EQ networks.
 - **Stability in simulation:** datasheet-fitted macros, which read low against TI's models, give every B unit at least
@@ -230,6 +230,6 @@ OPA1612 and only the inverting and integrator stages move, which takes a package
 - For the ribbon-current test, the load board could also carry a switchable dummy load
   (about 1 A per rail) to emulate a 12-strip wing.
 
-*Document version 0.10 — 28 October 2026 (RV2 / RV10 from `project_review.md`, EQM1 targets; 0.9 of 27 October 2026 added
+*Document version 0.10 — 28 October 2026 (RV2 / RV10 from `docs/reviews/project_review.md`, EQM1 targets; 0.9 of 27 October 2026 added
 tests 13-17; 0.3 of 23 October 2026: master parts review: OPA1612 on AUX, re-inverter 22 pF, PFLDET clamp; test 2,
 3 and 10 targets)*

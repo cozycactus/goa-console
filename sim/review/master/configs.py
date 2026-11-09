@@ -82,7 +82,7 @@ CONFIGS.update({
  'p090_out47': dict(pos=pots(0.9), loads=outload(47e-12)),
  'p075_ext600_out47': dict(pos=pots(0.75), sw={'SW3': True}, ext={'L': (600, 1e-9), 'R': (600, 1e-9)}, loads=outload(47e-12)),
  'p100_ext600_out47': dict(pos=pots(1.0), sw={'SW3': True}, ext={'L': (600, 1e-9), 'R': (600, 1e-9)}, loads=outload(47e-12)),
- # CS7 (cs7_proposal.md): DIM latched puts 91K ahead of each C/ROOM pot top: the C/Room followers' wiper source rises to
+ # CS7 (docs/proposals/cs7_proposal.md): DIM latched puts 91K ahead of each C/ROOM pot top: the C/Room followers' wiper source rises to
  # 8.3K at the top (2.6K at most released)
  'p100_dim': dict(pos=pots(1.0), sw={'SW4': True}),
  'p075_dim': dict(pos=pots(0.75), sw={'SW4': True}),

@@ -205,7 +205,7 @@ class Module:
 
 # ---------------------------------------------------------------- the console
 def SPADE_WIRE(wing, k):
-    """(ohms, henries) of the k-th module's spade wire from the master (ground_study.md G1, cut list): 14 AWG stranded
+    """(ohms, henries) of the k-th module's spade wire from the master (docs/studies/ground_study.md G1, cut list): 14 AWG stranded
     (8.28 mOhm/m, r 0.82 mm) tied under the motherloom; 264 / 237 mm for the first module (left / right wing: the
     master's headers sit at x 5.5 / 72), +40.64 mm per module."""
     l = (0.264 if wing == 'L' else 0.237) + 0.04064 * k
@@ -213,7 +213,7 @@ def SPADE_WIRE(wing, k):
 
 def console(strips, groups, master, gnd_inject=None, spade=None, spade_emf=None):
     """strips: 24 Modules (12 per wing, wing order outward), groups: 4 (2 per wing), master: 1. Returns the deck body.
-    spade: {module name: (ohms, henries)} for its spade wire (default: the harness of ground_study.md G1, 14 AWG under
+    spade: {module name: (ohms, henries)} for its spade wire (default: the harness of docs/studies/ground_study.md G1, 14 AWG under
     the motherloom, SPADE_WIRE); spade_emf: {module name: volts AC}
     induced in series with it (a mains field through the loop of spade wire and ribbon grounds; sim/review/ground)."""
     mods = [master] + groups + strips
@@ -299,11 +299,11 @@ SRC = 0.7746                                          # 0 dBu
 # Expected levels follow the gain structure. Unity through a strip and the master at their faders' "0" marks is
 # -0.8 dB here: each "0" mark gives -10.19 dB (the wiper's ~2.2 kohm drives the post-amp's 100K), each post-amp
 # +9.93 dB (1 + 4K7/2K2), and the master's insert 75R and post-amp 47R build-outs -0.18 dB. The DRV134 adds +6 dB
-# differential, the CRS build-out -0.3 dB. UNITY assumes the old -6 dB pan centre; since CS2 (cs2_proposal.md, the
+# differential, the CRS build-out -0.3 dB. UNITY assumes the old -6 dB pan centre; since CS2 (docs/proposals/cs2_proposal.md, the
 # Delta's law) a strip's pan sits PANC higher at centre (-2.7 dB, not -6) and PANH above POST hard over.
 UNITY = -0.82
 PANC, PANH = 3.27, 1.68
-GPANC = 3.32                                          # CS2b (cs2b_proposal.md): the group's sub pan, the same law
+GPANC = 3.32                                          # CS2b (docs/proposals/cs2b_proposal.md): the group's sub pan, the same law
 
 checks = []
 def check(name, got, lo, hi, unit='dB'):
@@ -358,7 +358,7 @@ def t_sub():
     check('SUB 1 to MIX (sub pan centre, -2.7 dB since CS2b): main L', r.get('ml'), -7.7 + PANC + GPANC, -7.0 + PANC + GPANC)
     check('SUB 1 to MIX: main R', r.get('mr'), -7.7 + PANC + GPANC, -7.0 + PANC + GPANC)
     # every SUB bus positively, through its own group (a swapped header pin or an open feed would pass the name-joined
-    # sims otherwise, project_review.md RV11.2): 1-2 feeds SUB 1 / SUB 2 (pan L / R), 3-4 feeds SUB 3 / SUB 4
+    # sims otherwise, docs/reviews/project_review.md RV11.2): 1-2 feeds SUB 1 / SUB 2 (pan L / R), 3-4 feeds SUB 3 / SUB 4
     s, g, m = default_console(one(0, sw={'SW5': False, 'SW6': True, 'SW7': True}))
     r, _ = run(console(s, g, m), AC1K + [x for k in (2, 3, 4) for x in dbu(f'v(g{k}_JB_S_OP,g{k}_JB_S_ON)', f's{k}')])
     for k in (2, 3, 4):
@@ -399,7 +399,7 @@ def t_return():
     check('return 1 to MIX: main R', r.get('mr'), UNITY + 6.2, UNITY + 6.6)
 
 def t_return2():
-    """Group 1's second return (feature_gaps.md RET1): the same as return 1 to MIX, and routed to 1-2 it reaches SUB 1
+    """Group 1's second return (docs/reviews/feature_gaps.md RET1): the same as return 1 to MIX, and routed to 1-2 it reaches SUB 1
     exactly as return 1 does."""
     s, g, m = default_console(group_cfg=lambda k: dict(pos={'RV5': 1.0}, sw={'SW8': True},
                                                        plugs={'JB_J6': ('src', SRC, 50, True)}) if k == 0 else {})
@@ -422,7 +422,7 @@ def t_ext():
     check('EXT L only: C/Room R', r.get('cr'), 5.3, 5.9)
 
 def t_dim():
-    """CS7 (cs7_proposal.md): DIM latched takes C/Room 20 dB down (C/ROOM at the top: -20.75 dB, sim/review/cs7/dim.py);
+    """CS7 (docs/proposals/cs7_proposal.md): DIM latched takes C/Room 20 dB down (C/ROOM at the top: -20.75 dB, sim/review/cs7/dim.py);
     phones and meters keep CRSB (+0.09 dB: the C/ROOM pot no longer loads the 100R build-out)."""
     out = {}
     for dim in (False, True):

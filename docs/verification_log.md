@@ -1,19 +1,21 @@
 # goa-console — verification log
 
-Moved out of `CLAUDE.md` on 2026-10-28 (`project_review.md` RV13), text unchanged: every check run after a change, newest
+Moved out of `CLAUDE.md` on 2026-10-28 (`docs/reviews/project_review.md` RV13), text unchanged: every check run after a change, newest
 first. The current counts are in `CLAUDE.md`'s state table.
 
-- Stage A order sheets (2026-11-04): 46 codes read at Mouser's site until it denied access at about 47 lookups (`mouser_readings.csv`), the browser helper removed. `order_bom.py stagea`: 112 lines, $435.18 + $80 optional; 82 lines in the upload, 26 of them not read. Two runs give identical files. Nothing ordered.
+- Root tidy (2026-11-09, RV12's second step): 81 files moved with `git mv` (57 docs, 15 BOM / order CSVs, 9 schematic PDFs), root 154 -> 73 tracked files. No generated file modified; 51 Python files differ from HEAD only in comments / docstrings (AST compared), `order_bom.py` only in its output folder, and its three runs rebuilt every file in `bom/` byte for byte. 916 new-style paths and 14 relative Markdown links all resolve. `check_all.py --full`: 72 / 72.
+- Publication (2026-11-09): filtered history compared commit by commit with the original (227 / 227 trees, messages and dates match apart from the 14 removed files and the email), none of the removed contents in the object store, no credentials in a pattern scan of every blob; `check_all.py --full` 72 / 72 in the clean copy and again in the final working folder.
+- Stage A order sheets (2026-11-04): 46 codes read at Mouser's site until it denied access at about 47 lookups (`bom/mouser_readings.csv`), the browser helper removed. `order_bom.py stagea`: 112 lines, $435.18 + $80 optional; 82 lines in the upload, 26 of them not read. Two runs give identical files. Nothing ordered.
 - Strip TI stability on the real OPA1656 (2026-11-04, ngspice 46, strip v5.7, 21 states, `n1_stab.py`): as built 504 / 504 results, worst U3B 59.8 deg, U16 61.7, <= 1.61 dB;
   c01 with U16 as OPA161x matches `results_none.json` to the digit on the units sampled. N1: 17 states full, 4 (`c07`, `c09`, `c10`, `c14`) with U2 / U3 / U8 single-pole, checked on c01:
-  18 OPA1656 units identical to the full run. Every N1 unit >= 58.2 deg, <= 1.84 dB. U2 / U3 / U8 aren't measured under N1 in those four states (`strip_noise_proposal.md`).
+  18 OPA1656 units identical to the full run. Every N1 unit >= 58.2 deg, <= 1.84 dB. U2 / U3 / U8 aren't measured under N1 in those four states (`docs/proposals/strip_noise_proposal.md`).
 - Group TI stability, whole deck (2026-11-04, ngspice 46): `pots` / `ret` / `loads` / `ins` / `bus`, 222 states, 1835 unit results, none
   without data, TI's OPA161x + OPA1656 together for the first time (`.options itl1=500`), `mst_all.json` re-measured from the placed
-  board, 0.08 pF/mm. Worst 59.7 / 59.1 / 46.1 / 65.3 / 56.8 deg; followers 59.1-60.9; peaking <= 2.76 dB (`met1_ret1_review.md`). Deck test: planted
+  board, 0.08 pF/mm. Worst 59.7 / 59.1 / 46.1 / 65.3 / 56.8 deg; followers 59.1-60.9; peaking <= 2.76 dB (`docs/reviews/met1_ret1_review.md`). Deck test: planted
   old raw files give no result; no dangling node but the unused rails and the DRV135 outputs.
-- SS1-SS3 applied (2026-11-04, `second_source_proposal.md`): every board regenerated and re-placed, `placediff.py` 0 changed on all
+- SS1-SS3 applied (2026-11-04, `docs/proposals/second_source_proposal.md`): every board regenerated and re-placed, `placediff.py` 0 changed on all
   nine. Fields only: strip 12 parts, group 2, master 1, PSU 4; values only on strip D16 / D17 and group D5 / D6 (MBR140SFT1G); the jack
-  boards and jig differ only by dates and UUIDs (restored). `order_bom.csv` and `order_phase1.csv` carry no old code; phase 1 has
+  boards and jig differ only by dates and UUIDs (restored). `bom/order_bom.csv` and `bom/order_phase1.csv` carry no old code; phase 1 has
   14 + 14 PVA2 EE H3 and 4 H1 samples, the console 371 H1. `rail_loss.py mbr` ±0.36 V, 0 mA. `check_all.py --full` 72 / 72.
 - Master TI stability, whole deck on v0.14 (2026-11-03 / 04, ngspice 46, TI's OPA161x / OPA1656 / DRV134 / TL072 models, 34
   configurations): the first pass read old raw files on 17 configurations when ngspice timed out, found because all 34 result files
@@ -21,7 +23,7 @@ first. The current counts are in `CLAUDE.md`'s state table.
   reaches the fallback options), those 17 re-run. All 1360 unit results come from raw files written during the run, none without
   data. Worst U21A/B 47.7 deg, every unit's minimum unchanged, <= 2.89 dB peaking; 29 configurations identical to the earlier
   figures, the five `_placed` move up to -5.1 deg (U13A, A5_OUT 98 mm, >= 69.1). The 2026-10-29 re-run had 14 of 34 configurations
-  timed out (`met1_ret1_review.md`).
+  timed out (`docs/reviews/met1_ret1_review.md`).
 - SW4's silk mark and the project files' top-level sheets (2026-11-03): every board regenerated and re-placed. Only the master
   board changed: a silk "2" at (25.06, 178), the fourth on that board; the other eight identical but for UUIDs and file order.
   Seven project files changed only in `top_level_sheets`; fresh netlists on the flat boards now read their own sheet name, not
@@ -72,7 +74,7 @@ first. The current counts are in `CLAUDE.md`'s state table.
   and 35.8 / 130 / 105 -> 6.1 / 77 / 55; jig stub 3.6 / 8.7 / 2 -> 2.7 / 3.3 / 0 and 44.0 / 121 / 19 -> 4.7 / 7.0 / 1.
   All boards 0 DRC violations, 0 parity issues; PSU and the three jack boards place identically. Report numbers
   reproduced independently (verification workflow; it also found 7 engine/layout faults, all fixed).
-- Part models (2026-10-23, `tools/models3d`, `panel_parts_drawings.md`): 9 footprints built from the manufacturers'
+- Part models (2026-10-23, `tools/models3d`, `docs/build/panel_parts_drawings.md`): 9 footprints built from the manufacturers'
   drawings, each family checked again by a second agent. `check.py`: every PTH pad has a lead, bodies inside the
   courtyards. KiCad 10.0.7 reads the VRML (3D viewer, `kicad-cli pcb render`) and the STEP twins (GLB export).
   All boards re-placed with the model paths: 0 parts moved, 0 net changes; parity DRC unchanged (0 violations on the main
@@ -113,7 +115,7 @@ first. The current counts are in `CLAUDE.md`'s state table.
   An independent check of the applied change found a v0.6 fault, now fixed: the rude-solo flasher's hold did not hold
   (the LED flickered with nothing soloed). It also found the DG413 network and C/Room followers spread out, and stale
   BOM / PDF exports; all fixed.
-- Strip v4.1 (2026-10-23, `strip_parts_review.md` applied):
+- Strip v4.1 (2026-10-23, `docs/reviews/strip_parts_review.md` applied):
   - Schematics: strip 245 parts / 734 pins, 0 mismatches, check_fp 0, ERC 0, sim_netlist 30/30. Master 535 parts and group
     160 (balanced receiver caps, the master's BAT54W), both 0 mismatches / ERC 0. Jack boards and jig unchanged.
   - Stability (TI OPA161x model, `sim/review/strip/run_all.py none`, 21 states): every strip unit ≥ 69.9°, ≤ 1.61 dB
@@ -123,7 +125,7 @@ first. The current counts are in `CLAUDE.md`'s state table.
     group 3.1 / 4.5 / 0, 10.4 / 23.7 / 17 (the return receivers' area is the group's worst).
   - The stability caps sit within 6.2 mm (feedback) and 9.2 mm (+ inputs) of their pins.
   - BOMs re-exported with a DNP column and quoted fields.
-- Master / group review applied (2026-10-24, `master_group_review.md` MG1-MG20, master spec v0.8):
+- Master / group review applied (2026-10-24, `docs/reviews/master_group_review.md` MG1-MG20, master spec v0.8):
   - Schematics: master 563 parts / 1642 pins, group 170 / 485, jack boards 85 / 38 pins, jig stub and load board
     unchanged but for MPNs; all 0 mismatches, check_fp 0, ERC 0. No IC output shares a net with a connector pin.
   - Stability of the built netlists (TI models): master every unit ≥ 47.7° (CRS followers at the pot top; EXT
@@ -192,14 +194,14 @@ first. The current counts are in `CLAUDE.md`'s state table.
   route_check 0, rules re-run. Master v0.14: 1820 / 632, 0 mismatches, ERC 0; only R240 (9.47, 237.25, 90, B) added,
   2.1 mm from Q1's base / emitter pads, DRC 0 / parity 0, 632 / 632 linked, route_check 0, rules re-run; `sim/mute.cir`
   v5 cases 1-6 as before (closes 2.80 s, −V-lost release at −14.14 V). `check_all.py --full` 70 / 71 (panel_fab).
-- Cleanup RV12 / RV14 and the XLR shells (2026-10-28, `project_review.md`): the 20 proposal patches moved to
+- Cleanup RV12 / RV14 and the XLR shells (2026-10-28, `docs/reviews/project_review.md`): the 20 proposal patches moved to
   `archive/patches/` (every reference updated); `.gitattributes` (linguist-generated); three unreferenced sim/review
   scripts deleted, the four old decks labelled HISTORICAL; `render/*.json` and `docs/escape/` regenerated on the v5.6 /
   v0.13 boards. The NC3MAV / NC3MAH shell pad G is on CHASSIS (master jack board J3-J5, jig stub): master jack board 92
   pins / 16 parts, jig stub 365 / 144, 0 mismatches, ERC 0, no part moved, parity 0, links 16 / 16 and 144 / 144;
   check_all --full 70 / 71 (panel_fab). N1: the A/B is the one-strip swap of `test_jig_spec.md` §1.1 everywhere
   (order_bom EXTRA 16 -> 8). `ol.py` is labelled a values check (RV11.8).
-- Clicks batch applied (2026-10-28, strip v5.6, master v0.13, group; `clicks_proposal.md` RV3 / RV4 / RV7 / RV8 / RV9):
+- Clicks batch applied (2026-10-28, strip v5.6, master v0.13, group; `docs/proposals/clicks_proposal.md` RV3 / RV4 / RV7 / RV8 / RV9):
   strip 941 pins / 327 parts, master 1818 / 631, group 807 / 292; every schematic 0 mismatches, check_fp 0, ERC 0;
   sim_netlist 45/45, sim_console 45/45, check_bus clean. Placement by moves_only: only the new parts changed (strip R142 /
   C107, group C98, master C194-C197 / R238 / R239; films 64 / 24 mm and 33 uF cans 13 / 21 mm from their resistors on the

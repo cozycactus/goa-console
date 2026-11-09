@@ -70,7 +70,7 @@
   - Tuned by a dual C-law pot: C50K with 2.4 K in series (feedback leg), C100K with 4.7 K (ground leg). 20-400 Hz.
   - Mechanical HPF switch; output 100 µ/16 + 22 K.
 - **PM-4000 (read, p.6):** the same topology, VR111 C100K / C50K and 0.12 µF caps.
-- **vs ours:** same range. Ours is a KHN tuned by an A10K dual used as dividers. Theirs again uses a C-law dual (consistent with eq_survey.md).
+- **vs ours:** same range. Ours is a KHN tuned by an A10K dual used as dividers. Theirs again uses a C-law dual (consistent with docs/studies/eq_survey.md).
 
 **T5 EQ (not mid tuning)**
 - 4 bands, all fully parametric (Q 0.5-3). HI and LOW switch peaking / shelving. EQ ON switch. NJM4580 / NE5532.

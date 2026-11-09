@@ -2,7 +2,7 @@
 against a KHN state-variable band-pass tuned by a stocked Alpha A100K dual (strip spec §6.2).
 usage: python3 sim/mid_tuning.py [pot ohms, default 100e3]      (needs ngspice)
 HISTORICAL (the 2026-10-22 tuning study, 430R / 13K / 4K7 per band, 670 Hz-10.5 kHz / 148 Hz-2.32 kHz): since strip v5.5
-(EQM1, eqmid_proposal.md) the built ranges are 598 Hz-9.93 kHz and 165 Hz-2.54 kHz; the current values, the panel FREQ
+(EQM1, docs/proposals/eqmid_proposal.md) the built ranges are 598 Hz-9.93 kHz and 165 Hz-2.54 kHz; the current values, the panel FREQ
 numerals and the sim_netlist peak checks come from sim/review/eqmid/retune.py and measure.py, not from here.
 
 Both versions drive the same band stage: U6A-style inverting unity amp (22K/22K) with the band-pass of

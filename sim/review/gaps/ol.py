@@ -1,4 +1,4 @@
-"""Strip overload / signal LED (U4, U17, spec 8.1), as built since MET1 (feature_gaps.md, 2026-10-26).
+"""Strip overload / signal LED (U4, U17, spec 8.1), as built since MET1 (docs/reviews/feature_gaps.md, 2026-10-26).
 Red (overload, K3): PRESRC (BUF1) -> R39 1K -> D1 -> PK (C12 100n // R14 470K) -> U4A - input against VREF = +VL / 2
 (R40 / R41); U4A discharges OL_HOLD (R115 to +VL, C97 to GNDD); U4B pulls Q3's base (R116 / R117) while OL_HOLD is below
 VREF, and Q3 feeds the red anode through R15.
@@ -10,7 +10,7 @@ P2, C100 100n on VREF; E6, C101 / C102 10n base to emitter on Q3 / Q4 (the LED c
 Part values are read from channel_strip.net; the WIRING is this file's (one PRESRC tap through a 1N4148 as the
 detector was before CS1), so this is a values check of the hold / drive / green stages, not a check of the schematic's
 netlist. The five CS1 taps and the detector's wiring are checked from the netlist by sim/review/cs1/ol_multi.py
-(project_review.md RV11.8).
+(docs/reviews/project_review.md RV11.8).
 usage: python3 sim/review/gaps/ol.py
 Models: 1N4148, BAT54 and a generic 2N3906 (standard), GaAsP red ~1.9 V and GaP green ~2.0 V at 3 mA, LM393
 halves as sink switches (60 ohm, ideal speed; the real 1.3 us is far below the 0.1 ms attack). The source is ideal:

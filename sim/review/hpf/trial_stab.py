@@ -1,4 +1,4 @@
-"""TI-model stability of U1B, U5A/B, U15A/B with the HPF in (hpf_proposal.md). Copy to sim/review/strip of a tree with
+"""TI-model stability of U1B, U5A/B, U15A/B with the HPF in (docs/proposals/hpf_proposal.md). Copy to sim/review/strip of a tree with
 archive/patches/hpf_proposal.patch applied and run there: python3 trial_stab.py <RV16 rotation 0..1> eq|byp  (needs OPA161X_LIB)."""
 import sys, json
 from stab import run_config

@@ -1,4 +1,4 @@
-"""Post-route checker: what DRC can't see on a routed board (routing_guide.md, layer_study.md). Run with KiCad's Python
+"""Post-route checker: what DRC can't see on a routed board (routing_guide.md, docs/studies/layer_study.md). Run with KiCad's Python
 after a routing session (it fills the zones on its own copy, the board file is not changed):
   $KPY tools/route_check.py board.kicad_pcb [...]
 Net classes come from the project (tools/netrules.py); the board's layer count picks the reference layers.

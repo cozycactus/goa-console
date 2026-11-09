@@ -1,11 +1,11 @@
-"""Component placement for the group module (M1, master_panel_study.md): main board + jack board, placement only.
+"""Component placement for the group module (M1, docs/studies/master_panel_study.md): main board + jack board, placement only.
   KPY=/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3
   $KPY tools/place_group.py      # -> group.kicad_pcb (38 x 349.5 mm), group_jack_board.kicad_pcb (38 x 93.5 mm)
 8 HP x 12U panel in the strip's frame (placer.py): same y origin, fader, bus header and spade, so the ribbon and
 the faders line up with the strips. The switches that carry a bus (sub to MIX, return routing, AFL/PFL) sit in
 the strips' pan / routing / PFL rows, a few cm from the bus header. Zones follow gen_group.py's blocks
 (group_parts.json). The jack board (7 jacks, 2x8 + 2x5 links) sits ~24 mm under the panel, y 0-93.5.
-RET1 (feature_gaps.md, 2026-10-26): return 2's jacks are a fourth row (y 78), so the main board starts at y 94.5;
+RET1 (docs/reviews/feature_gaps.md, 2026-10-26): return 2's jacks are a fourth row (y 78), so the main board starts at y 94.5;
 RETURN 1 / RETURN 2 knobs at y 106 / 128, return 2's routing keys at y 150, AUX at y 172."""
 import collections, json, os, re, sys
 sys.path.insert(0, os.path.dirname(__file__))
@@ -24,7 +24,7 @@ JACK_FIX = {'J2': jack(XL, 12), 'J1': jack(XR, 12),          # sub out | sub ins
                                                              # its body had sat over J5's tip joint, 2026-10-26 review)
             'CN2': (19.9, 39.0, 180, 'B')}                   # 2x5 link (return 2) beside it: pins x 19.9 / 22.44, y 28.8-39.0
 JACK_HOLES = []                                              # M3 standoffs to the panel, ~24 mm (jack body height):
-JACK_FIX.update({'H1': (XL, 89.8, 0, 'F'), 'H2': (XR, 89.8, 0, 'F')})   # plated, on CHASSIS (ground_study.md G2); below
+JACK_FIX.update({'H1': (XL, 89.8, 0, 'F'), 'H2': (XR, 89.8, 0, 'F')})   # plated, on CHASSIS (docs/studies/ground_study.md G2); below
                                                              # the last row since the links fill the free slot
 JACK_NOTES = ((12, 'SUB OUT | SUB INSERT'), (34, 'AUX OUT | links CN2, CN1 (bottom)'), (56, 'RETURN 1 L | R'),
               (78, 'RETURN 2 L | R'))
@@ -68,7 +68,7 @@ FIX = {
 JP_Y = [358.0 + 3.5 * k for k in range(4)]
 for k, y in enumerate(JP_Y):
     FIX[f'JP{k + 1}'] = (30.5, y, 0, 'F'); FIX[f'JP{k + 5}'] = (35.0, y, 0, 'F')
-# two boards on one bus rail both summers (master_group_review.md MG19): write the board's group number in GRP __
+# two boards on one bus rail both summers (docs/reviews/master_group_review.md MG19): write the board's group number in GRP __
 LABELS = [(32.75, 352.4, 'GRP __', 1.0), (30.5, 355.2, 'SUB', 1.0), (35.0, 355.2, 'AUX', 1.0)] + \
          [(28.3, y, str(k + 1), 1.0) for k, y in enumerate(JP_Y)]   # JLCPCB: silk text >= 1.0 mm
 HOLES = [(34.2, 117), (XC, 160), (XC, 215)] + FADER_HOLES   # (34.2, 117): XC is a pot's pins
@@ -110,7 +110,7 @@ ZONES = [
  # bottom side first: links and electrolytics. The return rows' pins fill the bottom at the top of the board (RET1), so
  # the links go below them, where the bottom is empty (ribbons ~150 mm; the strip's is ~136 mm)
  ('jack-board links (bottom)', (1, 185, 37, 260), ['CN3', 'CN4'], 'B', 1.0),
- # E4 (emc_placement_study.md): the reservoirs under the supply filters, beside the header's power pins (30-34)
+ # E4 (docs/studies/emc_placement_study.md): the reservoirs under the supply filters, beside the header's power pins (30-34)
  ('rail reservoir caps (bottom)', (1, 285, 30, 345), RESERVOIR, 'B'),
  ('coupling caps and DRV134 output caps, beside their ICs (bottom; clear of the CN3 pin-1 mark)', (1, 96, 37, 444),
   sorted(RADIAL - set(RESERVOIR), key=num), 'B'),
@@ -129,45 +129,45 @@ ZONES = [
 NOTES = ((106, 'RETURN 1 | PFL'), (128, 'RETURN 2 | PFL'), (150, 'RETURN 2 to MIX  1-2  3-4'), (172, 'AUX n | AFL'), (252, 'SUB PAN | to MIX'), (274, 'RETURN to MIX  1-2  3-4'),
          (292, 'SUB AFL'), (305, 'BUS HEADER (bottom, right)'), (356, 'bus select: close one SUB and one AUX, unique across the four groups; group number in GRP'),
          (372, 'FADER 100 mm'), (97, 'LINKS CN3, CN4 (bottom) to the jack board'))
-# E9 (stab_caps_proposal.md): the C0G stability caps at the op-amp pins they stabilise (the packer had left them
+# E9 (docs/proposals/stab_caps_proposal.md): the C0G stability caps at the op-amp pins they stabilise (the packer had left them
 # 6.6-13 mm away). Moved after packing (placer `moves`), so no other part re-packs into the slots they leave;
 # bottom-side rotations are before the flip (board angle = 180 - rot)
 MOVES = {'C35': (36.65, 377.02, 270, 'B'), 'C34': (33.13, 377.52, 180, 'B'), 'C51': (36.15, 135.77, 270, 'B'),
          'C39': (32.72, 243.65, 270, 'B'), 'C50': (35.88, 139.72, 180, 'B'), 'C76': (28.27, 182.88, 90, 'B'),
          'C44': (20.77, 116.38, 90, 'B'), 'C19': (2.27, 236.36, 270, 'B'), 'C7': (35.72, 398.13, 270, 'B'),
          'C59': (25.77, 158.11, 270, 'B'), 'C60': (28.52, 158.88, 180, 'B')}
-# E10 (input_nets_proposal.md): one SMD part per long high-impedance op-amp input net moved so the net shrinks by
+# E10 (docs/proposals/input_nets_proposal.md): one SMD part per long high-impedance op-amp input net moved so the net shrinks by
 # >= 5 mm without its other net growing more than that (placer `moves`)
 MOVES.update({'R57': (34.22, 160.38, 0, 'B'), 'R55': (32.47, 166.65, 180, 'B'), 'R53': (32.02, 157.11, 180, 'B'),
               'R32': (35.15, 384.77, 180, 'F'), 'R43': (6.27, 139.88, 180, 'B'), 'R46': (10.22, 140.88, 270, 'B'),
               'R10': (31.88, 438.72, 0, 'B')})
-# E11 (decouplers_proposal.md): decouplers more than 5.5 mm from their supply pin moved to it, most on the bottom
+# E11 (docs/proposals/decouplers_proposal.md): decouplers more than 5.5 mm from their supply pin moved to it, most on the bottom
 # under the pin (placer `moves`)
 MOVES.update({'C43': (6.97, 218.9, 90, 'F')})
-# CS10 (cs10_proposal.md, signed off 2026-10-27): the reverse Schottkys beside C1 (+VA) and C2 (-VA), placed by MOVES alone (never packed)
+# CS10 (docs/proposals/cs10_proposal.md, signed off 2026-10-27): the reverse Schottkys beside C1 (+VA) and C2 (-VA), placed by MOVES alone (never packed)
 CS10 = {'D5': (28.5, 290.25, 90, 'F'), 'D6': (14.5, 304.0, 0, 'F')}
 MOVES.update(CS10)
-# CS4b (cs4b_proposal.md, signed off 2026-10-27): the jack-link clamps (BAV199) beside CN3 / CN4, placed by MOVES alone
+# CS4b (docs/proposals/cs4b_proposal.md, signed off 2026-10-27): the jack-link clamps (BAV199) beside CN3 / CN4, placed by MOVES alone
 CS4B = {'D7': (13.0, 197.5, 90, 'B'), 'D8': (16.5, 197.5, 90, 'B'), 'D9': (20.0, 197.5, 90, 'B'),
         'D10': (21.25, 201.25, 0, 'B'), 'D11': (13.5, 211.0, 90, 'F'), 'D12': (13.25, 211.25, 0, 'B'),
         'D13': (14.25, 214.75, 0, 'B'), 'D14': (13.5, 215.25, 90, 'F'), 'D15': (13.0, 219.0, 0, 'F'),
         'D16': (21.25, 208.5, 0, 'B'), 'D17': (25.0, 183.0, 0, 'B'), 'D18': (25.0, 179.5, 0, 'B'),
         'D19': (22.25, 204.75, 0, 'B'), 'D20': (32.75, 215.75, 0, 'F')}
 MOVES.update(CS4B)
-# CS4c (cs4c_proposal.md): the 22R inside each DRV135 loop at its output pin (U4 sub out, U7 aux out), placed by MOVES alone
+# CS4c (docs/proposals/cs4c_proposal.md): the 22R inside each DRV135 loop at its output pin (U4 sub out, U7 aux out), placed by MOVES alone
 CS4C = {'R119': (35.75, 203.75, 90, 'B'), 'R120': (36.0, 207.75, 90, 'B'), 'R121': (2.0, 209.0, 90, 'F'),
         'R122': (1.75, 205.0, 90, 'F')}
 MOVES.update(CS4C)
-# CS2b (cs2b_proposal.md): the sub pan buffers' law network (U3B pan L, U5A pan R), placed by MOVES alone
+# CS2b (docs/proposals/cs2b_proposal.md): the sub pan buffers' law network (U3B pan L, U5A pan R), placed by MOVES alone
 CS2B = {'C96': (4.25, 240.75, 90, 'B'), 'R124': (2.0, 240.0, 90, 'B'), 'R125': (12.75, 236.75, 90, 'F'),
         'R123': (3.75, 244.25, 0, 'B'), 'C97': (28.75, 243.25, 0, 'B'), 'R127': (25.25, 244.5, 90, 'B'),
         'R128': (22.25, 241.0, 90, 'F'), 'R126': (29.0, 245.75, 0, 'B')}
 MOVES.update(CS2B)
-# clicks_proposal.md RV7 (signed off 2026-10-28): the aux AFL film beside its 22K, bottom, placed by MOVES alone
+# docs/proposals/clicks_proposal.md RV7 (signed off 2026-10-28): the aux AFL film beside its 22K, bottom, placed by MOVES alone
 CLICKS = {'C98': (23.72, 263.11, 0, 'B')}
 MOVES.update(CLICKS)
 for z in ZONES: z[2][:] = [r for r in z[2] if r not in CS4C and r not in CS2B and r not in CLICKS]   # their drivers' blocks list them too
-# untangle_proposal.md: two-pad parts turned in place (degrees) so their ratsnest crosses less, measured with
+# docs/proposals/untangle_proposal.md: two-pad parts turned in place (degrees) so their ratsnest crosses less, measured with
 # tools/ratsnest.py (placer `turns`, after packing and the moves)
 TURNS = {'JP7': 90, 'R5': 90, 'R11': 180, 'R20': 180, 'R22': 180, 'R25': 180, 'R26': 180, 'R30': 180, 'R34': 180,
          'R37': 180, 'R51': 180, 'R54': 90, 'R56': 180, 'R59': 180, 'R61': 180, 'R62': 180, 'R72': 180, 'R73': 180,

@@ -2,10 +2,10 @@
 
 Notes for routing the first boards to build: the jig and four strips. They are drawn from the placed boards (net lengths
 are Manhattan minimum-spanning-tree estimates from the pads, as `tools/emc_check.py` measures them) and from
-`emc_placement_study.md`, whose rules and sources apply throughout. Copper is Ruslan's, so this is advice, not a spec.
+`docs/studies/emc_placement_study.md`, whose rules and sources apply throughout. Copper is Ruslan's, so this is advice, not a spec.
 The net classes and DRC rules at the end are written into the projects by `tools/netrules.py`.
 
-## Layers (`layer_study.md`, decided 2026-10-27; In2 as ground 2026-10-27)
+## Layers (`docs/studies/layer_study.md`, decided 2026-10-27; In2 as ground 2026-10-27)
 
 **The strip, group and master main boards are 4-layer:**
 
@@ -91,7 +91,7 @@ on the strip and group, 0.5–6.5 mm on the master.
 | MUTEOUT, BUF1 | 88–89 mm | op-amp outputs, low impedance | ordinary care |
 | Aux send lines (pot wiper → 22K at the header, R20–R25) | about 125–145 mm | up to 2.5 kΩ wipers; their 22K at the header is right (bus side short) | run them together as a bundle with ground between pairs where possible; away from SIG_B and the RTE lines |
 | PRESRC → R118 (to U17) | 254 mm | low impedance (U7B output), but it carries the full pre-fader signal past the fader area | away from the routing 4K7s, the DG413 bus side and MUTEOUT |
-| VREF (R40 / R41 → U4, U17) | 271 mm | a DC reference, 5K source | quiet route; see `met1_ret1_review.md` P2 (100 nF at R40 / R41) |
+| VREF (R40 / R41 → U4, U17) | 271 mm | a DC reference, 5K source | quiet route; see `docs/reviews/met1_ret1_review.md` P2 (100 nF at R40 / R41) |
 
 ### Keep these away from the sensitive nets above (switching)
 
@@ -137,7 +137,7 @@ on the strip and group, 0.5–6.5 mm on the master.
   - at C75, C78 and C83 the pads sit under the pin, so the via goes in the pad or right beside it;
   - their GNDA end vias down to the ground plane next to the cap.
 - **Group and master (E9b):** the same applies to the group's 11 and the master's 13 bottom-side stability caps,
-  including the fader post-amps' C32 / C33 / C36 / C37 under U5 (`stab_caps_proposal.md`).
+  including the fader post-amps' C32 / C33 / C36 / C37 under U5 (`docs/proposals/stab_caps_proposal.md`).
 - **Don't lengthen them:** a trace between such a cap and its pin undoes the stabilising, so don't route the input
   net to the cap first and on to the pin.
 
@@ -411,8 +411,8 @@ minimum).
   It fills the zones on its own copy, so draw the GNDA zones first. `tools/route_check_test.py` proves each check on
   synthetic routing.
 - Re-check placement with `$KPY tools/emc_check.py <board>.kicad_pcb` after any manual move.
-- `escape_plan.md`: which outer layer each net takes (`docs/escape/<board>_layers.csv`) and pictures of the densest
+- `docs/build/escape_plan.md`: which outer layer each net takes (`docs/escape/<board>_layers.csv`) and pictures of the densest
   spots; re-run `$KPY tools/escape_plan.py <board>.kicad_pcb` after placement changes.
 - `$KPY tools/ratsnest.py <board>.kicad_pcb` gives the signal ratsnest length and crossings; a manual move or turn that
-  lowers the crossings is worth keeping (`untangle_proposal.md`).
+  lowers the crossings is worth keeping (`docs/proposals/untangle_proposal.md`).
 - After routing, use parity DRC as usual. `emc_check.py` also reads routed boards, but it measures pads, not tracks.

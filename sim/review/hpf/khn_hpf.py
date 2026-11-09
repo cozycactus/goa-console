@@ -1,4 +1,4 @@
-"""Sweepable HPF study for the strip (proposal hpf_proposal.md): a state-variable (KHN) high-pass, unity gain,
+"""Sweepable HPF study for the strip (proposal docs/proposals/hpf_proposal.md): a state-variable (KHN) high-pass, unity gain,
 non-inverting, Q 0.707, tuned by an A10K dual as the mid bands are (strip spec 6.2): each gang a divider from the
 driving op-amp (pin 3) to R0 (pin 1), RT from top to wiper, wiper -> RB -> integrator.
 Summer: + input from the signal (RIN) and BP (RBP), - input from LP (RLP) and HP (RF); RF = 2 RLP, RIN = 2 RBP gives

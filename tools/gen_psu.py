@@ -41,7 +41,7 @@ def rail(name, out, rtn, smps):
     CP(b, '2200u 35V low-ESR', x + '_LC', rtn); C(b, '100n', x + '_LC', rtn)
     P(b, ref('U'), 'LDO', 'LM1084-ADJ', {3: x + '_LC', 2: out, 1: x + '_ADJ'})
     R(b, '120R 1%', out, x + '_ADJ')
-    # 15.7 V across the 1K5 = 164 mW: 1206 0.5 W, not the 0805's 125 mW (project_review.md RV1)
+    # 15.7 V across the 1K5 = 164 mW: 1206 0.5 W, not the 0805's 125 mW (docs/reviews/project_review.md RV1)
     R(b, '1K5 1%', x + '_ADJ', rtn, fp='Resistor_SMD:R_1206_3216Metric', mpn='Panasonic ERJ-P06F1501V')
     CP(b, '47u 25V', x + '_ADJ', rtn)                                   # soft start (tau ~ 70 ms) + ripple rejection
     P(b, ref('D'), 'DG', 'S1G', {2: x + '_ADJ', 1: out})               # C_ADJ discharge into OUT, not into ADJ

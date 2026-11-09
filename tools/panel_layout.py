@@ -3,11 +3,11 @@ the placed boards (render/<module>.json, tools/export_3d.py). tools/console_3d.p
 tools/panel_fab.py the fabrication drawings, so the two can't drift apart.
 
 Coordinates are board mm (x right, y down), the module's frame: main board at x 0..38.1, y 44..444; the panel spans
-x X0 .. X0 + width, y Y0 .. Y1 (12U = 4 x 128.5 = 514 mm). Rules for the print: panel_print.md."""
+x X0 .. X0 + width, y Y0 .. Y1 (12U = 4 x 128.5 = 514 mm). Rules for the print: docs/build/panel_print.md."""
 import json, math, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from models3d import lookup
-from models3d.knob import D_KNOB                # Elma Ø14.5 on every pot (knob_proposal.md KN2)
+from models3d.knob import D_KNOB                # Elma Ø14.5 on every pot (docs/proposals/knob_proposal.md KN2)
 
 HP = 5.08
 WIDTH = {'strip': 8 * HP - 0.34, 'group': 8 * HP - 0.34, 'master': 16 * HP - 0.34}   # 40.30 / 80.94 mm
@@ -18,16 +18,16 @@ LABEL = {'master': 'MASTER'}
 # the console: 12 strips | groups 1-2 | master (16 HP) | groups 3-4 | 12 strips, on an 8 HP pitch
 ORDER = ['S'] * 12 + ['G1', 'G2', 'M', 'G3', 'G4'] + ['S'] * 12
 PITCH = 8 * HP
-# frame rails (frame_proposal.md FR1, signed off 2026-10-25): 10 x 50 flat bar on edge under each panel end, centred
+# frame rails (docs/proposals/frame_proposal.md FR1, signed off 2026-10-25): 10 x 50 flat bar on edge under each panel end, centred
 # on the panel screw lines, top face against the panel underside, 2 mm into each cheek (the cheeks' inner faces are
 # CHEEK_GAP outside the console's 0 / width; console_3d.py)
 RAIL_W, RAIL_H, CHEEK_GAP, RAIL_INTO = 10.0, 50.0, 2.0, 2.0
 RAIL_LINES = (Y0 + 3.0, Y1 - 3.0)
-# the back rail (the y = Y0 + 3 line, the console's high end) is the vent outlet (thermal_study.md TH1, signed off
+# the back rail (the y = Y0 + 3 line, the console's high end) is the vent outlet (docs/studies/thermal_study.md TH1, signed off
 # 2026-10-26): 30 slots 30 x 25 mm through its 10 mm thickness, centred on its neutral axis, evenly from 40 mm in
 VENT_SLOTS, VENT_W, VENT_H, VENT_IN = 30, 30.0, 25.0, 40.0
 
-# the tub (tub_proposal.md TB1-TB4, signed off 2026-10-26), module frame: x along the console, y as the boards (back
+# the tub (docs/proposals/tub_proposal.md TB1-TB4, signed off 2026-10-26), module frame: x along the console, y as the boards (back
 # negative), z up from the main-board top (panel underside at PANEL_Z0, top at PANEL_Z1); mm
 PANEL_Z0, PANEL_Z1 = 11.5, 13.0
 TILT_DEG, MOUNT_Y, MOUNT_Z = 9.0, 250.0, 165.0     # console tilt (front lower); where the module origin sits over the desk
@@ -89,7 +89,7 @@ def rail_span():
     return -CHEEK_GAP - RAIL_INTO, console_width() + CHEEK_GAP + RAIL_INTO
 
 # ---------------------------------------------------------------- legends and colours per module
-# Switch caps C&K PV: red, grey, black, white only (knob_proposal.md KC1: ON black, DIR grey); knob caps Elma 040-30x5
+# Switch caps C&K PV: red, grey, black, white only (docs/proposals/knob_proposal.md KC1: ON black, DIR grey); knob caps Elma 040-30x5
 # (red, grey, blue, yellow, green, black; KN3); fader caps Sifam LK111 01, black with a white line (KC2; white / red /
 # yellow only if the coloured-cap trial passes). The group's AUX cap is yellow on groups 1-2 and green on 3-4 (the model shows one group design: yellow).
 STRIP = {'RV9': ('GAIN', 'red'), 'RV10': ('HF', 'grey'), 'RV11': ('HI-MID', 'grey'), 'RV12': ('FREQ', 'blue'),
@@ -176,7 +176,7 @@ class Panel:
     screws; texts: [(s, x, y, size, bold)] centred on (x, y), size = em in mm; rects: [(x0, y0, x1, y1)] filled ink
     (dots, ticks, rules, brackets, meter outlines). parts: per panel part (ref, kind, x, y, rot, name, colour, big),
     for the 3D layer. studs: [(x, y, ref, board)] the boards' standoffs, where blind M3 studs go into the panel's back
-    (met1_ret1_review.md P4: if the maker offers them); board 'main' or 'jack' (the jack boards' bond CHASSIS)."""
+    (docs/reviews/met1_ret1_review.md P4: if the maker offers them); board 'main' or 'jack' (the jack boards' bond CHASSIS)."""
     def __init__(self, key, width):
         self.key, self.width = key, width
         self.x0, self.x1, self.y0, self.y1 = X0, X0 + width, Y0, Y1

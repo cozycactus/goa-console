@@ -1,5 +1,5 @@
 """Panel knob for the pot shafts: Elma classic collet knob, Ø14.5, matt black with a line (021-3525 for the Alpha 1/4"
-shafts, 021-3425 for the ALPS 6 mm D shaft), and an Elma 040-30x5 matt cap without a line (knob_proposal.md KN1-KN3,
+shafts, 021-3425 for the ALPS 6 mm D shaft), and an Elma 040-30x5 matt cap without a line (docs/proposals/knob_proposal.md KN1-KN3,
 signed off 2026-10-25). Elma datasheet "classic collet knobs", Ø14.5 page: body Ø14.5, about 16-17 high with the cap,
 collet engagement 7.0 for 6 / 6.35 mm shafts; cap Ø11 / Ø7, 3.8 + 1 high. No nut cover (the 044-3xxx skirt is Ø17-18.7,
 too wide for the 20.32 mm column pitch). Frame: z = 0 on the panel top, pointer towards -y at angle 0 (positive angle

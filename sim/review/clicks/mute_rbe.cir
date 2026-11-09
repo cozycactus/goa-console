@@ -1,5 +1,5 @@
 * Power-on / power-off mute control (master spec section 8), v3 = values in tools/gen_master.py.
-* v3 (2026-10-23, master_parts_review.md item 3): reset and fast-release resistors 2.2K -> 4.7K (one LM393 output
+* v3 (2026-10-23, docs/reviews/master_parts_review.md item 3): reset and fast-release resistors 2.2K -> 4.7K (one LM393 output
 * sank ~23 mA at a one-rail loss); six coils (K6 phones).
 * v1 (first generator draft: 220K / 22u timer, 1M hysteresis, unlimited diode paths) never closed within 4 s:
 * the 1M from the Schmitt output held the timer near 10.4 V, so it crawled towards the 6.2 V threshold.

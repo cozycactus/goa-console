@@ -70,7 +70,7 @@
 **T5 EQ (read, p85, skimmed).**
 - Four inverting TL072 stages, each with a 10K lin centre-detent gain pot and 22K / 22K, 47 µF between stages.
 - The band cores are TL072 KHN filters with 100KC rev-log dual rheostats and a Q pot (0.5–3).
-- **vs ours:** already covered in eq_survey.md.
+- **vs ours:** already covered in docs/studies/eq_survey.md.
 
 **T6 Insert (read, p84).**
 - Pre-EQ by default, post-EQ by jumpers JMP1-6. The return is switched in by the INSERT IN key, not by a jack normal.

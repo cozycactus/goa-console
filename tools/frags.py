@@ -136,7 +136,7 @@ def dim(d, src, dst, r, sw, unit):
 
 
 def rx_buffers(d, tip, ring, tb, rb, ut, ur, st, sr, rt, rr, ot, orr, ct, cr):
-    """Balanced receiver's input followers (ground_study.md G3b): per leg 1M to ground, 220R, 100p at the + input, a
+    """Balanced receiver's input followers (docs/studies/ground_study.md G3b): per leg 1M to ground, 220R, 100p at the + input, a
     unity follower, a 100R build-out to the bridge.  32 x 17"""
     for src, dst, u, rs, rbias, cs, ro, y in ((tip, tb, ut, st, rt, ct, ot, 0), (ring, rb, ur, sr, rr, cr, orr, 9)):
         p = pins(u)

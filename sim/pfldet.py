@@ -1,4 +1,4 @@
-"""PFL detect as generated (tools/gen_master.py, master spec section 19, master_parts_review.md items 4 and 6).
+"""PFL detect as generated (tools/gen_master.py, master spec section 19, docs/reviews/master_parts_review.md items 4 and 6).
 PFLDET carries T = 42 PFL/AFL keys (24 strips, 16 group keys since RET1, 2 on the master). Each key: +VL -> pole B -> ON node ->
 100K -> PFLDET, and ON -> 4K7 -> red LED -> GNDD; a released key's ON node floats. Master: 10K to GNDD, 2 x 1N4148 in
 series to GNDD (clamp: keeps PFLDET low enough that the released keys' LED paths don't conduct), 1u to GNDD

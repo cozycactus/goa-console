@@ -74,7 +74,7 @@ None of these documents has a specification page. The only level marks:
   uses a 500KC dual (100 Hz-8 kHz) in a stage of its own (U101A / B, 10K / 10K, 20 pF).
 - **1402:** 80 Hz / 2.5 kHz / 12 kHz, fixed.
 - **8•Bus:** 4-band EQ with a semi-parametric (Q-pot) hi-mid on module 990-016, plus EQ split to Mix-B.
-- **vs ours:** ours has two swept mids with a fixed Q and the Delta shelves (see `eq_survey.md`).
+- **vs ours:** ours has two swept mids with a fixed Q and the Delta shelves (see `docs/studies/eq_survey.md`).
 
 **T6 Insert** (read)
 - **1604 (pod, TRS):** the insert sits after the mic preamp, before low-cut and EQ.

@@ -1,4 +1,4 @@
-"""CS10 (console_survey.md §7): what a strip's audio rails do when one supply rail goes away, with and without a reverse
+"""CS10 (docs/studies/console_survey.md §7): what a strip's audio rails do when one supply rail goes away, with and without a reverse
 Schottky across each reservoir (PMEG4010CEH: cathode +VA / anode GNDA, cathode GNDA / anode -VA).
 
 Model (one strip or group board; values from the strip netlist where they exist):

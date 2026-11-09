@@ -1,4 +1,4 @@
-"""CS7 (cs7_proposal.md): the C/Room dim. The CRS follower drives CRSB through its 100R build-out (MG6); CRSB feeds the
+"""CS7 (docs/proposals/cs7_proposal.md): the C/Room dim. The CRS follower drives CRSB through its 100R build-out (MG6); CRSB feeds the
 C/ROOM pot (now through RD, 91K, shorted by the released DIM key), the PHONES pot and the meter feed (100R into the
 rectifier's 10K). The C/ROOM wiper sees 2.2 uF + 100K (the follower's bias). Pots: A10K, the decks' two-slope law
 (0.30 x to the middle, then 0.15 + 1.70 (x - 0.5)). Solved per position by nodal analysis at 1 kHz (the 2.2 uF is 72 ohm

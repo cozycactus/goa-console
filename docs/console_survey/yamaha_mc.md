@@ -72,7 +72,7 @@
   - LF: 100 Hz, VR102 50KB, C114 / C115 33 nF, R125 33K, R123 / R126 10K, R124 4K7.
   - HF: 10 kHz, VR103 50KB, C116 1.2 nF, R127 5K6.
 - That stage's label prints as "IC102B", the same as the post-fader amp. The parts list gives only IC101 / IC102 per channel, so it must be IC101B (**inferred**).
-- The swept mid (350 Hz-5 kHz) is on IC102A with R130 / R131 10K, VR105 50KB gain and VR104 C100K dual tuning C121 2.7 nF / C122 6.8 nF with R128 / R129 6K8. Q is fixed. This is the C-law dual that `eq_survey.md` notes.
+- The swept mid (350 Hz-5 kHz) is on IC102A with R130 / R131 10K, VR105 50KB gain and VR104 C100K dual tuning C121 2.7 nF / C122 6.8 nF with R128 / R129 6K8. Q is fixed. This is the C-law dual that `docs/studies/eq_survey.md` notes.
 - There is no EQ IN switch.
 - **vs ours:** fewer bands, no in/out switch.
 

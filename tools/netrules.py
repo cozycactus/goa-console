@@ -1,5 +1,5 @@
 """Routing rules for the placed boards: net classes in each project (.kicad_pro) and custom DRC rules (.kicad_dru), from
-routing_guide.md and emc_placement_study.md. Settings only, no copper. Run with KiCad's Python after any re-placement
+routing_guide.md and docs/studies/emc_placement_study.md. Settings only, no copper. Run with KiCad's Python after any re-placement
 or netlist change (the classes are assigned by exact net name, and unnamed nets are named by their pins):
   $KPY tools/netrules.py [board ...]          (default: the strip, group, master and jig boards with their jack boards)
 It also writes the board-wide fab limits (FAB, JLCPCB's capabilities) into every project, the PSU's too.

@@ -6,7 +6,7 @@ bare lead, leads 0.81 tinned copper. Each lead is soldered to one face of the ch
 in the photo), so the two leads leave the coating about 1.9 mm apart front to back; they are joggled into the in-line
 holes 5.08 apart, with the coating ending 1.5 mm above the board (no seating feature on straight leads).
 MF-RX185/72 (master -V wing fuses since 2026-10-24): the same, A 15.18 / B 21.18 max.
-MF-RX250/72 (master +V wing fuses since 2026-10-25, wing_power_proposal.md W2): A 17.84 / B 23.84 max, C 10.2 lead
+MF-RX250/72 (master +V wing fuses since 2026-10-25, docs/proposals/wing_power_proposal.md W2): A 17.84 / B 23.84 max, C 10.2 lead
 spacing (the leads drop straight from the chip's lower corners to holes 10.16 apart)."""
 import math
 from .geom import Mesh, rrect

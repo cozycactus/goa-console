@@ -1,4 +1,4 @@
-"""Tub drawings (tub_proposal.md TB1-TB4, signed off 2026-10-26) from the shared geometry in tools/panel_layout.py (the
+"""Tub drawings (docs/proposals/tub_proposal.md TB1-TB4, signed off 2026-10-26) from the shared geometry in tools/panel_layout.py (the
 panels, the rails and the 3D model use the same numbers). Writes tub/:
   cheek.dxf     the LEFT cheek's outside face (the right one is its mirror): profile over the desk, rail rebates
                 10 x 50 x 2 deep and the floor dado 6 deep (on the inside face), screw holes (counterbored outside)

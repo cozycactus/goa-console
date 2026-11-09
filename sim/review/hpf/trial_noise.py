@@ -1,4 +1,4 @@
-"""PRE noise with the HPF out / in at CCW, mid, CW (hpf_proposal.md). Run from the repo root of a tree with
+"""PRE noise with the HPF out / in at CCW, mid, CW (docs/proposals/hpf_proposal.md). Run from the repo root of a tree with
 archive/patches/hpf_proposal.patch applied (needs channel_strip.net with RV16); "base" runs the current Sallen-Key rows instead."""
 import sys, os
 sys.path.insert(0, os.getcwd() + '/sim/review/strip_noise'); os.chdir(os.getcwd())

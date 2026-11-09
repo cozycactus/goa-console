@@ -1,4 +1,4 @@
-"""CS2b (cs2b_proposal.md): the group's sub pan to MIX. As built: the linear 10K dual RV2 (ALPS RK09L) into unity
+"""CS2b (docs/proposals/cs2b_proposal.md): the group's sub pan to MIX. As built: the linear 10K dual RV2 (ALPS RK09L) into unity
 followers U3B / U5A, a plain -6 dB. CS2b: the strip's network (CS2, ED3344C): each buffer at 1.22x with 3K3 from its
 output back to its wiper (pan_law.side()). For reference the parent's group module, ED2778A "MONITOR PAN": passive, a
 10K LIN CD dual with 3K9 from the source to each wiper and 8K2 from the wiper into the MIX virtual earth (no buffer).

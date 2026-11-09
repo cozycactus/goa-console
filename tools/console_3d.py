@@ -334,7 +334,7 @@ WIRE = ['wire_green', 'wire_red', 'wire_red', 'wire_black', 'wire_black', 'wire_
 def psu_cable(c, p, e, zb, z_floor=-41.5):
     """Supply cable to the master's 7-way terminal J1 (bottom side; the wires enter on the footprint's front, board +y):
     seven wires out of a jacket from the NC7MD-LX in the plenum's rear wall, through the back rail's vent slot
-    CABLE_SLOT (tub_proposal.md TB3) and along the tub floor. Master-module coordinates."""
+    CABLE_SLOT (docs/proposals/tub_proposal.md TB3) and along the tub floor. Master-module coordinates."""
     lo = min((ch.matrix_world @ Vector(cr)).z for ch in e.children_recursive if ch.type == 'MESH' for cr in ch.bound_box) / S
     ze = zb - 0.45 * (zb - lo); ye = p['box'][3] - 0.5; xm = p['x'] - 3 * 5.08
     mx = 14 * PITCH                                                   # the master's x in the console
@@ -476,7 +476,7 @@ for item in order:
 motherloom('motherloom L', sorted(q for q in bus if q[0] < master_x + PITCH))     # master CN2 ends the left wing,
 motherloom('motherloom R', sorted(q for q in bus if q[0] >= master_x + PITCH))    # CN3 starts the right one
 def ground_harness(x_of):
-    """The heavy audio ground (master spec 26, architecture 3.4; route and gauge ground_study.md G1): one 14 AWG wire per
+    """The heavy audio ground (master spec 26, architecture 3.4; route and gauge docs/studies/ground_study.md G1): one 14 AWG wire per
     module from its 6.3 mm spade (a receptacle on the tab), radially (no daisy chain). Each wire drops to just under
     its wing's motherloom and runs tied under it to the master, so its loop with the ribbon's ground conductors stays
     a few cm^2; down the master's free edge strip (x 0.3-4.3 / 74.3-78.3) to below the bottom-side parts, and onto a
@@ -521,7 +521,7 @@ xs_, x = [], 0.0
 for item in order:
     xs_.append(({'S': 'strip', 'M': 'master'}.get(item, 'group'), x)); x += 2 * PITCH if item == 'M' else PITCH
 print('ground wires', ground_harness(xs_))
-for yc in panel_layout.RAIL_LINES:                  # 10 x 50 flat-bar rails, 2 mm into each cheek (frame_proposal.md)
+for yc in panel_layout.RAIL_LINES:                  # 10 x 50 flat-bar rails, 2 mm into each cheek (docs/proposals/frame_proposal.md)
     (r0, r1), rw, rh = panel_layout.rail_span(), panel_layout.RAIL_W, panel_layout.RAIL_H
     y0r, y1r = yc - rw / 2, yc + rw / 2
     if yc != panel_layout.RAIL_LINES[0]:
@@ -533,7 +533,7 @@ for yc in panel_layout.RAIL_LINES:                  # 10 x 50 flat-bar rails, 2 
     xs = [r0] + [r0 + c + s * panel_layout.VENT_W / 2 for c in panel_layout.vent_slots() for s in (-1, 1)] + [r1]
     for k in range(0, len(xs), 2):                    # the webs between the slots
         box(f'rail back web {k // 2}', xs[k], y0r, zs0, xs[k + 1], y1r, zs1, M['alu'], frame).parent = root
-PL = panel_layout                                 # the tub (tub_proposal.md TB1-TB4): floor with inlet slots, arm-rest, plenum
+PL = panel_layout                                 # the tub (docs/proposals/tub_proposal.md TB1-TB4): floor with inlet slots, arm-rest, plenum
 fz0, fz1 = PL.FLOOR_TOP - PL.FLOOR_T, PL.FLOOR_TOP
 fx0, fx1 = -PL.CHEEK_GAP - PL.DADO, width + PL.CHEEK_GAP + PL.DADO
 rows = sorted(PL.INLET_ROWS); ys = [PL.FLOOR_Y[0]]

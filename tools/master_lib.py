@@ -30,7 +30,7 @@ FP.update({
  'HDR5': 'Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical', 'JACK': FP['JACKSW'],
  'PNP': 'Package_TO_SOT_SMD:SOT-223',     # pads 1-4 = the BCEC symbol's pins (tab = 4 = C); TabPin2 has no pad 4
 })
-MPN.update({'DRV134': 'TI DRV135UA',   # SO-8: the DRV134 is DIP-8 / SOL-16 only (design_review.md R1)
+MPN.update({'DRV134': 'TI DRV135UA',   # SO-8: the DRV134 is DIP-8 / SOL-16 only (docs/reviews/design_review.md R1)
             'RELAY': 'Omron G6K-2F-Y DC12', 'XLR3': 'Neutrik NC3MAH',
             'PWRIN': 'Phoenix 1755897 MKDS 1,5/7-5,08 (wired to a Neutrik NC7MD-LX inlet)', 'PTC': 'Bourns MF-RX160/72-0',
             'DS': 'SS54', 'FB': '220R@100MHz 0805',
@@ -38,7 +38,7 @@ MPN.update({'DRV134': 'TI DRV135UA',   # SO-8: the DRV134 is DIP-8 / SOL-16 only
             # B grades: the comparators run from +-17 V (34 V), over the non-B parts' 30 V recommended maximum
             'CMP': 'TI LM393BIDR', 'LM2901': 'TI LM2901BIDR',
             'DG': 'Vishay DG413DY-E3', 'ZEN': 'Diodes BZX84C5V1-7-F', 'PNP': 'onsemi BCP53-16T1G', 'SCH': 'Nexperia BAT54W,115',
-            # master_group_review.md MG9 / MG16. TL072H: the H suffix fixes the die (SLOS080W Table 9-1) and is rated 42 V
+            # docs/reviews/master_group_review.md MG9 / MG16. TL072H: the H suffix fixes the die (SLOS080W Table 9-1) and is rated 42 V
             'OPA': 'TI OPA1612AIDR', 'TL072': 'TI TL072HIDR', 'NPN': 'onsemi MMBT3904LT1G', 'D': 'Vishay 1N4148-TAP',
             'POT': 'Alpha RD901F-40-15R1-A10K', 'HDR': 'Wurth 61203421621 (2x17 box header)',
             # the ferrite is a stability part: the aux summer's margin follows its inductance (MG16)
@@ -48,14 +48,14 @@ MPN['DS'] = 'Diodes B540C-13-F (SS54 class, SMC 40 V 5 A)'
 SYM['DSK'] = ('Device', 'D_Schottky'); FP['DSK'] = 'Diode_SMD:D_SOD-123F'; MPN['DSK'] = 'onsemi MBR140SFT1G'
 # CS4b: a BAV199 per jack-link signal at the link header, as the strip's D18-D22 (pin 3 the signal, 2 +VA, 1 -VA)
 SYM['DD'] = ('Diode', 'BAV99'); FP['DD'] = 'Package_TO_SOT_SMD:SOT-23'; MPN['DD'] = 'Nexperia BAV199,215'
-# wing PTCs MF-RX185/72 (hpf_proposal.md H4, 2026-10-24): same pads as the MF-RX160/72 (kept on the jig stub), a
+# wing PTCs MF-RX185/72 (docs/proposals/hpf_proposal.md H4, 2026-10-24): same pads as the MF-RX160/72 (kept on the jig stub), a
 # 1.24 mm wider body; hold 1.50 / 1.33 A at 40 / 50 C against a 1.25 A wing
 PTC185 = dict(fp='goa-console:Fuse_Bourns_MF-RX185-72_Radial_P5.08mm', mpn='Bourns MF-RX185/72-0')
-# +V wing PTCs MF-RX250/72 (wing_power_proposal.md W2, 2026-10-25): +V has three ribbon conductors (pin 34, W1), so its
+# +V wing PTCs MF-RX250/72 (docs/proposals/wing_power_proposal.md W2, 2026-10-25): +V has three ribbon conductors (pin 34, W1), so its
 # 2.5 A hold is 0.83 A per IDC contact (1 A rated); 10.2 mm lead spacing, its own footprint. -V keeps the MF-RX185/72.
 PTC250 = dict(fp='goa-console:Fuse_Bourns_MF-RX250-72_Radial_P10.16mm', mpn='Bourns MF-RX250/72-0')
 # ceramics >= 25 V (50 V X7R; C0G 50 V) and electrolytics that fit the current footprints, filled by value before
-# build() (master_group_review.md MG16; strip_parts_review.md T9). Value strings keep the minimum rating
+# build() (docs/reviews/master_group_review.md MG16; docs/reviews/strip_parts_review.md T9). Value strings keep the minimum rating
 CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Samsung CL31B105KBHNNNE (X7R 50V)',
            '2.2u': 'Murata GRM31CR71H225KA88L (X7R 50V)', '330n': 'Samsung CL21B334KBFNNNE (X7R 50V)',
            '10p C0G': 'KEMET C0805C100J5GACTU', '22p C0G': 'KEMET C0805C220J5GACTU',
@@ -64,10 +64,10 @@ CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '1u': 'Samsung CL31B105K
            '470u 25V': 'Nichicon UPW1E471MPD', '1000u 25V': 'Nichicon UPW1E102MHD',
            '47u 25V': 'Nichicon UPW1J470MPD (63V)', '220u 25V': 'Nichicon UHE1V221MPD6 (35V)',
            # 10u NP: DRV135 sense legs (inside its loop) and the LME49600 +-VP bypasses; UES1E100MDM is discontinued
-           # (sourcing.md S1, 2026-10-25), so a general-purpose bipolar in the same 5 x 11 / P2.0 can
+           # (docs/build/sourcing.md S1, 2026-10-25), so a general-purpose bipolar in the same 5 x 11 / P2.0 can
            '10u NP 25V': 'Panasonic ECE-A1EN100U', '47u NP 25V': 'Panasonic ECE-A1VN470U (35V)',
            '220u NP 25V': 'Panasonic ECE-A1EN221U',
-           # film couplers and audio bipolars (film_np_proposal.md): MUSE ES 25 V in the existing footprints
+           # film couplers and audio bipolars (docs/proposals/film_np_proposal.md): MUSE ES 25 V in the existing footprints
            '2.2u film': 'KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)',
            '33u NP 25V': 'Nichicon UES1E330MPM (MUSE ES)', '100u NP 25V': 'Nichicon UES1E101MPM (MUSE ES)'}
 FILM_2U2 = 'Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2'          # MKS2 2.2u 63V: 7.2 x 13 x 7.2
@@ -154,7 +154,7 @@ def summer(b, bus, out, rf, cf, part='OPA1612', gref='GCANCEL'):   # [2, 12, 13,
 def reinv(b, src, out, part='OPA1612', gref='GCANCEL_BUF'):  # [3]
     dn, dp = out + '_DN', out + '_DP'
     # the input capacitance against 2K2 leaves ~11 deg phase margin (TI OPA161x model); 22p on both legs, same value
-    # and tolerance so the GCANCEL balance holds (master_parts_review.md, item 2). Created first and placed beside
+    # and tolerance so the GCANCEL balance holds (docs/reviews/master_parts_review.md, item 2). Created first and placed beside
     # the op-amp's pins, ahead of the resistors: they only work at the pins
     cs = C(b, '22p C0G 5%', out, dn), C(b, '22p C0G 5%', dp, 'GNDA')
     k = dict(mpn='Panasonic ERA-6AEB222V')          # 0.1 % 25 ppm: they set the GCANCEL rejection
@@ -171,7 +171,7 @@ def insert(b, src, dst, name):                              # [4]
     jack(b, 'JACKSW', name.replace('_', ' ') + ' insert', {'T': s, 'RN': s, 'R': rr, 'TN': 'NC', 'S': 'GNDA'}, split=True)
     cin, rin = C(b, '47u NP 25V', rr, rt), R(b, '47K', rt, 'GNDA')
     # input protection as strip R99/C84, never the 1K alone (it costs the follower 25-45 deg); 75R build-out at the pin:
-    # the follower otherwise drives PRE and, at the fader top, the wiper run (master_group_review.md MG7)
+    # the follower otherwise drives PRE and, at the fader top, the wiper run (docs/reviews/master_group_review.md MG7)
     rp = R(b, '1K', rt, ri); ci = C(b, '100p C0G', ri, 'GNDA')
     u = amp(b, ri, bf, bf); uu = LAST[0]
     rbo = R(b, '75R', bf, bf + 'O'); near(ci, u); near(rbo, u)
@@ -183,7 +183,7 @@ def post_amp(b, wiper, post, name):                         # [5] fader wiper ->
     cin, rsh = C(b, '2.2u', wiper, fin), R(b, '100K', fin, 'GNDA')
     u = amp(b, fin, fn, fo); uu = LAST[0]
     # 10p: the wiper's 1-2.5 kohm against Cdiff; 47R build-out at the pin, outside the loop, so POST's run and the
-    # DG413 on-capacitance (master) or the pan pot (group) don't load the follower (master_group_review.md MG4)
+    # DG413 on-capacitance (master) or the pan pot (group) don't load the follower (docs/reviews/master_group_review.md MG4)
     csh, rb = C(b, '10p C0G', fin, 'GNDA'), R(b, '47R', fo, fo + 'O'); near(csh, u); near(rb, u)
     rf, cf, rg = R(b, '4K7', fo, fn), C(b, '100p C0G', fo, fn), R(b, '2K2', fn, 'GNDA')
     cout, rout = C(b, '220u NP 25V', fo + 'O', post), R(b, '47K', post, 'GNDA')
@@ -194,14 +194,14 @@ def level_buffer(b, wiper, out, name, unity=True):          # [13, 16] pot wiper
     cin, rsh = C(b, '2.2u', wiper, fin), R(b, '100K', fin, 'GNDA')
     u = amp(b, fin, fn, out); uu = LAST[0]
     # 100p as post_amp(): without it the follower rings at ~15 MHz (TI OPA161x model). 10p at the + input against
-    # the wiper's Cdiff lag; 22p would cost the stage driving the pot top more (master_group_review.md MG5)
+    # the wiper's Cdiff lag; 22p would cost the stage driving the pot top more (docs/reviews/master_group_review.md MG5)
     rf, cf, csh = R(b, '4K7', out, fn), C(b, '100p C0G', out, fn), C(b, '10p C0G', fin, 'GNDA')
     for x in (rf, cf, csh): near(x, u)
     rg = R(b, 'DNF (2K2 = +10 dB)', fn, 'GNDA', dnp=True)
     frag(b, 26, 17, lambda d: frags.noninv(d, wiper, out, uu, cin, rsh, csh, rf, cf, rg))
 
 DRV_RX = []                     # CS4c: the resistors inside the DRV135 loops, created last by drv_loop_rs()
-# CS11b (cs11b_proposal.md): each DRV135's two 10 uF couplers are a pair sorted within 2 % (LCR meter, 100 Hz): output
+# CS11b (docs/proposals/cs11b_proposal.md): each DRV135's two 10 uF couplers are a pair sorted within 2 % (LCR meter, 100 Hz): output
 # balance at 100 Hz / 1 kHz, worst 5 %, -20 / -32 dB as bought (+-20 %) -> -47 / -60 dB (sim/review/cs11/drv_couplers.py)
 DRV_PAIR = 'Panasonic ECE-A1EN100U (matched pair: the two at one DRV135 within 2 %, sorted at 100 Hz)'
 
@@ -260,7 +260,7 @@ def afl(b, junction, name):                                 # PFL/AFL switch: 22
 DEFER = []                      # parts created at the end (before the spares): new circuits keep every other ref
 
 def receiver(b, tip, ring, out):                            # strip-style ground-compensated receiver
-    """Buffered since 2026-10-25 (ground_study.md G3b, as the strip's U16): each leg 100p and 1M to GNDA, 220R, an
+    """Buffered since 2026-10-25 (docs/studies/ground_study.md G3b, as the strip's U16): each leg 100p and 1M to GNDA, 220R, an
     OPA1656 follower and a 100R build-out (>= 48.5 deg for any load), then the 10K 0.1 % bridge. The followers are
     created last (DEFER), so the refs of everything else on the board stay as they were."""
     n, p = out + '_N', out + '_P'
@@ -271,7 +271,7 @@ def receiver(b, tip, ring, out):                            # strip-style ground
     k = dict(mpn='Panasonic ERA-6AEB103V')          # 0.1 %: they set the CMRR
     r1, r2, cn = R(b, '10K 0.1%', rb, n, **k), R(b, '10K 0.1%', n, out, **k), C(b, '33p C0G', n, out)
     # 33p on the + leg too: with only the feedback cap the bridge is unbalanced (CMRR 60 / 40 / 34 dB at 1 / 10 / 20 kHz)
-    # and the 5 kohm + node lags through Cdiff (45 deg); balanced: 86 dB flat, 85 deg (strip_parts_review.md, T3)
+    # and the 5 kohm + node lags through Cdiff (45 deg); balanced: 86 dB flat, 85 deg (docs/reviews/strip_parts_review.md, T3)
     r3, r4, cp = R(b, '10K 0.1%', tb, p, **k), R(b, '10K 0.1%', p, 'GNDA', **k), C(b, '33p C0G', p, 'GNDA')
     u = amp(b, p, n, out); uu = LAST[0]
     near(cn, u); near(cp, u)
@@ -291,11 +291,11 @@ def receiver(b, tip, ring, out):                            # strip-style ground
     return u
 
 def stereo_in(b, name, outl, outr, label=None):            # two jacks, R normalled to L
-    """The outputs must not be named name + '_LR' / '_RR': those are the jack rings (master_group_review.md MG1).
+    """The outputs must not be named name + '_LR' / '_RR': those are the jack rings (docs/reviews/master_group_review.md MG1).
     label: the jacks' value text (default name)."""
     lt, lr, rt, rr = name + '_LT', name + '_LR', name + '_RT', name + '_RR'
     assert not {outl, outr} & {lt, lr, rt, rr}, 'receiver output named like a jack net'
-    # sleeves on CHASSIS (ground_study.md G2): cable-shield currents go to the panel, not through GNDA
+    # sleeves on CHASSIS (docs/studies/ground_study.md G2): cable-shield currents go to the panel, not through GNDA
     # L's own normals short an empty L input (and, through R's normals, an empty R): the 1M bias would hiss (G3b)
     jack(b, 'JACKSW', (label or name) + ' L in', {'T': lt, 'R': lr, 'S': 'CHASSIS', 'TN': 'GNDA', 'RN': 'GNDA'})
     jack(b, 'JACKSW', (label or name) + ' R in', {'T': rt, 'R': rr, 'S': 'CHASSIS', 'TN': lt, 'RN': lr})

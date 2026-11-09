@@ -1,13 +1,13 @@
 # Master Section — Schematic Specification, v0.14 (draft)
 ## Part 1: stereo mix path, mono, main outputs, power-on mute
 
-**v0.13 (2026-10-28, signed off):** `clicks_proposal.md` RV7 (2.2 µF films ahead of the aux 5 / 6 AFL 22Ks, §13; the
-group's aux AFL the same), RV8 (phones DC gain 1, §21), RV9 (the −V-loss comparator's +1.0 V reference, §8); v0.14 (2026-10-29, `clicks_followup_proposal.md`): RV9b, a 4K7 base-emitter resistor on the relay driver (§8);
-`delta_crosscheck.md` D13 (the spare bus conductors grounded through JP3-JP7, §24). Master 1818 pins / 631 parts.
+**v0.13 (2026-10-28, signed off):** `docs/proposals/clicks_proposal.md` RV7 (2.2 µF films ahead of the aux 5 / 6 AFL 22Ks, §13; the
+group's aux AFL the same), RV8 (phones DC gain 1, §21), RV9 (the −V-loss comparator's +1.0 V reference, §8); v0.14 (2026-10-29, `docs/proposals/clicks_followup_proposal.md`): RV9b, a 4K7 base-emitter resistor on the relay driver (§8);
+`docs/reviews/delta_crosscheck.md` D13 (the spare bus conductors grounded through JP3-JP7, §24). Master 1818 pins / 631 parts.
 ## Part 2: subgroups, aux masters
 ## Part 3: stereo returns · Part 4: monitoring · Part 5: power entry
 
-**Jack-link clamps (2026-10-27, `cs4b_proposal.md` CS4b, signed off).** As the strip's D18-D22 (strip spec v5.2): a
+**Jack-link clamps (2026-10-27, `docs/proposals/cs4b_proposal.md` CS4b, signed off).** As the strip's D18-D22 (strip spec v5.2): a
 Nexperia BAV199 on every signal of the jack-board link, at the main board's header, ahead of every series part. Pin 3
 goes to the signal, pin 2 to +VA, pin 1 to −VA.
 - **Master:** D79-D102 at CN5. EXT legs, the mix inserts' sends and returns, main L / R / mono (relay side), aux 5 / 6
@@ -18,11 +18,11 @@ goes to the signal, pin 2 to +VA, pin 1 to −VA.
   pin. The no-phantom rule (§7) still holds.
 - **ESD:** an 8 kV contact discharge into a DRV135 output pin drops from 22.8 A to 5.9 A; a receiver or insert return
   drops to ~0.1 A or less (`sim/review/cs4/jack_protect.py`, `jack_protect_mg.py`).
-- **CS4c (`cs4c_proposal.md`, signed off 2026-10-27):** a 22 Ω anti-surge 0805 (ERJ-P06J220V) between each DRV135
+- **CS4c (`docs/proposals/cs4c_proposal.md`, signed off 2026-10-27):** a 22 Ω anti-surge 0805 (ERJ-P06J220V) between each DRV135
   output pin and its 10 µF, inside the Sense loop (group R119-R122, master R222-R235, made last by
   `master_lib.drv_loop_rs()`). The 8 kV case drops to 0.84 A into the output pin. On TI's model: no loss of stability,
   differential output impedance 52.6 -> 73.8 Ω, 0.16 dB less into 600R, clip into 600R +27.5 -> +27.2 dBu.
-- **CS11b (`cs11b_proposal.md`, signed off 2026-10-27):** each DRV135's two 10 µF couplers are a pair sorted within 2 %
+- **CS11b (`docs/proposals/cs11b_proposal.md`, signed off 2026-10-27):** each DRV135's two 10 µF couplers are a pair sorted within 2 %
   (100 Hz, LCR meter); the BOM says so. The DRV floats its outputs, so the couplers' match sets the output balance: worst
   5 % at 1 kHz / 100 Hz −32 / −20 dB as bought (±20 %), −60 / −47 dB sorted (`sim/review/cs11/drv_couplers.py`).
 
@@ -30,13 +30,13 @@ Written to the same rules as `channel_strip_schematic_spec.md`; whole-console co
 `console_architecture.md` section 4. Part 2 starts at section 12, Part 3 at 16, Part 4 at 17,
 Part 5 at 24. Open items are in section 29.
 
-**Modules (2026-10-22, `master_panel_study.md` M1).** The master section is built as five boards on the
+**Modules (2026-10-22, `docs/studies/master_panel_study.md` M1).** The master section is built as five boards on the
 ribbon. Four identical 8 HP **group modules** (`group.kicad_sch`, `tools/gen_group.py`) each carry one
 subgroup (§12), one aux master (aux 1–4, §13) and two stereo returns (§16; the second since v0.12). Solder jumpers pick which
 SUB and AUX bus a group sums, and each group buffers GCANCEL locally for its re-inverters. Groups have
 strip-style power and grounds (10 Ω + 220 µF, spade, 10 Ω to GCANCEL; since 2026-10-27 a reverse clamp, MBR140SFT1G since SS2 (2026-11-03),
-across each audio rail, D5 / D6, as the strip's D16 / D17, `cs10_proposal.md`; R1-R4 fusible Vishay M25SI 1206 as the
-strip's, `cs6_proposal.md`: power the console down before plugging a module). The 16 HP **master module**
+across each audio rail, D5 / D6, as the strip's D16 / D17, `docs/proposals/cs10_proposal.md`; R1-R4 fusible Vishay M25SI 1206 as the
+strip's, `docs/proposals/cs6_proposal.md`: power the console down before plugging a module). The 16 HP **master module**
 (`master.kicad_sch`, `tools/gen_master.py`) carries everything else: power entry and both wing
 headers, MIX L/R, master fader, mono, main outputs, power-on mute, aux masters 5–6, monitoring, PFL and
 meters.
@@ -54,7 +54,7 @@ Ribbon conductor = pin number; never 2 × 17, so a link can't be mistaken for th
 - The returns' and EXT's 100 pF RF caps and 1M stay on the main boards at the receivers. The strip
   moved its RF caps to its jack board; move these too if the jig shows RF pickup on the ribbon.
 
-**Second return per group (signed off 2026-10-26, applied in v0.12; `feature_gaps.md` RET1).**
+**Second return per group (signed off 2026-10-26, applied in v0.12; `docs/reviews/feature_gaps.md` RET1).**
 - **Circuit:** every group module carries a second stereo return, the same circuit as the first (§16). The console has
   eight returns.
 - **Jack board:** two jacks more (a fourth row, RET 2 L / R at y 78) on a 38 × 93.5 mm board, with a 2 × 5 link of its
@@ -64,7 +64,7 @@ Ribbon conductor = pin number; never 2 × 17, so a link can't be mistaken for th
 - **Cost:** per group +2 OPA1612 and +2 OPA1656, ≈ +30 mA per rail typical; ≈ +0.12 A per rail console-wide (§27).
 - **Unchanged:** every existing part keeps its reference and connections.
 
-**Design review (signed off 2026-10-25, applied in v0.11; `design_review.md` R1, R2, R4, R5).**
+**Design review (signed off 2026-10-25, applied in v0.11; `docs/reviews/design_review.md` R1, R2, R4, R5).**
 - **R1:** every balanced driver is a **TI DRV135UA**. The DRV134 comes only as DIP-8 or the 16-pin wide SOL-16; the
   SO-8 part, with exactly the pinout the symbol and footprint use, is the DRV135. Same datasheet (SBOS094B) and
   electrical table. "DRV134" below means the family.
@@ -74,7 +74,7 @@ Ribbon conductor = pin number; never 2 × 17, so a link can't be mistaken for th
 - **R5:** documentation and BOM fixes (this file, CLAUDE.md, console_architecture.md); master C57 on the W7.2 film
   footprint with an orderable WIMA MPN.
 
-**Ground and hum, part 2 (signed off 2026-10-25, applied in v0.10; `ground_study.md` §10, G2b / G3b).**
+**Ground and hum, part 2 (signed off 2026-10-25, applied in v0.10; `docs/studies/ground_study.md` §10, G2b / G3b).**
 - **G2b:** every DRV134 TRS output's sleeve is on CHASSIS: group sub / aux out, master aux 5 / 6 and C/Room L / R.
 - **G3b:** the group return and master EXT receivers are buffered like the strip's U16: OPA1656 followers, 1M per leg,
   220R in, the receiver's 100 pF at each + input (moved there from the jack line), 100R build-outs. That is two duals
@@ -84,12 +84,12 @@ Ribbon conductor = pin number; never 2 × 17, so a link can't be mistaken for th
 - **Normals:** the L jack's normals short an empty input.
 - **Cost:** +78 mA per rail console-wide, 31 mA of it on each wing (§27).
 
-**Wing power (signed off 2026-10-25, applied in v0.10; `wing_power_proposal.md` W1–W2).** Pin 34 (the Delta's +48 V)
+**Wing power (signed off 2026-10-25, applied in v0.10; `docs/proposals/wing_power_proposal.md` W1–W2).** Pin 34 (the Delta's +48 V)
 is a third +V conductor on every header, and the +V wing PTCs are MF-RX250/72 (−V keeps the MF-RX185/72). The female
 IDC sockets are rated 1 A per contact and the master end carries a whole wing: +V is now 0.45 A per contact typical,
 0.83 A at the PTC's hold (§25, §27).
 
-**Ground and hum (signed off 2026-10-25, applied in v0.10; `ground_study.md` G1–G3).**
+**Ground and hum (signed off 2026-10-25, applied in v0.10; `docs/studies/ground_study.md` G1–G3).**
 - Harness (G1, §26): one 14 AWG wire per strip and group, tied under its wing's motherloom, down the master's edge
   strip to its wing's copper bar under the M4 star stud (two bars, fourteen 6.3 mm tabs each). The wires' loops with
   the ribbon's ground conductors drop from up to 800 cm² (wires on the tub floor) to at most 33 cm².
@@ -101,7 +101,7 @@ IDC sockets are rated 1 A per contact and the master end carries a whole wing: +
   returns' and EXT receivers have them as well (§16).
 
 **Parts review (signed off 2026-10-23, applied in v0.7).** The six parts proposed in v0.6 were reviewed in
-`master_parts_review.md` (review sims in `sim/review/`):
+`docs/reviews/master_parts_review.md` (review sims in `sim/review/`):
 - GCANCEL buffer kept, plus a 100K keeper (§3).
 - Aux sums on OPA1612; PFL keeps the OPA1656 (§13, §18).
 - 22 pF on every re-inverter, 100 pF across every level buffer's 4K7 (§3, §13).
@@ -110,10 +110,10 @@ IDC sockets are rated 1 A per contact and the master end carries a whole wing: +
 - Meter current sources on SOT-223, LM2901B, GaP LEDs (§22).
 - Sub AFL kept; a PFLDET clamp stops the back-feed into released keys' LEDs (§12, §19).
 
-From the strip review (`strip_parts_review.md`, signed off 2026-10-23): every differential receiver (EXT, returns)
+From the strip review (`docs/reviews/strip_parts_review.md`, signed off 2026-10-23): every differential receiver (EXT, returns)
 has 33 pF on both legs, and the master's +5VL has the BAT54W.
 
-**Stability and ratings review (signed off 2026-10-24, applied in v0.8).** `master_group_review.md` (MG1–MG20)
+**Stability and ratings review (signed off 2026-10-24, applied in v0.8).** `docs/reviews/master_group_review.md` (MG1–MG20)
 simulated every op-amp stage with the manufacturers' models (TI OPA161x, OPA1656, TL072, DRV134; a fitted LME49600
 macro) in whole-module decks; scripts in `sim/review/master/`, `sim/review/group/`. Applied:
 - **EXT (§17):** the receiver outputs are EXT_BL/BR. They had been named EXT_RR, the R jack's ring net, so R read
@@ -140,17 +140,17 @@ macro) in whole-module decks; scripts in `sim/review/master/`, `sim/review/group
 - **Kept by decision:** the wing PTCs stay MF-RX160/72 (§25; changed to MF-RX185/72 in v0.9); no mute relays on the
   aux outputs (§13).
 
-**Wing PTCs MF-RX185/72 (v0.9, signed off 2026-10-24, `hpf_proposal.md` H4).** The strip's sweepable HPF (strip
+**Wing PTCs MF-RX185/72 (v0.9, signed off 2026-10-24, `docs/proposals/hpf_proposal.md` H4).** The strip's sweepable HPF (strip
 v4.3) adds an OPA1612 per strip: a wing's typical +V load goes 1.16 → 1.25 A, which on the MF-RX160/72 would be 96 / 109 %
 of hold at 40 / 50 °C. F1–F4 are now MF-RX185/72 (§25), same pads, fixed in place (`place_master.py`). The jig's master
 stub keeps the MF-RX160/72 (4 strips).
 
-**Film couplers and audio bipolars (signed off 2026-10-24, `film_np_proposal.md` F1–F4).**
+**Film couplers and audio bipolars (signed off 2026-10-24, `docs/proposals/film_np_proposal.md` F1–F4).**
 - **Film:** every 2.2 µF wiper coupler (fader, aux 5/6, solo, C/Room, phones) and the meter's averaging caps are WIMA
-  MKS2C042201K00KSSD PET film (THT, bottom side), not X7R. Since FE1 (2026-10-29, `film_eol_proposal.md`) the order
+  MKS2C042201K00KSSD PET film (THT, bottom side), not X7R. Since FE1 (2026-10-29, `docs/proposals/film_eol_proposal.md`) the order
   code is KEMET MMK5225K63J06L4BULK, same box: the WIMA is obsolete.
 - **Bipolar electrolytics:** Nichicon MUSE ES 25 V in the existing footprints: 47 µF → 33 µF (UES1E330MPM), 220 µF →
-  100 µF (UES1E101MPM), 10 µF UES1E100MDM (now Panasonic ECE-A1EN100U, `sourcing.md` S1). The values in the diagrams below are the new ones.
+  100 µF (UES1E101MPM), 10 µF UES1E100MDM (now Panasonic ECE-A1EN100U, `docs/build/sourcing.md` S1). The values in the diagrams below are the new ones.
 - **LF response:** end to end, a strip's input to the main XLR is −3 dB at 2.3 Hz and −0.04 dB at 20 Hz.
 
 Delta references: ED2780 sheet 2 (MIX SUM AMPS, MIX INSERT, FADER POST AMPS, BALANCED
@@ -196,7 +196,7 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
   not relative to master ground. U1B reads it differentially and hands a clean signal to
   master ground. The Delta has no equivalent on its mix: its mix summers reference local ground, and only its aux
   summers take GND CANCEL (one transistor base on the line, ED2779A). Its MIX L+/L− receivers (ED2780 sheet 1, IC7)
-  are the monitor-select inputs fed from the balanced outputs, not ground cancel (`console_survey.md`, 2026-10-27;
+  are the monitor-select inputs fed from the balanced outputs, not ground cancel (`docs/studies/console_survey.md`, 2026-10-27;
   this line said otherwise before).
 - U1B: unity-gain difference amp, inverting input from SUM_L, non-inverting input from
   GCANCEL_BUF. Four 2K2 0.1 % resistors (or a matched quad network).
@@ -248,14 +248,14 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
 
 - Neutrik NJ6FD-V, wired as the strip insert: send on tip through 75R, return on ring,
   ring normalled to send.
-  - **Tip = send on every insert of the console (D1, `delta_crosscheck.md`, decided 2026-10-28).** The Delta's are
+  - **Tip = send on every insert of the console (D1, `docs/reviews/delta_crosscheck.md`, decided 2026-10-28).** The Delta's are
     ring = send (ED2780 sht 2 JSK1, ED3344A JSK2, manual p.124 / 128). Kept: electrically identical, and tip = send is
     what the commercial insert lead and every later console use; only Delta-era looms want the other sense.
   - 75R send build-out on every insert, the subs' included (D19: the Delta's group insert uses 220R, its mix insert
     75R): 0.06 against 0.19 dB of loss into a ≥ 10K outboard input, no difference in drive, the short-circuit case
     covered by the anti-surge ERJ-P06J750V; one value keeps the BOM and the jig's tests 13-14 fixtures the same.
 - Return: 33 µF NP + 47K bleed, then 1K + 100 pF C0G at the + input of an OPA1612 follower (U2A), then a 75R
-  build-out, 100 µF NP + 47K to PRE_L (v0.8, `master_group_review.md` MG7).
+  build-out, 100 µF NP + 47K to PRE_L (v0.8, `docs/reviews/master_group_review.md` MG7).
   - The 1K bounds the input current from outboard gear driving an unpowered console: ≈ 9.5 mA at a +20 dBu peak.
   - The 100 pF keeps the follower stable with it (the 1K alone costs 25–45°).
   - The 75R isolates the follower from PRE and the fader-top wiper run: 75.6° with 47 pF, against 48° without.
@@ -317,7 +317,7 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
     track.
 - Output connectors: XLR male, Neutrik NC3MAV (vertical, on the master jack board) or panel-mount with flying
   leads, pin 2 hot. Shell to chassis: the footprint's shell pad G is on CHASSIS in the schematic since 2026-10-28
-  (project symbol `XLR3_Shell`, `project_review.md` §2 minor items; the pad had no pin before, so an anodised panel
+  (project symbol `XLR3_Shell`, `docs/reviews/project_review.md` §2 minor items; the pad had no pin before, so an anodised panel
   would have left the shells floating). The jig stub's XLR the same.
 - **No phantom on any balanced output** (main, aux 5/6, C/Room, and the groups' sub and aux outs; v0.8, MG15; since CS4b
   the BAV199 at the link holds a leg at 17.7 V if it happens). P48
@@ -328,7 +328,7 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
   - Every build-out resistor sits at its op-amp pin, keeping the pin-side net pad-length: 22 pF between the pin and
     the resistor costs 4–10°.
   - With the build-outs, no master output net needs a length limit. GCANCEL_BUF takes no series R (66° with 47 pF).
-- **No +4 dBu / −10 dBV operating-level switch (D14, `delta_crosscheck.md`).** The Delta's S1 (6 poles) pads its
+- **No +4 dBu / −10 dBV operating-level switch (D14, `docs/reviews/delta_crosscheck.md`).** The Delta's S1 (6 poles) pads its
   post-amps 11.6 dB (1K2 / 430R) and raises the four monitor receivers 10.4 dB (6K8 / 20K / 2K2 T). Our destinations
   are +4 dBu (DAW interfaces, the bus compressor), so the main outputs need no pad, and a −10 dBV source on EXT is
   7.8 dB low on the C/Room only, which the C/ROOM pot covers; a 6-pole switch in the output and monitor paths is
@@ -337,7 +337,7 @@ with the channel inputs. The re-inversion the architecture asks for is U1B.
 
 ## 8. Power-on / power-off mute
 
-- −V-loss detector reference (v0.13, clicks_proposal.md RV9): U10B's + input sits on +1.0 V (R238 51K from VREF6,
+- −V-loss detector reference (v0.13, docs/proposals/clicks_proposal.md RV9): U10B's + input sits on +1.0 V (R238 51K from VREF6,
   R239 10K to GNDD, net SENSE_REF), not on GNDD, and the −V sense divider's lower leg is R53 64K9 (was 51K) so the
   trip stays where it was: −14.3 V (SENSE_REF = 6.2 × 10 / 61 = 1.016 V; was −14.4 V with 51K to GNDD; 65.3K would
   hold it exactly, E96 has 64K9 and 66K5; the zener's ±3 % moves it ±0.3 V anyway; review 2026-10-29). Reason: with −V lost and +V up, the console's quiescent current drives −VBUS to ~+0.45 V
@@ -499,7 +499,7 @@ POST_SUBn ─┬─ DRV134 ─ NJ6FD-V TRS output (tip hot, ring cold, sleeve CH
   (channel_strip_schematic_spec sections 9 and 10), so a sub is just one more 4K7 feed on the
   MIX bus. Stereo-pair use (1-2, 3-4): pan the odd sub hard left and the even sub hard right.
   The two sub faders are not linked.
-- **Pan law (CS2b, `cs2b_proposal.md`, signed off 2026-10-28):** the strip's since v5.4 (CS2, the Delta's ED3344C
+- **Pan law (CS2b, `docs/proposals/cs2b_proposal.md`, signed off 2026-10-28):** the strip's since v5.4 (CS2, the Delta's ED3344C
   network). U3B / U5A at 1.22× (R124 / R127 2K2 with C96 / C97 22p C0G across them, R125 / R128 10K), R123 / R126 3K3
   from each output back to its wiper: −2.7 dB at centre, +1.7 dB hard over, a 4.4 dB law (the Delta's own group module,
   ED2778A, pans passively at −4.6 dB). Sub to MIX is 3.3 dB higher at centre than the old −6 dB followers gave; hard
@@ -545,7 +545,7 @@ these buses through 22K.
 
 ```
 AUXn bus ─ ferrite ─ summing amp (OPA1612 A), Rf 22K 1 % ∥ 100 pF, + input = GCANCEL
-AFL feed (v0.13, clicks_proposal.md RV7): level buffer out ─ 2.2 µF MKS2 film ─ 22K ─ AFL key (the group's aux
+AFL feed (v0.13, docs/proposals/clicks_proposal.md RV7): level buffer out ─ 2.2 µF MKS2 film ─ 22K ─ AFL key (the group's aux
 AFL the same, C98). Reason: the buffer's output sits 6-25 mV off ground (100K bias, OPA1612 Ib), and the key
 moved that DC onto the PFL virtual earth as a tick of −42..−30 dBu at CRS; every other PFL / AFL source was
 AC-coupled already (strip K1, group sub AFL, returns).
@@ -620,7 +620,7 @@ which stay at 22K so the strip aux pot wipers aren't loaded (architecture sectio
 | OPA1612 | 2 (mix L/R sum + re-invert) + 2 (mix insert/post-amp) + 1 (mono) + 1 (GCANCEL buffer) + 12 (subs) + 3 (aux output buffers) + 6 (aux sum + re-invert) = **27** | |
 | OPA1656 | **0** | (PFL only, §23) |
 | DRV135UA | 3 (L, R, mono) + 4 (subs) + 6 (aux) = **13** | |
-| 10 µF NP electrolytic | 2 per DRV134 = **26** | output DC blocking inside the Sense loop; since CS11b a pair sorted within 2 % per driver (their match sets the output balance; `build_records.md` §1) |
+| 10 µF NP electrolytic | 2 per DRV134 = **26** | output DC blocking inside the Sense loop; since CS11b a pair sorted within 2 % per driver (their match sets the output balance; `docs/build/build_records.md` §1) |
 | LM393B | 1½ | mute relay control (rail sense, timer Schmitt) |
 | Omron (Aratas) G6K-2F-Y DC12 | 3 | main output mute (C/Room and phones: §23) |
 | Bourns PTB0144 (dual) | 1 | master fader |
@@ -648,7 +648,7 @@ no package straddles two placement areas), each group 7 × OPA1612; console 41 �
 ## 16. Stereo returns ×8
 
 Purpose: effects returns (reverbs, delays) into the mix and subs. Built on the group modules, two per group (the
-second since v0.12, `feature_gaps.md` RET1; `stereo_return()` in `tools/gen_group.py` builds both), with the same
+second since v0.12, `docs/reviews/feature_gaps.md` RET1; `stereo_return()` in `tools/gen_group.py` builds both), with the same
 receiver, routing and PFL circuits as the strip.
 
 ```
@@ -676,7 +676,7 @@ RETn_L/R ─ 33µ NP + 47K ─ PREn_L/R ─┬─ level, dual A10K (RD902F), pin
   GCANCEL through its own 10 Ω like a strip, so they are one of the averaged grounds, not master ground.
 - No balance or mute. Add a balance pot later if wanted (dual B10K after the level pot, as
   the strip pan).
-- Seen on the Delta / Venue and left out (D18, `delta_crosscheck.md`): the Delta group's tape returns carry a 2-band
+- Seen on the Delta / Venue and left out (D18, `docs/reviews/delta_crosscheck.md`): the Delta group's tape returns carry a 2-band
   shelving EQ (IC2-B, VR1 / VR2 10K lin, 4K7 + 6n8, 7K5 + 5K1 + 100n) and an aux-1 send (VR3 / VR8 20K log + 22K); the
   Venue stereo input A / B select, Ø, ±15 dB trim, width / mono, 3-band EQ, balance, mono sums, six aux sends and a
   stereo peak LED. Ours are effects returns on 8 HP panels that are full (RET 1 / RET 2 knobs + PFL + routing keys per
@@ -744,7 +744,7 @@ The EXT receivers run at unity: a −10 dBV source arrives 7.8 dB low on the C/R
   - compares it with 0.50 V (330K / 10K from +VL), LM393B on ±VL.
   One press gives 0.92 V (1.86×; about −4 mV/°C), 24 presses 1.29 V, and released LEDs carry
   ≤ 20 nA (`sim/pfldet.py`).
-- 100K on every key (D20, `delta_crosscheck.md`): the Delta LH master grades its aux AFL resistors R201-R206
+- 100K on every key (D20, `docs/reviews/delta_crosscheck.md`): the Delta LH master grades its aux AFL resistors R201-R206
   100K / 100K / 100K / 82K / 68K / 47K for aux 1-6 to overcome its TL072 detector's 150K bias against the number of
   keys ahead on the line. Ours compares against a fixed 0.50 V with the clamp, one press through 42 presses simulated,
   so there is nothing to compensate.
@@ -759,7 +759,7 @@ The EXT receivers run at unity: a −10 dBV source arrives 7.8 dB low on the C/R
 - **Switch: one DG413** (replaces the series-J112 switcher, review 2026-10-23), the strip's
   routing part, on the same ±VA rails and a +5VL logic supply made as on the strip (4K7 from +VA,
   BZX84C5V1, 1 µF, and a BAT54W from +5VL to +VA so VL stays within 0.3 V of V+ at power-down too;
-  `strip_parts_review.md` T7).
+  `docs/reviews/strip_parts_review.md` T7).
   - PFL pressed (logic 1): SW1 / SW4 connect PFL_SIG to CRS_L / CRS_R; otherwise SW2 / SW3
     connect MON_L / MON_R. Break-before-make, 25 ns.
   - Sources are AC-coupled (33 µF NP + 1M) and CRS is on the D side (about 5 pC of charge
@@ -784,7 +784,7 @@ The EXT receivers run at unity: a −10 dBV source arrives 7.8 dB low on the C/R
   (the meters read +7 dB at silence), a +5 dBu thump per press, and 6 % THD at +20 dBu. The Delta
   returns its 47K to the op-amp side of the coupling cap and drives the gates from saturated
   transistors. A faithful copy needs MON buffers, Miller drivers and selected J112s
-  (`master_parts_review.md` item 4).
+  (`docs/reviews/master_parts_review.md` item 4).
 - Rude solo: LM393B as a ~2 Hz astable (100K / 100K / 100K hysteresis divider, 1M / 330 nF), flashing
   a 5 mm red "PFL ACTIVE" LED on the master panel. While no key is pressed, the hold comparator (same
   inputs as A, no pull-up) sinks and pulls the timing node FL_N to about −VL through a 1N4148, so
@@ -803,7 +803,7 @@ The EXT receivers run at unity: a −10 dBV source arrives 7.8 dB low on the C/R
   speakers, which matters more than the main outputs. Two more G6K-2F-Y DC12 (L and R, both
   legs, NC to GNDA), driven by the same control as section 8.
 - Gain: unity at full C/ROOM, then +6 dB differential from the DRV134.
-- **DIM (CS7, `cs7_proposal.md`, signed off 2026-10-28).** SW4, a latching PVA2 beside POWER (panel row POWER | DIM ||
+- **DIM (CS7, `docs/proposals/cs7_proposal.md`, signed off 2026-10-28).** SW4, a latching PVA2 beside POWER (panel row POWER | DIM ||
   EXT | PFL ACTIVE). R236 / R237 91K sit between CRSB_L / R and each C/ROOM pot top (CRP_L / R); each pole shorts its
   resistor while released, and the latched throws are unconnected, so the key carries audio, as EXT's does.
   - **Depth:** −20.75 dB with C/ROOM at the top, −20.0 dB from mid-rotation down (`sim/review/cs7/dim.py`); C/Room only.
@@ -822,7 +822,7 @@ The EXT receivers run at unity: a −10 dBV source arrives 7.8 dB low on the C/R
   pin open (110 MHz mode; use that). TO-263, so give it copper for heat. Non-inverting gain 1 + 4K7/2K2 = +9.9 dB. Feedback taken from the
   jack side of a 2.2 Ω output resistor. The 100 pF goes from the OPA1612's output to its − input (v0.8, MG2), not
   across the 4K7 from PHO.
-- DC gain 1 (v0.13, clicks_proposal.md RV8): a 33 µF NP (C196 / C197, MUSE ES UES1E330MPM, D8) in series with each gain-set 2K2
+- DC gain 1 (v0.13, docs/proposals/clicks_proposal.md RV8): a 33 µF NP (C196 / C197, MUSE ES UES1E330MPM, D8) in series with each gain-set 2K2
   (R132 / R136, nets PH_GL / PH_GR). Reason: the composite is DC-coupled to the jack and its + input is biased by
   100K, so the 3.14x stage put 19 mV typical / 79 mV worst on the cans, and the mute relay closed onto it; with the
   cap the DC is the input stage's own (6 / 25 mV) and the AC corner is 2.2 Hz (−0.2 dB at 10 Hz, −0.05 dB at 20 Hz;
@@ -979,7 +979,7 @@ scale badly (below).
 - Reverse-polarity protection: a Schottky (SS54, SMC, 40 V 5 A) from each rail to 0 V, reverse-biased in
   normal use. A wrongly wired lead then puts the PSU into current limit instead of reversing
   every op-amp.
-- **Spare bus conductors (D13, `delta_crosscheck.md`, signed off 2026-10-28).** Motherloom pins 1 / 3 / 5 / 7
+- **Spare bus conductors (D13, `docs/reviews/delta_crosscheck.md`, signed off 2026-10-28).** Motherloom pins 1 / 3 / 5 / 7
   (reserved for SUB 5-8, the Venue pinout) and 19 are unconnected on every module and joined wing to wing at the
   master (SPARE1-7). Each is grounded to GNDA through a bridged solder jumper beside CN2 on the bottom: JP3 = pin 1,
   JP4 = 3, JP5 = 5, JP6 = 7, JP7 = 19, as the Delta LH master's links J2-J9 ground every group bus no module sums.
@@ -990,9 +990,9 @@ scale badly (below).
 ## 25. Distribution
 
 - Two 34-pin headers on the master, one per wing (12 strips each), carrying the buses and
-  power: −V on pins 30–31, +V on pins 32–34 (pin 34, the Delta's +48 V, since v0.10, `wing_power_proposal.md` W1).
+  power: −V on pins 30–31, +V on pins 32–34 (pin 34, the Delta's +48 V, since v0.10, `docs/proposals/wing_power_proposal.md` W1).
 - Each wing gets its own PTC fuse per rail: **Bourns MF-RX250/72** on +V (2.5 A hold, 5.0 A trip, 72 V, 40 A max,
-  R1max 0.13 Ω; W2, v0.10) and **MF-RX185/72** on −V (1.85 A hold, 3.7 A trip; v0.9, `hpf_proposal.md` H4). They
+  R1max 0.13 Ω; W2, v0.10) and **MF-RX185/72** on −V (1.85 A hold, 3.7 A trip; v0.9, `docs/proposals/hpf_proposal.md` H4). They
   protect the 28 AWG ribbon conductors and the IDC contacts (Würth WR-BHD sockets, 1 A per contact; three on +V, two
   on −V) from a shorted strip; at hold that is 0.83 A (+V) and 0.93 A (−V) per contact.
   - +V wing PTC hold at 40 / 50 °C: 2.03 / 1.80 A. A wing's +V is 1.34 A typical (66 / 74 %) and 1.92 A in the
@@ -1026,7 +1026,7 @@ scale badly (below).
 - The star point is the master's M4 stud (CN1) with its four net ties. Under it, on a threaded spacer, two copper bars
   (one per wing, ~15 × 2 mm, ≈ 0.1 mΩ), each with fourteen 6.3 mm tabs in two rows. Each strip and group spade
   (CN4 / CN1) has its own 14 AWG (2.08 mm²) stranded wire to a tab of its wing's bar, blue 6.3 mm insulated
-  receptacles at both ends (`ground_study.md` G1, 2026-10-25).
+  receptacles at both ends (`docs/studies/ground_study.md` G1, 2026-10-25).
 - Route: each wire drops from its tab to just under the motherloom and runs tied under it (every ~80 mm) to the
   master, then down the master's free edge strip (x 0.3–4.3 / 74.3–78.3) to the bars. Never along the tub floor: the
   loop each wire makes with the ribbon's ground conductors is what picks up hum (up to 800 cm² that way, at most
@@ -1057,7 +1057,7 @@ scale badly (below).
 | 24 strips v4.7 at ≈ 104 / 87 mA (v4.4: 100 / 87; v4.3: 92 / 79; v4.0: 85 / 72) | ≈ 2.50 A | ≈ 2.09 A |
 | **Console** | **≈ 3.31 A** | **≈ 2.79 A** |
 
-v0.12 (2026-10-26, `feature_gaps.md` RET1): each group's second return adds 2 OPA1612 and 2 OPA1656 (the followers),
+v0.12 (2026-10-26, `docs/reviews/feature_gaps.md` RET1): each group's second return adds 2 OPA1612 and 2 OPA1656 (the followers),
 ≈ 30 mA per rail typical and ≈ 38 mA at maximum IQ, plus its PFL LED when pressed. Console ≈ 3.31 / 2.79 A typical
 (+0.12 A per rail). With MET1 the worst corner on +V goes from ≈ 4.38 to ≈ 4.54 A. A wing's +V (two groups) is
 ≈ 1.48 A typical (74 / 82 % of the MF-RX250/72's hold at 40 / 50 °C) and ≈ 2.07 A in the corner (103 / 115 %):
@@ -1066,17 +1066,17 @@ the 4.24 / 4.33 A corners: a console in use never has every op-amp at maximum IQ
 tripped wing PTC only silences that wing until it cools. The "Master" row above holds the group modules' parts
 too (the table predates the M1 split).
 
-Strip v4.7 (2026-10-26, `feature_gaps.md` MET1): the signal LED adds ≈ 4 mA per strip on +V while green is lit
+Strip v4.7 (2026-10-26, `docs/reviews/feature_gaps.md` MET1): the signal LED adds ≈ 4 mA per strip on +V while green is lit
 (green 3.2 mA, its switch's base 0.3 mA, U17 ≈ 0.5 mA), ≈ +0.1 A console-wide (counted as lit, the usual state with
 programme), nothing on −V. In overload the red's drive replaces the old direct one, plus about 1 mA of switch bases, so
 the worst corner (every LED lit, every op-amp at maximum IQ) goes from ≈ 4.33 to ≈ 4.38 A on +V. A wing's +V is ≈ 1.42 A
 typical (71 / 79 % of the MF-RX250/72's hold at 40 / 50 °C) and ≈ 1.99 A in the corner.
 
-G3b (2026-10-25, `ground_study.md` §10): the return / EXT followers add 78 mA per rail typical, 31 mA on each wing
+G3b (2026-10-25, `docs/studies/ground_study.md` §10): the return / EXT followers add 78 mA per rail typical, 31 mA on each wing
 (two groups), and about 92 mA at maximum IQ. The worst corner goes from ≈ 4.24 to ≈ 4.33 A on +V. A wing's +V is
 ≈ 1.37 A typical (68 / 76 % of the MF-RX250/72's hold at 40 / 50 °C) and ≈ 1.96 A in the corner.
 
-Strip v4.4 (2026-10-25, `ground_study.md` G3): + U16 OPA1656 input followers, 7.8 mA per rail typical (10 mA at
+Strip v4.4 (2026-10-25, `docs/studies/ground_study.md` G3): + U16 OPA1656 input followers, 7.8 mA per rail typical (10 mA at
 the 5 mA-per-channel maximum). Console +V ≈ 3.01 A typical, ≈ 3.64 A with every OPA1612 / OPA1656 at maximum, and
 ≈ 4.24 A with every LED lit as well: **over the PSU's 4 A rating in that corner** (it was exactly 4.0 A with v4.3).
 Per wing ≈ 1.34 A typical (MF-RX185/72 hold 1.85 A), ≈ 1.92 A in the same corner. **Accepted (Ruslan, 2026-10-25):**
@@ -1084,7 +1084,7 @@ U16 stays OPA1656. The corner needs every op-amp at maximum IQ and every key and
 never reaches; typical 3.01 A leaves 1 A of the PSU's 4 A. In that corner a wing's 1.92 A on +V is above the
 MF-RX185/72's 1.85 A hold, so a wing PTC can trip (the wing goes silent until it cools); nothing is damaged (OPA1642
 followers, ≈ 4.11 A, were the alternative). At 50 °C even a wing's typical 1.34 A meets the PTC's derated hold
-(1.33 A); since v0.10 (`wing_power_proposal.md` W1 / W2) the +V PTC is an MF-RX250/72 on three conductors, so the
+(1.33 A); since v0.10 (`docs/proposals/wing_power_proposal.md` W1 / W2) the +V PTC is an MF-RX250/72 on three conductors, so the
 corner reaches 95 / 107 % of its hold at 40 / 50 °C instead, and the typical load 66 / 74 %.
 
 With the M1 split, the subgroups, aux masters 1–4 and returns move to the four group modules. Each
@@ -1126,7 +1126,7 @@ choosing.
 
 ## 29. Still open
 
-- Ground and hum (2026-10-25, `ground_study.md`): the PSU's worst corner with the strip's input followers (≈ 4.24 A on
+- Ground and hum (2026-10-25, `docs/studies/ground_study.md`): the PSU's worst corner with the strip's input followers (≈ 4.24 A on
   +V) is accepted (§27, Ruslan 2026-10-25); G3b's return / EXT followers add ≈ 0.09 A to it (≈ 4.33 A; ≈ 4.54 A since
   MET1 / RET1, accepted 2026-10-26). The returns,
   EXT and every balanced TRS output now follow G2 / G3 (G2b / G3b).
@@ -1145,12 +1145,12 @@ choosing.
   board 89 pins; group 292 parts, 807 pins; group jack board 60 pins; all 0 mismatches, ERC 0 (v0.12: master 620 / 1796,
   group 291 / 805; v0.11: master 579 / 1686, group 186 / 529; v0.7: master 532 / 1579, group 158 / 461). Mute control values are
   simulated (section 8, `sim/mute.cir` v3), PFL detect in `sim/pfldet.py`, the rude-solo flasher in `sim/flasher.cir`.
-- Parts review (`master_parts_review.md`, signed off 2026-10-23) applied in v0.7. Its bench checks
+- Parts review (`docs/reviews/master_parts_review.md`, signed off 2026-10-23) applied in v0.7. Its bench checks
   stay open: re-inverter stability on the scope (jig test 10), aux noise at N = 24, relay release time and
   mains-off fall rate with the real PSU, PFL tick with programme, meter current-source temperature and LED
   brightness at ~5 mA.
 - An EXT LED (proposed in v0.6 §19) is not possible: both EXT switch poles carry audio; dropped.
 - PVA2 switching sense: settled from the C&K datasheet with a fitting rule (strip spec 16.1); applies here too.
 
-*Document version 0.14 — 29 October 2026 (clicks_followup_proposal.md RV9b; 0.13: clicks_proposal.md RV7 / RV8 / RV9, delta_crosscheck.md D13; 0.12: RET1, CS4b / CS4c / CS11b, CS7, CS2b; 0.11: design review R1/R2/R4/R5; earlier: ground and hum G1–G3, G2b/G3b, wing
+*Document version 0.14 — 29 October 2026 (docs/proposals/clicks_followup_proposal.md RV9b; 0.13: docs/proposals/clicks_proposal.md RV7 / RV8 / RV9, docs/reviews/delta_crosscheck.md D13; 0.12: RET1, CS4b / CS4c / CS11b, CS7, CS2b; 0.11: design review R1/R2/R4/R5; earlier: ground and hum G1–G3, G2b/G3b, wing
 power W1/W2, sweepable HPF, master/group review MG1–MG20, parts review S1–S8)*

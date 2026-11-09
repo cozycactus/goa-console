@@ -18,7 +18,7 @@ import panel_layout as L
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 FONTS = {False: '/System/Library/Fonts/Supplemental/Arial Narrow.ttf', True: '/System/Library/Fonts/Supplemental/Arial Narrow Bold.ttf'}
 RAILS = tuple((y - L.RAIL_W / 2, y + L.RAIL_W / 2) for y in L.RAIL_LINES)   # frame rails under the panel ends: no cut-out over them
-STUD_D, STUD_BOSS = 3.2, 6.0       # blind M3 stud on the panel's back (met1_ret1_review.md P4): shank and its weld / boss area.
+STUD_D, STUD_BOSS = 3.2, 6.0       # blind M3 stud on the panel's back (docs/reviews/met1_ret1_review.md P4): shank and its weld / boss area.
 # Welded, not pressed in: PEM's concealed-head M3 studs need a 1.60 mm sheet and the panels are 1.5 mm (the NJ6FD-V's limit)
 WEB, EDGE, INK_GAP, INK_EDGE = 1.0, 1.0, 0.2, 0.3   # minimum web between cut-outs, cut-out to edge, print to cut-out, print to edge (the section rules run full width, 0.41 from the edges)
 INK, PLATE = '#efe6cf', '#1b1b1d'              # cream print on black anodising (preview only; colours are placeholders)

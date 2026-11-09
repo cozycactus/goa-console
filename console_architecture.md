@@ -46,7 +46,7 @@ loom pinouts, connector pinouts, jumper settings, spare-parts lists, dimensions.
 - Delta-style IDC ribbon motherloom, daisy-chained strip to strip. No backplane PCB.
 - **Delta-compatible bus pinout**: a real Delta module could in principle sit on the same ribbon.
 - One identical PCB per channel strip: a Delta Theatre input without the mic stage (line gain, HPF,
-  4-band EQ, direct out); see `delta_clone_comparison.md`.
+  4-band EQ, direct out); see `docs/studies/delta_clone_comparison.md`.
 - Insert point on every channel for external processing (EQ, compressor, effects).
 - All sources are synths at line level.
 - Rails: ±17 V (decided with the PSU design, option B, 2026-10-22; see section 3).
@@ -95,7 +95,7 @@ ED2915A (stereo input). Ribbon conductor order = pin number.
 | 31 | −17 V | −V |
 | 32 | +17 V | +V |
 | 33 | +17 V | +V |
-| 34 | +48 V | **+V, third conductor** (2026-10-25, `wing_power_proposal.md` W1; no phantom in this console). Was not connected |
+| 34 | +48 V | **+V, third conductor** (2026-10-25, `docs/proposals/wing_power_proposal.md` W1; no phantom in this console). Was not connected |
 
 Confidence: pins 1–27 and 29–34 read clearly. Pin 28 (PFL−), first inferred from the
 stereo-input sheet, is confirmed by the 200 Delta Technical Manual (p. 134, "Motherloom, 34 way IDC loom":
@@ -115,7 +115,7 @@ built to the 200 Delta order would have its L and R swapped on this bus.
 - MIX L/R and AUX 1–6 sit on adjacent conductors (17–25) with no ground between them.
   Soundcraft relied on all buses being at virtual earth (very low impedance), which keeps
   capacitive crosstalk low.
-- Pins 1, 3, 5, 7 are **reserved for SUB 5-8** (Ruslan, 2026-10-27; the Venue pinout, `eight_groups_study.md`)
+- Pins 1, 3, 5, 7 are **reserved for SUB 5-8** (Ruslan, 2026-10-27; the Venue pinout, `docs/studies/eight_groups_study.md`)
   and stay unconnected on every board; pin 19 is free for future use (e.g. a mute-group line, SIP).
 
 ### 2.2 Ground cancel (pin 26) — the Delta's anti-hum system
@@ -180,11 +180,11 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
 | +48 V | none | Pin 34 carries +V instead (third +V conductor, W1) |
 
 ### 3.2 Distribution (Delta method)
-- ±V on the ribbon: −V on pins 30–31, +V on pins 32–34 (three since 2026-10-25, `wing_power_proposal.md` W1: the female
+- ±V on the ribbon: −V on pins 30–31, +V on pins 32–34 (three since 2026-10-25, `docs/proposals/wing_power_proposal.md` W1: the female
   IDC sockets are rated 1 A per contact and only the master end carries a whole wing).
 - Heavy audio ground does **not** use the ribbon: each strip has a ¼" spade terminal
   (Delta CN4) wired to the ground bus bar: one 14 AWG wire per module, tied under the motherloom to its wing's copper
-  bar under the master's star stud (`ground_study.md` G1, master spec §26).
+  bar under the master's star stud (`docs/studies/ground_study.md` G1, master spec §26).
 - Local decoupling on every strip: 10 Ω series + 220 µF/25 V + 100 nF per rail.
 - Load (strip v4.4, 2026-10-25): about 100 mA (+V) and 87 mA (−V) per strip, typical: 11 × OPA1612 and the U16
   OPA1656 at 3.6 / 3.9 mA per channel, the DG413 logic supply, and the panel LEDs (ON, EQ, routing; 3.2 mA each).
@@ -219,7 +219,7 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
   don't short audio ground to the metal panel at every jack.
 - Balanced-input jacks (strip line in and direct out, group returns, master EXT) have their sleeves on **chassis**
   at the jack board, bonded through plated standoffs to the panel (AES48, as the XLRs' pin 1); inserts and phones keep
-  audio ground (`ground_study.md` G2, 2026-10-25). Cable-shield currents from earthed synths then never flow through an
+  audio ground (`docs/studies/ground_study.md` G2, 2026-10-25). Cable-shield currents from earthed synths then never flow through an
   audio ground. The strip's receiver has input followers (1 MΩ common mode, G3) so a synth's output impedance doesn't
   spoil its rejection; use pseudo-balanced TRS cables from synths.
 - Ground-cancel line (pin 26) per section 2.2.
@@ -274,7 +274,7 @@ Unity gain per channel (Rf = R), output noise of the summing amp:
 - AFL on each aux master (switch + 22K to the PFL bus).
 
 ### 4.5 Aux returns (×8 stereo)
-- Level, assign (main / subs), solo. Two per group module (the second since 2026-10-26, `feature_gaps.md` RET1).
+- Level, assign (main / subs), solo. Two per group module (the second since 2026-10-26, `docs/reviews/feature_gaps.md` RET1).
 
 ### 4.6 Monitoring
 - PFL summing amp, PFL detect with auto-switch, solo level.
@@ -356,7 +356,7 @@ Line in (TRS) → differential receiver → insert send (75 Ω)
 
 - Strip: 8 HP × 12U Eurorack-style panel (40.3 × 514 mm), custom frame with rails only at the panel
   ends; jacks on the panel, on a small jack board ~24 mm deep with a 10-way ribbon to the main board
-  (`strip_panel_study.md`). 24 strips ≈ 975 mm plus master.
+  (`docs/studies/strip_panel_study.md`). 24 strips ≈ 975 mm plus master.
 - Master in the centre (bus fed from the middle).
 - 100 mm faders. Channel I/O on the panel (no rear apron). Isolated jacks.
 - One spade ground terminal per strip.

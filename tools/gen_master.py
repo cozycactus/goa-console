@@ -1,11 +1,11 @@
-"""Generate the master module schematic from master_section_spec.md (16 HP, master_panel_study.md M1):
+"""Generate the master module schematic from master_section_spec.md (16 HP, docs/studies/master_panel_study.md M1):
 power entry and both wing headers, MIX L/R, master fader, mono, main outputs, power-on mute, aux masters
 5-6, monitoring, PFL and meters. Subgroups, aux masters 1-4 and returns are on the group modules (gen_group.py).
 Same builder as the strip (schgen.py). The parts, reference allocation and circuit blocks are in
 master_lib.py (shared with gen_jig.py); this file is the master's netlist."""
 import sys
 from master_lib import *
-LATE_AFL, LATE_PH = [], []        # clicks_proposal.md RV7 / RV8: parts made last (after D13)
+LATE_AFL, LATE_PH = [], []        # docs/proposals/clicks_proposal.md RV7 / RV8: parts made last (after D13)
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else 'master.kicad_sch'
 collect_jacks()                 # panel jacks and XLRs go on the master jack board (master_jack_board.kicad_sch)
@@ -31,7 +31,7 @@ for w in 'LR':
     f2 = ref('F'); P(b, f2, 'PTC', 'MF-RX185/72', {1: '-VBUS', 2: f'-VBUS_{w}'}, **PTC185)
     chain(b, '+VBUS', [('s', f1)], f'+VBUS_{w}'); chain(b, '-VBUS', [('s', f2)], f'-VBUS_{w}')
 # VA: anti-surge 0805 for the PSU-lead hot-plug pulse; VP: 2512, a mono plug in the phones jack can hold an LME49600
-# at its current limit, DC, through one of these (master_group_review.md MG11 / MG17)
+# at its current limit, DC, through one of these (docs/reviews/master_group_review.md MG11 / MG17)
 RAIL_RES = {'VA': dict(mpn='Panasonic ERJ-P06J1R0V'), 'VP': dict(fp=RES_2512, mpn='Vishay CRCW25122R20FKEGHP')}
 for rail, rv, cv, g in (('VA', '1R', '470u 25V', 'GNDA'), ('VP', '2R2', '1000u 25V', 'GNDA'),
                         ('VM', '10R', '47u 25V', 'GNDM'), ('VL', '10R', '47u 25V', 'GNDD')):
@@ -92,7 +92,7 @@ chain(b, 'VREF6', [('s', rn), ('g', sn2)], 'SENSE_N')
 uc = cmp(b, 'SENSE_P', 'VREF6', 'RAIL_OK'); ca = LAST[0]; cmp(b, 'SENSE_REF', 'SENSE_N', 'RAIL_OK'); cb = LAST[0]
 # RV9: the - V detector's + input on +1.0 V (VREF6 / 61K x 10K), not GNDD: with -V lost -VL sits at ~+0.5 V and GNDD would
 # be below the LM393B's own V-; SENSE_N reads +0.34 V normally, +4.7 V with -V gone, both inside the input range
-LATE_RV9 = b                                      # the divider is made last (clicks_proposal.md): no other ref moves
+LATE_RV9 = b                                      # the divider is made last (docs/proposals/clicks_proposal.md): no other ref moves
 frag(b, 20, 18, lambda d: frags.comparators(d, [(ca, False), (cb, False)], out='RAIL_OK'))     # window: wired-AND
 for x in (dz, rz, rn): near(x, uc)     # the 6.2 V reference beside both comparators that read it (it ran ~110 mm)
 chain(b, '+VL', [('s', R(b, '10K', '+VL', 'RAIL_OK', mpn='Panasonic ERJ-P06J103V'))], 'RAIL_OK')   # ~33 V in a one-rail brown-out (MG12)
@@ -113,7 +113,7 @@ qd = ref('Q'); P(b, qd, 'NPN', 'MMBT3904', {1: 'RLY_B', 2: 'GNDD', 3: 'RLY_DRV'}
 
 # ================================================================ PART 2: aux masters 5-6  [13]
 # Subgroups 1-4, aux masters 1-4 and stereo returns 1-4 are on the four group modules (tools/gen_group.py,
-# master_panel_study.md M1); they sit on the ribbon like strips and sum their own buses.
+# docs/studies/master_panel_study.md M1); they sit on the ribbon like strips and sum their own buses.
 for n in range(5, 7):
     a = f'A{n}'
     b = block(f'AUX MASTER {n}: OPA1612 sum (22K || 100p) + re-invert, level, buffer, DRV134 out, AFL')
@@ -133,7 +133,7 @@ for n in range(5, 7):
 
 # ================================================================ PART 4: monitoring  [17-22]
 b = block('EXT INPUT (2-track / DAW) and MIX / EXT monitor select  (SW latched = EXT)')
-# outputs EXT_BL/BR (EXT_RR was the R jack's ring: master_group_review.md MG1); 100R build-out at the pin, because
+# outputs EXT_BL/BR (EXT_RR was the R jack's ring: docs/reviews/master_group_review.md MG1); 100R build-out at the pin, because
 # with EXT selected the receivers drive the EXT -> SW -> MON -> DG413 run
 for sd, u in zip('LR', stereo_in(b, 'EXT', 'EXT_BL', 'EXT_BR')):
     rb = R(b, '100R', f'EXT_B{sd}', f'EXT_B{sd}O'); near(rb, u)
@@ -151,7 +151,7 @@ rs_ = ref('RV'); P(b, rs_, 'POT', 'Solo level 10K log', {1: 'GNDA', 3: 'PFL_PT',
 frag(b, 12, 9, lambda d: frags.pot(d, rs_, 'PFL_PT', 'PFL_W'))
 sc, sr = C(b, '2.2u', 'PFL_W', 'PFL_FIN'), R(b, '100K', 'PFL_FIN', 'GNDA')
 # 22p against the wiper's Cdiff lag; 100R build-out at the pin: with a key pressed two DG413 on-switches and both CRS
-# inputs hang on PFL_SIG, and the bare follower oscillated (master_group_review.md MG3)
+# inputs hang on PFL_SIG, and the bare follower oscillated (docs/reviews/master_group_review.md MG3)
 u = amp(b, 'PFL_FIN', 'PFL_SIGO', 'PFL_SIGO'); su = LAST[0]
 s22, s100 = C(b, '22p C0G', 'PFL_FIN', 'GNDA'), R(b, '100R', 'PFL_SIGO', 'PFL_SIG'); near(s22, u); near(s100, u)
 frag(b, 28, 10, lambda d: frags.wiper_follower(d, 'PFL_W', 'PFL_SIGO', su, sc, sr, s22, s100, 'PFL_SIG'))
@@ -214,7 +214,7 @@ chain(b, '+VL', [('s', f8), ('s', f9)], 'FL_OUT')
 b = block('CONTROL ROOM: C/ROOM dual A10K, followers, DRV134, mute relays, TRS outs')
 rvc = ref('RV'); P(b, rvc, 'POT2', 'C/Room level 10K log dual', {1: 'GNDA', 3: 'CRP_L', 2: 'CRW_L', 4: 'GNDA', 6: 'CRP_R', 5: 'CRW_R'}, mpn=POT2A_MPN)
 frag(b, 14, 8, lambda d: frags.pot2(d, rvc))
-# CS7 (cs7_proposal.md): DIM, -20 dB on C/Room only (phones and the meters keep CRSB): 91K in series with each C/ROOM pot
+# CS7 (docs/proposals/cs7_proposal.md): DIM, -20 dB on C/Room only (phones and the meters keep CRSB): 91K in series with each C/ROOM pot
 # top, shorted by the DIM key while it is released. Key and resistors are made last (after drv_loop_rs()): no ref moves
 DIM = []
 for sd, unit in (('L', 1), ('R', 2)):
@@ -245,7 +245,7 @@ for sd in 'LR':
           C(b, '10u NP 25V', 'GNDA', '-VP'), R(b, '2R2', buf, out, fp=RES_2512, mpn='Vishay CRCW25122R20FKEGHP'))
     for x in xs: near(x, u)
     # the 100p from the op-amp's output, not from PHO: the LME49600 stays out of the HF loop (hand-over at 339 kHz);
-    # from PHO the composite was unstable (master_group_review.md MG2)
+    # from PHO the composite was unstable (docs/reviews/master_group_review.md MG2)
     prf = R(b, '4K7', out, pn); pcf = C(b, '100p C0G', drv, pn); near(pcf, ua); prg = R(b, '2K2', pn, f'PH_G{sd}')
     LATE_PH.append((b, sd))                       # RV8: the 33u NP is made last (DC gain 1, 2.2 Hz; ~19-79 mV off the cans)
     frag(b, 44, 21, lambda d, sd=sd, a=(pc_, pr_, p22, pu_, u, xs, prf, pcf, prg, out):
@@ -279,7 +279,7 @@ for sd in 'LR':
     av1, av2 = R(b, '33K', m + '_X2', m + '_AV'), C(b, '2.2u', m + '_AV', 'GNDM')
     u3 = amp(b, m + '_X2', m + '_N4', m + '_U3O', 'TL072', 'VM'); pu3 = LAST[0]
     # peak: the follower reads the diode cathode (PK1), so its loop holds one integrator, not the op-amp plus
-    # 1K / 1u (0-1.5 deg, +5 dB on 10 kHz at -20 dBu); 220R: 0.22 ms first-order attack (master_group_review.md MG8)
+    # 1K / 1u (0-1.5 deg, +5 dB on 10 kHz at -20 dBu); 220R: 0.22 ms first-order attack (docs/reviews/master_group_review.md MG8)
     k1, k2, k3 = D(b, m + '_U3O', m + '_PK1'), R(b, '220R', m + '_PK1', m + '_PK'), C(b, '1u', m + '_PK', 'GNDM')
     k4 = C(b, '22p C0G', m + '_U3O', m + '_N4'); near(k4, u3)
     k5, k6 = R(b, '330K', m + '_PK', m + '_PKR'), R(b, '220K', m + '_PKR', 'GNDM')
@@ -317,11 +317,11 @@ import os
 JACKS = collected(); NL, LINK = link_pins(JACKS)
 b = block(f'JACK BOARD LINK  2x{NL} IDC ribbon to the master jack board (9 jacks, 3 XLRs)')
 link_header(b, NL, LINK, f'Jack board link 2x{NL}')
-# CS4b (cs4b_proposal.md): a BAV199 rail clamp on every jack-link signal at the link (EXT, inserts, DRV135 and main
+# CS4b (docs/proposals/cs4b_proposal.md): a BAV199 rail clamp on every jack-link signal at the link (EXT, inserts, DRV135 and main
 # outputs, phones), as the strip's D18-D22. Created last: no other ref moves
 b = block('JACK LINK CLAMPS: a BAV199 to the audio rails on every jack signal at the link (CS4b)')
 link_clamps(b, list(LINK.values()))
-# CS4c (cs4c_proposal.md): 22R inside each DRV135 loop, drawn with its driver; created last as well
+# CS4c (docs/proposals/cs4c_proposal.md): 22R inside each DRV135 loop, drawn with its driver; created last as well
 drv_loop_rs()
 # CS7: the DIM key (latched = dim) and its two 91K, made last so every other ref stays
 dk = ref('SW')
@@ -329,17 +329,17 @@ for bb, sd, unit, ps in DIM:
     com, nc, rel = (2, 1, 3) if unit == 1 else (5, 4, 6)
     P(bb, dk, 'SW', 'C/Room DIM', {com: f'CRSB_{sd}', rel: f'CRP_{sd}', nc: 'NC'}, unit=unit)
     ps += [R(bb, '91K', f'CRSB_{sd}', f'CRP_{sd}'), dk]
-# delta_crosscheck.md D13 (signed off 2026-10-28): the spare bus conductors (1 / 3 / 5 / 7 = SUB 5-8, and 19) are grounded
+# docs/reviews/delta_crosscheck.md D13 (signed off 2026-10-28): the spare bus conductors (1 / 3 / 5 / 7 = SUB 5-8, and 19) are grounded
 # at the master through bridged solder jumpers, as the Delta's LH master grounds every group bus no module sums (ED2779A
 # J2-J9): a floating conductor between grounded ones picks up its neighbours. Open them for an 8-group build. Made last
 b = block('SPARE BUS GROUNDING  bridged solder jumpers from each spare conductor to GNDA (D13; open for SUB 5-8)')
 for n in (1, 3, 5, 7, 19): P(b, ref('JP'), 'SJ2', f'SPARE{n} to GNDA', {1: f'SPARE{n}', 2: 'GNDA'})
-# clicks_proposal.md RV7 / RV8 / RV9 (signed off 2026-10-28), made last so every ref above stays: the aux 5 / 6 AFL
+# docs/proposals/clicks_proposal.md RV7 / RV8 / RV9 (signed off 2026-10-28), made last so every ref above stays: the aux 5 / 6 AFL
 # films, the phones gain-set 100u NP, the -V-loss comparator's +1.0 V reference divider
 for bb, a in LATE_AFL: C(bb, '2.2u', a + '_OUT', a + '_AFLC')
 for bb, sd in LATE_PH: C(bb, '33u NP 25V', f'PH_G{sd}', 'GNDA')     # 33u (D8 can; a D10 finds no spot on the full bottom): 2.2 Hz
 chain(LATE_RV9, 'VREF6', [('s', R(LATE_RV9, '51K', 'VREF6', 'SENSE_REF')), ('g', R(LATE_RV9, '10K', 'SENSE_REF', 'GNDD'))], 'SENSE_REF')
-# RV9b (clicks_followup_proposal.md, 2026-10-29): base-emitter 4K7 on the relay driver. With -V lost, -VL sits at ~+0.5 V and the
+# RV9b (docs/proposals/clicks_followup_proposal.md, 2026-10-29): base-emitter 4K7 on the relay driver. With -V lost, -VL sits at ~+0.5 V and the
 # comparators' low output is referenced to it: 0.65-1.0 V on Q's base through the 4K7 alone held a closed relay at 11-21 % of
 # its coil current at the LM393B's V_OL corner (sim/review/clicks/mute_rbe.cir); divided 2:1 it is 0.2 uA. Made last.
 chain(LATE_RV9, 'RLY_B', [('g', R(LATE_RV9, '4K7', 'RLY_B', 'GNDD'))], 'RLY_B')

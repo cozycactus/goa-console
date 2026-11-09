@@ -31,7 +31,7 @@ def apply(cfg, fx):
     else: cfg['extra'] = list(f)
     return cfg
 
-# ---- mg = the recommended set (master_group_review.md MG4-MG7; post_amp / level_buffer / insert are shared with the
+# ---- mg = the recommended set (docs/reviews/master_group_review.md MG4-MG7; post_amp / level_buffer / insert are shared with the
 # master): rec + 47R post-amp build-out (C18 moves to S_FX) + insert return 1K + 100p (strip T8; U2 pin 5 on SUB_RETIN)
 MGX = [('RPOST', 'S_FPOST', 'S_FX', 47), ('RIN_RET', 'SUB_RET', 'SUB_RETIN', 1000), ('CIN_RET', 'SUB_RETIN', '0', '100p'),
        ('RSER_U2B', 'SUB_RBUF', 'SUB_RBO', 75)]

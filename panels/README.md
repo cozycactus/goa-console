@@ -25,7 +25,7 @@ has been re-exported.
   It also lists the board standoffs' positions as "M3 blind stud, back side, not through" (DXF layer STUDS: a circle
   and cross each).
   - **When they apply:** only if the maker offers welded M3 studs on the back of 1.5 mm anodised aluminium
-    (`met1_ret1_review.md` P4).
+    (`docs/reviews/met1_ret1_review.md` P4).
   - **Pressed-in studs won't do:** PEM's concealed-head clinch studs need a 1.60 mm sheet.
   - **The jack-board studs:** they also bond CHASSIS to the panel, so they need bare metal contact.
   - **Checked:** every stud's 6 mm area stays 1 mm or more from every front cut-out.
@@ -58,8 +58,8 @@ has been re-exported.
 ## Material and print
 
 - **Material:** 1.5 mm aluminium, anodised. Black is the placeholder; the 3D model uses it.
-- **Print:** one ink, the Delta's cream (`panel_print.md`).
-- **Fine features** (check the printer can hold them; makers compared in `panel_makers.md`):
+- **Print:** one ink, the Delta's cream (`docs/build/panel_print.md`).
+- **Fine features** (check the printer can hold them; makers compared in `docs/build/panel_makers.md`):
   - smallest text 1.5 mm em, about 1.1 mm caps;
   - dots 0.54 mm square;
   - fader ticks 0.36 mm, rules 0.28 mm.
@@ -69,10 +69,10 @@ has been re-exported.
 - **Fader scale.** The dB marks follow an assumed two-slope A law (`panel_layout.fader_theta`). Measure a real
   PTB0143 (a few points of resistance against travel) and update the law before printing. The bottom marks crowd
   under this law: where they come closer than 1.2 mm, ticks are dropped, but ∞ always prints.
-- **Sample checks** (`panel_parts_drawings.md`):
+- **Sample checks** (`docs/build/panel_parts_drawings.md`):
   - PV cap clearance in the Ø8.0 hole;
   - PTB pin side and slot fixings on a 1:1 print;
   - M9 nut thickness on the RK09L;
   - the Alpha bushing's thread (no spare thread with the 1.5 mm spacer).
-- **Knobs:** Elma Ø14.5 collet knobs (`knob_proposal.md`). The dot rings and numerals are drawn for that diameter. A
+- **Knobs:** Elma Ø14.5 collet knobs (`docs/proposals/knob_proposal.md`). The dot rings and numerals are drawn for that diameter. A
   numeral that would come within 0.5 mm of the plate edge, or within 1.2 mm of another knob's numeral, is left out.

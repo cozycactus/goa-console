@@ -1,6 +1,6 @@
 # goa-console — tooling
 
-Moved out of `CLAUDE.md` on 2026-10-28 (`project_review.md` RV13), text unchanged: the verify loop, the placer, the footprints and 3D models, the routing rules, the post-route checker, check_all, the fab outputs and the escape plan.
+Moved out of `CLAUDE.md` on 2026-10-28 (`docs/reviews/project_review.md` RV13), text unchanged: the verify loop, the placer, the footprints and 3D models, the routing rules, the post-route checker, check_all, the fab outputs and the escape plan.
 The live rules, the current state and the one-line decisions are in `CLAUDE.md`; this file is the detail behind them.
 
 - Placement engine `tools/placer.py` (`place(net, out, layout)`: fixed parts, zone packer, near-placement,
@@ -21,7 +21,7 @@ The live rules, the current state and the one-line decisions are in `CLAUDE.md`;
   render/glb/, re-exported when a .kicad_pcb is newer); the parts KiCad has no model for come from `tools/models3d`;
   standoffs, M4 stud, LED spacers/lenses are generic; IDC sockets crimped on the ribbons (34-way motherloom through
   every module's bus header, folded jack-board links), the supply cable to the master's J1; the panel plate has real
-  cut-outs (holes, fader slots, D-size XLR) and Delta-style print (`panel_print`, rules in `panel_print.md`: cream ink,
+  cut-outs (holes, fader slots, D-size XLR) and Delta-style print (`panel_print`, rules in `docs/build/panel_print.md`: cream ink,
   bold name above each pot, HI/LO MID bracket, 11 square dots with numerals that dodge neighbours, "dB" between the end
   numerals, FREQ scales from sim/review/eqmid/measure.py (EQM1; sim/mid_tuning.py is the 2026-10-22 study), gain scale from the gain-stage law, fader dB scale from a two-slope A
   law + 9.9 dB post-amp (approximate until the fader's law is measured), section rules, meter outlines); views
@@ -47,12 +47,12 @@ The live rules, the current state and the one-line decisions are in `CLAUDE.md`;
   .venv/bin/python tools/verify.py channel_strip.net channel_strip_intended.json
   python3 tools/check_fp.py channel_strip.net                # pins vs footprint pads
   $KC sch erc --severity-all channel_strip.kicad_sch
-  $KC sch export pdf -o channel_strip.pdf channel_strip.kicad_sch
+  $KC sch export pdf -o pdf/channel_strip.pdf channel_strip.kicad_sch
   ```
   python3 tools/sim_netlist.py channel_strip.net jack_board.net   # both netlists joined by the ribbon: 45 checks
   python3 tools/sim_console.py     # the whole console from the netlists: 24 strips + 4 groups + master + ribbon, 45 checks
   python3 tools/check_bus.py channel_strip.net group.net master.net jig_master_stub.net   # the motherloom pin by pin
-  BOM (every board; quoted fields, because some MPNs contain commas; DNP column): `$KC sch export bom -o channel_strip_BOM.csv --fields '${QUANTITY},Value,Footprint,MPN,${DNP},Reference' --labels 'Qty,Value,Footprint,MPN,DNP,References' --group-by 'Value,Footprint,MPN,${DNP}' --ref-delimiter ' ' --ref-range-delimiter '' channel_strip.kicad_sch`
+  BOM (every board; quoted fields, because some MPNs contain commas; DNP column): `$KC sch export bom -o bom/channel_strip_BOM.csv --fields '${QUANTITY},Value,Footprint,MPN,${DNP},Reference' --labels 'Qty,Value,Footprint,MPN,DNP,References' --group-by 'Value,Footprint,MPN,${DNP}' --ref-delimiter ' ' --ref-range-delimiter '' channel_strip.kicad_sch`
   `.venv/` (gitignored) holds kiutils 1.4.8. gen.py finds the symbol libs at the Linux or macOS
   default path, or `$KICAD_SYMBOL_DIR`. verify.py parses both KiCad 7 and KiCad 8+ netlists
   and exits non-zero on any mismatch.
@@ -105,7 +105,7 @@ The live rules, the current state and the one-line decisions are in `CLAUDE.md`;
       file + JLCPCB CPL, BOM, DRC JSON.
     - **Tried:** on the strip (4L: L1 / L2 GND / L3 GND2 / L4), jack board and PSU with `--allow-unrouted`. The jig
       load board is refused for its 106 unrouted connections.
-- `escape_plan.md` (2026-10-27) — layer plan for the 4-layer main boards from `tools/escape_plan.py` (KiCad Python):
+- `docs/build/escape_plan.md` (2026-10-27) — layer plan for the 4-layer main boards from `tools/escape_plan.py` (KiCad Python):
   HighZ / Entry / Bus on F.Cu, Switching on B.Cu (both planes between them), the rest greedily to clear crossings, once
   per board. `docs/escape/<board>_layers.csv` per net; the three densest 30 mm windows per board as SVGs. Strip worst:
   y 121-151, the column between U12 / U13 (RV13, RV15, SW12, CN3).

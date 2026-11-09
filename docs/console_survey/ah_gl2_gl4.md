@@ -81,7 +81,7 @@ compilation, and the pages are not in manual order. PDF page numbers below.
 - HF / LF shelves around TL072 sections: 20K-B pots, LF 0.33 µF / 2K2 / 100K.
 - Two swept mids with 200K-C dual rheostats: 35 Hz-1 kHz and 500 Hz-15 kHz.
 - EQ IN switch.
-- Not compared further (eq_survey.md).
+- Not compared further (docs/studies/eq_survey.md).
 
 **T6 Insert.** **Read:** channel insert **pre-EQ** (post pre-amp).
 - Send: TL072 output via 47 µF + 47R.

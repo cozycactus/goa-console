@@ -1,4 +1,4 @@
-"""The strip's overload LED from five points, both polarities (CS1, cs1_proposal.md; strip v5.0, signed off 2026-10-27),
+"""The strip's overload LED from five points, both polarities (CS1, docs/proposals/cs1_proposal.md; strip v5.0, signed off 2026-10-27),
 against the v4.9 detector it replaced. Part values are read from channel_strip.net.
 
 v4.9 (sim/review/gaps/ol.py): PRESRC -> R39 1K -> D1 -> PK (C12 100n // R14 470K) -> U4A against

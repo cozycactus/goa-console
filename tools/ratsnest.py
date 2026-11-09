@@ -2,7 +2,7 @@
 crossings between different nets' MST edges. Grounds (planes) and supply rails (the rail corridor on the 4-layer
 boards) are left out: their ratsnest lines don't show how they are routed. Run with KiCad's Python:
   $KPY tools/ratsnest.py board.kicad_pcb [...]
-Used by the untangling study (untangle_proposal.md) to score 180-degree turns and unit / channel swaps."""
+Used by the untangling study (docs/proposals/untangle_proposal.md) to score 180-degree turns and unit / channel swaps."""
 import math, sys
 import pcbnew
 

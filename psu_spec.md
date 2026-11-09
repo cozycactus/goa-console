@@ -86,7 +86,7 @@ crowbar: 66K5 / 10K (1 %) ∥ 2n2 → TL431 ref; TL431 cathode ── 1K ── 
 - **Parts.** Bourns 2100LL-100-H-RC (10 µH, 11.4 A, 5 mΩ); 2200 µF 35 V low-ESR (Rubycon 35ZLH2200MEFC16X25, 16 × 25);
   onsemi 2N6505G SCR (25 A, ITSM 250 A, TO-220); TL431 (SOT-23); MMBT3906; SS54; S1G.
   R2 / R11 (1K5): Panasonic ERJ-P06F1501V, 1206 0.5 W — the 0805 part would run at 164 mW (15.7 V across it), above its
-  125 mW rating (project_review.md RV1, 2026-10-28).
+  125 mW rating (docs/reviews/project_review.md RV1, 2026-10-28).
 - **Mains side (chassis wiring, not on the PCB).** IEC inlet with fuse (T2.5A at 230 V, T5A at 115 V)
   and a 2-pole switch → both LRS-150 AC inputs (set their 115/230 V switch). FG terminals, the case
   and the NC7 pin 1 all go to the earth stud. 0 V stays isolated from earth in the PSU; it meets earth
@@ -139,7 +139,7 @@ SMPS modules, the mains wiring and the NC7 socket are chassis parts wired to the
   | Typical (3.31 / 2.79 A, 2026-10-26) | 15.2 + 12.8 = 28.0 W | ≤ 1.8 °C/W |
   | 4 A on both rails | 18.4 + 18.4 = 36.8 W | ≤ 1.2 °C/W |
 
-  Chosen (`psu_case_proposal.md` PC1-PC3, signed off 2026-10-26): **Fischer SK 47 75 SA** (200 × 40 × 75,
+  Chosen (`docs/proposals/psu_case_proposal.md` PC1-PC3, signed off 2026-10-26): **Fischer SK 47 75 SA** (200 × 40 × 75,
   ~0.85 °C/W) on the case's **front** end panel, fins vertical. The TO-220s pass through a 96 × 17.8 mm window onto
   the heatsink base; each has a silicone pad and a shoulder washer. At the accepted worst corner (4.33 A on +V, 38.3 W)
   the +V LDO junction reaches 108 / 113 °C in a 30 / 35 °C room; with MET1 / RET1 (4.54 A, 39.3 W) about

@@ -289,7 +289,7 @@ def overload(d):
 
 
 def overload_cs1(d):
-    """CS1 (console_survey.md), the overload detector's second piece: four more taps and the negative side."""
+    """CS1 (docs/studies/console_survey.md), the overload detector's second piece: four more taps and the negative side."""
     d.shift(0, 44)
     # CS1: the other four taps (receiver, gain stage, EQ out, post-amp), each 1K into a BAV99 like D1
     Y2 = 4

@@ -1,4 +1,4 @@
-"""CS3 (console_survey.md §5): headroom of the MIX summers and the master chain, from the whole-console model
+"""CS3 (docs/studies/console_survey.md §5): headroom of the MIX summers and the master chain, from the whole-console model
 (tools/sim_console.py: 24 strips, 4 groups, master, ribbon). AC at 1 kHz, 0 dBu into strip 1, pan centre, every fader
 at its "0" mark: the level each stage carries per source. Every op-amp output swings +-15.5 V = +23.0 dBu
 (sim/review/gaps/headroom.py). usage: python3 sim/review/cs3/bus_headroom.py"""

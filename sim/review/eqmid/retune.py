@@ -1,4 +1,4 @@
-"""KHN mid retune (eqmid_proposal.md): the mid bands' frequency ranges against the Delta's measured ones (200 Delta Tech
+"""KHN mid retune (docs/proposals/eqmid_proposal.md): the mid bands' frequency ranges against the Delta's measured ones (200 Delta Tech
 Manual p.17 / DLX user guide p.15, the Audio Precision plots: HI ~600 Hz - 10 kHz, LO ~165 Hz - 2.55 kHz; the ED2911A
 labels read 600-10k and 150-2.4k). Resistor values only: per band R0 (pin 1 to ground), RTOP (top to wiper) and RB
 (wiper to the integrator); the A10K dual and the integrator caps stay.

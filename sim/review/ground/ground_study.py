@@ -1,5 +1,5 @@
 """Ground-and-hum study (2026-10-25): the heavy-ground harness, magnetic loop pickup, LED / logic return currents and
-synth ground loops, each referred to main L and set against the console's noise floor. Report: ground_study.md.
+synth ground loops, each referred to main L and set against the console's noise floor. Report: docs/studies/ground_study.md.
 
 usage: python3 sim/review/ground/ground_study.py [geom|gauge|mag|led|synth|all]   (default all)
 Results are also written to sim/review/ground/results.json.

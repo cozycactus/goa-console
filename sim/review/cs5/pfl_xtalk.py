@@ -1,4 +1,4 @@
-"""CS5 (console_survey.md §5): what reaches the PFL sum from the ribbon, and what each of the three proposed measures
+"""CS5 (docs/studies/console_survey.md §5): what reaches the PFL sum from the ribbon, and what each of the three proposed measures
 changes. One wing of the motherloom: master header -> group 1, group 2, strips 1-12, 14 segments of 41 mm; conductors
 25-31 (AUX2, GCANCEL, PFL, pin 28, PFL DET, -V, -V) with 28 AWG R / L per segment, 2.5 pF to the next conductor
 (as tools/sim_console.py) and 0.4 pF to the one after (an estimate, ~10 pF/m; sim_console has none).

@@ -53,7 +53,7 @@ INSM = dict(pinmove={('U2', '5'): 'MIX_L_RETIN', ('U4', '3'): 'MIX_R_RETIN', ('C
                    ('RBO_L', 'MIX_L_RBUF', 'MIX_L_RBO', '75'), ('RBO_R', 'MIX_R_RBUF', 'MIX_R_RBO', '75')])
 INS_A = ['A5_LIN', 'A6_LIN']
 INS_OTHER = [n for n in INS22 if n not in INS_A]
-FIXES.update({     # MG = the recommended set (master_group_review.md MG2-MG7); MG22 has 22p in level_buffer() instead of 10p
+FIXES.update({     # MG = the recommended set (docs/reviews/master_group_review.md MG2-MG7); MG22 has 22p in level_buffer() instead of 10p
  'MG': merge(PH, dict(extra=incap('22p', INS_OTHER) + incap('10p', INS10 + INS_A)), iso('100'), iso_solo('100'), iso_post('47'), INSM),
  'MG22': merge(PH, dict(extra=incap('22p', INS22) + incap('10p', INS10)), iso('100'), iso_solo('100'), iso_post('47'), INSM),
 })

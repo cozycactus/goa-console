@@ -50,7 +50,7 @@ DG_RON = 25                                   # DG413 on-resistance, typical (Vi
 libname = lambda c: field(next(x for x in c[1:] if isinstance(x, list) and x[0] == 'libsource'), 'part')
 
 # the line-in source: 0 dBu from 50 ohm, unbalanced, ring to sleeve; or common mode (both legs, the tip through a synth's
-# 1K output, the ring through a pseudo-balanced cable's 0.05 ohm) for the receiver's rejection (ground_study.md G3)
+# 1K output, the ring through a pseudo-balanced cable's 0.05 ohm) for the receiver's rejection (docs/studies/ground_study.md G3)
 CM = [False]
 def SOURCE():
     if CM[0]:
@@ -177,7 +177,7 @@ for ref, gain, at, label in (('RV12', 'RV11', 2.09e3, 'HI-MID CW, freq at mid ro
     r = run({**TOP, gain: 1, ref: 0.5, ('RV14' if ref == 'RV12' else 'RV12'): 0.5}, ON,
             f'ac lin 1 {at} {at}', [dbu('PRE'), 'print x_PRE'])
     check(label, r.get('x_pre'), 13.5, 15.5)
-# EQM1 (eqmid_proposal.md): the mid ranges themselves, as the Delta measures them (Audio Precision plots, 200 Delta Tech
+# EQM1 (docs/proposals/eqmid_proposal.md): the mid ranges themselves, as the Delta measures them (Audio Precision plots, 200 Delta Tech
 # Manual p.17): the boosted band's peak frequency at each end of its frequency pot
 for gain, ref, th, lo, hi, label in (('RV11', 'RV12', 0.0, 570, 630, 'HI-MID freq CCW'), ('RV11', 'RV12', 1.0, 9.4e3, 10.5e3, 'HI-MID freq CW'),
                                      ('RV13', 'RV14', 0.0, 157, 173, 'LO-MID freq CCW'), ('RV13', 'RV14', 1.0, 2.41e3, 2.67e3, 'LO-MID freq CW')):
@@ -194,7 +194,7 @@ check('DIR + PRE 5-6, aux 6 at top: direct out at J5', r.get('x_' + node('J5','T
 check('DIR: aux 6 bus silent', r.get('x_aux6_o'), -400, -60)
 r = run({**TOP, 'RV2': 1.0}, {**ON, 'SW8': True}, AC1K, [dbu('AUX1_O'), 'print x_AUX1_O'])
 check('PRE 1-2 + aux 1 at top: aux 1 bus out (pre-fader)', r.get('x_aux1_o'), -0.5, 0.5)
-# ON mutes the pre-fade sends and the direct out too (design_review.md Q1: the pre taps come from MUTEOUT)
+# ON mutes the pre-fade sends and the direct out too (docs/reviews/design_review.md Q1: the pre taps come from MUTEOUT)
 r = run({**TOP, 'RV2': 1.0}, {**ON, 'SW8': True, 'SW4': False}, AC1K, [dbu('AUX1_O'), 'print x_AUX1_O'])
 check('ON unlatched, PRE 1-2, aux 1 at top: aux 1 bus muted', r.get('x_aux1_o'), -400, -70)
 r = run({**TOP, 'RV7': 1.0}, {**ON, 'SW13': True, 'SW10': True, 'SW4': False}, AC1K, [dbu(node('J5','T')), f"print x_{node('J5','T')}"])

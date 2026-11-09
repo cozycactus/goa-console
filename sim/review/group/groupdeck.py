@@ -64,7 +64,7 @@ ROLE = {'U1A': 'GC buffer', 'U1B': 'sub summer', 'U2A': 'sub re-inverter', 'U2B'
         'U9A': 'return level buffer L', 'U9B': 'return level buffer R',
         'U10A': 'return L tip follower', 'U10B': 'return L ring follower', 'U11A': 'return R tip follower',
         'U11B': 'return R ring follower',
-        # return 2 (feature_gaps.md RET1, 2026-10-26): the same circuit
+        # return 2 (docs/reviews/feature_gaps.md RET1, 2026-10-26): the same circuit
         'U12A': 'return 2 receiver L', 'U12B': 'return 2 receiver R', 'U13A': 'return 2 level buffer L',
         'U13B': 'return 2 level buffer R', 'U14A': 'return 2 L tip follower', 'U14B': 'return 2 L ring follower',
         'U15A': 'return 2 R tip follower', 'U15B': 'return 2 R ring follower'}

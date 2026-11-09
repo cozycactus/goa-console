@@ -12,7 +12,7 @@ SYM.update({'CONN6': ('Connector_Generic', 'Conn_01x06'), 'CONN2': ('Connector_G
 schgen.MPN.update({'LED2': 'Kingbright WP3VEGW', 'PNP': 'onsemi MMBT3906LT1G', 'DD': 'Diodes BAV99-7-F', 'DSK': 'onsemi MBR140SFT1G',
                    'DG': 'Vishay DG413DY-E3', 'ZEN': 'Diodes BZX84C5V1-7-F', 'SCH': 'Nexperia BAT54W,115',
                    'OPA': 'TI OPA1612AIDR', 'CMP': 'TI LM393BIDR', 'JFET': 'onsemi MMBFJ112', 'D': 'Vishay 1N4148-TAP'})
-# strip_parts_review.md T9/T10: ceramics >= 25 V (50 V X7R here), anti-surge resistors where the power is marginal
+# docs/reviews/strip_parts_review.md T9/T10: ceramics >= 25 V (50 V X7R here), anti-surge resistors where the power is marginal
 CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '10n': 'Samsung CL21B103KBANNNC (X7R 50V)',   # 10n: E6
            '1u': 'Murata GRM21BR71H105KA12L (X7R 50V)',
            '220n': 'Samsung CL21B224KBFNNNE (X7R 50V)',
@@ -25,7 +25,7 @@ CAP_MPN = {'100n': 'Samsung CL21B104KBCNNNC (X7R 50V)', '10n': 'Samsung CL21B103
            '220u 25V': 'Panasonic EEU-FR1E221', '47u 25V': 'Rubycon 63ZLH47MEFC6.3X11 (63V)',
            '150n film': 'WIMA MKS2D031501C00KSSD (PET 100V; 3.5 x 8.5 x 7.2, the 63 V KSSD code has no stock)',
            '2.2u film': 'KEMET MMK5225K63J06L4BULK (PET 63V; replaces the obsolete WIMA MKS2C042201K00KSSD)',
-           # audio bipolars, Nichicon MUSE ES 25 V, in the existing footprints (film_np_proposal.md)
+           # audio bipolars, Nichicon MUSE ES 25 V, in the existing footprints (docs/proposals/film_np_proposal.md)
            '33u NP 25V': 'Nichicon UES1E330MPM (MUSE ES)', '100u NP 25V': 'Nichicon UES1E101MPM (MUSE ES)'}
 RX_MPN = 'Panasonic ERA-6AEB103V'          # 10K 0.1 % 0805, as the master's receivers
 FILM_2U2 = 'Capacitor_THT:C_Rect_L7.2mm_W7.2mm_P5.00mm_FKS2_FKP2_MKS2_MKP2'
@@ -52,14 +52,14 @@ JB_OUT = os.path.join(os.path.dirname(OUT), 'jack_board.kicad_sch')
 
 # ---------------------------------------------------------------- netlist
 b = block('POWER ENTRY, LOGIC SUPPLY, GROUNDS, DECOUPLING')
-# CS6 (cs6_proposal.md): the four supply resistors are fusible (Vishay M25SI, 1206 0.25 W): a short behind one of them
+# CS6 (docs/proposals/cs6_proposal.md): the four supply resistors are fusible (Vishay M25SI, 1206 0.25 W): a short behind one of them
 # draws ~1.7 A (28 W) and opens it in well under 0.1 s, so only this strip goes quiet; the wing PTC would not trip
 FUSIBLE = dict(fp='Resistor_SMD:R_1206_3216Metric', mpn='Vishay M251206BB1009JP500')
 P(b,'R1','R','10R',{1:'+VBUS',2:'+VA'},**FUSIBLE); P(b,'C1','CP','220u 25V',{1:'+VA',2:'GNDA'})
 P(b,'C2','C','100n',{1:'+VA',2:'GNDA'})
 P(b,'R2','R','10R',{1:'-VBUS',2:'-VA'},**FUSIBLE); P(b,'C3','CP','220u 25V',{1:'GNDA',2:'-VA'})
 P(b,'C4','C','100n',{1:'GNDA',2:'-VA'})
-# CS10 (console_survey.md §7): a reverse Schottky across each audio rail. If one supply rail is lost (a wing PTC trips,
+# CS10 (docs/studies/console_survey.md §7): a reverse Schottky across each audio rail. If one supply rail is lost (a wing PTC trips,
 # a ribbon conductor opens), the op-amps' ~87 mA keeps flowing into the dead rail and drives it past ground: C1 / C3
 # would sit reversed by up to ~13 V and the ICs' pin-protection diodes carry the current (sim/review/cs10/rail_loss.py).
 # MBR140SFT1G (40 V, 1 A; 0.36 V max at 100 mA) holds the dead rail within 0.36 V of ground
@@ -74,7 +74,7 @@ for i,(ref,cp,cn) in enumerate([('U1','C20','C21'),('U2','C22','C23'),('U3','C24
                                   ('U12','C63','C64'),('U13','C65','C66'),('U14','C67','C68'),('U15','C89','C90')]):
     P(b,ref,'OPA','OPA1612',{8:'+VA',4:'-VA'},unit=3)
     P(b,cp,'C','100n',{1:'+VA',2:'GNDA'}); P(b,cn,'C','100n',{1:'GNDA',2:'-VA'})
-P(b,'U16','OPA1656','OPA1656',{8:'+VA',4:'-VA'},unit=3)   # input followers (ground_study.md G3)
+P(b,'U16','OPA1656','OPA1656',{8:'+VA',4:'-VA'},unit=3)   # input followers (docs/studies/ground_study.md G3)
 P(b,'C92','C','100n',{1:'+VA',2:'GNDA'}); P(b,'C93','C','100n',{1:'GNDA',2:'-VA'})
 P(b,'U4','CMP','LM393',{8:'+VL',4:'GNDD'},unit=3); P(b,'C26','C','100n',{1:'+VL',2:'GNDD'})
 P(b,'U17','CMP','LM393',{8:'+VL',4:'GNDD'},unit=3); P(b,'C98','C','100n',{1:'+VL',2:'GNDD'})   # signal detector (MET1)
@@ -84,24 +84,24 @@ for i,n in enumerate(['+VA','-VA','+VL','-VL','GNDA','GNDD']):
 
 hdr = {1:'NC',3:'NC',5:'NC',7:'NC',19:'NC',9:'SUB4',11:'SUB3',13:'SUB2',15:'SUB1',
        17:'MIXR',18:'MIXL',20:'AUX6',21:'AUX5',22:'AUX4',23:'AUX3',24:'AUX1',25:'AUX2',26:'GCANCEL',
-       27:'PFL',28:'NC',29:'PFLDET',30:'-VBUS',31:'-VBUS',32:'+VBUS',33:'+VBUS',34:'+VBUS'}   # 34: third +V conductor (wing_power_proposal.md W1)
+       27:'PFL',28:'NC',29:'PFLDET',30:'-VBUS',31:'-VBUS',32:'+VBUS',33:'+VBUS',34:'+VBUS'}   # 34: third +V conductor (docs/proposals/wing_power_proposal.md W1)
 hdr.update({k:'GNDA' for k in range(2,17,2)})
 b = block('MOTHERLOOM  (Delta pinout; one header, crimped socket on a daisy-chained ribbon)')
 P(b,'CN1','HDR','Bus 2x17',hdr,mpn='Wurth 61203421621 (2x17 box header)')
 
 b = block('JACK LINK CLAMPS: a BAV199 to the audio rails on every jack signal at CN3 (CS4)')
-# CS4 (console_survey.md §5): ESD and faults on a jack's tip or ring reach the main board through the 10-way link. A
+# CS4 (docs/studies/console_survey.md §5): ESD and faults on a jack's tip or ring reach the main board through the 10-way link. A
 # low-leakage BAV199 per signal at CN3, ahead of every series part, takes them to the rails' reservoirs: an 8 kV contact
 # discharge leaves the input op-amp 0.09 A (9.6 A as built) and an output's 0.38 A (18.9 A); 48 V phantom on the insert
 # send or the direct out leaves C51 / C52 at 17.7 V, not 41.9 V (sim/review/cs4/jack_protect.py). 3 pA typ leakage
 # into the input legs' 1M; ~2 pF, reverse-biased by the rails: -106 dB at +20 dBu, 20 kHz from a 1 kohm source
-# D23 on DO_R since v5.7 (RV3b, clicks_followup_proposal.md): RV3's C107 took the ring's direct path to ground away
+# D23 on DO_R since v5.7 (RV3b, docs/proposals/clicks_followup_proposal.md): RV3's C107 took the ring's direct path to ground away
 for d_, n_ in (('D18', 'IN_T'), ('D19', 'IN_R'), ('D20', 'RET_RAW'), ('D21', 'SEND'), ('D22', 'DO_T'), ('D23', 'DO_R')):
     P(b, d_, 'DD', 'BAV199', {1: '-VA', 3: n_, 2: '+VA'}, mpn='Nexperia BAV199,215')
 
 b = block('LINE INPUT - buffered ground-compensated receiver (inverting), Ø switch  SW15: latched = phase reversed')
 P(b,'CN3','LINK','Jack board link 2x5',LINK,mpn=LINK_MPN)   # J1/J2/J5 and the RF caps C8/C9 are on the jack board
-# G3 (ground_study.md, signed off 2026-10-25): OPA1656 followers with 1M bias per leg raise the common-mode input
+# G3 (docs/studies/ground_study.md, signed off 2026-10-25): OPA1656 followers with 1M bias per leg raise the common-mode input
 # impedance from 20K to 1M, so a synth's 1K output no longer unbalances the bridge (CMRR 26 -> 54 dB, worst 5 %);
 # 220R limit the fault current into the inputs' protection diodes. J1's normals short both legs when unplugged.
 P(b,'R10','R','1M',{1:'IN_T',2:'GNDA'}); P(b,'R112','R','1M',{1:'IN_R',2:'GNDA'})
@@ -131,7 +131,7 @@ P(b,'C38','C','33u NP 25V',{1:'GOUT',2:'HIN'},fp=CAP_FP['47u'])
 # C91 doubles C38: with the HPF out SW11 feeds HIN straight to the EQ (~2.5 kohm), 66 uF keeps PRE's LF corner ~1 Hz
 P(b,'C91','C','33u NP 25V',{1:'GOUT',2:'HIN'},fp=CAP_FP['47u']); P(b,'R47','R','47K',{1:'HIN',2:'GNDA'})
 
-# Sweepable HPF (hpf_proposal.md): a state-variable high-pass, unity gain, non-inverting, Q 0.707, 21-403 Hz, tuned by
+# Sweepable HPF (docs/proposals/hpf_proposal.md): a state-variable high-pass, unity gain, non-inverting, Q 0.707, 21-403 Hz, tuned by
 # an A10K dual as the mid bands (430R -> 330R for a 19:1 range). Summer: + from HIN (4K99) and BP (2K49), - from LP
 # (2K49) and HP (4K99): gain 1, Q 1/sqrt2. 10p / 22p: 6.6 deg phase margin without them (TI OPA161x), 80 with
 b = block('HPF  sweepable 21-403 Hz, state-variable (KHN) high-pass, Q 0.707  SW11: latched = HPF in, else HIN')
@@ -185,7 +185,7 @@ P(b,'C50','C','100n C0G',{1:'EQ_FP',2:'GNDA'},fp=C0G); P(b,'R65','R','5K1',{1:'E
 # band-pass with the same response (peak 0.407, Q 0.275, in phase) into U6A/U6B's + input, tuned by a stocked
 # A10K dual: each gang a divider from the driving op-amp (pin 3) to 430R (pin 1), 13K wiper-to-top, wiper -> 4K7
 # -> integrator. CW = higher frequency, within 0.3 octave of a log sweep. sim/mid_tuning.py, strip spec 6.2.
-# EQM1 (eqmid_proposal.md): R0 / RB per band so the ranges match the Delta's measured ones (Audio Precision plots, 200
+# EQM1 (docs/proposals/eqmid_proposal.md): R0 / RB per band so the ranges match the Delta's measured ones (Audio Precision plots, 200
 # Delta Tech Manual p.17): HI-MID 430R / 4K7 -> 392R / 4K99 (600 Hz - 9.9 kHz), LO-MID 4K7 -> 4K22 (165 Hz - 2.54 kHz)
 b = block('EQ MID TUNING  KHN band-pass per mid band: summer (10K x3, BP via 2K2/10K), two integrators, A10K dual')
 for (nm, wip, bp, sm, sp, hp, lp, d1, d2, r1, r2, i1, i2, pot, ci1, ci2, c1v, c2v, rb1, rb2, rs, us, ui1, ui2, cs, r0v, rbv) in (
@@ -225,10 +225,10 @@ P(b,'U7','OPA','OPA1612',{5:'RET_IN',6:'BUF1',7:'BUF1'},unit=2)
 P(b,'C11','C','100u NP 25V',{1:'PRESRC',2:'PRE'},fp=CAP_FP['220u']); P(b,'R13','R','47K',{1:'PRE',2:'GNDA'})
 
 b = block('OVERLOAD DETECTOR (~+18 dBu, ~150 ms hold) + SIGNAL (~-20 dBu): one red / green LED')
-# K3 (gaps_proposal.md, signed off 2026-10-25): C12 100n for a 0.1 ms attack (1u needed ~20 cycles, so short peaks
+# K3 (docs/proposals/gaps_proposal.md, signed off 2026-10-25): C12 100n for a 0.1 ms attack (1u needed ~20 cycles, so short peaks
 # never lit the LED); U4A now discharges a hold cap and U4B, the package's spare half, lights the LED while the hold
 # node is below VREF: ~150 ms after the last overload (sim/review/gaps/ol_fix.py)
-# CS1 (console_survey.md): five taps, both polarities. Each tap -> 1K -> a BAV99's middle (pin 3; pin 1 anode, pin 2
+# CS1 (docs/studies/console_survey.md): five taps, both polarities. Each tap -> 1K -> a BAV99's middle (pin 3; pin 1 anode, pin 2
 # cathode, Nexperia): the top diode charges PK on positive peaks, the bottom one pulls OL_NN down on negative peaks.
 # Taps: the receiver, the gain stage, the EQ out, PRESRC (as before) and the post-amp: the stages that clip first
 # (sim/review/gaps/headroom.py); one threshold for all, +18.4 dBu, 4.6 dB below their swing (sim/review/cs1/ol_multi.py)
@@ -238,9 +238,9 @@ for r_, d_, tap, x_ in (('R128','D12','RECV','PKR'),('R129','D13','GOUT','PKG'),
     P(b,r_,'R','1K',{1:tap,2:x_}); P(b,d_,'DD','BAV99',{1:'OL_NN',3:x_,2:'PK'})
 P(b,'C12','C','100n',{1:'PK',2:'GNDA'}); P(b,'R14','R','470K',{1:'PK',2:'GNDA'})
 P(b,'R40','R','10K',{1:'+VL',2:'VREF'}); P(b,'R41','R','10K',{1:'VREF',2:'GNDA'})
-# P2 (met1_ret1_review.md, signed off 2026-10-27): 100 nF on VREF at the divider; VREF runs ~215 mm to U17
+# P2 (docs/reviews/met1_ret1_review.md, signed off 2026-10-27): 100 nF on VREF at the divider; VREF runs ~215 mm to U17
 P(b,'C100','C','100n',{1:'VREF',2:'GNDA'})
-# P1 (met1_ret1_review.md, signed off 2026-10-27): a 1K between each discharge output and its 220n hold cap keeps the
+# P1 (docs/reviews/met1_ret1_review.md, signed off 2026-10-27): a 1K between each discharge output and its 220n hold cap keeps the
 # LM393B's output under its 25 mA rating (17 mA peak); thresholds unchanged (sim/review/gaps/ol.py)
 P(b,'U4','CMP','LM393',{2:'PK',3:'VREF',1:'OL_DIS'},unit=1); P(b,'R126','R','1K',{1:'OL_DIS',2:'OL_HOLD'})
 # CS1 negative side, PK's mirror: OL_NN rests at ~0.5 V (C103 // R134 to GNDA, as C12 // R14); OL_NC = 2/3 +VL + 1/3
@@ -252,7 +252,7 @@ P(b,'U18','CMP','LM393',{3:'OL_NC',2:'VREF',1:'OL_NDIS'},unit=1); P(b,'R135','R'
 P(b,'U18','CMP','LM393',{5:'VREF',6:'GNDD',7:'NC'},unit=2)        # spare half: + above -, output off
 P(b,'R115','R','1M',{1:'+VL',2:'OL_HOLD'}); P(b,'C97','C','220n',{1:'OL_HOLD',2:'GNDD'})
 P(b,'U4','CMP','LM393',{5:'OL_HOLD',6:'VREF',7:'OL_K'},unit=2)
-# MET1 (feature_gaps.md, signed off 2026-10-26): D2 is a red / green bicolour (Kingbright WP3VEGW, common cathode) in the
+# MET1 (docs/reviews/feature_gaps.md, signed off 2026-10-26): D2 is a red / green bicolour (Kingbright WP3VEGW, common cathode) in the
 # OL LED's place. Red = overload as before; green = signal present from ~-20 dBu with the same ~150 ms hold (U17, as
 # U4: U17A against VTH = VREF / 76 = 0.11 V, the -20 dBu peak, discharges SIG_HOLD; U17B lights green while it is
 # below VREF). Each colour has a PNP high-side switch, so it draws current only while lit; Q5, from U4B's output, holds
@@ -260,7 +260,7 @@ P(b,'U4','CMP','LM393',{5:'OL_HOLD',6:'VREF',7:'OL_K'},unit=2)
 # forced beta ~10 at 3 mA. PRESRC reaches U17A through 47K with a BAT54W clamp to GNDD (sim/review/gaps/ol.py).
 P(b,'R116','R','47K',{1:'OL_K',2:'OL_B'}); P(b,'R117','R','47K',{1:'+VL',2:'OL_B'})
 P(b,'Q3','PNP','MMBT3906',{1:'OL_B',2:'+VL',3:'OL_C'})
-# E6 (emc_placement_study.md, signed off 2026-10-27): 10 nF base to emitter on each LED switch: with the 47K base the
+# E6 (docs/studies/emc_placement_study.md, signed off 2026-10-27): 10 nF base to emitter on each LED switch: with the 47K base the
 # LED current ramps over ~0.5 ms, so no MET1 line switches fast
 P(b,'C101','C','10n',{1:'OL_B',2:'+VL'})
 P(b,'R15','R','4K7',{1:'OL_C',2:'OL_A'})                                   # ~3 mA, as the other LEDs
@@ -276,7 +276,7 @@ P(b,'R125','R','47K',{1:'OL_K',2:'GATE_B'}); P(b,'Q5','PNP','MMBT3906',{1:'GATE_
 P(b,'D2','LED2','OL red / SIG green',{1:'OL_A',2:'GNDD',3:'SIG_A'})
 
 b = block('PFL (pre-fade)  SW3: A-B = ON')
-# K1 (gaps_proposal.md, signed off 2026-10-25): DC block in the PFL send. U3B's bias current leaves PRE 3-14 mV off
+# K1 (docs/proposals/gaps_proposal.md, signed off 2026-10-25): DC block in the PFL send. U3B's bias current leaves PRE 3-14 mV off
 # ground, which the PFL key put on the PFL bus as a tick (up to 11.5 mV); 22K + 2.2u film: 3.3 Hz
 P(b,'C96','C','2.2u film',{1:'PRE',2:'PFL_C'},fp=FILM_2U2)
 P(b,'R32','R','22K',{1:'PFL_C',2:'PFL_S'})
@@ -310,7 +310,7 @@ P(b,'R38','R','2K2',{1:'U2A_N',2:'GNDA'})
 P(b,'C15','C','100u NP 25V',{1:'FPOST',2:'POST'},fp=CAP_FP['220u']); P(b,'R35','R','47K',{1:'POST',2:'GNDA'})
 
 b = block('AUX SENDS  PRE switch per pair (latched = pre); jumpers 1-2 = pre-fader after ON, 2-3 = pre-EQ.  SW13 DIR: aux 6 pot -> direct out')
-# Q1 (design_review.md, 2026-10-25): the pre-fader taps come from MUTEOUT (after the J112 mute, before the fader), so ON
+# Q1 (docs/reviews/design_review.md, 2026-10-25): the pre-fader taps come from MUTEOUT (after the J112 mute, before the fader), so ON
 # mutes the pre sends and the direct out too; the pre-EQ jumper setting (HOUT) stays ahead of the mute
 for jp,sw,n in (('JP2','SW8','12'),('JP3','SW9','34'),('JP4','SW10','56')):
     P(b,jp,'SJ3',f'Aux{n[0]}/{n[1]} pre source',{1:'MUTEOUT',3:'HOUT',2:f'PSRC{n}'})
@@ -336,9 +336,9 @@ b = block('PAN + PAN BUFFERS (AC-coupled outputs)')
 # ALPS RK09L1240015: the stocked vertical dual 10K B with a centre detent (no Alpha one exists); M9 bushing, 6 mm D shaft
 P(b,'RV8','POT2','Pan 10K lin dual CD',{1:'POST',3:'GNDA',2:'PANWL',4:'GNDA',6:'POST',5:'PANWR'},
   fp='Potentiometer_THT:Potentiometer_Alps_RK09L_Double_Vertical',mpn='ALPS RK09L1240015')
-# PAN1 (pan_buffer_proposal.md): pan buffer L in U8B (it was the spare), beside the pan pot; U2B at the fader end is
+# PAN1 (docs/proposals/pan_buffer_proposal.md): pan buffer L in U8B (it was the spare), beside the pan pot; U2B at the fader end is
 # the spare now, so the pan L wiper no longer runs 165 mm to the fader end
-# CS2 (cs2_proposal.md): the Delta's pan law (ED3344C): each buffer at 1.22x (2K2 / 10K) with 3K3 from its output back
+# CS2 (docs/proposals/cs2_proposal.md): the Delta's pan law (ED3344C): each buffer at 1.22x (2K2 / 10K) with 3K3 from its output back
 # to its wiper: -2.7 dB at centre, +1.7 dB hard over, a 4.4 dB law (was a plain -6 dB with followers)
 P(b,'U8','OPA','OPA1612',{5:'PANWL',6:'PBL_N',7:'PBL'},unit=2); P(b,'C79','C','10p C0G',{1:'PANWL',2:'GNDA'},fp=C0G)
 P(b,'U3','OPA','OPA1612',{3:'PANWR',2:'PBR_N',1:'PBR'},unit=1); P(b,'C80','C','10p C0G',{1:'PANWR',2:'GNDA'},fp=C0G)
@@ -395,7 +395,7 @@ if os.environ.get('PILOT'):                     # only the drawn blocks, on a sh
 # ---------------------------------------------------------------- jack board (its own PCB; same net names)
 schgen.blocks.clear()
 b = block('JACK BOARD  (3 x NJ6FD-V ~24 mm under the panel; 10-way IDC ribbon to CN3 on the main board)')
-# G2 (ground_study.md): the balanced jacks' sleeves (line in, direct out) on CHASSIS, bonded through the plated
+# G2 (docs/studies/ground_study.md): the balanced jacks' sleeves (line in, direct out) on CHASSIS, bonded through the plated
 # standoff holes H1 / H2 to the panel, so cable-shield currents stay out of GNDA; the insert (single-ended) keeps GNDA.
 # J1's normals short tip and ring to GNDA when nothing is plugged in (the 1M bias would hiss otherwise).
 P(b,'J1','JACKSW','Line in TRS',{'T':'IN_T','R':'IN_R','S':'CHASSIS','TN':'GNDA','RN':'GNDA'},fp=JACK_V,mpn=JACK_V_MPN)

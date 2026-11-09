@@ -74,7 +74,7 @@ footprint('Potentiometer_Bourns_PTB0144_Slide_100mm_Dual',
           'fader slide potentiometer 100mm dual Bourns PTB', b, (xc, by0 - 1.5), (xc, by1 + 1.5))
 
 # ---- Bourns MF-RX/72 radial PTCs (72 V, 40 A max): MF-RX185/72 (1.85 A hold, 3.7 A trip) master wing fuses
-# (2026-10-24, hpf_proposal.md H4), MF-RX160/72 (1.6 A hold, 3.2 A trip) on the jig's master stub.
+# (2026-10-24, docs/proposals/hpf_proposal.md H4), MF-RX160/72 (1.6 A hold, 3.2 A trip) on the jig's master stub.
 # https://www.bourns.com/docs/product-datasheets/mf-rx72.pdf, product dimensions: A 13.94 / 15.18 max (width),
 # B 19.94 / 21.18 max (height), C 5.1 +-0.7 lead spacing, E 3.1 max thick, style 2 (straight leads; kinked is -14),
 # lead 0.81 dia. 72 V because a +V-to-−V short on a wing puts up to 34 V across one PTC (MF-R160 is 30 V).
@@ -104,9 +104,9 @@ footprint('Keystone_1287-ST_FastOn_Tab_6.35mm',
 # last: footprints added later keep the UUID sequence of the earlier ones. Courtyard 0.25 mm (KLC): on the master the
 # MF-RX185/72 sits between J1 and top-side diode leads where the 160's 0.38 mm doesn't fit (place_master.py)
 mf_rx('185', 15.18, '1.85', cy=0.25)
-# MF-RX250/72 (+V wing fuses, wing_power_proposal.md W2): A 17.84 / B 23.84 max, C 10.2 +0.6/-0.2 lead spacing
+# MF-RX250/72 (+V wing fuses, docs/proposals/wing_power_proposal.md W2): A 17.84 / B 23.84 max, C 10.2 +0.6/-0.2 lead spacing
 mf_rx('250', 17.84, '2.5', cy=0.25, p=10.16)
-# ---- Kingbright WP3VEGW: T-1 (3 mm) red / green bicolour, white diffused (feature_gaps.md MET1). Datasheet
+# ---- Kingbright WP3VEGW: T-1 (3 mm) red / green bicolour, white diffused (docs/reviews/feature_gaps.md MET1). Datasheet
 # (https://www.kingbrightusa.com/images/catalog/SPEC/WP3VEGW.pdf): 3 leads 0.5 square at 2.0 mm, recommended holes
 # Ø0.9; pin 1 anode red, pin 2 common cathode, pin 3 anode green (KiCad's LED_Dual_AKA); dome Ø3.0, flange Ø4.0 at
 # the base (fab outline; the square pad 1 marks red), centred on pin 2. No 3D model: the render draws its pins and lens. KiCad's LED_D3.0mm-3 is on 2.54 mm. Origin = pin 1.

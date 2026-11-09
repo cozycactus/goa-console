@@ -1,4 +1,4 @@
-"""CS2 (console_survey.md §5): the strip's pan law, as built (a linear 10K dual into unity followers: -6 dB at centre) and
+"""CS2 (docs/studies/console_survey.md §5): the strip's pan law, as built (a linear 10K dual into unity followers: -6 dB at centre) and
 with the Delta's network (ED3344C: each buffer at 1.22x, 2K2 / 10K, and 3K3 from its output back to its wiper).
 The wiper of a linear pot at x (0 = ground end) is a source x * Vin behind Rth = x (1 - x) 10K; the 3K3 from the
 buffer's output (G * W) feeds back: W = x Vin / (1 + Rth (1 - G) / 3K3). Also the constant-power (-3 dB) law for

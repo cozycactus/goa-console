@@ -1,26 +1,27 @@
-"""Console-wide order list from the nine board BOMs (sourcing.md): each board's BOM times the number of boards built,
+"""Console-wide order list from the nine board BOMs (docs/build/sourcing.md): each board's BOM times the number of boards built,
 grouped by MPN, with spares. Plain 0805 resistors (no MPN in the schematic) get the sourcing rule's Yageo
 RT0805FRE07<value>L thin film up to 1M (TF1), RC0805FR-07<value>L thick film above. DNP parts and mounting holes are left out; the jig's four strips are four of the 24, and the
 OPA1656 A/B swap (test_jig_spec.md 1.1 / 4.2: the 8 SOICs of one strip, swapped by hot air) is added as extra parts.
-usage: python3 tools/order_bom.py   ->  order_bom.csv
-       python3 tools/order_bom.py phase1   ->  order_phase1.csv: the staged hardware test (test_jig_spec.md 1.1). Stage A:
-       one strip + its jack board, merged with sample_order.md (a part on both lists is bought once, the larger number),
+usage: python3 tools/order_bom.py   ->  bom/order_bom.csv
+       python3 tools/order_bom.py phase1   ->  bom/order_phase1.csv: the staged hardware test (test_jig_spec.md 1.1). Stage A:
+       one strip + its jack board, merged with docs/build/sample_order.md (a part on both lists is bought once, the larger number),
        the N1 op-amp swap, the bench-power lead; stage B: the jig stub, load board, jig ribbons and test fixtures; an
        optional second strip. Spares per stage, as the console list's rule.
-       python3 tools/order_bom.py stagea   ->  order_phase1_prices.csv re-priced from mouser_readings.csv (the readings, by hand from Mouser's site),
-       order_stage_a.csv (every stage A line: vendor, price at the order quantity, stock read) and order_stage_a_mouser.csv (the lines to order
+       python3 tools/order_bom.py stagea   ->  bom/order_phase1_prices.csv re-priced from bom/mouser_readings.csv (the readings, by hand from Mouser's site),
+       bom/order_stage_a.csv (every stage A line: vendor, price at the order quantity, stock read) and bom/order_stage_a_mouser.csv (the lines to order
        from Mouser now, for its BOM upload, which also shows live stock and price)."""
 import csv, math, os, re, collections
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-BOARDS = [('channel_strip', 'strip', 24), ('jack_board', 'strip jack', 24), ('group', 'group', 4),
+BOM_DIR = os.path.join(ROOT, 'bom')   # the schematics' BOM exports and the order lists
+BOARDS =[('channel_strip', 'strip', 24), ('jack_board', 'strip jack', 24), ('group', 'group', 4),
           ('group_jack_board', 'group jack', 4), ('master', 'master', 1), ('master_jack_board', 'master jack', 1),
           ('psu', 'psu', 1), ('jig_master_stub', 'jig stub', 1), ('jig_load_board', 'jig load', 1)]
 EXTRA = [('TI OPA1656IDR', 'OPA1656 (N1 A/B swap, one strip)', 'Package_SO:SOIC-8_3.9x4.9mm_P1.27mm', 'jig A/B', 8),
          # CS11b: 40 bought for the 30 DRV135 couplers sorted into 15 pairs within 2 % (sim/review/cs11/drv_couplers.py)
          ('Panasonic ECE-A1EN100U', '10u NP 25V', 'Capacitor_THT:CP_Radial_D5.0mm_P2.00mm', 'pair-sorting stock', 10)]
 
-# Same silicon, other packing, while the first code is out of stock (second_source_proposal.md SS1; read at Mouser 2026-11-03).
+# Same silicon, other packing, while the first code is out of stock (docs/proposals/second_source_proposal.md SS1; read at Mouser 2026-11-03).
 # Order lists only; go back to the first code when it returns (OPA1612AIDR is about $1.70 less at 10).
 ORDER_AS = {'TI OPA1612AIDR': 'TI OPA1612AID', 'Nexperia BAV199,215': 'Nexperia BAV199,235', 'Vishay DG413DY-E3': 'Vishay DG413DY-T1-E3'}
 # The bench strips of phase 1 only (SS3): PVA2 EE H1 is due at Mouser 2027-03-01, H3 (same pads and latching, plunger 3 mm longer)
@@ -49,7 +50,7 @@ def ohms(tok):
 
 def resistor_mpn(value):
     """Plain 0805 resistors (no MPN in the schematic): Yageo RT0805FRE07 thin film 1 % 50 ppm up to 1M (TF1,
-    thin_film_proposal.md: no voltage coefficient, no excess noise, tighter drift than thick film); above 1M (2M2,
+    docs/proposals/thin_film_proposal.md: no voltage coefficient, no excess noise, tighter drift than thick film); above 1M (2M2,
     4M99, 10M: DC positions only, no thin-film part) the thick-film RC0805FR. Anti-surge ERJ-P06 positions carry
     their MPN in the schematic and stay thick film: a surge is what thin film survives worst."""
     tok = value.split()[0]
@@ -59,7 +60,7 @@ def resistor_mpn(value):
 
 def rows():
     for name, label, n in BOARDS:
-        with open(os.path.join(ROOT, f'{name}_BOM.csv'), newline='') as f:
+        with open(os.path.join(BOM_DIR,f'{name}_BOM.csv'), newline='') as f:
             for r in csv.DictReader(f):
                 if r['DNP'] or r['Footprint'].startswith('MountingHole'): continue
                 mpn = r['MPN'] or (resistor_mpn(r['Value']) if r['Footprint'] == 'Resistor_SMD:R_0805_2012Metric' else '')
@@ -76,7 +77,7 @@ def main():
         if note and note not in e['notes']: e['notes'].append(note)
         if value not in e['values']: e['values'].append(value)
         e['need'] += q; e['where'].append(f'{label} {per}' if label == 'jig A/B' else f'{label} {q // per}x{per}' if q != per else f'{label} {per}')
-    out = os.path.join(ROOT, 'order_bom.csv')
+    out = os.path.join(BOM_DIR,'order_bom.csv')
     with open(out, 'w', newline='') as f:
         w = csv.writer(f, quoting=csv.QUOTE_ALL)
         w.writerow(['Order', 'Need', 'Spares', 'MPN', 'Values', 'Footprint', 'Where (boards x per board)', 'Notes'])
@@ -87,7 +88,7 @@ def main():
     print('boards to fabricate:', ', '.join(f'{label} x{n}' for _, label, n in BOARDS))
 
 # ---------------------------------------------------------------- phase 1 (staged hardware test)
-# sample_order.md, by order code: (qty, check). A code that is also on the strip's BOM is bought once (the larger number:
+# docs/build/sample_order.md, by order code: (qty, check). A code that is also on the strip's BOM is bought once (the larger number:
 # the samples are the build's parts, checked before they're soldered)
 SAMPLES = [('Bourns PTB0143-2010BPA103', 'Fader, strip / group', 2, '1, 9'), ('Bourns PTB0144-2010BPA103', 'Fader, master', 1, '1'),
            ('Sifam LK111 01', 'Fader cap, black, white line', 3, '2'), ('Sifam LK110 tang 01 (RS 281-7197)', 'Fader cap, plain', 2, '2'),
@@ -101,7 +102,7 @@ SAMPLES = [('Bourns PTB0143-2010BPA103', 'Fader, strip / group', 2, '1, 9'), ('B
            ('Neutrik NJ6FD-V', 'Jack', 2, '6'), ('Kingbright WP3VEGW', 'Signal / OL LED', 5, '8'),
            ('Kingbright WP710A10ID', 'Panel LED red', 3, '8'), ('Kingbright WP710A10GD', 'Panel LED green', 3, '8'),
            ('Kingbright WP710A10YD', 'Panel LED yellow', 3, '8')]
-# off-board parts per stage (offboard_bom.md codes; '(rule)' = any part meeting the rule): (code, what, A, B, B2, note)
+# off-board parts per stage (docs/build/offboard_bom.md codes; '(rule)' = any part meeting the rule): (code, what, A, B, B2, note)
 OFFBOARD = [
     ('C&K PVGY', 'PV key cap grey', 8, 0, 0, 'strip: PRE x3, HPF, EQ, DIR, PAN, Phase (KC1); samples check 3'),
     ('C&K PVWH', 'PV key cap white', 3, 0, 0, 'routing L-R / 1-2 / 3-4'),
@@ -137,7 +138,7 @@ PHASE1_PCBS = [('channel_strip', 'strip main, 4 layers'), ('jack_board', 'strip 
                ('jig_master_stub', 'jig master stub'), ('jig_load_board', 'jig load board')]
 
 def board_lines(name, label):
-    with open(os.path.join(ROOT, f'{name}_BOM.csv'), newline='') as f:
+    with open(os.path.join(BOM_DIR,f'{name}_BOM.csv'), newline='') as f:
         for r in csv.DictReader(f):
             if r['DNP'] or r['Footprint'].startswith('MountingHole'): continue
             mpn = r['MPN'] or (resistor_mpn(r['Value']) if r['Footprint'] == 'Resistor_SMD:R_0805_2012Metric' else '')
@@ -176,7 +177,7 @@ def phase1():
     for code, what, a, b, b2, note in OFFBOARD:
         rows_.append([a, b, b2, code, what, '(off-board)', 'offboard_bom.md / test_jig_spec.md', note])
     rows_.sort(key=lambda r: (r[5] == '(off-board)', r[5], r[3]))
-    out = os.path.join(ROOT, 'order_phase1.csv')
+    out = os.path.join(BOM_DIR,'order_phase1.csv')
     with open(out, 'w', newline='') as f:
         w = csv.writer(f, quoting=csv.QUOTE_ALL)
         w.writerow(['Stage A', 'Stage B', 'Stage B: 2nd strip (optional)', 'MPN / code', 'Values / what', 'Footprint',
@@ -205,9 +206,9 @@ def vendor(code, note, read):
     return 'Mouser'
 
 def stagea():
-    old = {r['MPN / code']: r for r in csv.DictReader(open(os.path.join(ROOT, 'order_phase1_prices.csv')))}
-    reads = {r['Code']: r for r in csv.DictReader(open(os.path.join(ROOT, 'mouser_readings.csv')))}
-    new = list(csv.DictReader(open(os.path.join(ROOT, 'order_phase1.csv'))))
+    old = {r['MPN / code']: r for r in csv.DictReader(open(os.path.join(BOM_DIR,'order_phase1_prices.csv')))}
+    reads = {r['Code']: r for r in csv.DictReader(open(os.path.join(BOM_DIR,'mouser_readings.csv')))}
+    new = list(csv.DictReader(open(os.path.join(BOM_DIR,'order_phase1.csv'))))
     fields = ['Stage A', 'Stage B', 'Stage B: 2nd strip', 'MPN / code', 'Values / what', 'Unit USD', 'Source / note', 'A USD', 'B USD', '2nd strip USD']
     rows_, sheet = [], []
     for r in new:
@@ -229,15 +230,15 @@ def stagea():
         if q[0]:
             v = vendor(code, o['Source / note'] if o else '', rd)
             sheet.append(dict(vendor=v, qty=q[0], code=code, what=r['Values / what'], unit=u, ext=q[0] * u, stock=rd['Stock'] if rd else '', on=rd['On order'] if rd else '', status=note if not rd else status, notes=r['Notes'], opt='OPTIONAL' in note))
-    with open(os.path.join(ROOT, 'order_phase1_prices.csv'), 'w', newline='') as f:
+    with open(os.path.join(BOM_DIR,'order_phase1_prices.csv'), 'w', newline='') as f:
         w = csv.DictWriter(f, fieldnames=fields, quoting=csv.QUOTE_ALL); w.writeheader(); w.writerows(rows_)
     order = ['Mouser', 'Mouser, later', 'Tayda', 'RS', 'Don-Audio', 'Any, see note']
     sheet.sort(key=lambda x: (order.index(x['vendor']), x['code']))
-    with open(os.path.join(ROOT, 'order_stage_a.csv'), 'w', newline='') as f:
+    with open(os.path.join(BOM_DIR,'order_stage_a.csv'), 'w', newline='') as f:
         w = csv.writer(f, quoting=csv.QUOTE_ALL)
         w.writerow(['Vendor', 'Qty', 'Code', 'Values / what', 'Unit USD', 'Ext USD', 'Mouser stock', 'On order', 'Price / stock read', 'Notes'])
         for x in sheet: w.writerow([x['vendor'] + (' (optional)' if x['opt'] else ''), x['qty'], x['code'], x['what'], f"{x['unit']:.3f}", f"{x['ext']:.2f}", x['stock'], x['on'], x['status'], x['notes']])
-    with open(os.path.join(ROOT, 'order_stage_a_mouser.csv'), 'w', newline='') as f:
+    with open(os.path.join(BOM_DIR,'order_stage_a_mouser.csv'), 'w', newline='') as f:
         w = csv.writer(f, quoting=csv.QUOTE_ALL)
         w.writerow(['Manufacturer Part Number', 'Manufacturer', 'Quantity', 'Customer Reference'])
         for x in sheet:

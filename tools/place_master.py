@@ -29,7 +29,7 @@ JACK_FIX = {'J3': xlr(16, 15), 'J4': xlr(16, 47), 'J5': xlr(16, 79),            
             'J6': jack(JC[0], 72), 'J7': jack(JC[1], 72),                            # AUX 5 / 6 out
             'J12': jack(JC[0], 92),                                                  # PHONES
             'CN1': (15.0, 104.5, 270, 'B')}           # 2x20 link, bottom, pins x 15-63.3, y 104.5 / 107.0, pin 1 left
-JACK_HOLES = []                               # plated M3 standoff holes on CHASSIS (ground_study.md G2): bond the panel
+JACK_HOLES = []                               # plated M3 standoff holes on CHASSIS (docs/studies/ground_study.md G2): bond the panel
 JACK_FIX.update({'H1': (73.3, 15, 0, 'F'), 'H2': (73.3, 90, 0, 'F'), 'H3': (8, 97, 0, 'F')})
 JACK_NOTES = ((15, 'MAIN L (XLR) | MIX L INS | MIX R INS'), (32, 'C/ROOM L | R'), (47, 'MAIN R (XLR)'),
               (52, 'EXT L | R'), (72, 'AUX 5 | AUX 6 OUT'), (79, 'MONO (XLR)'), (92, 'PHONES'),
@@ -78,8 +78,8 @@ FIX = {
  'CN1': (XF, 214.0, 0, 'F'),                  # M4 star stud
  'NT1': (XF - 6.5, 214.0, 180, 'F'), 'NT2': (XF + 6.5, 214.0, 0, 'F'),        # GNDA-GNDD | GNDA-GNDM, GNDA pads
  'NT3': (XF, 214.0 - 6.5, 90, 'F'), 'NT4': (XF, 214.0 + 6.5, 270, 'F'),       # GNDA-PHONESGND | GNDA-CHASSIS  to the stud
- # wing PTCs (bottom), fixed. -V: MF-RX185/72 (hpf_proposal.md H4): F2 courtyard x 4.05-19.73, F4 0.7 mm right of the
- # 160's spot, clear of J1 (58.36-74.04). +V: MF-RX250/72 (wing_power_proposal.md W2, 10.16 mm leads, body 17.84):
+ # wing PTCs (bottom), fixed. -V: MF-RX185/72 (docs/proposals/hpf_proposal.md H4): F2 courtyard x 4.05-19.73, F4 0.7 mm right of the
+ # 160's spot, clear of J1 (58.36-74.04). +V: MF-RX250/72 (docs/proposals/wing_power_proposal.md W2, 10.16 mm leads, body 17.84):
  # spots searched clear of every other part with the packer's 0.3 mm gap and the keep-outs, so the rest of the board
  # places as before. F1 in its row, 1.2 mm higher (D5's lead at y 189.92): pads 18.33 / 8.17, courtyard x 4.1-22.4.
  # F3 found no spot in its row (R121 / R123 / R122 above, the edge channel) and stands vertical by the right edge,
@@ -133,7 +133,7 @@ for u in sorted((r for r in VAL if VAL[r] in ('DRV134', 'DRV135')), key=num):
     OUTS += [u] + [r for r in beside(u) if not r.startswith('K')]
     for k in (r for r in beside(u) if r.startswith('K')): OUTS += [k] + beside(k)
 for k in sorted((r for r in VAL if VAL[r].startswith('G6K') and r not in NEAR), key=num): OUTS += [k] + beside(k)
-# E8 (emc_placement_study.md): the flasher's hold diode beside the comparator that drives it, so the long run to the
+# E8 (docs/studies/emc_placement_study.md): the flasher's hold diode beside the comparator that drives it, so the long run to the
 # flasher is behind the diode (its slow RC node), not the comparator's output
 PFLD_U = next(r for r in B['PFL DETECT'] if r.startswith('U'))
 FL_D = next(r for r in B['RUDE SOLO'] if r.startswith('D') and 'FL_HOLD' in NETS_OF[r])
@@ -144,7 +144,7 @@ ZONES = [
  # power entry first, so it gets its area around J1 and the star stud
  ('rail reservoirs beside J1 (bottom)', (EL, 186, ER, 236), sorted((r for r in PWR_TALL if r[0] == 'C'), key=lambda r: (-dia(r), num(r))), 'B'),
  # between the PTC columns (x 4-22 / 56.6-74.6 on the bottom): a phones fault heats the VP 2R2s, and a warm PTC
- # holds less (master_group_review.md MG11)
+ # holds less (docs/reviews/master_group_review.md MG11)
  ('SS54 clamps, branch resistors (top, at J1, clear of the PTCs)', (24, 186, W - 24, 236), take('POWER ENTRY', 'DISTRIBUTION'), 'F'),
  # bottom side: electrolytics, trimmers
  ('balanced-out, monitor and aux coupling caps (bottom)', (0.3, MAIN_Y0, W - 0.3, 186),
@@ -164,7 +164,7 @@ ZONES = [
  ('aux 5-6 level buffers, AFL; solo level', (EL, MAIN_Y0, ER, 306),
   take('AUX MASTER 5', 'AUX MASTER 6', 'PFL / AFL', drop=OUTS + SUMMER5 + SUMMER6 + SUMMERP), 'F'),
  ('rude-solo flasher, power-on mute', (EL, 160, ER, 306), take('RUDE SOLO', 'POWER-ON MUTE'), 'F'),
- # EXT receivers' input followers (ground_study.md G3b), added 2026-10-25: placed last, into what the zones above
+ # EXT receivers' input followers (docs/studies/ground_study.md G3b), added 2026-10-25: placed last, into what the zones above
  # leave, so the mute and aux 5-6 networks keep their places; their parts still follow U43 / U44 (attach)
  ('EXT input followers', (EL, MAIN_Y0, ER, 306), take('EXT INPUT', only=EXTF), 'F'),
  ('post-amps L + R around U5 and wiper coupling (fader wiper end)', (19, 424.5, 60, 444), POST, 'F'),
@@ -175,7 +175,7 @@ NOTES = ((134, 'AUX 5 | AUX 6 || C/ROOM'), (156, 'AFL 5 | AFL 6 || PHONES | SOLO
          (197, 'POWER IN J1 (bottom), star stud CN1 + NT1-4 at y 214; wing supplies along the board edges'),
          (305, 'BUS HEADERS: left wing CN2, right wing CN3 (bottom)'), (372, 'MASTER FADER 100 mm, meters L | R'),
          (118, 'LINK CN5 (bottom) to the jack board, pin 1 left'))
-# E9 (stab_caps_proposal.md): the C0G stability caps at the op-amp pins they stabilise (the packer had left them
+# E9 (docs/proposals/stab_caps_proposal.md): the C0G stability caps at the op-amp pins they stabilise (the packer had left them
 # 6.6-13 mm away). Moved after packing (placer `moves`), so no other part re-packs into the slots they leave;
 # bottom-side rotations are before the flip (board angle = 180 - rot)
 MOVES = {'C37': (41.775, 440.635, 270, 'B'), 'C83': (9.22, 149.65, 180, 'F'), 'C69': (5.27, 144.36, 270, 'B'),
@@ -183,16 +183,16 @@ MOVES = {'C37': (41.775, 440.635, 270, 'B'), 'C83': (9.22, 149.65, 180, 'F'), 'C
          'C36': (39.025, 442.655, 0, 'B'), 'C153': (12.72, 282.63, 270, 'B'), 'C32': (35.575, 442.135, 0, 'B'),
          'C94': (56.77, 144.38, 90, 'B'), 'C174': (74.12, 353.38, 270, 'B'), 'C146': (9.27, 282.61, 270, 'B'),
          'C91': (9.27, 269.88, 0, 'B')}
-# E10 (input_nets_proposal.md): one SMD part per long high-impedance op-amp input net moved so the net shrinks by
+# E10 (docs/proposals/input_nets_proposal.md): one SMD part per long high-impedance op-amp input net moved so the net shrinks by
 # >= 5 mm without its other net growing more than that (placer `moves`)
 MOVES.update({'R38': (47.525, 438.635, 0, 'F'), 'R33': (30.325, 441.615, 180, 'B')})
-# E11 (decouplers_proposal.md): decouplers more than 5.5 mm from their supply pin moved to it, most on the bottom
+# E11 (docs/proposals/decouplers_proposal.md): decouplers more than 5.5 mm from their supply pin moved to it, most on the bottom
 # under the pin (placer `moves`); not C144 / C145, the LME49600's through-hole 10 uF: no spot nearer clears U27's pads
 MOVES.update({'C193': (56.77, 147.9, 90, 'B'), 'C180': (68.56, 414.975, 270, 'B'),
               'C150': (57.595, 167.695, 270, 'B'), 'C116': (58.22, 280.61, 270, 'B'),
               'C58': (57.865, 180.135, 180, 'B'), 'C31': (38.825, 439.905, 270, 'B'),
               'C74': (12.72, 116.15, 270, 'F')})
-# untangle_proposal.md: two-pad parts turned in place (degrees) so their ratsnest crosses less, measured with
+# docs/proposals/untangle_proposal.md: two-pad parts turned in place (degrees) so their ratsnest crosses less, measured with
 # tools/ratsnest.py (placer `turns`, after packing and the moves)
 TURNS = {'C160': 180, 'D7': 180, 'R9': 90, 'R27': 270, 'R29': 180, 'R44': 270, 'R47': 180, 'R50': 180, 'R59': 180,
          'R62': 180, 'R63': 180, 'R65': 180, 'R67': 180, 'R70': 180, 'R72': 270, 'R73': 180, 'R74': 180, 'R76': 180,
@@ -204,7 +204,7 @@ TURNS = {'C160': 180, 'D7': 180, 'R9': 90, 'R27': 270, 'R29': 180, 'R44': 270, '
          'R190': 180, 'R191': 180, 'R193': 180, 'R195': 90, 'R196': 180, 'R197': 180, 'R198': 90, 'R199': 180,
          'R202': 180, 'R203': 180, 'R204': 180, 'R205': 180, 'R206': 180, 'R212': 180, 'R213': 180, 'R214': 180,
          'R216': 180, 'R218': 180, 'R219': 180, 'R221': 180}
-# CS4b (cs4b_proposal.md, signed off 2026-10-27): the jack-link clamps (BAV199) beside CN5, placed by MOVES alone (never packed)
+# CS4b (docs/proposals/cs4b_proposal.md, signed off 2026-10-27): the jack-link clamps (BAV199) beside CN5, placed by MOVES alone (never packed)
 CS4B = {'D79': (16.0, 123.75, 0, 'F'), 'D80': (20.25, 123.75, 0, 'F'), 'D81': (24.25, 123.75, 0, 'F'),
         'D82': (28.25, 123.75, 0, 'F'), 'D83': (24.75, 126.25, 0, 'B'), 'D84': (33.5, 126.25, 0, 'B'),
         'D85': (37.5, 126.25, 0, 'B'), 'D86': (33.5, 130.0, 0, 'B'), 'D87': (41.25, 126.5, 90, 'B'),
@@ -214,14 +214,14 @@ CS4B = {'D79': (16.0, 123.75, 0, 'F'), 'D80': (20.25, 123.75, 0, 'F'), 'D81': (2
         'D97': (62.5, 123.75, 0, 'F'), 'D98': (54.75, 130.0, 0, 'B'), 'D99': (63.5, 126.25, 0, 'B'),
         'D100': (66.5, 117.25, 90, 'F'), 'D101': (67.75, 126.25, 0, 'B'), 'D102': (63.5, 130.0, 90, 'B')}
 MOVES.update(CS4B)
-# CS4c (cs4c_proposal.md): the 22R inside each DRV135 loop at its output pin, placed by MOVES alone (never packed)
+# CS4c (docs/proposals/cs4c_proposal.md): the 22R inside each DRV135 loop at its output pin, placed by MOVES alone (never packed)
 CS4C = {'R222': (10.25, 163.5, 0, 'B'), 'R223': (6.0, 168.5, 0, 'B'), 'R224': (37.0, 174.5, 0, 'F'),
         'R225': (33.0, 179.0, 0, 'B'), 'R226': (25.75, 203.75, 0, 'B'), 'R227': (20.75, 203.75, 0, 'B'),
         'R228': (7.25, 114.75, 0, 'B'), 'R229': (3.25, 114.25, 0, 'B'), 'R230': (71.25, 114.5, 0, 'F'),
         'R231': (68.25, 126.25, 0, 'F'), 'R232': (56.5, 219.0, 0, 'B'), 'R233': (52.25, 220.25, 0, 'B'),
         'R234': (31.5, 231.5, 90, 'B'), 'R235': (28.25, 228.75, 0, 'F')}
 MOVES.update(CS4C)
-# CS7 (cs7_proposal.md): the DIM key beside POWER in the EXT row (actuator at (XR, 178)) and its two 91K across its poles,
+# CS7 (docs/proposals/cs7_proposal.md): the DIM key beside POWER in the EXT row (actuator at (XR, 178)) and its two 91K across its poles,
 # placed by MOVES alone. Main R's DRV135 (U8) leaves the key's spot with its loop and decoupling parts, to the bottom side
 # beside it: the 22R legs (pin -> 22R -> 10u -> Sense) 9.0 / 9.8 mm (were 10.2 / 10.4), C49 / C50 0.1 / 2.4 mm from their
 # supply pins (4.3 / 4.0); the 10u radials stay on the bottom (11.5 mm panel gap)
@@ -230,19 +230,19 @@ CS7_U8 = {'U8': (37.0, 174.0, 90, 'B'), 'C47': (43.25, 169.5, 270, 'B'), 'C48': 
           'R225': (39.75, 176.5, 0, 'F')}
 CS7 = {'SW4': sw(XR, 178), 'R236': (30.5, 177.75, 180, 'B'), 'R237': (30.5, 183.75, 180, 'B')}
 MOVES.update(CS7_U8); MOVES.update(CS7)
-# D13 (delta_crosscheck.md): the five spare-conductor ground jumpers on the bottom beside the left wing header, placed
+# D13 (docs/reviews/delta_crosscheck.md): the five spare-conductor ground jumpers on the bottom beside the left wing header, placed
 # by MOVES alone (bridged: open them for an 8-group build)
 D13 = {'JP3': (13.3, 321.5, 90, 'B'), 'JP4': (13.3, 325.5, 90, 'B'), 'JP5': (13.3, 329.5, 90, 'B'), 'JP6': (13.3, 333.5, 90, 'B'),
        'JP7': (13.3, 337.2, 90, 'B')}    # a column between CN2's courtyard (x <= 11.8) and the meter LEDs' leads (x 15.5)
 MOVES.update(D13)
-# clicks_proposal.md RV7 / RV8 / RV9 (signed off 2026-10-28), placed by MOVES alone at probed free spots on the bottom
+# docs/proposals/clicks_proposal.md RV7 / RV8 / RV9 (signed off 2026-10-28), placed by MOVES alone at probed free spots on the bottom
 # (the guard's rules: same-side courtyards, THT leads against both sides): the aux 5 / 6 AFL films (the bottom under the
 # aux masters is full of leads from the top: 64 / 24 mm from their 22K, a low-Z buffer output feed), the phones
 # gain-set 33u NP cans (D8; no D10 spot exists) 13 / 21 mm from their 2K2, the -V-loss reference divider beside U10
 CLICKS = {'C194': (70.71, 143.91, 0, 'B'), 'C195': (42.58, 165.29, 90, 'B'), 'C196': (10.32, 276.39, 0, 'B'),
           'C197': (22.54, 311.35, 0, 'B'), 'R238': (48.74, 188.25, 0, 'B'), 'R239': (47.49, 186.08, 0, 'B')}
 MOVES.update(CLICKS)
-# clicks_followup_proposal.md RV9b (signed off 2026-10-29): the relay driver's base-emitter 4K7 on the bottom under Q1
+# docs/proposals/clicks_followup_proposal.md RV9b (signed off 2026-10-29): the relay driver's base-emitter 4K7 on the bottom under Q1
 # (pads 2.1 mm from Q1's base / emitter pads through the board), placed by MOVES alone
 RV9B = {'R240': (9.47, 237.25, 90, 'B')}
 MOVES.update(RV9B)

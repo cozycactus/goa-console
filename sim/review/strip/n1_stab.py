@@ -1,4 +1,4 @@
-"""N1 stability (strip_noise_proposal.md, 2026-10-25): every op-amp unit over the 21 states of configs.py, with the
+"""N1 stability (docs/proposals/strip_noise_proposal.md, 2026-10-25): every op-amp unit over the 21 states of configs.py, with the
 model set and op-amp assignment given. usage:
   OPA161X_LIB=... python3 n1_stab.py ti built          TI OPA161x everywhere (U16 too): the calibration reference
   OPA_FIT_LIB=... python3 n1_stab.py fit built         datasheet-fitted OPA1612M everywhere, U16 OPA1656M

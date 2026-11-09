@@ -57,7 +57,7 @@ CASES = [('closed tub', 0.0),
          ('slots 1.2 m x 6 mm in and out', eff_area(1.2 * 0.006, 1.2 * 0.006)),
          ('slots 1.2 m x 12 mm in and out', eff_area(1.2 * 0.012, 1.2 * 0.012)),
          ('slots 1.2 m x 20 mm in and out', eff_area(1.2 * 0.020, 1.2 * 0.020))]
-# the real path with the 10 x 50 frame rails (frame_proposal.md) under both panel ends: air enters through floor slots
+# the real path with the 10 x 50 frame rails (docs/proposals/frame_proposal.md) under both panel ends: air enters through floor slots
 # just inside the front rail (y 445-490, free floor behind the strips' fader end), rises along the tilted cavity, and
 # leaves through slots on the back rail's neutral axis (a slot h tall on the axis removes 10 h^3 / 12 of the bar's
 # 104 167 mm4 there: 2.7 % for 15 mm, 12.5 % for 25 mm, over the slotted 73 % of the length) into a plenum in the back trim with a slot on its top; the slots are openings in series

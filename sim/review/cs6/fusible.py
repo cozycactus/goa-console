@@ -1,8 +1,8 @@
-"""CS6 (console_survey.md §5): fusible supply resistors on every ribbon module (strip and group R1-R4: 10R from the
+"""CS6 (docs/studies/console_survey.md §5): fusible supply resistors on every ribbon module (strip and group R1-R4: 10R from the
 bus to +VA / -VA / +VL / -VL). The part: Vishay Draloric M25SI (M251206BB1009JP500), thin-film fusible, 1206, 0.25 W
 at 70 C, 216 K/W film rise (its datasheet: 54 K at 0.25 W), fuses at >= 3 W; its "Fusing Performance" band (time to
 fuse at constant power, read off the datasheet's plot) below. Max. voltage across it after fusing: ~22 V at 10 ohm.
-1. Normal duty: each resistor's power and film temperature in a 40 C tub (thermal_study.md: ~16 K over the room).
+1. Normal duty: each resistor's power and film temperature in a 40 C tub (docs/studies/thermal_study.md: ~16 K over the room).
 2. Faults behind a resistor: a hard short and a resistive one; fusing time from the band; the wing PTC's state
    (+V MF-RX250/72: 2.5 A hold, 5.0 A trip; -V MF-RX185/72: 1.85 / 3.7 A; below the trip current a PTC need not trip).
 3. Surges (ngspice): the console powering up through the PSU's soft start; the PSU lead plugged into a running PSU;
@@ -22,7 +22,7 @@ def band(P, pts):
         if p0 <= P <= p1: return 10 ** (math.log10(t0) + (P - p0) / (p1 - p0) * (math.log10(t1) - math.log10(t0)))
 
 # typical / maximum currents per resistor (A): strip from master spec §27 (104 / 87 mA per strip, of which ~15 mA of
-# LEDs and comparators on +VL) and strip_parts_review.md T10 (R1 at the OPA1612's maximum: 0.125 W); group from §27
+# LEDs and comparators on +VL) and docs/reviews/strip_parts_review.md T10 (R1 at the OPA1612's maximum: 0.125 W); group from §27
 # (61 mA + return 1 followers 16 mA + RET1 30 mA; x 1.25 at maximum IQ), its logic rails up to 3 LEDs
 DUTY = [('strip R1 +VA', 0.089, 0.112), ('strip R2 -VA', 0.087, 0.108), ('strip R3 +VL', 0.015, 0.022),
         ('strip R4 -VL', 0.001, 0.002), ('group R1 +VA', 0.107, 0.135), ('group R2 -VA', 0.107, 0.135),

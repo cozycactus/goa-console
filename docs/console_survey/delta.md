@@ -18,7 +18,7 @@
 - There is no PSU (CPS150) schematic, so rails, regulation and protection are not shown.
 - ED2779B (LH meter) and the Delta 8 manual were not read. The Delta 8 manual is a ManualsLib scan of the user manual and duplicates the specs.
 
-**Already covered, not repeated:** the strip stages in `delta_clone_comparison.md`.
+**Already covered, not repeated:** the strip stages in `docs/studies/delta_clone_comparison.md`.
 
 ## 2. Published specs (16-channel console)
 | Spec | Value | Page |
@@ -45,12 +45,12 @@
 **T1 Line receiver.** **Read:** 10 kΩ electronically balanced diff amp (TL072), CMRR >40 dB (p.14).
 - vs ours: different. Our buffered receiver (1 MΩ legs, 54 dB against a 1K source) is clearly better. The departure is justified.
 
-**T2-T5:** see `delta_clone_comparison.md`.
+**T2-T5:** see `docs/studies/delta_clone_comparison.md`.
 
 **T6 Insert.** **Read:** the master mix insert sits at −10 dBV (−7.8 dBu), unbalanced, 75R send, normalled (ED2780 sht 2).
 - vs ours: our master insert runs at the mix level, about 0 dBu. That suits a +4 dBu external bus compressor better. Justified.
 
-**T7 Mute.** **Read** (corrected 2026-10-28, `delta_crosscheck.md` D3; this line said "same J112 pair as ours"):
+**T7 Mute.** **Read** (corrected 2026-10-28, `docs/reviews/delta_crosscheck.md` D3; this line said "same J112 pair as ours"):
 series J112 (TR4) into IC6-A's virtual earth plus a shunt J112 (TR3) with its source on C30 47 µF (no DC across the
 FET), gates on complementary MUTE / MUTE-bar from a TR6 / TR7 inverter pair (220K / 100n, 1N4148, 680K bleeds); the
 Venue the same.
@@ -67,7 +67,7 @@ Venue the same.
 - A 3K3 "law resistor" (R120 / R121) runs from each buffer output back to its wiper. Manual p.56: law resistors fed from the buffer outputs, about 85 dB cut-off.
 - **Inferred (my nodal calculation):** at the centre the wiper rises to 0.6 Vin, so the output is −2.7 dB, against +1.7 dB fully to one side. That is a **−4.4 dB pan law**.
 - Outputs go through 220 µF + 47K.
-- vs ours: **different.** Ours is −6 dB with unity followers, so a centre-panned mono synth sits 1.6 dB lower relative to hard-panned sources than on a Delta. This is not covered in `delta_clone_comparison.md`. See §4.
+- vs ours: **different.** Ours is −6 dB with unity followers, so a centre-panned mono synth sits 1.6 dB lower relative to hard-panned sources than on a Delta. This is not covered in `docs/studies/delta_clone_comparison.md`. See §4.
 
 **T10 Aux sends.** Same values: 10K A pots, 22K to the bus, PRE per pair, J4-J7 pre-fader / pre-EQ links (ED3344C).
 
@@ -163,7 +163,7 @@ AD05xx), except the routing resistors R58-R63 (Deluxe) / R23-R25, R123-R125 (Ste
   receivers' 10K and the re-inverters' 2K2 (no trims), Panasonic ERJ-P06 anti-surge thick film for the build-outs /
   feeds, Vishay M25SI thin-film fusibles for R1-R4. Thick film carries a voltage coefficient and excess noise that
   metal film does not; with no DC across the audio resistors the noise term is nil, and the distortion term only shows
-  near full swing (see `sourcing.md` note of 2026-10-29). Tolerance: ours is tighter everywhere.
+  near full swing (see `docs/build/sourcing.md` note of 2026-10-29). Tolerance: ours is tighter everywhere.
 
 **T21 Levels.** Internal −2 dBu; mix bus −7.8 dBu, +12 dB of make-up at the outputs (p.64: chosen for headroom). Ours is 0 dBu internal; MIX_L sits around −7 dBu per channel at the fader "0", so headroom is comparable.
 

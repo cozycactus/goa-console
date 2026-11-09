@@ -1,4 +1,4 @@
-"""CS4 (console_survey.md §5): protecting the strip's jack-facing pins. Configurations against the strip as built:
+"""CS4 (docs/studies/console_survey.md §5): protecting the strip's jack-facing pins. Configurations against the strip as built:
   link clamps (PROPOSED): a BAV199 (low-leakage double diode: common pin 3 to the node, pin 2 to +VA, pin 1 to -VA) at
       the main-board end of the jack link (CN3), on IN_T, IN_R, RET_RAW, SEND and DO_T, ahead of every series part;
   pin clamps: the same BAV199 after the series part instead (IN_TB / IN_RB after the 220R, RET_IN after R99 1K); for

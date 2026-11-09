@@ -1,4 +1,4 @@
-"""Frame rail drawing (frame_proposal.md FR1-FR3, thermal_study.md TH1): two rails from the module order and the panel screw
+"""Frame rail drawing (docs/proposals/frame_proposal.md FR1-FR3, docs/studies/thermal_study.md TH1): two rails from the module order and the panel screw
 pattern in tools/panel_layout.py (the panels and the 3D model use the same numbers). Both carry the same holes; the BACK
 rail (under the panels' high end) also has the 30 vent slots through its neutral axis, the outlet of the tub's airflow.
   frame/rail.dxf        R12 DXF, mm: top view (the panel face, M3 holes), side view (the back rail's vent slots), both end

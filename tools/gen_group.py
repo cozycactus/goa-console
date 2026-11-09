@@ -1,5 +1,5 @@
-"""Generate the group module schematic (master_panel_study.md, option M1): sub n + two stereo returns + aux n
-master on one 8 HP board (the second return: feature_gaps.md RET1, 2026-10-26) that sits on the ribbon like a strip. Four identical boards; on each, close one SUB
+"""Generate the group module schematic (docs/studies/master_panel_study.md, option M1): sub n + two stereo returns + aux n
+master on one 8 HP board (the second return: docs/reviews/feature_gaps.md RET1, 2026-10-26) that sits on the ribbon like a strip. Four identical boards; on each, close one SUB
 and one AUX solder jumper to pick which buses it sums (group 1: SUB 1 + AUX 1, ... group 4: SUB 4 + AUX 4).
 The circuits are the master's own (master_lib.py, master_section_spec.md sections 12, 13, 16).
 usage: .venv/bin/python tools/gen_group.py group.kicad_sch   (also writes group_jack_board.kicad_sch)"""
@@ -14,7 +14,7 @@ FP.update({'SJO': 'Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm'})
 reset(); collect_jacks()                     # panel jacks go on the group's jack board
 b = bpw = block('POWER AND GROUNDS  (as a strip: 10R + 220u per audio rail, 10R + 47u logic rails, spade, 10R ground cancel)')
 for rail, cv, g in (('VA', '220u 25V', 'GNDA'), ('VL', '47u 25V', 'GNDD')):
-    # CS6 (cs6_proposal.md): fusible, as strip R1-R4 (was an anti-surge 0805 on VA, MG17): a short behind one opens it
+    # CS6 (docs/proposals/cs6_proposal.md): fusible, as strip R1-R4 (was an anti-surge 0805 on VA, MG17): a short behind one opens it
     k = dict(fp='Resistor_SMD:R_1206_3216Metric', mpn='Vishay M251206BB1009JP500')
     r1 = R(b, '10R', '+VBUS', '+' + rail, **k); c1 = CP(b, cv, '+' + rail, g)
     r2 = R(b, '10R', '-VBUS', '-' + rail, **k); c2 = CP(b, cv, g, '-' + rail)
@@ -35,7 +35,7 @@ hdr.update({k: 'GNDA' for k in range(2, 17, 2)})
 cn = ref('CN'); P(b, cn, 'HDR', 'Bus 2x17', hdr); frag(b, 40, 22, lambda d: frags.header(d, cn, 18, 10))
 
 # two boards on one bus would share a summing node with separate feedbacks: the difference mode has no feedback and
-# both summers rail (master_group_review.md MG19). One SUB and one AUX jumper per board, unique across the four
+# both summers rail (docs/reviews/master_group_review.md MG19). One SUB and one AUX jumper per board, unique across the four
 b = block('BUS SELECT  close ONE SUB jumper and ONE AUX jumper: group n sums SUB n and AUX n (all open = summer idle)')
 for sel in ('SUB', 'AUX'):
     jps = [ref('JP') for k in range(4)]
@@ -57,9 +57,9 @@ post_amp(b, s + '_W', s + '_POST', s)
 drv134(b, s + '_POST', s + '_OP', s + '_ON')
 jack(b, 'JACK', 'Sub out TRS', {'T': s + '_OP', 'R': s + '_ON', 'S': 'CHASSIS'})   # G2b
 rp = ref('RV'); P(b, rp, 'POT2', 'Sub pan 10K lin dual CD', {1: s + '_POST', 3: 'GNDA', 2: s + '_PWL', 4: 'GNDA', 6: s + '_POST', 5: s + '_PWR'},
-                  fp='Potentiometer_THT:Potentiometer_Alps_RK09L_Double_Vertical', mpn='ALPS RK09L1240015')   # as strip RV8 (design_review.md R2)
+                  fp='Potentiometer_THT:Potentiometer_Alps_RK09L_Double_Vertical', mpn='ALPS RK09L1240015')   # as strip RV8 (docs/reviews/design_review.md R2)
 frag(b, 14, 8, lambda d: frags.pot2(d, rp))
-# CS2b (cs2b_proposal.md): the Delta's pan law on the sub pan too, as the strip's (CS2): each buffer at 1.22x with a 3K3
+# CS2b (docs/proposals/cs2b_proposal.md): the Delta's pan law on the sub pan too, as the strip's (CS2): each buffer at 1.22x with a 3K3
 # law resistor back to its wiper, -2.7 dB at centre, +1.7 dB hard over; the R / C are made last (after drv_loop_rs())
 LAW = []
 for sd in 'LR':                 # 10p against the pan wiper's Cdiff lag (MG5)
@@ -106,7 +106,7 @@ def stereo_return(title, r, name):
 stereo_return('STEREO RETURN: receivers (R normalled to L), level, buffers, MIX / 1-2 / 3-4 onto the ribbon, PFL  [spec 16]',
               'RT', 'Return')
 while DEFER: DEFER.pop(0)()                     # return 1's followers here, so every part of the board before RET1 keeps its ref
-# RET1 (feature_gaps.md, signed off 2026-10-26): a second stereo return on every group module, eight in the console
+# RET1 (docs/reviews/feature_gaps.md, signed off 2026-10-26): a second stereo return on every group module, eight in the console
 b = stereo_return('STEREO RETURN 2: as return 1 (receivers, level, buffers, MIX / 1-2 / 3-4, PFL)  [spec 16]', 'RT2', 'Return 2')
 spares(b)
 
@@ -119,7 +119,7 @@ NL2, LINK2 = link_pins(JACKS[5:], skip=('CHASSIS',))
 b = block(f'JACK BOARD LINK 2  2x{NL2} IDC ribbon to the group jack board (return 2); bottom side, beside the first')
 link_header(b, NL2, LINK2, f'Jack board link 2 2x{NL2}')
 
-# CS10 (console_survey.md §7): a reverse Schottky across each audio rail, as the strip's D16 / D17: a lost supply rail
+# CS10 (docs/studies/console_survey.md §7): a reverse Schottky across each audio rail, as the strip's D16 / D17: a lost supply rail
 # (a wing PTC trips) would otherwise be driven past ground by the op-amps' quiescent current (sim/review/cs10/rail_loss.py).
 # Created last so every other ref stays; drawn in the power block
 dsp, dsn = ref('D'), ref('D')
@@ -129,17 +129,17 @@ def _rail_diodes(d):                            # as the strip's D16 / D17 (stri
     d.port('-VA', (14, 0)); d.w((14, 0), (18, 0)); d.at(dsn, 18, 1.5, rot=270, mirror='x', text='R')
 frag(bpw, 28, 6, _rail_diodes)
 
-# CS4b (cs4b_proposal.md): a BAV199 rail clamp on every jack-link signal at CN3 / CN4, as the strip's D18-D22 (ESD
+# CS4b (docs/proposals/cs4b_proposal.md): a BAV199 rail clamp on every jack-link signal at CN3 / CN4, as the strip's D18-D22 (ESD
 # and phantom on the jacks; sim/review/cs4/jack_protect.py, jack_protect_mg.py). Created last: no other ref moves
 b = block('JACK LINK CLAMPS: a BAV199 to the audio rails on every jack signal at the links (CS4b)')
 link_clamps(b, list(LINK.values()) + list(LINK2.values()))
-# CS4c (cs4c_proposal.md): 22R inside each DRV135 loop, drawn with its driver; created last as well
+# CS4c (docs/proposals/cs4c_proposal.md): 22R inside each DRV135 loop, drawn with its driver; created last as well
 drv_loop_rs()
 # CS2b: the sub pan buffers' law network, made last so every other ref stays
 for bb, sd, u, ps in LAW:
     ps += [R(bb, '3K3', f'{s}_PW{sd}', f'{s}_PB{sd}'), R(bb, '2K2', f'{s}_PBN{sd}', f'{s}_PB{sd}'),
            R(bb, '10K', f'{s}_PBN{sd}', 'GNDA'), C(bb, '22p C0G', f'{s}_PBN{sd}', f'{s}_PB{sd}')]
-# clicks_proposal.md RV7 (signed off 2026-10-28): the aux AFL film, made last so every ref above stays
+# docs/proposals/clicks_proposal.md RV7 (signed off 2026-10-28): the aux AFL film, made last so every ref above stays
 C(LATE_AFL[0], '2.2u', LATE_AFL[1] + '_OUT', LATE_AFL[1] + '_AFLC')
 
 project_file(OUT); parts_sidecar(OUT)

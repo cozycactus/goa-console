@@ -14,7 +14,7 @@ place(net, out, layout) builds a board from a KiCad netlist and a layout:
          to it. Each IC is placed with room around it and followed at once by its parts.
   limits  (decoupling, input reach) in mm for the placement report (default 5, 6).
   keepout  [(x0, y0, x1, y1)] areas kept free of parts on both sides, or [(x0, y0, x1, y1, side)] on one side.
-  layers  copper layers, 2 (default) or 4 (layer_study.md: the strip, group and master main boards). On 4 layers In1.Cu
+  layers  copper layers, 2 (default) or 4 (docs/studies/layer_study.md: the strip, group and master main boards). On 4 layers In1.Cu
          is named GND (a solid GNDA plane, the return for F.Cu) and In2.Cu GND2 (GNDA fill, the return for B.Cu, with
          the supply rails and the GNDD spine confined to the rail corridor); the fab's standard 1.6 mm stackup.
   rails  (x0, x1): the rail corridor, a rule area named RAILS on In2.Cu and B.Cu along the whole board (no keepout of its
@@ -25,7 +25,7 @@ place(net, out, layout) builds a board from a KiCad netlist and a layout:
          leads must also clear every other part's pads and courtyards on both sides.
   moves_only  refs that only `moves` places: not packed, not part of any IC's attach ring, so adding a part to a
          finished layout moves nothing else (strip v4.9: P1 / P2 / E6).
-  turns  {ref: degrees} parts turned in place about their origin after packing and the moves (untangle_proposal.md:
+  turns  {ref: degrees} parts turned in place about their origin after packing and the moves (docs/proposals/untangle_proposal.md:
          two-pad parts turned so their ratsnest crosses less), with the same refusal as moves.
 After placing, the report gives each decoupler's distance to its supply pin and, per local high-impedance input net
 (an IC input not driven by an output directly or through a coupling cap, not a connector line or a reference shared
@@ -146,7 +146,7 @@ def place(NET, OUT, L):
     if L.get('layers', 2) == 4:
         board.SetLayerName(pcbnew.In1_Cu, 'GND'); board.SetLayerType(pcbnew.In1_Cu, pcbnew.LT_POWER)
         board.SetLayerName(pcbnew.In2_Cu, 'GND2'); board.SetLayerType(pcbnew.In2_Cu, pcbnew.LT_MIXED)
-    if L.get('rails'):                                 # the rail corridor (layer_study.md): a named rule area, no keepouts
+    if L.get('rails'):                                 # the rail corridor (docs/studies/layer_study.md): a named rule area, no keepouts
         x0, x1 = L['rails']; y0, y1 = L['board'][1] + 0.5, L['board'][3] - 0.5
         ra = pcbnew.ZONE(board); ra.SetIsRuleArea(True); ra.SetZoneName('RAILS')
         ls = pcbnew.LSET(); ls.AddLayer(pcbnew.In2_Cu); ls.AddLayer(pcbnew.B_Cu); ra.SetLayerSet(ls)
@@ -243,7 +243,7 @@ def place(NET, OUT, L):
         t.SetTextSize(pcbnew.VECTOR2I_MM(size, size)); t.SetTextThickness(pcbnew.FromMM(max(0.12, size * 0.15)))
         board.Add(t); label_items.append(t); occupy('F', bbox(t.GetBoundingBox()))
     marked = set()
-    def pva2_mark(fp, side):                            # orientation mark (design_review.md R4): the moulded "2" goes
+    def pva2_mark(fp, side):                            # orientation mark (docs/reviews/design_review.md R4): the moulded "2" goes
         pads = {p.GetNumber(): p.GetPosition() for p in fp.Pads()}       # in the pad 1/4 column (spec 16.1)
         p1, p3, p4 = pads['1'], pads['3'], pads['4']
         ux, uy = p1.x - p3.x, p1.y - p3.y; n = math.hypot(ux, uy)

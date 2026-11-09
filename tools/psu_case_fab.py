@@ -1,4 +1,4 @@
-"""PSU case drilling drawings (psu_case_proposal.md PC1-PC3, signed off 2026-10-26; heatsink on the FRONT end panel, Ruslan,
+"""PSU case drilling drawings (docs/proposals/psu_case_proposal.md PC1-PC3, signed off 2026-10-26; heatsink on the FRONT end panel, Ruslan,
 2026-10-26, because the 1402K's side walls are split by an extrusion). Hammond 1402KV: end panels 249.81 x 93.14 x 1.63
 aluminium (front, rear), base 12 ga with 4 rubber feet. Writes psu_case/:
   front.dxf    window for the regulator board's TO-220 edge, 4 x M4 clearance for the heatsink, power LED

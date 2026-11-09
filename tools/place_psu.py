@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from placer import place, PROJ
 
 W, H = 120.0, 60.0
-# TO-220 vertical: tab side 3.44 mm behind pin 1. The tabs stand 1.68 mm proud of the board edge (psu_case_proposal.md,
+# TO-220 vertical: tab side 3.44 mm behind pin 1. The tabs stand 1.68 mm proud of the board edge (docs/proposals/psu_case_proposal.md,
 # 2026-10-26): with the edge 0.3 mm inside the 1.63 mm front panel, they reach the heatsink through a 0.25 mm pad
 OVERHANG = 1.68
 TOP = 3.44 - OVERHANG
