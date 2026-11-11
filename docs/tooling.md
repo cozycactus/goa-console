@@ -1,10 +1,10 @@
 # goa-console — tooling
 
 Moved out of `CLAUDE.md` on 2026-10-28 (`docs/reviews/project_review.md` RV13), text unchanged: the verify loop, the placer, the footprints and 3D models, the routing rules, the post-route checker, check_all, the fab outputs and the escape plan.
-The live rules, the current state and the one-line decisions are in `CLAUDE.md`; this file is the detail behind them.
+The live rules and the current state are in `CLAUDE.md`, the one-line decisions in `docs/decisions_summary.md` (since 2026-11-11); this file is the detail behind them.
 
 - Placement engine `tools/placer.py` (`place(net, out, layout)`: fixed parts, zone packer, near-placement,
-  silk labels and references; optional per-zone gap, `silk_text_off`, `keepout`, `moves`: parts moved to fixed spots after packing, with a collision guard that also checks a THT part's leads; `turns`: parts turned in place, same guard; `layers` / `rails`: 4-layer boards and the rail corridor) plus the shared 8 HP frame (`pot`, `sw`,
+  silk labels and references; optional per-zone gap, `silk_text_off`, `keepout` (with a sixth field, a height: only parts taller than it are kept out, from the layout's `heights` table; the room under a ribbon cable, group 2026-11-11), `moves`: parts moved to fixed spots after packing, with a collision guard that also checks a THT part's leads; `turns`: parts turned in place, same guard; `layers` / `rails`: 4-layer boards and the rail corridor) plus the shared 8 HP frame (`pot`, `sw`,
   `led`, `jack`, `FADER`, `BUS`, `SPADE`); place_strip / place_group / place_master / place_jig / place_psu are layouts.
   `attach=True` (strip, group, master, jig; 2026-10-23): parts follow the IC pin they belong to, from the netlist's pin
   types: decouplers at their supply pin, input / feedback / summing parts at the input pin, output networks at the
@@ -20,7 +20,11 @@ The live rules, the current state and the one-line decisions are in `CLAUDE.md`;
   every board is KiCad's own GLB export (`kicad-cli pcb export glb`: KiCad's STEP models, pads, mask, silk; cached in
   render/glb/, re-exported when a .kicad_pcb is newer); the parts KiCad has no model for come from `tools/models3d`;
   standoffs, M4 stud, LED spacers/lenses are generic; IDC sockets crimped on the ribbons (34-way motherloom through
-  every module's bus header, folded jack-board links), the supply cable to the master's J1; the panel plate has real
+  every module's bus header, jack-board links, `link_ribbon`: the strip's is a straight run since 2026-11-11 (both headers across, pin 1 asserted on
+  the same end; a header along the board would be drawn as flat 45° folds counted from the two headers' pin 1); the
+  group's two, headers along the boards, as two flat folds each with the sockets' strain-relief wraps, `cable.folded_link`: the route
+  is worked out from pin 1 of the two headers and the build stops when none brings pin 1 to pin 1 inside the board; which cable is
+  wrapped where is `GROUP_DRESS`), the supply cable to the master's J1; the panel plate has real
   cut-outs (holes, fader slots, D-size XLR) and Delta-style print (`panel_print`, rules in `docs/build/panel_print.md`: cream ink,
   bold name above each pot, HI/LO MID bracket, 11 square dots with numerals that dodge neighbours, "dB" between the end
   numerals, FREQ scales from sim/review/eqmid/measure.py (EQM1; sim/mid_tuning.py is the 2026-10-22 study), gain scale from the gain-stage law, fader dB scale from a two-slope A
@@ -30,6 +34,15 @@ The live rules, the current state and the one-line decisions are in `CLAUDE.md`;
   boards). 24 strips + 4 groups + master as instanced collections, 9° tub, ten PNG views incl. internals.png.
   `tools/fly_render.py` renders the fly-through camera of the .blend (`-- preview | final [a-b]`, its docstring).
   .blend, PNGs and GLBs are gitignored.
+  `tools/jig_3d.py` (2026-11-11, same command line) builds `render/jig.blend`: the test jig on a bench (four strips on two
+  battens, the load board and the master stub from their KiCad boards on M3 feet, the 34-way ribbon, the ground bar with
+  one wire per board, a bench supply and an analyser as generic boxes); views jig.png / jig_plan.png / jig_stub.png /
+  jig_open.png (panels off) / jig_under.png (from below, bench hidden). The bus ribbon is `cable.through` (flat in every
+  socket, a shallow bow between), the ground wires `cable.fillet` (straight runs, round bends); it asserts that every bus
+  header's pin 1 is on the ribbon's stripe edge. It runs console_3d.py's builders (that file up to the console build, and its render-setup
+  block) and exports `render/jig_master_stub.json` / `jig_load_board.json` itself. A picture, not a build drawing: the
+  board positions, battens and cable routes are not in `test_jig_spec.md` (the script's docstring lists what is read
+  from the boards).
 - `tools/models3d/` — part models from the manufacturers' drawings for the footprints KiCad has no model for (Alpha
   RD901F/RD902F + knob, ALPS RK09L1240015 (pan), C&K PVA2 + PV cap, Neutrik NJ6FD-V and NC3MAV, Bourns PTB0143/0144 + fader knob, Keystone
   1287-ST, Bourns MF-RX160/72 / 185/72 / 250/72, the 3-lead bicolour LED): one module per part (`build()` on the board up through the panel, `panel()` on the
@@ -50,7 +63,7 @@ The live rules, the current state and the one-line decisions are in `CLAUDE.md`;
   $KC sch export pdf -o pdf/channel_strip.pdf boards/channel_strip/channel_strip.kicad_sch
   ```
   python3 tools/sim_netlist.py boards/channel_strip/channel_strip.net boards/jack_board/jack_board.net   # both netlists joined by the ribbon: 45 checks
-  python3 tools/sim_console.py     # the whole console from the netlists: 24 strips + 4 groups + master + ribbon, 45 checks
+  python3 tools/sim_console.py     # the whole console from the netlists: 24 strips + 4 groups + master + ribbon, 108 checks
   python3 tools/check_bus.py boards/channel_strip/channel_strip.net boards/group/group.net boards/master/master.net boards/jig_master_stub/jig_master_stub.net   # the motherloom pin by pin
   BOM (every board; quoted fields, because some MPNs contain commas; DNP column): `$KC sch export bom -o bom/channel_strip_BOM.csv --fields '${QUANTITY},Value,Footprint,MPN,${DNP},Reference' --labels 'Qty,Value,Footprint,MPN,DNP,References' --group-by 'Value,Footprint,MPN,${DNP}' --ref-delimiter ' ' --ref-range-delimiter '' boards/channel_strip/channel_strip.kicad_sch`
   `.venv/` (gitignored) holds kiutils 1.4.8. gen.py finds the symbol libs at the Linux or macOS

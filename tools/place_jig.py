@@ -35,7 +35,9 @@ def corners(w, h, m=4.0): return [(m, m), (w - m, m), (m, h - m), (w - m, h - m)
 W, H = 160.0, 125.0
 B, near = blocks('jig_master_stub')
 BNC_X = [16 + 18 * k for k in range(6)]          # MIX L, MIX R, SUB 1, AUX 1, AUX 2, PFL
-fix = {'CN2': (6.5, 14.0, 0, 'F'),                # ribbon header on the left edge, pins along y
+fix = {'CN2': (6.5 + 2.54, 14.0 + 40.64, 180, 'F'),   # ribbon header on the left edge, pins along y, pin 1 at the front
+                                                  # end as on the strips (their header is on the bottom side, pin 1 at
+                                                  # the fader end): one flat ribbon, no twist, the stub at its right end
        'J1': (138.0, 7.0, 0, 'F'),                # bench supply terminal, top right
        'CN1': (126.0, 8.0, 0, 'F'),               # ground spade beside it
        'JP1': (62.0, 5.0, 0, 'F'), 'JP2': (80.0, 5.0, 0, 'F'),     # GC REF (3-pin), 22R TIE (2-pin)
@@ -68,20 +70,21 @@ W, H = 120.0, 85.0
 B, near = blocks('jig_load_board')
 BUSES, GROUPS = ('MIX L', 'MIX R', 'SUB 1', 'AUX 1', 'PFL'), ('+1', '+3', '+4', '+12')
 COL_X, ROW_Y = [32 + 20 * j for j in range(4)], [24 + 11 * i for i in range(5)]
-fix = {'CN1': (6.5, 14.0, 0, 'F'),                # ribbon header on the left edge
-       'CN2': (20.0, 8.0, 0, 'F'),                # ground spade
-       'J1': (98.0, 7.0, 0, 'F')}                 # dummy wing-load terminal, top right
+fix = {'CN1': (W - 6.5, 14.0 + 40.64, 180, 'F'),      # ribbon header on the right edge, pin 1 at the front end: the load
+                                                  # board ends the ribbon on the strips' left, the stub on their right
+       'CN2': (100.0, 8.0, 0, 'F'),               # ground spade beside the header, as on a strip (and R1, the 10R tap)
+       'J1': (76.0, 7.0, 0, 'F')}                 # dummy wing-load terminal beside them: its 1 A stays off the board's ground
 for i, y in enumerate(ROW_Y):                     # SW1..SW20: bus i, group j; resistor R(2 + 4i + j) beside it
     for j, x in enumerate(COL_X):
         fix[f'SW{1 + 4 * i + j}'] = (x, y, 0, 'F')
         near[f'R{2 + 4 * i + j}'] = f'SW{1 + 4 * i + j}'
 take = lambda name: [r for r in B[name] if r not in fix]
-zones = [('ribbon + ground', (12, 1, 60, 20), take('RIBBON'), 'F'),
+zones = [('ribbon + ground', (104.4, 1, 112.4, 8), take('RIBBON'), 'F'),
          ('dummy channels', (24, 18, 112, 80), take('DUMMY CHANNELS'), 'F'),
-         ('bus capacitance', (100, 20, 119, 80), take('BUS CAPACITANCE'), 'F'),
-         ('dummy load', (80, 1, 119, 20), take('DUMMY WING LOAD'), 'F')]
+         ('bus capacitance', (1, 20, 14, 80), take('BUS CAPACITANCE'), 'F'),
+         ('dummy load', (60, 1, 95, 20), take('DUMMY WING LOAD'), 'F')]
 labels = [(19.0, y, n, 1.3) for y, n in zip(ROW_Y, BUSES)] + [(x + 2.0, 17.0, g, 1.3) for x, g in zip(COL_X, GROUPS)]
-labels += [(98 + 5.08, 14.2, '+V   0V   -V  LOAD', 1.1), (109.0, 18.0, '+1 nF', 1.2), (6.5, 62.5, 'RIBBON', 1.2)]
+labels += [(76 + 5.08, 14.2, '+V   0V   -V  LOAD', 1.1), (7.5, 18.0, '+1 nF', 1.2), (W - 7.8, 62.5, 'RIBBON', 1.2)]
 place(os.path.join(PROJ, 'boards', 'jig_load_board', 'jig_load_board.net'), os.path.join(PROJ, 'boards', 'jig_load_board', 'jig_load_board.kicad_pcb'),
       dict(board=(0, 0, W, H), fix=fix, holes=corners(W, H), hole_value='M3 standoff', zones=zones, near=near,
            labels=labels, attach=True, notes=((20, 'TEST JIG LOAD BOARD'), (30, 'switch up = channels on the bus'))))

@@ -1,6 +1,6 @@
 # goa-console — DIY 24+ channel line-level mixing console
 
-Owner: Ruslan. Answer in English. Expert electronics hobbyist (KiCad, analog audio) — be technical, no hand-holding.
+Owner: Ruslan. Answer in the language he asks in (everything written into the repository stays English). Expert electronics hobbyist (KiCad, analog audio) — be technical, no hand-holding.
 When you find a difference or propose a change, say clearly **why** you recommend it (the reason is the part to disagree
 with).
 
@@ -20,10 +20,10 @@ checked by `tools/check_all.py`.
 Where the detail lives (all moved out of this file on 2026-10-28, text unchanged):
 - `docs/INDEX.md` — every file, what generates it, the proposals / reviews table (ID, sign-off, where it landed).
 - `docs/tooling.md` — the verify loop, placer, footprints / 3D models, routing rules, route_check, check_all, fab_out.
-- `docs/decisions.md` — every decision in full, with reasons, rejected alternatives and dates.
+- `docs/decisions.md` — every decision in full, with reasons, rejected alternatives and dates; `docs/decisions_summary.md` — the same decisions, one line each (read it before any design change).
 - `docs/verification_log.md` — every check run after every change.
 - `console_architecture.md` (v3.2), `channel_strip_schematic_spec.md` (v5.7), `master_section_spec.md` (v0.14),
-  `test_jig_spec.md` (v0.10), `psu_spec.md` (v0.2) — authoritative specs. `routing_guide.md` for Ruslan's routing.
+  `test_jig_spec.md` (v0.11), `psu_spec.md` (v0.2) — authoritative specs. `routing_guide.md` for Ruslan's routing.
 - `boards/<name>/` — each of the nine KiCad projects in its own folder (schematic, board, `.kicad_pro`, `.kicad_dru`, `.net`, `_intended.json`, `_parts.json`, its `*_sheets/` and the two lib tables); the project libraries (`goa-console.pretty`, `.3dshapes`, `.kicad_sym`) stay in the root, reached as `${KIPRJMOD}/../../`. Tools are run from the repository root.
 - `docs/proposals/`, `docs/reviews/`, `docs/studies/`, `docs/build/` — the design record (out of the root since 2026-11-09; the live specs above stay there with the KiCad projects). `bom/` — BOM exports and order lists. `pdf/` — schematic PDFs.
 
@@ -37,14 +37,14 @@ Where the detail lives (all moved out of this file on 2026-10-28, text unchanged
 | `group_jack_board` (×4) | " | 11 | 60 | 38 × 93.5 | 2 | done |
 | `master` | master v0.14 | 632 + 7 | 1820 | 78.6 × 331.5 (y 112.5–444) | 4 | done |
 | `master_jack_board` | " | 16 | 92 | 78.6 × 111.5 | 2 | done |
-| `jig_master_stub` | jig v0.10 | 144 + 4 | 365 | 160 × 125 | 2 | done |
+| `jig_master_stub` | jig v0.11 | 144 + 4 | 365 | 160 × 125 | 2 | done |
 | `jig_load_board` | " | 50 + 4 | 153 | 120 × 85 | 2 | done |
 | `psu` | PSU v0.2 + RV1 | 52 + 4 | 119 | 120 × 60 | 2 | done |
 
 Every board is its schematic's project board, so parity DRC runs in place; all nine: 0 DRC violations (jack boards
 only the NJ6FD-V footprint's own items), 0 parity issues, every footprint linked to its symbol (1534 / 1534).
-Last `check_all.py --full`: 72 / 72 on macOS 2026-11-04 (KiCad 10.0.7, ngspice 46; Linux runs stop one short, panel_fab
-needs the macOS Arial Narrow). sim_netlist 45/45, sim_console 45/45, check_bus clean.
+Last `check_all.py --full`: 72 / 72 on macOS 2026-11-11 (KiCad 10.0.7, ngspice 46; Linux runs stop one short, panel_fab
+needs the macOS Arial Narrow). sim_netlist 45/45, sim_console 108/108, check_bus clean.
 
 Power: console ~3.31 / 2.79 A typical, worst corner ~4.54 A on +V against the PSU's 4 A per rail, wing PTC ~2.07 A
 (accepted, master spec §27). Routing: not started (Ruslan). Panels: quotes and a prototype strip panel pending.
@@ -76,72 +76,36 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
 ## Rules
 - Generated files are never hand-edited: schematics (`gen*.py`, netlist in the `P(...)` calls, drawings in
   `strip_draw.py` / `frags.py`), boards (`place_*.py`), footprints (`footprints.py`), panels, drawings, `order_*.csv`.
-- A change goes proposal (with the reason and the simulation) → Ruslan's sign-off → apply → record (spec "Changes"
-  block, the decision line below, `docs/decisions.md`, `docs/verification_log.md`, the state table above).
+- A change goes proposal (with the reason and the simulation) → Ruslan's sign-off → apply → record, **once** (since
+  2026-11-11; before, each change was written up in five to seven places): one dated entry in `docs/decisions.md` with
+  the decision, the reason, what was rejected and the check results (placement diff, DRC, `check_all` count). Elsewhere
+  only what the change makes untrue: the spec's text at the fact that changed (a circuit change also gets its line in
+  the spec's "Changes" block with the new revision), a line in `docs/decisions_summary.md` for a standing decision,
+  the state table above when its numbers change. `docs/verification_log.md` is for check runs that belong to no
+  decision (a re-run, a tool fix). No second account of the same change anywhere.
 - New parts are created LAST in the generator (so no existing reference moves) and placed by the placer's `moves_only`
   at probed spots (so no existing part moves); check with a placement diff that only the new parts changed.
 - After any generator, placement or rule change: regenerate, `check_all.py --full`, `netrules.py`, `order_bom.py`.
 - Power the console down before plugging or unplugging a module (the fusible R1-R4 can open on a live plug).
 - No phantom power on any balanced output, insert send or direct out (BAV199 clamps limit the damage, the rule stays).
-- Decisions below are one line each; the full text with the reasons is `docs/decisions.md`. Do not silently change one.
+- Repository: public (`cozycactus/goa-console`, CERN-OHL-S-2.0). `ref/` stays on disk, git-ignored: never commit it. Commit with the GitHub noreply address.
+- Decisions are one line each in `docs/decisions_summary.md`; the full text with the reasons is `docs/decisions.md`. Do not silently change one.
+- Keeping sessions cheap (2026-11-11, Ruslan): one topic per session (when a request starts a new topic, say so and
+  offer a new session instead of growing this one); check with numbers before pictures (an assert or a measured value in
+  the script; render and look only at what Ruslan will see or asked for, as small previews; he looks at the pictures
+  himself and says what is wrong); send long tool output to a log and read only the result lines; one record per change
+  (above).
 
 ## Decisions made (do not silently change)
-**Architecture and bus**
-- Delta Theatre input without the mic stage (2026-10-22, `docs/studies/delta_clone_comparison.md` §3): receiver + separate inverting gain stage −15…+15 dB, Ø, HPF, Delta EQ, EQ IN, post-EQ insert (jumper pre-EQ), ON, PAN switch, routing LEDs, PRE per aux pair, DIR; internal level 0 dBu; 4K7 summing.
-- Master section = modules M1 (2026-10-22): 4 × 8 HP group modules (sub n, aux n master, returns n) + 16 HP master; `docs/studies/master_panel_study.md`.
-- One 34-pin header per strip on a daisy-chained ribbon with crimped IDC sockets (2026-10-19); CN2 dropped.
-- Bus pinout = the Delta motherloom ED3344C (SUB1-4 on 15/13/11/9, MIX R 17, MIX L 18 — ED3344C order kept over the manual's, 2026-10-23 —, AUX6..1 on 20-25, GCANCEL 26, PFL 27, PFL DET 29, −V 30-31, +V 32-34 since W1, even 2-16 GND). Pins 1/3/5/7 reserved for SUB 5-8 and 19 spare: unconnected on every module, grounded at the master through bridged jumpers JP3-JP7 (D13, 2026-10-28; open them for 8 groups). Pin 28 open everywhere (D22 / D24).
-- Ground cancel: 10R from module AGND to pin 26, master summers reference it, each followed by a unity differential re-inverter; no master-end tie, a 100K keeper only (2026-10-19 / 23). SSL-style impedance-balanced bus dropped.
-- Summing resistors 4K7 MIX / SUB (master feedback 4K7), 22K AUX / PFL; master sums invert and re-invert once; channel path non-inverting (tip = hot).
-- Routing (2026-10-22): PVA2 keys carry logic only, DG413 U9-U11 at the bus header move each 4K7's bus end between bus and AGND; off = clean ground; yellow LED per key; +5VL from +VA via 4K7 + BZX84C5V1 (+ BAT54W D10).
-- 4 subs with inserts, 6 aux (AFL), 8 stereo returns (two per group, RET1 2026-10-26), PFL only (no SIP), relay mute on the mains; C/Room DIM −20 dB (CS7, 2026-10-28, reverses the architecture's exclusion).
-- Insert jacks tip = send, ring = return console-wide (D1, 2026-10-28; the Delta is ring = send).
-- SSL bus compressor (Gyraf clone) external on the master insert; VCAs SSI2162 (THAT 2180 EOL), also the strip's plug-in VCA option (2026-10-19).
-
-**Strip circuit (spec `channel_strip_schematic_spec.md`, "Changes" blocks)**
-- Mid bands: KHN state-variable band-pass tuned by Alpha A10K duals as dividers, not the Delta's 100K C-law Wien; since EQM1 (2026-10-28) HI-MID 392R / 13K / 4K99 (598 Hz-9.93 kHz), LO-MID 430R / 13K / 4K22 (165 Hz-2.54 kHz); OPA1612; A10K not A100K (noise).
-- Sweepable HPF H1-H4 (2026-10-24): KHN high-pass 21-403 Hz, unity, Q 0.707, RV16 A10K dual into U15, U5A summer, SW11 HP / HIN, C91; wing −V PTC MF-RX185/72 (H4).
-- Fader post-amp +10 dB (R38 2K2); AC coupling 100 µF NP + 47K on every bus-feeding node; J112 soft mute (two shunts, not the Delta's series + shunt, D3); logic rails ±VL / GNDD joined to GNDA at NT1.
-- Film couplers and bipolars F1-F4 (2026-10-24): 2.2 µF PET film (wipers, meter averaging; THT, bottom side; order code KEMET MMK5225K63J06L4BULK since FE1, 2026-10-29: the WIMA MKS2 is obsolete, the KEMET a last-time buy in the same box), MUSE ES 33 / 100 µF, 10 µF Panasonic ECE-A1EN100U (S1); no X7R in the signal path, no DC coupling, no polypropylene.
-- Op-amps: OPA1612 in noise-critical stages and on the MIX / SUB / aux sums; OPA1656 on the PFL sum, the CRS followers and the input followers (G3, U16); N1 (OPA1656 in U1, U5-U7, U12-U15) open, decided by the jig A/B.
-- Pan law CS2 Option A (2026-10-27): the Delta's −4.4 dB (U8B / U3A 1.22× with 3K3 back to the wipers, C105 / C106 22p); PAN off stays POST; the group's sub pan the same (CS2b, 2026-10-28). The old −6 dB was a transfer error.
-- v4.1 T1-T11 stability caps and ratings (2026-10-23); v4.5 K1 / K3 (PFL DC block C96, ~150 ms OL hold); v4.7 MET1 red / green bicolour signal / OL LED D2 WP3VEGW; v4.8 PAN1 pan buffer L in U8B; v4.9 P1 / P2 / E6; v5.0 CS1 five-tap OL detector, both polarities, thresholds ratios of +VL (+18.4 dBu); v5.1 CS10 a reverse Schottky across each audio rail (strip D16 / D17, group D5 / D6; MBR140SFT1G since SS2, the PMEG4010CEH out of stock); v5.2 CS4 BAV199 on every jack-link signal at CN3 (TVS rejected); v5.3 CS6 fusible R1-R4 Vishay M25SI (strip and group); v5.4 CS2; v5.5 EQM1; v5.6 RV3 / RV4 (R142 1M gain-stage keeper, C107 33 µF in the direct out's cold leg); v5.7 RV3b (2026-10-29: R143 47K bleed and D23 BAV199 on the direct out's ring, as the tip's R72 / D22).
-- Design review (2026-10-25): ON also mutes the pre-fade sends and the direct out, PFL stays at PRE (Q1); group sub pan RV2 = RK09L; jig R45 ERJ-P06J332V; silk "2" at every PVA2's pads 1 / 4.
-- Ground and hum G1-G3, G2b / G3b (2026-10-25): one 14 AWG wire per module to the master's copper bar under the M4 star (G1); balanced-input and DRV135 TRS sleeves on CHASSIS through plated standoffs, inserts / phones on GNDA (G2); receivers buffered by OPA1656 followers, 1M / 220R / 100 pF / 100R (G3); XLR shells on CHASSIS (2026-10-28).
-
-**Master and group (spec `master_section_spec.md`)**
-- Balanced outputs TI DRV135UA (DRV134 family, SO-8; THAT1646 EOL 2026-09-01), 10 µF NP per leg inside the Sense loop, 22R in-loop (CS4c), coupler pairs sorted within 2 % (CS11b), mute relay after; no phantom on any balanced output.
-- Master parts S1-S8 (2026-10-23): six G6K-2F-Y mute relays (COM = connector, NO = driver, NC = ground), LM393B, one DG413 PFL switcher, OPA1656 CRS followers, PFLDET clamp (2 × 1N4148, 330K reference, 1 µF debounce), LM2901B meters with BCP53-16 / 120R current sources and Kingbright GaP / GaAsP LEDs, sub AFL kept, GCANCEL buffer kept.
-- MG1-MG20 (2026-10-24): EXT_BL / BR + 100R; build-outs at the op-amp pins (solo 100R, post-amps 47R, CRS 100R, insert return 75R, meter DET 470R); C0G at the + inputs; insert returns 1K + 100p; TL072HIDR meter detector reading the diode cathode; 50 V X7R / C0G, anti-surge where rated; one SUB and one AUX bus jumper per group board.
-- Master v0.13 RV7-RV9 (2026-10-28): 2.2 µF films ahead of the AFL 22Ks (master C194 / C195, group C98), phones gain-set 33 µF NP C196 / C197 (DC gain 1), U10B's + input on +1.0 V (R238 / R239) with R53 64K9 (trip −14.3 V); v0.14 RV9b (2026-10-29): R240 4K7 base-emitter on the relay driver Q1, so a closed relay releases with −V lost at the LM393B's V_OL corner.
-- Jack-link clamps CS4b (group 14, master 24 BAV199) and loop resistors CS4c (group R119-R122, master R222-R235), made last (2026-10-27).
-- Pan pot RV8 and group RV2: ALPS RK09L1240015 (M9 bushing, 6 mm D shaft, Ø9.5 hole, centre detent), 2026-10-25.
-
-**Power**
-- PSU option B (2026-10-22, `psu_spec.md` v0.2): two LRS-150-24 at 21.6 V → 10 µH / 2200 µF → LM1084-ADJ 17.0 V floating rails, TL431 + PNP + 2N6505G crowbar at 19.1 V, 4 A per rail; ADJ divider R2 / R11 ERJ-P06F1501V 1206 0.5 W (RV1, 2026-10-28). Case PC1-PC3: Hammond 1402KV, Fischer SK 47 75 SA on the front panel, Schurter DD11, NC7FD-LX (2026-10-26).
-- Budget: ~3.31 / 2.79 A typical, worst corner ~4.54 A on +V accepted (the chain 4.0 → 4.24 → 4.33 → 4.38 → 4.54 A, master spec §27); inlet NC7MD-LX, two 5 A contacts per rail; wing PTCs +V MF-RX250/72 (W2) on three conductors, −V MF-RX185/72 (jig stub still MF-RX160/72).
-
-**Mechanics and panels**
-- Strip panel 8 HP × 12U, two pot columns at x 8.84 / 29.16 (20.32 pitch, 2026-10-23), jacks on the panel (NJ6FD-V) on a 38 × 43 mm jack board 24.0 mm under it, 2×5 IDC link; knobs Ø14.5; custom frame with rails only at the panel ends (2026-10-22).
-- Faders Bourns PTB0143 (strips, groups) / PTB0144 (master) A10K, BP blade; caps Sifam LK111 01 black with a line (KC2); the AP / ALPS / TT / P+G alternatives rejected (2026-10-23 / 25).
-- Knobs KN1-KN3 (2026-10-25): Elma 021-3525 (1/4") / 021-3425 (6 mm) matt black with a line, Elma 040-30x5 caps colour-coded per function; key caps C&K PV (KC1).
-- Panel parts: Alpha RD901F / RD902F pots (centre-detent 10K B have 1/4" shafts), C&K PVA2 EE H1 keys fitted with the moulded "2" in the pad 1 / 4 column (H3 on phase 1's bench strips, SS3), Keystone 1287-ST spade, 3 mm LEDs on 7.6 mm spacers.
-- Frame rails FR1-FR3 (2026-10-25): two 6060-T6 / 6082 bars 50 × 10 × 1227.2 mm, 30 M3 tapped holes each, bonded by bare holes + star washers, one 2.5 mm² bond per rail to the M4 star (`frame/`).
-- Tub TB1-TB4 (2026-10-26): walnut cheeks carrying the 9° tilt, 12 mm birch-ply floor with 30 inlet slots + mesh, walnut arm-rest, back plenum with the NC7MD-LX, open underside, console raised 25 mm (`tub/`); supply cable through back-rail vent slot 14.
-- Thermal TH1-TH3 (2026-10-26): 98 W; vented tub ~16 K rise, back rail's 30 vent slots 30 × 25, no fan unless the built console exceeds 20 K; MUSE ES kept.
-- P4 (2026-10-27): welded blind M3 studs on the panel backs if the maker offers them, else the main-board standoffs are spacers; countersunk M3 + star washers at the jack boards.
-- Board layers (2026-10-27, `docs/studies/layer_study.md`): strip, group and master mains 4-layer (In1 solid GNDA plane, In2 GNDA fill with the rails / GNDD only in the left-edge RAILS corridor), every other board 2-layer; JLCPCB +$93 for the console.
-
-**Placement (placement only; Ruslan routes)**
-- E1-E5 / E8 (2026-10-26) and E6: LED switches beside D2, the J112 mute and U16's network under their op-amps, supply filters at the bus header, jack-board C8 / C9 between J1's pins, master flasher diode and PFL detect by their ICs; E9 / E9b stability caps ≤ 6.4 mm from their pins; E10 input nets shortened; E11 decouplers ≤ 5.5 mm (THT 10 µF excepted); untangle turns (crossings −4..−7 %); upper strip op-amps fixed in `place_strip.py`.
-- Routing rules by `tools/netrules.py` into every project (net classes, HighZ / Entry / Bus clearances, 4-layer rules, WingFeed, PSU HighCurrent); `routing_guide.md`; `route_check.py` after routing.
-- Sourcing (2026-10-25): plain 0805 resistors Yageo RT0805FRE07xxxL thin film up to 1M (TF1, 2026-10-29; RC0805FR thick film above 1M and as the out-of-stock fallback; anti-surge ERJ-P06 positions stay); stock risks PTB0143, NJ6FD-V, OPA1612, the 2.2 µF film (FE1: buy the console's 120 in one order; FE2's wider footprint is the way out); C0G order codes by footprint; DRV135 coupler pairs sorted (10 spares); second sources SS1-SS3 (2026-11-03, `docs/proposals/second_source_proposal.md`): OPA1612AID, BAV199,235, DG413DY-T1-E3 on the order lists only, Diodes BZX84C5V1-7-F / BAV99-7-F, onsemi MBR140SFT1G, Rubycon 63ZLH47MEFC6.3X11, Panasonic EEU-FR1E221 in the schematics, PVA2 EE H3 and thick-film R64 (the 1K5 thin film is out of stock) on phase 1's bench strips.
-
-**Repository**
-- Public since 2026-11-09 as `cozycactus/goa-console`, CERN-OHL-S-2.0 over the whole repo (`tools/` too: the generators hold the design). History filtered of `ref/` and the Delta drawing; the old private repo is `goa-console-archive`. `ref/` stays on disk, git-ignored: never commit it. Commit with the GitHub noreply address.
+One line per decision, by area (architecture and bus, strip circuit, master and group, power, mechanics and panels,
+placement, repository): `docs/decisions_summary.md` (moved out of this file on 2026-11-11, text unchanged; this file is
+loaded into every session, the list was 11.5 KB of it). Full text with reasons and rejected alternatives: `docs/decisions.md`.
+**Read `docs/decisions_summary.md` before proposing or making any change to a circuit, a part, a placement, the
+mechanics or a rule.** A question, a drawing or a check run doesn't need it. Do not silently change a decision.
 
 ## Not done / open
-- Sample checks before ordering boards (`docs/build/sample_order.md`, spec 16.1): PVA2 orientation by continuity, fader pad pattern on a 1:1 print, the Sifam cap on the BP blade, knob fit on the 6.35 mm centre-notch pots, RV8's M9 nut / pin 1 / detent, panel stack height, the fader's law (before the panels are printed: the "0" marks and the printed scale depend on it) and its bottom-stop residual (CS9).
+- Sample checks before ordering boards (`docs/build/sample_order.md`, spec 16.1): PVA2 orientation by continuity, fader pad pattern on a 1:1 print and its ground end by continuity, the Alpha pots' tab slots on a 1:1 print (KiCad's are turned 90° from Alpha's PCB detail), the NJ6FD-V's peg (3.18 vs 3.81 mm off the axis) and its TN / RN / SN pads on a 1:1 print and by continuity, the Sifam cap on the BP blade, knob fit on the 6.35 mm centre-notch pots, RV8's M9 nut / pin 1 / detent, panel stack height, the fader's law (before the panels are printed: the "0" marks and the printed scale depend on it) and its bottom-stop residual (CS9). What to keep clear or swappable while routing before these checks: `routing_guide.md`, "Provisional areas".
+- Group jack-board links (10-way CN2 → CN4, 16-way CN1 → CN3): straight since 2026-11-11, all four headers across (`docs/decisions.md`). Still open: both cables have not been tried together on real boards (the 10-way under the 16-way's two sockets; cut about 160 / 200 mm with ~10 mm of slack, a taut 16-way bears on C14 / C20); `console_3d.py` draws the straight runs but not the dip under each socket. The console's renders (`render/console*.png`, `goa_console.blend`) predate the strip's CN5 turn and the group's straight links.
 - Front panels: Ruslan is getting quotes and a prototype strip panel (`docs/build/panel_makers.md`); if the maker's minimum printed line is above ~0.11 mm, switch the small text to Arial Narrow Bold in `panel_layout.py` and regenerate `panels/`. At that regeneration add the "INSERT tip = send" legend (D1) to the strip, group and master panels (`panel_layout.py`, `docs/build/panel_print.md`).
 - Bench, with the jig (`test_jig_spec.md`): every relay releases when the −V wire is opened with the relays closed (RV9b), mute depth (CS8), N1 OPA1656 A/B (one-strip swap), re-inverter stability (test 10), aux noise at N = 24, relay release and mains-off fall rate with the real PSU, PFL tick with programme, meter current-source temperature and LED brightness, hum with a real synth on TS / TRS, an earthed processor on the insert (D21), panel-to-frame bonding, output balance / CMR / fader breakthrough / GCANCEL current (CS11, tests 13-17), E7 ferrites.
 - Accepted as they are: RV5 (MUTEOUT's DC on the fader top; the Delta's cap-isolated shunt source is the fallback), RV6 (U16 clips at +21.9 dBu input), the 4.54 A worst corner, the earthed-TS-synth hum (pseudo-balanced cables, one mains distribution point).
@@ -152,10 +116,9 @@ Fab: `python3 tools/fab_out.py BOARD` (Gerbers, drills, CPL, BOM; refuses on DRC
   unit's minimum as before, <= 2.89 dB peaking; the `_placed` runs saw the re-measured trace table for the first time (U13A -5 deg
   with A5_OUT at 98 mm, still >= 69.1). The phones loop, run separately: U26 75.9-83.0 deg, within 0.1 deg of before. The deck used
   to read old raw files when ngspice timed out (fixed 2026-11-03), so the 2026-10-29 master re-run was only part-simulated
-  (`docs/reviews/met1_ret1_review.md`). Group, 222 states on TI's real OPA161x + OPA1656 together for the first time (`.options itl1=500`), trace table
-  re-measured: followers 59.1-60.9 deg, unstressed worst U1B 56.8 deg (ferrite shorted), 46.1 deg with +47 pF (U6B); RV7's C98 moves U6A / B under 1 deg.
+  (`docs/reviews/met1_ret1_review.md`). Group, 222 states on TI's real OPA161x + OPA1656 (`.options itl1=500`), re-run 2026-11-11 on the board with the straight links, trace table
+  re-measured: followers 59.5-60.3 deg, unstressed worst U1B 56.8 deg (ferrite shorted), 45.8 deg with +47 pF (U8B, its output runs 98 mm to C55; U6B 46.1), <= 2.99 dB; the DRV135 loops are not in the deck.
 - Ordering stage A: `bom/order_stage_a.csv` (every line, by vendor) and `bom/order_stage_a_mouser.csv` (Mouser's BOM upload), from `python3 tools/order_bom.py stagea` and the readings in `bom/mouser_readings.csv` (2026-11-04); about $435 + $70.50 PCBs. Unread lines (7 thin-film values, the ceramics, 3 RC0805s) show live in the upload. Later list: 4 PVA2 H1 samples (2027-03-01), 4 WP710A10GD (2026-12-07).
-- `docs/reviews/project_review.md`: everything applied but RV11.2's PFL switcher from the PFLDET net (needs a DC analysis of the detect line; `check_bus.py` covers pin 29).
 
 ## Next steps
 1. Order the samples (`docs/build/sample_order.md`) and the prototype panel; do the sample checks; measure the fader law.

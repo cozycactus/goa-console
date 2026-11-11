@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/ruslanmigirov/projects/goa-console/boards/jig_master_stub/jig_master_stub.kicad_sch")
-		(date "2026-11-09T20:04:00")
+		(date "2026-11-10T22:12:45")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -8220,7 +8220,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "e7e4c8cc-0870-58c0-a87d-66f225ae91c2" "996a05eb-6a47-5f96-bc82-56c5766fc45f"
+			(tstamps "996a05eb-6a47-5f96-bc82-56c5766fc45f" "e7e4c8cc-0870-58c0-a87d-66f225ae91c2"
 				"0c21356b-acd0-5433-bedf-e27aef1deca3"
 			)
 			(units
@@ -8400,7 +8400,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "f86d94f8-3b20-5a95-8128-434e108c9f78" "63cf7d3f-b0d7-51ad-9171-cf0acf9e44c0"
+			(tstamps "63cf7d3f-b0d7-51ad-9171-cf0acf9e44c0" "f86d94f8-3b20-5a95-8128-434e108c9f78"
 				"51726750-578f-52f4-9aa9-b660a5a4dadb"
 			)
 			(units
@@ -8490,7 +8490,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "83a0f958-93f7-5631-b9af-2a3782a18584" "b03ff064-91b2-58b2-b81e-74eeec323e07"
+			(tstamps "b03ff064-91b2-58b2-b81e-74eeec323e07" "83a0f958-93f7-5631-b9af-2a3782a18584"
 				"416ce9a9-9631-5cc1-b43f-78cc6f78a05e"
 			)
 			(units
@@ -8580,7 +8580,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "dacb29c2-623f-5812-a8a9-4687a62e5d06" "62fb196f-06f0-57c7-811a-af4e2a099206"
+			(tstamps "62fb196f-06f0-57c7-811a-af4e2a099206" "dacb29c2-623f-5812-a8a9-4687a62e5d06"
 				"2f8080d5-9381-5001-ac3b-527378bdaa4c"
 			)
 			(units
@@ -8838,7 +8838,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "a5822a0f-634b-5c79-9411-ec8fe623f75d" "5addfa55-2319-5398-93ee-827f779434b4"
+			(tstamps "5addfa55-2319-5398-93ee-827f779434b4" "a5822a0f-634b-5c79-9411-ec8fe623f75d"
 				"53a8160d-9c90-5b73-a91d-a0b3e3b0cf34"
 			)
 			(units

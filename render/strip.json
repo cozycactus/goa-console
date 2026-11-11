@@ -1,6 +1,6 @@
 [
 {
-"file": "channel_strip.kicad_pcb",
+"file": "boards/channel_strip/channel_strip.kicad_pcb",
 "x0": -0.05,
 "y0": 43.95,
 "x1": 38.05,
@@ -6297,54 +6297,76 @@
 ]
 },
 {
-"file": "jack_board.kicad_pcb",
+"file": "boards/jack_board/jack_board.kicad_pcb",
 "x0": -0.05,
 "y0": -0.05,
 "x1": 38.05,
 "y1": 43.05,
 "parts": [
 {
-"ref": "J1",
+"ref": "H1",
+"fp": "MountingHole:MountingHole_3.2mm_M3_Pad",
+"value": "M3 standoff to panel",
+"x": 21.0,
+"y": 36.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+17.50753,
+32.502474,
+24.494999,
+39.497526
+],
+"model": false,
+"pads": [
+[
+21.0,
+36.0
+]
+]
+},
+{
+"ref": "J2",
 "fp": "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical",
-"value": "Line in TRS",
-"x": 8.84,
+"value": "Insert TRS switched",
+"x": 29.16,
 "y": 6.28,
 "rot": 0.0,
 "side": "F",
 "box": [
-1.045,
+21.365,
 3.955,
-16.635,
+36.955,
 20.045
 ],
 "feature": [
-8.84,
+29.16,
 12.0
 ],
 "model": false,
 "pads": [
 [
-13.92,
+34.24,
 12.0
 ],
 [
-13.29,
+33.61,
 16.45
 ],
 [
-3.76,
+24.08,
 12.0
 ],
 [
-4.39,
+24.71,
 16.45
 ],
 [
-8.84,
+29.16,
 6.28
 ],
 [
-3.76,
+24.08,
 6.92
 ]
 ]
@@ -6396,112 +6418,86 @@
 ]
 },
 {
-"ref": "J2",
+"ref": "H2",
+"fp": "MountingHole:MountingHole_3.2mm_M3_Pad",
+"value": "M3 standoff to panel",
+"x": 32.0,
+"y": 36.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+28.50753,
+32.502474,
+35.494999,
+39.497526
+],
+"model": false,
+"pads": [
+[
+32.0,
+36.0
+]
+]
+},
+{
+"ref": "J1",
 "fp": "Connector_Audio:Jack_6.35mm_Neutrik_NJ6FD-V_Vertical",
-"value": "Insert TRS switched",
-"x": 29.16,
+"value": "Line in TRS",
+"x": 8.84,
 "y": 6.28,
 "rot": 0.0,
 "side": "F",
 "box": [
-21.365,
+1.045,
 3.955,
-36.955,
+16.635,
 20.045
 ],
 "feature": [
-29.16,
+8.84,
 12.0
 ],
 "model": false,
 "pads": [
 [
-34.24,
+13.92,
 12.0
 ],
 [
-33.61,
+13.29,
 16.45
 ],
 [
-24.08,
+3.76,
 12.0
 ],
 [
-24.71,
+4.39,
 16.45
 ],
 [
-29.16,
+8.84,
 6.28
 ],
 [
-24.08,
+3.76,
 6.92
 ]
 ]
 },
 {
-"ref": "H2",
-"fp": "MountingHole:MountingHole_3.2mm_M3_Pad",
-"value": "M3 standoff to panel",
-"x": 23.0,
-"y": 37.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-19.50753,
-33.502474,
-26.494999,
-40.497526
-],
-"model": false,
-"pads": [
-[
-23.0,
-37.0
-]
-]
-},
-{
-"ref": "H1",
-"fp": "MountingHole:MountingHole_3.2mm_M3_Pad",
-"value": "M3 standoff to panel",
-"x": 23.0,
-"y": 27.0,
-"rot": 0.0,
-"side": "F",
-"box": [
-19.50753,
-23.502474,
-26.494999,
-30.497526
-],
-"model": false,
-"pads": [
-[
-23.0,
-27.0
-]
-]
-},
-{
-"ref": "CN5",
-"fp": "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical",
-"value": "Main board link 2x5",
-"x": 31.0,
-"y": 36.8,
-"rot": 0.0,
+"ref": "C8",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "100p C0G",
+"x": 6.2,
+"y": 9.0,
+"rot": -90.0,
 "side": "B",
 "box": [
-27.275,
-20.995,
-37.265,
-42.445
-],
-"pin1": [
-31.0,
-36.8
+5.175,
+7.255,
+7.225,
+10.745
 ],
 "model": true
 },
@@ -6522,18 +6518,22 @@
 "model": true
 },
 {
-"ref": "C8",
-"fp": "Capacitor_SMD:C_0805_2012Metric",
-"value": "100p C0G",
-"x": 6.2,
-"y": 9.0,
-"rot": -90.0,
+"ref": "CN5",
+"fp": "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical",
+"value": "Main board link 2x5",
+"x": 29.5,
+"y": 25.4,
+"rot": 90.0,
 "side": "B",
 "box": [
-5.175,
-7.255,
-7.225,
-10.745
+13.695,
+19.135,
+35.145,
+29.125
+],
+"pin1": [
+29.5,
+25.4
 ],
 "model": true
 }

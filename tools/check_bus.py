@@ -1,4 +1,4 @@
-"""The motherloom pinout on every board that carries it, pin by pin against the Delta map (CLAUDE.md, Bus decision):
+"""The motherloom pinout on every board that carries it, pin by pin against the Delta map (docs/decisions_summary.md, Bus decision):
   python3 tools/check_bus.py channel_strip.net group.net master.net jig_master_stub.net
 Each 2x17 bus header (value 'Bus ...') must put the right net on every pin: even 2-16 GNDA; 9 / 11 / 13 / 15 SUB4..1;
 17 MIX R, 18 MIX L; 20-25 AUX6, AUX5, AUX4, AUX3, AUX1, AUX2; 26 GCANCEL; 27 PFL; 29 PFL DET; 30-31 -V; 32-34 +V;

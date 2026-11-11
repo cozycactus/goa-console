@@ -13,7 +13,14 @@ place(net, out, layout) builds a board from a KiCad netlist and a layout:
          summing net at that input pin, output networks at the output pin, and parts joined only to such a part next
          to it. Each IC is placed with room around it and followed at once by its parts.
   limits  (decoupling, input reach) in mm for the placement report (default 5, 6).
-  keepout  [(x0, y0, x1, y1)] areas kept free of parts on both sides, or [(x0, y0, x1, y1, side)] on one side.
+  keepout  [(x0, y0, x1, y1)] areas kept free of parts on both sides, or [(x0, y0, x1, y1, side)] on one side, or
+         [(x0, y0, x1, y1, side, h)] kept free only of parts taller than h mm on that side (the room a ribbon cable
+         needs under the board on its way into a socket; lower parts may stand there). The packer keeps the parts it
+         places out of them, except a part that `moves` will take elsewhere (so adding such a keepout to a finished
+         layout re-packs nothing when every tall part in it gets a move); a moved or turned part is refused there, and
+         the finished placement is checked once more.
+  heights  {footprint name fragment: seated height in mm} for the keepouts with a height; required with one. A part
+         not listed counts as low, so the layout must check that its own tall parts are all listed (place_group.py).
   layers  copper layers, 2 (default) or 4 (docs/studies/layer_study.md: the strip, group and master main boards). On 4 layers In1.Cu
          is named GND (a solid GNDA plane, the return for F.Cu) and In2.Cu GND2 (GNDA fill, the return for B.Cu, with
          the supply rails and the GNDD spine confined to the rail corridor); the fab's standard 1.6 mm stackup.
@@ -258,8 +265,21 @@ def place(NET, OUT, L):
         if side == 'B': flip(fp)
         register(fp, side)
         if 'PVA2' in fp.GetFPIDAsString(): pva2_mark(fp, side)
+    for k in L.get('keepout', ()):                      # a keepout that is silently ignored is worse than none
+        num = lambda v: isinstance(v, (int, float)) and math.isfinite(v)
+        if (len(k) not in (4, 5, 6) or not all(num(v) for v in k[:4]) or k[0] >= k[2] or k[1] >= k[3]
+                or (len(k) >= 5 and k[4] not in ('F', 'B')) or (len(k) == 6 and not (num(k[5]) and k[5] >= 0))):
+            raise SystemExit(f'invalid keepout: {k!r}')
+    HEIGHTS = L.get('heights', {})
+    TALL_OUT = [k for k in L.get('keepout', ()) if len(k) == 6]   # (x0, y0, x1, y1, side, h): only parts taller than h
+    if TALL_OUT and (not HEIGHTS or any(not (isinstance(k, str) and k and isinstance(h, (int, float)) and math.isfinite(h) and h >= 0)
+                                        for k, h in HEIGHTS.items())):
+        raise SystemExit('a keepout with a height needs `heights`: {footprint name fragment: mm}')
+    height = lambda ref: max((h for k, h in HEIGHTS.items() if k in parts[ref]['fp']), default=0.0)
+    too_tall = lambda ref, side, c: any(k[4] == side and height(ref) > k[5] and overlaps(c, [k[:4]], 0) for k in TALL_OUT)
     for k in L.get('keepout', ()):                      # areas no part may use (supply channels, wire entries)
-        for sd in (k[4:] or ('F', 'B')): occupy(sd, k[:4])
+        if len(k) <= 5:
+            for sd in (k[4:5] or ('F', 'B')): occupy(sd, k[:4])
         edge_rect(*k[:4], pcbnew.Cmts_User, 0.05)
     for i, (x, y) in enumerate(HOLES, 1):
         h = pcbnew.FootprintLoad(os.path.join(KLIB, 'MountingHole.pretty'), 'MountingHole_3.2mm_M3')
@@ -379,9 +399,10 @@ def place(NET, OUT, L):
         fp.SetOrientationDegrees(rot if side == 'F' else 180 - rot)     # KiCad rebuilds a courtyard ~1 nm larger away
         fp.SetPosition(pcbnew.VECTOR2I_MM(0, 0))                        # from the origin, so a part flush with a zone
         return courtyard(fp), tht_pads(fp)                              # edge may now fit one 0.5 mm step earlier
-    def fits_at(sh, px, py, side, zr, g):
+    def fits_at(sh, px, py, side, zr, g, ref=None):
         (l, t, r, b), pads = sh
         c = (l + px, t + py, r + px, b + py)
+        if ref and TALL_OUT and ref not in L.get('moves', {}) and too_tall(ref, side, c): return False
         if (c[0] < max(zr[0], BOARD[0] + 0.3) or c[1] < max(zr[1], BOARD[1] + 0.3) or c[2] > min(zr[2], BOARD[2] - 0.3)
                 or c[3] > min(zr[3], BOARD[3] - 0.3)): return False
         if hits(side, c, g): return False
@@ -418,7 +439,7 @@ def place(NET, OUT, L):
                         for j in range(-n, n + 1):
                             cx, cy = tgt[0] + i * STEP, tgt[1] + j * STEP           # courtyard centre
                             cands.append((math.hypot(i, j) * STEP, rot, cx - (r - l) / 2 - l, cy - (b - t) / 2 - t))
-                best = next(((rot, px, py) for d, rot, px, py in sorted(cands) if fits_at(shapes[rot], px, py, side, zn, g)), None)
+                best = next(((rot, px, py) for d, rot, px, py in sorted(cands) if fits_at(shapes[rot], px, py, side, zn, g, ref)), None)
                 if best: break
             if best: break
         for g in gaps if best is None else ():
@@ -428,7 +449,7 @@ def place(NET, OUT, L):
                 while y + (b - t) <= zr[3] and best is None:
                     x = zr[0]
                     while x + (r - l) <= zr[2]:
-                        if fits_at(sh, x - l, y - t, side, zr, g): best = (rot, x - l, y - t); break
+                        if fits_at(sh, x - l, y - t, side, zr, g, ref): best = (rot, x - l, y - t); break
                         x += STEP
                     y += STEP
                 if best: break
@@ -484,6 +505,7 @@ def place(NET, OUT, L):
             bad += [f.GetReference() for f in board.GetFootprints() if f.GetReference() != ref and
                     (overlaps(courtyard(f), mine_tht, 0) or
                      any(overlaps(q, mine_tht, 0) for q in [bbox(p.GetBoundingBox()) for p in f.Pads()]))]
+        if TALL_OUT and too_tall(ref, 'B' if fp.IsFlipped() else 'F', box): bad.append('a keepout for tall parts')
         if bad or box[0] < BOARD[0] or box[1] < BOARD[1] or box[2] > BOARD[2] or box[3] > BOARD[3]:
             msg = f'{what}: {ref} meets {sorted(set(bad)) or "the board edge"}'
             if os.environ.get('PLACER_SKIP_GUARD'): print('  GUARD (skipped, debugging only):', msg)   # to see the cascade
@@ -502,6 +524,9 @@ def place(NET, OUT, L):
         fp = board.FindFootprintByReference(ref)
         fp.SetOrientationDegrees(fp.GetOrientationDegrees() + da)
         check_spot(fp, f'turns ({da})')
+    for fp in board.GetFootprints() if TALL_OUT else ():   # nothing tall left in a keepout with a height
+        if fp.GetReference() in parts and too_tall(fp.GetReference(), 'B' if fp.IsFlipped() else 'F', courtyard(fp)):
+            raise SystemExit(f'{fp.GetReference()} ({height(fp.GetReference())} mm tall) stands in a keepout for tall parts')
     for fp in board.GetFootprints():                    # keys placed after the FIX loop (CS7's DIM key, by moves_only)
         if 'PVA2' in fp.GetFPIDAsString() and fp.GetReference() not in marked: pva2_mark(fp, 'B' if fp.IsFlipped() else 'F')
 

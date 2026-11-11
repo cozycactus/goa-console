@@ -63,7 +63,8 @@ DGPWR = {'DG': 5}
 POWER_SYMBOL_NETS = ('GNDA', 'GNDD', 'GNDM', 'PHONESGND')
 HIDE_PIN_NUMBERS = {'R', 'C', 'CP', 'POT', 'POT2', 'D', 'LED', 'ZEN', 'SCH', 'NT', 'DS', 'DZ', 'TAB', 'MHPAD', 'GNDA', 'GNDD', 'FLAG', 'TRIM', 'SJO'}
 HIDE_PIN_NAMES_ONLY = {'SJ3', 'SJ2', 'LME49600', 'JFET'}
-HIDE_PIN_NAMES = HIDE_PIN_NUMBERS | {'SW', 'LINK', 'HDR', 'CONN6', 'CONN2', 'TAB', 'JACK', 'JACKSW', 'HDR5', 'NPN', 'PNP', 'PWRIN'}
+HIDE_PIN_NAMES = HIDE_PIN_NUMBERS | {'SW', 'LINK', 'HDR', 'CONN6', 'CONN2', 'TAB', 'JACK', 'JACKSW', 'HDR5', 'NPN', 'PNP', 'PWRIN',
+                                     'JMP2', 'JMP3', 'TERM3', 'BNC', 'TP'}
 
 # ---------------------------------------------------------------- netlist
 blocks = []          # (title, [parts])
@@ -209,7 +210,7 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
             if side == 'U': return (cx, cy - 5.2, fa, None), (cx, cy - 3.3, fa, None)
             if side == 'D': return (cx, cy + 3.3, fa, None), (cx, cy + 5.2, fa, None)
             return (cx, cy - 3.3, fa, None), (cx, cy + 3.3, fa, None)
-        if key in ('R', 'C', 'CP', 'FB'):
+        if key in ('R', 'C', 'CP', 'FB', 'PTC'):
             if horiz and side == 'U': return (cx, cy - 4.45, fa, None), (cx, cy - 2.54, fa, None)
             if horiz and side == 'D': return (cx, cy + 2.54, fa, None), (cx, cy + 4.45, fa, None)
             if horiz: return (cx, cy - 2.54, fa, None), (cx, cy + 2.54, fa, None)
@@ -232,6 +233,13 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
         if key == 'LME49600': return (cx + 2.54, cy - 6.35, fa, 'left'), (cx + 2.54, cy - 4.83, fa, 'left')
         if key == 'PWRIN': return (cx, cy - 11.43, fa, None), (cx, cy + 11.43, fa, None)
         if key == 'TAB': return (cx + 2.54, cy - 1.27, fa, 'left'), (cx + 2.54, cy + 1.27, fa, 'left')
+        if key == 'TP' and ang % 360 == 180: return (cx + 1.9, cy + 2.2, fa, 'left'), (cx + 1.9, cy + 4.0, fa, 'left')   # body down
+        if key == 'TP': return (cx + 1.9, cy - 4.0, fa, 'left'), (cx + 1.9, cy - 2.2, fa, 'left')
+        if key == 'BNC': return (cx + 3.81, cy - 1.27, fa, 'left'), (cx + 3.81, cy + 1.27, fa, 'left')
+        if key == 'TERM3': return (cx, cy - 6.35, fa, None), (cx, cy + 6.35, fa, None)
+        if key in ('JMP2', 'JMP3') and ang % 360 == 90: return (cx, cy - 4.7, fa, None), (cx, cy - 2.8, fa, None)    # pins down
+        if key in ('JMP2', 'JMP3') and ang % 360 == 270: return (cx, cy + 2.8, fa, None), (cx, cy + 4.7, fa, None)   # pins up
+        if key == 'XLR3': return (cx, cy + 12.7, fa, None), (cx, cy + 14.6, fa, None)
         if key == 'NT' and side == 'R': return (cx - 2.54, cy - 1.9, fa, 'left'), (cx - 2.54, cy + 1.9, fa, 'left')
         if key == 'NT': return (cx, cy - 2.54, fa, None), (cx, cy + 2.54, fa, None)
         if key == 'SJ3' and side == 'R': return (cx + 2.54, cy - 4.45, fa, 'left'), (cx + 2.54, cy - 2.67, fa, 'left')
@@ -269,7 +277,7 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
             fr, fv = field_layout(pt['key'], ang, cx, cy, side)
             if pt['unit'] == AMPS.get(pt['key'], DGPWR.get(pt['key'])):           # power units: reference only
                 fr, fv, vhide = (cx - 3.81, cy, 0, 'right'), None, True
-            if is_pwr: fv = (cx, cy - 4.45, 0, None)
+            if is_pwr: fv = (cx, cy + 4.45 if ang % 360 == 180 else cy - 4.45, 0, None)   # PWR_FLAG: its text beyond the body
             if pt['key'] == 'DG' and pt['unit'] in (1, 2, 3, 4):              # switch sections: reference above
                 fr, fv, vhide = (cx - 3.81, cy - 3.8, 0, 'right'), None, True    # above the S pin and its number
             if (ang % 360 == 180 or (ang % 360 == 90 and pt['key'] in ('LED', 'D', 'ZEN', 'SCH', 'DZ', 'DS', 'TRIM'))) != (mirror == 'y'):

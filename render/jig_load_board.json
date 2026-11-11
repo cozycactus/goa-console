@@ -1,0 +1,893 @@
+[
+{
+"file": "boards/jig_load_board/jig_load_board.kicad_pcb",
+"x0": -0.05,
+"y0": -0.05,
+"x1": 120.05,
+"y1": 85.05,
+"parts": [
+{
+"ref": "R5",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "392R 1%",
+"x": 94.0,
+"y": 28.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+92.275,
+27.005,
+95.725,
+28.995
+],
+"model": true
+},
+{
+"ref": "JP1",
+"fp": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+"value": "MIXL +1 nF",
+"x": 2.815,
+"y": 21.815,
+"rot": 0.0,
+"side": "F",
+"box": [
+1.0,
+20.0,
+4.63,
+26.18
+],
+"model": true
+},
+{
+"ref": "H2",
+"fp": "MountingHole:MountingHole_3.2mm_M3",
+"value": "M3 standoff",
+"x": 116.0,
+"y": 4.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+112.50753,
+0.502474,
+119.494999,
+7.497526
+],
+"model": false,
+"pads": []
+},
+{
+"ref": "SW11",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "SUB1 +4 ch",
+"x": 72.0,
+"y": 46.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+68.525,
+42.98,
+79.475,
+48.425
+],
+"model": true
+},
+{
+"ref": "C1",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "1n C0G",
+"x": 2.745,
+"y": 27.525,
+"rot": 0.0,
+"side": "F",
+"box": [
+1.0,
+26.5,
+4.49,
+28.55
+],
+"model": true
+},
+{
+"ref": "CN2",
+"fp": "goa-console:Keystone_1287-ST_FastOn_Tab_6.35mm",
+"value": "Ground spade 6.3mm (to the ground bar)",
+"x": 100.0,
+"y": 8.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+95.755,
+5.955,
+104.245,
+10.045
+],
+"model": false,
+"pads": [
+[
+97.46,
+8.0
+],
+[
+102.54,
+8.0
+]
+]
+},
+{
+"ref": "SW1",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "MIXL +1 ch",
+"x": 32.0,
+"y": 24.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+28.525,
+20.98,
+39.475,
+26.425
+],
+"model": true
+},
+{
+"ref": "SW5",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "MIXR +1 ch",
+"x": 32.0,
+"y": 35.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+28.525,
+31.98,
+39.475,
+37.425
+],
+"model": true
+},
+{
+"ref": "SW15",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "AUX1 +4 ch",
+"x": 72.0,
+"y": 57.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+68.525,
+53.98,
+79.475,
+59.425
+],
+"model": true
+},
+{
+"ref": "R6",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "4K7 1%",
+"x": 34.0,
+"y": 39.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+32.275,
+38.005,
+35.725,
+39.995
+],
+"model": true
+},
+{
+"ref": "SW19",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "PFL +4 ch",
+"x": 72.0,
+"y": 68.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+68.525,
+64.98,
+79.475,
+70.425
+],
+"model": true
+},
+{
+"ref": "R13",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "392R 1%",
+"x": 94.0,
+"y": 50.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+92.275,
+49.005,
+95.725,
+50.995
+],
+"model": true
+},
+{
+"ref": "R9",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "392R 1%",
+"x": 94.0,
+"y": 39.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+92.275,
+38.005,
+95.725,
+39.995
+],
+"model": true
+},
+{
+"ref": "C2",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "1n C0G",
+"x": 6.745,
+"y": 27.525,
+"rot": 0.0,
+"side": "F",
+"box": [
+5.0,
+26.5,
+8.49,
+28.55
+],
+"model": true
+},
+{
+"ref": "R3",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "1K58 1%",
+"x": 54.0,
+"y": 28.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+52.275,
+27.005,
+55.725,
+28.995
+],
+"model": true
+},
+{
+"ref": "R15",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "7K32 1%",
+"x": 54.0,
+"y": 61.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+52.275,
+60.005,
+55.725,
+61.995
+],
+"model": true
+},
+{
+"ref": "R10",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "4K7 1%",
+"x": 34.0,
+"y": 50.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+32.275,
+49.005,
+35.725,
+50.995
+],
+"model": true
+},
+{
+"ref": "H3",
+"fp": "MountingHole:MountingHole_3.2mm_M3",
+"value": "M3 standoff",
+"x": 4.0,
+"y": 81.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+0.50753,
+77.502474,
+7.494999,
+84.497526
+],
+"model": false,
+"pads": []
+},
+{
+"ref": "J1",
+"fp": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal",
+"value": "Dummy load +V / 0 V / -V",
+"x": 76.0,
+"y": 7.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+72.915,
+1.245,
+89.255,
+12.145
+],
+"model": true
+},
+{
+"ref": "R8",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "1K18 1%",
+"x": 74.0,
+"y": 39.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+72.275,
+38.005,
+75.725,
+39.995
+],
+"model": true
+},
+{
+"ref": "R14",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "22K 1%",
+"x": 34.0,
+"y": 61.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+32.275,
+60.005,
+35.725,
+61.995
+],
+"model": true
+},
+{
+"ref": "H4",
+"fp": "MountingHole:MountingHole_3.2mm_M3",
+"value": "M3 standoff",
+"x": 116.0,
+"y": 81.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+112.50753,
+77.502474,
+119.494999,
+84.497526
+],
+"model": false,
+"pads": []
+},
+{
+"ref": "SW3",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "MIXL +4 ch",
+"x": 72.0,
+"y": 24.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+68.525,
+20.98,
+79.475,
+26.425
+],
+"model": true
+},
+{
+"ref": "SW6",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "MIXR +3 ch",
+"x": 52.0,
+"y": 35.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+48.525,
+31.98,
+59.475,
+37.425
+],
+"model": true
+},
+{
+"ref": "H1",
+"fp": "MountingHole:MountingHole_3.2mm_M3",
+"value": "M3 standoff",
+"x": 4.0,
+"y": 4.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+0.50753,
+0.502474,
+7.494999,
+7.497526
+],
+"model": false,
+"pads": []
+},
+{
+"ref": "JP3",
+"fp": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+"value": "SUB1 +1 nF",
+"x": 10.815,
+"y": 21.815,
+"rot": 0.0,
+"side": "F",
+"box": [
+9.0,
+20.0,
+12.63,
+26.18
+],
+"model": true
+},
+{
+"ref": "R1",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "10R",
+"x": 106.125,
+"y": 1.995,
+"rot": 0.0,
+"side": "F",
+"box": [
+104.4,
+1.0,
+107.85,
+2.99
+],
+"model": true
+},
+{
+"ref": "R7",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "1K58 1%",
+"x": 54.0,
+"y": 39.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+52.275,
+38.005,
+55.725,
+39.995
+],
+"model": true
+},
+{
+"ref": "R2",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "4K7 1%",
+"x": 34.0,
+"y": 28.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+32.275,
+27.005,
+35.725,
+28.995
+],
+"model": true
+},
+{
+"ref": "R16",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "5K49 1%",
+"x": 74.0,
+"y": 61.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+72.275,
+60.005,
+75.725,
+61.995
+],
+"model": true
+},
+{
+"ref": "SW12",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "SUB1 +12 ch",
+"x": 92.0,
+"y": 46.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+88.525,
+42.98,
+99.475,
+48.425
+],
+"model": true
+},
+{
+"ref": "SW7",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "MIXR +4 ch",
+"x": 72.0,
+"y": 35.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+68.525,
+31.98,
+79.475,
+37.425
+],
+"model": true
+},
+{
+"ref": "SW4",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "MIXL +12 ch",
+"x": 92.0,
+"y": 24.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+88.525,
+20.98,
+99.475,
+26.425
+],
+"model": true
+},
+{
+"ref": "SW18",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "PFL +3 ch",
+"x": 52.0,
+"y": 68.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+48.525,
+64.98,
+59.475,
+70.425
+],
+"model": true
+},
+{
+"ref": "R21",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "1K82 1%",
+"x": 94.0,
+"y": 72.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+92.275,
+71.005,
+95.725,
+72.995
+],
+"model": true
+},
+{
+"ref": "SW9",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "SUB1 +1 ch",
+"x": 32.0,
+"y": 46.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+28.525,
+42.98,
+39.475,
+48.425
+],
+"model": true
+},
+{
+"ref": "SW13",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "AUX1 +1 ch",
+"x": 32.0,
+"y": 57.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+28.525,
+53.98,
+39.475,
+59.425
+],
+"model": true
+},
+{
+"ref": "SW8",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "MIXR +12 ch",
+"x": 92.0,
+"y": 35.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+88.525,
+31.98,
+99.475,
+37.425
+],
+"model": true
+},
+{
+"ref": "R19",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "7K32 1%",
+"x": 54.0,
+"y": 72.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+52.275,
+71.005,
+55.725,
+72.995
+],
+"model": true
+},
+{
+"ref": "R12",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "1K18 1%",
+"x": 74.0,
+"y": 50.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+72.275,
+49.005,
+75.725,
+50.995
+],
+"model": true
+},
+{
+"ref": "CN1",
+"fp": "Connector_IDC:IDC-Header_2x17_P2.54mm_Vertical",
+"value": "Bus 2x17 (ribbon)",
+"x": 113.5,
+"y": 54.64,
+"rot": 180.0,
+"side": "F",
+"box": [
+107.235,
+8.355,
+117.225,
+60.285
+],
+"pin1": [
+113.5,
+54.64
+],
+"model": true
+},
+{
+"ref": "R18",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "22K 1%",
+"x": 34.0,
+"y": 72.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+32.275,
+71.005,
+35.725,
+72.995
+],
+"model": true
+},
+{
+"ref": "SW10",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "SUB1 +3 ch",
+"x": 52.0,
+"y": 46.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+48.525,
+42.98,
+59.475,
+48.425
+],
+"model": true
+},
+{
+"ref": "R17",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "1K82 1%",
+"x": 94.0,
+"y": 61.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+92.275,
+60.005,
+95.725,
+61.995
+],
+"model": true
+},
+{
+"ref": "SW20",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "PFL +12 ch",
+"x": 92.0,
+"y": 68.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+88.525,
+64.98,
+99.475,
+70.425
+],
+"model": true
+},
+{
+"ref": "R20",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "5K49 1%",
+"x": 74.0,
+"y": 72.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+72.275,
+71.005,
+75.725,
+72.995
+],
+"model": true
+},
+{
+"ref": "R11",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "1K58 1%",
+"x": 54.0,
+"y": 50.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+52.275,
+49.005,
+55.725,
+50.995
+],
+"model": true
+},
+{
+"ref": "R4",
+"fp": "Resistor_SMD:R_0805_2012Metric",
+"value": "1K18 1%",
+"x": 74.0,
+"y": 28.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+72.275,
+27.005,
+75.725,
+28.995
+],
+"model": true
+},
+{
+"ref": "SW17",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "PFL +1 ch",
+"x": 32.0,
+"y": 68.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+28.525,
+64.98,
+39.475,
+70.425
+],
+"model": true
+},
+{
+"ref": "C3",
+"fp": "Capacitor_SMD:C_0805_2012Metric",
+"value": "1n C0G",
+"x": 10.745,
+"y": 27.525,
+"rot": 0.0,
+"side": "F",
+"box": [
+9.0,
+26.5,
+12.49,
+28.55
+],
+"model": true
+},
+{
+"ref": "JP2",
+"fp": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+"value": "MIXR +1 nF",
+"x": 6.814999,
+"y": 21.815,
+"rot": 0.0,
+"side": "F",
+"box": [
+4.999999,
+20.0,
+8.629999,
+26.18
+],
+"model": true
+},
+{
+"ref": "SW2",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "MIXL +3 ch",
+"x": 52.0,
+"y": 24.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+48.525,
+20.98,
+59.475,
+26.425
+],
+"model": true
+},
+{
+"ref": "SW16",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "AUX1 +12 ch",
+"x": 92.0,
+"y": 57.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+88.525,
+53.98,
+99.475,
+59.425
+],
+"model": true
+},
+{
+"ref": "SW14",
+"fp": "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q",
+"value": "AUX1 +3 ch",
+"x": 52.0,
+"y": 57.0,
+"rot": 0.0,
+"side": "F",
+"box": [
+48.525,
+53.98,
+59.475,
+59.425
+],
+"model": true
+}
+]
+}
+]

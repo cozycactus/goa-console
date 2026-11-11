@@ -1,8 +1,10 @@
-# Test Jig — Specification, v0.10 (draft)
+# Test Jig — Specification, v0.11 (draft)
 ## Bus and grounding tests before ordering 24 strips
 
 Implements `console_architecture.md` section 9 with the designs as they now stand
-(strip spec v5.5 with its jack board, master spec v0.12; v0.10, 2026-10-28: `docs/reviews/project_review.md` RV2 (tests 2-4 at N = K: the
+(strip spec v5.5 with its jack board, master spec v0.12; v0.11, 2026-11-11: the stub's and the load board's bus headers turned so that
+pin 1 is at the front end as on the strips, the load board's header moved to its right edge (one flat ribbon, no twist; section 7);
+v0.10, 2026-10-28: `docs/reviews/project_review.md` RV2 (tests 2-4 at N = K: the
 load board's one ground-cancel tap), RV10 (the wing-current test's supply and PTC), the 4.1 mid-band targets at the EQM1
 ranges; v0.9, 2026-10-27: tests 13-17 from `docs/studies/console_survey.md` CS11;
 v0.8, 2026-10-27: the five-point, two-polarity overload LED (CS1) in 4.1; v0.6, 2026-10-25: the N1 A/B brought to strip v4.4, 4.2;
@@ -20,7 +22,7 @@ crosstalk, PSRR, distortion and switching clicks on real hardware.
 | Channel strip | 4 | Real strip main boards (`channel_strip.kicad_sch`) with their jack boards (`jack_board.kicad_sch`) on the 10-way link, fully populated. The jig tests the boards that will be built, not stand-ins. Panels optional: the controls work without them. The OPA1656 A/B (4.2) is a swap on one strip (U1, U5, U6, U7, U12, U13, U14, U15 = TI OPA1656IDR, 8 parts, §1.1 stage A; U16 is OPA1656 on every strip); a second strip may be built as the B variant for a side-by-side in stage B. |
 | Master stub | 1 | Bus side of the master only (section 2). |
 | Load board | 1 | Dummy channels that raise the bus noise gain to the full 24-channel value (section 3). |
-| Ribbon | 2 | 34-way, 28 AWG flat cable with 6 crimped IDC sockets (4 strips, master stub, load board): one 0.6 m (a 12-strip wing, ~0.5 m, plus slack), one 3 m (worst case and the hum-pickup tests). |
+| Ribbon | 2 | 34-way, 28 AWG flat cable with 6 crimped IDC sockets (4 strips, master stub, load board): one 0.6 m (a 12-strip wing, ~0.5 m, plus slack), one 3 m (worst case and the hum-pickup tests). Order along it: load board, strips, master stub (the two jig boards end it; v0.11). |
 | Ground bar | 1 | M4 copper bar with a lug per board, as the console's star point. |
 | Supply | 1 | ±17 V bench or the console PSU, ≥ 1 A per rail (4 strips draw about 0.42 A from +V, 0.35 A from −V; master stub and load board about 0.15 A); ≥ 2 A per rail for the ribbon-current test (the load board's 17 Ω dummy load adds ~1 A per rail, RV10 below). |
 
@@ -225,11 +227,18 @@ OPA1612 and only the inverting and integrator stages move, which takes a package
   labelled jumpers) and `jig_load_board.kicad_pcb` (120 × 85 mm: a labelled 5 × 4 grid of slide switches,
   each with its group resistor). Both: 0 schematic-parity issues, 0 DRC violations; placement only, no
   copper. Routing is Ruslan's.
+- **Bus headers turned (v0.11, 2026-11-11, Ruslan):** as first placed, both jig boards had pin 1 at the header's far
+  end, while every console module has it at the fader end (the strips' header is on the bottom side, the jig boards'
+  on top). On one flat ribbon a jig board then had to lie turned by 180° or the ribbon had to take a half twist. Now:
+  the stub's CN2 turned by 180° on its pads (still on the left edge), the load board's CN1 on the right edge with pin 1
+  at the front, and beside it the ground spade CN2, the 10 Ω tap R1 and the dummy-load terminal J1 (GCANCEL 26 mm,
+  ±VBUS 42-47 mm on the load board; the 1 nF jumpers went to the left edge). The ribbon runs straight: load board,
+  strips, stub, every board the same way up. `tools/jig_3d.py` draws the bench (`render/jig*.png`).
 - The strips need routed boards: placement is done (`channel_strip.kicad_pcb`,
   `jack_board.kicad_pcb`); copper routing is Ruslan's.
 - For the ribbon-current test, the load board could also carry a switchable dummy load
   (about 1 A per rail) to emulate a 12-strip wing.
 
-*Document version 0.10 — 28 October 2026 (RV2 / RV10 from `docs/reviews/project_review.md`, EQM1 targets; 0.9 of 27 October 2026 added
+*Document version 0.11 — 11 November 2026 (the jig boards' bus headers turned for a straight ribbon; 0.10 of 28 October 2026: RV2 / RV10 from `docs/reviews/project_review.md`, EQM1 targets; 0.9 of 27 October 2026 added
 tests 13-17; 0.3 of 23 October 2026: master parts review: OPA1612 on AUX, re-inverter 22 pF, PFLDET clamp; test 2,
 3 and 10 targets)*

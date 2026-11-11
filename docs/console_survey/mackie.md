@@ -187,14 +187,36 @@ None of these documents has a specification page. The only level marks:
   - Released, the channel's green LED is held off (U102B's + input grounded through SW107A). Soloed, that input
     floats up through 100K and the LED glows.
   - Z1701 links solo between two mixers through 20 Ω.
-- **8•Bus:**
-  - the same wired-OR SOLO-CTL line;
-  - per-channel jumpers choose SIP or PFL (5K1);
-  - the channel's red solo LED is switched onto a console-wide **FLASH-BUS** (one MPSA06 / 5.6 V-zener flasher on the
-    output board);
-  - 2SC3792 transistor switches.
+- **8•Bus** (re-read 2026-11-11 by GPT 6.1 Sol from the drawings and the owner's manual v2.3, 8/99; the lines marked
+  "checked" I read again on the sheet, the rest is its reading):
+  - **Audio:** two buses, L-SOLO-BUS / R-SOLO-BUS (J1-6 / J1-8). A channel's solo (SW110A / B) feeds them through
+    R144 / R145 5K1 from the pan buffers (after the fader, the mute and the pan, before the assign switches), so a
+    muted channel's solo is silent. Jumpers JP102 / JP103 on each channel move both feeds to the pre-fader node after
+    the EQ switch (PFL, mono to both buses); the factory position is SOLO, and the manual gives PFL as a per-channel
+    modification (p. 6, p. 52). No panel or master PFL / AFL switch.
+  - **Other solo keys:** the 8 subs (post-fader, odd to L and even to R unless L+R is pressed), the 6 aux send masters
+    (post level, mono to both), the 6 stereo aux returns (post level), phones 1 and 2 (before their level). None on
+    Mix-B or the tape inputs.
+  - **Detect (checked, 10U-1 sheet 3):** every key's third pole shorts SOLO-CTL (J1-9) to ground. The line has R275
+    10K to +5 V and R483 2K to ground, so it idles at 0.83 V and sits at 0 V with any key pressed, whatever their
+    number. U58A / B (a 4560 as comparator, C244 / C298 10 nF from each output to the inverting inputs, R270 10K in)
+    compare it with 0.455 V (R572 20K / R150 2K from +5 V). No clamp and no resistive hysteresis.
+  - **Switching (checked):** 2SC3792 shunts to ground, emitter on the audio node: Q3 / Q4 short the normal monitor
+    programme between 10Ks (bases through R262 / R263 1K1, R460 / R461 5K1 to −16 V), Q6 / Q8 release the solo branch
+    (through Q11 MPSA06), Q7 / Q9 short the normal meter feed. The solo sums are U18A / B (5K1 feedback).
+  - **Level and meters:** SOLO LEVEL R287 50K dual; the L / R meters take solo ahead of it. METER-MUTE (checked: D2,
+    R293 10K, D8 5.6 V, J10-11) blanks the eight sub meters during solo, the display only.
+  - **LEDs (checked; the earlier line here had the channel LEDs on a flasher):** FLASH-BUS is tied to ground through
+    the link E6-1 / E6-2, so a channel's red LED (+5 V, D107, R146 910, SW110D) is steady. Only the main solo LED D11,
+    a flashing LED fed by Q1 MPSA06 with D9 / D10 5.6 V zeners, C258 47 µF and R14 2K, blinks; the manual says the same.
+  - **Drawing against manual:** with C/R selected as a phones source its solo audio feed is grounded (SW39C / D,
+    SW38C / D), but its control pole still pulls SOLO-CTL, which by the drawing mutes the monitors; the manual (p. 14)
+    says the key only lights its LED. Not resolved without a board.
 - **vs ours:** the same concept. Ours uses a 100K-per-strip DC current sum, a DG413 switcher, a rude flasher and PFL
-  only. Theirs offer SIP as well, which is destructive and which we deliberately skip.
+  only; the 8•Bus pulls its line to ground, so it needs no clamp and its level doesn't depend on the number of keys. Theirs offer a stereo post-pan solo as well ("SIP" on the drawings). It is not destructive: the channels feed
+  separate SIP L / R buses and the switches only replace the C-R source, so the mix is untouched (corrected
+  2026-11-11; the mute-the-others solo-in-place is the SSL's, the 6000's and the Sapphyre's). Ours has no stereo solo
+  bus: the decision is PFL only.
 
 **T16 Direct out** (read)
 - **1604:** channels 1-8 only. Impedance-balanced TRS, **120 Ω tip / 120 Ω ring to GND**. Fed post-fader by default
@@ -300,5 +322,6 @@ the 1402 PSU / meter page (not read).
 
 **Where ours looks weaker than every reasonable practice:** nothing found. Mackie's line input through the mic preamp,
 the unbuffered insert return, the mechanical mutes, polarized couplers and the single-tap positive-only OL are all
-budget choices that ours exceeds. The only Mackie feature we lack is solo-in-place, which is destructive in a mix and
-which we decided against.
+budget choices that ours exceeds. The only Mackie feature we lack is its stereo post-pan solo (separate SIP L / R buses
+to the monitor, not destructive: corrected 2026-11-11). It would need two more bus conductors and a post-pan tap; the
+signed decision is PFL only.

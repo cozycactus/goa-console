@@ -17,8 +17,16 @@ Model (console_architecture.md 2, master_section_spec.md 24-26):
 - Op-amps: single-pole (OPA1612 40 MHz, OPA1656 53 MHz) with datasheet voltage and current noise; DRV134 a +-1
   differential driver on its Sense nodes (10K input); LME49600 a buffer; relays in their energised state (mute
   released). Left out: comparators, LEDs, diodes, transistors and the meter detectors (each meter feed sees its
-  6.7 kOhm virtual-earth load instead). DG413s follow their logic: the strips' from the PVA2 contacts on +5VL, the
-  master's PFL switcher from whether any PFL / AFL key is latched.
+  6.7 kOhm virtual-earth load instead), but for the PFL detect (below). DG413s follow their logic: the strips' from
+  the PVA2 contacts on +5VL.
+- PFL detect (RV11.2, master spec 19): the master's switcher follows the DC voltage on its IN pins, so the detect path
+  is in the deck: each latched key's pole B and 100K, pin 29 of the ribbon, the 10K pull-down, the two-diode clamp, the
+  330K / 10K reference, the LM393 unit that drives PFL_ON_RAW (behavioural: open collector on its pin 4, off without
+  its supply), the master's +5VL (5V1 zener and BAT54W), the 10M and the 10K to the DG413. Each master DG413 switch is its
+  25 ohm in series with a gate on its IN pin (1.6 V above the GND pin, needs V+ / V- / VL). Not in the deck: the
+  released keys' LED paths (their back-feed is sim/pfldet.py's subject), the other LM393 unit (flasher hold), any
+  break-before-make timing. The 1 uF debounce capacitor is emitted, but its timing is not tested here: the pfl /
+  pfldet checks are DC state, threshold and wiring checks.
 Stability is not checked here (single-pole models): it is done per module with TI's models (sim/review/)."""
 import os, re, sys, math, subprocess, tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -94,7 +102,10 @@ R1 n1 gnd 1e6
 C1 n1 gnd 3.0n
 E1 out gnd n1 gnd 1
 .ends
-.model JMOD NJF(VTO=-2.5 BETA=6m LAMBDA=0.01)"""
+.model JMOD NJF(VTO=-2.5 BETA=6m LAMBDA=0.01)
+.model D4148 D(IS=2.52n N=1.752 RS=0.568 CJO=4p)
+.model DZ5V1 D(BV=5.1 IBV=5m RS=10)
+.model DBAT54 D(IS=1u N=1.05 RS=1)"""
 
 class Module:
     """One instance: its parts as SPICE lines with nodes prefixed, given pot positions, switches, plugs and jumpers."""
@@ -113,11 +124,7 @@ class Module:
         s = re.sub(r'[^A-Za-z0-9_]', lambda m: {'+': 'P', '-': 'M'}.get(m.group(0), '_'), n)
         return s if self.kind == 'master' else f'{self.name}_{s}'
 
-    def latched_keys(self):
-        return [r for r, c in self.b.comps.items() if c['lib'] == 'SW_DPDT_x2' and self.sw.get(r)
-                and any(k in c['value'] for k in ('PFL', 'AFL'))]
-
-    def lines(self, pfl_on=False):
+    def lines(self):
         b, L, G = self.b, [], self.gnd
         # logic level of each net: high if the closed PVA2 contacts join it to +5VL (the strip's DG413 control lines)
         group = {}
@@ -140,8 +147,18 @@ class Module:
                 if a != c: L.append(f"R{self.name}_{main}_LINK{p} {a} {c} 0.01")
         for ref, c in b.comps.items():
             lib, v, X = c['lib'], c['value'], f'{self.name}_{ref}'
-            if ref.startswith('#') or c['dnp'] or lib in OMIT or meter(ref): continue
             nd = lambda p: self.node(ref, p)
+            if lib == 'LM393' and not c['dnp']:      # the PFL detect comparator only: sinks to V- (pin 4) when - > +,
+                for p_, m_, o_ in ((3, 2, 1), (5, 6, 7)):   # and only with V+ (pin 8) 1.5 V above its - input (CM range)
+                    if self.kind == 'master' and ref == 'U22' and o_ == 1:
+                        L.append(f'B{X}_{o_} {nd(o_)} {nd(4)} I = 0.5*(1+tanh(2e3*(V({nd(m_)})-V({nd(p_)}))))'
+                                 f'*16m*tanh((V({nd(o_)})-V({nd(4)}))/0.5)*0.5*(1+tanh(10*(V({nd(8)},{nd(m_)})-1.5)))')
+            if lib == '1N4148' and not c['dnp'] and {b.pins.get((ref, '1')), b.pins.get((ref, '2'))} & {'PFLDET', 'PFL_CL'}:
+                L.append(f'D{X} {nd(2)} {nd(1)} D4148')                       # the detect line's clamp (pin 1 = K)
+            if (self.kind == 'master' and not c['dnp'] and '+5VL' in (b.pins.get((ref, '1')), b.pins.get((ref, '3')))
+                    and (lib == 'BAT54W' or lib == 'BZX84Cxx' and '5V1' in v)):
+                L.append(f'D{X} {nd(1)} {nd(3)} {"DBAT54" if lib == "BAT54W" else "DZ5V1"}')   # the switcher's +5VL (pin 1 = A)
+            if ref.startswith('#') or c['dnp'] or lib in OMIT or meter(ref): continue
             if lib == 'R': L.append(f'R{X} {nd(1)} {nd(2)} {value(v)}')
             elif lib in ('C', 'C_Polarized'): L.append(f'C{X} {nd(1)} {nd(2)} {value(v)}')
             elif lib in ('R_Potentiometer', 'R_Potentiometer_Dual'):
@@ -168,11 +185,17 @@ class Module:
             elif lib.startswith('SolderJumper_2'):
                 if self.jp.get(ref, lib.endswith('Bridged')): L.append(f'R{X} {nd(1)} {nd(2)} 0.01')
             elif lib == 'DG413xY':        # SW1/SW4 on at logic 1, SW2/SW3 at logic 0
+                pfl_sw = self.kind == 'master' and ref == 'U20'
                 for in_, d_, s_, no in ((1, 2, 3, True), (8, 7, 6, True), (9, 10, 11, False), (16, 15, 14, False)):
                     n_in = b.pins.get((ref, str(in_)))
                     if n_in is None: continue
-                    state = pfl_on if n_in == 'PFL_ON' else high(n_in)
-                    if state == no: L.append(f'R{X}_{in_} {nd(d_)} {nd(s_)} 25')
+                    if pfl_sw:            # the master's switcher, all four by voltage: a real 25 ohm (and its noise) in
+                        g = f'{X}_g{in_}'  # series with a gate that follows the IN pin, 1.6 V above GND (pin 5), and
+                        L += [f'R{X}_{in_} {nd(d_)} {g} 25',      # needs V+ / V- / VL on pins 13 / 4 / 12. A B element,
+                              f'B{X}_{in_} {g} {nd(s_)} I = V({g},{nd(s_)})*1e3*0.5*'    # not SW: ngspice's SW stays open
+                              f'(1{"+" if no else "-"}tanh(10*(V({nd(in_)},{nd(5)})-1.6)))'               # in the AC run
+                              f'*0.25*(1+tanh(10*(V({nd(13)},{nd(4)})-10)))*(1+tanh(10*(V({nd(12)},{nd(5)})-3)))']
+                    elif high(n_in) == no: L.append(f'R{X}_{in_} {nd(d_)} {nd(s_)} 25')
             elif lib == 'G6K-2':          # energised (mute released): COM 3/6 to NO 4/5
                 L += [f'R{X}_3 {nd(3)} {nd(4)} 0.05', f'R{X}_6 {nd(6)} {nd(5)} 0.05']
             elif lib == 'FerriteBead':
@@ -217,9 +240,8 @@ def console(strips, groups, master, gnd_inject=None, spade=None, spade_emf=None)
     the motherloom, SPADE_WIRE); spade_emf: {module name: volts AC}
     induced in series with it (a mains field through the loop of spade wire and ribbon grounds; sim/review/ground)."""
     mods = [master] + groups + strips
-    pfl_on = any(m.latched_keys() for m in mods)
     L = ['* goa-console: whole console (tools/sim_console.py)', OPA_DEF, 'VPBUS PVBUS 0 DC 17', 'VMBUS MVBUS 0 DC -17']
-    for m in mods: L += m.lines(pfl_on)
+    for m in mods: L += m.lines()
     # ribbon: per 41 mm segment, 28 AWG (0.213 ohm/m) and ~0.6 uH/m; 2.5 pF to the next conductor per segment
     SEG_R, SEG_L, SEG_C, CONTACT = 0.213 * 0.041, 0.6e-6 * 0.041, 2.5e-12, 0.02
     for wing, hdr in (('L', 'CN2'), ('R', 'CN3')):
@@ -245,8 +267,11 @@ def console(strips, groups, master, gnd_inject=None, spade=None, spade_emf=None)
     nodes = set()
     for line in L:
         t = line.split()
-        if not t or line.startswith(('.', '*')) or t[0][0] not in 'RCLVEXJI': continue
+        if not t or line.startswith(('.', '*')) or t[0][0] not in 'RCLVEXJIDB': continue
         nodes.update(t[1:5] if t[0][0] in 'EX' else t[1:4] if t[0][0] == 'J' else t[1:3])
+        if t[0][0] == 'B':
+            for refs in re.findall(r'\bV\(([^)]+)\)', line, re.I):
+                nodes.update(n.strip() for n in refs.split(','))
     nodes -= {'0', 'inp', 'inn', 'out', 'gnd'}
     L += [f'RLEAK{i} {n} 0 1e9' for i, n in enumerate(sorted(nodes))]
     return L
@@ -275,16 +300,25 @@ def default_console(strip_cfg=None, group_cfg=None, master_cfg=None):
     for k in ('pos', 'sw', 'plugs', 'jp'): c[k] = {**c.get(k, {}), **o.get(k, {})}
     return strips, groups, Module('master', 'm', MASTER, **c)
 
+RUN_TIMEOUT = int(os.environ.get('SIM_TIMEOUT', 180))    # seconds per ngspice run; the longest here takes about 5
 def run(body, control):
     d = '\n'.join(body + ['.options noopiter gmin=1e-12', '.control', 'set noaskquit'] + control + ['.endc', '.end'])
     with tempfile.NamedTemporaryFile('w', suffix='.cir', delete=False) as f: f.write(d); fn = f.name
-    p = subprocess.run(['ngspice', '-b', fn], capture_output=True, text=True)
+    try:        # a deck that does not converge (a floating node after a wiring fault) must fail its checks, not hang
+        p = subprocess.run(['ngspice', '-b', fn], capture_output=True, text=True, timeout=RUN_TIMEOUT)
+    except subprocess.TimeoutExpired:
+        print(f'     ngspice: no result in {RUN_TIMEOUT} s (deck {fn if os.environ.get("KEEP") else "not kept, set KEEP=1"})', flush=True)
+        return {}, ''
+    finally:
+        if os.environ.get('KEEP'): print('deck:', fn)
+        else: os.unlink(fn)
+    if p.returncode:
+        print(f'     ngspice exited {p.returncode}: ' + ' | '.join((p.stdout + p.stderr).strip().splitlines()[-3:]), flush=True)
+        return {}, p.stdout
     res = {}
     for line in (p.stdout + p.stderr).splitlines():
         m = re.match(r'^\s*(\w+)\s+=\s+([-+0-9.eE]+)', line)
         if m: res[m.group(1).lower()] = float(m.group(2))
-    if os.environ.get('KEEP'): print('deck:', fn)
-    else: os.unlink(fn)
     return res, p.stdout
 
 # ---------------------------------------------------------------- measurement helpers
@@ -382,11 +416,167 @@ def t_aux():
 def t_pfl():
     """Strip 1 PFL latched: the master's switcher moves C/Room and phones from MIX to PFL; the mix is untouched."""
     s, g, m = default_console(one(0, pos={'RV1': 0.0}, sw={'SW3': True}))
-    r, _ = run(console(s, g, m), AC1K + dbu('v(JB_CRL_XP,JB_CRL_XN)', 'cr') + dbu(diff(XLR['L']), 'ml')
-               + dbu('v(JB_PHJ_L)', 'ph'))
+    r, _ = run(console(s, g, m), AC1K + dbu('v(JB_CRL_XP,JB_CRL_XN)', 'cr') + dbu('v(JB_CRR_XP,JB_CRR_XN)', 'crr')
+               + dbu(diff(XLR['L']), 'ml') + dbu('v(JB_PHJ_L)', 'ph') + dbu('v(JB_PHJ_R)', 'phr'))
     check('PFL (fader down): C/Room L, solo level at the top (PRE + 6 dB DRV134 - 0.3 dB build-out)', r.get('cr'), 5.3, 5.9)
+    check('PFL: C/Room R (PFL is mono: the same)', r.get('crr'), 5.3, 5.9)
     check('PFL: phones L (+9.9 dB)', r.get('ph'), 9.2, 9.8)
+    check('PFL: phones R', r.get('phr'), 9.2, 9.8)
     check('PFL (fader down): main L silent', r.get('ml'), -400, -75)
+    # rejection: the PFL'd strip silent, strip 2 playing into MIX: the monitor must not carry the mix
+    f = one(1)
+    s, g, m = default_console(lambda i: dict(sw={'SW3': True}) if i == 0 else f(i))
+    r, _ = run(console(s, g, m), AC1K + dbu('v(JB_CRL_XP,JB_CRL_XN)', 'cr') + dbu('v(JB_CRR_XP,JB_CRR_XN)', 'crr')
+               + dbu(diff(XLR['L']), 'ml'))
+    check('PFL on a silent strip, strip 2 in the mix: main L carries strip 2', r.get('ml'), UNITY + PANC - 0.2, UNITY + PANC + 0.2)
+    check('PFL on a silent strip: C/Room L has no mix', r.get('cr'), -400, -75)
+    check('PFL on a silent strip: C/Room R has no mix', r.get('crr'), -400, -75)
+
+    # no PFL, the strip panned hard left, then hard right: a missing right monitor branch or an L / R swap shows
+    for pan in (0.0, 1.0):
+        s, g, m = default_console(one(0, pos={'RV8': pan}))
+        r, _ = run(console(s, g, m), AC1K + dbu('v(JB_CRL_XP,JB_CRL_XN)', 'cl')
+                   + dbu('v(JB_CRR_XP,JB_CRR_XN)', 'cr') + dbu('v(JB_PHJ_L)', 'pl') + dbu('v(JB_PHJ_R)', 'pr'))
+        for label, name, active, level in (('C/Room L','cl',pan == 0,6.51), ('C/Room R','cr',pan == 1,6.51),
+                                            ('phones L','pl',pan == 0,10.40), ('phones R','pr',pan == 1,10.40)):
+            check(f'no PFL, pan {pan}: {label}', r.get(name), level - 0.3 if active else -400,
+                  level + 0.3 if active else -75)
+    # every other kind of PFL / AFL key puts its own audio on the monitor (a key's audio contact is not on the detect path)
+    cases = [
+        ('group sub', 'g', 'SW2', {'sw': {'SW6': True, 'SW5': False}}, {}, 2.01),
+        ('group aux', 'g', 'SW3', {'pos': {'RV2': 1}, 'sw': {'SW8': True}}, {}, 5.51),
+        ('group return', 'g', 'SW7', {}, {'plugs': {'JB_J4': ('src', SRC, 50, True)}}, 5.80),
+        ('group return 2', 'g', 'SW11', {}, {'plugs': {'JB_J6': ('src', SRC, 50, True)}}, 5.80),
+        ('master aux 5', 'm', 'SW1', {'pos': {'RV6': 1}, 'sw': {'SW10': True}}, {}, 5.51),
+        ('master aux 6', 'm', 'SW2', {'pos': {'RV7': 1}, 'sw': {'SW10': True}}, {}, 5.51)]
+    for label, kind, key, strip, cfg, level in cases:
+        source = one(0, **strip) if not cfg else None
+        s, g, m = (default_console(source, lambda i: {'sw': {key: True}, **cfg} if i == 0 else {})
+                   if kind == 'g' else default_console(source, master_cfg={'sw': {key: True}}))
+        r, _ = run(console(s, g, m), AC1K + dbu('v(JB_CRL_XP,JB_CRL_XN)', 'cl')
+                   + dbu('v(JB_CRR_XP,JB_CRR_XN)', 'cr'))
+        for side in ('cl', 'cr'):
+            check(f'{label} key latched: C/Room {"L" if side == "cl" else "R"} carries its audio', r.get(side), level - 0.3, level + 0.3)
+
+ALL_KEYS = ([('s', i, 'SW3') for i in range(24)] + [('g', g, k) for g in range(4) for k in ('SW2', 'SW3', 'SW7', 'SW11')]
+            + [('m', 0, 'SW1'), ('m', 0, 'SW2')])
+def keys_console(on):
+    """The default console with these PFL / AFL keys latched: ('s', strip, ref), ('g', group, ref), ('m', 0, ref)."""
+    return default_console(lambda i: dict(sw={'SW3': True}) if ('s', i, 'SW3') in on else {},
+                           lambda g: dict(sw={k: True for (t, gg, k) in on if t == 'g' and gg == g}),
+                           dict(sw={k: True for (t, _, k) in on if t == 'm'}))
+def pfl_cmp():
+    """The LM393 unit that drives PFL_ON_RAW on the master: (ref, + pin, - pin, output pin)."""
+    # Keep the model on the same physical unit when a net assignment is faulty.
+    return 'U22', 3, 2, 1
+def pfl_probes():
+    """Control lines reading the detect comparator's and the switcher's own pins, not the nets by name (a pin on the
+    wrong net then reads wrong): det / ref / out = the LM393 unit's + / - / output, in1 in8 in9 in16 = the DG413's IN
+    pins above its GND pin."""
+    b, m = MASTER, Module('master', 'm', MASTER)
+    u, p_, m_, o_ = pfl_cmp()
+    sw = 'U20'  # identity is checked by pfl_contract(), independent of the IN nets
+    gnd = m.node(sw, 5)
+    v1 = lambda n: '0' if n == '0' else f'v({n})'
+    v = lambda r, p, g='0': f'({v1(m.node(r, p))}-{v1(g)})'
+    probes = [('det', v(u, p_)), ('ref', v(u, m_)), ('out', v(u, o_))] + [(f'in{i}', v(sw, i, gnd)) for i in (1, 8, 9, 16)]
+    return [c for n, x in probes for c in (f'let {n} = {x}', f'print {n}')]
+def check_each(name, vals, lo, hi, unit='V'):
+    """One line for several values that must all be in the window: reports the one furthest from its middle."""
+    check(name, None if any(v is None for v in vals) else max(vals, key=lambda v: abs(v - (lo + hi) / 2)), lo, hi, unit)
+def pfl_contract():
+    """The PFL detect parts as master spec 19 has them, written out by hand: fitted, value, net on each pin. For what a
+    DC / AC run cannot see: the 1 uF debounce, the decouplers, D15, the pull-up and series values, supply and ground
+    pins. A list of the references that differ; change this table with the circuit."""
+    errors = []
+    def part(b, ref, lib, val=None, pins=None):
+        c = b.comps.get(ref, {})
+        ok = c.get('lib') == lib and not c.get('dnp', True)
+        if val is not None:
+            ok &= c.get('value') == val
+        ok &= all(b.pins.get((ref, str(p))) == n for p, n in (pins or {}).items())
+        if not ok: errors.append(ref)
+    for b, keys, hdrs in (
+        (STRIP, [('SW3', 'R33', 'PFL_ON', 'PFL_S')], ['CN1']),
+        (GROUP, [('SW2', 'R26', 'SW2_ON', 'S_AFLJ'), ('SW3', 'R37', 'SW3_ON', 'A_AFLJ'),
+                 ('SW7', 'R67', 'SW7_ON', 'RT_PFLJ'), ('SW11', 'R107', 'SW11_ON', 'RT2_PFLJ')], ['CN2']),
+        (MASTER, [('SW1', 'R70', 'SW1_ON', 'A5_AFLJ'), ('SW2', 'R81', 'SW2_ON', 'A6_AFLJ')], ['CN2', 'CN3'])):
+        for key, feed, on, audio in keys:
+            part(b, key, 'SW_DPDT_x2', pins={1:'PFL', 2:audio, 3:'GNDA', 4:on, 5:'+VL'})
+            part(b, feed, 'R', '100K', {1:on, 2:'PFLDET'})
+        for hdr in hdrs:
+            if b.pins.get((hdr, '29')) != 'PFLDET': errors.append(hdr + '.29')
+    for ref, lib, val, a, z in (
+        ('R104','R','4K7','+VA','+5VL'), ('R113','R','10K','PFLDET','GNDD'),
+        ('R114','R','330K','+VL','PFL_REF'), ('R115','R','10K','PFL_REF','GNDD'),
+        ('R116','R','100K','+5VL','PFL_ON_RAW'), ('R117','R','10M','PFL_ON_RAW','PFLDET'),
+        ('R118','R','10K','PFL_ON_RAW','PFL_ON'), ('C120','C','1u','PFLDET','GNDD'),
+        ('C110','C','1u','+5VL','GNDD'), ('C115','C','100n','+5VL','GNDD')):
+        part(MASTER, ref, lib, val, {1:a, 2:z})
+    for ref, lib, val, pins in (
+        ('D14','BZX84Cxx','BZX84C5V1',{1:'GNDD',3:'+5VL'}),
+        ('D15','BAT54W','BAT54W',{1:'+5VL',3:'+VA'}),
+        ('D16','1N4148','1N4148',{1:'PFL_CL',2:'PFLDET'}),
+        ('D17','1N4148','1N4148',{1:'GNDD',2:'PFL_CL'}),
+        ('U22','LM393',None,{1:'PFL_ON_RAW',2:'PFL_REF',3:'PFLDET',4:'-VL',8:'+VL'}),
+        ('U20','DG413xY',None,{1:'PFL_ON',8:'PFL_ON',9:'PFL_ON',16:'PFL_ON',
+                             2:'CRS_L',3:'SWPL_S',6:'SWPR_S',7:'CRS_R',10:'CRS_R',11:'SWMR_S',
+                             14:'SWML_S',15:'CRS_L',4:'-VA',5:'GNDD',12:'+5VL',13:'+VA'})):
+        part(MASTER, ref, lib, val, pins)
+    # Strip logic was already selected in Python; guard supplies that model omits.
+    part(STRIP, 'D9', 'BZX84Cxx', 'BZX84C5V1', {1:'GNDD',3:'+5VL'})
+    part(STRIP, 'D10', 'BAT54W', 'BAT54W', {1:'+5VL',3:'+VA'})
+    part(STRIP, 'R80', 'R', '4K7', {1:'+VA',2:'+5VL'})
+    for ref in ('U9','U10','U11'):
+        part(STRIP, ref, 'DG413xY', pins={4:'-VA',5:'GNDD',12:'+5VL',13:'+VA'})
+    for ref in ('U19','U21'):
+        if any(MASTER.pins.get((ref,str(p))) != n for p,n in ((4,'-VA'),(8,'+VA'))):
+            errors.append(ref + ' supply')
+    return errors
+
+def t_pfldet():
+    """DC of the detect line (pin 29) at the comparator's and the switcher's pins: no key, each kind of key alone, all 42; its threshold."""
+    errors = pfl_contract()
+    check('PFL detect parts fitted, with their values, on their nets (master spec 19)' + (': WRONG ' + ', '.join(errors) if errors else ''),
+          int(not errors), 1, 1, '')
+    if errors: return
+    P = ['op'] + pfl_probes()
+    ins = lambda r: [r.get(f'in{i}') for i in (1, 8, 9, 16)]
+    r, _ = run(console(*keys_console([])), P)
+    check('no key: comparator + input (PFLDET) under the reference', r.get('det'), -0.05, 0.1, 'V')
+    check('no key: comparator - input (330K / 10K from +VL, 0.50 V)', r.get('ref'), 0.49, 0.51, 'V')
+    check('no key: comparator output low, on -VL', r.get('out'), -17.1, -16.5, 'V')
+    check_each('no key: the switcher\'s four IN pins low', ins(r), -17.1, 0.8)
+    for label, k in (('strip 12 (end of the left wing)', ('s', 11, 'SW3')), ('strip 24 (end of the right wing)', ('s', 23, 'SW3')),
+                     ('group 1 sub AFL', ('g', 0, 'SW2')), ('group 2 aux AFL', ('g', 1, 'SW3')), ('group 3 return PFL', ('g', 2, 'SW7')),
+                     ('group 4 return 2 PFL', ('g', 3, 'SW11')), ('master aux 5 AFL', ('m', 0, 'SW1')), ('master aux 6 AFL', ('m', 0, 'SW2'))):
+        r, _ = run(console(*keys_console([k])), P)
+        check(f'{label} alone: PFLDET (clamped)', r.get('det'), DET1 - 0.02, DET1 + 0.02, 'V')
+        check(f'{label} alone: reference unmoved', r.get('ref'), 0.49, 0.51, 'V')
+        check_each(f'{label} alone: four IN pins high (+5VL through 100K)', ins(r), 4.5, 5.6)
+    r, _ = run(console(*keys_console(ALL_KEYS)), P)
+    check('all 42 keys: PFLDET held by the clamp', r.get('det'), 1.25, 1.45, 'V')
+    check('all 42 keys: reference unmoved', r.get('ref'), 0.49, 0.51, 'V')
+    check_each('all 42 keys: four IN pins high', ins(r), 4.5, 5.6)
+    # threshold and hysteresis: a current into the comparator's + input, swept up and then down, no key latched
+    m = Module('master', 'm', MASTER); u, p_, m_, o_ = pfl_cmp()
+    body, trip = console(*keys_console([])) + [f'IPFLT 0 {m.node(u, p_)} DC 0'], {}
+    for name, sweep, edge in (('iup', '44u 58u 0.1u', 'rise'), ('idn', '58u 44u -0.1u', 'fall')):
+        output = f'v({m.node(u, o_)})'
+        r, _ = run(body, [f'dc IPFLT {sweep}', f'meas dc {name} when {output}=-5 {edge}=1',
+                          f'let first={output}[0]', f'let last={output}[length({output})-1]', 'print first last'])
+        low, high = (-17.1, -16.5), (4.5, 5.6)
+        first, last = (low, high) if edge == 'rise' else (high, low)
+        way = 'up' if edge == 'rise' else 'down'
+        check(f'sweep {way}: comparator output at the start', r.get('first'), *first, 'V')
+        check(f'sweep {way}: comparator output at the end', r.get('last'), *last, 'V')
+        trip[name] = r.get(name)
+    up, dn = trip['iup'], trip['idn']
+    check('current into pin 29 that switches PFL on (0.50 V in the 10K, plus the 10M and the clamp\'s leakage)',
+          up and up * 1e6, 51.9, 52.9, 'uA')
+    check('hysteresis: less current to switch back (the 10M from the output; 20 mV on the 10K)',
+          up and dn and (up - dn) * 1e6, 1.7, 2.3, 'uA')
+DET1 = 0.93                                           # one key on the clamped line at 27 degC (sim/pfldet.py: 0.92)
 
 def t_return():
     """A balanced 0 dBu source into group 1's return L only (R normalled), return to MIX, return level at the top
@@ -479,7 +669,7 @@ def t_noise():
                                          'let nd = db(onoise_total/0.7746)', 'print nd'])
         check(f'main L noise, {label}', r.get('nd'), lo, hi, 'dBu')
 
-CHECKS = {f.__name__[2:]: f for f in (t_levels, t_pan, t_mute_route, t_sub, t_aux, t_pfl, t_return, t_return2, t_ext, t_dim, t_crosstalk,
+CHECKS = {f.__name__[2:]: f for f in (t_levels, t_pan, t_mute_route, t_sub, t_aux, t_pfl, t_pfldet, t_return, t_return2, t_ext, t_dim, t_crosstalk,
                                        t_ground, t_noise)}
 if __name__ == '__main__':
     if '--list' in sys.argv: print(' '.join(CHECKS)); sys.exit(0)

@@ -42,10 +42,10 @@ in the countersunk Ø3.4 / 90° to Ø6.5 holes on the DXFs' CSK_NO_STUDS layer a
 | 34-way IDC socket (motherloom) | 30 (24 strips, 4 groups, 2 master wing headers) | 6 (4 strips, stub, load board) | code | Würth 61203423021 (WR-BHD, strain relief), the mate of the boards' 61203421621 headers |
 | 34-way flat cable | 2 wing runs of about 14 × 40.6 mm + slack, ≈ 0.75 m each | ≈ 0.5 m | rule | 1.27 mm pitch grey flat cable, 28 AWG. The IDC contacts are rated 1 A (+V uses three conductors, W1). Order 3 m. |
 | 10-way IDC socket (strip jack link; group return-2 link) | 56 (2 × 24 + 2 × 4) | | code | Würth 61201023021 |
-| 10-way flat cable | 24 × ~136 mm (one 90° fold, strip spec §16.4) + 4 × ~170 mm (group return 2) | | rule | 1.27 mm flat cable; order 5 m |
+| 10-way flat cable | 24 × ~125 mm (straight, no fold since 2026-11-11, strip spec §16.4) + 4 × ~200 mm (group return 2: straight, no fold, 179.3 mm between the socket centres plus the 12.5 mm step and about 10 mm of slack; it passes under the 16-way's two sockets; computed, not yet cut, `docs/decisions.md` 2026-11-11) | | rule | 1.27 mm flat cable; order 5 m |
 | 16-way IDC socket (group jack link) | 8 (2 × 4) | | code | Würth 61201623021 |
 | 40-way IDC socket (master jack link) | 2 | | code | Würth 61204023021 |
-| 16- and 40-way flat cable | 4 × ~170 mm (the group's links leave its main board at y ≈ 190 since RET1), 1 short link | | rule | 1.27 mm; cut to fit the 24.0 mm board spacing with one fold |
+| 16- and 40-way flat cable | 4 × ~160 mm (group: straight, no fold, 140.1 mm between the socket centres plus the 12.5 mm step and about 10 mm of slack; computed, not yet cut, `docs/decisions.md` 2026-11-11), 1 short link (master) | | rule | 1.27 mm; the master's cut to fit the 24.0 mm board spacing with one fold |
 
 ## Ground harness (G1, master spec §26)
 

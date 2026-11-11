@@ -91,13 +91,161 @@ b = block('TEST POINTS')
 for n in ('GCANCEL', 'GCREF_BUF') + tuple(x for so in OUTS for x in so) + ('+VA', '-VA', '+VBUS_R', '-VBUS_R', 'GNDA', 'GNDA'):
     P(b, ref('TP'), 'TP', n, {1: n})
 project('jig_master_stub'); parts_sidecar(os.path.join(ROOT, 'boards', 'jig_master_stub', 'jig_master_stub.kicad_sch'))
+
+# ---------------------------------------------------------------- the stub's drawing (2026-11-10)
+# The sheet is drawn, not laid out in labelled cells: every bus is one wired lane, ribbon -> ferrite -> summer -> re-inverter
+# -> 100R -> BNC, with its test points on the nodes they probe and its op-amp's supply pins under it. The parts and their
+# order above are untouched and the functional blocks went to jig_master_stub_parts.json first (the placer reads them
+# there), so the netlist, every reference and the board stay as they were; only the drawing regroups the parts.
+OLD = {t.split('  ')[0]: ps for t, ps in schgen.blocks}
+FR = {k: [f[2] for f in schgen.FRAGS.get(id(ps), []) if not f[3]] for k, ps in OLD.items()}        # circuit fragments
+PU = {k: [f[2] for f in schgen.FRAGS.get(id(ps), []) if f[3]] for k, ps in OLD.items()}            # power units, spares
+by = lambda ps, key, unit=1: [p['ref'] for p in ps if p['key'] == key and p['unit'] == unit]
+TPS = {}
+for p in OLD['TEST POINTS']: TPS.setdefault(p['pins']['1'], []).append(p)
+take = lambda *nets: [TPS[n].pop(0) for n in nets]
+tp_of = lambda ps, net: next(p['ref'] for p in ps if p['key'] == 'TP' and p['pins']['1'] == net)
+
+
+def stub_power(d):
+    """Bench terminal, reverse Schottkys, a PTC per rail to the ribbon, the local VA / VL branches; the ground star under it."""
+    ps = d.parts; j, (d1, d2), (f1, f2) = by(ps, 'TERM3')[0], by(ps, 'DS'), by(ps, 'PTC')
+    r1, r2, r3, r4 = by(ps, 'R'); c1, c2, c3, c4 = by(ps, 'CP'); fl = {d.nets(f)['1']: f for f in by(ps, 'FLAG')}
+    T, M, B = 2, 11, 20                                    # +VBUS line, 0 V line, -VBUS line
+    d.at(j, 6, M, mirror='y')
+    def flag(net, x, y, up=True):                          # a PWR_FLAG on a stub off the line it marks
+        d.w((x, y), (x, y - 1 if up else y + 1)); d.at(fl[net], x, y - 1 if up else y + 1, rot=0 if up else 180)
+    d.w((j, 1), (13, M - 1), (13, T), (66, T)); d.w((j, 3), (13, M + 1), (13, B), (66, B)); d.w((j, 2), (48, M))
+    d.port('+VBUS', (13, T)); d.port('-VBUS', (13, B))
+    d.v(d1, 16, 6.5, top='+VBUS'); d.w((16, T), (16, 5)); d.w((16, 8), (16, M))
+    d.v(d2, 19, 15.5, top='GNDA'); d.w((19, M), (19, 14)); d.w((19, 17), (19, B))
+    flag('+VBUS', 22, T); flag('-VBUS', 22, B, up=False)
+    d.w((23, M), (23, M + 1)); d.gnd((23, M + 1))
+    d.v(f1, 28, 4.5, top='+VBUS', text='L'); d.w((28, T), (28, 3)); d.w((f1, 2), (28, 7), (37, 7))
+    d.at(tp_of(ps, '+VBUS_R'), 31, 7); d.port('+VBUS_R', (37, 7), 'R')
+    d.v(f2, 28, 17.5, top='-VBUS_R', text='L'); d.w((28, 19), (28, B)); d.w((f2, 2), (28, 15), (37, 15))
+    d.at(tp_of(ps, '-VBUS_R'), 31, 15, rot=180); d.port('-VBUS_R', (37, 15), 'R')
+    for x, ra, ca, cb, rb, rail, gnd in ((48, r1, c1, c2, r2, 'VA', 'GNDA'), (66, r3, c3, c4, r4, 'VL', 'GNDD')):
+        d.v(ra, x, 4.5, top='+VBUS', text='L'); d.w((x, T), (x, 3)); d.w((x, 6), (x, 7))
+        d.v(ca, x, 8.5, top='+' + rail, text='L'); d.w((x, 10), (x, M))
+        d.v(cb, x, 13.5, top=gnd, text='L'); d.w((x, M), (x, 12)); d.w((x, 15), (x, 16))
+        d.v(rb, x, 17.5, top='-' + rail, text='L'); d.w((x, 19), (x, B))
+        e = x + (11 if rail == 'VA' else 7)
+        d.w((x, 6), (e, 6)); d.port('+' + rail, (e, 6), 'R'); flag('+' + rail, x + 3, 6)
+        d.w((x, 16), (e, 16)); d.port('-' + rail, (e, 16), 'R'); flag('-' + rail, x + 3, 16, up=False)
+        if rail == 'VA': d.at(tp_of(ps, '+VA'), x + 7, 6); d.at(tp_of(ps, '-VA'), x + 7, 16, rot=180)
+        else: d.w((x, M), (x + 3, M), (x + 3, M + 1)); d.gnd((x + 3, M + 1), 'GNDD')
+    # the ground star: the spade to the copper bar, the two net ties, the 0 V test points
+    tab, (nt1, nt2) = by(ps, 'TAB')[0], by(ps, 'NT'); ta, tb = [p['ref'] for p in ps if p['key'] == 'TP' and p['pins']['1'] == 'GNDA']
+    Y = 27
+    d.w((4, Y), (4, Y + 14)); d.gnd((4, Y + 14)); flag('GNDA', 4, Y)
+    d.at(tab, 10, Y); d.w((4, Y), (tab, 1))
+    d.at(nt1, 10, Y + 4, text='R'); d.w((4, Y + 4), (nt1, 1)); d.w((nt1, 2), (22, Y + 4), (22, Y + 5)); d.gnd((22, Y + 5), 'GNDD')
+    flag('GNDD', 18, Y + 4, up=False)
+    d.at(nt2, 10, Y + 8, text='R'); d.w((4, Y + 8), (nt2, 1)); d.w((nt2, 2), (22, Y + 8)); d.port('CHASSIS', (22, Y + 8), 'R')
+    d.w((4, Y + 12), (9, Y + 12)); d.w((9, Y + 12), (14, Y + 12)); d.at(ta, 9, Y + 12); d.at(tb, 14, Y + 12)
+
+
+def stub_ribbon(d):
+    frags.header(d, by(d.parts, 'HDR')[0], 18, 10)
+
+
+def stub_gcref(d):
+    """GC REF jumper (1-2 = config D, 2-3 = config A), the 22R tie for test 3, the buffer for the re-inverters."""
+    ps = d.parts; (jp1,), (jp2,), (r,) = by(ps, 'JMP3'), by(ps, 'JMP2'), by(ps, 'R'); u = by(ps, 'OPA')[0]
+    d.port('GCANCEL', (0, 6)); d.w((0, 6), (11, 6)); d.at(tp_of(ps, 'GCANCEL'), 3, 6)
+    d.at(jp1, 12, 2, rot=90); d.w((11, 6), (jp1, 1)); d.w((jp1, 3), (13, 5), (15, 5), (15, 6)); d.gnd((15, 6))
+    d.v(r, 6, 8.5, top='GCANCEL'); d.w((6, 6), (6, 7))
+    d.at(jp2, 6, 14, rot=270); d.w((6, 10), (jp2, 1)); d.w((6, 11), (7, 11)); d.port('GC_TIE', (7, 11), 'R'); d.w((jp2, 2), (3, 12), (3, 13)); d.gnd((3, 13))
+    d.at(u, 24, 9, unit=1, text='U')
+    d.w((jp1, 2), (12, 8), (u, 3)); d.port('GCREF', (12, 8))
+    d.w((u, 1), (28, 9), (28, 12), (20, 12), (20, 10), (u, 2)); d.w((28, 9), (38, 9)); d.port('GCREF_BUF', (38, 9), 'R')
+    d.at(tp_of(ps, 'GCREF_BUF'), 31, 9)
+    d.shift(12, 13); PU['CONFIG'][0](d); d.shift(-12, -13)
+    d.note('JP1 1-2: config D, ground cancel.  2-3: config A, the stub\'s own AGND.', (0, 25))
+    d.note('JP2 fitted: 22R from GCANCEL to AGND, the master-end tie of test 3.', (0, 26.5))
+
+
+ROWS = []                       # (bus, sum net, output net, inv fragment, diff fragment, power unit) per lane
+LANE = 23
+def stub_amps(d):
+    """Six lanes, one per bus: ferrite, summer on GCREF, re-inverter on GCREF_BUF, 100R, BNC."""
+    ps = d.parts; routs = [p['ref'] for p in ps if p['key'] == 'R' and p['value'] == '100R']; bncs = by(ps, 'BNC')
+    for i, (bus, s, o, inv, dif, pu) in enumerate(ROWS):
+        d.shift(0, i * LANE)
+        n = len(d.ports); inv(d); d.shift(23, 1); dif(d); d.shift(-23, -1)
+        d.ports[n:] = [p for p in d.ports[n:] if p[0] not in (s, o)]          # joined by the wire, named by their test points
+        d.at(tp_of(ps, s), 26, 7); d.w((26, 9), (26, 7))
+        d.w((52, 10), (56, 10)); d.at(tp_of(ps, o), 53, 8); d.w((53, 10), (53, 8))
+        d.h(routs[i], 57.5, 10, left=o, text='D'); d.at(bncs[i], 70, 10); d.w((59, 10), (bncs[i], 1)); d.gnd((bncs[i], 2))
+        for net, pt, side in ((bus + '_VE', (5.5, 8), 'R'), (s, (27, 9), 'R'), (o + '_DN', (37.4, 9), 'R'), (o + '_DP', (38, 15), 'U'),
+                              (o, (54.5, 10), 'D'), (o + '_BNC', (59.5, 10), 'R')): d.port(net, pt, side)
+        d.shift(1, 11); pu(d); d.shift(-1, -11)
+        d.note((bus[:3] + ' ' + bus[3:]).strip(), (0, 0.5), 1.8)
+        d.shift(0, -i * LANE)
+
+
+def stub_balanced(d):
+    """MIX L through a DRV135 to the XLR (test 11): the fragment's couplers, the decouplers under the IC, the XLR wired."""
+    ps = d.parts; cs = by(ps, 'C'); x = by(ps, 'XLR3')[0]
+    FR['OUTPUTS'][0](d)
+    d.ports[:] = [p for p in d.ports if p[0] == 'MIX_L']
+    d.at(cs[2], 24, 15.5); d.at(cs[3], 30, 15.5, rot=180)
+    d.at(x, 46, 8, mirror='y')
+    d.w((21, 7), (40, 7), (40, 8), (x, 2)); d.w((21, 9), (38, 9), (38, 12), (46, 12), (x, 3))
+    d.w((x, 1), (51, 8)); d.w((x, 'G'), (46, 4), (51, 4), (51, 8)); d.w((51, 8), (53, 8)); d.port('CHASSIS', (53, 8), 'R')
+    for net, pt, side in (('BAL_P', (24, 7), 'R'), ('BAL_N', (24, 9), 'R'), ('BAL_P_VO', (13, 4), 'U'), ('BAL_N_VO', (13, 12), 'D')):
+        d.port(net, pt, side)
+
+
+def stub_pfl(d):
+    """PFL detect as the master: 10K + two 1N4148 + 1u on the line, 0.50 V reference, LM393 sinking the LED; the spares."""
+    ps = d.parts; r10, r330, rref, rled = by(ps, 'R'); d3, d4 = by(ps, 'D'); c = by(ps, 'C')[0]; led = by(ps, 'LED')[0]
+    u = by(ps, 'CMP')[0]
+    d.at(u, 28, 9, unit=1, text='U')
+    d.port('PFLDET', (0, 14)); d.w((0, 14), (24, 14), (24, 10), (u, 2))
+    d.v(r10, 4, 16.5, top='PFLDET'); d.w((4, 14), (4, 15)); d.gnd((4, 18), 'GNDD')
+    d.v(d3, 9, 16.5, top='PFLDET'); d.w((9, 14), (9, 15)); d.v(d4, 9, 20.5, top='PFL_CL'); d.w((9, 18), (9, 19)); d.gnd((9, 22), 'GNDD')
+    d.v(c, 15, 16.5, top='PFLDET'); d.w((15, 14), (15, 15)); d.gnd((15, 18), 'GNDD')
+    d.v(r330, 20, 5.5, top='+VL', text='L'); d.w((20, 2), (20, 4)); d.port('+VL', (20, 2), 'U')
+    d.w((20, 7), (20, 8), (u, 3)); d.v(rref, 20, 9.5, top='PFL_REF', text='L'); d.gnd((20, 11), 'GNDD')
+    d.v(rled, 37, 2.5, top='+VL'); d.port('+VL', (37, 1), 'U'); d.v(led, 37, 6.5, top='PFL_LA'); d.w((37, 4), (37, 5))
+    d.w((u, 1), (37, 9), (37, 8))
+    d.w((9, 18.5), (10, 18.5)); d.w((37, 4.5), (38, 4.5))
+    for net, pt, side in (('PFL_REF', (20.5, 8), 'R'), ('PFL_CL', (10, 18.5), 'R'), ('PFL_LA', (38, 4.5), 'R'), ('PFL_LK', (31.5, 9), 'R')):
+        d.port(net, pt, side)
+    d.shift(42, 11); PU['PFL DETECT'][0](d); d.shift(-42, -11)               # U9's supply pins and decouplers
+    d.shift(48, 0); PU['PFL DETECT'][1](d); d.shift(-48, 0)                   # the spare op-amp half (U1B)
+    d.port(next(n for n in d.nets(by(ps, 'OPA', 2)[0]).values() if 'SPARE' in n), (52.5, 6), 'R')
+    d.at(u, 70, 4, unit=2, text='U')                                         # the spare comparator: + on GNDD, - on +VL
+    d.w((u, 5), (65, 3), (65, 4)); d.gnd((65, 4), 'GNDD'); d.w((u, 6), (66, 5), (66, 7)); d.port('+VL', (66, 7), 'D')
+    d.note('Spare halves, tied off', (48, -2))
+
+
+for k, (bus, (s, o)) in enumerate(zip(('MIXL', 'MIXR', 'SUB1', 'AUX1', 'AUX2', 'PFL'), OUTS)):
+    ROWS.append((bus, s, o, FR['BUS AMPS'][2 * k], FR['BUS AMPS'][2 * k + 1], PU['BUS AMPS'][k]))
+OUTP = OLD['OUTPUTS']; AS_BUILT = list(schgen.blocks)
+schgen.blocks[:] = []
+for title, draw, parts in (
+        ('POWER IN  bench +-17 V, reverse Schottkys, a PTC per rail to the ribbon, local VA / VL', stub_power,
+         OLD['POWER IN'] + take('+VA', '-VA', '+VBUS_R', '-VBUS_R', 'GNDA', 'GNDA')),
+        ('RIBBON  34-pin header, Delta pinout; SUB 2-4 and AUX 3-6 on AGND', stub_ribbon, OLD['RIBBON']),
+        ('GROUND-CANCEL REFERENCE  config jumper, 22R tie, buffer', stub_gcref, OLD['CONFIG'] + take('GCANCEL', 'GCREF_BUF')),
+        ('BUS AMPS  bus -> ferrite -> summer (+ on GCREF) -> re-inverter (+ leg on GCREF_BUF) -> 100R -> BNC', stub_amps,
+         OLD['BUS AMPS'] + take(*[n for so in OUTS for n in so]) + [p for p in OUTP if p['key'] in ('R', 'BNC')]),
+        ('BALANCED OUTPUT  MIX L -> DRV135 -> XLR male (test 11)', stub_balanced, [p for p in OUTP if p['key'] not in ('R', 'BNC')]),
+        ('PFL DETECT  one press = 0.92 V on PFLDET against 0.50 V; red LED', stub_pfl, OLD['PFL DETECT'])):
+    block(title, draw).extend(parts)
+assert not any(TPS.values()), 'test point left undrawn'
 build(os.path.join(ROOT, 'boards', 'jig_master_stub', 'jig_master_stub.kicad_sch'), 'jig_master_stub', 'Test jig - master stub (goa console)',
       {1: 'Generated by tools/gen_jig.py from test_jig_spec.md v0.3 (section 2)',
        2: 'Bus amps as master_section_spec.md 2, 3, 12, 13, 18; GC REF jumper selects config D or A'},
-      paper='auto', perrow=24, revision='0.3')
+      paper='auto', perrow=24, revision='0.3', col_height=300)
+schgen.blocks[:] = AS_BUILT                                 # _intended.json in the parts' own order, as before
+schgen.write_intended(os.path.join(ROOT, 'boards', 'jig_master_stub', 'jig_master_stub.kicad_sch'))
 
 # ================================================================ load board  [jig spec 3]
-reset()
+reset(); schgen.DRAW.clear(); schgen.FRAGS.clear()        # the stub's drawings must not meet a recycled list id
 b = block('RIBBON  34-pin header like a strip; own ground spade; 10R ground cancel to pin 26 (strip-like ground)')
 bus_header(b, '+VBUS', '-VBUS', used={'MIXL', 'MIXR', 'SUB1', 'AUX1'}, unused='NC', pfldet='NC')
 P(b, ref('CN'), 'TAB', 'Ground spade 6.3mm (to the ground bar)', {1: 'GNDA'})

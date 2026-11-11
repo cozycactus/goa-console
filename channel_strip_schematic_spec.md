@@ -954,8 +954,21 @@ under the panel, set by the jack body (Neutrik NJ*FD-V drawing: flange front 24.
 CN3 (main board) are both on the bottom side, so the ribbon runs behind both boards. Since the pots turned their pins
 to the centre line (16.3), CN3 lies across the strip. Since v4.3 it sits at y ≈ 131.5, between the LO-MID and LF rows:
 the HPF FREQ dual's mounting tabs closed the gap at y ≈ 85.5 it had used (every gap between two pot rows is 9.2 mm,
-the boxed header needs ~10; the LF row has the EQ key on the right, 11.7 mm). CN5 on the jack board stays along y,
-so the 10-way ribbon makes one 90° fold (about 136 mm long, was 90).
+the boxed header needs ~10; the LF row has the EQ key on the right, 11.7 mm). CN5 on the jack board stayed along y
+until 2026-11-11, so the 10-way ribbon made one 90° fold (about 136 mm long, was 90); see the next paragraph.
+
+**CN5 across, the ribbon straight (2026-11-11, placement only, Ruslan):** the fold is gone. A 45° fold turns a flat
+cable over, and with the pin 1 positions as first placed the one fold above brought the stripe to CN3's wrong end
+(found while drawing the jig; the 3D model had drawn the link with twists). CN5 now lies across the jack board like
+CN3, bottom side, pin 1 on the right like CN3's (pins at x 19.34-29.5, y 22.86 / 25.4), and the ribbon runs straight
+from it to CN3: about 111 mm between the socket centres as `tools/console_3d.py` draws it, so a cut length of about
+125 mm (120 with both sockets and their tails, the rest slack; it was ~136 with the fold). It sits 1.7 mm right of
+CN3's line: J5's peg and tip pin stop it going further left, and J2's lower pins are 0.5 mm above its body. The
+header took the standoffs' place, so H1 / H2 moved from (23, 27) / (23, 37) to (21, 36) / (32, 36), and the panel's
+two stud positions with them (`panels/strip.dxf`, `strip_holes.csv`; panel checks 0 problems). J1's sleeve pad to
+the nearest standoff is 29.6 mm of CHASSIS copper (was 24.4, E5). The pin table below is unchanged; every link net
+on the jack board got shorter (IN_T 57 -> 44, IN_R 49 -> 31, SEND 33 -> 28, DO_T 28 -> 17, DO_R 22 -> 12 mm). Tried
+and dropped the same day: CN5 turned by 180° where it stood, which made the single fold fit.
 
 | Pin | Net | | Pin | Net |
 |-----|-----|-|-----|-----|
@@ -976,6 +989,10 @@ each standoff's panel end and wherever a panel meets the frame rails. CN3/CN5: W
 ---
 
 ## 17. Status (v5.7, 2026-10-29)
+
+2026-11-11, placement only (no netlist change, 16.4): jack board CN5 across the board for a straight ribbon, H1 / H2
+moved to (21, 36) / (32, 36), three parts changed; jack board DRC as before (the NJ6FD-V's own 12 items), 0 parity;
+panel checks 0 problems; `tools/sim_netlist.py` 45/45.
 
 v5.7 (docs/proposals/clicks_followup_proposal.md RV3b):
 - **Netlist:** 946 pin entries / 329 parts / 0 mismatches, check_fp 0, ERC 0; R143 and D23 added.

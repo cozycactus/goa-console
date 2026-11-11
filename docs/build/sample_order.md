@@ -2,7 +2,7 @@
 
 One small order, timed with the prototype strip panel (`docs/build/panel_makers.md`), that settles every open physical check
 before the batch of 29 panels and the console's parts are bought. Order codes are the BOM's (`bom/order_bom.csv`,
-`docs/build/offboard_bom.md`); the checks come from `docs/build/panel_parts_drawings.md`, strip spec §16 and the decisions in `CLAUDE.md`.
+`docs/build/offboard_bom.md`); the checks come from `docs/build/panel_parts_drawings.md`, strip spec §16 and the decisions in `docs/decisions_summary.md`.
 Most checks need the prototype panel and a 1:1 print of the strip board's top side; none needs a routed board.
 
 ## What to order
@@ -38,6 +38,9 @@ Since 2026-10-28 this list is merged into stage A of the phase-1 order (`python3
 
 1. **Fader footprint and height.** Lay a PTB0143 on a 1:1 print of its footprint (`goa-console:Potentiometer_Bourns_PTB0143_Slide_100mm`) and check:
    - the pads, and which side of the slot the pins are on;
+   - the ground end by continuity: with the lever at the operator end of its travel, pin 2 (the wiper) reads the end
+     resistance to pin 1, not 10 kΩ. If it is the other end, pins 1 and 3 swap in the netlist (`routing_guide.md`,
+     "Provisional areas");
    - with the 3.5 mm spacers and the prototype panel, that the blade top is 5.0 mm above the panel and its two M3
      fixings (120.0 apart) meet the panel holes;
    - the same for the PTB0144 on the master's print.

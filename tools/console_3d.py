@@ -295,38 +295,84 @@ def part_kw(fn, kw, **extra):
     ps = inspect.signature(fn).parameters
     return dict(kw, **{k: v for k, v in extra.items() if k in ps})
 
-def link_ribbon(c, name, j, m, dz=0.0):
+# Not used by any module since the group's links run straight (2026-11-11, later the same day: its four headers lie
+# across now and take link_ribbon's straight branch); kept for headers along the boards. It was the group's dress:
+# The group's two links (docs/decisions.md, 2026-11-11), by pins per row. Neither cable can lie in the sockets' ribbon
+# plane: on the jack board CN2's socket is in the 16-way's way out, on the main board CN4's socket overlaps the
+# 16-way's second fold and C81 / C82 stand between the two sockets. So the 16-way takes the strain-relief wrap at
+# both sockets and crosses under the 10-way (its second fold another 2 mm down), the 10-way the wrap at CN4.
+GROUP_DRESS = {8: dict(wrap=(True, True), drop=2.0), 5: dict(wrap=(False, True), drop=0.0)}
+
+def link_dress(j, m, sockets):
+    """folded_link's arguments for the link j -> m: its GROUP_DRESS entry, the main board's other link sockets as
+    x ranges to stay out of (for a cable that lies at their level) and the jack board's other sockets as boxes"""
+    d = dict(GROUP_DRESS.get(j['n'], {}))
+    ext = lambda q: (q['x'] - 3.0, q['y'] - 1.27 * q['n'] - 2.54, q['x'] + 3.0, q['y'] + 1.27 * q['n'] + 2.54)
+    if not d.get('drop'):
+        d['clear'] = [ext(q)[::2] for q in sockets if not q['jack'] and q is not m and q['along'] == 'y' and q['n'] != 17]
+    d['block'] = [ext(q) for q in sockets if q['jack'] and q is not j and q['along'] == 'y']
+    return d
+
+def link_ribbon(c, name, j, m, dz=0.0, dress=None):
     """Jack-board link: flat cable from the jack board's IDC socket j to the main board's socket m (dicts: n, x, y,
-    z = ribbon centre, along, y1 = the jack board's far edge, pin1). Long side along x: the cable leaves along y and
-    loops up past the jack board's edge. Along y: it leaves along x, bends down, turns a quarter twist into a run along y
-    below both boards, then twists back into a main-board socket along y, or rises straight into one along x. Red
-    stripe on the pin-1 edge. dz: a further drop for the run under the boards (a second link beside the first)."""
+    z = ribbon centre, along, y1 = the jack board's far edge, pin1). Red stripe on the pin-1 edge.
+    j along x (master): the cable leaves along y and loops up past the jack board's edge.
+    j and m along x, far apart (strip and group since 2026-11-11): a straight run under the boards and an S up into m.
+    j along y, m along x (the strip as first placed): the cable leaves j along x and is folded flat under the jack board into a run along
+    y, then rises into m. A 45-degree fold turns the cable over, so one fold only fits when it brings the stripe to
+    m's pin-1 end; otherwise the cable is folded away from m first and doubled back (a second turn-over). Which of the
+    two is drawn follows from the two headers' pin 1, so the drawing shows what the placed boards need.
+    j and m along y (the group as first placed): two flat folds (cable.folded_link): out of j sideways, folded into the run, folded again
+    into m. The route follows from pin 1 of the two headers and the build stops when no route brings pin 1 to pin 1
+    inside the board. dress: that cable's strain-relief wraps and levels (GROUP_DRESS, link_dress).
+    dz: a further drop for the run under the boards (a second link: the group's 10-way, which passes under the
+    16-way's sockets; the dip under each socket cover itself is not drawn)."""
     w = 2.54 * j['n']
-    if j['along'] == 'x':
+    if j['along'] == 'x' and m['along'] == 'x' and m['y'] - j['y1'] > 20.0:
+        st = 1 if j['pin1'][0] > j['x'] else -1             # both headers across, far apart (strip): a straight run
+        assert st == (1 if m['pin1'][0] > m['x'] else -1), 'link: pin 1 at opposite ends of the two headers'
+        z2 = j['z'] + dz; ya, yr1 = j['y'] + 3.0, m['y'] - 3.0; yr0 = yr1 - 30.0
+        path = [(j['x'], j['y'] - 4.5, j['z']), (j['x'], ya, j['z'])]
+        for k in range(1, 41):                              # level under the boards, an S up into m; any x offset spread over the run
+            y = ya + (yr1 - ya) * k / 40; v = k / 40; u = max(0.0, (y - yr0) / (yr1 - yr0))
+            path.append((j['x'] + (m['x'] - j['x']) * v * v * (3 - 2 * v), y, z2 + (m['z'] - z2) * u * u * (3 - 2 * u)))
+        path.append((m['x'], m['y'] + 4.5, m['z']))
+        me = cable.ribbon(path, [(1, 0, 0)], w, stripe=st)
+    elif j['along'] == 'x':
         r = (m['z'] - j['z']) / 2; yt = max(m['y'], j['y1']) + 4.0
         arc = [(j['x'], yt + r * math.sin(math.pi * k / 10), j['z'] + r - r * math.cos(math.pi * k / 10)) for k in range(11)]
         me = cable.ribbon([(j['x'], j['y'], j['z'])] + arc + [(m['x'], m['y'], m['z'])], [(1, 0, 0)], w,
                           stripe=1 if j['pin1'][0] > j['x'] else -1)
+    elif m['along'] == 'x':
+        h, T, RED = w / 2, cable.THICK, 1.32
+        dj = -1 if m['x'] < j['x'] else 1                   # the way the cable leaves j, towards m's line
+        sj = 1 if j['pin1'][1] > j['y'] else -1             # stripe edge on that first leg (+y / -y)
+        sm = 1 if m['pin1'][0] > m['x'] else -1             # stripe edge wanted on the run into m (+x / -x)
+        q = sm * dj * sj                                    # +1: one fold towards m; -1: fold away, then double back
+        xs, xf, jy, z1 = j['x'] + 3.0 * dj, j['x'] + dj * max(3.2 + h, abs(m['x'] - j['x'])), j['y'], j['z']
+        cx = lambda y: xf + q * dj * (y - jy)               # the crease, as x(y) and y(x)
+        cy = lambda x: jy + q * dj * (x - xf)
+        me = cable.flat_leg((xs, jy - h), (xs, jy + h), (cx(jy - h), jy - h), (cx(jy + h), jy + h), z1)
+        ya, yb = jy + sj * (h - RED), jy + sj * h
+        me.merge(cable.flat_leg((xs, ya), (xs, yb), (cx(ya), ya), (cx(yb), yb), z1, 'ribbon_red', T + 0.04))
+        ye = jy + h + 1.0; y2 = ye if q > 0 else jy - h - 2.0; z2 = z1 - T; xa, xb = xf + sm * (h - RED), xf + sm * h
+        me.merge(cable.flat_leg((xf - h, cy(xf - h)), (xf + h, cy(xf + h)), (xf - h, y2), (xf + h, y2), z2))
+        me.merge(cable.flat_leg((xa, cy(xa)), (xb, cy(xb)), (xa, y2), (xb, y2), z2, 'ribbon_red', T + 0.04))
+        if q < 0:                                           # doubled back under itself
+            z2 -= T
+            me.merge(cable.flat_leg((xf - h, y2), (xf + h, y2), (xf - h, ye), (xf + h, ye), z2))
+            me.merge(cable.flat_leg((xa, y2), (xb, y2), (xa, ye), (xb, ye), z2, 'ribbon_red', T + 0.04))
+        z2 += dz; yr1 = m['y'] - 3.0; yr0 = yr1 - 30.0      # level under the boards, then an S up into m, flat through it
+        path = [(xf, ye, z2 - dz), (xf, ye + 6.0, z2)]
+        for k in range(17):
+            u = k / 16; st = u * u * (3 - 2 * u)
+            path.append((xf + (m['x'] - xf) * st, yr0 + (yr1 - yr0) * u, z2 + (m['z'] - z2) * st))
+        path += [(m['x'], m['y'] + 4.5, m['z'])]
+        me.merge(cable.ribbon(path, [(1, 0, 0)], w, stripe=sm))
     else:
-        sj = 1 if j['pin1'][1] > j['y'] else -1                                         # pin-1 edge at each end
-        dj = -1 if m['x'] < j['x'] else 1; zl = min(j['z'], m['z']) - 8.0 + dz
-        ctrl = [((j['x'], j['y'], j['z']), (0, sj, 0)), ((j['x'] + 4 * dj, j['y'], j['z']), (0, sj, 0)),
-                ((j['x'] + 7 * dj, j['y'] + 2, j['z'] - 5), (0, sj, 0))]
-        if m['along'] == 'y':          # into a main-board socket along y: twist back, enter it along x
-            sm = 1 if m['pin1'][1] > m['y'] else -1; xr = (j['x'] + m['x']) / 2
-            ctrl += [((xr, j['y'] + 9, zl), (1, 0, 0)), ((xr, m['y'] - 9, zl), (1, 0, 0)),
-                     ((m['x'] - 7 * dj, m['y'] - 2, m['z'] - 5), (0, sm, 0)), ((m['x'] - 4 * dj, m['y'], m['z']), (0, sm, 0)),
-                     ((m['x'], m['y'], m['z']), (0, sm, 0))]
-        else:                          # into a socket along x: run under it and rise into it along y
-            sm = 1 if m['pin1'][0] > m['x'] else -1
-            ctrl += [((m['x'], j['y'] + 9, zl), (sm, 0, 0)), ((m['x'], m['y'] - 12, zl), (sm, 0, 0)),
-                     ((m['x'], m['y'] - 5, m['z'] - 3), (sm, 0, 0)), ((m['x'], m['y'], m['z']), (sm, 0, 0))]
-        path = cable.smooth([p for p, _ in ctrl], 8); k = 8
-        wd = []                                   # width direction blended between the control points
-        for i in range(len(path)):
-            a = min(i // k, len(ctrl) - 1); b = min(a + 1, len(ctrl) - 1); t = (i - a * k) / k if a < len(ctrl) - 1 else 0.0
-            wd.append(tuple((1 - t) * ctrl[a][1][q] + t * ctrl[b][1][q] for q in range(3)))
-        me = cable.ribbon(path, wd, w)
+        me, info = cable.folded_link(j, m, j['bx'], **(dress or {}))
+        print(f"{name}: {2 * j['n']}-way, two folds at x {info['xj']:.2f} / {info['xm']:.2f}, the run's stripe on the "
+              f"{info['stripe']}, {info['length']:.0f} mm between the socket centres")
     put(name, to_mesh(me, name), c, 0, 0, 0)
 
 WIRE = ['wire_green', 'wire_red', 'wire_red', 'wire_black', 'wire_black', 'wire_blue', 'wire_blue']   # J1 pins 1-7:
@@ -388,7 +434,7 @@ def module(key):
                 keyside = (1 if py > cy else -1) if along == 'x' else (1 if px > cx else -1)     # the notch: pin-1 column
                 me, zr = cable.idc_socket(n, cx, cy, zb - 3.0 if flip else zt + 3.0, along, flip, keyside)
                 put(f'{ref} IDC socket', to_mesh(me, f'{board} {ref} socket'), cb, 0, 0, 0)
-                sockets.append(dict(n=n, x=cx, y=cy, z=zr, along=along, jack=jackboard, y1=bd['y1'], pin1=(px, py)))
+                sockets.append(dict(n=n, x=cx, y=cy, z=zr, along=along, jack=jackboard, y1=bd['y1'], pin1=(px, py), bx=(bd['x0'], bd['x1'])))
             if key == 'master' and ref == 'J1' and not jackboard and ref in refs:
                 psu_cable(cb, p, refs[ref], zb)
             if p['model']: continue
@@ -419,7 +465,8 @@ def module(key):
                 put(ref, g.mesh(ref), cb, 0, 0, zt if p['side'] == 'F' else zb - 1.0)
     for k, j in enumerate(sorted((q for q in sockets if q['jack']), key=lambda q: -q['n'])):   # the group has two (RET1)
         m = next((q for q in sockets if not q['jack'] and q['n'] == j['n']), None)
-        if m: link_ribbon(cb, f'{key} jack-board link' + (f' {k + 1}' if k else ''), j, m, dz=-4.0 * k)
+        if m: link_ribbon(cb, f'{key} jack-board link' + (f' {k + 1}' if k else ''), j, m, dz=-4.0 * k,
+                          dress=link_dress(j, m, sockets) if j['along'] == m['along'] == 'y' else None)
     BUS[key] = sorted((q['x'], q['y'], q['z'], q['pin1'][1]) for q in sockets if not q['jack'] and q['n'] == 17)
     put(f'{key} pins', pins.mesh(f'{key} pins'), cb, 0, 0, 0)
     P = panel_layout.layout(key, data)              # cut-outs, screws and print: the fabrication drawings' source

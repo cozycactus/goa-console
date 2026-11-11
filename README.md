@@ -145,7 +145,7 @@ python3 tools/sim_netlist.py boards/channel_strip/channel_strip.net boards/jack_
 ```
 
 The whole console (24 strips, 4 groups and the master, each with its jack board, on the ribbon) is simulated from the
-generated netlists with `python3 tools/sim_console.py` (45 checks, about a minute; `--list` names them). It covers
+generated netlists with `python3 tools/sim_console.py` (108 checks, a little over a minute; `--list` names them). It covers
 levels, routing, mutes, PFL, returns, EXT, crosstalk, ground currents and noise. Regenerate the netlists first.
 
 The other generators work the same way:
@@ -203,7 +203,7 @@ $BLENDER -b --factory-startup --python tools/console_3d.py -- render
 - **Generated files are not edited by hand:** schematics, boards, footprints and 3D models. Change the generator
   (`tools/gen*.py`, `tools/master_lib.py`, `tools/place_*.py`, `tools/footprints.py`, `tools/models3d/`) and
   regenerate.
-- **Decisions are recorded with their date** in `CLAUDE.md` ("Decisions made") and in the specs. Changing one is a
+- **Decisions are recorded with their date** in `docs/decisions_summary.md` (one line each), `docs/decisions.md` (in full) and the specs. Changing one is a
   deliberate step, not a side effect.
 - **The Delta schematics are the circuit reference.** Where this design departs from them, the reason is in
   `docs/studies/delta_clone_comparison.md` or the spec.

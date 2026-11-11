@@ -537,7 +537,7 @@
       )
     )
 
-    (symbol "Connector_Generic:Conn_01x02" (pin_names (offset 1.016)) (in_bom yes) (on_board yes)
+    (symbol "Connector_Generic:Conn_01x02" (pin_names (offset 1.016) hide) (in_bom yes) (on_board yes)
       (property "Reference" "J" (at 0 2.54 0) (show_name)
         (effects (font (size 1.27 1.27)))
       )
@@ -635,7 +635,7 @@
       )
     )
 
-    (symbol "Connector:Screw_Terminal_01x03" (pin_names (offset 1.016)) (in_bom yes) (on_board yes)
+    (symbol "Connector:Screw_Terminal_01x03" (pin_names (offset 1.016) hide) (in_bom yes) (on_board yes)
       (property "Reference" "J" (at 0 5.08 0) (show_name)
         (effects (font (size 1.27 1.27)))
       )

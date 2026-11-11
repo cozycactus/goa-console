@@ -17,12 +17,16 @@ JACK_Y1, MAIN_Y0, MAIN_Y1 = 43.0, 44.0, 444.0   # jack board y 0-43, main board 
 
 # ================================================================ jack board
 JACK_FIX = {'J1': jack(XL, 12), 'J2': jack(XR, 12), 'J5': jack(XL, 32),              # line in, insert / direct out
-            # link header, bottom side, pins x 31 / 33.54, y 26.6-36.8 (pin 1 low, so its silk arrow points inboard)
-            'CN5': (31.0, 36.8, 180, 'B')}
+            # link header, bottom side, across the board like CN3 on the main board and pin 1 on the right like CN3's
+            # (2026-11-11): the 10-way ribbon runs straight to CN3, no fold. Pins x 19.34-29.5, y 22.86 / 25.4; 1.7 mm
+            # right of CN3's line (J5's peg and tip pin stop it going further left), 0.5 mm clear of J2's lower pins
+            'CN5': (29.5, 25.4, 90, 'B')}
 # M3 standoffs to the panel, length = jack body height (~24 mm); the jack caps hold the board too
-# plated, on CHASSIS (H1 / H2 in the jack board schematic, docs/studies/ground_study.md G2): they bond the sleeves to the panel
+# plated, on CHASSIS (H1 / H2 in the jack board schematic, docs/studies/ground_study.md G2): they bond the sleeves to the panel.
+# Both in the bottom band since 2026-11-11 (were at x 23, y 27 / 37, where the header now lies): J1's sleeve pad to H1 is
+# 29.6 mm (was 24.4)
 JACK_HOLES = []
-JACK_FIX.update({'H1': (23, 27, 0, 'F'), 'H2': (23, 37, 0, 'F')})
+JACK_FIX.update({'H1': (21, 36, 0, 'F'), 'H2': (32, 36, 0, 'F')})
 # E5 (docs/studies/emc_placement_study.md): the RF caps between J1's tip / ring pads and its sleeve pad, on the bottom, so the shunt
 # to CHASSIS is a few mm long. The standoffs can't come closer to J1: the jack courtyards leave no M3 spot nearer
 JACK_FIX.update({'C8': (6.2, 9.0, 270, 'B'), 'C9': (8.8, 12.0, 0, 'B')})

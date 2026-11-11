@@ -1,4 +1,4 @@
-# Routing guide: strip, group, master, their jack boards, the jig and the PSU (2026-10-26; layers, group, master, PSU 2026-10-27)
+# Routing guide: strip, group, master, their jack boards, the jig and the PSU (2026-10-26; layers, group, master, PSU 2026-10-27; provisional areas 2026-11-10; jig headers and CN5 2026-11-11)
 
 Notes for routing the first boards to build: the jig and four strips. They are drawn from the placed boards (net lengths
 are Manhattan minimum-spanning-tree estimates from the pads, as `tools/emc_check.py` measures them) and from
@@ -165,12 +165,16 @@ They are summing-bus lines: low impedance at audio, but their copper adds to the
 
 **Entry and outputs**
 - **The links:** to the jack board, run as pairs with a ground between pairs:
-  - CN3: the aux master's DRV135 outputs A_OP / A_ON (133–139 mm), the sub's S_OP / S_ON (50–53 mm), the insert
-    SUB_SEND (267 mm, behind its 75R) and SUB_RETRAW (89 mm);
-  - CN4: return 2.
+  - CN3 (across the board at y 183.5 since 2026-11-11, pin 1 right): the aux master's DRV135 outputs A_OP / A_ON
+    (128–145 mm), the sub's S_OP / S_ON (51 / 85 mm), the insert SUB_SEND (267 mm, behind its 75R) and SUB_RETRAW (88 mm);
+  - CN4 (across at y 204.25): return 2.
+  - **S_ON is the long leg:** its coupler C22 stands by the pan row, 47 mm from U4's sense pin (C21 23 mm). Both 10 µF
+    are inside the DRV135's sense loops: run S_ON and S_OP side by side where they share a path.
 - **The returns:** each run from its receiver through the level pot and PRE / PFL to the routing.
-  - **Return 1:** RT_RTNL / RTNR 168–176 mm; the pot wipers RT_WL / WR 71–90 mm.
-  - **Return 2:** RT2_ 45–111 mm.
+  - **Return 1:** RT_RTNL / RTNR 168–194 mm; the pot wipers RT_WL / WR 65–76 mm. Since 2026-11-11 the right channel's
+    coupler C55 stands below CN4 (RT_R 98 mm, RT_PRER 169 mm) and the left's routing coupler C61 by the pan row
+    (RT_BL 130 mm): op-amp outputs, low impedance, but long. U9A's film C56 is 16 mm from pin 3: guard that stub.
+  - **Return 2:** RT2_ 45–141 mm (RT2_PRER the longest).
   - **How:** low impedance after the followers; keep them on F.Cu, away from the LED lines.
 
 **Switching**
@@ -275,11 +279,14 @@ right up to the pads; that is part of the 4 A path.
 - **CHASSIS copper:**
   - **What's on it:** J1's sleeve, J5's sleeve, C8 / C9's chassis pads and H1 / H2.
   - **How to route it:** as wide as possible on both layers, a short pour from J1's sleeve pad to H1 / H2. That copper
-    is the input shield's only path to the panel, 24 mm (E5: no closer standoff fits).
+    is the input shield's only path to the panel, 29.6 mm from J1's sleeve pad to H1 since 2026-11-11 (24 mm before: the
+    standoffs moved to (21, 36) / (32, 36) to let CN5 lie across; E5: no closer standoff fits).
   - **Isolation:** no GNDA on it, and none of it on the link.
 - **C8 / C9:** their pads to J1's tip / ring as short as the pads allow; the chassis pad straight into the sleeve copper.
 - **The link CN5:** IN_T / IN_R on pins 1–2 with GNDA at 3 (as wired), SEND / RET_RAW split by grounds, DO_T / DO_R
-  last. GNDA on the jack board is only the link grounds and J2's sleeve (the insert), J1's normals and the insert.
+  last. Since 2026-11-11 the header lies across the board under J2 (pins x 19.34–29.5, y 22.86 / 25.4, pin 1 on the right
+  as on CN3), so the ribbon runs straight to CN3 without a fold; every link net got shorter (IN_T 44 mm, IN_R 31 mm,
+  DO_T 17, DO_R 12). GNDA on the jack board is only the link grounds and J2's sleeve (the insert), J1's normals and the insert.
 
 ## Jig master stub
 
@@ -292,7 +299,8 @@ right up to the pads; that is part of the 4 A path.
     would show up as a ground-cancel failure that isn't the console's.
 - **Summing nodes (MIXL_VE … PFL_VE) and re-inverter inputs:** 13–22 mm as placed. Keep them short, with ground around
   them.
-- **The bus lines from the header to the summers (MIX_L / MIX_R / SUB_1 / AUX_1–2 / PFL_MIX):** 86–222 mm.
+- **The bus lines from the header to the summers' ferrites (MIXL / MIXR / SUB1 / AUX1–2 / PFL):** 27–142 mm (2026-11-11, the
+  header turned: MIXL 27, MIXR 42, SUB1 56, PFL 73, AUX1 130, AUX2 142).
   - These are the virtual-earth buses: low impedance at audio frequencies, but their capacitance counts against the
     summers' stability (sim: fine to 2.2 nF).
   - Route them as straight runs with ground between them.
@@ -313,7 +321,9 @@ right up to the pads; that is part of the 4 A path.
 - **Routing:** each bus line (MIXL / MIXR / SUB1 / AUX1 / PFL) runs as a straight spine with its switches beside it;
   GNDA as a pour or wide return.
 - **The 1 nF jumpers' ground:** must be the bus's own reference, so the added capacitance is what the test intends.
-- **±VBUS:** about 140 mm, only if the load board takes supply (it passes the ribbon's) — wide.
+- **±VBUS:** 42–47 mm since 2026-11-11 (the dummy-load terminal J1 sits beside the header), only if the load board takes
+  supply (it passes the ribbon's) — wide. The header is on the right edge, with the spade and the 10R tap R1 beside it
+  (GCANCEL 26 mm); the 1 nF jumpers are on the left edge, at the far end of the bus spines.
 
 ## Net classes and DRC rules (in the projects, 2026-10-27)
 
@@ -396,6 +406,25 @@ minimum).
   - `<board>_gerbers.zip` to upload;
   - the position file and a JLCPCB CPL;
   - the BOM and the DRC report.
+
+## Provisional areas until the sample checks (2026-11-10)
+
+Six footprint or pin assumptions still wait for a sample part (`docs/build/sample_order.md`). A four-model review of the
+strip before routing (2026-11-10) found no netlist error; these were its "measure first" items. None is a reason to
+wait with the routing: if a sample disagrees, each costs a keep-out kept from the start or a local re-route. The fab
+files go out only after the checks.
+
+| Where | What may change | Route so that | Cleared by |
+|---|---|---|---|
+| Alpha RD901F / RD902F tab pads: two plated pads per pot, 2.72 × 3.24 mm with a 1.1 × 1.8 slot (strip 14 pots, group 3, master 5) | KiCad's slot is turned 90° from Alpha's PCB detail (Alpha: 1.8 along the tab line). A corrected footprint turns the pad to 3.24 × 2.72 | every track and via clears a 3.24 mm square centred on each tab pad, on all four layers: 0.26 mm more than the clearance rule asks at the pad's two long sides | check 4 (a tab on a 1:1 print) |
+| The fader's end pins, 127.5 mm apart (strip RV1: pin 1 GNDA at the operator end, pin 3 MUTEOUT) | if the element's ground end is the other end, pins 1 and 3 swap in the netlist | leave MUTEOUT's last leg to pin 3 until the check, or accept re-routing that one net. GNDA is the plane at either end | check 1 (the 1:1 print and the ground end by continuity) |
+| Pan pot end pins, 5.0 mm apart (strip RV8: 1 POST / 3 GNDA and 4 GNDA / 6 POST; the group's RV2 the same part) | if pad 1 is the CW end, the two end nets of a gang swap | POST's track can go on to the other end pad of its gang (5 mm past the wiper pad), with nothing routed across that path. GNDA is the plane at either pad | check 5 (pin 1 at the CCW end) |
+| D2 (WP3VEGW) pads 1 / 3, 4.0 mm apart (strip) | if pad 1 is not the red anode, OL_A and SIG_A swap | OL_A and SIG_A arrive at D2 together, from the same side | check 8 |
+| R38's ground end, beside U2 (strip, at 32.6 / 413.7) | CS9, only if the fader leaks more than −80 dB at its bottom stop (`docs/studies/console_survey.md`): a few ohms under R38 and a resistor from MUTEOUT into that node, both made last | R38's ground pad on its own via, with room for one 0805 beside it. The injection resistor's far end is a few-ohm node, so it can come from the fader top by any free route | check 9 |
+| NJ6FD-V on the three jack boards (3 / 7 / 9 jacks) | the Ø2.0 peg is drawn 3.18 mm off the axis in Neutrik's side view, 3.81 in its layout and in the footprint; the TN / RN / SN pad positions are unchecked | route as placed. A wrong pad or peg moves the jack's contacts, so it is the jack board that gets re-routed, not the main board | check 6 (1:1 print; continuity of T / TN, R / RN, S / SN with and without a plug) |
+
+The PVA2's orientation locks no copper: its six pads are symmetric under 180°, so a reversed sample changes only the
+way the key is fitted and the silk "2".
 
 ## Before routing
 

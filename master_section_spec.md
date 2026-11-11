@@ -735,8 +735,8 @@ The EXT receivers run at unity: a −10 dBV source arrives 7.8 dB low on the C/R
 
 ## 19. PFL detect, auto-switch, rude solo
 
-- PFLDET (pin 29) carries 38 keys: 24 strips, 12 on the group modules (sub AFL, aux AFL,
-  return PFL), aux 5/6 AFL on the master. Every pressed key connects +VL through 100K.
+- PFLDET (pin 29) carries 42 keys: 24 strips, 16 on the group modules (sub AFL, aux AFL,
+  two return PFLs since RET1), aux 5/6 AFL on the master. Every pressed key connects +VL through 100K.
 - **Clamp (2026-10-23).** A released key's pole B leaves its ON node floating. Without the clamp,
   PFLDET back-fed every released key's 100K + 4K7 + LED: with two or more solos pressed, every
   other PFL/AFL LED glowed faintly, and 24 presses read 9.0 V, not 11.8 V. So the master:
