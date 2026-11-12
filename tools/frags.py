@@ -496,3 +496,131 @@ def select(d, jps, common):
     d.port(common, (0, 2)); d.w((0, 2), (3, 2), (3, 2 + 4 * (len(jps) - 1)))
     for i, jp in enumerate(jps):
         y = 2 + 4 * i; d.at(jp, 7, y); d.w((3, y), (jp, 1)); d.w((jp, 2), (12, y)); d.port(d.nets(jp)['2'], (12, y), 'R')
+
+
+# ---------------------------------------------------------------- connector pin lists and jack boards (2026-11-12)
+# For a sheet that is one drawing (the jack boards, the jig's load board): symbols point down, CHASSIS has its own.
+DOWN = GROUNDS + ('CHASSIS',)
+
+
+def pin_list(d, r, x, y, stub=2, wired=(), short=()):
+    """A two-row connector as the list of its pins: every signal pin on a stub with its net's name at the end (left
+    pins to the left, right pins to the right); the pins of a ground net run out to one vertical rail beyond the
+    names, which ends in one symbol under the connector, pointing down. NC pins stay bare (the builder flags them);
+    the pins in `wired` are the caller's; a side in `short` ('L' / 'R') ends its rail under the rail's own last pin,
+    not under the connector (nothing may stand there). Returns (the grid y under everything drawn,
+    {(ground net, 'L' / 'R'): the top of its rail on that side})."""
+    d.at(r, x, y); n = d.nets(r); cx = d.xy(x, y)[0]; g = 2.54; bottom = y; tops = {}
+    for s in (-1, 1):
+        rows = sorted((round((py - d.oy) / g, 2), round((px - d.ox) / g, 2), pn)
+                      for pn in n for px, py in [d.pin(r, pn)] if (px < cx) == (s < 0))
+        names = [n[pn] for _, _, pn in rows if n[pn] not in DOWN + ('NC',) and pn not in wired]
+        far = stub + int(max([len(t) for t in names] or [0]) * 0.47 + 2.5)          # past the longest name
+        last = rows[-1][0]; rails = {}
+        for gy, gx, pn in rows:
+            net = n[pn]
+            if pn in wired or net == 'NC': continue
+            if net in DOWN: rails.setdefault(net, []).append((gy, gx, pn)); continue
+            d.w((r, pn), (gx + s * stub, gy)); d.port(net, (gx + s * stub, gy), 'L' if s < 0 else 'R')
+        # the rail of the net whose first pin is lowest stands nearest, so that no stub crosses another net's rail
+        for k, (net, ps) in enumerate(sorted(rails.items(), key=lambda kv: -kv[1][0][0])):
+            rx = ps[0][1] + s * (far + 4 * k)
+            for gy, gx, pn in ps: d.w((r, pn), (rx, gy))
+            side = 'L' if s < 0 else 'R'; end = (ps[-1][0] if side in short else last) + 2
+            d.w((rx, ps[0][0]), (rx, end)); d.gnd((rx, end), net); tops[(net, side)] = (rx, ps[0][0])
+            bottom = max(bottom, end + 2)
+        bottom = max(bottom, last + 1)
+    return bottom, tops
+
+
+def rail_flag(d, f, top):
+    """A PWR_FLAG of the parts list standing on the top of its net's rail (pin_list): where the rail enters."""
+    d.w(top, (top[0], top[1] - 1.5)); d.at(f, top[0], top[1] - 1.5)
+
+
+def jack_fig(d, r, x, y, s=-1):
+    """A panel jack or XLR with what is its own: the sleeve (an XLR's pin 1 and shell) on a symbol under it, a normal
+    contact on GNDA on a ground column, a normal that is the jack's own tip or ring wired to it. s = -1: the contacts
+    face left (the jack stands at the right), +1: right. Returns (sig, far): sig {net: (x, y)}, each signal's contact
+    for the caller to wire on from; far {net: (x, y)}, the end of a normal that takes another jack's signal."""
+    key = next(pt['key'] for pt in d.parts if pt['ref'] == r); n = d.nets(r); j = 'left' if s < 0 else 'right'
+    if key == 'XLR3':
+        d.at(r, x, y, mirror='y' if s < 0 else None)
+        d.fld(r, ref_at=(-s * 5, -0.6, j), val_at=(-s * 5, 0.6, j))
+        e = x - s * 4                                         # pin 1 and the shell meet behind the connector
+        d.w((r, 'G'), (x, y - 4), (e, y - 4), (e, y + 5)); d.w((r, 1), (e, y)); d.gnd((e, y + 5), n['1'])
+        d.w((r, 3), (x, y + 4))
+        return {n['2']: (x + s * 3, y), n['3']: (x, y + 4)}, {}
+    sw = key == 'JACKSW'; yt = y - 2 if sw else y - 1          # the tip's row; the ring's is y, the sleeve's y + 1
+    d.at(r, x, y, **(dict(rot=180) if s < 0 else dict(mirror='x')))
+    d.fld(r, ref_at=(-s * 3, yt - y + 0.4, j), val_at=(-s * 3, yt - y + 1.6, j))
+    d.w((r, 'S'), (x + s * 3.5, y + 1), (x + s * 3.5, y + 2)); d.gnd((x + s * 3.5, y + 2), n['S'])
+    sig = {n['T']: (x + s * 2, yt), n['R']: (x + s * 2, y)}; far = {}; gnd = []
+    for pn, row, col in (('TN', y - 3, 10), ('RN', y - 1, 11)) if sw else ():
+        net = n[pn]
+        if net == 'NC': continue
+        if net in GROUNDS: gnd.append((pn, row, net))
+        elif net in (n['T'], n['R']): d.w((r, pn), (x + s * 3.5, row), (x + s * 3.5, yt if net == n['T'] else y))
+        else: d.w((r, pn), (x + s * col, row)); far[net] = (x + s * col, row)
+    if gnd:                                                    # the normals on ground: one column, one symbol
+        for pn, row, net in gnd: d.w((r, pn), (x + s * 8.5, row))
+        d.w((x + s * 8.5, gnd[0][1]), (x + s * 8.5, y + 2)); d.gnd((x + s * 8.5, y + 2), gnd[0][2])
+    return sig, far
+
+
+def standoffs(d, hs, x, y, flag=True):
+    """The plated standoff holes in a row, each on its own CHASSIS symbol; the drawing's PWR_FLAG for CHASSIS (no
+    power output pin drives it) on a stub at the first."""
+    for i, h in enumerate(hs):
+        hx = x + 12 * i
+        d.at(h, hx, y); d.fld(h, ref_at=(1, -1, 'left'), val_at=(1, 0, 'left'))
+        d.w((h, 1), (hx, y + 2)); d.gnd((hx, y + 2), 'CHASSIS')
+    if flag and hs: d.w((x, y + 1.5), (x - 3, y + 1.5), (x - 3, y + 0.5)); d.flag((x - 3, y + 0.5))
+
+
+def jack_board(d):
+    """A jack board as one drawing: the link(s) to the main board at the left as pin lists, the panel jacks at the
+    right in link order, each with its sleeve, normals and wires of its own; a signal's name stands at the jack and
+    at its link pin (a two-row link can't be reached by wires from one side without a nest of crossings)."""
+    ps = d.parts; of = lambda *keys: [p['ref'] for p in ps if p['key'] in keys or (keys == ('LINK',) and p['key'].startswith('LINK'))]
+    links, jacks, holes = of('LINK'), of('JACK', 'JACKSW', 'XLR3'), of('MHPAD')
+    XL, XJ, COL = 22, 72, 44
+    y = 1; tops = {}
+    for cn in links:                                           # the links, one under the other
+        rows = len(d.nets(cn)) // 2
+        y, t = pin_list(d, cn, XL, y + 2 + (rows + 1) // 2); y += 5; tops = {**t, **tops}
+    standoffs(d, holes, XL - 14, y + 2)
+    sw = [d.nets(j) for j in of('JACKSW')]
+    notes = ['H: plated M3 standoffs, they bond CHASSIS (the sleeves' + (', XLR pin 1 and shell' if of('XLR3') else '') + ') to the panel.']
+    if any(n.get('RN') == n['T'] for n in sw):
+        notes.append('Insert: tip = send, ring = return; unplugged, the ring normal puts the send on the return.')
+    if any(n.get('TN') in GROUNDS for n in sw):
+        notes.append('L in: its normals put tip and ring on GNDA when nothing is plugged in.')
+    if any(n.get('TN') not in GROUNDS + ('NC',) for n in sw):
+        notes.append('R in: its normals take the L jack\'s tip and ring (R normalled to L).')
+    for i, t in enumerate(notes): d.note(t, (XL - 18, y + 7.3 + 1.1 * i), 1.27)
+    for f in ps_flags(ps):                                     # a parts' flag stands on its net's right-hand rail
+        net = d.nets(f)['1']
+        if (net, 'R') in tops: rail_flag(d, f, tops[(net, 'R')])
+    # the jacks: lanes in link order, a new column when the sheet would grow past its height
+    height = {'JACK': 6, 'JACKSW': 8, 'XLR3': 12}; key = {p['ref']: p['key'] for p in ps}
+    col, ly, lines = 0, 0, {}
+    late = {d.nets(f)['1']: f for f in ps_flags(ps) if (d.nets(f)['1'], 'R') not in tops}      # no right-hand rail: at a sleeve
+    for i, j in enumerate(jacks):
+        h = height[key[j]]; pair = h + (height[key[jacks[i + 1]]] if i + 1 < len(jacks) and key[j] == 'JACKSW' else 0)
+        if ly and ly + pair > 54: col, ly = col + 1, 0
+        x = XJ + COL * col; jy = ly + {'JACK': 2, 'JACKSW': 4, 'XLR3': 5}[key[j]]
+        sig, far = jack_fig(d, j, x, jy)
+        for net, (sx, sy) in sig.items():
+            d.w((sx, sy), (x - 14, sy)); d.port(net, (x - 14, sy), 'L'); lines[net] = (x, sy)
+        for net, (fx, fy) in far.items():                      # a normal on the jack above: R normalled to L
+            assert net in lines and lines[net][0] == x, f'{j}: {net} is not on the jack above'
+            d.w((fx, fy), (fx, lines[net][1]))
+        sleeve = d.nets(j).get('S')
+        if sleeve in late:                                     # its flag hangs beside the sleeve's symbol
+            d.w((x - 3.5, jy + 1), (x - 6.5, jy + 1)); d.at(late.pop(sleeve), x - 6.5, jy + 1, rot=180)
+        ly += h
+    assert not late, f'no place for the flag of {sorted(late)}'
+
+
+def ps_flags(ps): return [p['ref'] for p in ps if p['key'] == 'FLAG']

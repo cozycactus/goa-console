@@ -35,6 +35,7 @@ SYM = {  # key: (lib, symbol)
  'HDR': ('Connector_Generic', 'Conn_02x17_Odd_Even'), 'TAB': ('Connector_Generic', 'Conn_01x01'),
  'OPA1656': ('Amplifier_Operational', 'OPA1656ID'), 'MHPAD': ('Mechanical', 'MountingHole_Pad'),
  'GNDA': ('power', 'GNDA'), 'GNDD': ('power', 'GNDD'), 'GNDM': ('goa-console', 'GNDM'), 'PHONESGND': ('goa-console', 'PHONESGND'), 'FLAG': ('power', 'PWR_FLAG'),
+ 'CHASSIS': ('goa-console', 'CHASSIS'),      # local to its sheet; only where a drawing places it (the jack boards): elsewhere CHASSIS is a label
 }
 FP = {
  'R': 'Resistor_SMD:R_0805_2012Metric', 'C': 'Capacitor_SMD:C_0805_2012Metric',
@@ -61,9 +62,9 @@ CAP_FP = {'220u': 'Capacitor_THT:CP_Radial_D10.0mm_P5.00mm', '47u': 'Capacitor_T
 AMPS = {'OPA': 3, 'CMP': 3, 'OPA1656': 3, 'TL072': 3, 'LM2901': 5}     # op-amp / comparator keys: power unit
 DGPWR = {'DG': 5}
 POWER_SYMBOL_NETS = ('GNDA', 'GNDD', 'GNDM', 'PHONESGND')
-LOCAL_POWER = {'+V', '0V', '-V'}     # power symbols the library marks local to their sheet: the net keeps the sheet's '/', as a label's does
+LOCAL_POWER = {'+V', '0V', '-V', 'CHASSIS'}     # power symbols the library marks local to their sheet: the net keeps the sheet's '/', as a label's does
 HIDE_PIN_NUMBERS = {'R', 'C', 'CP', 'POT', 'POT2', 'D', 'LED', 'ZEN', 'SCH', 'NT', 'DS', 'DZ', 'TAB', 'MHPAD', 'GNDA', 'GNDD', 'FLAG', 'TRIM', 'SJO',
-                    'L', 'S1G', 'TL431', '+V', '0V', '-V'}
+                    'L', 'S1G', 'TL431', '+V', '0V', '-V', 'CHASSIS'}
 HIDE_PIN_NAMES_ONLY = {'SJ3', 'SJ2', 'LME49600', 'JFET', 'SCR'}
 HIDE_PIN_NAMES = HIDE_PIN_NUMBERS | {'SW', 'LINK', 'HDR', 'CONN6', 'CONN2', 'TAB', 'JACK', 'JACKSW', 'HDR5', 'NPN', 'PNP', 'PWRIN',
                                      'JMP2', 'JMP3', 'TERM3', 'BNC', 'TP', 'TERM2', 'TERM7'}

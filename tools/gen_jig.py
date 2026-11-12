@@ -269,6 +269,69 @@ for bus in ('MIXL', 'MIXR', 'SUB1'):
 b = block('DUMMY WING LOAD  terminal for external power resistors (about 17 R / 20 W per rail = one 12-strip wing, 1 A)')
 P(b, ref('J'), 'TERM3', 'Dummy load +V / 0 V / -V', {1: '+VBUS', 2: 'GNDA', 3: '-VBUS'})
 project('jig_load_board'); parts_sidecar(os.path.join(ROOT, 'boards', 'jig_load_board', 'jig_load_board.kicad_sch'))
+
+# ---------------------------------------------------------------- the load board's drawing (2026-11-12)
+# One wired drawing of the parts above (their order, references and nets untouched; the functional blocks are in
+# jig_load_board_parts.json already): the ribbon header as a pin list at the left with the 10R ground cancel, the ground
+# spade and the wing-load terminal wired to it, and one row per bus, the four dummy groups hanging from the bus line.
+LB_HEAD = [t for t, _ in schgen.blocks]; LB_PARTS = [p for _, ps in schgen.blocks for p in ps]
+
+
+def load_board(d):
+    ps = d.parts; one = lambda key: next(p['ref'] for p in ps if p['key'] == key)
+    by_net = lambda key, pin, net: next(p['ref'] for p in ps if p['key'] == key and p['pins'].get(str(pin)) == net)
+    hdr, tab, term = one('HDR'), one('TAB'), one('TERM3')
+    XL, YL = 20, 12; L, Rr = XL - 2, XL + 3; row = lambda pin: YL - 8 + (pin - 1) // 2     # the header: rows YL - 8 .. YL + 8
+    bottom, tops = frags.pin_list(d, hdr, XL, YL, wired=('26', '30', '31', '32', '33', '34'), short=('R',))
+    d.fld(hdr, val_at=(-1.5, -9.5, 'right'))                   # its value beside its reference: the rails run under the header
+    # the ground spade and the GNDA flag on top of the header's ground rail
+    gx, gy = tops[('GNDA', 'R')]
+    d.at(tab, gx + 4, gy - 2); d.w((gx, gy), (gx, gy - 2), (tab, 1)); d.w((gx, gy - 2), (gx, gy - 3.5)); d.at('#FLG01', gx, gy - 3.5)
+    # pin 26: the 10R ground cancel, as on a strip
+    rgc = by_net('R', 2, 'GCANCEL'); y = row(26)
+    d.h(rgc, Rr + 9.5, y, left='GCANCEL'); d.w((hdr, 26), (Rr + 2, y)); d.w((Rr + 2, y), (Rr + 8, y)); d.port('GCANCEL', (Rr + 2, y), 'R')
+    d.w((Rr + 11, y), (Rr + 12, y), (Rr + 12, y + 1.5)); d.gnd((Rr + 12, y + 1.5))
+    # the rails to the wing-load terminal: +VBUS (32 / 34, and 33 round the bottom), -VBUS outside it (30, and 31 round)
+    # (one crossing: +VBUS leaves its loop through -VBUS's); the terminal under the header, +VBUS to its lower pin from below
+    yb = YL + 12; XT, YT = Rr + 13, yb + 5
+    d.at(term, XT, YT, mirror='x')                             # pin 3 (-VBUS) on top, pin 1 (+VBUS) at the bottom
+    d.fld(term, ref_at=(1, -0.6, 'left'), val_at=(1, 0.6, 'left'))
+    d.w((hdr, 32), (Rr + 2, row(32)), (Rr + 2, row(34))); d.w((hdr, 34), (Rr + 2, row(34)), (Rr + 2, yb))
+    d.w((hdr, 33), (L - 1, row(33)), (L - 1, yb), (Rr + 2, yb))
+    d.w((Rr + 2, yb), (Rr + 2, YT + 4), (XT - 3, YT + 4), (XT - 3, YT + 1), (term, 1)); d.port('+VBUS', (Rr + 2, YT + 4), 'L')
+    d.w((hdr, 30), (Rr + 4, row(30)), (Rr + 4, yb + 1)); d.w((Rr + 4, yb + 1), (Rr + 4, YT - 1), (term, 3))
+    d.w((hdr, 31), (L - 2, row(31)), (L - 2, yb + 1), (Rr + 4, yb + 1)); d.port('-VBUS', (L - 2, yb + 1), 'L')
+    d.w((term, 2), (XT - 4.5, YT), (XT - 4.5, YT + 2)); d.gnd((XT - 4.5, YT + 2))
+    wl = LB_HEAD[3].index('(')
+    d.note(LB_HEAD[3][:wl].rstrip(), (0, YT + 8), 2.0); d.note('  ' + LB_HEAD[3][wl:], (0, YT + 9.6), 2.0)
+    # one row per bus: its name where it comes from the header, the dummy groups hanging from the bus line
+    X0, Y0, PITCH = 58, 7, 12
+    buses = ('MIXL', 'MIXR', 'SUB1', 'AUX1', 'PFL')
+    d.note(LB_HEAD[1].split(';')[0] + ';', (X0 - 4, 0.5), 2.0); d.note('  ' + LB_HEAD[1].split(';', 1)[1].strip(), (X0 - 4, 2.1), 2.0)
+    cb = LB_HEAD[2]; c1, c2 = cb.index(' per '), cb.index(': ') + 1                 # under the three jumpers, beside the rows without one
+    for i, t in enumerate((cb[:c1], '  ' + cb[c1 + 1:c2], '  ' + cb[c2 + 1:])): d.note(t, (X0 + 70, Y0 + 3 * PITCH + 1 + 1.6 * i), 2.0)
+    for k, bus in enumerate(buses):
+        y = Y0 + k * PITCH; end = X0
+        d.port(bus, (X0 - 2, y), 'L')
+        for i, n in enumerate((1, 3, 4, 12)):
+            gx = X0 + 12 + 18 * i; node = f'{bus}_G{n}'
+            r = by_net('R', 2, node); sw = by_net('SLIDE', 2, node)
+            d.at(sw, gx, y + 3); d.fld(sw, ref_at=(-6.5, 1.3, 'left'), val_at=(-6.5, 2.2, 'left'))
+            d.h(r, gx - 8.5, y + 3, left='GNDA'); d.w((gx - 10, y + 3), (gx - 11, y + 3), (gx - 11, y + 4.5)); d.gnd((gx - 11, y + 4.5))
+            d.w((gx - 7, y + 3), (sw, 2)); d.port(node, (gx - 7, y + 3), 'R')
+            d.w((sw, 1), (gx + 3, y + 2), (gx + 3, y)); d.w((sw, 3), (gx + 3, y + 4), (gx + 3, y + 5)); d.gnd((gx + 3, y + 5))
+            end = gx + 3
+        if any(p['key'] == 'JMP2' and p['pins']['1'] == bus for p in ps):      # the bus capacitance on its jumper
+            jp = by_net('JMP2', 1, bus); c = by_net('C', 1, bus + '_CB'); jx = X0 + 12 + 18 * 4 - 2
+            d.at(jp, jx, y + 3); d.fld(jp, ref_at=(1, 0, 'left'), val_at=(1, 1, 'left'))
+            d.w((jx - 4, y), (jx - 4, y + 3), (jp, 1)); end = jx - 4
+            d.w((jp, 2), (jx - 3, y + 4), (jx - 3, y + 5)); d.port(bus + '_CB', (jx - 3, y + 4), 'L')
+            d.v(c, jx - 3, y + 6.5, top=bus + '_CB'); d.w((jx - 3, y + 8), (jx - 3, y + 8.5)); d.gnd((jx - 3, y + 8.5))
+        d.w((X0 - 2, y), (end, y))
+
+
+schgen.blocks[:] = []
+block(LB_HEAD[0], load_board).extend(LB_PARTS)
 build(os.path.join(ROOT, 'boards', 'jig_load_board', 'jig_load_board.kicad_sch'), 'jig_load_board', 'Test jig - load board (goa console)',
       {1: 'Generated by tools/gen_jig.py from test_jig_spec.md v0.2 (section 3)',
        2: 'Dummy channels raise the bus noise gain to the 24-channel value'},

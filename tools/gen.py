@@ -1,7 +1,7 @@
 """Generate the channel-strip schematic from its netlist (the P(...) calls below), and the jack-board
 schematic (jack_board.kicad_sch, written next to it). Builder and part maps are in schgen.py."""
 import os, sys
-import schgen, strip_draw
+import schgen, strip_draw, frags
 from schgen import P, build, FADER_FP, CAP_FP, SYM, FP
 def block(title): return schgen.block(title, draw=strip_draw.for_title(title))   # drawn blocks: strip_draw.py
 
@@ -393,8 +393,37 @@ if os.environ.get('PILOT'):                     # only the drawn blocks, on a sh
           paper='auto', revision='5.7', only=lambda t: strip_draw.for_title(t) is not None, **strip_draw.SHEET)
 
 # ---------------------------------------------------------------- jack board (its own PCB; same net names)
+def jack_board_draw(d):
+    """The link at the left, the three jacks at the right facing it, every signal a wire: the link's right-hand pins
+    straight from the jacks; IN_T goes over the link to pin 1 and DO_R under it to pin 9, the two that are on its
+    left side."""
+    XL, YL, XJ = 16, 15, 50                                    # the link (pin rows YL - 2 .. YL + 2), the jacks' column
+    L, Rr = XL - 2, XL + 3                                     # its pin columns
+    bottom, tops = frags.pin_list(d, 'CN5', XL, YL, stub=4, wired=('1', '2', '4', '6', '8', '9'))
+    frags.rail_flag(d, '#FLG01', tops[('GNDA', 'L')])
+    lane = {}
+    for j, y in (('J1', 5), ('J2', 16), ('J5', 27)):
+        sig, far = frags.jack_fig(d, j, XJ, y); lane.update(sig); assert not far
+    (x, y) = lane['IN_T']; d.w((x, y), (L - 2, y), (L - 2, YL - 2), ('CN5', 1)); d.port('IN_T', (L - 2, y), 'L')
+    (x, y) = lane['IN_R']; d.w((x, y), (Rr + 8, y), (Rr + 8, YL - 2), ('CN5', 2)); d.port('IN_R', (Rr + 8, y), 'L')
+    for ref_, net, cx in (('C9', 'IN_R', XJ - 14), ('C8', 'IN_T', XJ - 18)):                 # RF shunts at the jack
+        y0 = lane[net][1]; cy = lane['IN_R'][1] + 3.5
+        d.v(ref_, cx, cy, top=net, text='L' if ref_ == 'C8' else None); d.w((cx, y0), (cx, cy - 1.5)); d.w((cx, cy + 1.5), (cx, cy + 2.5)); d.gnd((cx, cy + 2.5), 'CHASSIS')
+    (x, y) = lane['SEND']; d.w((x, y), (Rr + 12, y), (Rr + 12, YL - 1), ('CN5', 4)); d.port('SEND', (Rr + 12, y), 'L')
+    (x, y) = lane['RET_RAW']; d.w((x, y), (Rr + 14, y), (Rr + 14, YL), ('CN5', 6)); d.port('RET_RAW', (Rr + 14, y), 'L')
+    (x, y) = lane['DO_T']; d.w((x, y), (Rr + 8, y), (Rr + 8, YL + 1), ('CN5', 8)); d.port('DO_T', (Rr + 8, y), 'L')
+    (x, y) = lane['DO_R']; d.w((x, y), (L - 2, y), (L - 2, YL + 2), ('CN5', 9)); d.port('DO_R', (L - 2, y), 'L')
+    frags.standoffs(d, ['H1', 'H2'], 4, 33)
+    for i, t in enumerate(('J1 line in: its normals put tip and ring on GNDA when nothing is plugged in (the 1M bias would hiss otherwise);',
+                           '   C8 / C9 are the RF shunts at the jack.',
+                           'J2 insert: tip = send, ring = return; unplugged, the ring normal puts the send on the return.',
+                           'Sleeves: the balanced jacks (J1, J5) on CHASSIS, bonded to the panel through the plated standoffs H1 / H2,',
+                           '   so cable-shield currents stay out of GNDA; the insert (single-ended) keeps GNDA.')):
+        d.note(t, (30, 33.5 + 1.1 * i), 1.27)
+
+
 schgen.blocks.clear()
-b = block('JACK BOARD  (3 x NJ6FD-V ~24 mm under the panel; 10-way IDC ribbon to CN3 on the main board)')
+b = schgen.block('JACK BOARD  (3 x NJ6FD-V ~24 mm under the panel; 10-way IDC ribbon to CN3 on the main board)', jack_board_draw)
 # G2 (docs/studies/ground_study.md): the balanced jacks' sleeves (line in, direct out) on CHASSIS, bonded through the plated
 # standoff holes H1 / H2 to the panel, so cable-shield currents stay out of GNDA; the insert (single-ended) keeps GNDA.
 # J1's normals short tip and ring to GNDA when nothing is plugged in (the 1M bias would hiss otherwise).

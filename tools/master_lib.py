@@ -374,7 +374,8 @@ def jack_board(out, project, title, jacks, n, link, holes=0, more=()):
     holes: plated M3 standoff holes H1..Hn on CHASSIS (they bond the sleeves' CHASSIS to the panel).
     more: further links, [(n, link, value)], after the first."""
     reset()
-    b = block(f'JACK BOARD  panel jacks under the panel (~24 mm deep); 2x{n} IDC ribbon to the main board, pin = conductor')
+    b = block(f'JACK BOARD  panel jacks under the panel (~24 mm deep); 2x{n} IDC ribbon to the main board, pin = conductor',
+              frags.jack_board)
     for j in jacks:
         P(b, ref('J'), j['key'], j['value'], j['pins'], fp=JB_FP[j['key']], mpn=JB_MPN[j['key']])
     link_header(b, n, link, f'Main board link 2x{n}')
