@@ -26,9 +26,11 @@ class Drawing:
         self.wires = []            # [((x0, y0), (x1, y1))] mm
         self.ports = []            # (net, (x, y), side) labels
         self.gnds = []             # (net, (x, y), direction of the symbol: 'D' down, 'U' up, 'L', 'R')
+        self.flags = []            # ((x, y), 'U' / 'D'): PWR_FLAGs of the drawing (not parts), see flag()
         self.notes = []            # (text, (x, y), size)
         self.height = 20           # grid units the block takes, set by the draw function
         self.textside = {}         # ref -> 'L' / 'R': which side of a vertical part its reference and value go
+        self.fields = {}           # (ref, unit) -> (reference, value) places set by fld(): each (dx, dy, justify) or None
         self.unit = {}
         for pt in parts:
             for pn in pt['pins']: self.unit[(pt['ref'], pn)] = pt['unit']
@@ -49,6 +51,17 @@ class Drawing:
             self.textside[(ref, unit)] = text
             if len(units) == 1: self.textside[ref] = text
         self.place[(ref, unit)] = (snap(self.ox + x * G), snap(self.oy + y * G), rot, mirror)
+
+    def fld(self, ref, ref_at=None, val_at=None, unit=None):
+        """Explicit places for a part's reference and value, where the layout's defaults would collide: each (dx, dy) or
+        (dx, dy, justify), in grid units from the part's origin as seen on the sheet (x right, y down); justify 'left'
+        (the text starts at the point), 'right' (ends there) or none (centred on it). None keeps the default."""
+        units = sorted({pt['unit'] for pt in self.parts if pt['ref'] == ref})
+        if unit is None:
+            if len(units) != 1: raise SystemExit(f'{ref}: give the unit ({units})')
+            unit = units[0]
+        norm = lambda f: f and (f[0] * G, f[1] * G, f[2] if len(f) > 2 else None)
+        self.fields[(ref, unit)] = (norm(ref_at), norm(val_at))
 
     def nets(self, ref):
         """{pin: net} of a part (all its units)."""
@@ -115,6 +128,12 @@ class Drawing:
 
     def gnd(self, p, net='GNDA', d='D'):
         self.gnds.append((net, self.pt(p), d))
+
+    def flag(self, p, d='U'):
+        """A PWR_FLAG at point p (the end of a stub off the rail it marks), standing up ('U') or hanging ('D'): for a rail
+        that only power symbols and passive pins are on, so that ERC sees it driven. It belongs to the drawing, as a
+        power symbol does: no part, nothing in the netlist."""
+        self.flags.append((self.pt(p), d))
 
     def note(self, text, p, size=1.5):
         self.notes.append((text, self.xy(*p), size))

@@ -61,10 +61,12 @@ CAP_FP = {'220u': 'Capacitor_THT:CP_Radial_D10.0mm_P5.00mm', '47u': 'Capacitor_T
 AMPS = {'OPA': 3, 'CMP': 3, 'OPA1656': 3, 'TL072': 3, 'LM2901': 5}     # op-amp / comparator keys: power unit
 DGPWR = {'DG': 5}
 POWER_SYMBOL_NETS = ('GNDA', 'GNDD', 'GNDM', 'PHONESGND')
-HIDE_PIN_NUMBERS = {'R', 'C', 'CP', 'POT', 'POT2', 'D', 'LED', 'ZEN', 'SCH', 'NT', 'DS', 'DZ', 'TAB', 'MHPAD', 'GNDA', 'GNDD', 'FLAG', 'TRIM', 'SJO'}
-HIDE_PIN_NAMES_ONLY = {'SJ3', 'SJ2', 'LME49600', 'JFET'}
+LOCAL_POWER = {'+V', '0V', '-V'}     # power symbols the library marks local to their sheet: the net keeps the sheet's '/', as a label's does
+HIDE_PIN_NUMBERS = {'R', 'C', 'CP', 'POT', 'POT2', 'D', 'LED', 'ZEN', 'SCH', 'NT', 'DS', 'DZ', 'TAB', 'MHPAD', 'GNDA', 'GNDD', 'FLAG', 'TRIM', 'SJO',
+                    'L', 'S1G', 'TL431', '+V', '0V', '-V'}
+HIDE_PIN_NAMES_ONLY = {'SJ3', 'SJ2', 'LME49600', 'JFET', 'SCR'}
 HIDE_PIN_NAMES = HIDE_PIN_NUMBERS | {'SW', 'LINK', 'HDR', 'CONN6', 'CONN2', 'TAB', 'JACK', 'JACKSW', 'HDR5', 'NPN', 'PNP', 'PWRIN',
-                                     'JMP2', 'JMP3', 'TERM3', 'BNC', 'TP'}
+                                     'JMP2', 'JMP3', 'TERM3', 'BNC', 'TP', 'TERM2', 'TERM7'}
 
 # ---------------------------------------------------------------- netlist
 blocks = []          # (title, [parts])
@@ -145,6 +147,8 @@ def libsym(key):
     # KiCad 10's (pin_numbers / pin_names (hide yes)) isn't read by kiutils: restore what the library hides
     if key in HIDE_PIN_NUMBERS: f.hidePinNumbers = True
     if key in HIDE_PIN_NAMES or key in HIDE_PIN_NAMES_ONLY or key.startswith('LINK'): f.pinNamesHide = True
+    if key in LOCAL_POWER:               # kiutils reads and writes a bare (power): put the library's 'local' back
+        sx = f.to_sexpr; f.to_sexpr = lambda *a, **k: sx(*a, **k).replace('(power)', '(power local)', 1)
     return f
 
 def pins_of(sym, unit):
@@ -193,6 +197,7 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
     X0, Y0, CELLW, CELLH = 30.48, 40.64, 33.02, 27.94
     y = Y0
     pwr_n = [0]
+    flg_n = [sum(1 for _, ps in blocks for pt in ps if pt['ref'].startswith('#FLG'))]     # the drawing's own flags go on from the parts'
     allpins = collections.defaultdict(set)          # net -> {(ref, pin)} over the whole design
     for _, parts in blocks:
         for pt in parts:
@@ -210,7 +215,7 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
             if side == 'U': return (cx, cy - 5.2, fa, None), (cx, cy - 3.3, fa, None)
             if side == 'D': return (cx, cy + 3.3, fa, None), (cx, cy + 5.2, fa, None)
             return (cx, cy - 3.3, fa, None), (cx, cy + 3.3, fa, None)
-        if key in ('R', 'C', 'CP', 'FB', 'PTC'):
+        if key in ('R', 'C', 'CP', 'FB', 'PTC', 'L'):
             if horiz and side == 'U': return (cx, cy - 4.45, fa, None), (cx, cy - 2.54, fa, None)
             if horiz and side == 'D': return (cx, cy + 2.54, fa, None), (cx, cy + 4.45, fa, None)
             if horiz: return (cx, cy - 2.54, fa, None), (cx, cy + 2.54, fa, None)
@@ -219,7 +224,7 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
         if key in AMPS:
             if side == 'U': return (cx, cy - 8.89, fa, None), (cx, cy - 6.35, fa, None)
             return (cx, cy + 6.35, fa, None), (cx, cy + 8.89, fa, None)
-        if key in ('LED', 'D', 'ZEN', 'SCH', 'DZ', 'DS', 'DSK'):
+        if key in ('LED', 'D', 'ZEN', 'SCH', 'DZ', 'DS', 'DSK', 'S1G'):
             if horiz and side == 'L': return (cx - 2.54, cy - 1.27, fa, 'right'), (cx - 2.54, cy + 1.27, fa, 'right')
             if horiz: return (cx + 2.54, cy - 1.27, fa, 'left'), (cx + 2.54, cy + 1.27, fa, 'left')
             if side == 'U': return (cx, cy - 4.45, fa, None), (cx, cy - 2.8, fa, None)
@@ -237,6 +242,10 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
         if key == 'TP': return (cx + 1.9, cy - 4.0, fa, 'left'), (cx + 1.9, cy - 2.2, fa, 'left')
         if key == 'BNC': return (cx + 3.81, cy - 1.27, fa, 'left'), (cx + 3.81, cy + 1.27, fa, 'left')
         if key == 'TERM3': return (cx, cy - 6.35, fa, None), (cx, cy + 6.35, fa, None)
+        if key == 'TERM2': return (cx, cy - 3.2, fa, None), (cx, cy + 5.7, fa, None)
+        if key == 'TERM7': return (cx, cy - 10.8, fa, None), (cx, cy + 10.8, fa, None)
+        if key == 'LDO': return (cx - 5.08, cy - 5.2, fa, 'left'), (cx - 5.08, cy - 3.3, fa, 'left')     # two lines over the body
+        if key in ('TL431', 'SCR'): return (cx + 2.54, cy - 1.27, fa, 'left'), (cx + 2.54, cy + 1.27, fa, 'left')
         if key in ('JMP2', 'JMP3') and ang % 360 == 90: return (cx, cy - 4.7, fa, None), (cx, cy - 2.8, fa, None)    # pins down
         if key in ('JMP2', 'JMP3') and ang % 360 == 270: return (cx, cy + 2.8, fa, None), (cx, cy + 4.7, fa, None)   # pins up
         if key == 'XLR3': return (cx, cy + 12.7, fa, None), (cx, cy + 14.6, fa, None)
@@ -260,7 +269,7 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
         if key == 'POT2': return (cx - 13.97, cy - 1.27, fa, 'right'), (cx - 13.97, cy + 1.27, fa, 'right')
         return None, None
 
-    def add_symbol(pt, cx, cy, ang=0, mirror=None, drawn=False, side=None):
+    def add_symbol(pt, cx, cy, ang=0, mirror=None, drawn=False, side=None, fields=None):
         lib, name = SYM[pt['key']]
         if (lib, name) not in used: used[(lib, name)] = libsym(pt['key']); sch.libSymbols.append(used[(lib, name)])
         ls = used[(lib, name)]
@@ -280,10 +289,16 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
             if is_pwr: fv = (cx, cy + 4.45 if ang % 360 == 180 else cy - 4.45, 0, None)   # PWR_FLAG: its text beyond the body
             if pt['key'] == 'DG' and pt['unit'] in (1, 2, 3, 4):              # switch sections: reference above
                 fr, fv, vhide = (cx - 3.81, cy - 3.8, 0, 'right'), None, True    # above the S pin and its number
-            if (ang % 360 == 180 or (ang % 360 == 90 and pt['key'] in ('LED', 'D', 'ZEN', 'SCH', 'DZ', 'DS', 'TRIM'))) != (mirror == 'y'):
+            if (ang % 360 == 180 or (ang % 360 == 90 and pt['key'] in ('LED', 'D', 'ZEN', 'SCH', 'DZ', 'DS', 'TRIM', 'S1G', 'TL431', 'SCR', 'LDO',
+                                                                         'TERM2', 'TERM7'))) != (mirror == 'y'):
                 # KiCad flips a field's justification with the symbol (a 90-degree diode's 90-degree text reads at 180)
                 sw = {'left': 'right', 'right': 'left'}
                 fr = fr and fr[:3] + (sw.get(fr[3], fr[3]),); fv = fv and fv[:3] + (sw.get(fv[3], fv[3]),)
+            if fields:                         # places given by the drawing (Drawing.fld): offsets and justification as seen
+                flip = (ang % 360 in (90, 180)) != (mirror == 'y'); sw = {'left': 'right', 'right': 'left'}
+                seen = lambda f: (cx + f[0], cy + f[1], 90 if horiz else 0, sw.get(f[2], f[2]) if flip else f[2])
+                if fields[0]: fr = seen(fields[0])
+                if fields[1]: fv = seen(fields[1])
             if fr: rx, ry, ra, j = fr; rj = Justify(horizontally=j) if j else Justify()
             if fv: vx, vy, va, j = fv; vj = Justify(horizontally=j) if j else Justify()
         props = [Property(key='Reference', value=pt['ref'], id=0, position=Position(rx, ry, ra), effects=Effects(font=Font(height=1.27, width=1.27), justify=rj, hide=is_pwr)),
@@ -304,18 +319,37 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
         return pp
 
     def power(net, ax, ay, ang, key):
+        """A power symbol on net `net`. ang: the way a ground symbol turns, 0 = pointing down, 180 = up, 90 = right,
+        270 = left; a symbol the library draws pointing up (a positive rail) is turned half a turn more, so it points the
+        same way."""
         pwr_n[0] += 1; gs = used.setdefault(('power', net), None)
         if gs is None: used[('power', net)] = gs = libsym(net); sch.libSymbols.append(gs)
         ref = f'#PWR{pwr_n[0]:03d}'
         # KiCad turns and flips a field with its symbol: these read upright, beside the symbol
         vx, vy, va, vj = {0: (ax + 1.9, ay + 2.0, 0, 'left'), 180: (ax + 1.9, ay - 2.0, 0, 'right'),
                           90: (ax + 3.8, ay, 90, 'right'), 270: (ax - 3.8, ay, 90, 'right')}[ang % 360]
+        if any(p.position.angle == 90 for u in gs.units for p in u.pins):         # drawn pointing up in the library
+            ang = (ang + 180) % 360
+            if ang % 180 == 0: vj = 'left' if ang == 0 else 'right'
         sch.schematicSymbols.append(SchematicSymbol(libraryNickname=SYM[net][0], entryName=net, position=Position(ax, ay, ang), unit=1,
             inBom=True, onBoard=True, uuid=K(*key),
             properties=[Property(key='Reference', value=ref, id=0, position=Position(ax, ay + 5, 0), effects=Effects(font=Font(height=1.27, width=1.27), hide=True)),
                         Property(key='Value', value=net, id=1, position=Position(vx, vy, va), effects=Effects(font=Font(height=1.0, width=1.0), justify=Justify(horizontally=vj), hide=net in ('GNDA', 'GNDD') and ang % 360 != 180)),
                         Property(key='Footprint', value='', id=2, position=Position(ax, ay, 0), effects=Effects(font=Font(height=1.27, width=1.27), hide=True)),
                         Property(key='Datasheet', value='', id=3, position=Position(ax, ay, 0), effects=Effects(font=Font(height=1.27, width=1.27), hide=True))],
+            pins={'1': K(*key, 'pin')},
+            instances=[SymbolProjectInstance(name=project, paths=[SymbolProjectPath(sheetInstancePath=root, reference=ref, unit=1)])]))
+
+    def flag(ax, ay, dirn, key):
+        """A PWR_FLAG that belongs to the drawing (Drawing.flag), not to the parts list: reference #FLGnn after the parts' own."""
+        flg_n[0] += 1; ref = f'#FLG{flg_n[0]:02d}'; ang = 0 if dirn == 'U' else 180
+        if SYM['FLAG'] not in used: used[SYM['FLAG']] = libsym('FLAG'); sch.libSymbols.append(used[SYM['FLAG']])
+        hid = lambda k, v, i: Property(key=k, value=v, id=i, position=Position(ax, ay, 0), effects=Effects(font=Font(height=1.27, width=1.27), hide=True))
+        sch.schematicSymbols.append(SchematicSymbol(libraryNickname=SYM['FLAG'][0], entryName=SYM['FLAG'][1], position=Position(ax, ay, ang), unit=1,
+            inBom=False, onBoard=False, uuid=K(*key),
+            properties=[hid('Reference', ref, 0),
+                        Property(key='Value', value='PWR_FLAG', id=1, position=Position(ax, ay + 4.45 if ang else ay - 4.45, 0), effects=Effects(font=Font(height=1.27, width=1.27))),
+                        hid('Footprint', '', 2), hid('Datasheet', '', 3)],
             pins={'1': K(*key, 'pin')},
             instances=[SymbolProjectInstance(name=project, paths=[SymbolProjectPath(sheetInstancePath=root, reference=ref, unit=1)])]))
 
@@ -344,7 +378,8 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
         pin_nets, side_of = [], {}
         for pt in placed:
             cx, cy, ang, mir = d.place[(pt['ref'], pt['unit'])]
-            pp = add_symbol(pt, cx, cy, ang, mir, drawn=True, side=d.textside.get((pt['ref'], pt['unit']), d.textside.get(pt['ref'])))
+            pp = add_symbol(pt, cx, cy, ang, mir, drawn=True, side=d.textside.get((pt['ref'], pt['unit']), d.textside.get(pt['ref'])),
+                            fields=d.fields.get((pt['ref'], pt['unit'])))
             for pn, net in pt['pins'].items():
                 px, py = pp[pn]; dx, dy = schdraw.xform(px, py, ang, mir)
                 ax, ay = schdraw.snap(cx + dx), schdraw.snap(cy + dy)
@@ -376,6 +411,7 @@ def build(out, project, title, comments, paper='A1', perrow=22, revision='3.0', 
             add_label(net, p[0], p[1], ang, Effects(font=Font(height=1.27, width=1.27), justify=Justify(horizontally=just, vertically='bottom')), S('port'))
         for net, p, dirn in d.gnds:
             power(net, p[0], p[1], {'D': 0, 'U': 180, 'L': 270, 'R': 90}[dirn], ('gnd', S('g')))
+        for p, dirn in d.flags: flag(p[0], p[1], dirn, ('flag', S('f')))
         for text, p, size in d.notes:
             sch.texts.append(Text(text=text, position=Position(p[0], p[1], 0), uuid=S('note'),
                                   effects=Effects(font=Font(height=size, width=size), justify=Justify(horizontally='left'))))
