@@ -194,6 +194,10 @@ The same day each KiCad project moved into `boards/<name>/`: where this file nam
   unrecorded departure), summer headroom check / sum below unity, jack I/O clamp diodes, PFL crosstalk (SW3 / SW4
   supply-pole caps per the Series Two field mod, pin 28 dummy track, virtual-earth PFL DET), fusible per-strip feeds,
   C/Room dim, deeper mute (jig). Corrected master spec §3's misreading of the Delta's monitor-select receivers.
+  Added 2026-11-12 (§8, `docs/console_survey/dda_amr24.md`): the DDA AMR 24 from the iCloud `Service Manuals/DDA amr24/`
+  manual and schematics. Balanced mix / group buses with an op-amp-only differential summer, a 10K-per-module aux
+  ground-sense line, source-end routing, an unbuffered 1 % line receiver, pre sends before or after the cut by a link.
+  No change and no proposal.
   Second batch (§7, 2026-10-27, from ~/Downloads): A&H GL2 / GL2200 and GL3300, AMEK big (no circuits), Yamaha MC
   series (Phonic OEM), Spirit E8, Mackie 1604 / 1402-VLZ and 8•Bus; nothing weaker in ours. New proposals CS9 (fader
   shut-off compensation as A&H, only if the PTB0143 sample's residual is worse than -80 dB), CS10 (reverse diodes per

@@ -8,7 +8,7 @@ Since then (2026-10-27 / 28): CS1, CS2, CS2b, CS4, CS4b, CS4c, CS6, CS7, CS10, C
 
 ## 1. Sources
 
-Eight readers each took one console family, and a second batch of six read the consoles in Ruslan's Downloads (§7). They rendered the scanned schematics, read values from crops and
+Eight readers each took one console family, and a second batch of six read the consoles in Ruslan's Downloads (§7); the DDA AMR 24 was added on 2026-11-12 (§8). They rendered the scanned schematics, read values from crops and
 compared them against a reference card of our design. Their full reports, with PDF page numbers, are in
 `docs/console_survey/`. Each report marks every claim as **read** (from the drawing) or **inferred** (calculated or
 deduced).
@@ -31,6 +31,8 @@ deduced).
 | Yamaha MC803 / 1203 / 1603 / 2403 (a Phonic OEM design) | 1993 | service manual with the full schematic | `yamaha_mc.md` |
 | Soundcraft Spirit E series (E8) | 2000s | technical manual schematics S-S2001AS-02A | `soundcraft_e8.md` |
 | Mackie CR1604-VLZ, MS1402-VLZ, 8•Bus | 1990s | VLZ service manuals; the 8•Bus board schematics (zip) | `mackie.md` |
+| *Added 2026-11-12 (§8, iCloud `Service Manuals/DDA amr24/`):* | | | |
+| DDA AMR 24 | 1988-92 | user manual (specs, links, motherboard pinouts), schematics of every module, the EBO driver board and both PSUs | `dda_amr24.md` |
 
 **Not used:**
 - Delta 8 and Soundcraft 500 / 600: user guides only.
@@ -58,6 +60,7 @@ an average-reading meter; Yamaha uses a 12.7 kHz filter.
 | SSL 4000G | +4 dBm | ±18.5 V | — | — | — |
 | PM-5000 | 0 dBu (aux −6) | ±16 V in, ±15 V local | −92 dBu stereo, all assigns off | — | relay |
 | Sony MXP-3000 | −2 dBu | ±18 V | < −84 dBu (0-1 channel) | — | — |
+| DDA AMR 24 | −2 dBu (inferred) | ±18 V | < −82 dBu (36 routed at unity gain) | — (mic > 60 dB, trimmed) | — |
 | **goa-console** | **0 dBu** | **±17 V** | **−100.4 dBu summer alone (24, sim); −79 dBu at main L with 24 strips at "0", EQ in (sim)** | **54 dB vs a 1 kΩ source (sim)** | **≈ 86 dB** |
 
 **Reading the noise row:**
@@ -311,6 +314,47 @@ design weaker than common practice; the findings below either confirm it or add 
 - **Wiper-fed aux pots, a global pre / post, A+C taper pan, a JFET-mute null resistor, the discrete cross-coupled
   output:** each either needs the unbuffered topology we don't have, or (the cross-coupled driver) is a fallback to keep
   on file in case the DRV135 goes.
+
+## 8. DDA AMR 24 (2026-11-12)
+
+One console, read by one reader against strip v5.7 and master v0.14: a 24-bus split recording desk, the manual and
+the full schematic set. The report with page references is `docs/console_survey/dda_amr24.md`. Nothing in the design
+changed and nothing is proposed for sign-off.
+
+### What it does differently, and why it matters
+
+| Topic | AMR 24 | Ours | Why it matters |
+|---|---|---|---|
+| **Buses** | **Every mix, group and monitor-mix bus is a balanced pair.** Each channel drives it from a cross-coupled TL072 pair per side through 10K per leg; the summer is two NE5532 halves (the second inverts the first and feeds the + leg's node), so both legs are virtual earths and only their difference is summed | Single-ended 4K7 buses, GCANCEL to every summer, re-inverters | The second console in the library with balanced buses (Series Five is the other) and the first to do it without a discrete front end. It needs no cancel line, at the price of two conductors and two resistors per assignment and four op-amp sections per channel. Our 34-way pinout has no pairs; the decision of 2026-10-19 / 23 stands |
+| Aux bus ground | Aux stays single-ended with one AUX EARTH line: **10K** from each module's 0 V, the aux summers' + inputs ride on it | 10 Ω per module to GCANCEL | With Mackie's 510 Ω, the second sense line that carries no ground current. Ours is 10 Ω by decision; the GCANCEL-current test (CS11) is where this gets checked |
+| Routing | Keys at the **source end**; released, both 10Ks' source ends are grounded and stay on the bus | DG413 at the bus end; an unrouted strip is off the bus | Theirs has a constant bus impedance and noise gain (37 with 36 channels, routed or not); ours is quieter in a small mix and equal in a full one |
+| Line receiver | One TL074 differential stage, 13.6 kΩ per leg, 1 % resistors, −6 dB, no trim (the CMR preset is the mic amp's) | OPA1656 followers, 1 MΩ legs, 0.1 % stage | About 26 dB against a 1 kΩ unbalanced source (inferred) to our 54 dB: one more desk that does not buffer the legs |
+| Ø | A unity inverter switched in after the mic / line node | Leg swap, no stage | Theirs must serve mic and line with one key; ours costs nothing |
+| Pan | Passive: 3K3 into a 4K7 shunt gang per side, about −3 dB (inferred), loaded by the bus drivers | Buffered, −4.4 dB | Ours holds its law whatever is assigned |
+| Mute and pre sends | Series + shunt J111 ahead of the fader (not into a virtual earth), momentary key and CMOS latch, mute buses A / B, SIP; **pre sends before or after the cut by a link, shipped before** | Two J112 shunts, latching key; ON mutes the pre sends (Q1) unless JP2-JP4 take a pair from the pre-EQ tap | Both can keep a pre send alive through the mute; theirs keeps the EQ and insert on it, ours gives them up |
+| Solo | PFL, stereo AFL and SIP; a JFET per feed; detect is a logic line (diode + 1K per module) | PFL only, DC-sum detect, DG413 switcher | PFL only is our decision; their detect level does not depend on the number of keys |
+| Insert | Send always live and ground-compensated; balanced return into a 5534 receiver, an INS key | One normalled TRS, 75 Ω send, buffered return | A balanced return needs separate jacks (declined in §5) |
+| Outputs | Cross-coupled TL072 pairs with a balance preset each; no mute relay on the sheets read | DRV135, sorted couplers, relay mute with power-on delay | Ours needs no alignment and protects the monitors |
+| Power | 10 Ω + 22 µF per rail per board; external discrete ±18 V regulators (2 × 3055 per rail), current limit only; mains earth to 0 V through 100 Ω ∥ 100 nF in the PSU; LEDs in series chains from current sources | Fusible 10 Ω + 220 µF, reverse Schottkys; LM1084 + SCR crowbar; 0 V floats in the PSU; one 4K7 per LED from +VL | Same module practice; ours adds the crowbar. The earth lift conflicts with G1-G3 |
+| Construction | Two motherboards and 128 contacts per module; group pairs side by side with no grounds between them (group-to-group crosstalk < −88 dBu at 1 kHz) | One 34-way ribbon, single-ended buses on adjacent conductors | Their crosstalk figure rests on the pairs; ours on every bus conductor being a virtual earth (CS5) |
+
+### What it confirms
+- Fader then a +10 dB post-amp (+9.9 dB here), 10K aux pots with the wiper straight into the bus resistor, PRE per
+  pair, a pan in / out key, a separate centre-detented line gain stage (±10 dB), a swept 12 dB/oct HPF (45-500 Hz),
+  mids of 550 Hz-8.8 kHz and 125 Hz-2.5 kHz, DIM at −20 dB, 75 Ω build-outs on every output.
+- An overload LED reading both polarities, though at one point only, 4 dB below clip.
+- Internal level −2 dBu (inferred), like the Soundcrafts; "switch off before pulling a module", like our rule.
+
+**Considered and not proposed:**
+- **A post-EQ position for pre sends that survive the mute** (the AMR 24's link, manual PDF p. 45): JP2-JP4 already
+  give an unmuted pre send per aux pair from the pre-EQ tap; a third position at PRE would change three jumper
+  footprints per strip. Only if a post-EQ cue feed that survives ON is wanted.
+- **Balanced buses:** reverses the ground-cancel decision and needs a new pinout. The op-amp-only summer is on file in
+  the report (T12) as the form to use if the jig's bus tests show residue GCANCEL does not remove.
+- **A 10K tie to the sense line, source-end routing, the PSU earth lift, series LED chains:** each is either worse for
+  a small mix, against G1-G3, or already weighed (D6).
+- **Stereo AFL, solo-in-place, mute groups, a balanced insert return, an insert key:** against "PFL only" or out of
+  panel room, as in §5 and §7.
 
 ## 6. Correction made
 
