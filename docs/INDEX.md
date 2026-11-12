@@ -51,6 +51,7 @@ The same day each KiCad project moved into `boards/<name>/`: where this file nam
 | RV3b / RV9b | `docs/proposals/clicks_followup_proposal.md` | 2026-10-29 | strip v5.7, master v0.14 | — |
 | FE1 | `docs/proposals/film_eol_proposal.md` | 2026-10-29 | order code only (same footprint); FE2 not taken | film_eol_proposal.patch |
 | SS1-SS3 | `docs/proposals/second_source_proposal.md` | 2026-11-03 | order codes for stage A's backordered parts; value label MBR140SFT1G; H3 keys on phase 1's strips | second_source_proposal.patch |
+| SR1-SR7 | `docs/reviews/schematic_readability_review.md` | open (2026-11-12; SR1's PSU sheet redraw started that day) | — | — |
 
 ## Files
 
@@ -424,5 +425,12 @@ The same day each KiCad project moved into `boards/<name>/`: where this file nam
   send; documented), D13 applied (the spares grounded at the master, JP3-JP7, made last, placed by moves_only: master
   1806 pins / 625 parts, DRC 0, nothing else moved), D2-D12 / D14-D24 documentation (specs, `docs/studies/delta_clone_comparison.md`,
   `console_survey/delta.md`, `docs/proposals/clicks_proposal.md` RV5).
+- `docs/reviews/schematic_readability_review.md` (2026-11-12) — all nine schematics (68 pages) read by eye on KiCad's own
+  plot against the `readable-schematic` rules, with ERC (0 violations on all nine) and the skill's lint (689 errors,
+  576 advisories, as leads). Seven findings SR1-SR7, all drawing only: five sheets with no wire (psu, jig load board,
+  the three jack boards), the master's mute / PFL detect / flasher / meter current sources as chains of labels,
+  fragments joined by labels in group and master, roots without pins and inter-sheet references off, strip spots,
+  rail labels / sideways grounds / text on wires, two stale headings (master sheet 29 "1.85 A hold"). Nothing applied;
+  the PSU sheet redraw (SR1) was started 2026-11-12.
 - `channel_strip_schematic_spec.md` — strip component-level spec, v5.6. Authoritative.
 - `bom/channel_strip_BOM.csv`, `channel_strip.net`, `pdf/channel_strip.pdf` — exports.
